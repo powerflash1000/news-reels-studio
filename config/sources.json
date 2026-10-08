@@ -1,0 +1,28 @@
+{
+  "_note": "عدّل القايمة دي براحتك. أي مصدر بيفشل الـ Action بتتخطاه وتسجل السبب في data/feeds.json (errors).",
+  "categories": [
+    { "id": "politics", "label": "سياسة", "color": "#e5484d" },
+    { "id": "economy", "label": "اقتصاد", "color": "#f5a623" },
+    { "id": "sports", "label": "رياضة", "color": "#30a46c" },
+    { "id": "science", "label": "علوم وأبحاث", "color": "#3e63dd" },
+    { "id": "health", "label": "طب", "color": "#12a594" }
+  ],
+  "feeds": [
+    { "id": "un-news-ar", "category": "politics", "name": "أخبار الأمم المتحدة", "url": "https://news.un.org/feed/subscribe/ar/news/all/rss.xml", "lang": "ar" },
+    { "id": "bbc-ar", "category": "politics", "name": "BBC عربي", "url": "https://feeds.bbci.co.uk/arabic/rss.xml", "lang": "ar" },
+    { "id": "bbc-ar-business", "category": "economy", "name": "BBC عربي - اقتصاد", "url": "https://feeds.bbci.co.uk/arabic/business/rss.xml", "lang": "ar" },
+    { "id": "bbc-sport", "category": "sports", "name": "BBC Sport", "url": "https://feeds.bbci.co.uk/sport/rss.xml", "lang": "en" },
+    { "id": "nasa", "category": "science", "name": "NASA", "url": "https://www.nasa.gov/feed/", "lang": "en" },
+    { "id": "arxiv-physics", "category": "science", "name": "arXiv (physics)", "url": "https://rss.arxiv.org/rss/physics", "lang": "en" },
+    { "id": "who-news", "category": "health", "name": "منظمة الصحة العالمية (WHO)", "url": "https://www.who.int/rss-feeds/news-english.xml", "lang": "en" },
+    { "id": "un-news-health", "category": "health", "name": "أخبار الأمم المتحدة - صحة", "url": "https://news.un.org/feed/subscribe/ar/news/topic/health/feed/rss.xml", "lang": "ar" }
+  ],
+  "youtube": [
+    { "handle": "lotfyzakaria", "category": "politics", "name": "lotfyzakaria" },
+    { "handle": "SummaryEgypt", "category": "economy", "name": "SummaryEgypt" },
+    { "handle": "MohamedAssem", "category": "politics", "name": "MohamedAssem" },
+    { "handle": "alsh5anah", "category": "politics", "name": "alsh5anah" },
+    { "handle": "3shwa2yatTV", "category": "politics", "name": "3shwa2yatTV" },
+    { "handle": "MokhbirEqtisadi", "category": "economy", "name": "MokhbirEqtisadi" }
+  ]
+}
