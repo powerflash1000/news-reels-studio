@@ -58,6 +58,13 @@ function topBar(ctx, st) {
   ctx.fillStyle = '#fff';
   ctx.textAlign = 'center';
   ctx.fillText(label, W - 60 - w / 2, 133);
+  if (st.n > 1) {
+    ctx.direction = 'ltr';
+    ctx.textAlign = 'center';
+    ctx.font = font(40, 800);
+    ctx.fillStyle = 'rgba(255,255,255,.9)';
+    ctx.fillText(`${st.k + 1} / ${st.n}`, W / 2 - 40, 133);
+  }
   const name = [st.settings.channelName, st.settings.handle].filter(Boolean).join('  ');
   if (name) {
     ctx.textAlign = 'left';
@@ -69,7 +76,7 @@ function topBar(ctx, st) {
 }
 
 function headline(ctx, st) {
-  const text = st.reel.headline || 'اكتب عنوان الريل';
+  const text = st.story.headline || 'اكتب العنوان';
   const pad = 48, maxW = W - 120 - pad * 2 - 16;
   let size = 76, lines;
   for (; size >= 48; size -= 6) {
@@ -91,7 +98,7 @@ function headline(ctx, st) {
   ctx.textBaseline = 'middle';
   ctx.font = font(size, 800);
   lines.forEach((l, i) => ctx.fillText(l, W - 60 - pad - 16, y + pad + lh * (i + 0.5)));
-  if (st.reel.claimKind === 'opinion') {
+  if (st.story.kind === 'news' && st.story.claimKind === 'opinion') {
     ctx.font = font(36);
     const t = 'رأي وتحليل';
     const w = ctx.measureText(t).width + 56;
@@ -155,9 +162,10 @@ function captions(ctx, st, t) {
 }
 
 function sourceBar(ctx, st) {
-  const r = st.reel;
+  const r = st.story;
+  if (r.kind !== 'news') return; // الافتتاحية والخاتمة من غير مصدر
   const y = 1560, h = 260;
-  if (st.reel.category === 'health') {
+  if (r.category === 'health') {
     ctx.font = font(32, 700);
     ctx.direction = 'rtl';
     ctx.textAlign = 'center';
@@ -198,18 +206,46 @@ function sourceBar(ctx, st) {
 }
 
 function progress(ctx, st, t) {
+  const d = st.tl.duration;
   ctx.fillStyle = 'rgba(255,255,255,.12)';
   ctx.fillRect(0, H - 14, W, 14);
   ctx.fillStyle = st.cat.color;
-  const p = Math.min(1, t / st.tl.duration);
+  const p = Math.min(1, t / d);
   ctx.fillRect(W - W * p, H - 14, W * p, 14);
+  // فواصل بين الأخبار
+  ctx.fillStyle = '#0b1020';
+  for (const s of st.tl.stories.slice(1)) ctx.fillRect(W - W * (s.start / d) - 2, H - 14, 4, 14);
+}
+
+function lerpHex(a, b, p) {
+  const x = parseInt(a.slice(1), 16), y = parseInt(b.slice(1), 16);
+  const ch = sh => Math.round(((x >> sh) & 255) * (1 - p) + ((y >> sh) & 255) * p);
+  return '#' + [16, 8, 0].map(sh => ch(sh).toString(16).padStart(2, '0')).join('');
+}
+
+// الافتتاحية والخاتمة ليها لون ثابت واسم القناة بدل القسم
+function catFor(st, story) {
+  if (story.kind !== 'news') return { id: story.kind, label: st.settings.channelName || 'النشرة', color: '#6b7cff' };
+  return st.cats.find(c => c.id === story.category) || st.cats[0];
 }
 
 export function drawFrame(ctx, st, t) {
-  background(ctx, st.cat.color);
-  topBar(ctx, st);
-  headline(ctx, st);
-  captions(ctx, st, t);
-  sourceBar(ctx, st);
-  progress(ctx, st, t);
+  const tl = st.tl;
+  let k = tl.stories.findIndex(s => t >= s.start && t < s.end);
+  if (k < 0) k = tl.stories.length ? (t < tl.stories[0].start ? 0 : tl.stories.length - 1) : -1;
+  const idx = k >= 0 ? tl.stories[k].idx : Math.min(st.focusIdx ?? 0, st.reel.stories.length - 1);
+  const story = st.reel.stories[idx];
+  const cat = catFor(st, story);
+  // دخول الخبر الجديد بتلاشي قصير، ولون الخلفية بينتقل من لون الخبر اللي قبله
+  const fade = k > 0 ? Math.min(1, (t - tl.stories[k].start) / 0.3) : 1;
+  const prev = k > 0 ? catFor(st, st.reel.stories[tl.stories[k - 1].idx]) : cat;
+  const c = { ...st, story, cat, k: Math.max(0, k), n: tl.stories.length };
+  background(ctx, lerpHex(prev.color, cat.color, fade));
+  ctx.globalAlpha = fade;
+  topBar(ctx, c);
+  headline(ctx, c);
+  captions(ctx, c, t);
+  sourceBar(ctx, c);
+  ctx.globalAlpha = 1;
+  progress(ctx, c, t);
 }

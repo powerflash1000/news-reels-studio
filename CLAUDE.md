@@ -22,7 +22,7 @@ Working memory for Claude sessions on this repo. README.md is the user-facing Ar
 | file | what |
 |---|---|
 | `main.js` | UI wiring + state (feed, studio, settings, export checklist) |
-| `reel.js` | reel model, script parsing (أ/ب), timeline, word-timing estimate |
+| `reel.js` | reel = `stories[]` (kind news/intro/outro; each has its own category, headline, source, script); `normalizeReel` migrates old flat reels; `buildReelTimeline` → `{tl:{segs,stories,duration}, real, lines, hasB}` |
 | `tts.js` | ElevenLabs with-timestamps + cache + char counter |
 | `audio.js` | decode, recorder, timeline mix |
 | `render.js` | canvas frame (1080×1920), same function for preview and export |
@@ -31,6 +31,9 @@ Working memory for Claude sessions on this repo. README.md is the user-facing Ar
 | `feeds.js`, `storage.js` | feed loading helpers; localStorage/IndexedDB |
 
 ## Notes
+- A reel (حلقة) can hold many stories. Every `news` story needs its own source (name + non-YouTube URL); intro/outro need none. Export validates per story; checklist is the union of rules over present categories/kinds. >90s asks for confirmation.
+- Feed: checkbox multi-select → «ابدأ حلقة من المحدد» / «أضفهم للريل الحالي»; per-item «＋ للريل الحالي».
+- Official feed items are kept 45 days (YouTube 30), max 40 per source.
 - Audio cache key = voice + model + voice settings + text (IndexedDB `nrs-audio`); opening a reel restores cached audio free (`peekLine`).
 - `data/feeds.json` has `health[]` per source (ok/empty/stale/error + reason); UI shows it under the news list.
 - Cairo font is bundled in `assets/fonts` (no Google Fonts).

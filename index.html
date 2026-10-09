@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
+<link rel="icon" href="data:,">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -26,6 +27,12 @@
     <label class="chk"><input id="showYt" type="checkbox" checked> رادار اليوتيوب</label>
   </div>
   <p id="feedInfo" class="muted"></p>
+  <div id="pickBar" class="pickbar" hidden>
+    <span id="pickCount"></span>
+    <button id="pickGo" class="btn pri">ابدأ حلقة من المحدد</button>
+    <button id="pickAdd" class="btn">أضفهم للريل الحالي</button>
+    <button id="pickClear" class="btn ghost">مسح التحديد</button>
+  </div>
   <details id="health" class="manual" hidden>
     <summary id="healthSum">صحة المصادر</summary>
     <div id="healthList" class="hlist"></div>
@@ -54,7 +61,20 @@
       </div>
     </div>
     <div class="form">
-      <div class="grid">
+      <label>اسم الحلقة (للمكتبة بس)<input id="rTitle" placeholder="مثال: نشرة الخميس"></label>
+      <div class="strip">
+        <div id="storyTabs" class="chips"></div>
+        <div class="row">
+          <button id="addStory" class="btn">＋ خبر</button>
+          <button id="addIntro" class="btn ghost">＋ افتتاحية</button>
+          <button id="addOutro" class="btn ghost">＋ خاتمة</button>
+          <button id="stUp" class="btn ghost" title="قدّم">↑</button>
+          <button id="stDown" class="btn ghost" title="أخّر">↓</button>
+          <button id="stDup" class="btn ghost">تكرار</button>
+          <button id="stDel" class="btn ghost">حذف</button>
+        </div>
+      </div>
+      <div id="newsFields1" class="grid">
         <label>القسم<select id="fCat"></select></label>
         <label>نوع المحتوى
           <select id="fKind">
@@ -64,12 +84,14 @@
         </label>
       </div>
       <label>العنوان على الشاشة<input id="fHead"></label>
-      <div class="grid">
-        <label>اسم المصدر الأصلي (إجباري)<input id="fSrc"></label>
-        <label>رابط المصدر الأصلي (إجباري)<input id="fUrl" dir="ltr" placeholder="https://"></label>
+      <div id="newsFields2">
+        <div class="grid">
+          <label>اسم المصدر الأصلي (إجباري)<input id="fSrc"></label>
+          <label>رابط المصدر الأصلي (إجباري)<input id="fUrl" dir="ltr" placeholder="https://"></label>
+        </div>
+        <label>ترخيص / حقوق (اختياري)<input id="fCredit" placeholder="مثال: بيانات منظمة الصحة العالمية"></label>
+        <div id="ytNote" class="warn" hidden></div>
       </div>
-      <label>ترخيص / حقوق (اختياري)<input id="fCredit" placeholder="مثال: بيانات منظمة الصحة العالمية"></label>
-      <div id="ytNote" class="warn" hidden></div>
       <label>السكريبت — كل سطر جملة. للحوار ابدأ السطر بـ «أ:» أو «ب:»
         <textarea id="fScript" rows="9" placeholder="أ: أهلاً بيكم…&#10;ب: وفيه خبر مهم…"></textarea>
       </label>
