@@ -36,7 +36,8 @@ export function voiceSettingsFor(speaker) {
 
 async function call(path, init) {
   const { elevenKey, proxyUrl } = getSettings();
-  const headers = { 'xi-api-key': elevenKey, 'Content-Type': 'application/json', ...(init.headers || {}) };
+  // Content-Type بس مع الطلبات اللي ليها body (طلبات GET مبتحتاجوش)
+  const headers = { 'xi-api-key': elevenKey, ...(init.body ? { 'Content-Type': 'application/json' } : {}), ...(init.headers || {}) };
   try {
     return await fetch(API + path, { ...init, headers });
   } catch (e) {
@@ -92,11 +93,7 @@ export async function speakLine(text, speaker) {
     method: 'POST',
     body: JSON.stringify({ text, model_id: s.elevenModel, voice_settings: vs }),
   });
-  if (!res.ok) {
-    let msg = '';
-    try { msg = (await res.json())?.detail?.message || ''; } catch { /* مفيش تفاصيل */ }
-    throw new Error(`ElevenLabs رفض الطلب (${res.status}) ${msg}`);
-  }
+  if (!res.ok) throw new Error(`ElevenLabs رفض التوليد (${res.status}): ${await errDetail(res)}`);
   const j = await res.json();
   const mp3 = b64ToBuf(j.audio_base64);
   const words = wordsFromAlignment(j.alignment || j.normalized_alignment);
@@ -106,14 +103,23 @@ export async function speakLine(text, speaker) {
 }
 
 /* ---------- بيانات الحساب ---------- */
+// تفاصيل الخطأ من رد ElevenLabs (detail ممكن يبقى نص أو كائن فيه message أو قايمة أخطاء تحقق)
+async function errDetail(res) {
+  let raw = '';
+  try { raw = await res.text(); } catch { return '(مفيش تفاصيل)'; }
+  try {
+    const d = JSON.parse(raw)?.detail ?? JSON.parse(raw);
+    if (typeof d === 'string') return d;
+    if (Array.isArray(d)) return d.map(x => [(x.loc || []).join('.'), x.msg].filter(Boolean).join(': ')).join(' | ');
+    if (d?.message) return d.status ? `${d.status} — ${d.message}` : d.message;
+    return JSON.stringify(d).slice(0, 300);
+  } catch { return raw.slice(0, 300) || '(مفيش تفاصيل)'; }
+}
+
 async function getJson(path) {
   const res = await call(path, { method: 'GET' });
-  if (res.status === 401 || res.status === 403) {
-    let why = '';
-    try { why = (await res.json())?.detail?.message || ''; } catch { /* مفيش تفاصيل */ }
-    throw new Error(`المفتاح مرفوض أو ناقصه صلاحية (${res.status}). ${why}`.trim());
-  }
-  if (!res.ok) throw new Error('ElevenLabs رد بخطأ ' + res.status);
+  if (res.status === 401 || res.status === 403) throw new Error(`المفتاح مرفوض أو ناقصه صلاحية (${res.status}): ${await errDetail(res)}`);
+  if (!res.ok) throw new Error(`ElevenLabs رد بخطأ ${res.status} على ${path.split('?')[0]}: ${await errDetail(res)}`);
   return res.json();
 }
 
@@ -129,6 +135,21 @@ export function lastSubscription() { return load('sub', null); }
 
 // أصوات الحساب (بما فيها المستنسخ): [{id, name, category, preview, labels}]
 export async function fetchVoices() {
+  const map = v => ({ id: v.voice_id, name: v.name, category: v.category, preview: v.preview_url, labels: v.labels || {} });
+  try {
+    // الواجهة الأحدث (صفحات)، ولو فشلت بنرجع للقديمة
+    const all = [];
+    let token = '';
+    for (let page = 0; page < 5; page++) {
+      const j = await getJson(`/v2/voices?page_size=100${token ? '&next_page_token=' + encodeURIComponent(token) : ''}`);
+      all.push(...(j.voices || []));
+      if (!j.has_more || !j.next_page_token) break;
+      token = j.next_page_token;
+    }
+    if (all.length) return all.map(map);
+  } catch (e) {
+    if (/المفتاح مرفوض/.test(e.message)) throw e;
+  }
   const j = await getJson('/v1/voices');
-  return (j.voices || []).map(v => ({ id: v.voice_id, name: v.name, category: v.category, preview: v.preview_url, labels: v.labels || {} }));
+  return (j.voices || []).map(map);
 }
