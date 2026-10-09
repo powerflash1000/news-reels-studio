@@ -1,20 +1,15 @@
 {
- "generatedAt": "2026-10-09T00:25:55.708Z",
+ "generatedAt": "2026-10-09T00:40:50.681Z",
  "errors": [
-  {
-   "feed": "bbc-ar-business",
-   "status": "stale",
-   "error": "العناصر كلها أقدم من المدة المسموحة"
-  },
   {
    "feed": "who-news",
    "status": "stale",
-   "error": "العناصر كلها أقدم من المدة المسموحة"
+   "error": "العناصر كلها أقدم من المدة المسموحة (45 يوم)"
   },
   {
    "feed": "yt-MohamedAssem",
    "status": "stale",
-   "error": "العناصر كلها أقدم من المدة المسموحة"
+   "error": "العناصر كلها أقدم من المدة المسموحة (30 يوم)"
   }
  ],
  "health": [
@@ -41,18 +36,6 @@
    "kept": 24
   },
   {
-   "id": "bbc-ar-business",
-   "name": "BBC عربي - اقتصاد",
-   "category": "economy",
-   "kind": "official",
-   "url": "https://feeds.bbci.co.uk/arabic/business/rss.xml",
-   "status": "stale",
-   "fetched": 25,
-   "newest": "2026-10-08T23:54:47.000Z",
-   "kept": 0,
-   "error": "العناصر كلها أقدم من المدة المسموحة"
-  },
-  {
    "id": "bbc-business",
    "name": "BBC Business",
    "category": "economy",
@@ -72,7 +55,7 @@
    "status": "ok",
    "fetched": 52,
    "newest": "2026-10-08T23:48:05.000Z",
-   "kept": 15
+   "kept": 21
   },
   {
    "id": "bbc-sport",
@@ -138,7 +121,7 @@
    "status": "ok",
    "fetched": 30,
    "newest": "2026-10-05T12:00:00.000Z",
-   "kept": 1
+   "kept": 7
   },
   {
    "id": "un-news-health",
@@ -149,7 +132,7 @@
    "status": "ok",
    "fetched": 30,
    "newest": "2026-10-08T12:00:00.000Z",
-   "kept": 4
+   "kept": 12
   },
   {
    "id": "who-news",
@@ -161,7 +144,7 @@
    "fetched": 25,
    "newest": "2026-02-25T18:06:55.000Z",
    "kept": 0,
-   "error": "العناصر كلها أقدم من المدة المسموحة"
+   "error": "العناصر كلها أقدم من المدة المسموحة (45 يوم)"
   },
   {
    "id": "yt-3shwa2yatTV",
@@ -206,7 +189,7 @@
    "fetched": 15,
    "newest": "2026-08-10T13:58:44.000Z",
    "kept": 0,
-   "error": "العناصر كلها أقدم من المدة المسموحة"
+   "error": "العناصر كلها أقدم من المدة المسموحة (30 يوم)"
   },
   {
    "id": "yt-MokhbirEqtisadi",
@@ -2765,7 +2748,19 @@
    "feed": "yt-alsh5anah"
   },
   {
-   "id": "yt-lotfyzakaria-211-1027989190",
+   "id": "un-news-economy-211-871156302",
+   "title": "رئيس المصرف العربي للتنمية في أفريقيا: تمويل التنمية في القارة يجب أن يتجاوز البنية التحتية إلى الإنسان",
+   "summary": "في وقت تواجه فيه القارة الأفريقية تحولات اقتصادية وتنموية عميقة، تتزايد الحاجة إلى إعادة التفكير في أساليب تمويل التنمية، ليس فقط من حيث حجم التمويل، وإنما أيضا من حيث أثره وقدرته على دعم الإنسان والاقتصادات المحلية وتعزيز القيمة المضافة داخل القارة.",
+   "link": "https://news.un.org/feed/view/ar/story/2026/09/1145381",
+   "published": "2026-09-26T12:00:00.000Z",
+   "kind": "official",
+   "category": "economy",
+   "source": "أخبار الأمم المتحدة - اقتصاد",
+   "lang": "ar",
+   "feed": "un-news-economy"
+  },
+  {
+   "id": "yt-lotfyzakaria-212-1027989190",
    "title": "ايران تتحرك لضرب مطارات الخليج لفك الحصار الجوي والسعودية تتجه لحرب طائفية تجاه الحوثيين",
    "summary": "ايران تهدد بتدمير مطارات الخليج بعد الحصار الجوي الامريكي على الطيران الايراني ، والسعودية تصدر فتوى دينية للحرب على الحوثيين في اليمن ! هل تنجح الحرب الطائفية في حل مشاكل المنطقة او الحسم العسكري ؟ ام ان المنطقة قد تحترق بنيران تلك الحرب ؟. تاريخ النشر : 25/9/2026",
    "link": "https://www.youtube.com/watch?v=_nxHG1KrxjE",
@@ -2777,7 +2772,19 @@
    "feed": "yt-lotfyzakaria"
   },
   {
-   "id": "yt-lotfyzakaria-212-1712968438",
+   "id": "un-news-health-213-871157049",
+   "title": "بعد 6 سنوات من كوفيد -19، هل العالم مستعد للجائحة المقبلة؟",
+   "summary": "أودت جائحة كوفيد-19 بحياة الملايين، وألحقت أضرارا بالغة بالأنظمة الصحية، وشلت الاقتصاد العالمي تقريبا. اجتمع قادة العالم في مقر الأمم المتحدة اليوم لمراجعة الدروس المستفادة وترسيخ نهج جديد للوقاية والاستعداد للجائحة القادمة، في ظل تزايد الآمال في إمكانية التوصل إلى اتفاق دولي بقيادة منظمة الصحة العالمية.",
+   "link": "https://news.un.org/feed/view/ar/story/2026/09/1145414",
+   "published": "2026-09-25T12:00:00.000Z",
+   "kind": "official",
+   "category": "health",
+   "source": "أخبار الأمم المتحدة - صحة",
+   "lang": "ar",
+   "feed": "un-news-health"
+  },
+  {
+   "id": "yt-lotfyzakaria-214-1712968438",
    "title": "اسر قيادات الجيش الاثيوبي و ابي احمد يطور الهجوم نحو النيل الازرق في السودان",
    "summary": "اسر قيادات في الجيش الاثيوبي في معارك امهرة ، و ابي احمد يكثف هجومه نحو ولاية النيل الازرق في السودان لمنع الدعم عن قوات بني شنقول المتمردة ، يخشى ابي احمد من وصول دعم حقيقي لقوات التيغراي زحلفائها عبر اريتريا والسودان تغير مجرى الحرب وتسقط الحكومة الاثيوبية ، هل تتحقق مخاوف ابي احمد ؟. تاريخ النشر : 25/9/2026",
    "link": "https://www.youtube.com/watch?v=OyQSYiLBQ_s",
@@ -2789,7 +2796,67 @@
    "feed": "yt-lotfyzakaria"
   },
   {
-   "id": "yt-3shwa2yatTV-213-1826926897",
+   "id": "un-news-economy-215-871157015",
+   "title": "تقرير أممي يحذر من انهيار للاقتصاد الفلسطيني، وغزة تشهد أشد أزمة اقتصادية في العالم",
+   "summary": "قال مؤتمر الأمم المتحدة للتجارة والتنمية (الأونكتاد) إن ما يقرب من ستة عقود من الاحتلال قد أضعف الاقتصاد الفلسطيني، مضيفا أن \"عقودا من التنمية البشرية قد تراجعت\"، حيث انهار اقتصاد غزة \"بشكل شبه تام\"، وتتزايد الضغوط في الضفة الغربية لتدفع باقتصادها نحو دوامة من التدهور.",
+   "link": "https://news.un.org/feed/view/ar/story/2026/09/1145401",
+   "published": "2026-09-24T12:00:00.000Z",
+   "kind": "official",
+   "category": "economy",
+   "source": "أخبار الأمم المتحدة - اقتصاد",
+   "lang": "ar",
+   "feed": "un-news-economy"
+  },
+  {
+   "id": "un-news-economy-216-871156308",
+   "title": "أحمد الشرع أمام الجمعية العامة: سوريا بدأت مرحلة النهوض واستعادة مكانتها بين الأمم",
+   "summary": "قال الرئيس السوري أحمد الشرع إن بلاده تنهض اليوم بشكل ملموس بإرادة شعبها واستقلال قرارها، وبدأت تستعيد \"مكانتها بين الأمم والدول\" من خلال الجسور الدبلوماسية التي مدتها، وأثبتت \"للعالم أجمع أن أمن المشرق ينسج في دمشق ويتعذر إرساؤه بمعزل عنها\".",
+   "link": "https://news.un.org/feed/view/ar/story/2026/09/1145387",
+   "published": "2026-09-23T12:00:00.000Z",
+   "kind": "official",
+   "category": "economy",
+   "source": "أخبار الأمم المتحدة - اقتصاد",
+   "lang": "ar",
+   "feed": "un-news-economy"
+  },
+  {
+   "id": "bbc-health-217-2046144229",
+   "title": "Open wounds and eyes that can't close - women warn about cheap bleph eyelid surgery",
+   "summary": "A concerning number of patients are reporting problems from treatment abroad, say doctors.",
+   "link": "https://www.bbc.co.uk/news/articles/c9rk3rdp644mo?at_medium=RSS&at_campaign=rss",
+   "published": "2026-09-23T05:00:25.000Z",
+   "kind": "official",
+   "category": "health",
+   "source": "BBC Health",
+   "lang": "en",
+   "feed": "bbc-health"
+  },
+  {
+   "id": "bbc-health-218-510818586",
+   "title": "Which emergency foods should you stock up on?",
+   "summary": "The BBC's Annabel Rackham shares some dos and don'ts, following government advice in case of food supply chain disruption.",
+   "link": "https://www.bbc.co.uk/news/videos/ckly58lmy2gvo?at_medium=RSS&at_campaign=rss",
+   "published": "2026-09-21T05:22:09.000Z",
+   "kind": "official",
+   "category": "health",
+   "source": "BBC Health",
+   "lang": "en",
+   "feed": "bbc-health"
+  },
+  {
+   "id": "bbc-health-219-2037863459",
+   "title": "'People forget we exist': Why older LGBTQ+ people fear losing identity",
+   "summary": "A report suggests older LGBTQ+ people experience more social isolation than their heterosexual peers.",
+   "link": "https://www.bbc.co.uk/news/articles/c62e04wkj803o?at_medium=RSS&at_campaign=rss",
+   "published": "2026-09-19T23:18:46.000Z",
+   "kind": "official",
+   "category": "health",
+   "source": "BBC Health",
+   "lang": "en",
+   "feed": "bbc-health"
+  },
+  {
+   "id": "yt-3shwa2yatTV-220-1826926897",
    "title": "إزاي شاب سرق طيارة وطار بيها من غير أي تدريب؟ وعمل بيها أخطر مناورة في التاريخ!",
    "summary": "إعداد : شيماء العزب | تقديم : عمرو عابدين | مونتاج : مصطفى سند لتحميل لعبة كلمات https://play.google.com/store/apps/details?id=com.ibnabdeen.kalemat ------------------------------------------------- لمتابعة قناة حكاوي https://www.youtube.com/@7akawi-AA ------------------------------------------------- لمتابعة قناة عمرو عابدين https://www.youtube.com/amrabdeen https://www.tiktok.com/@ibnabdeen http",
    "link": "https://www.youtube.com/watch?v=aORhODA2ce8",
@@ -2801,7 +2868,7 @@
    "feed": "yt-3shwa2yatTV"
   },
   {
-   "id": "yt-MokhbirEqtisadi-214-1116085764",
+   "id": "yt-MokhbirEqtisadi-221-1116085764",
    "title": "هل ينتهي عصر أبل؟ كيف تواجه الشركة أخطر أزمة في تاريخها؟",
    "summary": "ماينفعش تبقى مهتم بتطوير نفسك أو شغلك، ولسه متعرفش كورسات بلس.. 🎓 اشترك في كورسات بلس بخصم خاص | كود: Moh https://courssatplus.com?ref=3aac4f8 ماينفعش تبقى مهتم بتطوير نفسك أو شغلك، ولسه متعرفش كورسات بلس.. اشتراك سنوي واحد يفتحلك كل كورسات المنصة: ✅ البرمجة والـ AI والأتمتة ✅ التصميم والمونتاج ✅ التسويق الديجيتال ✅ لغات (إنجليزي – ألماني – إسباني) ✅ الدراسة والهجرة للخارج اشترك من هنا https://co",
    "link": "https://www.youtube.com/watch?v=oJgLysEt_vY",
@@ -2813,7 +2880,43 @@
    "feed": "yt-MokhbirEqtisadi"
   },
   {
-   "id": "yt-alsh5anah-215-237442790",
+   "id": "un-news-health-222-871156180",
+   "title": "كيف تحمي البشرية نفسها من جائحة جديدة؟",
+   "summary": "بعد خمس سنوات من تسبب جائحة كوفيد-19 في وفاة الملايين، وإلحاقها أضرارا بالغة بالأنظمة الصحية، وتعطيلها لحياة الناس، وتسببها في شلل شبه تام للاقتصاد العالمي، يسعى العالم جاهدا لضمان استعداده الأمثل لمواجهة الجائحة القادمة.",
+   "link": "https://news.un.org/feed/view/ar/story/2026/09/1145343",
+   "published": "2026-09-16T12:00:00.000Z",
+   "kind": "official",
+   "category": "health",
+   "source": "أخبار الأمم المتحدة - صحة",
+   "lang": "ar",
+   "feed": "un-news-health"
+  },
+  {
+   "id": "un-news-economy-223-871156116",
+   "title": "التحويلات المالية إلى البلدان منخفضة ومتوسطة الدخل تتجاوز 728 مليار دولار في 2025",
+   "summary": "بلغت تدفقات التحويلات المالية الواردة إلى البلدان منخفضة ومتوسطة الدخل 728.6 مليار دولار أمريكي في عام 2025، وهو ما يزيد عن أربعة أضعاف المساعدة الإنمائية الرسمية العالمية في ذلك العام ويزيد عن الاستثمار الأجنبي المباشر لتلك البلدان.",
+   "link": "https://news.un.org/feed/view/ar/story/2026/09/1145321",
+   "published": "2026-09-14T12:00:00.000Z",
+   "kind": "official",
+   "category": "economy",
+   "source": "أخبار الأمم المتحدة - اقتصاد",
+   "lang": "ar",
+   "feed": "un-news-economy"
+  },
+  {
+   "id": "un-news-economy-224-871156093",
+   "title": "غروسي: الطاقة النووية ركيزة للمستقبل والوكالة ملتزمة بالسلامة والتحقق",
+   "summary": "افتتح المدير العام للوكالة الدولية للطاقة الذرية رافائيل ماريانو غروسي، أعمال المؤتمر العام السبعين للوكالة في العاصمة النمساوية فيينا برسالة مفعمة بالتفاؤل، حيث أكد أنه على الرغم من الصعوبات والتوترات العديدة التي يشهدها العالم، فإن \"روحا مشتركة من الإخلاص\" لا تزال توجه عمل الوكالة، داعيا الدول الأعضاء إلى دعم مهمتها النبيلة.",
+   "link": "https://news.un.org/feed/view/ar/story/2026/09/1145319",
+   "published": "2026-09-14T12:00:00.000Z",
+   "kind": "official",
+   "category": "economy",
+   "source": "أخبار الأمم المتحدة - اقتصاد",
+   "lang": "ar",
+   "feed": "un-news-economy"
+  },
+  {
+   "id": "yt-alsh5anah-225-237442790",
    "title": "الهروب من التفاحة Apple!",
    "summary": "بعد الأخبار الأخيرة عن بدء تصنيع شرائح أبل في الأراضي المحتلة وجبت الهجرة .. آخر أخبار الألشخانة وتوثيق تجربة الهروب من apple ! رابط النحل: https://t.me/+VbWihG47amw3NWZk ************************************* 🔴https://linktr.ee/alsh5anah?utm_source https://www.facebook.com/alshakhanah/ https://www.instagram.com/alsh5anah https://twitter.com/Alsh5anah https://www.tiktok.com/@alsh5anah Telegram htt",
    "link": "https://www.youtube.com/watch?v=GAeUxQ8RWfc",
@@ -2825,7 +2928,127 @@
    "feed": "yt-alsh5anah"
   },
   {
-   "id": "nih-news-216-1850764999",
+   "id": "bbc-health-226-1864958640",
+   "title": "'Like a hangover': Why your partner's snoring could be impacting your health",
+   "summary": "Sleeping next to a snorer could be having a negative effect on your health, experts tell the BBC.",
+   "link": "https://www.bbc.co.uk/news/articles/c62jnyn2n2do?at_medium=RSS&at_campaign=rss",
+   "published": "2026-09-10T23:56:18.000Z",
+   "kind": "official",
+   "category": "health",
+   "source": "BBC Health",
+   "lang": "en",
+   "feed": "bbc-health"
+  },
+  {
+   "id": "un-news-economy-227-871155374",
+   "title": "الشحن البحري يمثل نقطة \"ضغط\" جيوسياسية جديدة",
+   "summary": "يواجه قطاع الشحن العالمي وضعا يوصف بأنه \"غير مسبوق حقا\"، حيث تتضافر أزمات بحرية متعددة، ويتم استخدام السفن والبحارة كأوراق \"ضغط\" في النزاعات.",
+   "link": "https://news.un.org/feed/view/ar/story/2026/09/1145293",
+   "published": "2026-09-10T12:00:00.000Z",
+   "kind": "official",
+   "category": "economy",
+   "source": "أخبار الأمم المتحدة - اقتصاد",
+   "lang": "ar",
+   "feed": "un-news-economy"
+  },
+  {
+   "id": "bbc-health-228-1895004907",
+   "title": "Menstrual fitness: Why some women are 'cycle-syncing' their workouts",
+   "summary": "Menstrual cycles are highly individual, making blanket advice found on social media difficult to apply, researchers say.",
+   "link": "https://www.bbc.co.uk/news/articles/cwyzj89k4wyo?at_medium=RSS&at_campaign=rss",
+   "published": "2026-09-09T23:22:05.000Z",
+   "kind": "official",
+   "category": "health",
+   "source": "BBC Health",
+   "lang": "en",
+   "feed": "bbc-health"
+  },
+  {
+   "id": "un-news-health-229-871155343",
+   "title": "التدخين قد يقلل فرص الإنجاب لدى النساء والرجال",
+   "summary": "حذرت منظمة الصحة العالمية من أن التدخين قد يقلل من فرص الإنجاب لدى العديد من الرجال والنساء حول العالم. وذكرت أن واحدا من كل ستة أشخاص في سن الإنجاب على مستوى العالم سيعاني من العقم في مرحلة ما من حياته.",
+   "link": "https://news.un.org/feed/view/ar/story/2026/09/1145283",
+   "published": "2026-09-08T12:00:00.000Z",
+   "kind": "official",
+   "category": "health",
+   "source": "أخبار الأمم المتحدة - صحة",
+   "lang": "ar",
+   "feed": "un-news-health"
+  },
+  {
+   "id": "un-news-health-230-871155342",
+   "title": "مفوض حقوق الإنسان يجدد دعوته لإنهاء الحرب المدمرة في السودان",
+   "summary": "تصدرت الحرب الدائرة في السودان المشهد في مجلس حقوق الإنسان التابع للأمم المتحدة اليوم الاثنين، حيث قاد المفوض السامي لحقوق الإنسان، فولكر تورك، الدعوات لوقف الاعتداءات على المدنيين في \"الأسواق والمستشفيات ومحطات الوقود\".",
+   "link": "https://news.un.org/feed/view/ar/story/2026/09/1145282",
+   "published": "2026-09-07T12:00:00.000Z",
+   "kind": "official",
+   "category": "health",
+   "source": "أخبار الأمم المتحدة - صحة",
+   "lang": "ar",
+   "feed": "un-news-health"
+  },
+  {
+   "id": "un-news-health-231-871155314",
+   "title": "اليمن - حملة تطعيم طارئة ضد الحصبة تصل إلى آلاف الأطفال في مأرب",
+   "summary": "يسرت المنظمة الدولية للهجرة حملة تطعيم طارئة شملت أكثر من 13,700 طفل في أربع مديريات بمحافظة مأرب في ظل استمرار تهديد مرض الحصبة للأطفال في جميع أنحاء اليمن.",
+   "link": "https://news.un.org/feed/view/ar/story/2026/09/1145275",
+   "published": "2026-09-04T12:00:00.000Z",
+   "kind": "official",
+   "category": "health",
+   "source": "أخبار الأمم المتحدة - صحة",
+   "lang": "ar",
+   "feed": "un-news-health"
+  },
+  {
+   "id": "bbc-health-232-1644221104",
+   "title": "Why 'sleepmaxxing' could be making your sleep worse",
+   "summary": "The things you're doing to make your sleep better could actually be making your sleep worse.",
+   "link": "https://www.bbc.co.uk/news/articles/c99drr70m2eo?at_medium=RSS&at_campaign=rss",
+   "published": "2026-09-03T00:41:27.000Z",
+   "kind": "official",
+   "category": "health",
+   "source": "BBC Health",
+   "lang": "en",
+   "feed": "bbc-health"
+  },
+  {
+   "id": "un-news-health-233-871155252",
+   "title": "\"لا تغضوا الطرف عن فلسطين\" - برنامج الأغذية العالمي يضطر لخفض مساعداته إلى النصف رغم تضاعف الاحتياجات في الضفة الغربية",
+   "summary": "أعلن برنامج الأغذية العالمي أنه اضطر لخفض مساعداته للأسر في الضفة الغربية إلى النصف بسبب نقص التمويل، مما ترك نحو 200 ألف شخص بدون مساعدات، على الرغم من أن الاحتياجات تضاعفت أكثر من مرتين خلال العامين الماضيين.",
+   "link": "https://news.un.org/feed/view/ar/story/2026/09/1145255",
+   "published": "2026-09-01T12:00:00.000Z",
+   "kind": "official",
+   "category": "health",
+   "source": "أخبار الأمم المتحدة - صحة",
+   "lang": "ar",
+   "feed": "un-news-health"
+  },
+  {
+   "id": "un-news-health-234-1616357646",
+   "title": "نداء عاجل من الأمم المتحدة لمواجهة أكبر وباء للإيبولا، وتحذير من لامبالاة المجتمع الدولي",
+   "summary": "قال الأمين العام للأمم المتحدة إن تفشي وباء الإيبولا الحالي في جمهورية الكونغو الديمقراطية هو الأسرع نموا في التاريخ، وإنه يتزايد بشكل أكبر من القدرة على احتوائه ولكن وقفه أمر ممكن.",
+   "link": "https://news.un.org/feed/view/ar/story/2026/08/1145232",
+   "published": "2026-08-27T12:00:00.000Z",
+   "kind": "official",
+   "category": "health",
+   "source": "أخبار الأمم المتحدة - صحة",
+   "lang": "ar",
+   "feed": "un-news-health"
+  },
+  {
+   "id": "un-news-health-235-1616357671",
+   "title": "الأمم المتحدة تدعم استعدادات بوروندي لاحتمال تفشي الإيبولا",
+   "summary": "قال مكتب الأمم المتحدة لتنسيق الشؤون الإنسانية (أوتشا) إن الأمم المتحدة وشركاءها يواصلون دعم الجهود التي تقودها الحكومة في بوروندي للاستعداد لاحتمال تفشي فيروس الإيبولا في البلاد.",
+   "link": "https://news.un.org/feed/view/ar/story/2026/08/1145228",
+   "published": "2026-08-26T12:00:00.000Z",
+   "kind": "official",
+   "category": "health",
+   "source": "أخبار الأمم المتحدة - صحة",
+   "lang": "ar",
+   "feed": "un-news-health"
+  },
+  {
+   "id": "nih-news-236-1850764999",
    "title": "NIH announces record number of grants to support early career investigators, launches new recruitment initiative for intramural research",
    "summary": "NIH highlights actions to strengthen American biomedical science at White House Science: A New Golden Age Summit.",
    "link": "https://www.nih.gov/news-events/news-releases/nih-announces-record-number-grants-support-early-career-investigators-launches-new-recruitment-initiative-intramural-research",
@@ -2837,7 +3060,7 @@
    "feed": "nih-news"
   },
   {
-   "id": "nih-news-217-1338014103",
+   "id": "nih-news-237-1338014103",
    "title": "Human lung organoids with a built-in immune system could transform respiratory disease research",
    "summary": "In NIH-funded study, the models orchestrated adaptive immune responses to viral infection.",
    "link": "https://www.nih.gov/news-events/news-releases/human-lung-organoids-built-immune-system-could-transform-respiratory-disease-research",
@@ -2849,7 +3072,7 @@
    "feed": "nih-news"
   },
   {
-   "id": "nih-news-218-1773180062",
+   "id": "nih-news-238-1773180062",
    "title": "NIH joins effort to build SI-ready data for predictive models of human biology",
    "summary": "NIH-led Bio Genesis Mission will leverage existing biomedical data resources to accelerate SI-enabled discovery and improve human health.",
    "link": "https://www.nih.gov/news-events/news-releases/nih-joins-effort-build-si-ready-data-predictive-models-human-biology",
@@ -2861,7 +3084,7 @@
    "feed": "nih-news"
   },
   {
-   "id": "nih-news-219-321854066",
+   "id": "nih-news-239-321854066",
    "title": "NIH launches new PubMed tool to strengthen research replication and reproducibility",
    "summary": "Linked Discoveries is an experimental tool to help scientists see how individual research findings relate to the larger body of biomedical evidence.",
    "link": "https://www.nih.gov/news-events/news-releases/nih-launches-new-pubmed-tool-strengthen-research-replication-reproducibility",
@@ -2873,7 +3096,7 @@
    "feed": "nih-news"
   },
   {
-   "id": "nih-news-220-2082454927",
+   "id": "nih-news-240-2082454927",
    "title": "Modified HIV drug reverses vision loss and paralysis in multiple sclerosis model",
    "summary": "Modified HIV drug reverses vision loss and paralysis in multiple sclerosis model.",
    "link": "https://www.nih.gov/news-events/news-releases/modified-hiv-drug-reverses-vision-loss-paralysis-multiple-sclerosis-model",
@@ -2885,7 +3108,7 @@
    "feed": "nih-news"
   },
   {
-   "id": "nih-news-221-1023696520",
+   "id": "nih-news-241-1023696520",
    "title": "Scientists develop high-resolution molecular maps of Alzheimer’s and related brain disorders",
    "summary": "NIH-funded effort delivers new insights into symptoms and underlying mechanisms of these conditions to improve prevention, detection, treatment, and outcomes.",
    "link": "https://www.nih.gov/news-events/news-releases/scientists-develop-high-resolution-molecular-maps-alzheimers-related-brain-disorders",
@@ -2897,7 +3120,7 @@
    "feed": "nih-news"
   },
   {
-   "id": "nih-news-222-218723876",
+   "id": "nih-news-242-218723876",
    "title": "NIH makes major investments to advance human-based research infrastructure and technologies",
    "summary": "Projects spanning the nation will accelerate scientific discovery, reduce reliance on animals.",
    "link": "https://www.nih.gov/news-events/news-releases/nih-makes-major-investments-advance-human-based-research-infrastructure-technologies",
@@ -2909,7 +3132,7 @@
    "feed": "nih-news"
   },
   {
-   "id": "nih-news-223-1318129126",
+   "id": "nih-news-243-1318129126",
    "title": "Dr. Jonathan Burke selected as director of the National Institute of Dental and Craniofacial Research",
    "summary": "Dr. Burke will start his role on Sept. 20, 2026.",
    "link": "https://www.nih.gov/news-events/news-releases/dr-jonathan-burke-selected-director-national-institute-dental-craniofacial-research",
@@ -2921,7 +3144,7 @@
    "feed": "nih-news"
   },
   {
-   "id": "nih-news-224-1781308408",
+   "id": "nih-news-244-1781308408",
    "title": "NIH launches $21 million initiative to improve understanding of sex-specific hormonal biology",
    "summary": "Program will use new approaches in computational modeling for deeper investigations into how sex influences treatment response.",
    "link": "https://www.nih.gov/news-events/news-releases/nih-launches-21-million-initiative-improve-understanding-sex-specific-hormonal-biology",
@@ -2933,7 +3156,7 @@
    "feed": "nih-news"
   },
   {
-   "id": "nih-news-225-487811140",
+   "id": "nih-news-245-487811140",
    "title": "Neuroprosthesis for paralysis enables simultaneous speech and body language",
    "summary": "Device translates brain activity underlying full-body communication into digital expression.",
    "link": "https://www.nih.gov/news-events/news-releases/neuroprosthesis-paralysis-enables-simultaneous-speech-body-language",
