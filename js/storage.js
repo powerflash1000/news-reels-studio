@@ -33,6 +33,10 @@ const DEFAULT_SETTINGS = {
   pixabayKey: '',
   claudeKey: '',
   claudeModel: 'claude-opus-5-5',
+  dialectTag: false,
+  langCode: false,
+  fx: { preset: 'none', bass: 0, presence: 0, air: 0, comp: 0, deess: 0, room: 0, norm: false, target: -16 },
+  caps: { size: 84, plate: true, stroke: true },
   aiProvider: 'claude',
   geminiKey: '',
   groqKey: '',
@@ -41,7 +45,8 @@ const DEFAULT_SETTINGS = {
 };
 
 export function getSettings() {
-  return { ...DEFAULT_SETTINGS, ...load('settings', {}) };
+  const s = load('settings', {});
+  return { ...DEFAULT_SETTINGS, ...s, fx: { ...DEFAULT_SETTINGS.fx, ...(s.fx || {}) }, caps: { ...DEFAULT_SETTINGS.caps, ...(s.caps || {}) } };
 }
 
 export function setSettings(s) {

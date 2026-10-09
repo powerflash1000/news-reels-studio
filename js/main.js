@@ -1,16 +1,16 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv19b8x4';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv19b8x4';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv19b8x4';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mv19b8x4';
-import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv19b8x4';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE } from './audio.js?v=mv19b8x4';
-import { drawFrame, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mv19b8x4';
-import { exportSupport, exportReel } from './export.js?v=mv19b8x4';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv19b8x4';
-import { draftScript, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mv19b8x4';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mv19b8x4';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mv19b8x4';
-import { loadBg, playBg } from './bg.js?v=mv19b8x4';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv1avlap';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv1avlap';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv1avlap';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mv1avlap';
+import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv1avlap';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mv1avlap';
+import { drawFrame, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mv1avlap';
+import { exportSupport, exportReel } from './export.js?v=mv1avlap';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv1avlap';
+import { draftScript, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mv1avlap';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mv1avlap';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mv1avlap';
+import { loadBg, playBg } from './bg.js?v=mv1avlap';
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -523,6 +523,7 @@ let restoreTimer = 0;
 // الخط الزمني: صوت حقيقي لو متاح، وإلا تقدير صامت للمعاينة
 function currentTimeline() {
   const info = buildReelTimeline(reel, audioMap, manualAudio);
+  info.tl.fx = getSettings().fx;
   info.tl.music = musicBuf && reel.music ? { buffer: musicBuf, gain: reel.music.vol ?? 0.15 } : null;
   return info;
 }
@@ -652,7 +653,7 @@ $('play').addEventListener('click', () => {
   ac.resume();
   let src = null;
   if (info.real || info.tl.music) {
-    const mix = mixTimeline(info.tl.segs, info.tl.duration, info.tl.music);
+    const mix = mixTimeline(info.tl.segs, info.tl.duration, info.tl.music, info.tl.fx);
     const buf = ac.createBuffer(2, mix.left.length, SAMPLE_RATE);
     buf.copyToChannel(mix.left, 0); buf.copyToChannel(mix.right, 1);
     src = ac.createBufferSource(); src.buffer = buf; src.connect(ac.destination);
@@ -969,6 +970,82 @@ $('bkImport').addEventListener('change', async e => {
 
 /* ---------- الإعدادات ---------- */
 const TEXT_FIELDS = { sChannel: 'channelName', sHandle: 'handle', sKey: 'elevenKey', sModel: 'elevenModel', sProxy: 'proxyUrl', sPixabay: 'pixabayKey', sClaude: 'claudeKey', sClaudeModel: 'claudeModel', sAiProv: 'aiProvider', sGemini: 'geminiKey', sGroq: 'groqKey', sOr: 'orKey', sAiModel: 'aiModel' };
+const FX_SLIDERS = [['bass', 'جهارة الطبقات (Bass)', -6, 6, 0.5], ['presence', 'وضوح الكلام (Presence)', -6, 6, 0.5], ['air', 'لمعة (Air)', -6, 6, 0.5], ['comp', 'ضغط ديناميكي', 0, 1, 0.05], ['deess', 'تخفيف السين والشين', 0, 1, 0.05], ['room', 'صدى / مساحة', 0, 0.4, 0.02]];
+const STYLE_PRESETS = {
+  '': { name: '— اختار —' },
+  formal: { name: 'نشرة رسمية هادية', stability: 0.65, similarity: 0.8, style: 0, speed: 1 },
+  lively: { name: 'حماسي وسريع', stability: 0.35, similarity: 0.75, style: 0.5, speed: 1.08 },
+  story: { name: 'حكاية / درامي', stability: 0.3, similarity: 0.75, style: 0.6, speed: 0.95 },
+  calm: { name: 'هادي ومطمّن', stability: 0.75, similarity: 0.8, style: 0.1, speed: 0.95 },
+};
+const VTAGS = [
+  ['مبسوط', 'happily', 1], ['حزين', 'sad', 1], ['غاضب', 'angry', 1], ['متحمس', 'excited', 0], ['قلقان', 'nervous', 0], ['هادي', 'calm', 0],
+  ['همس', 'whispers', 1], ['صراخ', 'shouts', 1], ['ببطء', 'slowly', 0], ['بسرعة', 'speaking quickly', 0],
+  ['ضحكة', 'laughs', 1], ['تنهيدة', 'sighs', 1], ['تنحنح', 'clears throat', 1], ['نفس سريع', 'breathing heavily', 0], ['لهثان', 'gasping', 0], ['وقفة', 'pause', 0],
+];
+function renderFxControls() {
+  const fx = getSettings().fx;
+  $('sFxPreset').innerHTML = Object.entries(FX_PRESETS).map(([k, v]) => `<option value="${k}">${v.name}</option>`).join('') + '<option value="custom">مخصص</option>';
+  $('sFxPreset').value = fx.preset || 'none';
+  $('slFx').innerHTML = FX_SLIDERS.map(([k, label, min, max, step]) => `<label>${label}<input type="range" data-fx="${k}" min="${min}" max="${max}" step="${step}" value="${fx[k] ?? 0}"><output>${Number(fx[k] ?? 0)}</output></label>`).join('');
+  $('sFxNorm').checked = !!fx.norm;
+  $('sStylePreset').innerHTML = Object.entries(STYLE_PRESETS).map(([k, v]) => `<option value="${k}">${v.name}</option>`).join('');
+  const s = getSettings();
+  $('sDialect').checked = !!s.dialectTag; $('sLang').checked = !!s.langCode;
+  $('sCapSize').value = s.caps.size; $('sCapPlate').checked = s.caps.plate !== false; $('sCapStroke').checked = s.caps.stroke !== false;
+}
+function collectFx() {
+  const fx = { preset: $('sFxPreset').value, norm: $('sFxNorm').checked, target: -16 };
+  for (const r of $('slFx').querySelectorAll('input[type=range]')) fx[r.dataset.fx] = Number(r.value);
+  return fx;
+}
+$('sFxPreset').addEventListener('change', () => {
+  const p = FX_PRESETS[$('sFxPreset').value];
+  if (!p) return;
+  for (const r of $('slFx').querySelectorAll('input[type=range]')) { r.value = p[r.dataset.fx] ?? 0; r.nextElementSibling.textContent = r.value; }
+  $('sFxNorm').checked = !!p.norm;
+});
+$('slFx').addEventListener('input', e => { if (e.target.type === 'range') { e.target.nextElementSibling.textContent = e.target.value; $('sFxPreset').value = 'custom'; } });
+$('sStylePreset').addEventListener('change', () => {
+  const p = STYLE_PRESETS[$('sStylePreset').value];
+  if (!p?.stability) return;
+  for (const sp of ['A', 'B']) for (const r of $('sl' + sp).querySelectorAll('input[type=range]')) { const v = { stability: p.stability, similarity: p.similarity, style: p.style, speed: p.speed }[r.dataset.k]; if (v != null) { r.value = v; r.nextElementSibling.textContent = Number(v).toFixed(2); } }
+});
+
+// وسوم الصوت في الاستوديو
+function renderVoiceTags() {
+  $('fxTags').innerHTML = VTAGS.map(([ar, tag, ok]) => `<button class="chip" data-vtag="${tag}">${ar} ${ok ? '✅' : '٭'}</button>`).join('');
+  const v2 = getSettings().elevenModel !== 'eleven_v3';
+  const has = /\[[^\]]*\]/.test($('fScript').value);
+  $('fxWarn').hidden = !(v2 && has);
+  $('fxWarn').textContent = 'السكريبت فيه وسوم صوتية بس الموديل الحالي مش v3: الوسوم هتتشال ومش هتأثر. غيّر الموديل من الإعدادات.';
+}
+$('fxTags').addEventListener('click', e => {
+  const t = e.target.dataset.vtag;
+  if (!t) return;
+  const ta = $('fScript'), p = ta.selectionStart ?? ta.value.length;
+  const ins = `[${t}] `;
+  ta.value = ta.value.slice(0, p) + ins + ta.value.slice(ta.selectionEnd ?? p);
+  ta.focus(); ta.selectionStart = ta.selectionEnd = p + ins.length;
+  ta.dispatchEvent(new Event('input', { bubbles: true }));
+});
+$('fScript').addEventListener('input', () => { $('fxWarn').hidden = !(getSettings().elevenModel !== 'eleven_v3' && /\[[^\]]*\]/.test($('fScript').value)); });
+
+// تجربة قبل/بعد تأثير الصوت
+document.querySelector('#tab-settings').addEventListener('click', async e => {
+  const m = e.target.dataset.fx;
+  if (m !== 'raw' && m !== 'fx') return;
+  try {
+    saveSettings();
+    e.target.disabled = true;
+    const r = await speakLine('أهلاً بيكم في نشرة النهارده، وده اختبار لجودة الصوت.', 'A');
+    const ac = audioCtx(); ac.resume();
+    const src = ac.createBufferSource();
+    src.buffer = m === 'fx' ? applyFxToBuffer(r.buffer, getSettings().fx) : r.buffer;
+    src.connect(ac.destination); src.start();
+  } catch (err) { $('usage').textContent = elError(err); }
+  e.target.disabled = false;
+});
 function showAiFields() {
   const p = $('sAiProv').value || 'claude';
   document.querySelectorAll('.aiK').forEach(el => { el.hidden = !el.dataset.p.split(' ').includes(p); });
@@ -1029,6 +1106,8 @@ function fillSettings() {
   for (const [id, k] of Object.entries(TEXT_FIELDS)) $(id).value = s[k] ?? '';
   renderVoiceSelect('A'); renderVoiceSelect('B');
   renderSliders('A'); renderSliders('B');
+  renderFxControls();
+  renderVoiceTags();
   showAiFields();
   fillUsage();
 }
@@ -1045,6 +1124,10 @@ function collectSettings() {
     for (const r of $('sl' + sp).querySelectorAll('input[type=range]')) vs[r.dataset.k] = Number(r.value);
     o['vs' + sp] = vs;
   }
+  o.fx = collectFx();
+  o.dialectTag = $('sDialect').checked;
+  o.langCode = $('sLang').checked;
+  o.caps = { size: Number($('sCapSize').value) || 84, plate: $('sCapPlate').checked, stroke: $('sCapStroke').checked };
   return o;
 }
 

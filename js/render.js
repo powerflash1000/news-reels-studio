@@ -1,8 +1,8 @@
 // رسم إطار الريل على canvas (مقاس 1080×1920). نفس الدالة للمعاينة والتصدير.
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mv19b8x4';
-import { hostOf } from './feeds.js?v=mv19b8x4';
-import QR from '../vendor/qrcode/qrcode.mjs?v=mv19b8x4';
-import { drawBg } from './bg.js?v=mv19b8x4';
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mv1avlap';
+import { hostOf } from './feeds.js?v=mv1avlap';
+import QR from '../vendor/qrcode/qrcode.mjs?v=mv1avlap';
+import { drawBg } from './bg.js?v=mv1avlap';
 
 export const W = 1080, H = 1920;
 const FONT = 'Cairo, Tajawal, "Noto Naskh Arabic", "Segoe UI", Tahoma, sans-serif';
@@ -138,6 +138,18 @@ function headline(ctx, st) {
   return bottom;
 }
 
+// كلمة لاتينية/أرقام من غير حروف عربي = LTR
+const isLtr = w => /[A-Za-z0-9]/.test(w) && !/[\u0600-\u06FF]/.test(w);
+// ترتيب الرسم من اليمين للشمال: أي عبارة إنجليزي متتالية بتتعكس عشان تتقرا من الشمال لليمين (Chat GPT مش GPT Chat)
+function bidiRow(row) {
+  const out = [];
+  let run = [];
+  const flush = () => { out.push(...run.reverse()); run = []; };
+  for (const w of row) { if (isLtr(w.w)) run.push(w); else { flush(); out.push(w); } }
+  flush();
+  return out;
+}
+
 // الكابشن: العبارة الحالية بكلماتها، والكلمة الجارية مضيئة
 function captions(ctx, st, t) {
   const seg = st.tl.segs.find(s => t >= s.start - 0.05 && t <= s.end + 0.25) || null;
@@ -149,7 +161,9 @@ function captions(ctx, st, t) {
   if (!g) return;
   const tpl = st.story.template;
   const tall = tpl === 'stat' || tpl === 'map' || tpl === 'proof';
-  const size = tall ? 74 : 84;
+  const cs = st.settings?.caps || {};
+  const base = Math.min(110, Math.max(56, Number(cs.size) || 84));
+  const size = tall ? Math.round(base * 0.88) : base;
   ctx.font = font(size, 800);
   ctx.direction = 'rtl';
   ctx.textBaseline = 'middle';
@@ -171,10 +185,16 @@ function captions(ctx, st, t) {
     ctx.fillText(seg.speaker === 'B' ? 'المذيع ب' : 'المذيع أ', W / 2, y0 - 60);
     ctx.font = font(size, 800);
   }
+  if (cs.plate !== false) {
+    const pw = Math.max(...rows.map(r => r.reduce((n, w, i) => n + w.ww + (i ? space : 0), 0))) + 80;
+    ctx.fillStyle = 'rgba(5,8,18,.55)';
+    rrect(ctx, (W - pw) / 2, y0 - 10, pw, rows.length * lh + 20, 36);
+    ctx.fill();
+  }
   rows.forEach((row, ri) => {
     const total = row.reduce((n, w, i) => n + w.ww + (i ? space : 0), 0);
     let x = W / 2 + total / 2; // RTL: أول كلمة على اليمين
-    for (const w of row) {
+    for (const w of bidiRow(row)) {
       const active = t >= w.s && t < w.e + 0.02;
       const past = t >= w.e;
       ctx.textAlign = 'right';
@@ -184,7 +204,11 @@ function captions(ctx, st, t) {
         ctx.fill();
       }
       ctx.fillStyle = active ? '#fff' : past ? '#fff' : 'rgba(255,255,255,.5)';
+      // الكلمة الإنجليزية/الأرقام بتترسم LTR عشان حروفها متتعكسش
+      ctx.direction = isLtr(w.w) ? 'ltr' : 'rtl';
+      if (cs.stroke !== false && !active) { ctx.lineJoin = 'round'; ctx.lineWidth = size * 0.1; ctx.strokeStyle = 'rgba(0,0,0,.8)'; ctx.strokeText(w.w, x, y0 + ri * lh + lh / 2); }
       ctx.fillText(w.w, x, y0 + ri * lh + lh / 2);
+      ctx.direction = 'rtl';
       x -= w.ww + space;
     }
   });
