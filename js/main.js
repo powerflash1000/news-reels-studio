@@ -1,14 +1,14 @@
-import { load, save, getSettings, setSettings, charsUsed } from './storage.js?v=mv09r3aw';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv09r3aw';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv09r3aw';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS } from './reel.js?v=mv09r3aw';
-import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv09r3aw';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE } from './audio.js?v=mv09r3aw';
-import { drawFrame } from './render.js?v=mv09r3aw';
-import { exportSupport, exportReel } from './export.js?v=mv09r3aw';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv09r3aw';
-import { putBlob } from './mediastore.js?v=mv09r3aw';
-import { loadBg, playBg } from './bg.js?v=mv09r3aw';
+import { load, save, getSettings, setSettings, charsUsed } from './storage.js?v=mv0ag1cp';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv0ag1cp';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv0ag1cp';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS } from './reel.js?v=mv0ag1cp';
+import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv0ag1cp';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE } from './audio.js?v=mv0ag1cp';
+import { drawFrame } from './render.js?v=mv0ag1cp';
+import { exportSupport, exportReel } from './export.js?v=mv0ag1cp';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv0ag1cp';
+import { putBlob } from './mediastore.js?v=mv0ag1cp';
+import { loadBg, playBg } from './bg.js?v=mv0ag1cp';
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -682,6 +682,17 @@ const TEXT_FIELDS = { sChannel: 'channelName', sHandle: 'handle', sKey: 'elevenK
 const SLIDERS = [['stability', 'الثبات', 0, 1, 0.05], ['similarity', 'التشابه', 0, 1, 0.05], ['style', 'التعبير', 0, 1, 0.05], ['speed', 'السرعة', 0.7, 1.2, 0.05]];
 let voices = [];
 
+// خطأ صلاحيات من ElevenLabs: المفتاح سليم بس ناقصه صلاحية اختيارية (مش بتمنع التوليد)
+function elError(e) {
+  const m = String(e.message || e);
+  const perm = (m.match(/permission (\w+)/) || [])[1];
+  if (/missing_permissions/.test(m)) {
+    const what = { voices_read: 'قراءة الأصوات (Voices: Read)', user_read: 'قراءة الحساب (User: Read)' }[perm] || perm || 'غير معروفة';
+    return `⚠️ المفتاح سليم، بس ناقصه صلاحية ${what}. ده مش بيمنع التوليد: الصق رقم الصوت يدويًا واضغط «حفظ الإعدادات» وبعدها «🧪 جرّب بإعداداتي».`;
+  }
+  return '❌ ' + m;
+}
+
 function renderSliders(sp) {
   const v = getSettings()['vs' + sp];
   $('sl' + sp).innerHTML = SLIDERS.map(([k, label, min, max, step]) =>
@@ -750,7 +761,7 @@ $('sSave').addEventListener('click', () => {
 $('elTest').addEventListener('click', async () => {
   saveSettings();
   $('usage').textContent = 'بتأكد من المفتاح…';
-  try { fillUsage(await fetchSubscription()); } catch (e) { $('usageBar').hidden = true; $('usage').textContent = '❌ ' + (e.message || e); }
+  try { fillUsage(await fetchSubscription()); } catch (e) { $('usageBar').hidden = true; $('usage').textContent = elError(e); }
 });
 
 $('elVoices').addEventListener('click', async () => {
@@ -760,7 +771,7 @@ $('elVoices').addEventListener('click', async () => {
     voices = await fetchVoices();
     renderVoiceSelect('A'); renderVoiceSelect('B');
     $('usage').textContent = `اتحمّل ${voices.length} صوت من حسابك. اختار صوت المذيع أ وب وبعدها «حفظ الإعدادات».`;
-  } catch (e) { $('usage').textContent = '❌ ' + (e.message || e); }
+  } catch (e) { $('usage').textContent = elError(e); }
 });
 
 let previewEl = null;
@@ -785,7 +796,7 @@ document.querySelector('#tab-settings').addEventListener('click', async e => {
       src.buffer = r.buffer; src.connect(ac.destination); src.start();
       fetchSubscription().then(fillUsage).catch(() => {});
     }
-  } catch (err) { $('usage').textContent = '❌ ' + (err.message || err); }
+  } catch (err) { $('usage').textContent = elError(err); }
   e.target.disabled = false;
 });
 
