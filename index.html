@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mv0aqq6i">
+<html lang="ar" dir="rtl" data-v="mv0bd92q">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mv0aqq6i">
+<link rel="stylesheet" href="assets/css/style.css?v=mv0bd92q">
 </head>
 <body>
 <header class="top">
@@ -75,6 +75,26 @@
           <button id="stDel" class="btn ghost">حذف</button>
         </div>
       </div>
+      <div class="card tplbox">
+        <b>قالب الخبر</b>
+        <select id="fTpl"></select>
+        <div id="tplStat" hidden>
+          <div class="grid">
+            <label>الرقم (مثلاً 45 أو 3.5)<input id="stValue" dir="auto"></label>
+            <label>الوحدة (٪ / مليار / ألف…)<input id="stUnit" dir="auto"></label>
+            <label>الاتجاه
+              <select id="stTrend"><option value="none">بدون</option><option value="up">▲ ارتفاع</option><option value="down">▼ انخفاض</option></select>
+            </label>
+          </div>
+          <label>وصف الرقم (جملة قصيرة)<input id="stLabel" dir="auto" placeholder="مثال: نسبة التضخم السنوي في أغسطس"></label>
+        </div>
+        <div id="tplMap" hidden>
+          <label>أضف دولة (اكتب الاسم واختار)<input id="mapAdd" list="countryList" placeholder="مثال: مصر"></label>
+          <datalist id="countryList"></datalist>
+          <div id="mapChips" class="chips"></div>
+          <label>عنوان صغير على الخريطة (اختياري)<input id="mapLabel" dir="auto" placeholder="مثال: منطقة الخليج"></label>
+        </div>
+      </div>
       <div id="newsFields1" class="grid">
         <label>القسم<select id="fCat"></select></label>
         <label>نوع المحتوى
@@ -92,6 +112,15 @@
         </div>
         <label>ترخيص / حقوق (اختياري)<input id="fCredit" placeholder="مثال: بيانات منظمة الصحة العالمية"></label>
         <div id="ytNote" class="warn" hidden></div>
+      </div>
+      <div class="card tickbox">
+        <label class="chk"><input id="tkOn" type="checkbox"> شريط الأخبار أسفل الشاشة (بيمشي في كل أخبار الحلقة)</label>
+        <div id="tkFields" hidden>
+          <div class="grid">
+            <label>عنوان الشريط<input id="tkLabel" placeholder="آخر الأخبار"></label>
+            <label>النص (فاضي = عناوين باقي الأخبار تلقائيًا)<input id="tkText" dir="auto"></label>
+          </div>
+        </div>
       </div>
       <div class="card bgbox">
         <b>خلفية الخبر</b>
@@ -237,6 +266,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mv0aqq6i"></script>
+<script type="module" src="js/main.js?v=mv0bd92q"></script>
 </body>
 </html>

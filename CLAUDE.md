@@ -29,6 +29,7 @@ Working memory for Claude sessions on this repo. README.md is the user-facing Ar
 | `export.js` | WebCodecs H.264/AAC + mp4-muxer (`window.__nrsTestCodecs` allows VP9/Opus in headless tests) |
 | `library.js` | reels library (localStorage `nrs:reels`), status, backup/restore (secrets excluded) |
 | `media.js` | media search providers (NASA, Commons, Openverse, Archive, Pixabay) → unified items with license tier; `classifyLicense` rejects NC/ND; `fetchBlob` (CORS-direct for Commons/Openverse, via proxy for NASA/Archive/Pixabay) |
+| `render.js` templates | story.template: standard / breaking / stat (count-up) / map (offline world, zoom to highlighted countries); reel.ticker = bottom scrolling strip. `setWorld()` loads `assets/data/world.json` (built by `tools/build-map.mjs` with d3-geo; Natural Earth PD). Template animations use `local` = time since story start |
 | `mediastore.js`, `bg.js` | story background blobs in IndexedDB `nrs-media`; load/seek/draw (cover + dim); story.media holds only metadata (blob stays on device) |
 | `feeds.js`, `storage.js` | feed loading helpers; localStorage/IndexedDB |
 
@@ -41,6 +42,7 @@ Working memory for Claude sessions on this repo. README.md is the user-facing Ar
 - Cairo font is bundled in `assets/fonts` (no Google Fonts).
 - Media: CORS was probed from CI (not guessable): search APIs all allow browser calls; file hosts of NASA (images-assets.nasa.gov), archive.org downloads and Pixabay CDN do NOT send ACAO → must go through the user's Cloudflare Worker (`tools/cors-proxy-worker.js`, allowlist includes them). Commons upload/thumb, Flickr, Openverse thumb are fine. Canvas must stay untainted for `VideoFrame`, so media is always fetched as Blob first. Smithsonian API works (DEMO_KEY, shape probed) but is not wired yet.
 - On-screen media credit shows for attribution licenses (and NASA); user uploads have none.
+- M3 done (templates). Map data caveats: 110m resolution (small states are tiny), France includes French Guiana, Palestine/Israel are separate entries per CLDR.
 - Next: M2 (2D avatars + dialogue mouth sync, YouTuber claim comparison), M3 templates (breaking, lower third, stat card, offline SVG map), M4 queue + publish pack (should include media credits).
 
 ## Release step (cache busting)
