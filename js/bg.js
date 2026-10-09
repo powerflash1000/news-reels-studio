@@ -1,5 +1,5 @@
 // خلفية الخبر: تحميل من التخزين، الرسم بقصّ cover مع تعتيم، والتزامن مع الفيديو
-import { getBlob } from './mediastore.js?v=mv1eewfa';
+import { getBlob } from './mediastore.js?v=mv1f1uk6';
 
 const cache = new Map(); // mediaId → Promise<{kind, el, url}|null>
 
@@ -54,14 +54,38 @@ export function playBg(bg, active) {
   else if (!active && !bg.el.paused) bg.el.pause();
 }
 
-// رسم الخلفية بقصّ cover على مقاس الكانفس + تعتيم عشان النص يتقري
-export function drawBg(ctx, bg, W, H, dim = 0.5) {
+// خلفية مصغّرة بتتكبّر = غباش سريع (من غير ctx.filter) لتعبئة جوانب الصورة لما مقاسها مش زي الشاشة
+let small = null;
+
+// رسم الخلفية + تعتيم عشان النص يتقري. media.fit: auto (احتواء مع غباش لو المقاس بعيد) | cover (تغطية) | contain (احتواء)
+// media.zoom (1–3) و media.fx/fy (0–1) لتحريك القصّ
+export function drawBg(ctx, bg, W, H, dim = 0.5, media = null) {
   const el = bg.el;
   const w = bg.kind === 'video' ? el.videoWidth : el.naturalWidth;
   const h = bg.kind === 'video' ? el.videoHeight : el.naturalHeight;
   if (!w || !h) return;
-  const k = Math.max(W / w, H / h);
-  ctx.drawImage(el, (W - w * k) / 2, (H - h * k) / 2, w * k, h * k);
+  const fit = media?.fit || 'auto', zoom = Math.max(1, Math.min(3, media?.zoom || 1));
+  const fx = media?.fx ?? 0.5, fy = media?.fy ?? 0.5;
+  const mismatch = Math.max(w / h / (W / H), H / W / (h / w));
+  const contain = fit === 'contain' || (fit === 'auto' && mismatch > 1.45);
+  if (contain) {
+    const sw = Math.max(16, Math.round(W / 24)), sh = Math.max(16, Math.round(H / 24));
+    if (!small) small = document.createElement('canvas');
+    if (small.width !== sw || small.height !== sh) { small.width = sw; small.height = sh; }
+    const sc = small.getContext('2d');
+    const kb = Math.max(sw / w, sh / h);
+    sc.drawImage(el, (sw - w * kb) / 2, (sh - h * kb) / 2, w * kb, h * kb);
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(small, 0, 0, W, H);
+    ctx.fillStyle = 'rgba(6,10,24,0.35)';
+    ctx.fillRect(0, 0, W, H);
+    const k = Math.min(W / w, H / h) * zoom;
+    ctx.drawImage(el, (W - w * k) / 2, (H - h * k) / 2, w * k, h * k);
+  } else {
+    const k = Math.max(W / w, H / h) * zoom;
+    ctx.drawImage(el, -(w * k - W) * fx, -(h * k - H) * fy, w * k, h * k);
+  }
   ctx.fillStyle = `rgba(6,10,24,${dim})`;
   ctx.fillRect(0, 0, W, H);
 }
