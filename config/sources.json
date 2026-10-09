@@ -25,6 +25,26 @@
       "id": "health",
       "label": "طب",
       "color": "#12a594"
+    },
+    {
+      "id": "healthtech",
+      "label": "طب وتقنية",
+      "color": "#17a2b8"
+    },
+    {
+      "id": "ai",
+      "label": "ذكاء اصطناعي",
+      "color": "#8e4ec6"
+    },
+    {
+      "id": "defense",
+      "label": "عسكري ودفاع",
+      "color": "#7c8a3a"
+    },
+    {
+      "id": "stories",
+      "label": "قصص وأرشيف",
+      "color": "#d9730d"
     }
   ],
   "feeds": [
@@ -33,84 +53,864 @@
       "category": "politics",
       "name": "أخبار الأمم المتحدة",
       "url": "https://news.un.org/feed/subscribe/ar/news/all/rss.xml",
-      "lang": "ar"
+      "lang": "ar",
+      "type": "official"
     },
     {
       "id": "bbc-ar",
       "category": "politics",
       "name": "BBC عربي",
       "url": "https://feeds.bbci.co.uk/arabic/rss.xml",
-      "lang": "ar"
+      "lang": "ar",
+      "type": "public"
     },
     {
-      "id": "bbc-sport",
-      "category": "sports",
-      "name": "BBC Sport",
-      "url": "https://feeds.bbci.co.uk/sport/rss.xml",
-      "lang": "en"
+      "id": "bbc-world",
+      "category": "politics",
+      "name": "BBC World",
+      "url": "https://feeds.bbci.co.uk/news/world/rss.xml",
+      "lang": "en",
+      "type": "public"
     },
     {
-      "id": "nasa",
-      "category": "science",
-      "name": "NASA",
-      "url": "https://www.nasa.gov/feed/",
-      "lang": "en"
+      "id": "bbc-hindi",
+      "category": "politics",
+      "name": "BBC हिन्दी",
+      "url": "https://feeds.bbci.co.uk/hindi/rss.xml",
+      "lang": "hi",
+      "type": "public"
     },
     {
-      "id": "arxiv-physics",
-      "category": "science",
-      "name": "arXiv (physics)",
-      "url": "https://rss.arxiv.org/rss/physics",
-      "lang": "en"
+      "id": "bbc-zh",
+      "category": "politics",
+      "name": "BBC 中文",
+      "url": "https://feeds.bbci.co.uk/zhongwen/simp/rss.xml",
+      "lang": "zh",
+      "type": "public"
     },
     {
-      "id": "who-news",
-      "category": "health",
-      "name": "منظمة الصحة العالمية (WHO)",
-      "url": "https://www.who.int/rss-feeds/news-english.xml",
-      "lang": "en"
+      "id": "bbc-afrique",
+      "category": "politics",
+      "name": "BBC Afrique",
+      "url": "https://feeds.bbci.co.uk/afrique/rss.xml",
+      "lang": "fr",
+      "type": "public"
     },
     {
-      "id": "un-news-health",
-      "category": "health",
-      "name": "أخبار الأمم المتحدة - صحة",
-      "url": "https://news.un.org/feed/subscribe/ar/news/topic/health/feed/rss.xml",
-      "lang": "ar"
+      "id": "aljazeera-en",
+      "category": "politics",
+      "name": "Al Jazeera English",
+      "url": "https://www.aljazeera.com/xml/rss/all.xml",
+      "lang": "en",
+      "type": "state"
+    },
+    {
+      "id": "guardian-world",
+      "category": "politics",
+      "name": "The Guardian — World",
+      "url": "https://www.theguardian.com/world/rss",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "dw-en",
+      "category": "politics",
+      "name": "DW",
+      "url": "https://rss.dw.com/rdf/rss-en-all",
+      "lang": "en",
+      "type": "public"
+    },
+    {
+      "id": "france24-en",
+      "category": "politics",
+      "name": "France 24",
+      "url": "https://www.france24.com/en/rss",
+      "lang": "en",
+      "type": "public"
+    },
+    {
+      "id": "france24-fr",
+      "category": "politics",
+      "name": "France 24 (FR)",
+      "url": "https://www.france24.com/fr/rss",
+      "lang": "fr",
+      "type": "public"
+    },
+    {
+      "id": "rfi-fr",
+      "category": "politics",
+      "name": "RFI",
+      "url": "https://www.rfi.fr/fr/rss",
+      "lang": "fr",
+      "type": "public"
+    },
+    {
+      "id": "lemonde-int",
+      "category": "politics",
+      "name": "Le Monde — International",
+      "url": "https://www.lemonde.fr/international/rss_full.xml",
+      "lang": "fr",
+      "type": "specialist"
+    },
+    {
+      "id": "lefigaro-int",
+      "category": "politics",
+      "name": "Le Figaro — International",
+      "url": "https://www.lefigaro.fr/rss/figaro_international.xml",
+      "lang": "fr",
+      "type": "specialist"
+    },
+    {
+      "id": "axios",
+      "category": "politics",
+      "name": "Axios",
+      "url": "https://api.axios.com/feed/",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "politico",
+      "category": "politics",
+      "name": "Politico",
+      "url": "https://www.politico.com/rss/politicopicks.xml",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "npr",
+      "category": "politics",
+      "name": "NPR",
+      "url": "https://feeds.npr.org/1001/rss.xml",
+      "lang": "en",
+      "type": "public"
+    },
+    {
+      "id": "toi",
+      "category": "politics",
+      "name": "Times of Israel",
+      "url": "https://www.timesofisrael.com/feed/",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "jpost",
+      "category": "politics",
+      "name": "Jerusalem Post",
+      "url": "https://www.jpost.com/Rss/RssFeedsHeadlines.aspx",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "haaretz-en",
+      "category": "politics",
+      "name": "Haaretz (EN)",
+      "url": "https://www.haaretz.com/srv/haaretz-latest-headlines",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "ynet-he",
+      "category": "politics",
+      "name": "Ynet (עברית)",
+      "url": "https://www.ynet.co.il/Integration/StoryRss2.xml",
+      "lang": "he",
+      "type": "specialist"
+    },
+    {
+      "id": "scmp",
+      "category": "politics",
+      "name": "South China Morning Post",
+      "url": "https://www.scmp.com/rss/91/feed",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "xinhua-en",
+      "category": "politics",
+      "name": "Xinhua (EN)",
+      "url": "http://www.xinhuanet.com/english/rss/worldrss.xml",
+      "lang": "en",
+      "type": "state"
+    },
+    {
+      "id": "cgtn",
+      "category": "politics",
+      "name": "CGTN",
+      "url": "https://www.cgtn.com/subscribe/rss/section/world.xml",
+      "lang": "en",
+      "type": "state"
+    },
+    {
+      "id": "people-cn",
+      "category": "politics",
+      "name": "人民网 People's Daily",
+      "url": "http://www.people.com.cn/rss/politics.xml",
+      "lang": "zh",
+      "type": "state"
+    },
+    {
+      "id": "thehindu",
+      "category": "politics",
+      "name": "The Hindu — World",
+      "url": "https://www.thehindu.com/news/international/feeder/default.rss",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "ndtv",
+      "category": "politics",
+      "name": "NDTV — World",
+      "url": "https://feeds.feedburner.com/ndtvnews-world-news",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "ht-world",
+      "category": "politics",
+      "name": "Hindustan Times — World",
+      "url": "https://www.hindustantimes.com/feeds/rss/world-news/rssfeed.xml",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "radar-reuters",
+      "category": "politics",
+      "name": "Reuters (عبر Google News)",
+      "url": "https://news.google.com/rss/search?q=site:reuters.com+when:2d&hl=en-US&gl=US&ceid=US:en",
+      "lang": "en",
+      "type": "radar"
+    },
+    {
+      "id": "radar-ap",
+      "category": "politics",
+      "name": "AP (عبر Google News)",
+      "url": "https://news.google.com/rss/search?q=site:apnews.com+when:2d&hl=en-US&gl=US&ceid=US:en",
+      "lang": "en",
+      "type": "radar"
+    },
+    {
+      "id": "radar-bloomberg",
+      "category": "economy",
+      "name": "Bloomberg (عبر Google News)",
+      "url": "https://news.google.com/rss/search?q=site:bloomberg.com+when:2d&hl=en-US&gl=US&ceid=US:en",
+      "lang": "en",
+      "type": "radar"
     },
     {
       "id": "bbc-business",
       "category": "economy",
       "name": "BBC Business",
       "url": "https://feeds.bbci.co.uk/news/business/rss.xml",
-      "lang": "en"
+      "lang": "en",
+      "type": "public"
     },
     {
       "id": "un-news-economy",
       "category": "economy",
-      "name": "أخبار الأمم المتحدة - اقتصاد",
+      "name": "أخبار الأمم المتحدة — اقتصاد",
       "url": "https://news.un.org/feed/subscribe/ar/news/topic/economic-development/feed/rss.xml",
-      "lang": "ar"
+      "lang": "ar",
+      "type": "official"
+    },
+    {
+      "id": "wsj-markets",
+      "category": "economy",
+      "name": "WSJ Markets",
+      "url": "https://feeds.a.dj.com/rss/RSSMarketsMain.xml",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "cnbc",
+      "category": "economy",
+      "name": "CNBC",
+      "url": "https://www.cnbc.com/id/100003114/device/rss/rss.html",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "economist-fin",
+      "category": "economy",
+      "name": "The Economist — Finance",
+      "url": "https://www.economist.com/finance-and-economics/rss.xml",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "marketwatch",
+      "category": "economy",
+      "name": "MarketWatch",
+      "url": "https://feeds.content.dowjones.io/public/rss/mw_topstories",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "forbes-biz",
+      "category": "economy",
+      "name": "Forbes — Business",
+      "url": "https://www.forbes.com/business/feed/",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "yahoo-fin",
+      "category": "economy",
+      "name": "Yahoo Finance",
+      "url": "https://finance.yahoo.com/news/rssindex",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "nikkei-asia",
+      "category": "economy",
+      "name": "Nikkei Asia",
+      "url": "https://asia.nikkei.com/rss/feed/nar",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "ecb",
+      "category": "economy",
+      "name": "البنك المركزي الأوروبي — بيانات",
+      "url": "https://www.ecb.europa.eu/rss/press.html",
+      "lang": "en",
+      "type": "official"
+    },
+    {
+      "id": "fed",
+      "category": "economy",
+      "name": "الاحتياطي الفيدرالي — بيانات",
+      "url": "https://www.federalreserve.gov/feeds/press_all.xml",
+      "lang": "en",
+      "type": "official"
+    },
+    {
+      "id": "bbc-sport",
+      "category": "sports",
+      "name": "BBC Sport",
+      "url": "https://feeds.bbci.co.uk/sport/rss.xml",
+      "lang": "en",
+      "type": "public"
+    },
+    {
+      "id": "espn",
+      "category": "sports",
+      "name": "ESPN",
+      "url": "https://www.espn.com/espn/rss/news",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "skysports",
+      "category": "sports",
+      "name": "Sky Sports",
+      "url": "https://www.skysports.com/rss/12040",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "cbssports",
+      "category": "sports",
+      "name": "CBS Sports",
+      "url": "https://www.cbssports.com/rss/headlines/",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "goal",
+      "category": "sports",
+      "name": "Goal",
+      "url": "https://www.goal.com/feeds/en/news",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "lequipe",
+      "category": "sports",
+      "name": "L'Équipe",
+      "url": "https://dwh.lequipe.fr/api/edito/rss?path=/",
+      "lang": "fr",
+      "type": "specialist"
+    },
+    {
+      "id": "marca",
+      "category": "sports",
+      "name": "Marca",
+      "url": "https://e00-marca.uecdn.es/rss/portada.xml",
+      "lang": "es",
+      "type": "specialist"
+    },
+    {
+      "id": "uefa",
+      "category": "sports",
+      "name": "UEFA",
+      "url": "https://www.uefa.com/rssfeed/news/rss.xml",
+      "lang": "en",
+      "type": "official"
+    },
+    {
+      "id": "nasa",
+      "category": "science",
+      "name": "NASA",
+      "url": "https://www.nasa.gov/feed/",
+      "lang": "en",
+      "type": "official"
+    },
+    {
+      "id": "arxiv-physics",
+      "category": "science",
+      "name": "arXiv (physics)",
+      "url": "https://rss.arxiv.org/rss/physics",
+      "lang": "en",
+      "type": "official"
     },
     {
       "id": "nature",
       "category": "science",
       "name": "Nature",
       "url": "https://www.nature.com/nature.rss",
-      "lang": "en"
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "science-news",
+      "category": "science",
+      "name": "Science (AAAS)",
+      "url": "https://www.science.org/rss/news_current.xml",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "newscientist",
+      "category": "science",
+      "name": "New Scientist",
+      "url": "https://www.newscientist.com/feed/home/",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "sciam",
+      "category": "science",
+      "name": "Scientific American",
+      "url": "http://rss.sciam.com/ScientificAmerican-Global",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "physorg",
+      "category": "science",
+      "name": "Phys.org",
+      "url": "https://phys.org/rss-feed/",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "space-com",
+      "category": "science",
+      "name": "Space.com",
+      "url": "https://www.space.com/feeds/all",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "quanta",
+      "category": "science",
+      "name": "Quanta Magazine",
+      "url": "https://api.quantamagazine.org/feed/",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "esa",
+      "category": "science",
+      "name": "ESA",
+      "url": "https://www.esa.int/rssfeed/Our_Activities/Space_Science",
+      "lang": "en",
+      "type": "official"
+    },
+    {
+      "id": "who-news",
+      "category": "health",
+      "name": "منظمة الصحة العالمية (WHO)",
+      "url": "https://www.who.int/rss-feeds/news-english.xml",
+      "lang": "en",
+      "type": "official"
+    },
+    {
+      "id": "un-news-health",
+      "category": "health",
+      "name": "أخبار الأمم المتحدة — صحة",
+      "url": "https://news.un.org/feed/subscribe/ar/news/topic/health/feed/rss.xml",
+      "lang": "ar",
+      "type": "official"
     },
     {
       "id": "nih-news",
       "category": "health",
       "name": "NIH",
       "url": "https://www.nih.gov/news-releases/feed.xml",
-      "lang": "en"
+      "lang": "en",
+      "type": "official"
     },
     {
       "id": "bbc-health",
       "category": "health",
       "name": "BBC Health",
       "url": "https://feeds.bbci.co.uk/news/health/rss.xml",
-      "lang": "en"
+      "lang": "en",
+      "type": "public"
+    },
+    {
+      "id": "cdc",
+      "category": "health",
+      "name": "CDC",
+      "url": "https://tools.cdc.gov/api/v2/resources/media/132608.rss",
+      "lang": "en",
+      "type": "official"
+    },
+    {
+      "id": "fda",
+      "category": "health",
+      "name": "FDA — بيانات صحفية",
+      "url": "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml",
+      "lang": "en",
+      "type": "official"
+    },
+    {
+      "id": "lancet",
+      "category": "health",
+      "name": "The Lancet",
+      "url": "https://www.thelancet.com/rssfeed/lancet_current.xml",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "nejm",
+      "category": "health",
+      "name": "NEJM",
+      "url": "https://www.nejm.org/action/showFeed?jc=nejm&type=etoc&feed=rss",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "bmj",
+      "category": "health",
+      "name": "BMJ",
+      "url": "https://www.bmj.com/rss/recent.xml",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "statnews",
+      "category": "health",
+      "name": "STAT News",
+      "url": "https://www.statnews.com/feed/",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "ecdc",
+      "category": "health",
+      "name": "ECDC",
+      "url": "https://www.ecdc.europa.eu/en/taxonomy/term/1307/feed",
+      "lang": "en",
+      "type": "official"
+    },
+    {
+      "id": "fiercebiotech",
+      "category": "healthtech",
+      "name": "Fierce Biotech",
+      "url": "https://www.fiercebiotech.com/rss/xml",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "fiercehealth",
+      "category": "healthtech",
+      "name": "Fierce Healthcare",
+      "url": "https://www.fiercehealthcare.com/rss/xml",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "medcity",
+      "category": "healthtech",
+      "name": "MedCity News",
+      "url": "https://medcitynews.com/feed/",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "healthcareit",
+      "category": "healthtech",
+      "name": "Healthcare IT News",
+      "url": "https://www.healthcareitnews.com/feed",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "npj-digital-med",
+      "category": "healthtech",
+      "name": "npj Digital Medicine",
+      "url": "https://www.nature.com/npjdigitmed.rss",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "nature-medicine",
+      "category": "healthtech",
+      "name": "Nature Medicine",
+      "url": "https://www.nature.com/nm.rss",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "lancet-digital",
+      "category": "healthtech",
+      "name": "The Lancet Digital Health",
+      "url": "https://www.thelancet.com/rssfeed/landig_current.xml",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "mittr-biotech",
+      "category": "healthtech",
+      "name": "MIT Tech Review — Biotech",
+      "url": "https://www.technologyreview.com/topic/biotechnology/feed",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "arxiv-medimg",
+      "category": "healthtech",
+      "name": "arXiv — تصوير طبي (eess.IV)",
+      "url": "https://rss.arxiv.org/rss/eess.IV",
+      "lang": "en",
+      "type": "official"
+    },
+    {
+      "id": "arxiv-ai",
+      "category": "ai",
+      "name": "arXiv cs.AI",
+      "url": "https://rss.arxiv.org/rss/cs.AI",
+      "lang": "en",
+      "type": "official"
+    },
+    {
+      "id": "arxiv-lg",
+      "category": "ai",
+      "name": "arXiv cs.LG",
+      "url": "https://rss.arxiv.org/rss/cs.LG",
+      "lang": "en",
+      "type": "official"
+    },
+    {
+      "id": "hf-blog",
+      "category": "ai",
+      "name": "Hugging Face Blog",
+      "url": "https://huggingface.co/blog/feed.xml",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "openai",
+      "category": "ai",
+      "name": "OpenAI",
+      "url": "https://openai.com/news/rss.xml",
+      "lang": "en",
+      "type": "official"
+    },
+    {
+      "id": "deepmind",
+      "category": "ai",
+      "name": "Google DeepMind",
+      "url": "https://deepmind.google/blog/rss.xml",
+      "lang": "en",
+      "type": "official"
+    },
+    {
+      "id": "google-ai",
+      "category": "ai",
+      "name": "Google AI Blog",
+      "url": "https://blog.google/technology/ai/rss/",
+      "lang": "en",
+      "type": "official"
+    },
+    {
+      "id": "verge-ai",
+      "category": "ai",
+      "name": "The Verge — AI",
+      "url": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "venturebeat-ai",
+      "category": "ai",
+      "name": "VentureBeat — AI",
+      "url": "https://venturebeat.com/category/ai/feed/",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "techcrunch-ai",
+      "category": "ai",
+      "name": "TechCrunch — AI",
+      "url": "https://techcrunch.com/category/artificial-intelligence/feed/",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "mittr-ai",
+      "category": "ai",
+      "name": "MIT Tech Review — AI",
+      "url": "https://www.technologyreview.com/topic/artificial-intelligence/feed",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "importai",
+      "category": "ai",
+      "name": "Import AI",
+      "url": "https://importai.substack.com/feed",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "defensenews",
+      "category": "defense",
+      "name": "Defense News",
+      "url": "https://www.defensenews.com/arc/outboundfeeds/rss/?outputType=xml",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "breakingdefense",
+      "category": "defense",
+      "name": "Breaking Defense",
+      "url": "https://breakingdefense.com/feed/",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "twz",
+      "category": "defense",
+      "name": "The War Zone",
+      "url": "https://www.twz.com/feed",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "defensescoop",
+      "category": "defense",
+      "name": "DefenseScoop",
+      "url": "https://defensescoop.com/feed/",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "defenseone",
+      "category": "defense",
+      "name": "Defense One",
+      "url": "https://www.defenseone.com/rss/all/",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "navalnews",
+      "category": "defense",
+      "name": "Naval News",
+      "url": "https://www.navalnews.com/feed/",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "armytech",
+      "category": "defense",
+      "name": "Army Technology",
+      "url": "https://www.army-technology.com/feed/",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "c4isrnet",
+      "category": "defense",
+      "name": "C4ISRNET",
+      "url": "https://www.c4isrnet.com/arc/outboundfeeds/rss/?outputType=xml",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "dod",
+      "category": "defense",
+      "name": "وزارة الدفاع الأمريكية — أخبار",
+      "url": "https://www.defense.gov/DesktopModules/ArticleCS/RSS.ashx?ContentType=1&Site=945&max=10",
+      "lang": "en",
+      "type": "official"
+    },
+    {
+      "id": "dvids",
+      "category": "defense",
+      "name": "DVIDS",
+      "url": "https://www.dvidshub.net/rss/news",
+      "lang": "en",
+      "type": "official"
+    },
+    {
+      "id": "nsarchive",
+      "category": "stories",
+      "name": "National Security Archive (GWU)",
+      "url": "https://nsarchive.gwu.edu/rss.xml",
+      "lang": "en",
+      "type": "official"
+    },
+    {
+      "id": "blackvault",
+      "category": "stories",
+      "name": "The Black Vault — وثائق UFO/FOIA",
+      "url": "https://www.theblackvault.com/documentarchive/feed/",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "tna-blog",
+      "category": "stories",
+      "name": "UK National Archives",
+      "url": "https://blog.nationalarchives.gov.uk/feed/",
+      "lang": "en",
+      "type": "official"
+    },
+    {
+      "id": "nara-unwritten",
+      "category": "stories",
+      "name": "US National Archives — Unwritten Record",
+      "url": "https://unwritten-record.blogs.archives.gov/feed/",
+      "lang": "en",
+      "type": "official"
+    },
+    {
+      "id": "smithsonian-history",
+      "category": "stories",
+      "name": "Smithsonian — History",
+      "url": "https://www.smithsonianmag.com/rss/history/",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "atlasobscura",
+      "category": "stories",
+      "name": "Atlas Obscura",
+      "url": "https://www.atlasobscura.com/feeds/latest",
+      "lang": "en",
+      "type": "specialist"
+    },
+    {
+      "id": "seti",
+      "category": "stories",
+      "name": "SETI Institute",
+      "url": "https://www.seti.org/feed",
+      "lang": "en",
+      "type": "official"
     }
   ],
   "youtube": [

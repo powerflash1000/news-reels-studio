@@ -10,7 +10,7 @@ Working memory for Claude sessions on this repo. README.md is the user-facing Ar
 ## Hard decisions (don't re-litigate)
 - Static site, no build step, vanilla ES modules, GitHub Pages. No server. Keys only in localStorage (`nrs:` prefix).
 - News comes from `data/feeds.json`, written hourly by `.github/workflows/fetch-feeds.yml` (`tools/fetch-feeds.mjs`, no deps). Sources in `config/sources.json`.
-- Five categories: politics, economy, sports, science, health.
+- Nine categories: politics, economy, sports, science, health, healthtech (طب وتقنية), ai, defense, stories (قصص وأرشيف). Sources carry `lang` + `type` (agency/public/state/official/specialist/radar); Reuters/AP/Bloomberg only as Google News radar. Max 20 items kept per source.
 - YouTubers = radar/verification only (RSS titles). Never a source. Every reel needs primary source name + URL on screen (export is blocked otherwise); youtube.com links are rejected as source.
 - Claim kinds: `fact` (primary source) vs `opinion` (shown as "رأي وتحليل"). Pre-export checklist is mandatory; health reels get an on-screen medical disclaimer.
 - No news-site photos, no photos of political figures. Backgrounds from public-domain/CC/own generation only (M3).

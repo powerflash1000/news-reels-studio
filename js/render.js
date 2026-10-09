@@ -1,8 +1,8 @@
 // رسم إطار الريل على canvas (مقاس 1080×1920). نفس الدالة للمعاينة والتصدير.
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mv0sic16';
-import { hostOf } from './feeds.js?v=mv0sic16';
-import QR from '../vendor/qrcode/qrcode.mjs?v=mv0sic16';
-import { drawBg } from './bg.js?v=mv0sic16';
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mv127cn8';
+import { hostOf } from './feeds.js?v=mv127cn8';
+import QR from '../vendor/qrcode/qrcode.mjs?v=mv127cn8';
+import { drawBg } from './bg.js?v=mv127cn8';
 
 export const W = 1080, H = 1920;
 const FONT = 'Cairo, Tajawal, "Noto Naskh Arabic", "Segoe UI", Tahoma, sans-serif';
@@ -194,7 +194,7 @@ function sourceBar(ctx, st) {
   const r = st.story;
   if (r.kind !== 'news') return; // الافتتاحية والخاتمة من غير مصدر
   const y = 1560, h = 260;
-  if (r.category === 'health') {
+  if (r.category === 'health' || r.category === 'healthtech') {
     ctx.font = font(32, 700);
     ctx.direction = 'rtl';
     ctx.textAlign = 'center';

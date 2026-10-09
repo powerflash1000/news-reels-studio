@@ -1,15 +1,15 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv0sic16';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv0sic16';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv0sic16';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mv0sic16';
-import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv0sic16';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE } from './audio.js?v=mv0sic16';
-import { drawFrame, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mv0sic16';
-import { exportSupport, exportReel } from './export.js?v=mv0sic16';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv0sic16';
-import { draftScript, CLAUDE_MODELS } from './draft.js?v=mv0sic16';
-import { putBlob } from './mediastore.js?v=mv0sic16';
-import { loadBg, playBg } from './bg.js?v=mv0sic16';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv127cn8';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv127cn8';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv127cn8';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mv127cn8';
+import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv127cn8';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE } from './audio.js?v=mv127cn8';
+import { drawFrame, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mv127cn8';
+import { exportSupport, exportReel } from './export.js?v=mv127cn8';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv127cn8';
+import { draftScript, CLAUDE_MODELS } from './draft.js?v=mv127cn8';
+import { putBlob } from './mediastore.js?v=mv127cn8';
+import { loadBg, playBg } from './bg.js?v=mv127cn8';
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -56,6 +56,7 @@ $('cats').addEventListener('click', e => { if (e.target.dataset.c) { filterCat =
 $('q').addEventListener('input', renderFeed);
 $('showYt').addEventListener('change', renderFeed);
 
+const TYPE_TXT = { agency: 'وكالة', public: 'إعلام عام', state: 'حكومي/موجّه', official: 'رسمي', specialist: 'متخصص', radar: 'رادار — مش مصدر أصلي' };
 function renderFeed() {
   const q = $('q').value.trim().toLowerCase();
   const showYt = $('showYt').checked;
@@ -74,13 +75,13 @@ function renderFeed() {
     return `<article class="item" style="--c:${c.color}">
       <h3 dir="auto">${esc(i.title)}</h3>
       <div class="meta"><span>${esc(i.source)}</span><span>${c.label}</span><span>${timeAgo(i.published)}</span>
-        ${yt ? '<span class="tag">رادار — مش مصدر</span>' : ''}${i.lang === 'en' ? '<span>EN</span>' : ''}</div>
+        ${yt ? '<span class="tag">رادار — مش مصدر</span>' : ''}${TYPE_TXT[i.type] ? `<span class="tag">${TYPE_TXT[i.type]}</span>` : ''}${i.lang && i.lang !== 'ar' ? `<span>${i.lang.toUpperCase()}</span>` : ''}</div>
       ${i.summary ? `<div class="sum" dir="auto">${esc(i.summary.slice(0, 220))}</div>` : ''}
       <div class="row"><label class="pk"><input type="checkbox" data-chk="${esc(i.id)}" ${picked.has(i.id) ? 'checked' : ''}> حدّد</label>
         <button class="btn pri" data-pick="${esc(i.id)}">ريل جديد</button>
         <button class="btn" data-add="${esc(i.id)}">＋ للريل الحالي</button>
         <a class="btn ghost" href="${esc(i.link)}" target="_blank" rel="noopener">فتح</a>
-        ${i.lang === 'en' ? `<button class="btn ghost" data-tr="${esc(i.id)}">ترجم العنوان</button>` : ''}</div>
+        ${i.lang && i.lang !== 'ar' ? `<button class="btn ghost" data-tr="${esc(i.id)}">ترجم العنوان</button>` : ''}</div>
     </article>`;
   }).join('');
 }
@@ -125,7 +126,7 @@ function pickedStories() { return feeds.items.filter(i => picked.has(i.id)).map(
 async function translateTitle(item, btn) {
   try {
     if (!('Translator' in self)) throw new Error('المتصفح ده مفيهوش الترجمة المدمجة (محتاج Chrome حديث). ترجم يدويًا.');
-    const t = await self.Translator.create({ sourceLanguage: 'en', targetLanguage: 'ar' });
+    const t = await self.Translator.create({ sourceLanguage: item.lang || 'en', targetLanguage: 'ar' });
     item.title = await t.translate(item.title);
     if (item.summary) item.summary = await t.translate(item.summary);
     item.lang = 'ar';
@@ -677,7 +678,9 @@ function checklistFor() {
   if (news.length > 1) base.push('كل خبر ليه مصدره الخاص على الشاشة، والترتيب والعناوين مظبوطة.');
   if (news.some(s => s.claimKind === 'opinion')) base.push('واضح إن ده رأي/تحليل ومنسوب لصاحبه.');
   if (news.some(s => s.template === 'proof')) base.push('حالة التأكيد (رسمي / غير مؤكد) مطابقة لما قالته المصادر المعروضة، ومفيش لقطة فيها محتوى مصوّر محمي.');
-  if (news.some(s => s.category === 'health')) base.push('مفيش نصيحة علاجية أو جرعات، والتنبيه الطبي ظاهر على الشاشة.');
+  if (news.some(s => s.category === 'health' || s.category === 'healthtech')) base.push('مفيش نصيحة علاجية أو جرعات، والتنبيه الطبي ظاهر على الشاشة.');
+  if (news.some(s => s.category === 'stories')) base.push('القصة من وثائق أو قضايا منتهية ومعلنة: راجعت التواريخ والأسماء، ومفيش اتهام لشخص من غير حكم، وأي ادعاء غير مثبت (UFO وغيره) متقدّم على إنه «غير مؤكد».');
+  if (news.some(s => s.category === 'defense')) base.push('مفيش معلومة عن تحركات حالية أو مواقع حساسة غير معلنة رسميًا، والأرقام منسوبة لمصدرها.');
   if (news.some(s => s.category === 'politics')) base.push('نقل خبري محايد من غير رأي شخصي.');
   return base;
 }

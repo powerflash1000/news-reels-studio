@@ -1,8 +1,8 @@
 // بيسحب الـ RSS من config/sources.json ويكتب data/feeds.json (بيشتغل في GitHub Actions، Node 20+ من غير مكتبات)
 import { readFile, writeFile } from 'node:fs/promises';
 
-const MAX_PER_SOURCE = 25;
-const MAX_KEPT_PER_FEED = 40;
+const MAX_PER_SOURCE = 20;
+const MAX_KEPT_PER_FEED = 20;
 const KEEP_DAYS = 45;
 const KEEP_DAYS_YT = 30;
 const UA = 'Mozilla/5.0 (compatible; news-reels-studio feed fetcher)';
@@ -58,8 +58,8 @@ const health = [];
 const fresh = [];
 
 // مصدر واحد: بيسجل حالته (سليم / فاضي / فشل) وسبب أي مشكلة
-async function pull(id, name, category, url, lang, kind, limit) {
-  const h = { id, name, category, kind, url, status: 'ok', fetched: 0, newest: null };
+async function pull(id, name, category, url, lang, kind, limit, type = '') {
+  const h = { id, name, category, kind, url, type, status: 'ok', fetched: 0, newest: null };
   health.push(h);
   try {
     const body = await get(url);
@@ -69,7 +69,7 @@ async function pull(id, name, category, url, lang, kind, limit) {
       h.status = 'empty';
       h.error = `الرد اتقرا (${body.length} حرف) بس مفيش عناصر. أول الرد: ` + body.replace(/\s+/g, ' ').slice(0, 120);
     }
-    for (const i of items.slice(0, limit)) fresh.push({ ...i, kind, category, source: name, lang, feed: id });
+    for (const i of items.slice(0, limit)) fresh.push({ ...i, kind, category, source: name, lang, feed: id, type });
     h.newest = items.map(i => i.published).filter(Boolean).sort().pop() || null;
   } catch (e) {
     h.status = 'error';
@@ -78,7 +78,7 @@ async function pull(id, name, category, url, lang, kind, limit) {
 }
 
 await Promise.all([
-  ...cfg.feeds.map(f => pull(f.id, f.name, f.category, f.url, f.lang, 'official', MAX_PER_SOURCE)),
+  ...cfg.feeds.map(f => pull(f.id, f.name, f.category, f.url, f.lang, 'official', MAX_PER_SOURCE, f.type || '')),
   ...(cfg.youtube || []).map(async y => {
     try {
       const id = prevIds[y.handle] || (prevIds[y.handle] = await resolveChannelId(y.handle));
