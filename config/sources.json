@@ -4,62 +4,74 @@
   {
    "id": "trending",
    "label": "🔥 ترند",
-   "color": "#ff5a36"
+   "color": "#ff5a36",
+   "en": "Trending"
   },
   {
    "id": "politics",
    "label": "سياسة",
-   "color": "#e5484d"
+   "color": "#e5484d",
+   "en": "Politics"
   },
   {
    "id": "economy",
    "label": "اقتصاد",
-   "color": "#f5a623"
+   "color": "#f5a623",
+   "en": "Economy"
   },
   {
    "id": "sports",
    "label": "رياضة",
-   "color": "#30a46c"
+   "color": "#30a46c",
+   "en": "Sports"
   },
   {
    "id": "science",
    "label": "علوم وأبحاث",
-   "color": "#3e63dd"
+   "color": "#3e63dd",
+   "en": "Science"
   },
   {
    "id": "health",
    "label": "طب",
-   "color": "#12a594"
+   "color": "#12a594",
+   "en": "Health"
   },
   {
    "id": "healthtech",
    "label": "طب وتقنية",
-   "color": "#17a2b8"
+   "color": "#17a2b8",
+   "en": "Health Tech"
   },
   {
    "id": "ai",
    "label": "ذكاء اصطناعي",
-   "color": "#8e4ec6"
+   "color": "#8e4ec6",
+   "en": "AI"
   },
   {
    "id": "defense",
    "label": "عسكري ودفاع",
-   "color": "#7c8a3a"
+   "color": "#7c8a3a",
+   "en": "Defense"
   },
   {
    "id": "stories",
    "label": "قصص وأرشيف",
-   "color": "#d9730d"
+   "color": "#d9730d",
+   "en": "Stories"
   },
   {
    "id": "entertainment",
    "label": "فن وترفيه",
-   "color": "#e255a1"
+   "color": "#e255a1",
+   "en": "Entertainment"
   },
   {
    "id": "tech",
    "label": "تقنية",
-   "color": "#0090ff"
+   "color": "#0090ff",
+   "en": "Tech"
   }
  ],
  "feeds": [

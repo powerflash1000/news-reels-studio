@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mv1h349a">
+<html lang="ar" dir="rtl" data-v="mv1hnvi0">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mv1h349a">
+<link rel="stylesheet" href="assets/css/style.css?v=mv1hnvi0">
 </head>
 <body>
 <header class="top">
@@ -70,7 +70,10 @@
     </div>
     <div class="form">
       <label>اسم الحلقة (للمكتبة بس)<input id="rTitle" placeholder="مثال: نشرة الخميس"></label>
-      <label>مقاس الفيديو<select id="rFormat"></select></label>
+      <div class="grid">
+        <label>مقاس الفيديو<select id="rFormat"></select></label>
+        <label>لغة الريل (النصوص على الشاشة واتجاه الكتابة)<select id="rLang"><option value="ar">العربية (RTL)</option><option value="en">English (LTR)</option></select></label>
+      </div>
       <p id="fmtNote" class="muted" hidden>قوالب «رقم / خريطة / توثيق» مصمّمة للعمودي: في المقاس ده بتتعرض مصغّرة في النص. العادي والعاجل بيتظبطوا على المقاس.</p>
       <div class="strip">
         <div id="storyTabs" class="chips"></div>
@@ -320,6 +323,7 @@
     <div class="grid">
       <label>اسم القناة (على الشاشة)<input id="sChannel"></label>
       <label>اليوزر (@…)<input id="sHandle" dir="ltr"></label>
+      <label>لغة الريلز الجديدة (الافتراضي)<select id="sReelLang"><option value="ar">العربية</option><option value="en">English</option></select></label>
     </div>
   </div>
 
@@ -418,6 +422,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mv1h349a"></script>
+<script type="module" src="js/main.js?v=mv1hnvi0"></script>
 </body>
 </html>

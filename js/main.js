@@ -1,17 +1,17 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv1h349a';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv1h349a';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv1h349a';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mv1h349a';
-import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv1h349a';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mv1h349a';
-import { drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mv1h349a';
-import { exportSupport, exportReel } from './export.js?v=mv1h349a';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv1h349a';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mv1h349a';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mv1h349a';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mv1h349a';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mv1h349a';
-import { loadBg, playBg } from './bg.js?v=mv1h349a';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv1hnvi0';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv1hnvi0';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv1hnvi0';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mv1hnvi0';
+import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv1hnvi0';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mv1hnvi0';
+import { drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mv1hnvi0';
+import { exportSupport, exportReel } from './export.js?v=mv1hnvi0';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv1hnvi0';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mv1hnvi0';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mv1hnvi0';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mv1hnvi0';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mv1hnvi0';
+import { loadBg, playBg } from './bg.js?v=mv1hnvi0';
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -85,7 +85,7 @@ function renderFeed() {
   const trendOnly = $('trendOnly').checked;
   const byImp = $('sortBy').value === 'imp';
   let list = feeds.items.filter(i =>
-    (filterCat === 'all' || i.category === filterCat) &&
+    (filterCat === 'all' || i.category === filterCat || (filterCat === 'trending' && i.tk === 'trend')) &&
     inRegion(i) &&
     (!trendOnly || i.tk === 'trend' || i.tk === 'top' || (i.cov || 1) >= 3) &&
     (showYt || i.kind !== 'youtube') &&
@@ -176,7 +176,7 @@ $('mAdd').addEventListener('click', () => {
 
 // ريل جديد من قايمة أخبار (كل عنصر بيتحول لخبر)
 function startReel(storyOvers = [{}]) {
-  reel = newReel({ stories: (storyOvers.length ? storyOvers : [{}]).map(o => newStory(o)) });
+  reel = newReel({ lang: getSettings().reelLang || 'ar', stories: (storyOvers.length ? storyOvers : [{}]).map(o => newStory(o)) });
   cur = 0;
   audioMap.clear();
   manualAudio = null;
@@ -203,7 +203,7 @@ async function restoreAudio() {
   for (const l of allLines(reel)) {
     if (audioMap.has(lineKey(l))) continue;
     try {
-      const hit = await peekLine(l.text, l.speaker);
+      const hit = await peekLine(l.text, l.speaker, reel.lang);
       if (hit && reel.id === mine) audioMap.set(lineKey(l), hit);
     } catch { /* الكاش اختياري */ }
   }
@@ -241,10 +241,12 @@ function applyFormat() {
   cv.style.aspectRatio = `${f.w} / ${f.h}`;
   if (cv.width !== f.w || cv.height !== f.h) { cv.width = f.w; cv.height = f.h; }
   $('rFormat').value = reel.format || 'v';
+  $('rLang').value = reel.lang || 'ar';
   $('fmtNote').hidden = (reel.format || 'v') === 'v';
 }
 $('rFormat').innerHTML = Object.entries(FORMATS).map(([k, v]) => `<option value="${k}">${v.name}</option>`).join('');
 $('rFormat').addEventListener('change', () => { reel.format = $('rFormat').value; persist(); applyFormat(); redraw(); });
+$('rLang').addEventListener('change', () => { reel.lang = $('rLang').value; persist(); redraw(); restoreAudio(); });
 
 function fillForm() {
   const st = story();
@@ -368,7 +370,7 @@ $('draftGo').addEventListener('click', async () => {
   btn.disabled = true;
   $('refMsg').textContent = `${AP.name.split(' (')[0]} بيكتب المسودة…`;
   try {
-    const { lines, missing } = await draftScript({ story: st, categoryLabel: cat(st.category).label, seconds: Number($('draftLen').value), format: $('draftFmt').value, note: $('draftNote').value.trim() });
+    const { lines, missing } = await draftScript({ story: st, categoryLabel: cat(st.category).label, seconds: Number($('draftLen').value), format: $('draftFmt').value, note: $('draftNote').value.trim(), lang: reel.lang });
     const text = lines.map(l => (l.speaker === 'B' ? 'ب: ' : $('draftFmt').value === 'dialogue' ? 'أ: ' : '') + l.text).join('\n');
     const has = $('fScript').value.trim();
     $('fScript').value = has && !confirm('السكريبت فيه نص. موافق = استبدله بالمسودة، إلغاء = ضيف المسودة في الآخر.') ? has + '\n' + text : text;
@@ -668,7 +670,7 @@ $('gen').addEventListener('click', async () => {
     let n = 0;
     for (const l of todo) {
       setStatus(`بولّد سطر ${++n}/${todo.length}…`);
-      audioMap.set(lineKey(l), await speakLine(l.text, l.speaker));
+      audioMap.set(lineKey(l), await speakLine(l.text, l.speaker, reel.lang));
     }
     setStatus(n ? 'تم توليد الصوت ✅' : 'الصوت كله جاهز من الكاش ✅');
     if (n) fetchSubscription().then(fillUsage).catch(() => {});
@@ -1038,7 +1040,7 @@ $('bkImport').addEventListener('change', async e => {
 });
 
 /* ---------- الإعدادات ---------- */
-const TEXT_FIELDS = { sChannel: 'channelName', sHandle: 'handle', sKey: 'elevenKey', sModel: 'elevenModel', sProxy: 'proxyUrl', sPixabay: 'pixabayKey', sClaude: 'claudeKey', sClaudeModel: 'claudeModel', sAiProv: 'aiProvider', sGemini: 'geminiKey', sGroq: 'groqKey', sOr: 'orKey', sAiModel: 'aiModel' };
+const TEXT_FIELDS = { sChannel: 'channelName', sHandle: 'handle', sReelLang: 'reelLang', sKey: 'elevenKey', sModel: 'elevenModel', sProxy: 'proxyUrl', sPixabay: 'pixabayKey', sClaude: 'claudeKey', sClaudeModel: 'claudeModel', sAiProv: 'aiProvider', sGemini: 'geminiKey', sGroq: 'groqKey', sOr: 'orKey', sAiModel: 'aiModel' };
 const FX_SLIDERS = [['bass', 'جهارة الطبقات (Bass)', -6, 6, 0.5], ['presence', 'وضوح الكلام (Presence)', -6, 6, 0.5], ['air', 'لمعة (Air)', -6, 6, 0.5], ['comp', 'ضغط ديناميكي', 0, 1, 0.05], ['deess', 'تخفيف السين والشين', 0, 1, 0.05], ['room', 'صدى / مساحة', 0, 0.4, 0.02]];
 const STYLE_PRESETS = {
   '': { name: '— اختار —' },
