@@ -33,6 +33,7 @@ const DEFAULT_SETTINGS = {
   pixabayKey: '',
   claudeKey: '',
   claudeModel: 'claude-opus-5-5',
+  reelLang: 'ar',
   dialectTag: false,
   langCode: false,
   fx: { preset: 'none', bass: 0, presence: 0, air: 0, comp: 0, deess: 0, room: 0, norm: false, target: -16 },

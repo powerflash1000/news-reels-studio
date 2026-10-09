@@ -41,6 +41,7 @@ export function newReel(over = {}) {
   const r = { status: 'draft', updatedAt: Date.now(), title: '', stories: [newStory()], ticker: { on: false, text: '', label: '' }, ...over };
   r.ticker = { on: false, text: '', label: '', ...(r.ticker || {}) };
   r.format = r.format || 'v';
+  r.lang = r.lang || 'ar';
   if (!r.id) r.id = rid('r');
   return r;
 }
@@ -51,6 +52,7 @@ export function normalizeReel(r) {
     r.stories = r.stories.map(s => newStory(s));
     r.ticker = { on: false, text: '', label: '', ...(r.ticker || {}) };
     r.format = r.format || 'v';
+    r.lang = r.lang || 'ar';
     return r;
   }
   const { id, status, updatedAt, title, ...rest } = r || {};

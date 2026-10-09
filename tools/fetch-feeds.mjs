@@ -57,6 +57,23 @@ export function parseGTrends(xml) {
   }).filter(i => i.title && i.link);
 }
 
+// تصنيف الترند حسب المجال بالكلمات المفتاحية (عربي + إنجليزي)؛ لو مفيش تطابق بيفضل «ترند» عام
+const FIELDS = {
+  sports: 'football|soccer|footballer|\\bfc\\b|\\bvs\\.?\\b|league|\\bnba\\b|\\bnfl\\b|\\bmlb\\b|\\bnhl\\b|\\bf1\\b|formula one|tennis|olympic|world cup|\\bmatch\\b|\\bgoal\\b|\\bcoach\\b|cricket|\\bipl\\b|\\bufc\\b|\\bwwe\\b|boxing|champions|premier|athlete|basketball|baseball|golfer|swimmer|sprinter|الأهلي|الزمالك|ضد|دوري|كأس|مباراة|لاعب|هدف|كرة|مدرب|منتخب|بطولة|رياضة|ليفربول|برشلونة|ريال مدريد|النصر|الهلال|الاتحاد|ملعب',
+  entertainment: 'movie|\\bfilm\\b|album|singer|actor|actress|rapper|\\bsong\\b|concert|netflix|disney|\\bseries\\b|season|episode|trailer|box office|oscar|grammy|emmy|celebrity|\\bband\\b|k-pop|songwriter|comedian|television|tv series|model and|influencer|مسلسل|فيلم|أغنية|فنان|فنانة|مغني|ألبوم|حفل|مهرجان|ممثل|ممثلة|نجم|سينما|حلقة|مطرب',
+  politics: 'president|prime minister|election|\\bvote\\b|senate|congress|parliament|minister|government|\\bwar\\b|military|ukraine|russia|gaza|israel|\\biran\\b|\\bnato\\b|sanction|treaty|protest|ceasefire|politician|diplomat|trump|biden|harris|putin|رئيس|انتخابات|حكومة|وزير|حرب|غزة|إسرائيل|إيران|روسيا|أوكرانيا|قصف|هجوم|برلمان|نتنياهو|ترامب|سياسي',
+  economy: 'stock|\\bmarket\\b|\\bshares\\b|nasdaq|inflation|interest rate|\\bbank\\b|\\boil\\b|\\bgold\\b|bitcoin|crypto|dollar|economy|\\bgdp\\b|earnings|\\bipo\\b|tariff|businessman|billionaire|entrepreneur|أسهم|بورصة|الذهب|الدولار|سعر|تضخم|فائدة|بنك|بترول|نفط|اقتصاد|بيتكوين|جنيه|رجل أعمال',
+  tech: 'iphone|\\bapple\\b|google|microsoft|samsung|android|windows|\\bai\\b|chatgpt|openai|gemini|nvidia|tesla|spacex|software|hacker|cyber|tiktok|instagram|whatsapp|playstation|xbox|video game|gaming|programmer|تطبيق|آيفون|سامسونج|جوجل|ذكاء اصطناعي|ألعاب|هاتف|واتساب|فيسبوك|برمجة',
+  health: 'cancer|vaccine|virus|covid|\\bflu\\b|hospital|disease|\\bhealth\\b|doctor|\\bdrug\\b|\\bfda\\b|diabetes|obesity|surgeon|physician|مرض|لقاح|فيروس|صحة|مستشفى|دواء|سرطان|وباء|طبيب',
+  science: 'nasa|\\bspace\\b|planet|\\bmars\\b|\\bmoon\\b|astronaut|telescope|scientist|physicist|astronomer|research|climate|earthquake|volcano|hurricane|asteroid|comet|eclipse|dinosaur|علماء|ناسا|فضاء|كوكب|زلزال|بركان|إعصار|كويكب|دراسة|أبحاث|عالم',
+};
+const FIELD_RE = Object.entries(FIELDS).map(([k, v]) => [k, new RegExp(v, 'giu')]);
+export function fieldOf(text) {
+  let best = null, bn = 0;
+  for (const [k, re] of FIELD_RE) { const n = (String(text).match(re) || []).length; if (n > bn) { best = k; bn = n; } }
+  return best;
+}
+
 // ويكيبيديا: أكتر المقالات مشاهدة امبارح (بنتخطى الصفحة الرئيسية وصفحات النظام)
 const WIKI_SKIP = /^(Main_Page|Special:|Wikipedia:|Portal:|Help:|File:|Category:|Template:|Talk:|User:|-$|الصفحة_الرئيسية|خاص:|ويكيبيديا:|بوابة:|مساعدة:|ملف:|تصنيف:|قالب:|نقاش:|مستخدم:|Accueil|Spécial:|Wikipédia:|Portada|Especial:|Wikipedia:)/;
 async function wikiTop(f) {
@@ -66,12 +83,22 @@ async function wikiTop(f) {
     const url = `https://wikimedia.org/api/rest_v1/metrics/pageviews/top/${lang}.wikipedia/all-access/${d.getUTCFullYear()}/${String(d.getUTCMonth() + 1).padStart(2, '0')}/${String(d.getUTCDate()).padStart(2, '0')}`;
     try {
       const j = JSON.parse(await get(url));
-      const arts = (j.items?.[0]?.articles || []).filter(a => !WIKI_SKIP.test(a.article));
-      if (arts.length) return arts.map(a => ({
-        title: a.article.replace(/_/g, ' '), views: a.views,
-        summary: `${a.views.toLocaleString('en')} مشاهدة على ويكيبيديا (${lang}) في يوم واحد.`,
-        link: `https://${lang}.wikipedia.org/wiki/${encodeURIComponent(a.article)}`, published: d.toISOString(),
-      }));
+      const arts = (j.items?.[0]?.articles || []).filter(a => !WIKI_SKIP.test(a.article)).slice(0, 25);
+      if (arts.length) {
+        // وصف قصير لكل مقال (مثلًا "American singer") بيساعد في التصنيف
+        const descs = {};
+        try {
+          const api = `https://${lang}.wikipedia.org/w/api.php?action=query&prop=description&redirects=1&format=json&formatversion=2&titles=${encodeURIComponent(arts.map(a => a.article.replace(/_/g, ' ')).join('|'))}`;
+          const q = JSON.parse(await get(api)).query;
+          for (const p of q?.pages || []) if (p.description) descs[p.title] = p.description;
+          for (const r of q?.redirects || []) if (descs[r.to]) descs[r.from] = descs[r.to];
+        } catch { /* من غير وصف */ }
+        return arts.map(a => { const t = a.article.replace(/_/g, ' '); return {
+          title: t, views: a.views, desc: descs[t] || '',
+          summary: `${descs[t] ? descs[t] + ' — ' : ''}${a.views.toLocaleString('en')} مشاهدة على ويكيبيديا (${lang}) في يوم واحد.`,
+          link: `https://${lang}.wikipedia.org/wiki/${encodeURIComponent(a.article)}`, published: d.toISOString(),
+        }; });
+      }
     } catch { /* جرّب اليوم اللي قبله */ }
   }
   return [];
@@ -174,6 +201,11 @@ await Promise.all([
     }
   }),
 ]);
+
+// ترند من غير مجال (جوجل ترندز وويكيبيديا): بنصنّفه حسب الكلمات في العنوان والوصف والأخبار المرتبطة
+for (const i of fresh) {
+  if (i.tk === 'trend' && i.category === 'trending') i.category = fieldOf(`${i.title} ${i.title} ${i.desc || ''} ${i.summary || ''}`) || 'trending';
+}
 
 // دمج مع القديم، وإزالة المكرر والأقدم من المدة المسموحة
 const now = Date.now();

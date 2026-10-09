@@ -1,6 +1,6 @@
 // توليد الصوت من ElevenLabs مع توقيت كل كلمة، وكاش لكل سطر
-import { getSettings, addChars, cacheGet, cachePut, sha1, load, save } from './storage.js?v=mv1h349a';
-import { decode } from './audio.js?v=mv1h349a';
+import { getSettings, addChars, cacheGet, cachePut, sha1, load, save } from './storage.js?v=mv1hnvi0';
+import { decode } from './audio.js?v=mv1hnvi0';
 
 const API = 'https://api.elevenlabs.io';
 
@@ -11,10 +11,10 @@ export const MODELS = [
 
 // الوسوم الصوتية (v3 بس) والتلميح باللهجة: على موديل v2 الوسوم بتتشال عشان متتقراش بصوت عالي
 export const DIALECT_TAG = '[Egyptian Arabic accent]';
-export function prepareText(text) {
+export function prepareText(text, lang = 'ar') {
   const s = getSettings();
   if (s.elevenModel !== 'eleven_v3') return String(text).replace(/\[[^\]]*\]/g, ' ').replace(/\s+/g, ' ').trim();
-  return (s.dialectTag && !/^\s*\[[^\]]*accent/i.test(text) ? DIALECT_TAG + ' ' : '') + text;
+  return (s.dialectTag && lang === 'ar' && !/^\s*\[[^\]]*accent/i.test(text) ? DIALECT_TAG + ' ' : '') + text;
 }
 
 export function voiceFor(speaker) {
@@ -84,8 +84,8 @@ function cacheKey(text, voiceId, vs) {
 }
 
 // بيدوّر في الكاش بس (من غير أي استهلاك رصيد). بيرجع null لو السطر مش متولّد قبل كده بنفس الإعدادات
-export async function peekLine(text, speaker) {
-  text = prepareText(text);
+export async function peekLine(text, speaker, lang = 'ar') {
+  text = prepareText(text, lang);
   const voiceId = voiceFor(speaker);
   if (!voiceId) return null;
   const hit = await cacheGet(await cacheKey(text, voiceId, voiceSettingsFor(speaker)));
@@ -93,9 +93,9 @@ export async function peekLine(text, speaker) {
 }
 
 // بيرجع {buffer, words, cached}
-export async function speakLine(text, speaker) {
+export async function speakLine(text, speaker, lang = 'ar') {
   const s = getSettings();
-  text = prepareText(text);
+  text = prepareText(text, lang);
   const voiceId = voiceFor(speaker);
   if (!s.elevenKey || !voiceId) throw new Error('ضبط مفتاح ElevenLabs وصوت المذيع في الإعدادات الأول.');
   const vs = voiceSettingsFor(speaker);

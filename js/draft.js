@@ -1,6 +1,6 @@
 // مسودة سكريبت بالذكاء الاصطناعي (اختيارية): Claude API من المتصفح بمفتاحك. بتستخدم الملخص والعنوان بس ومبتخترعش معلومات.
 // الموقع من غير build فمفيش SDK؛ بنكلّم الـAPI بـfetch مباشرة (الهيدر anthropic-dangerous-direct-browser-access ضروري لطلبات المتصفح).
-import { getSettings } from './storage.js?v=mv1h349a';
+import { getSettings } from './storage.js?v=mv1hnvi0';
 
 export const CLAUDE_MODELS = [
   { id: 'claude-opus-5-5', name: 'Claude Opus 5.5 (الأفضل، الافتراضي)' },
@@ -29,6 +29,13 @@ Hard rules:
 8. Format "single": every line is speaker "A". Format "dialogue": alternate speakers "A" (main presenter) and "B" (second presenter who adds a detail or reacts); both may only use facts from the source.
 Return JSON that matches the schema.`;
 
+// نسخة إنجليزي: نفس القواعد بس السكريبت بإنجليزي أمريكي بسيط ومنطوق
+const SYSTEM_EN = SYSTEM
+  .replace('in simple Egyptian Arabic: easy, spoken, natural, not heavy slang, and not formal Modern Standard Arabic.', 'in simple, natural spoken American English: easy to follow, conversational, no jargon, no slang overload.')
+  .replace('("حسب ...")', '("According to ...")')
+  .replace('("المصدر: <name>")', '("Source: <name>")')
+  .replace('short Arabic phrases the editor should verify', 'short English phrases the editor should verify');
+
 const SCHEMA = {
   type: 'object',
   properties: {
@@ -45,7 +52,7 @@ const clean = v => String(v ?? '').replace(/</g, '‹').replace(/>/g, '›');
 const WORDS = { 30: 75, 45: 115, 60: 155 };
 
 // بيرجّع { lines:[{speaker,text}], missing:[…] }
-export async function draftScript({ story, categoryLabel, seconds = 45, format = 'single', note = '' }) {
+export async function draftScript({ story, categoryLabel, seconds = 45, format = 'single', note = '', lang = 'ar' }) {
   const st = getSettings();
   const prov = AI_PROVIDERS[st.aiProvider] ? st.aiProvider : 'claude';
   const P = AI_PROVIDERS[prov];
@@ -63,7 +70,7 @@ export async function draftScript({ story, categoryLabel, seconds = 45, format =
     note ? `<editor_note>${clean(note)}</editor_note>` : '',
   ].filter(Boolean).join('\n');
 
-  if (prov !== 'claude') return draftOpenAI(P, key, st.aiModel || P.model, user);
+  if (prov !== 'claude') return draftOpenAI(P, key, st.aiModel || P.model, user, lang);
   let res;
   try {
     res = await fetch('https://api.anthropic.com/v1/messages', {
@@ -78,7 +85,7 @@ export async function draftScript({ story, categoryLabel, seconds = 45, format =
       body: JSON.stringify({
         model: claudeModel || 'claude-opus-5-5',
         max_tokens: 8000,
-        system: SYSTEM,
+        system: lang === 'en' ? SYSTEM_EN : SYSTEM,
         output_config: { effort: 'low', format: { type: 'json_schema', schema: SCHEMA } },
         messages: [{ role: 'user', content: user }],
       }),
@@ -103,8 +110,8 @@ export async function draftScript({ story, categoryLabel, seconds = 45, format =
 }
 
 // المزوّدين المجانيين: نفس الـprompt، والـJSON بيتطلب في النص (مش كل الموديلات المجانية بتدعم json_schema)
-async function draftOpenAI(P, key, model, user) {
-  const sys = SYSTEM + '\nReturn ONLY a JSON object, no markdown fences: {"lines":[{"speaker":"A"|"B","text":"…"}],"missing":["…"]}';
+async function draftOpenAI(P, key, model, user, lang = 'ar') {
+  const sys = (lang === 'en' ? SYSTEM_EN : SYSTEM) + '\nReturn ONLY a JSON object, no markdown fences: {"lines":[{"speaker":"A"|"B","text":"…"}],"missing":["…"]}';
   let res;
   try {
     res = await fetch(P.url, {

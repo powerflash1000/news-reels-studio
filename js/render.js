@@ -1,8 +1,8 @@
 // رسم إطار الريل على canvas (عمودي 1080×1920 أو 4:5 أو مربع أو أفقي). نفس الدالة للمعاينة والتصدير.
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mv1h349a';
-import { hostOf } from './feeds.js?v=mv1h349a';
-import QR from '../vendor/qrcode/qrcode.mjs?v=mv1h349a';
-import { drawBg } from './bg.js?v=mv1h349a';
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mv1hnvi0';
+import { hostOf } from './feeds.js?v=mv1hnvi0';
+import QR from '../vendor/qrcode/qrcode.mjs?v=mv1hnvi0';
+import { drawBg } from './bg.js?v=mv1hnvi0';
 
 // مقاسات الإخراج. W/H متغيّرين (live binding) والتصدير بيقراهم وقت التصدير
 export const FORMATS = {
@@ -14,6 +14,41 @@ export const FORMATS = {
 export let W = 1080, H = 1920;
 // أماكن العناصر حسب المقاس (العمودي = القيم الأصلية بالظبط)
 let L = layoutFor(1080, 1920);
+
+// لغة الريل: نصوص الواجهة على الشاشة + اتجاه الكتابة (الإنجليزي = تخطيط معكوس أفقيًا بنفس العناصر)
+const STR = {
+  ar: { source: 'المصدر', opinion: 'رأي وتحليل', breaking: 'عاجل', hostA: 'المذيع أ', hostB: 'المذيع ب', ticker: 'آخر الأخبار', head: 'اكتب العنوان', src: '— اكتب اسم المصدر —', channel: 'النشرة', med: MED_DISCLAIMER, proof: { official: 'مؤكد رسميًا', reported: 'تقارير غير مؤكدة', pending: 'بانتظار التأكيد' }, zero: '٠' },
+  en: { source: 'Source', opinion: 'Opinion & analysis', breaking: 'BREAKING', hostA: 'Host A', hostB: 'Host B', ticker: 'Latest news', head: 'Write the headline', src: '— Add the source name —', channel: 'Newsroom', med: 'General information, not medical advice — consult your doctor', proof: { official: 'Officially confirmed', reported: 'Unconfirmed reports', pending: 'Awaiting confirmation' }, zero: '0' },
+};
+let S = STR.ar, RTL = true;
+export function setLang(lang) { RTL = lang !== 'en'; S = STR[RTL ? 'ar' : 'en']; }
+
+// غلاف للكانفس: dir فقط (اتجاه النص ltr) أو mirror (كمان بيعكس كل الإحداثيات الأفقية والمحاذاة، فالتخطيط العربي بيتحول لإنجليزي)
+function wrapCtx(ctx, mirror) {
+  const mx = x => W - x;
+  const fns = mirror ? {
+    fillText: (t, x, y, m) => ctx.fillText(t, mx(x), y, m),
+    strokeText: (t, x, y, m) => ctx.strokeText(t, mx(x), y, m),
+    fillRect: (x, y, w, h) => ctx.fillRect(mx(x) - w, y, w, h),
+    strokeRect: (x, y, w, h) => ctx.strokeRect(mx(x) - w, y, w, h),
+    rect: (x, y, w, h) => ctx.rect(mx(x) - w, y, w, h),
+    moveTo: (x, y) => ctx.moveTo(mx(x), y),
+    lineTo: (x, y) => ctx.lineTo(mx(x), y),
+    arcTo: (x1, y1, x2, y2, r) => ctx.arcTo(mx(x1), y1, mx(x2), y2, r),
+    arc: (x, y, r, a0, a1, ccw) => ctx.arc(mx(x), y, r, Math.PI - a0, Math.PI - a1, !ccw),
+    drawImage: (img, ...a) => (a.length === 4 ? ctx.drawImage(img, mx(a[0]) - a[2], a[1], a[2], a[3]) : a.length === 8 ? ctx.drawImage(img, a[0], a[1], a[2], a[3], mx(a[4]) - a[6], a[5], a[6], a[7]) : ctx.drawImage(img, ...a)),
+    createLinearGradient: (x0, y0, x1, y1) => ctx.createLinearGradient(mx(x0), y0, mx(x1), y1),
+    createRadialGradient: (x0, y0, r0, x1, y1, r1) => ctx.createRadialGradient(mx(x0), y0, r0, mx(x1), y1, r1),
+  } : {};
+  return new Proxy(ctx, {
+    get(t, p) { if (p === '__raw') return t; if (p === '__mirror') return mirror; if (fns[p]) return fns[p]; const v = t[p]; return typeof v === 'function' ? v.bind(t) : v; },
+    set(t, p, v) {
+      if (p === 'textAlign' && mirror) v = v === 'right' ? 'left' : v === 'left' ? 'right' : v;
+      if (p === 'direction') v = 'ltr';
+      t[p] = v; return true;
+    },
+  });
+}
 function layoutFor(w, h) {
   const vert = h >= 1900;
   const srcH = h >= 1900 ? 260 : h >= 1300 ? 230 : 200;
@@ -85,7 +120,7 @@ function topBar(ctx, st) {
   if (st.story.template === 'breaking') {
     // شريط «عاجل» بنقطة بتنبض، والقسم بيروح على يساره
     ctx.font = font(56, 800);
-    const bw = ctx.measureText('عاجل').width + 150;
+    const bw = ctx.measureText(S.breaking).width + 150;
     ctx.fillStyle = '#e5484d';
     rrect(ctx, right - bw, 82, bw, 100, 22);
     ctx.fill();
@@ -95,7 +130,7 @@ function topBar(ctx, st) {
     ctx.fill();
     ctx.fillStyle = '#fff';
     ctx.textAlign = 'center';
-    ctx.fillText('عاجل', right - bw / 2 + 20, 136);
+    ctx.fillText(S.breaking, right - bw / 2 + 20, 136);
     right -= bw + 16;
     ctx.font = font(44);
   }
@@ -124,7 +159,7 @@ function topBar(ctx, st) {
 
 // بيرجّع أسفل نقطة وصلها العنوان (عشان القوالب اللي تحته)
 function headline(ctx, st) {
-  const text = st.story.headline || 'اكتب العنوان';
+  const text = st.story.headline || S.head;
   const tpl = st.story.template;
   const compact = tpl === 'stat' || tpl === 'map' || tpl === 'proof';
   const pad = compact ? 36 : 48, maxW = W - 120 - pad * 2 - 16;
@@ -153,7 +188,7 @@ function headline(ctx, st) {
   if (st.story.kind === 'news' && st.story.claimKind === 'opinion') {
     bottom += 88;
     ctx.font = font(36);
-    const t = 'رأي وتحليل';
+    const t = S.opinion;
     const w = ctx.measureText(t).width + 56;
     ctx.fillStyle = '#f5a623';
     rrect(ctx, W - 60 - w, y + h + 24, w, 64, 32);
@@ -217,7 +252,7 @@ function captions(ctx, st, t, hb = 0) {
     ctx.font = font(34, 700);
     ctx.fillStyle = seg.speaker === 'B' ? '#ffb86b' : hexA(st.cat.color, 1);
     ctx.textAlign = 'center';
-    ctx.fillText(seg.speaker === 'B' ? 'المذيع ب' : 'المذيع أ', W / 2, y0 - 60);
+    ctx.fillText(seg.speaker === 'B' ? S.hostB : S.hostA, W / 2, y0 - 60);
     ctx.font = font(size, 800);
   }
   if (cs.plate !== false) {
@@ -229,7 +264,7 @@ function captions(ctx, st, t, hb = 0) {
   rows.forEach((row, ri) => {
     const total = row.reduce((n, w, i) => n + w.ww + (i ? space : 0), 0);
     let x = W / 2 + total / 2; // RTL: أول كلمة على اليمين
-    for (const w of bidiRow(row)) {
+    for (const w of RTL ? bidiRow(row) : row) {
       const active = t >= w.s && t < w.e + 0.02;
       const past = t >= w.e;
       ctx.textAlign = 'right';
@@ -259,12 +294,12 @@ function sourceBar(ctx, st) {
     ctx.direction = 'rtl';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    const w = ctx.measureText(MED_DISCLAIMER).width + 56;
+    const w = ctx.measureText(S.med).width + 56;
     ctx.fillStyle = 'rgba(18,165,148,.25)';
     rrect(ctx, (W - w) / 2, y - 86, w, 62, 31);
     ctx.fill();
     ctx.fillStyle = '#d9fff7';
-    ctx.fillText(MED_DISCLAIMER, W / 2, y - 55);
+    ctx.fillText(S.med, W / 2, y - 55);
   }
   if (r.template === 'proof' && proofSources(r).length) return; // بطاقات التوثيق بتحل محل شريط المصدر
   ctx.fillStyle = 'rgba(255,255,255,.10)';
@@ -275,10 +310,10 @@ function sourceBar(ctx, st) {
   ctx.textAlign = 'right';
   ctx.font = font(32, 700);
   ctx.fillStyle = st.cat.color;
-  ctx.fillText('المصدر', rx, y + 48);
+  ctx.fillText(S.source, rx, y + 48);
   ctx.font = font(L.vert ? 50 : 44, 800);
   ctx.fillStyle = '#fff';
-  const name = r.sourceName || '— اكتب اسم المصدر —';
+  const name = r.sourceName || S.src;
   let nm = name;
   while (ctx.measureText(nm).width > bw - 120 && nm.length > 8) nm = nm.slice(0, -2);
   ctx.fillText(nm === name ? nm : nm + '…', rx, y + (L.vert ? 112 : 100));
@@ -307,7 +342,9 @@ const easeInOut = p => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 
 
 const AR_DIGITS = '٠١٢٣٤٥٦٧٨٩';
 export const toLatinDigits = v => String(v ?? '').replace(/[٠-٩]/g, d => AR_DIGITS.indexOf(d)).replace(/٫/g, '.').replace(/[٬,\s]/g, '');
-const fmtNum = (n, dec) => n.toLocaleString('ar-EG', { minimumFractionDigits: dec, maximumFractionDigits: dec, useGrouping: false }).replace(/[.,]/g, '٫');
+const fmtNum = (n, dec) => (RTL
+  ? n.toLocaleString('ar-EG', { minimumFractionDigits: dec, maximumFractionDigits: dec, useGrouping: false }).replace(/[.,]/g, '٫')
+  : n.toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec, useGrouping: false }));
 
 function statPanel(ctx, st, y0) {
   const s = st.story.stat || {};
@@ -319,7 +356,7 @@ function statPanel(ctx, st, y0) {
   const numeric = /^-?\d+(\.\d+)?$/.test(raw);
   const dec = numeric ? (raw.split('.')[1] || '').length : 0;
   const p = easeOut(clamp01((st.local - 0.3) / 1.5));
-  const text = numeric ? fmtNum(parseFloat(raw) * p, dec) : (s.value || '٠');
+  const text = numeric ? fmtNum(parseFloat(raw) * p, dec) : (s.value || S.zero);
   ctx.direction = 'rtl';
   ctx.textBaseline = 'middle';
   ctx.textAlign = 'center';
@@ -440,9 +477,9 @@ function mapPanel(ctx, st, y0) {
       ctx.globalAlpha = a;
       ctx.lineWidth = 8;
       ctx.strokeStyle = 'rgba(8,12,28,.85)';
-      ctx.strokeText(c.ar, X, Y);
+      ctx.strokeText(RTL ? c.ar : c.en, X, Y);
       ctx.fillStyle = '#fff';
-      ctx.fillText(c.ar, X, Y);
+      ctx.fillText(RTL ? c.ar : c.en, X, Y);
     }
     ctx.globalAlpha = 1;
   }
@@ -494,7 +531,10 @@ function qrMatrix(url) {
   return qrCache.get(url);
 }
 
-function drawQR(ctx, url, x, y, size) {
+function drawQR(ctx0, url, x, y, size) {
+  // الـQR مينفعش يتعكس: بنرسمه على الكانفس الأصلي في مكانه المعكوس
+  const ctx = ctx0.__raw || ctx0;
+  if (ctx0.__mirror) x = W - x - size;
   ctx.fillStyle = '#fff';
   rrect(ctx, x, y, size, size, 14);
   ctx.fill();
@@ -507,14 +547,14 @@ function drawQR(ctx, url, x, y, size) {
 
 export const proofSources = story => (story.proof?.sources || []).filter(s => s.outlet || s.url).slice(0, 3);
 
-const PROOF_STATUS_UI = { official: ['مؤكد رسميًا', '#30a46c'], reported: ['تقارير غير مؤكدة', '#f5a623'], pending: ['بانتظار التأكيد', '#8b93b0'] };
+const PROOF_COLOR = { official: '#30a46c', reported: '#f5a623', pending: '#8b93b0' };
 
 // بطاقات المصادر: QR + لقطة اختيارية + اسم الجهة وعنوان الخبر والتاريخ + حالة التأكيد
 function proofPanel(ctx, st, y0) {
   const pf = st.story.proof || {};
   const srcs = proofSources(st.story);
   let y = y0;
-  const stt = PROOF_STATUS_UI[pf.status];
+  const stt = PROOF_COLOR[pf.status] ? [S.proof[pf.status], PROOF_COLOR[pf.status]] : null;
   ctx.direction = 'rtl';
   ctx.textBaseline = 'middle';
   if (stt) {
@@ -601,7 +641,7 @@ function ticker(ctx, st, t) {
   ctx.fillStyle = 'rgba(0,0,0,.62)';
   rrect(ctx, x, y, w, h, 20);
   ctx.fill();
-  const label = tk.label || 'آخر الأخبار';
+  const label = tk.label || S.ticker;
   ctx.font = font(30, 800);
   ctx.direction = 'rtl';
   ctx.textBaseline = 'middle';
@@ -663,8 +703,9 @@ function lerpHex(a, b, p) {
 
 // الافتتاحية والخاتمة ليها لون ثابت واسم القناة بدل القسم
 function catFor(st, story) {
-  if (story.kind !== 'news') return { id: story.kind, label: st.settings.channelName || 'النشرة', color: '#6b7cff' };
-  return st.cats.find(c => c.id === story.category) || st.cats[0];
+  if (story.kind !== 'news') return { id: story.kind, label: st.settings.channelName || S.channel, color: '#6b7cff' };
+  const c = st.cats.find(x => x.id === story.category) || st.cats[0];
+  return RTL ? c : { ...c, label: c.en || c.label };
 }
 
 const PANEL_TPLS = new Set(['stat', 'map', 'proof']);
@@ -672,6 +713,7 @@ const PANEL_TPLS = new Set(['stat', 'map', 'proof']);
 // opts.settled: المعاينة الثابتة بترسم القالب بعد انتهاء حركته (الخريطة متقرّبة، الرقم نهائي)
 export function drawFrame(ctx, st, t, opts = {}) {
   setFormat(st.reel.format);
+  setLang(st.reel.lang);
   if (ctx.canvas && (ctx.canvas.width !== W || ctx.canvas.height !== H)) { ctx.canvas.width = W; ctx.canvas.height = H; }
   const tl = st.tl;
   let k = tl.stories.findIndex(s => t >= s.start && t < s.end);
@@ -705,22 +747,25 @@ export function drawFrame(ctx, st, t, opts = {}) {
     ctx.scale(s, s);
     W = 1080; H = 1920; L = layoutFor(W, H);
   }
+  // الإنجليزي: U = كانفس معكوس أفقيًا (نفس التصميم بالاتجاه المعاكس)، D = اتجاه نص ltr من غير عكس (الخريطة والتيكر)
+  const U = RTL ? ctx : wrapCtx(ctx, true);
+  const D = RTL ? ctx : wrapCtx(ctx, false);
   ctx.save();
   ctx.translate(0, L.topDy);
-  topBar(ctx, c);
+  topBar(U, c);
   ctx.restore();
-  const hb = headline(ctx, c);
-  if (story.template === 'stat') statPanel(ctx, c, hb + 30);
-  else if (story.template === 'map') mapPanel(ctx, c, hb + 30);
-  else if (story.template === 'proof') proofPanel(ctx, c, hb + 30);
-  captions(ctx, c, t, hb);
-  ticker(ctx, c, t);
-  sourceBar(ctx, c);
+  const hb = headline(U, c);
+  if (story.template === 'stat') statPanel(U, c, hb + 30);
+  else if (story.template === 'map') mapPanel(D, c, hb + 30);
+  else if (story.template === 'proof') proofPanel(U, c, hb + 30);
+  captions(U, c, t, hb);
+  ticker(D, c, t);
+  sourceBar(U, c);
   if (fallback) {
     ctx.restore();
     W = fullW; H = fullH; L = layoutFor(W, H);
   }
-  if (bg && story.media?.credit) mediaCredit(ctx, story.media.credit);
+  if (bg && story.media?.credit) mediaCredit(U, story.media.credit);
   ctx.globalAlpha = 1;
-  progress(ctx, c, t);
+  progress(U, c, t);
 }
