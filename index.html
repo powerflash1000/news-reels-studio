@@ -4,8 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -14,6 +12,7 @@
   <nav id="tabs">
     <button data-tab="feed" class="on">الأخبار</button>
     <button data-tab="studio">الاستوديو</button>
+    <button data-tab="library">المكتبة</button>
     <button data-tab="settings">الإعدادات</button>
   </nav>
 </header>
@@ -27,6 +26,10 @@
     <label class="chk"><input id="showYt" type="checkbox" checked> رادار اليوتيوب</label>
   </div>
   <p id="feedInfo" class="muted"></p>
+  <details id="health" class="manual" hidden>
+    <summary id="healthSum">صحة المصادر</summary>
+    <div id="healthList" class="hlist"></div>
+  </details>
   <div id="feedList" class="list"></div>
   <details class="manual">
     <summary>➕ إضافة خبر يدويًا</summary>
@@ -88,20 +91,71 @@
   </div>
 </section>
 
+<!-- المكتبة -->
+<section id="tab-library" hidden>
+  <div class="bar">
+    <div id="libStatus" class="chips"></div>
+    <input id="libQ" type="search" placeholder="بحث في الريلز…">
+  </div>
+  <div id="libList" class="list"></div>
+  <div class="row">
+    <button id="bkExport" class="btn">⬇ نسخة احتياطية</button>
+    <label class="btn file">⬆ استعادة من نسخة<input id="bkImport" type="file" accept="application/json" hidden></label>
+  </div>
+  <p class="muted">النسخة بتشمل الريلز والإعدادات من غير المفاتيح. ملفات الصوت المتولّدة بتفضل في متصفحك (كاش)، فمتتنسخش.</p>
+  <p id="bkMsg" class="muted"></p>
+</section>
+
 <!-- الإعدادات -->
 <section id="tab-settings" hidden>
   <p class="muted">كل المفاتيح بتتحفظ في متصفحك بس، ومش بتترفع على GitHub.</p>
-  <div class="grid">
-    <label>اسم القناة (على الشاشة)<input id="sChannel"></label>
-    <label>اليوزر (@…)<input id="sHandle" dir="ltr"></label>
-    <label>مفتاح ElevenLabs<input id="sKey" type="password" dir="ltr" autocomplete="off"></label>
-    <label>الموديل<select id="sModel"></select></label>
-    <label>رقم صوت المذيع أ (صوتك)<input id="sVoiceA" dir="ltr"></label>
-    <label>رقم صوت المذيع ب<input id="sVoiceB" dir="ltr"></label>
-    <label>رصيد الحروف الشهري في ElevenLabs<input id="sMonthly" type="number" min="0" placeholder="مثال: 100000"></label>
-    <label>رابط الوسيط (اختياري، CORS)<input id="sProxy" dir="ltr" placeholder="https://….workers.dev"></label>
+
+  <div class="card">
+    <h3>الهوية</h3>
+    <div class="grid">
+      <label>اسم القناة (على الشاشة)<input id="sChannel"></label>
+      <label>اليوزر (@…)<input id="sHandle" dir="ltr"></label>
+    </div>
   </div>
-  <p id="usage" class="muted"></p>
+
+  <div class="card">
+    <h3>ElevenLabs</h3>
+    <div class="grid">
+      <label>مفتاح API<input id="sKey" type="password" dir="ltr" autocomplete="off"></label>
+      <label>الموديل<select id="sModel"></select></label>
+    </div>
+    <div class="row">
+      <button id="elTest" class="btn pri">🔑 اختبر المفتاح وجيب الرصيد</button>
+      <button id="elVoices" class="btn">🎙 حمّل أصوات حسابي</button>
+    </div>
+    <div id="usageBar" class="prog" hidden><i></i></div>
+    <p id="usage" class="muted"></p>
+    <p class="muted">لو المفتاح محدود الصلاحيات، فعّل له من لوحة ElevenLabs صلاحيتي قراءة الأصوات وقراءة بيانات المستخدم (Voices Read و User Read).</p>
+
+    <div class="grid voices">
+      <div class="vbox" id="vboxA">
+        <h4>المذيع أ</h4>
+        <label>الصوت<select id="sVoiceA"></select></label>
+        <label>أو رقم الصوت يدويًا<input id="sVoiceAId" dir="ltr" placeholder="voice_id"></label>
+        <div class="sliders" id="slA"></div>
+        <div class="row"><button class="btn" data-prev="A">▶ عينة الصوت</button><button class="btn" data-try="A">🧪 جرّب بإعداداتي (~45 حرف)</button></div>
+      </div>
+      <div class="vbox" id="vboxB">
+        <h4>المذيع ب</h4>
+        <label>الصوت<select id="sVoiceB"></select></label>
+        <label>أو رقم الصوت يدويًا<input id="sVoiceBId" dir="ltr" placeholder="voice_id"></label>
+        <div class="sliders" id="slB"></div>
+        <div class="row"><button class="btn" data-prev="B">▶ عينة الصوت</button><button class="btn" data-try="B">🧪 جرّب بإعداداتي (~45 حرف)</button></div>
+      </div>
+    </div>
+    <p class="muted">موديل Eleven v3 بياخد «الثبات» بس (بيتقرّب لـ 0 / 0.5 / 1)، والباقي بيتجاهله. لو المذيع ب من غير صوت، هيستخدم صوت أ.</p>
+  </div>
+
+  <div class="card">
+    <h3>متقدم</h3>
+    <label>رابط الوسيط (اختياري، لو المتصفح منع الاتصال بـ ElevenLabs)<input id="sProxy" dir="ltr" placeholder="https://….workers.dev"></label>
+  </div>
+
   <button id="sSave" class="btn pri">حفظ الإعدادات</button>
   <span id="sSaved" class="muted"></span>
 </section>

@@ -25,7 +25,10 @@ const DEFAULT_SETTINGS = {
   elevenModel: 'eleven_multilingual_v2',
   voiceA: '',
   voiceB: '',
-  monthlyChars: 0,
+  voiceNameA: '',
+  voiceNameB: '',
+  vsA: { stability: 0.5, similarity: 0.75, style: 0, speed: 1 },
+  vsB: { stability: 0.5, similarity: 0.75, style: 0, speed: 1 },
   proxyUrl: '',
   claudeKey: '',
 };
