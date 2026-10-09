@@ -1,15 +1,15 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv127cn8';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv127cn8';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv127cn8';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mv127cn8';
-import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv127cn8';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE } from './audio.js?v=mv127cn8';
-import { drawFrame, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mv127cn8';
-import { exportSupport, exportReel } from './export.js?v=mv127cn8';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv127cn8';
-import { draftScript, CLAUDE_MODELS } from './draft.js?v=mv127cn8';
-import { putBlob } from './mediastore.js?v=mv127cn8';
-import { loadBg, playBg } from './bg.js?v=mv127cn8';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv13n2xh';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv13n2xh';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv13n2xh';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mv13n2xh';
+import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv13n2xh';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE } from './audio.js?v=mv13n2xh';
+import { drawFrame, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mv13n2xh';
+import { exportSupport, exportReel } from './export.js?v=mv13n2xh';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv13n2xh';
+import { draftScript, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mv13n2xh';
+import { putBlob } from './mediastore.js?v=mv13n2xh';
+import { loadBg, playBg } from './bg.js?v=mv13n2xh';
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -314,10 +314,11 @@ $('draftGo').addEventListener('click', async () => {
   readForm();
   const st = story();
   const btn = $('draftGo');
-  if (!getSettings().claudeKey) return ($('refMsg').textContent = 'محتاج مفتاح Claude API: الإعدادات ← مفتاح Claude API.');
+  const gs = getSettings(), AP = AI_PROVIDERS[gs.aiProvider] || AI_PROVIDERS.claude;
+  if (!gs[AP.keyField]) return ($('refMsg').textContent = `محتاج مفتاح ${AP.name.split(' (')[0]}: الإعدادات ← مزوّد الذكاء الاصطناعي.`);
   if (!st.headline && !st.ref) return ($('refMsg').textContent = 'اكتب العنوان أو الملخص الأول.');
   btn.disabled = true;
-  $('refMsg').textContent = 'Claude بيكتب المسودة…';
+  $('refMsg').textContent = `${AP.name.split(' (')[0]} بيكتب المسودة…`;
   try {
     const { lines, missing } = await draftScript({ story: st, categoryLabel: cat(st.category).label, seconds: Number($('draftLen').value), format: $('draftFmt').value, note: $('draftNote').value.trim() });
     const text = lines.map(l => (l.speaker === 'B' ? 'ب: ' : $('draftFmt').value === 'dialogue' ? 'أ: ' : '') + l.text).join('\n');
@@ -928,7 +929,15 @@ $('bkImport').addEventListener('change', async e => {
 });
 
 /* ---------- الإعدادات ---------- */
-const TEXT_FIELDS = { sChannel: 'channelName', sHandle: 'handle', sKey: 'elevenKey', sModel: 'elevenModel', sProxy: 'proxyUrl', sPixabay: 'pixabayKey', sClaude: 'claudeKey', sClaudeModel: 'claudeModel' };
+const TEXT_FIELDS = { sChannel: 'channelName', sHandle: 'handle', sKey: 'elevenKey', sModel: 'elevenModel', sProxy: 'proxyUrl', sPixabay: 'pixabayKey', sClaude: 'claudeKey', sClaudeModel: 'claudeModel', sAiProv: 'aiProvider', sGemini: 'geminiKey', sGroq: 'groqKey', sOr: 'orKey', sAiModel: 'aiModel' };
+function showAiFields() {
+  const p = $('sAiProv').value || 'claude';
+  document.querySelectorAll('.aiK').forEach(el => { el.hidden = !el.dataset.p.split(' ').includes(p); });
+  const P = AI_PROVIDERS[p];
+  $('aiModels').innerHTML = (P.models || []).map(m => `<option value="${m}">`).join('');
+  $('sAiModel').placeholder = P.model || '';
+}
+$('sAiProv').addEventListener('change', showAiFields);
 const SLIDERS = [['stability', 'الثبات', 0, 1, 0.05], ['similarity', 'التشابه', 0, 1, 0.05], ['style', 'التعبير', 0, 1, 0.05], ['speed', 'السرعة', 0.7, 1.2, 0.05]];
 let voices = [];
 
@@ -981,6 +990,7 @@ function fillSettings() {
   for (const [id, k] of Object.entries(TEXT_FIELDS)) $(id).value = s[k] ?? '';
   renderVoiceSelect('A'); renderVoiceSelect('B');
   renderSliders('A'); renderSliders('B');
+  showAiFields();
   fillUsage();
 }
 
@@ -1102,6 +1112,7 @@ $('ver').textContent = `نسخة ${codeV}${codeV === pageV ? '' : ` ⚠️ ال�
 
 (async function init() {
   $('sModel').innerHTML = MODELS.map(m => `<option value="${m.id}">${m.name}</option>`).join('');
+  $('sAiProv').innerHTML = Object.entries(AI_PROVIDERS).map(([k, v]) => `<option value="${k}">${v.name}</option>`).join('');
   $('sClaudeModel').innerHTML = CLAUDE_MODELS.map(m => `<option value="${m.id}">${m.name}</option>`).join('');
   cfg = await loadConfig();
   const opts = cfg.categories.map(c => `<option value="${c.id}">${c.label}</option>`).join('');

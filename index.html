@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mv127cn8">
+<html lang="ar" dir="rtl" data-v="mv13n2xh">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mv127cn8">
+<link rel="stylesheet" href="assets/css/style.css?v=mv13n2xh">
 </head>
 <body>
 <header class="top">
@@ -161,7 +161,7 @@
           </div>
           <label>ملاحظات للمسودة (اختياري)<input id="draftNote" dir="auto" placeholder="مثال: ركّز على الأرقام، أو ابدأ بالسؤال"></label>
           <button id="draftGo" class="btn pri">✨ اكتب مسودة من الملخص</button>
-          <p class="muted">بيبعت العنوان والملخص لـ Claude (مفتاحك أنت). المسودة بتستخدم معلومات الملخص بس، وراجعها وعدّلها بأسلوبك قبل التصدير.</p>
+          <p class="muted">بيبعت العنوان والملخص للمزوّد اللي اخترته في الإعدادات (مفتاحك أنت). المسودة بتستخدم معلومات الملخص بس، وراجعها وعدّلها بأسلوبك قبل التصدير.</p>
         </div>
         <p id="refMsg" class="muted">أعد صياغته بأسلوبك قبل التصدير. الأداة بتسحب الملخص بس، مش نص الخبر الكامل (حقوق النشر).</p>
       </details>
@@ -277,8 +277,14 @@
 
   <div class="card">
     <h3>متقدم</h3>
-    <label>مفتاح Claude API (للمسودة بالذكاء الاصطناعي، اختياري)<input id="sClaude" type="password" dir="ltr" autocomplete="off" placeholder="sk-ant-…"></label>
-    <label>موديل المسودة<select id="sClaudeModel"></select></label>
+    <label>مزوّد الذكاء الاصطناعي للمسودة (اختياري)<select id="sAiProv"></select></label>
+    <label class="aiK" data-p="claude">مفتاح Claude API<input id="sClaude" type="password" dir="ltr" autocomplete="off" placeholder="sk-ant-…"></label>
+    <label class="aiK" data-p="claude">موديل Claude<select id="sClaudeModel"></select></label>
+    <label class="aiK" data-p="gemini">مفتاح Gemini (مجاني من aistudio.google.com/apikey)<input id="sGemini" type="password" dir="ltr" autocomplete="off" placeholder="AIza…"></label>
+    <label class="aiK" data-p="groq">مفتاح Groq (مجاني من console.groq.com/keys)<input id="sGroq" type="password" dir="ltr" autocomplete="off" placeholder="gsk_…"></label>
+    <label class="aiK" data-p="openrouter">مفتاح OpenRouter (مجاني من openrouter.ai/keys)<input id="sOr" type="password" dir="ltr" autocomplete="off" placeholder="sk-or-…"></label>
+    <label class="aiK aiM" data-p="gemini groq openrouter">اسم الموديل (سيبه فاضي للافتراضي)<input id="sAiModel" dir="ltr" list="aiModels" autocomplete="off"><datalist id="aiModels"></datalist></label>
+    <p class="muted aiK" data-p="gemini groq openrouter">الخطط المجانية ليها حد يومي، وممكن المزوّد يستخدم المدخلات في التحسين: بنبعت العنوان والملخص بس (أخبار عامة). أسماء الموديلات المجانية بتتغير؛ لو ظهر «اسم الموديل غلط» اختار غيره من القائمة. جودة العربي أقل من Claude، فراجع المسودة.</p>
     <label>مفتاح Pixabay (مجاني من pixabay.com/api/docs)<input id="sPixabay" type="password" dir="ltr" autocomplete="off"></label>
     <label>رابط الوسيط (Cloudflare Worker) — لازم لتحميل ملفات NASA و Internet Archive و Pixabay، واختياري لباقي المصادر<input id="sProxy" dir="ltr" placeholder="https://….workers.dev"></label>
     <p class="muted">الوسيط بيتعمل في دقيقتين من الملف <code>tools/cors-proxy-worker.js</code> في الريبو (الشرح في أول الملف). لو متحدّث قديم، ألصق النسخة الجديدة لأن فيها مواقع الوسائط.</p>
@@ -301,6 +307,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mv127cn8"></script>
+<script type="module" src="js/main.js?v=mv13n2xh"></script>
 </body>
 </html>

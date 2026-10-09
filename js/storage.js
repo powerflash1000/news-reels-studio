@@ -33,6 +33,11 @@ const DEFAULT_SETTINGS = {
   pixabayKey: '',
   claudeKey: '',
   claudeModel: 'claude-opus-5-5',
+  aiProvider: 'claude',
+  geminiKey: '',
+  groqKey: '',
+  orKey: '',
+  aiModel: '',
 };
 
 export function getSettings() {
