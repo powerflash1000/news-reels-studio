@@ -43,5 +43,8 @@ Working memory for Claude sessions on this repo. README.md is the user-facing Ar
 - On-screen media credit shows for attribution licenses (and NASA); user uploads have none.
 - Next: M2 (2D avatars + dialogue mouth sync, YouTuber claim comparison), M3 templates (breaking, lower third, stat card, offline SVG map), M4 queue + publish pack (should include media credits).
 
+## Release step (cache busting)
+GitHub Pages caches JS modules ~10 min and browsers keep stale modules, so every import and the CSS link carry `?v=<stamp>`. **Run `node tools/bump-version.mjs` before every commit that changes JS/CSS/HTML** (it rewrites all imports consistently; mixing stamps would load a module twice). The footer shows the code version and warns if page and code versions differ.
+
 ## Testing
 Playwright + chromium from `/opt/pw-browsers`: serve the repo with `python3 -m http.server`, set `window.__nrsTestCodecs = true` before load, inject audio via `window.__nrs.setManual(AudioBuffer)`. RSS parser: `parseFeed` in `tools/fetch-feeds.mjs`.

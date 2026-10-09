@@ -1,14 +1,14 @@
-import { load, save, getSettings, setSettings, charsUsed } from './storage.js';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS } from './reel.js';
-import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE } from './audio.js';
-import { drawFrame } from './render.js';
-import { exportSupport, exportReel } from './export.js';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js';
-import { putBlob } from './mediastore.js';
-import { loadBg, playBg } from './bg.js';
+import { load, save, getSettings, setSettings, charsUsed } from './storage.js?v=mv09r3aw';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv09r3aw';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv09r3aw';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS } from './reel.js?v=mv09r3aw';
+import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv09r3aw';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE } from './audio.js?v=mv09r3aw';
+import { drawFrame } from './render.js?v=mv09r3aw';
+import { exportSupport, exportReel } from './export.js?v=mv09r3aw';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv09r3aw';
+import { putBlob } from './mediastore.js?v=mv09r3aw';
+import { loadBg, playBg } from './bg.js?v=mv09r3aw';
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -790,6 +790,11 @@ document.querySelector('#tab-settings').addEventListener('click', async e => {
 });
 
 /* ---------- تشغيل ---------- */
+// رقم النسخة: لو الصفحة والكود مختلفين يبقى فيه كاش قديم
+const codeV = new URL(import.meta.url).searchParams.get('v') || '-';
+const pageV = document.documentElement.dataset.v || '-';
+$('ver').textContent = `نسخة ${codeV}${codeV === pageV ? '' : ` ⚠️ الصفحة ${pageV} — اعمل تحديث قوي (Ctrl+Shift+R) أو امسح الكاش`}`;
+
 (async function init() {
   $('sModel').innerHTML = MODELS.map(m => `<option value="${m.id}">${m.name}</option>`).join('');
   cfg = await loadConfig();
