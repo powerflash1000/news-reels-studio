@@ -2,7 +2,7 @@
 // شكل النتيجة: { id, provider, type:'image'|'video', title, thumb, url, page, author, license, licenseUrl, tier, credit, width, height, duration, size }
 //   tier: 'free' = ملك عام / CC0 / سياسة NASA (من غير شرط)، 'attr' = لازم نسب (CC BY / BY-SA / Pixabay)
 // أي ترخيص فيه NC أو ND أو مش واضح بيتستبعد.
-import { getSettings } from './storage.js?v=mv1avlap';
+import { getSettings } from './storage.js?v=mv1e3uci';
 
 const strip = html => String(html || '').replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#0?39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/\s+/g, ' ').trim();
 const https = u => String(u || '').replace(/^http:\/\//i, 'https://');
