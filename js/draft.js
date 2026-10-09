@@ -1,12 +1,20 @@
 // مسودة سكريبت بالذكاء الاصطناعي (اختيارية): Claude API من المتصفح بمفتاحك. بتستخدم الملخص والعنوان بس ومبتخترعش معلومات.
 // الموقع من غير build فمفيش SDK؛ بنكلّم الـAPI بـfetch مباشرة (الهيدر anthropic-dangerous-direct-browser-access ضروري لطلبات المتصفح).
-import { getSettings } from './storage.js?v=mv127cn8';
+import { getSettings } from './storage.js?v=mv13n2xh';
 
 export const CLAUDE_MODELS = [
   { id: 'claude-opus-5-5', name: 'Claude Opus 5.5 (الأفضل، الافتراضي)' },
   { id: 'claude-sonnet-5-5', name: 'Claude Sonnet 5.5 (أرخص)' },
   { id: 'claude-haiku-5-5', name: 'Claude Haiku 5.5 (الأرخص والأسرع)' },
 ];
+
+// مزوّدين مجانيين (واجهة OpenAI-compatible، بتسمح بطلبات المتصفح). أسماء الموديلات بتتغير: الخانة قابلة للتعديل.
+export const AI_PROVIDERS = {
+  claude: { name: 'Claude (مدفوع)', keyField: 'claudeKey', ph: 'sk-ant-…' },
+  gemini: { name: 'Google Gemini (فيه خطة مجانية)', keyField: 'geminiKey', ph: 'AIza…', url: 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions', model: 'gemini-2.5-flash', models: ['gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-2.5-pro'], keyUrl: 'aistudio.google.com/apikey' },
+  groq: { name: 'Groq (مجاني، سريع)', keyField: 'groqKey', ph: 'gsk_…', url: 'https://api.groq.com/openai/v1/chat/completions', model: 'llama-3.3-70b-versatile', models: ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant'], keyUrl: 'console.groq.com/keys' },
+  openrouter: { name: 'OpenRouter (موديلات :free)', keyField: 'orKey', ph: 'sk-or-…', url: 'https://openrouter.ai/api/v1/chat/completions', model: 'meta-llama/llama-3.3-70b-instruct:free', models: ['meta-llama/llama-3.3-70b-instruct:free', 'deepseek/deepseek-chat-v3-0324:free', 'google/gemini-2.0-flash-exp:free'], keyUrl: 'openrouter.ai/keys' },
+};
 
 const SYSTEM = `You write short-form vertical-video news scripts (TikTok / Instagram Reels) in simple Egyptian Arabic: easy, spoken, natural, not heavy slang, and not formal Modern Standard Arabic.
 
@@ -38,8 +46,12 @@ const WORDS = { 30: 75, 45: 115, 60: 155 };
 
 // بيرجّع { lines:[{speaker,text}], missing:[…] }
 export async function draftScript({ story, categoryLabel, seconds = 45, format = 'single', note = '' }) {
-  const { claudeKey, claudeModel } = getSettings();
-  if (!claudeKey) throw new Error('محتاج مفتاح Claude API في الإعدادات.');
+  const st = getSettings();
+  const prov = AI_PROVIDERS[st.aiProvider] ? st.aiProvider : 'claude';
+  const P = AI_PROVIDERS[prov];
+  const key = st[P.keyField];
+  if (!key) throw new Error(`محتاج مفتاح ${P.name.split(' (')[0]} في الإعدادات.`);
+  const { claudeKey, claudeModel } = st;
   const user = [
     `<headline>${clean(story.headline)}</headline>`,
     `<source_name>${clean(story.sourceName || story.fromYoutube)}</source_name>`,
@@ -51,6 +63,7 @@ export async function draftScript({ story, categoryLabel, seconds = 45, format =
     note ? `<editor_note>${clean(note)}</editor_note>` : '',
   ].filter(Boolean).join('\n');
 
+  if (prov !== 'claude') return draftOpenAI(P, key, st.aiModel || P.model, user);
   let res;
   try {
     res = await fetch('https://api.anthropic.com/v1/messages', {
@@ -84,6 +97,36 @@ export async function draftScript({ story, categoryLabel, seconds = 45, format =
   const text = (j.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
   let out;
   try { out = JSON.parse(text); } catch { throw new Error('الرد مش بالشكل المتوقع. جرّب تاني.'); }
+  const lines = (out.lines || []).map(l => ({ speaker: l.speaker === 'B' ? 'B' : 'A', text: String(l.text || '').trim() })).filter(l => l.text);
+  if (!lines.length) throw new Error('مفيش سطور في الرد. جرّب تاني.');
+  return { lines, missing: (out.missing || []).map(String).filter(Boolean) };
+}
+
+// المزوّدين المجانيين: نفس الـprompt، والـJSON بيتطلب في النص (مش كل الموديلات المجانية بتدعم json_schema)
+async function draftOpenAI(P, key, model, user) {
+  const sys = SYSTEM + '\nReturn ONLY a JSON object, no markdown fences: {"lines":[{"speaker":"A"|"B","text":"…"}],"missing":["…"]}';
+  let res;
+  try {
+    res = await fetch(P.url, {
+      method: 'POST',
+      signal: AbortSignal.timeout(120000),
+      headers: { 'content-type': 'application/json', authorization: 'Bearer ' + key },
+      body: JSON.stringify({ model, temperature: 0.4, messages: [{ role: 'system', content: sys }, { role: 'user', content: user }] }),
+    });
+  } catch (e) {
+    throw new Error(`مقدرتش أوصل لـ ${P.name.split(' (')[0]} (إنترنت أو مانع من المتصفح): ` + (e.message || e));
+  }
+  if (!res.ok) {
+    let detail = '';
+    try { const j = await res.json(); detail = (Array.isArray(j) ? j[0] : j)?.error?.message || JSON.stringify(j).slice(0, 200); } catch { /* مفيش تفاصيل */ }
+    const hint = res.status === 401 || res.status === 403 ? ' (المفتاح غلط)' : res.status === 429 ? ' (خلصت الحصة المجانية أو سرعة عالية، جرّب بعد شوية)' : res.status === 404 ? ' (اسم الموديل غلط أو اتشال، غيّره)' : '';
+    throw new Error(`${P.name.split(' (')[0]} رد بخطأ ${res.status}${hint}: ${detail}`);
+  }
+  const j = await res.json();
+  const text = String(j.choices?.[0]?.message?.content || '');
+  const a = text.indexOf('{'), b = text.lastIndexOf('}');
+  let out;
+  try { out = JSON.parse(text.slice(a, b + 1)); } catch { throw new Error('الرد مش بالشكل المتوقع (الموديل المجاني ممكن يغلط). جرّب تاني أو غيّر الموديل.'); }
   const lines = (out.lines || []).map(l => ({ speaker: l.speaker === 'B' ? 'B' : 'A', text: String(l.text || '').trim() })).filter(l => l.text);
   if (!lines.length) throw new Error('مفيش سطور في الرد. جرّب تاني.');
   return { lines, missing: (out.missing || []).map(String).filter(Boolean) };
