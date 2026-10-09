@@ -29,7 +29,7 @@ export function parseFeed(xml) {
     const t = Date.parse(date);
     return {
       title: clean(tag(b, 'title')),
-      summary: clean(tag(b, 'description') || tag(b, 'summary') || tag(b, 'media:description')).slice(0, 400),
+      summary: clean(tag(b, 'description') || tag(b, 'summary') || tag(b, 'media:description')).slice(0, 900),
       link: decode(link).trim(),
       published: Number.isNaN(t) ? null : new Date(t).toISOString(),
     };

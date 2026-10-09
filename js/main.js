@@ -1,14 +1,14 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv0by2gm';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv0by2gm';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv0by2gm';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mv0by2gm';
-import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv0by2gm';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE } from './audio.js?v=mv0by2gm';
-import { drawFrame, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mv0by2gm';
-import { exportSupport, exportReel } from './export.js?v=mv0by2gm';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv0by2gm';
-import { putBlob } from './mediastore.js?v=mv0by2gm';
-import { loadBg, playBg } from './bg.js?v=mv0by2gm';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv0c9g26';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv0c9g26';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv0c9g26';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mv0c9g26';
+import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv0c9g26';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE } from './audio.js?v=mv0c9g26';
+import { drawFrame, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mv0c9g26';
+import { exportSupport, exportReel } from './export.js?v=mv0c9g26';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv0c9g26';
+import { putBlob } from './mediastore.js?v=mv0c9g26';
+import { loadBg, playBg } from './bg.js?v=mv0c9g26';
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -98,8 +98,8 @@ function renderHealth() {
 }
 
 const storyFromItem = i => i.kind === 'youtube'
-  ? { category: i.category, headline: i.title, fromYoutube: i.source, ytLink: i.link }
-  : { category: i.category, headline: i.title, sourceName: i.source, sourceUrl: i.link };
+  ? { category: i.category, headline: i.title, fromYoutube: i.source, ytLink: i.link, ref: i.summary || '' }
+  : { category: i.category, headline: i.title, sourceName: i.source, sourceUrl: i.link, ref: i.summary || '' };
 
 function renderPickBar() {
   $('pickBar').hidden = !picked.size;
@@ -133,7 +133,7 @@ async function translateTitle(item, btn) {
 }
 
 $('mAdd').addEventListener('click', () => {
-  startReel([{ category: $('mCat').value, headline: $('mTitle').value.trim(), sourceName: $('mSource').value.trim(), sourceUrl: $('mUrl').value.trim() }]);
+  startReel([{ category: $('mCat').value, headline: $('mTitle').value.trim(), sourceName: $('mSource').value.trim(), sourceUrl: $('mUrl').value.trim(), ref: $('mRef').value.trim() }]);
 });
 
 // ريل جديد من قايمة أخبار (كل عنصر بيتحول لخبر)
@@ -207,6 +207,7 @@ function fillForm() {
   $('fUrl').value = st.sourceUrl;
   $('fCredit').value = st.credit;
   $('fScript').value = st.script;
+  fillRef();
   fillTemplateFields();
   const news = st.kind === 'news';
   $('newsFields1').hidden = !news;
@@ -233,6 +234,7 @@ function readForm() {
   st.sourceUrl = $('fUrl').value.trim();
   st.credit = $('fCredit').value.trim();
   st.script = $('fScript').value;
+  st.ref = $('fRef').value;
   if (st.kind === 'news') {
     st.template = $('fTpl').value;
     st.stat = { value: $('stValue').value.trim(), unit: $('stUnit').value.trim(), label: $('stLabel').value.trim(), trend: $('stTrend').value };
@@ -263,6 +265,47 @@ for (const id of ['rTitle', 'fCat', 'fKind', 'fHead', 'fSrc', 'fUrl', 'fCredit',
 }
 $('newReel').addEventListener('click', () => startReel([{}]));
 
+
+
+/* ---------- ملخص الخبر المرجعي ---------- */
+function fillRef() {
+  const st = story();
+  const news = st.kind === 'news';
+  $('refBox').hidden = !news;
+  $('fRef').value = st.ref || '';
+  $('refBox').open = !!st.ref && !st.script.trim();
+  const link = st.sourceUrl || st.ytLink || '';
+  $('refLink').hidden = !link;
+  if (link) $('refLink').href = link;
+  $('refMsg').textContent = st.ref ? 'أعد صياغته بأسلوبك قبل التصدير. الأداة بتسحب الملخص بس، مش نص الخبر الكامل (حقوق النشر).' : 'مفيش ملخص للخبر ده. افتح الخبر الأصلي والصق النص هنا كمرجع، أو اكتب السكريبت مباشرة.';
+}
+
+// تقسيم النص لجُمل قصيرة (سطر لكل جملة)
+function splitSentences(text) {
+  return String(text || '').split(/(?<=[.!؟?؛])\s+|\n+/).map(x => x.trim()).filter(Boolean);
+}
+
+$('fRef').addEventListener('input', () => { story().ref = $('fRef').value; persist(); });
+$('refInsert').addEventListener('click', () => {
+  const lines = splitSentences($('fRef').value);
+  if (!lines.length) return ($('refMsg').textContent = 'مفيش نص في الملخص.');
+  const cur = $('fScript').value.trim();
+  $('fScript').value = (cur ? cur + '\n' : '') + lines.join('\n');
+  $('fScript').dispatchEvent(new Event('input', { bubbles: true }));
+  $('refMsg').textContent = `اتضافت ${lines.length} جملة للسكريبت. عدّلها بأسلوبك.`;
+});
+$('refTr').addEventListener('click', async () => {
+  try {
+    if (!('Translator' in self)) throw new Error('المتصفح ده مفيهوش الترجمة المدمجة (محتاج Chrome حديث). ترجم يدويًا.');
+    $('refMsg').textContent = 'بترجم…';
+    const limit = new Promise((_, rej) => setTimeout(() => rej(new Error('الترجمة المدمجة مردّتش (ممكن تحتاج تحميل نموذج اللغة). ترجم يدويًا أو جرّب تاني.')), 20000));
+    const t = await Promise.race([self.Translator.create({ sourceLanguage: 'en', targetLanguage: 'ar' }), limit]);
+    $('fRef').value = await Promise.race([t.translate($('fRef').value), limit]);
+    story().ref = $('fRef').value;
+    persist();
+    $('refMsg').textContent = 'اترجم ✅ (راجعه، الترجمة الآلية ممكن تغلط).';
+  } catch (e) { $('refMsg').textContent = String(e.message || e).slice(0, 120); }
+});
 
 /* ---------- قوالب الخبر (عاجل / رقم / خريطة) وشريط الأخبار ---------- */
 let world = null;
