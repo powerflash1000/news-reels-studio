@@ -1,8 +1,8 @@
 // رسم إطار الريل على canvas (عمودي 1080×1920 أو 4:5 أو مربع أو أفقي). نفس الدالة للمعاينة والتصدير.
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mv1f1uk6';
-import { hostOf } from './feeds.js?v=mv1f1uk6';
-import QR from '../vendor/qrcode/qrcode.mjs?v=mv1f1uk6';
-import { drawBg } from './bg.js?v=mv1f1uk6';
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mv1gnb0a';
+import { hostOf } from './feeds.js?v=mv1gnb0a';
+import QR from '../vendor/qrcode/qrcode.mjs?v=mv1gnb0a';
+import { drawBg } from './bg.js?v=mv1gnb0a';
 
 // مقاسات الإخراج. W/H متغيّرين (live binding) والتصدير بيقراهم وقت التصدير
 export const FORMATS = {
@@ -389,7 +389,8 @@ function mapPanel(ctx, st, y0) {
     const boxes = [...hl.map(c => c.fb), ...pins.map(p => [p.x, p.y, p.x, p.y])];
     const b = boxes.reduce((a, c) => [Math.min(a[0], c[0]), Math.min(a[1], c[1]), Math.max(a[2], c[2]), Math.max(a[3], c[3])], [1e9, 1e9, -1e9, -1e9]);
     const bw = b[2] - b[0], bh = b[3] - b[1];
-    const vw = Math.min(world.w, Math.max(pins.length && !hl.length ? 110 : 150, bw * 1.8, bh * 1.8 * ar));
+    const fixed = { world: world.w, wide: 260, region: 110, close: 55 }[m.zoom];
+    const vw = fixed ? Math.min(world.w, fixed) : Math.min(world.w, Math.max(pins.length && !hl.length ? 110 : 150, bw * 1.8, bh * 1.8 * ar));
     const t0 = fit((b[0] + b[2]) / 2, (b[1] + b[3]) / 2, vw);
     // ما نخرجش برّه حدود الخريطة
     t0.vx = Math.max(0, Math.min(world.w - vw, t0.vx));
@@ -668,7 +669,8 @@ function catFor(st, story) {
 
 const PANEL_TPLS = new Set(['stat', 'map', 'proof']);
 
-export function drawFrame(ctx, st, t) {
+// opts.settled: المعاينة الثابتة بترسم القالب بعد انتهاء حركته (الخريطة متقرّبة، الرقم نهائي)
+export function drawFrame(ctx, st, t, opts = {}) {
   setFormat(st.reel.format);
   if (ctx.canvas && (ctx.canvas.width !== W || ctx.canvas.height !== H)) { ctx.canvas.width = W; ctx.canvas.height = H; }
   const tl = st.tl;
@@ -681,6 +683,7 @@ export function drawFrame(ctx, st, t) {
   const fade = k > 0 ? Math.min(1, (t - tl.stories[k].start) / 0.3) : 1;
   const prev = k > 0 ? catFor(st, st.reel.stories[tl.stories[k - 1].idx]) : cat;
   const c = { ...st, story, cat, k: Math.max(0, k), n: tl.stories.length, t, local: k >= 0 ? t - tl.stories[k].start : t };
+  if (opts.settled) c.local = Math.max(c.local, 3.5);
   background(ctx, lerpHex(prev.color, cat.color, fade));
   const bg = st.bgs?.get(story.id);
   if (bg) drawBg(ctx, bg, W, H, story.media?.dim ?? 0.5, story.media);
