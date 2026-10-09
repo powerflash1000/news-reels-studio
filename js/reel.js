@@ -22,6 +22,7 @@ export function newStory(over = {}) {
     claimKind: 'fact',
     fromYoutube: '',
     ytLink: '',
+    ref: '', // ملخص/نص مرجعي من المصدر (مش بيظهر في الفيديو)
     media: null, // { id, kind, provider, title, credit, license, licenseUrl, page, tier, dim }
     template: 'standard', // standard | breaking | stat | map
     stat: { value: '', unit: '', label: '', trend: 'none' },
