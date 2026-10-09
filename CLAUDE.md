@@ -42,6 +42,7 @@ Working memory for Claude sessions on this repo. README.md is the user-facing Ar
 - Cairo font is bundled in `assets/fonts` (no Google Fonts).
 - Media: CORS was probed from CI (not guessable): search APIs all allow browser calls; file hosts of NASA (images-assets.nasa.gov), archive.org downloads and Pixabay CDN do NOT send ACAO → must go through the user's Cloudflare Worker (`tools/cors-proxy-worker.js`, allowlist includes them). Commons upload/thumb, Flickr, Openverse thumb are fine. Canvas must stay untainted for `VideoFrame`, so media is always fetched as Blob first. Smithsonian API works (DEMO_KEY, shape probed) but is not wired yet.
 - On-screen media credit shows for attribution licenses (and NASA); user uploads have none.
+- Proof template (`story.proof` = status + ≤3 sources with outlet/title/date/url + optional user screenshot blob in `nrs-media`, QR via vendored `qrcode-generator` MIT) replaces the bottom source bar; map pins (`story.map.pins` lat/lon from `assets/data/cities.json`). We never fetch news-site video/photos (copyright); users may upload their own screenshots.
 - M3 done (templates). Map data caveats: 110m resolution (small states are tiny), France includes French Guiana, Palestine/Israel are separate entries per CLDR.
 - Next: M2 (2D avatars + dialogue mouth sync, YouTuber claim comparison), M3 templates (breaking, lower third, stat card, offline SVG map), M4 queue + publish pack (should include media credits).
 

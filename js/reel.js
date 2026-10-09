@@ -4,7 +4,9 @@ export const MED_DISCLAIMER = 'معلومة عامة وليست استشارة �
 
 export const STATUSES = { draft: 'مسودة', exported: 'متصدّر', published: 'منشور' };
 export const KINDS = { news: 'خبر', intro: 'افتتاحية', outro: 'خاتمة' };
-export const TEMPLATES = { standard: 'عادي', breaking: 'عاجل', stat: 'بطاقة رقم', map: 'خريطة' };
+export const TEMPLATES = { standard: 'عادي', breaking: 'عاجل', stat: 'بطاقة رقم', map: 'خريطة', proof: 'توثيق (مصادر)' };
+export const PROOF_STATUS = { none: 'من غير حالة', official: 'مؤكد رسميًا', reported: 'تقارير غير مؤكدة', pending: 'بانتظار التأكيد' };
+export const newProofSource = () => ({ outlet: '', title: '', date: '', url: '', shot: null });
 
 const rid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 
@@ -23,11 +25,13 @@ export function newStory(over = {}) {
     media: null, // { id, kind, provider, title, credit, license, licenseUrl, page, tier, dim }
     template: 'standard', // standard | breaking | stat | map
     stat: { value: '', unit: '', label: '', trend: 'none' },
-    map: { countries: [], label: '' },
+    map: { countries: [], label: '', pins: [] },
+    proof: { status: 'none', sources: [] },
     ...over,
   };
   s.stat = { value: '', unit: '', label: '', trend: 'none', ...(s.stat || {}) };
-  s.map = { countries: [], label: '', ...(s.map || {}) };
+  s.map = { countries: [], label: '', pins: [], ...(s.map || {}) };
+  s.proof = { status: 'none', sources: [], ...(s.proof || {}) };
   if (!s.id) s.id = rid('s');
   return s;
 }

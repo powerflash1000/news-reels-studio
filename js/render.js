@@ -1,7 +1,8 @@
 // رسم إطار الريل على canvas (مقاس 1080×1920). نفس الدالة للمعاينة والتصدير.
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mv0bd92q';
-import { hostOf } from './feeds.js?v=mv0bd92q';
-import { drawBg } from './bg.js?v=mv0bd92q';
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mv0by2gm';
+import { hostOf } from './feeds.js?v=mv0by2gm';
+import QR from '../vendor/qrcode/qrcode.mjs?v=mv0by2gm';
+import { drawBg } from './bg.js?v=mv0by2gm';
 
 export const W = 1080, H = 1920;
 const FONT = 'Cairo, Tajawal, "Noto Naskh Arabic", "Segoe UI", Tahoma, sans-serif';
@@ -98,7 +99,7 @@ function topBar(ctx, st) {
 function headline(ctx, st) {
   const text = st.story.headline || 'اكتب العنوان';
   const tpl = st.story.template;
-  const compact = tpl === 'stat' || tpl === 'map';
+  const compact = tpl === 'stat' || tpl === 'map' || tpl === 'proof';
   const pad = compact ? 36 : 48, maxW = W - 120 - pad * 2 - 16;
   const maxLines = compact ? 2 : 4;
   let size = compact ? 64 : 76, lines;
@@ -146,7 +147,8 @@ function captions(ctx, st, t) {
   if (gi < 0) gi = groups.length - 1;
   const g = groups[gi];
   if (!g) return;
-  const tall = st.story.template === 'stat' || st.story.template === 'map';
+  const tpl = st.story.template;
+  const tall = tpl === 'stat' || tpl === 'map' || tpl === 'proof';
   const size = tall ? 74 : 84;
   ctx.font = font(size, 800);
   ctx.direction = 'rtl';
@@ -161,7 +163,7 @@ function captions(ctx, st, t) {
     rows[rows.length - 1].push({ ...w, ww });
     rw += (rows[rows.length - 1].length > 1 ? space : 0) + ww;
   }
-  const lh = size * 1.5, y0 = (tall ? 1300 : 1130) - (rows.length * lh) / 2;
+  const lh = size * 1.5, y0 = (tpl === 'proof' ? (st.reel.ticker?.on ? 1610 : 1560) : tall ? 1300 : 1130) - (rows.length * lh) / 2;
   if (st.hasB) {
     ctx.font = font(34, 700);
     ctx.fillStyle = seg.speaker === 'B' ? '#ffb86b' : hexA(st.cat.color, 1);
@@ -204,6 +206,7 @@ function sourceBar(ctx, st) {
     ctx.fillStyle = '#d9fff7';
     ctx.fillText(MED_DISCLAIMER, W / 2, y - 55);
   }
+  if (r.template === 'proof' && proofSources(r).length) return; // بطاقات التوثيق بتحل محل شريط المصدر
   ctx.fillStyle = 'rgba(255,255,255,.10)';
   rrect(ctx, 60, y, W - 120, h, 36);
   ctx.fill();
@@ -317,14 +320,16 @@ function mapPanel(ctx, st, y0) {
   const x = 60, w = W - 120, h = 620, ar = w / h;
   const sel = new Set(m.countries || []);
   const hl = world.countries.filter(c => sel.has(c.id));
+  const pins = (m.pins || []).map(p => ({ ...p, x: ((p.lon + 180) / 360) * world.w, y: ((84 - p.lat) / 142) * world.h }));
   // الشاشة النهائية: على الدول المختارة، أو العالم كله لو مفيش
   const fit = (cx, cy, vw) => { const vh = vw / ar; return { vx: cx - vw / 2, vy: cy - vh / 2, vw }; };
   const full = fit(world.w / 2, world.h / 2, world.w);
   let target = full;
-  if (hl.length) {
-    const b = hl.reduce((a, c) => [Math.min(a[0], c.fb[0]), Math.min(a[1], c.fb[1]), Math.max(a[2], c.fb[2]), Math.max(a[3], c.fb[3])], [1e9, 1e9, -1e9, -1e9]);
+  if (hl.length || pins.length) {
+    const boxes = [...hl.map(c => c.fb), ...pins.map(p => [p.x, p.y, p.x, p.y])];
+    const b = boxes.reduce((a, c) => [Math.min(a[0], c[0]), Math.min(a[1], c[1]), Math.max(a[2], c[2]), Math.max(a[3], c[3])], [1e9, 1e9, -1e9, -1e9]);
     const bw = b[2] - b[0], bh = b[3] - b[1];
-    const vw = Math.min(world.w, Math.max(150, bw * 1.8, bh * 1.8 * ar));
+    const vw = Math.min(world.w, Math.max(pins.length && !hl.length ? 110 : 150, bw * 1.8, bh * 1.8 * ar));
     const t0 = fit((b[0] + b[2]) / 2, (b[1] + b[3]) / 2, vw);
     // ما نخرجش برّه حدود الخريطة
     t0.vx = Math.max(0, Math.min(world.w - vw, t0.vx));
@@ -370,7 +375,7 @@ function mapPanel(ctx, st, y0) {
   if (hl.length && hl.length <= 4) {
     ctx.font = font(42, 800);
     for (const c of hl) {
-      const X = x + (c.c[0] - v.vx) * sc, Y = y0 + (c.c[1] - v.vy) * sc;
+      const X = x + (c.c[0] - v.vx) * sc, Y = y0 + (c.c[1] - v.vy) * sc + (pins.length ? 70 : 0);
       ctx.globalAlpha = a;
       ctx.lineWidth = 8;
       ctx.strokeStyle = 'rgba(8,12,28,.85)';
@@ -378,6 +383,32 @@ function mapPanel(ctx, st, y0) {
       ctx.fillStyle = '#fff';
       ctx.fillText(c.ar, X, Y);
     }
+    ctx.globalAlpha = 1;
+  }
+  // دبابيس المدن: دايرة بتنبض + اسم أو نص الدبوس
+  for (const [i, p] of pins.entries()) {
+    const X = x + (p.x - v.vx) * sc, Y = y0 + (p.y - v.vy) * sc;
+    const pa = clamp01((st.local - 1.3 - i * 0.15) / 0.4);
+    if (pa <= 0) continue;
+    ctx.globalAlpha = pa;
+    const ring = 20 + 16 * ((st.t * 1.4) % 1);
+    ctx.strokeStyle = `rgba(229,72,77,${1 - ((st.t * 1.4) % 1)})`;
+    ctx.lineWidth = 5;
+    ctx.beginPath(); ctx.arc(X, Y, ring, 0, Math.PI * 2); ctx.stroke();
+    ctx.fillStyle = '#e5484d';
+    ctx.beginPath(); ctx.arc(X, Y, 15, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.beginPath(); ctx.arc(X, Y, 6, 0, Math.PI * 2); ctx.fill();
+    const txt = p.label || p.name;
+    ctx.font = font(36, 800);
+    const tw = ctx.measureText(txt).width + 36;
+    const bx = Math.min(x + w - 12 - tw, Math.max(x + 12, X - tw / 2)), by = Y - 78;
+    ctx.fillStyle = 'rgba(8,12,28,.88)';
+    rrect(ctx, bx, Math.max(y0 + 12, by), tw, 54, 27);
+    ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.textAlign = 'center';
+    ctx.fillText(txt, bx + tw / 2, Math.max(y0 + 12, by) + 29);
     ctx.globalAlpha = 1;
   }
   ctx.restore();
@@ -390,6 +421,112 @@ function mapPanel(ctx, st, y0) {
     ctx.fillStyle = '#fff';
     ctx.fillText(m.label, x + w - 24 - tw / 2, y0 + 57);
   }
+}
+
+const qrCache = new Map();
+function qrMatrix(url) {
+  if (!qrCache.has(url)) {
+    let m = null;
+    try { const q = QR(0, 'M'); q.addData(url); q.make(); const n = q.getModuleCount(); m = Array.from({ length: n }, (_, r) => Array.from({ length: n }, (_, c) => q.isDark(r, c))); } catch { /* رابط طويل جدًا */ }
+    qrCache.set(url, m);
+  }
+  return qrCache.get(url);
+}
+
+function drawQR(ctx, url, x, y, size) {
+  ctx.fillStyle = '#fff';
+  rrect(ctx, x, y, size, size, 14);
+  ctx.fill();
+  const m = qrMatrix(url);
+  if (!m) return;
+  const pad = size * 0.08, cell = (size - pad * 2) / m.length;
+  ctx.fillStyle = '#0b1020';
+  for (let r = 0; r < m.length; r++) for (let c = 0; c < m.length; c++) if (m[r][c]) ctx.fillRect(x + pad + c * cell, y + pad + r * cell, Math.ceil(cell), Math.ceil(cell));
+}
+
+export const proofSources = story => (story.proof?.sources || []).filter(s => s.outlet || s.url).slice(0, 3);
+
+const PROOF_STATUS_UI = { official: ['مؤكد رسميًا', '#30a46c'], reported: ['تقارير غير مؤكدة', '#f5a623'], pending: ['بانتظار التأكيد', '#8b93b0'] };
+
+// بطاقات المصادر: QR + لقطة اختيارية + اسم الجهة وعنوان الخبر والتاريخ + حالة التأكيد
+function proofPanel(ctx, st, y0) {
+  const pf = st.story.proof || {};
+  const srcs = proofSources(st.story);
+  let y = y0;
+  const stt = PROOF_STATUS_UI[pf.status];
+  ctx.direction = 'rtl';
+  ctx.textBaseline = 'middle';
+  if (stt) {
+    ctx.font = font(36, 800);
+    const tw = ctx.measureText(stt[0]).width + 96;
+    const a = clamp01((st.local - 0.15) / 0.3);
+    ctx.globalAlpha = a;
+    ctx.fillStyle = stt[1] + '33';
+    rrect(ctx, W - 60 - tw, y, tw, 66, 33);
+    ctx.fill();
+    ctx.strokeStyle = stt[1];
+    ctx.lineWidth = 3;
+    ctx.stroke();
+    ctx.fillStyle = stt[1];
+    ctx.beginPath();
+    ctx.arc(W - 60 - tw + 36, y + 33, 11, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.textAlign = 'center';
+    ctx.fillText(stt[0], W - 60 - tw / 2 + 14, y + 35);
+    ctx.globalAlpha = 1;
+    y += 90;
+  }
+  const h = 270, gap = 20, x = 60, w = W - 120;
+  srcs.forEach((s, i) => {
+    const a = clamp01((st.local - 0.3 - 0.35 * i) / 0.4);
+    if (a <= 0) return;
+    const yy = y + i * (h + gap) + (1 - easeOut(a)) * 34;
+    ctx.globalAlpha = a;
+    ctx.fillStyle = 'rgba(255,255,255,.08)';
+    rrect(ctx, x, yy, w, h, 28);
+    ctx.fill();
+    let left = x + 20;
+    if (/^https?:\/\//.test(s.url || '')) { drawQR(ctx, s.url, left, yy + 40, 190); left += 190 + 20; }
+    const shot = s.shot && st.shots?.get(s.shot.id);
+    if (shot) {
+      const sw = 280, sh = 190, sx = left, sy = yy + 40;
+      ctx.save();
+      rrect(ctx, sx, sy, sw, sh, 14);
+      ctx.clip();
+      const iw = shot.el.naturalWidth || sw, ih = shot.el.naturalHeight || sh;
+      const k = Math.max(sw / iw, sh / ih);
+      ctx.drawImage(shot.el, sx + (sw - iw * k) / 2, sy + (sh - ih * k) / 2, iw * k, ih * k);
+      ctx.restore();
+      ctx.strokeStyle = 'rgba(255,255,255,.35)';
+      ctx.lineWidth = 2;
+      rrect(ctx, sx, sy, sw, sh, 14);
+      ctx.stroke();
+      left += sw + 20;
+    }
+    const right = x + w - 26;
+    const tw = right - left;
+    ctx.textAlign = 'right';
+    ctx.direction = 'rtl';
+    ctx.fillStyle = '#fff';
+    let outlet = s.outlet || '—';
+    let osz = 44;
+    for (; osz > 30; osz -= 2) { ctx.font = font(osz, 800); if (ctx.measureText(outlet).width <= tw) break; }
+    ctx.font = font(osz, 800);
+    while (ctx.measureText(outlet).width > tw && outlet.length > 6) outlet = outlet.slice(0, -2);
+    ctx.fillText(outlet === (s.outlet || '—') ? outlet : outlet + '…', right, yy + 52);
+    if (s.date) {
+      ctx.font = font(32, 600);
+      ctx.fillStyle = 'rgba(255,255,255,.6)';
+      ctx.fillText(s.date, right, yy + 104);
+    }
+    if (s.title) {
+      ctx.font = font(36, 600);
+      ctx.fillStyle = 'rgba(255,255,255,.92)';
+      wrap(ctx, s.title, tw).slice(0, 3).forEach((l, li) => ctx.fillText(l, right, yy + (s.date ? 156 : 112) + li * 46));
+    }
+    ctx.globalAlpha = 1;
+  });
 }
 
 // شريط الأخبار السفلي: بيمشي من اليمين لليسار. النص الافتراضي = عناوين باقي الأخبار في الحلقة
@@ -495,6 +632,7 @@ export function drawFrame(ctx, st, t) {
   const hb = headline(ctx, c);
   if (story.template === 'stat') statPanel(ctx, c, hb + 30);
   else if (story.template === 'map') mapPanel(ctx, c, hb + 30);
+  else if (story.template === 'proof') proofPanel(ctx, c, hb + 30);
   captions(ctx, c, t);
   ticker(ctx, c, t);
   sourceBar(ctx, c);
