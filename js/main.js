@@ -1,16 +1,16 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv1avlap';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv1avlap';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv1avlap';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mv1avlap';
-import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv1avlap';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mv1avlap';
-import { drawFrame, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mv1avlap';
-import { exportSupport, exportReel } from './export.js?v=mv1avlap';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv1avlap';
-import { draftScript, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mv1avlap';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mv1avlap';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mv1avlap';
-import { loadBg, playBg } from './bg.js?v=mv1avlap';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv1e3uci';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv1e3uci';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv1e3uci';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mv1e3uci';
+import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv1e3uci';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mv1e3uci';
+import { drawFrame, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mv1e3uci';
+import { exportSupport, exportReel } from './export.js?v=mv1e3uci';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv1e3uci';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mv1e3uci';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mv1e3uci';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mv1e3uci';
+import { loadBg, playBg } from './bg.js?v=mv1e3uci';
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -1054,6 +1054,18 @@ function showAiFields() {
   $('sAiModel').placeholder = P.model || '';
 }
 $('sAiProv').addEventListener('change', showAiFields);
+$('aiModelsLoad').addEventListener('click', async () => {
+  const p = $('sAiProv').value;
+  $('aiModelsMsg').textContent = 'بجيب القايمة…';
+  try {
+    saveSettings();
+    const ids = await listModels(p);
+    if (!ids.length) throw new Error('مفيش موديلات رجعت.');
+    $('aiModels').innerHTML = ids.map(m => `<option value="${m}">`).join('');
+    if (!$('sAiModel').value || !ids.includes($('sAiModel').value)) $('sAiModel').value = ids.find(i => /flash|instant|70b|llama/.test(i)) || ids[0];
+    $('aiModelsMsg').textContent = `${ids.length} موديل. اخترت «${$('sAiModel').value}»، غيّره من الخانة لو عايز، وبعدين «حفظ الإعدادات».`;
+  } catch (e) { $('aiModelsMsg').textContent = '❌ ' + (e.message || e); }
+});
 const SLIDERS = [['stability', 'الثبات', 0, 1, 0.05], ['similarity', 'التشابه', 0, 1, 0.05], ['style', 'التعبير', 0, 1, 0.05], ['speed', 'السرعة', 0.7, 1.2, 0.05]];
 let voices = [];
 

@@ -1,6 +1,6 @@
 // مسودة سكريبت بالذكاء الاصطناعي (اختيارية): Claude API من المتصفح بمفتاحك. بتستخدم الملخص والعنوان بس ومبتخترعش معلومات.
 // الموقع من غير build فمفيش SDK؛ بنكلّم الـAPI بـfetch مباشرة (الهيدر anthropic-dangerous-direct-browser-access ضروري لطلبات المتصفح).
-import { getSettings } from './storage.js?v=mv1avlap';
+import { getSettings } from './storage.js?v=mv1e3uci';
 
 export const CLAUDE_MODELS = [
   { id: 'claude-opus-5-5', name: 'Claude Opus 5.5 (الأفضل، الافتراضي)' },
@@ -11,7 +11,7 @@ export const CLAUDE_MODELS = [
 // مزوّدين مجانيين (واجهة OpenAI-compatible، بتسمح بطلبات المتصفح). أسماء الموديلات بتتغير: الخانة قابلة للتعديل.
 export const AI_PROVIDERS = {
   claude: { name: 'Claude (مدفوع)', keyField: 'claudeKey', ph: 'sk-ant-…' },
-  gemini: { name: 'Google Gemini (فيه خطة مجانية)', keyField: 'geminiKey', ph: 'AIza…', url: 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions', model: 'gemini-2.5-flash', models: ['gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-2.5-pro'], keyUrl: 'aistudio.google.com/apikey' },
+  gemini: { name: 'Google Gemini (فيه خطة مجانية)', keyField: 'geminiKey', ph: 'AIza…', url: 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions', model: 'gemini-3.8-flash', models: ['gemini-3.8-flash'], keyUrl: 'aistudio.google.com/apikey' },
   groq: { name: 'Groq (مجاني، سريع)', keyField: 'groqKey', ph: 'gsk_…', url: 'https://api.groq.com/openai/v1/chat/completions', model: 'llama-3.3-70b-versatile', models: ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant'], keyUrl: 'console.groq.com/keys' },
   openrouter: { name: 'OpenRouter (موديلات :free)', keyField: 'orKey', ph: 'sk-or-…', url: 'https://openrouter.ai/api/v1/chat/completions', model: 'meta-llama/llama-3.3-70b-instruct:free', models: ['meta-llama/llama-3.3-70b-instruct:free', 'deepseek/deepseek-chat-v3-0324:free', 'google/gemini-2.0-flash-exp:free'], keyUrl: 'openrouter.ai/keys' },
 };
@@ -130,4 +130,20 @@ async function draftOpenAI(P, key, model, user) {
   const lines = (out.lines || []).map(l => ({ speaker: l.speaker === 'B' ? 'B' : 'A', text: String(l.text || '').trim() })).filter(l => l.text);
   if (!lines.length) throw new Error('مفيش سطور في الرد. جرّب تاني.');
   return { lines, missing: (out.missing || []).map(String).filter(Boolean) };
+}
+
+// قايمة الموديلات المتاحة فعلًا لمفتاحك (أسماء الموديلات بتتغير فمنخمنهاش). بيرجّع [id]
+export async function listModels(prov) {
+  const P = AI_PROVIDERS[prov];
+  const key = P && getSettings()[P.keyField];
+  if (!P?.url) throw new Error('القايمة دي لمزوّدين المجانيين بس.');
+  if (!key) throw new Error('الصق المفتاح الأول واحفظ الإعدادات.');
+  const res = await fetch(P.url.replace(/\/chat\/completions$/, '/models'), { headers: { authorization: 'Bearer ' + key }, signal: AbortSignal.timeout(30000) });
+  if (!res.ok) throw new Error(`رد بخطأ ${res.status} (تأكد من المفتاح).`);
+  const j = await res.json();
+  let ids = (j.data || j.models || []).map(m => String(m.id || m.name || '').replace(/^models\//, '')).filter(Boolean);
+  if (prov === 'openrouter') ids = ids.filter(i => i.endsWith(':free'));
+  if (prov === 'gemini') ids = ids.filter(i => /^gemini/.test(i) && !/embed|image|tts|live|vision|aqa/.test(i));
+  if (prov === 'groq') ids = ids.filter(i => !/whisper|guard|tts/.test(i));
+  return ids.sort();
 }
