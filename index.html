@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mv1f1uk6">
+<html lang="ar" dir="rtl" data-v="mv1gnb0a">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mv1f1uk6">
+<link rel="stylesheet" href="assets/css/style.css?v=mv1gnb0a">
 </head>
 <body>
 <header class="top">
@@ -93,14 +93,22 @@
           <label>وصف الرقم (جملة قصيرة)<input id="stLabel" dir="auto" placeholder="مثال: نسبة التضخم السنوي في أغسطس"></label>
         </div>
         <div id="tplMap" hidden>
-          <label>أضف دولة (اكتب الاسم واختار)<input id="mapAdd" list="countryList" placeholder="مثال: مصر"></label>
-          <datalist id="countryList"></datalist>
+          <label>ابحث عن دولة أو مدينة أو مكان (عربي أو إنجليزي، أي دولة في العالم)<input id="placeQ" dir="auto" autocomplete="off" placeholder="مثال: داوسون سيتي، Dawson City، مصر، تكساس"></label>
+          <div id="placeRes" class="list"></div>
+          <div class="row">
+            <button id="placeWide" class="btn ghost" type="button">🔎 بحث أوسع: مطارات ومعالم (OpenStreetMap)</button>
+            <label class="chk"><input id="placeCountry" type="checkbox" checked> ظلّل دولة المكان تلقائيًا</label>
+          </div>
+          <p id="placeMsg" class="muted"></p>
           <div id="mapChips" class="chips"></div>
-          <label>دبوس مدينة (اكتب الاسم واختار، مثلًا: الرياض)<input id="mapCity" list="cityList" placeholder="مثال: الرياض"></label>
-          <datalist id="cityList"></datalist>
-          <div id="pinChips" class="chips"></div>
-          <label>نص الدبوس (اختياري، مثلًا: مطار الملك خالد) — بيتطبّق على أول دبوس<input id="pinLabel" dir="auto"></label>
-          <label>عنوان صغير على الخريطة (اختياري)<input id="mapLabel" dir="auto" placeholder="مثال: منطقة الخليج"></label>
+          <div id="pinRows"></div>
+          <div class="grid">
+            <label>درجة التقريب
+              <select id="mapZoom"><option value="auto">تلقائي</option><option value="world">العالم كله</option><option value="wide">منطقة واسعة (قارة)</option><option value="region">منطقة (دول مجاورة)</option><option value="close">قريب</option></select>
+            </label>
+            <label>عنوان صغير على الخريطة (اختياري)<input id="mapLabel" dir="auto" placeholder="مثال: شمال كندا"></label>
+          </div>
+          <p class="muted">الخريطة بحدود الدول بس (دقة منخفضة)، فالمدن الصغيرة بتظهر كدبوس على الخريطة من غير تفاصيل شوارع أو ولايات.</p>
         </div>
         <div id="tplProof" hidden>
           <p class="muted">بطاقات مصادر بتظهر على الشاشة (لحد 3) كل واحدة بـQR كود لرابط الخبر الأصلي. اللقطة اختيارية: لقطة شاشة بتاعتك للخبر (عنوان بس يفضّل).</p>
@@ -405,6 +413,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mv1f1uk6"></script>
+<script type="module" src="js/main.js?v=mv1gnb0a"></script>
 </body>
 </html>

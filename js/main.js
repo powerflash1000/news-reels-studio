@@ -1,16 +1,17 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv1f1uk6';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv1f1uk6';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv1f1uk6';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mv1f1uk6';
-import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv1f1uk6';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mv1f1uk6';
-import { drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mv1f1uk6';
-import { exportSupport, exportReel } from './export.js?v=mv1f1uk6';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv1f1uk6';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mv1f1uk6';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mv1f1uk6';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mv1f1uk6';
-import { loadBg, playBg } from './bg.js?v=mv1f1uk6';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv1gnb0a';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv1gnb0a';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv1gnb0a';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mv1gnb0a';
+import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv1gnb0a';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mv1gnb0a';
+import { drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mv1gnb0a';
+import { exportSupport, exportReel } from './export.js?v=mv1gnb0a';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv1gnb0a';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mv1gnb0a';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mv1gnb0a';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mv1gnb0a';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mv1gnb0a';
+import { loadBg, playBg } from './bg.js?v=mv1gnb0a';
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -254,7 +255,7 @@ function readForm() {
   if (st.kind === 'news') {
     st.template = $('fTpl').value;
     st.stat = { value: $('stValue').value.trim(), unit: $('stUnit').value.trim(), label: $('stLabel').value.trim(), trend: $('stTrend').value };
-    st.map = { countries: st.map?.countries || [], pins: st.map?.pins || [], label: $('mapLabel').value.trim() };
+    st.map = { countries: st.map?.countries || [], pins: st.map?.pins || [], label: $('mapLabel').value.trim(), zoom: st.map?.zoom || 'auto' };
     if (st.template === 'proof') {
       const first = proofSources(st)[0];
       if (first && !st.sourceName) st.sourceName = first.outlet;
@@ -352,8 +353,7 @@ async function loadWorld() {
   try {
     world = await (await fetch('assets/data/world.json')).json();
     setWorld(world);
-    $('countryList').innerHTML = world.countries.map(c => `<option value="${esc(c.ar)}"></option>`).join('');
-    try { cities = await (await fetch('assets/data/cities.json')).json(); $('cityList').innerHTML = cities.map(c => `<option value="${esc(c.ar)}"></option>`).join(''); } catch { /* من غير مدن */ }
+    try { cities = await (await fetch('assets/data/cities.json')).json(); } catch { /* من غير مدن */ }
     renderMapChips();
     redraw();
   } catch { /* الخريطة مش هتظهر */ }
@@ -394,7 +394,7 @@ function fillTemplateFields() {
   $('tkText').value = reel.ticker?.text || '';
   syncMusic();
   document.querySelector('.tplbox').hidden = st.kind !== 'news';
-  $('pinLabel').value = st.map?.pins?.[0]?.label || '';
+  $('mapZoom').value = st.map?.zoom || 'auto';
   if (!$('pfStatus').options.length) $('pfStatus').innerHTML = Object.entries(PROOF_STATUS).map(([k, v]) => `<option value="${k}">${v}</option>`).join('');
   $('pfStatus').value = st.proof?.status || 'none';
   toggleTemplateFields();
@@ -453,41 +453,61 @@ $('pfRows').addEventListener('change', async e => {
   e.target.value = '';
 });
 
-// دبابيس المدن على الخريطة
+// دبابيس المدن + بحث الأماكن
+function mapOf() { return (story().map ||= { countries: [], label: '', pins: [] }); }
 function renderPinChips() {
-  $('pinChips').innerHTML = (story().map?.pins || []).map((p, i) => `<button class="chip on" data-rmpin="${i}" style="--c:#e5484d">📍 ${esc(p.name)} <span class="x">✕</span></button>`).join('');
+  $('pinRows').innerHTML = (story().map?.pins || []).map((p, i) => `<div class="pinrow"><b>📍 ${esc(p.name)}</b> <span class="muted" dir="auto">${esc(p.detail || '')}</span>
+    <input data-pl="${i}" dir="auto" placeholder="نص الدبوس على الشاشة (فاضي = الاسم)" value="${esc(p.label || '')}"><button class="btn ghost" data-rmpin="${i}" type="button">✕</button></div>`).join('');
 }
-$('mapCity').addEventListener('input', () => {
-  const name = $('mapCity').value.trim();
-  const c = cities.find(x => x.ar === name);
-  if (!c) return;
-  const m = (story().map ||= { countries: [], label: '', pins: [] });
-  (m.pins ||= []).push({ name: c.ar, lat: c.lat, lon: c.lon, label: '' });
-  $('mapCity').value = '';
-  persist(); renderPinChips(); redraw();
+let placeResults = [], placeSeq = 0, placeTimer = null;
+function showPlaceResults(rows, note = '') {
+  placeResults = rows;
+  $('placeRes').innerHTML = rows.map((r, i) => `<button class="item placebtn" type="button" data-pr="${i}"><b dir="auto">${r.type === 'country' ? '🌍' : '📍'} ${esc(r.name)}</b> <span class="muted" dir="auto">${r.type === 'country' ? 'دولة — ' : ''}${esc(r.detail || '')}</span></button>`).join('');
+  $('placeMsg').textContent = note;
+}
+async function runPlaceSearch(wide = false) {
+  const q = $('placeQ').value.trim();
+  const my = ++placeSeq;
+  if (q.length < 2) return showPlaceResults([], '');
+  await loadWorld();
+  const local = localMatches(q, world, cities);
+  showPlaceResults(local, 'بدوّر…');
+  try {
+    const online = wide ? await searchWide(q) : await searchPlaces(q);
+    if (my !== placeSeq) return;
+    const rows = [...local.filter(r => r.type === 'country'), ...online, ...local.filter(r => r.type !== 'country')];
+    showPlaceResults(rows, rows.length ? '' : 'مفيش نتايج. جرّب كتابة الاسم بالإنجليزي أو «بحث أوسع».');
+  } catch (e) {
+    if (my !== placeSeq) return;
+    showPlaceResults(local, `البحث على الإنترنت مش شغال دلوقتي (${e.message || e}). ${local.length ? 'دي النتايج المحلية.' : 'جرّب تاني.'}`);
+  }
+}
+$('placeQ').addEventListener('input', () => { clearTimeout(placeTimer); placeTimer = setTimeout(() => runPlaceSearch(false), 400); });
+$('placeWide').addEventListener('click', () => runPlaceSearch(true));
+$('placeRes').addEventListener('click', e => {
+  const r = placeResults[Number(e.target.closest('[data-pr]')?.dataset.pr)];
+  if (!r) return;
+  const m = mapOf();
+  if (r.type === 'country') { if (!m.countries.includes(r.id)) m.countries.push(r.id); }
+  else {
+    (m.pins ||= []).push({ name: r.name, lat: r.lat, lon: r.lon, label: '', detail: r.detail || '' });
+    if ($('placeCountry').checked && r.cc && world?.countries.some(c => c.id === r.cc) && !m.countries.includes(r.cc)) m.countries.push(r.cc);
+  }
+  persist(); renderMapChips(); redraw();
 });
-$('pinChips').addEventListener('click', e => {
+$('pinRows').addEventListener('click', e => {
   const b = e.target.closest('[data-rmpin]');
   if (!b) return;
   story().map.pins.splice(Number(b.dataset.rmpin), 1);
   persist(); renderPinChips(); redraw();
 });
-$('pinLabel').addEventListener('input', () => {
-  const pin = story().map?.pins?.[0];
-  if (!pin) return;
-  pin.label = $('pinLabel').value.trim();
+$('pinRows').addEventListener('input', e => {
+  const i = e.target.dataset.pl;
+  if (i == null) return;
+  story().map.pins[Number(i)].label = e.target.value.trim();
   persist(); redraw();
 });
-
-$('mapAdd').addEventListener('input', () => {
-  const name = $('mapAdd').value.trim();
-  const c = world?.countries.find(x => x.ar === name || x.en.toLowerCase() === name.toLowerCase());
-  if (!c) return;
-  const m = (story().map ||= { countries: [], label: '' });
-  if (!m.countries.includes(c.id)) m.countries.push(c.id);
-  $('mapAdd').value = '';
-  persist(); renderMapChips(); redraw();
-});
+$('mapZoom').addEventListener('input', () => { mapOf().zoom = $('mapZoom').value; persist(); redraw(); });
 $('mapChips').addEventListener('click', e => {
   const btn = e.target.closest('[data-rm]');
   if (!btn) return;
@@ -582,7 +602,7 @@ function redraw(t) {
   const info = currentTimeline();
   const r = info.tl.stories.find(x => x.idx === cur);
   const seg = info.tl.segs.find(x => x.storyIdx === cur);
-  drawFrame(ctx, stateFor(info), t ?? (r ? (seg ? seg.start + 0.3 : r.start) : 0));
+  drawFrame(ctx, stateFor(info), t ?? (r ? (seg ? seg.start + 0.3 : r.start) : 0), { settled: true });
 }
 
 function updateInfo() {
