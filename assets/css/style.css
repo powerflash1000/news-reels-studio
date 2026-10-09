@@ -88,3 +88,5 @@ dialog label input { width: auto; margin-top: 6px; }
 .lic.free { background: #14543f; } .lic.attr { background: #5b4a14; }
 .bgbox { margin: 8px 0; }
 .bgbox .thumb { width: 90px; height: 50px; object-fit: cover; border-radius: 8px; vertical-align: middle; margin-inline-start: 8px; }
+
+.diag { background: #0a0f22; border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; white-space: pre-wrap; word-break: break-word; font: 13px/1.7 Cairo, monospace; user-select: text; margin: 8px 0; }
