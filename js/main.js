@@ -1,7 +1,8 @@
 import { load, save, getSettings, setSettings, charsUsed } from './storage.js';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js';
 import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js';
-import { newReel, parseScript, buildTimeline, estimateWords } from './reel.js';
-import { speakLine, voiceFor, MODELS } from './tts.js';
+import { newReel, parseScript, buildTimeline, estimateWords, STATUSES } from './reel.js';
+import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js';
 import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE } from './audio.js';
 import { drawFrame } from './render.js';
 import { exportSupport, exportReel } from './export.js';
@@ -11,7 +12,7 @@ const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '
 
 let cfg = null;          // config/sources.json
 let feeds = { items: [] };
-let reel = newReel(load('draft', {}));
+let reel = newReel();
 const audioMap = new Map(); // "A|نص" → {buffer, words}
 let manualAudio = null;     // تسجيل أو ملف لكل الريل
 let filterCat = 'all';
@@ -29,8 +30,9 @@ function setStatus(msg, bad = false) {
 /* ---------- التبويبات ---------- */
 function showTab(name) {
   for (const b of document.querySelectorAll('#tabs button')) b.classList.toggle('on', b.dataset.tab === name);
-  for (const id of ['feed', 'studio', 'settings']) $('tab-' + id).hidden = id !== name;
+  for (const id of ['feed', 'studio', 'library', 'settings']) $('tab-' + id).hidden = id !== name;
   if (name === 'studio') redraw();
+  if (name === 'library') renderLibrary();
 }
 $('tabs').addEventListener('click', e => e.target.dataset.tab && showTab(e.target.dataset.tab));
 
@@ -51,8 +53,9 @@ function renderFeed() {
     (showYt || i.kind !== 'youtube') &&
     (!q || (i.title + ' ' + i.summary + ' ' + i.source).toLowerCase().includes(q))).slice(0, 150);
   const gen = feeds.generatedAt ? `آخر تحديث: ${timeAgo(feeds.generatedAt)}` : 'لسه مفيش تحديث — شغّل الـ Action (fetch-feeds) من تبويب Actions في GitHub، أو أضف خبر يدويًا تحت.';
-  const errs = feeds.errors?.length ? ` • مصادر فشلت: ${feeds.errors.map(e => e.feed).join('، ')}` : '';
-  $('feedInfo').textContent = `${gen} • ${items.length} خبر${errs}`;
+  const bad = (feeds.health || []).filter(h => h.status !== 'ok');
+  $('feedInfo').textContent = `${gen} • ${items.length} خبر${bad.length ? ` • ⚠️ ${bad.length} مصدر فيه مشكلة (تحت)` : ''}`;
+  renderHealth();
   $('feedList').innerHTML = items.map(i => {
     const c = cat(i.category);
     const yt = i.kind === 'youtube';
@@ -66,6 +69,19 @@ function renderFeed() {
         ${i.lang === 'en' ? `<button class="btn ghost" data-tr="${esc(i.id)}">ترجم العنوان</button>` : ''}</div>
     </article>`;
   }).join('');
+}
+
+const STAT_ICON = { ok: '✅', empty: '⚪', stale: '🕓', error: '❌' };
+const STAT_TXT = { ok: 'سليم', empty: 'فاضي', stale: 'قديم', error: 'فشل' };
+function renderHealth() {
+  const h = feeds.health || [];
+  $('health').hidden = !h.length;
+  const bad = h.filter(x => x.status !== 'ok').length;
+  $('healthSum').textContent = `صحة المصادر — ${h.length - bad} سليم${bad ? ` • ${bad} فيه مشكلة` : ''}`;
+  $('healthList').innerHTML = [...h].sort((a, b) => (a.status === 'ok') - (b.status === 'ok')).map(x =>
+    `<div class="hrow"><span>${STAT_ICON[x.status] || '•'}</span><div><b dir="auto">${esc(x.name)}</b>
+      <span class="muted"> ${STAT_TXT[x.status] || x.status} • ${x.fetched ?? 0} اتجاب • ${x.kept ?? 0} فاضل${x.newest ? ' • أحدث: ' + timeAgo(x.newest) : ''}</span>
+      ${x.error ? `<div class="e" dir="auto">${esc(x.error)}</div>` : ''}</div></div>`).join('');
 }
 
 $('feedList').addEventListener('click', async e => {
@@ -103,6 +119,32 @@ function startReel(over) {
   persist();
   fillForm();
   showTab('studio');
+  restoreAudio();
+}
+
+// بيسترجع الصوت المتولّد قبل كده من الكاش (من غير ما يستهلك رصيد)
+async function restoreAudio() {
+  const mine = reel.id;
+  for (const l of parseScript(reel.script)) {
+    if (audioMap.has(lineKey(l))) continue;
+    try {
+      const hit = await peekLine(l.text, l.speaker);
+      if (hit && reel.id === mine) audioMap.set(lineKey(l), hit);
+    } catch { /* الكاش اختياري */ }
+  }
+  if (reel.id === mine) { updateInfo(); redraw(); }
+}
+
+function openReel(id) {
+  const r = getReel(id);
+  if (!r) return;
+  reel = newReel(r);
+  audioMap.clear();
+  manualAudio = null;
+  setCurrentId(reel.id);
+  fillForm();
+  showTab('studio');
+  restoreAudio();
 }
 
 /* ---------- الاستوديو ---------- */
@@ -133,13 +175,22 @@ function readForm() {
   reel.script = $('fScript').value;
 }
 
-function persist() { save('draft', reel); }
+function persist() {
+  // ريل فاضي مبيتحفظش في المكتبة
+  if (!reel.headline && !reel.script.trim() && !reel.sourceName) return;
+  upsertReel(reel);
+  setCurrentId(reel.id);
+}
 
 for (const id of ['fCat', 'fKind', 'fHead', 'fSrc', 'fUrl', 'fCredit', 'fScript']) {
-  $(id).addEventListener('input', () => { readForm(); persist(); updateInfo(); redraw(); });
+  $(id).addEventListener('input', () => {
+    readForm(); persist(); updateInfo(); redraw();
+    if (id === 'fScript') { clearTimeout(restoreTimer); restoreTimer = setTimeout(restoreAudio, 600); }
+  });
 }
-$('newReel').addEventListener('click', () => { if (confirm('تبدأ ريل جديد؟ المسودة الحالية هتتمسح.')) startReel({}); });
+$('newReel').addEventListener('click', () => startReel({}));
 
+let restoreTimer = 0;
 function lineKey(l) { return l.speaker + '|' + l.text; }
 
 // الخط الزمني: صوت حقيقي لو متاح، وإلا تقدير صامت للمعاينة
@@ -187,8 +238,9 @@ $('gen').addEventListener('click', async () => {
   if (!lines.length) return setStatus('اكتب السكريبت الأول.', true);
   const todo = lines.filter(l => !audioMap.has(lineKey(l)));
   const chars = todo.reduce((n, l) => n + l.text.length, 0);
-  const s = getSettings();
-  if (s.monthlyChars && charsUsed() + chars > s.monthlyChars && !confirm(`ده هيعدّي رصيد الشهر (${charsUsed()} + ${chars} من ${s.monthlyChars}). تكمل؟`)) return;
+  const sub = lastSubscription();
+  if (sub && sub.limit && chars > sub.limit - sub.used && !confirm(`المتبقي في رصيدك حوالي ${Math.max(0, sub.limit - sub.used)} حرف والتوليد محتاج ${chars}. تكمل؟`)) return;
+  if (chars > 1500 && !confirm(`هيتولّد ${chars} حرف من رصيد ElevenLabs. تكمل؟`)) return;
   $('gen').disabled = true;
   manualAudio = null;
   try {
@@ -197,9 +249,10 @@ $('gen').addEventListener('click', async () => {
       const k = lineKey(l);
       if (audioMap.has(k)) continue;
       setStatus(`بولّد سطر ${++n}/${todo.length}…`);
-      audioMap.set(k, await speakLine(l.text, voiceFor(l.speaker)));
+      audioMap.set(k, await speakLine(l.text, l.speaker));
     }
     setStatus('تم توليد الصوت ✅');
+    if (n) fetchSubscription().then(fillUsage).catch(() => {});
   } catch (e) { setStatus(String(e.message || e), true); }
   $('gen').disabled = false;
   updateInfo();
@@ -232,6 +285,10 @@ $('upl').addEventListener('change', async e => {
 });
 
 $('clearAudio').addEventListener('click', () => { manualAudio = null; audioMap.clear(); updateInfo(); redraw(); setStatus('اتمسح الصوت.'); });
+
+async function loadFonts() {
+  try { await Promise.all([600, 700, 800].flatMap(w => [document.fonts.load(`${w} 40px Cairo`, 'أبجد'), document.fonts.load(`${w} 40px Cairo`, 'Abc')])); } catch { /* هنستخدم الخط الاحتياطي */ }
+}
 
 /* ---------- المعاينة ---------- */
 $('play').addEventListener('click', () => {
@@ -318,35 +375,179 @@ $('exp').addEventListener('click', async () => {
   $('exp').disabled = true;
   $('prog').hidden = false;
   try {
-    await document.fonts.load('800 80px Cairo').catch(() => {});
+    await loadFonts();
     setStatus('بصدّر الفيديو…');
     const blob = await exportReel(stateFor(info), support, p => { $('prog').firstElementChild.style.width = (p * 100).toFixed(0) + '%'; });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = `reel-${new Date().toISOString().slice(0, 10)}-${cat(reel.category).id}.mp4`;
     a.click();
-    setStatus(`تم ✅ (${(blob.size / 1e6).toFixed(1)} MB)`);
+    reel.status = 'exported';
+    persist();
+    setStatus(`تم ✅ (${(blob.size / 1e6).toFixed(1)} MB) — حالة الريل: متصدّر`);
   } catch (e) { setStatus('فشل التصدير: ' + (e.message || e), true); }
   $('exp').disabled = false;
   $('prog').hidden = true;
 });
 
+/* ---------- المكتبة ---------- */
+let libStatus = 'all';
+function renderLibrary() {
+  const all = listReels();
+  const q = $('libQ').value.trim().toLowerCase();
+  const chips = [['all', 'الكل'], ...Object.entries(STATUSES)];
+  $('libStatus').innerHTML = chips.map(([k, v]) => `<button class="chip ${k === libStatus ? 'on' : ''}" data-s="${k}">${v} ${k === 'all' ? all.length : all.filter(r => r.status === k).length}</button>`).join('');
+  const rows = all.filter(r => (libStatus === 'all' || r.status === libStatus) && (!q || ((r.headline || '') + (r.script || '') + (r.sourceName || '')).toLowerCase().includes(q)));
+  $('libList').innerHTML = rows.length ? rows.map(r => {
+    const c = cat(r.category);
+    return `<article class="item" style="--c:${c.color}">
+      <h3 dir="auto">${esc(r.headline || '(من غير عنوان)')}</h3>
+      <div class="meta"><span>${c.label}</span><span class="stat ${r.status}">${STATUSES[r.status] || r.status}</span><span>${esc(r.sourceName || 'من غير مصدر')}</span><span>${timeAgo(new Date(r.updatedAt).toISOString())}</span></div>
+      <div class="row"><button class="btn pri" data-open="${r.id}">فتح</button>
+        <select data-st="${r.id}">${Object.entries(STATUSES).map(([k, v]) => `<option value="${k}" ${k === r.status ? 'selected' : ''}>${v}</option>`).join('')}</select>
+        <button class="btn ghost" data-dup="${r.id}">تكرار</button>
+        <button class="btn ghost" data-del="${r.id}">حذف</button></div></article>`;
+  }).join('') : '<p class="muted">مفيش ريلز لسه. ابدأ من تبويب الأخبار.</p>';
+}
+$('libQ').addEventListener('input', renderLibrary);
+$('libStatus').addEventListener('click', e => { if (e.target.dataset.s) { libStatus = e.target.dataset.s; renderLibrary(); } });
+$('libList').addEventListener('click', e => {
+  const d = e.target.dataset;
+  if (d.open) openReel(d.open);
+  else if (d.dup) { const r = getReel(d.dup); if (r) { upsertReel(newReel({ ...r, id: undefined, status: 'draft', headline: (r.headline || '') + ' (نسخة)' })); renderLibrary(); } }
+  else if (d.del && confirm('تحذف الريل ده نهائيًا؟')) { deleteReel(d.del); if (reel.id === d.del) startReel({}); renderLibrary(); }
+});
+$('libList').addEventListener('change', e => { if (e.target.dataset.st) { setReelStatus(e.target.dataset.st, e.target.value); if (reel.id === e.target.dataset.st) reel.status = e.target.value; renderLibrary(); } });
+
+$('bkExport').addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify(buildBackup(), null, 1)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `news-reels-backup-${new Date().toISOString().slice(0, 10)}.json`;
+  a.click();
+  $('bkMsg').textContent = 'اتحفظت النسخة.';
+});
+$('bkImport').addEventListener('change', async e => {
+  const f = e.target.files[0];
+  e.target.value = '';
+  if (!f) return;
+  try {
+    const r = applyBackup(JSON.parse(await f.text()));
+    $('bkMsg').textContent = `تمت الاستعادة: ${r.added} جديد، ${r.updated} متحدّث، ${r.skipped} متخطّى.`;
+    fillSettings(); renderLibrary();
+  } catch (err) { $('bkMsg').textContent = 'فشلت الاستعادة: ' + (err.message || err); }
+});
+
 /* ---------- الإعدادات ---------- */
-const SETTING_FIELDS = { sChannel: 'channelName', sHandle: 'handle', sKey: 'elevenKey', sModel: 'elevenModel', sVoiceA: 'voiceA', sVoiceB: 'voiceB', sMonthly: 'monthlyChars', sProxy: 'proxyUrl' };
+const TEXT_FIELDS = { sChannel: 'channelName', sHandle: 'handle', sKey: 'elevenKey', sModel: 'elevenModel', sProxy: 'proxyUrl' };
+const SLIDERS = [['stability', 'الثبات', 0, 1, 0.05], ['similarity', 'التشابه', 0, 1, 0.05], ['style', 'التعبير', 0, 1, 0.05], ['speed', 'السرعة', 0.7, 1.2, 0.05]];
+let voices = [];
+
+function renderSliders(sp) {
+  const v = getSettings()['vs' + sp];
+  $('sl' + sp).innerHTML = SLIDERS.map(([k, label, min, max, step]) =>
+    `<label>${label}<input type="range" data-sp="${sp}" data-k="${k}" min="${min}" max="${max}" step="${step}" value="${v[k]}"><output>${Number(v[k]).toFixed(2)}</output></label>`).join('');
+}
+document.addEventListener('input', e => {
+  if (e.target.matches('.sliders input[type=range]')) e.target.nextElementSibling.textContent = Number(e.target.value).toFixed(2);
+});
+
+function renderVoiceSelect(sp) {
+  const s = getSettings();
+  const cur = s['voice' + sp];
+  const opts = [{ id: '', name: sp === 'B' ? '— نفس صوت أ —' : '— اختار صوت —' }];
+  for (const v of voices) opts.push({ id: v.id, name: `${v.name}${v.category === 'cloned' ? ' (مستنسخ)' : ''}` });
+  if (cur && !opts.some(o => o.id === cur)) opts.push({ id: cur, name: s['voiceName' + sp] || cur });
+  $('sVoice' + sp).innerHTML = opts.map(o => `<option value="${esc(o.id)}" ${o.id === cur ? 'selected' : ''}>${esc(o.name)}</option>`).join('');
+  $('sVoice' + sp + 'Id').value = '';
+}
+
+function fillUsage(sub = lastSubscription()) {
+  const bar = $('usageBar');
+  if (sub && sub.limit) {
+    const pct = Math.min(100, (sub.used / sub.limit) * 100);
+    bar.hidden = false;
+    bar.firstElementChild.style.width = pct.toFixed(0) + '%';
+    const reset = sub.resetAt ? ` • بيتجدد ${new Date(sub.resetAt).toLocaleDateString('ar-EG')}` : '';
+    $('usage').textContent = `استهلكت ${sub.used.toLocaleString('ar-EG')} من ${sub.limit.toLocaleString('ar-EG')} حرف (المتبقي ${(sub.limit - sub.used).toLocaleString('ar-EG')})${sub.tier ? ' • خطة ' + sub.tier : ''}${reset}`;
+  } else {
+    bar.hidden = true;
+    $('usage').textContent = `اضغط «اختبر المفتاح» عشان يظهر رصيدك. الحروف اللي ولّدتها من الأداة الشهر ده: ${charsUsed().toLocaleString('ar-EG')}`;
+  }
+}
 
 function fillSettings() {
   const s = getSettings();
-  for (const [id, k] of Object.entries(SETTING_FIELDS)) $(id).value = s[k] ?? '';
-  const used = charsUsed();
-  $('usage').textContent = `الحروف المستهلكة الشهر ده: ${used}${s.monthlyChars ? ` من ${s.monthlyChars}` : ''}`;
+  for (const [id, k] of Object.entries(TEXT_FIELDS)) $(id).value = s[k] ?? '';
+  renderVoiceSelect('A'); renderVoiceSelect('B');
+  renderSliders('A'); renderSliders('B');
+  fillUsage();
 }
-$('sSave').addEventListener('click', () => {
+
+function collectSettings() {
   const o = {};
-  for (const [id, k] of Object.entries(SETTING_FIELDS)) o[k] = k === 'monthlyChars' ? Number($(id).value) || 0 : $(id).value.trim();
-  setSettings(o);
+  for (const [id, k] of Object.entries(TEXT_FIELDS)) o[k] = $(id).value.trim();
+  for (const sp of ['A', 'B']) {
+    const manual = $('sVoice' + sp + 'Id').value.trim();
+    const sel = $('sVoice' + sp);
+    o['voice' + sp] = manual || sel.value;
+    o['voiceName' + sp] = manual ? '' : (sel.selectedOptions[0]?.textContent || '');
+    const vs = {};
+    for (const r of $('sl' + sp).querySelectorAll('input[type=range]')) vs[r.dataset.k] = Number(r.value);
+    o['vs' + sp] = vs;
+  }
+  return o;
+}
+
+function saveSettings() { setSettings(collectSettings()); }
+
+$('sSave').addEventListener('click', () => {
+  saveSettings();
   $('sSaved').textContent = 'اتحفظ ✅';
   fillSettings();
   redraw();
+});
+
+$('elTest').addEventListener('click', async () => {
+  saveSettings();
+  $('usage').textContent = 'بتأكد من المفتاح…';
+  try { fillUsage(await fetchSubscription()); } catch (e) { $('usageBar').hidden = true; $('usage').textContent = '❌ ' + (e.message || e); }
+});
+
+$('elVoices').addEventListener('click', async () => {
+  saveSettings();
+  $('usage').textContent = 'بحمّل الأصوات…';
+  try {
+    voices = await fetchVoices();
+    renderVoiceSelect('A'); renderVoiceSelect('B');
+    $('usage').textContent = `اتحمّل ${voices.length} صوت من حسابك. اختار صوت المذيع أ وب وبعدها «حفظ الإعدادات».`;
+  } catch (e) { $('usage').textContent = '❌ ' + (e.message || e); }
+});
+
+let previewEl = null;
+document.querySelector('#tab-settings').addEventListener('click', async e => {
+  const sp = e.target.dataset.prev || e.target.dataset.try;
+  if (!sp) return;
+  try {
+    if (e.target.dataset.prev) {
+      const id = $('sVoice' + sp + 'Id').value.trim() || $('sVoice' + sp).value;
+      const v = voices.find(x => x.id === id);
+      if (!v?.preview) throw new Error('حمّل أصوات حسابك الأول (العينة بتيجي من ElevenLabs).');
+      previewEl?.pause();
+      previewEl = new Audio(v.preview);
+      await previewEl.play();
+    } else {
+      saveSettings();
+      e.target.disabled = true;
+      const r = await speakLine('أهلاً بيكم في نشرة اليوم، ودي تجربة للصوت.', sp);
+      const ac = audioCtx();
+      ac.resume();
+      const src = ac.createBufferSource();
+      src.buffer = r.buffer; src.connect(ac.destination); src.start();
+      fetchSubscription().then(fillUsage).catch(() => {});
+    }
+  } catch (err) { $('usage').textContent = '❌ ' + (err.message || err); }
+  e.target.disabled = false;
 });
 
 /* ---------- تشغيل ---------- */
@@ -358,9 +559,12 @@ $('sSave').addEventListener('click', () => {
   $('mCat').innerHTML = opts;
   renderChips();
   fillSettings();
+  const cur = currentId() && getReel(currentId());
+  if (cur) reel = newReel(cur);
   fillForm();
+  restoreAudio();
   try { feeds = await loadFeeds(); } catch { $('feedInfo').textContent = 'تعذر تحميل data/feeds.json.'; }
   renderFeed();
-  document.fonts?.load('800 80px Cairo').then(() => redraw()).catch(() => {});
+  loadFonts().then(() => redraw());
   window.__nrs = { get reel() { return reel; }, audioMap, setManual: b => { manualAudio = b; updateInfo(); redraw(); } };
 })();

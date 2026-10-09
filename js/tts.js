@@ -1,5 +1,5 @@
 // توليد الصوت من ElevenLabs مع توقيت كل كلمة، وكاش لكل سطر
-import { getSettings, addChars, cacheGet, cachePut, sha1 } from './storage.js';
+import { getSettings, addChars, cacheGet, cachePut, sha1, load, save } from './storage.js';
 import { decode } from './audio.js';
 
 const API = 'https://api.elevenlabs.io';
@@ -12,6 +12,26 @@ export const MODELS = [
 export function voiceFor(speaker) {
   const s = getSettings();
   return speaker === 'B' ? (s.voiceB || s.voiceA) : s.voiceA;
+}
+
+// إعدادات الصوت للمذيع (لو صوت ب فاضي بيستخدم صوت أ فبناخد إعدادات أ)
+export function voiceSettingsFor(speaker) {
+  const s = getSettings();
+  const useB = speaker === 'B' && s.voiceB;
+  const v = (useB ? s.vsB : s.vsA) || {};
+  const model = s.elevenModel;
+  // Eleven v3 بياخد الثبات بس (قيم 0 / 0.5 / 1)، فبنبعته لأقرب قيمة ونسيب الباقي
+  if (model === 'eleven_v3') {
+    const st = v.stability ?? 0.5;
+    return { stability: [0, 0.5, 1].reduce((a, b) => (Math.abs(b - st) < Math.abs(a - st) ? b : a)) };
+  }
+  return {
+    stability: v.stability ?? 0.5,
+    similarity_boost: v.similarity ?? 0.75,
+    style: v.style ?? 0,
+    speed: v.speed ?? 1,
+    use_speaker_boost: true,
+  };
 }
 
 async function call(path, init) {
@@ -46,17 +66,31 @@ function b64ToBuf(b64) {
   return u.buffer;
 }
 
+function cacheKey(text, voiceId, vs) {
+  return sha1([voiceId, getSettings().elevenModel, JSON.stringify(vs), text].join('|'));
+}
+
+// بيدوّر في الكاش بس (من غير أي استهلاك رصيد). بيرجع null لو السطر مش متولّد قبل كده بنفس الإعدادات
+export async function peekLine(text, speaker) {
+  const voiceId = voiceFor(speaker);
+  if (!voiceId) return null;
+  const hit = await cacheGet(await cacheKey(text, voiceId, voiceSettingsFor(speaker)));
+  return hit ? { buffer: await decode(hit.mp3), words: hit.words, cached: true } : null;
+}
+
 // بيرجع {buffer, words, cached}
-export async function speakLine(text, voiceId) {
+export async function speakLine(text, speaker) {
   const s = getSettings();
-  if (!s.elevenKey || !voiceId) throw new Error('ضبط مفتاح ElevenLabs ورقم الصوت في الإعدادات الأول.');
-  const key = await sha1([voiceId, s.elevenModel, text].join('|'));
+  const voiceId = voiceFor(speaker);
+  if (!s.elevenKey || !voiceId) throw new Error('ضبط مفتاح ElevenLabs وصوت المذيع في الإعدادات الأول.');
+  const vs = voiceSettingsFor(speaker);
+  const key = await cacheKey(text, voiceId, vs);
   const hit = await cacheGet(key);
   if (hit) return { buffer: await decode(hit.mp3), words: hit.words, cached: true };
 
   const res = await call(`/v1/text-to-speech/${voiceId}/with-timestamps?output_format=mp3_44100_128`, {
     method: 'POST',
-    body: JSON.stringify({ text, model_id: s.elevenModel }),
+    body: JSON.stringify({ text, model_id: s.elevenModel, voice_settings: vs }),
   });
   if (!res.ok) {
     let msg = '';
@@ -69,4 +103,32 @@ export async function speakLine(text, voiceId) {
   addChars(text.length);
   await cachePut(key, { mp3, words });
   return { buffer: await decode(mp3), words, cached: false };
+}
+
+/* ---------- بيانات الحساب ---------- */
+async function getJson(path) {
+  const res = await call(path, { method: 'GET' });
+  if (res.status === 401 || res.status === 403) {
+    let why = '';
+    try { why = (await res.json())?.detail?.message || ''; } catch { /* مفيش تفاصيل */ }
+    throw new Error(`المفتاح مرفوض أو ناقصه صلاحية (${res.status}). ${why}`.trim());
+  }
+  if (!res.ok) throw new Error('ElevenLabs رد بخطأ ' + res.status);
+  return res.json();
+}
+
+// الرصيد: {used, limit, resetAt, tier}
+export async function fetchSubscription() {
+  const j = await getJson('/v1/user/subscription');
+  const sub = { used: j.character_count, limit: j.character_limit, resetAt: j.next_character_count_reset_unix ? j.next_character_count_reset_unix * 1000 : null, tier: j.tier, at: Date.now() };
+  save('sub', sub);
+  return sub;
+}
+
+export function lastSubscription() { return load('sub', null); }
+
+// أصوات الحساب (بما فيها المستنسخ): [{id, name, category, preview, labels}]
+export async function fetchVoices() {
+  const j = await getJson('/v1/voices');
+  return (j.voices || []).map(v => ({ id: v.voice_id, name: v.name, category: v.category, preview: v.preview_url, labels: v.labels || {} }));
 }

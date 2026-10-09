@@ -2,8 +2,12 @@
 
 export const MED_DISCLAIMER = 'معلومة عامة وليست استشارة طبية — استشر طبيبك';
 
+export const STATUSES = { draft: 'مسودة', exported: 'متصدّر', published: 'منشور' };
+
 export function newReel(over = {}) {
-  return {
+  const r = {
+    status: 'draft',
+    updatedAt: Date.now(),
     category: 'politics',
     headline: '',
     script: '',
@@ -15,6 +19,8 @@ export function newReel(over = {}) {
     checks: {},
     ...over,
   };
+  if (!r.id) r.id = 'r' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  return r;
 }
 
 // "أ: نص" / "ب: نص" / سطر من غير حرف = المذيع أ. بيرجع [{speaker:'A'|'B', text}]

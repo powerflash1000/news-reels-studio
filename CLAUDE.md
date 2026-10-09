@@ -27,7 +27,14 @@ Working memory for Claude sessions on this repo. README.md is the user-facing Ar
 | `audio.js` | decode, recorder, timeline mix |
 | `render.js` | canvas frame (1080×1920), same function for preview and export |
 | `export.js` | WebCodecs H.264/AAC + mp4-muxer (`window.__nrsTestCodecs` allows VP9/Opus in headless tests) |
+| `library.js` | reels library (localStorage `nrs:reels`), status, backup/restore (secrets excluded) |
 | `feeds.js`, `storage.js` | feed loading helpers; localStorage/IndexedDB |
+
+## Notes
+- Audio cache key = voice + model + voice settings + text (IndexedDB `nrs-audio`); opening a reel restores cached audio free (`peekLine`).
+- `data/feeds.json` has `health[]` per source (ok/empty/stale/error + reason); UI shows it under the news list.
+- Cairo font is bundled in `assets/fonts` (no Google Fonts).
+- Next batch: media library (NASA, Wikimedia Commons, Openverse, CDC/NIH/NOAA, Smithsonian, Internet Archive, Pixabay) with license + credit line; then M2.
 
 ## Testing
 Playwright + chromium from `/opt/pw-browsers`: serve the repo with `python3 -m http.server`, set `window.__nrsTestCodecs = true` before load, inject audio via `window.__nrs.setManual(AudioBuffer)`. RSS parser: `parseFeed` in `tools/fetch-feeds.mjs`.
