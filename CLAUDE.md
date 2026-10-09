@@ -14,7 +14,7 @@ Working memory for Claude sessions on this repo. README.md is the user-facing Ar
 - YouTubers = radar/verification only (RSS titles). Never a source. Every reel needs primary source name + URL on screen (export is blocked otherwise); youtube.com links are rejected as source.
 - Claim kinds: `fact` (primary source) vs `opinion` (shown as "رأي وتحليل"). Pre-export checklist is mandatory; health reels get an on-screen medical disclaimer.
 - No news-site photos, no photos of political figures. Backgrounds from public-domain/CC/own generation only (M3).
-- Script is written by the user; AI drafting only as opt-in later (Claude API key, M2).
+- Script is written by the user; AI drafting is opt-in only: `js/draft.js` (Claude API via raw `fetch` from the browser with `anthropic-dangerous-direct-browser-access`, user's own key `claudeKey`, default model `claude-opus-5-5`, `output_config.effort: low` + json_schema; no `thinking`/sampling params). Drafts use ONLY the feed summary/headline, list `missing` facts, escape `<`/`>` in untrusted text, and always get reviewed by the user.
 - Dialogue lines `أ:` / `ب:`, two ElevenLabs voices (`voiceA`, `voiceB`), per-line IndexedDB cache, with-timestamps for word sync.
 - Milestones: M1 feeds+script+voice+source template+export (done) → M2 dialogue avatars (2D mouth sync) + YouTuber claim comparison → M3 templates (breaking, lower third, stat card, offline SVG map) + multi backgrounds → M4 queue, publish pack (titles/desc/hashtags), experiment log.
 

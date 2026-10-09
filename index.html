@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mv0c9g26">
+<html lang="ar" dir="rtl" data-v="mv0sic16">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mv0c9g26">
+<link rel="stylesheet" href="assets/css/style.css?v=mv0sic16">
 </head>
 <body>
 <header class="top">
@@ -153,6 +153,16 @@
           <button id="refTr" class="btn ghost">ترجم للعربي</button>
           <a id="refLink" class="btn ghost" target="_blank" rel="noopener" hidden>فتح الخبر الأصلي</a>
         </div>
+        <div class="draftbox">
+          <b>✨ مسودة بالذكاء الاصطناعي (اختياري)</b>
+          <div class="grid">
+            <label>المدة<select id="draftLen"><option value="30">حوالي 30 ثانية</option><option value="45" selected>حوالي 45 ثانية</option><option value="60">حوالي 60 ثانية</option></select></label>
+            <label>الشكل<select id="draftFmt"><option value="single">مذيع واحد</option><option value="dialogue">حوار أ / ب</option></select></label>
+          </div>
+          <label>ملاحظات للمسودة (اختياري)<input id="draftNote" dir="auto" placeholder="مثال: ركّز على الأرقام، أو ابدأ بالسؤال"></label>
+          <button id="draftGo" class="btn pri">✨ اكتب مسودة من الملخص</button>
+          <p class="muted">بيبعت العنوان والملخص لـ Claude (مفتاحك أنت). المسودة بتستخدم معلومات الملخص بس، وراجعها وعدّلها بأسلوبك قبل التصدير.</p>
+        </div>
         <p id="refMsg" class="muted">أعد صياغته بأسلوبك قبل التصدير. الأداة بتسحب الملخص بس، مش نص الخبر الكامل (حقوق النشر).</p>
       </details>
       <label>السكريبت — كل سطر جملة. للحوار ابدأ السطر بـ «أ:» أو «ب:»
@@ -267,6 +277,8 @@
 
   <div class="card">
     <h3>متقدم</h3>
+    <label>مفتاح Claude API (للمسودة بالذكاء الاصطناعي، اختياري)<input id="sClaude" type="password" dir="ltr" autocomplete="off" placeholder="sk-ant-…"></label>
+    <label>موديل المسودة<select id="sClaudeModel"></select></label>
     <label>مفتاح Pixabay (مجاني من pixabay.com/api/docs)<input id="sPixabay" type="password" dir="ltr" autocomplete="off"></label>
     <label>رابط الوسيط (Cloudflare Worker) — لازم لتحميل ملفات NASA و Internet Archive و Pixabay، واختياري لباقي المصادر<input id="sProxy" dir="ltr" placeholder="https://….workers.dev"></label>
     <p class="muted">الوسيط بيتعمل في دقيقتين من الملف <code>tools/cors-proxy-worker.js</code> في الريبو (الشرح في أول الملف). لو متحدّث قديم، ألصق النسخة الجديدة لأن فيها مواقع الوسائط.</p>
@@ -289,6 +301,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mv0c9g26"></script>
+<script type="module" src="js/main.js?v=mv0sic16"></script>
 </body>
 </html>
