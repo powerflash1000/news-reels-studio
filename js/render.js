@@ -1,8 +1,8 @@
 // رسم إطار الريل على canvas (مقاس 1080×1920). نفس الدالة للمعاينة والتصدير.
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mv195uxg';
-import { hostOf } from './feeds.js?v=mv195uxg';
-import QR from '../vendor/qrcode/qrcode.mjs?v=mv195uxg';
-import { drawBg } from './bg.js?v=mv195uxg';
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mv19b8x4';
+import { hostOf } from './feeds.js?v=mv19b8x4';
+import QR from '../vendor/qrcode/qrcode.mjs?v=mv19b8x4';
+import { drawBg } from './bg.js?v=mv19b8x4';
 
 export const W = 1080, H = 1920;
 const FONT = 'Cairo, Tajawal, "Noto Naskh Arabic", "Segoe UI", Tahoma, sans-serif';

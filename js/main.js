@@ -1,15 +1,16 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv195uxg';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv195uxg';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv195uxg';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mv195uxg';
-import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv195uxg';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE } from './audio.js?v=mv195uxg';
-import { drawFrame, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mv195uxg';
-import { exportSupport, exportReel } from './export.js?v=mv195uxg';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv195uxg';
-import { draftScript, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mv195uxg';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mv195uxg';
-import { loadBg, playBg } from './bg.js?v=mv195uxg';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv19b8x4';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv19b8x4';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv19b8x4';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mv19b8x4';
+import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv19b8x4';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE } from './audio.js?v=mv19b8x4';
+import { drawFrame, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mv19b8x4';
+import { exportSupport, exportReel } from './export.js?v=mv19b8x4';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv19b8x4';
+import { draftScript, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mv19b8x4';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mv19b8x4';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mv19b8x4';
+import { loadBg, playBg } from './bg.js?v=mv19b8x4';
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -40,9 +41,10 @@ function setStatus(msg, bad = false) {
 /* ---------- التبويبات ---------- */
 function showTab(name) {
   for (const b of document.querySelectorAll('#tabs button')) b.classList.toggle('on', b.dataset.tab === name);
-  for (const id of ['feed', 'studio', 'media', 'library', 'settings']) $('tab-' + id).hidden = id !== name;
+  for (const id of ['feed', 'studio', 'media', 'library', 'publish', 'settings']) $('tab-' + id).hidden = id !== name;
   if (name === 'studio') redraw();
   if (name === 'library') renderLibrary();
+  if (name === 'publish') renderPublish();
   if (name === 'media') renderMediaTarget();
 }
 $('tabs').addEventListener('click', e => e.target.dataset.tab && showTab(e.target.dataset.tab));
@@ -1167,3 +1169,95 @@ $('ver').textContent = `نسخة ${codeV}${codeV === pageV ? '' : ` ⚠️ ال�
   loadFonts().then(() => redraw());
   window.__nrs = { get reel() { return reel; }, get cur() { return cur; }, audioMap, setManual: b => { manualAudio = b; updateInfo(); redraw(); } };
 })();
+
+/* ---------- النشر: حزمة + طابور + سجل تجارب (M4) ---------- */
+let pbId = null;
+const today = () => new Date().toISOString().slice(0, 10);
+const pbRec = () => (pbId ? getReel(pbId) : null);
+
+// بنعدّل سجل المكتبة، ولو الريل مفتوح في الاستوديو بنعدّل نسخته في الذاكرة كمان (عشان الحفظ التلقائي ميمسحش التعديل)
+function patchReel(id, fn) {
+  const rec = getReel(id);
+  if (!rec) return null;
+  fn(rec);
+  if (reel.id === id) fn(reel);
+  upsertReel(rec);
+  return rec;
+}
+
+function renderPublish() {
+  const all = listReels().map(normalizeReel).filter(r => !r.stories.every(isEmptyStory));
+  if (!pbId || !all.some(r => r.id === pbId)) pbId = (all.find(r => r.id === reel.id) || all[0])?.id || null;
+  $('pbReel').innerHTML = all.length ? all.map(r => `<option value="${r.id}" ${r.id === pbId ? 'selected' : ''}>${esc(r.title || r.stories[0].headline || '(من غير عنوان)')}</option>`).join('') : '<option value="">مفيش ريلز لسه</option>';
+  $('lgPlat').innerHTML = Object.entries(PLATFORMS).map(([k, v]) => `<option value="${k}">${v}</option>`).join('');
+  if (!$('lgDate').value) $('lgDate').value = today();
+  const rec = pbId ? normalizeReel(getReel(pbId)) : null;
+  if (rec && !rec.pack) patchReel(pbId, r => { r.pack = buildPack(normalizeReel(r), { handle: getSettings().handle }); });
+  const r = rec ? normalizeReel(getReel(pbId)) : null;
+  const pack = r?.pack || { title: '', titles: [], desc: '', tags: '' };
+  $('pbTitle').value = pack.title || '';
+  $('pbDesc').value = pack.desc || '';
+  $('pbTags').value = pack.tags || '';
+  $('pbTitles').innerHTML = (pack.titles || []).map((t, i) => `<button class="chip" data-t="${i}">${esc(t.slice(0, 40))}</button>`).join('');
+  $('pbDate').value = r?.plan?.date || '';
+  document.querySelectorAll('[data-plat]').forEach(c => { c.checked = !!r?.plan?.platforms?.includes(c.dataset.plat); });
+  renderQueue(all);
+  renderLog(all, r);
+}
+
+function renderQueue(all) {
+  const rows = all.filter(r => r.plan?.date && r.status !== 'published').sort((a, b) => a.plan.date.localeCompare(b.plan.date));
+  $('pbQueue').innerHTML = rows.length ? rows.map(r => {
+    const late = r.plan.date < today();
+    return `<article class="item"><h3 dir="auto">${esc(r.title || r.stories[0].headline || '')}</h3>
+      <div class="meta"><span>${r.plan.date}${late ? ' ⚠️ متأخر' : r.plan.date === today() ? ' • النهارده' : ''}</span><span>${(r.plan.platforms || []).map(p => PLATFORMS[p]).join('، ') || 'من غير منصة'}</span><span class="stat ${r.status}">${STATUSES[r.status]}</span></div>
+      <div class="row"><button class="btn" data-pbopen="${r.id}">الحزمة</button><button class="btn ghost" data-pbstudio="${r.id}">الاستوديو</button></div></article>`;
+  }).join('') : '<p class="muted">الطابور فاضي. اختار ريل وتاريخ واضغط «حفظ في الطابور».</p>';
+}
+
+const fmtPct = v => (v * 100).toFixed(1) + '%';
+function renderLog(all, r) {
+  $('lgList').innerHTML = (r?.posts || []).map((p, i) => `<article class="item"><div class="meta"><span>${PLATFORMS[p.platform] || p.platform}</span><span>${esc(p.date)}</span><span>👁 ${p.views || 0}</span><span>❤ ${p.likes || 0}</span><span>💬 ${p.comments || 0}</span><span>↗ ${p.shares || 0}</span><span>🔖 ${p.saves || 0}</span><span>تفاعل ${fmtPct(engagement(p))}</span>${p.tag ? `<span class="tag">${esc(p.tag)}</span>` : ''}</div>
+    ${p.url ? `<a href="${esc(p.url)}" target="_blank" rel="noopener" dir="ltr">${esc(p.url.slice(0, 60))}</a>` : ''}<div class="row"><button class="btn ghost" data-lgdel="${i}">حذف</button></div></article>`).join('');
+  const tbl = (title, rows) => rows.length ? `<table class="tbl"><caption>${title}</caption><tr><th></th><th>منشورات</th><th>متوسط المشاهدات</th><th>متوسط التفاعل</th></tr>${rows.map(x => `<tr><td>${esc(PLATFORMS[x.key] || x.key)}</td><td>${x.n}</td><td>${x.views}</td><td>${fmtPct(x.eng)}</td></tr>`).join('')}</table>` : '';
+  const withPosts = all.filter(x => x.posts?.length);
+  $('lgStats').innerHTML = withPosts.length ? tbl('حسب المنصة', summarize(withPosts, 'platform')) + tbl('حسب وسم التجربة', summarize(withPosts, 'tag')) + '<p class="muted">التفاعل = (إعجابات + تعليقات + مشاركات + حفظ) ÷ مشاهدات. الأرقام الصغيرة مش دليل: استنى 5 منشورات على الأقل لكل وسم.</p>' : '<p class="muted">مفيش تسجيلات لسه.</p>';
+}
+
+$('pbReel').addEventListener('change', () => { pbId = $('pbReel').value || null; renderPublish(); });
+$('pbTitles').addEventListener('click', e => { const r = pbRec(); const t = e.target.dataset.t; if (r && t != null) { $('pbTitle').value = r.pack.titles[t]; $('pbTitle').dispatchEvent(new Event('input')); } });
+for (const id of ['pbTitle', 'pbDesc', 'pbTags']) {
+  $(id).addEventListener('input', () => {
+    if (pbId) patchReel(pbId, r => { r.pack = { ...(r.pack || {}), title: $('pbTitle').value, desc: $('pbDesc').value, tags: $('pbTags').value }; });
+  });
+}
+$('pbRegen').addEventListener('click', () => {
+  if (!pbId || !confirm('ده هيستبدل العنوان والوصف والهاشتاجات بالنسخة التلقائية. موافق؟')) return;
+  patchReel(pbId, r => { r.pack = buildPack(normalizeReel(r), { handle: getSettings().handle }); });
+  renderPublish();
+});
+document.querySelector('#tab-publish').addEventListener('click', async e => {
+  const d = e.target.dataset;
+  if (d.cp && pbId) {
+    const text = compose({ title: $('pbTitle').value, desc: $('pbDesc').value, tags: $('pbTags').value }, d.cp);
+    try { await navigator.clipboard.writeText(text); $('pbMsg').textContent = `اتنسخ نص ${PLATFORMS[d.cp]} (${text.length} حرف) ✅`; }
+    catch { $('pbMsg').textContent = 'المتصفح منع النسخ، حدّد النص وانسخه يدويًا.'; }
+  }
+  if (d.pbopen) { pbId = d.pbopen; renderPublish(); window.scrollTo(0, 0); }
+  if (d.pbstudio) openReel(d.pbstudio);
+  if (d.lgdel != null && pbId && confirm('تحذف التسجيل ده؟')) { patchReel(pbId, r => { (r.posts = r.posts || []).splice(Number(d.lgdel), 1); }); renderPublish(); }
+});
+$('pbPlan').addEventListener('click', () => {
+  if (!pbId) return;
+  const platforms = [...document.querySelectorAll('[data-plat]')].filter(c => c.checked).map(c => c.dataset.plat);
+  patchReel(pbId, r => { r.plan = { date: $('pbDate').value, platforms }; });
+  renderPublish();
+});
+$('lgAdd').addEventListener('click', () => {
+  if (!pbId) return;
+  const p = { platform: $('lgPlat').value, date: $('lgDate').value || today(), url: $('lgUrl').value.trim(), tag: $('lgTag').value.trim() };
+  for (const k of ['views', 'likes', 'comments', 'shares', 'saves']) p[k] = Math.max(0, Number($('lg' + k[0].toUpperCase() + k.slice(1)).value) || 0);
+  patchReel(pbId, r => { (r.posts = r.posts || []).push(p); r.status = 'published'; });
+  for (const id of ['lgUrl', 'lgViews', 'lgLikes', 'lgComments', 'lgShares', 'lgSaves']) $(id).value = '';
+  renderPublish();
+});

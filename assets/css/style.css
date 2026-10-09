@@ -101,3 +101,4 @@ dialog label input { width: auto; margin-top: 6px; }
 
 .draftbox { border-top: 1px dashed var(--line); margin-top: 10px; padding-top: 8px; }
 .aiK[hidden]{display:none}
+.tbl { width: 100%; border-collapse: collapse; margin: 8px 0; } .tbl caption { text-align: start; color: var(--muted); font-size: 14px; } .tbl th, .tbl td { border-bottom: 1px solid var(--line); padding: 4px 8px; text-align: start; }

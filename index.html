@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mv195uxg">
+<html lang="ar" dir="rtl" data-v="mv19b8x4">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mv195uxg">
+<link rel="stylesheet" href="assets/css/style.css?v=mv19b8x4">
 </head>
 <body>
 <header class="top">
@@ -15,6 +15,7 @@
     <button data-tab="studio">الاستوديو</button>
     <button data-tab="media">الوسائط</button>
     <button data-tab="library">المكتبة</button>
+    <button data-tab="publish">النشر</button>
     <button data-tab="settings">الإعدادات</button>
   </nav>
 </header>
@@ -236,6 +237,53 @@
   <p id="bkMsg" class="muted"></p>
 </section>
 
+<!-- النشر: حزمة النشر + الطابور + سجل التجارب -->
+<section id="tab-publish" hidden>
+  <div class="card">
+    <h3>حزمة النشر</h3>
+    <label>الريل<select id="pbReel"></select></label>
+    <div id="pbTitles" class="chips"></div>
+    <label>العنوان<input id="pbTitle" dir="auto"></label>
+    <label>الوصف (المصادر وحقوق الوسائط والتنبيهات جاهزة)<textarea id="pbDesc" rows="8" dir="auto"></textarea></label>
+    <label>الهاشتاجات<input id="pbTags" dir="auto"></label>
+    <div class="row">
+      <button class="btn" data-cp="tiktok">📋 تيك توك</button>
+      <button class="btn" data-cp="instagram">📋 إنستجرام</button>
+      <button class="btn" data-cp="facebook">📋 فيسبوك</button>
+      <button id="pbRegen" class="btn ghost">↻ أعد توليد الحزمة</button>
+    </div>
+    <p id="pbMsg" class="muted"></p>
+  </div>
+  <div class="card">
+    <h3>الجدولة</h3>
+    <div class="grid">
+      <label>تاريخ النشر المخطط<input id="pbDate" type="date"></label>
+      <div><label class="chk"><input type="checkbox" data-plat="tiktok"> تيك توك</label><label class="chk"><input type="checkbox" data-plat="instagram"> إنستجرام</label><label class="chk"><input type="checkbox" data-plat="facebook"> فيسبوك</label></div>
+    </div>
+    <button id="pbPlan" class="btn">حفظ في الطابور</button>
+    <div id="pbQueue" class="list"></div>
+  </div>
+  <div class="card">
+    <h3>سجل التجارب</h3>
+    <p class="muted">بعد النشر سجّل الأرقام بعد يوم أو أكتر، ووسم التجربة (مثال: «هوك سؤال»، «قالب عاجل»، «45 ثانية») عشان تعرف إيه اللي بينجح.</p>
+    <div class="grid">
+      <label>المنصة<select id="lgPlat"></select></label>
+      <label>تاريخ النشر<input id="lgDate" type="date"></label>
+      <label>رابط المنشور<input id="lgUrl" dir="ltr"></label>
+      <label>وسم التجربة<input id="lgTag" dir="auto" placeholder="هوك سؤال، قالب عاجل"></label>
+      <label>مشاهدات<input id="lgViews" type="number" min="0"></label>
+      <label>إعجابات<input id="lgLikes" type="number" min="0"></label>
+      <label>تعليقات<input id="lgComments" type="number" min="0"></label>
+      <label>مشاركات<input id="lgShares" type="number" min="0"></label>
+      <label>حفظ<input id="lgSaves" type="number" min="0"></label>
+    </div>
+    <button id="lgAdd" class="btn pri">سجّل</button>
+    <div id="lgList" class="list"></div>
+    <h4>الملخص</h4>
+    <div id="lgStats"></div>
+  </div>
+</section>
+
 <!-- الإعدادات -->
 <section id="tab-settings" hidden>
   <p class="muted">كل المفاتيح بتتحفظ في متصفحك بس، ومش بتترفع على GitHub.</p>
@@ -317,6 +365,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mv195uxg"></script>
+<script type="module" src="js/main.js?v=mv19b8x4"></script>
 </body>
 </html>

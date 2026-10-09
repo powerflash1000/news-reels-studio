@@ -31,6 +31,7 @@ Working memory for Claude sessions on this repo. README.md is the user-facing Ar
 | `media.js` | media search providers (NASA, Commons, Openverse, Archive, Pixabay) → unified items with license tier; `classifyLicense` rejects NC/ND; `fetchBlob` (CORS-direct for Commons/Openverse, via proxy for NASA/Archive/Pixabay) |
 | `render.js` templates | story.template: standard / breaking / stat (count-up) / map (offline world, zoom to highlighted countries); reel.ticker = bottom scrolling strip. `setWorld()` loads `assets/data/world.json` (built by `tools/build-map.mjs` with d3-geo; Natural Earth PD). Template animations use `local` = time since story start |
 | `mediastore.js`, `bg.js` | story background blobs in IndexedDB `nrs-media`; load/seek/draw (cover + dim); story.media holds only metadata (blob stays on device) |
+| `publish.js` + «النشر» tab (main.js) | M4: `buildPack` (titles/desc with sources + media credits + disclaimers/hashtags by category), `compose` per platform, `summarize` posts by platform/tag. Per-reel data: `reel.pack`, `reel.plan {date,platforms}`, `reel.posts[]` (views/likes/comments/shares/saves/tag). Edits go through `patchReel` (library record + in-memory reel, else autosave overwrites them) |
 | `feeds.js`, `storage.js` | feed loading helpers; localStorage/IndexedDB |
 
 ## Notes
@@ -45,6 +46,7 @@ Working memory for Claude sessions on this repo. README.md is the user-facing Ar
 - Background music: `reel.music {id,name,vol}`, blob in `nrs-media`, decoded in main.js (`musicBuf`), mixed by `mixTimeline(segs,dur,music)` (loop, fade, ducking to 35% under voice). Idea source: MoneyPrinterTurbo (not used as code).
 - Proof template (`story.proof` = status + ≤3 sources with outlet/title/date/url + optional user screenshot blob in `nrs-media`, QR via vendored `qrcode-generator` MIT) replaces the bottom source bar; map pins (`story.map.pins` lat/lon from `assets/data/cities.json`). We never fetch news-site video/photos (copyright); users may upload their own screenshots.
 - M3 done (templates). Map data caveats: 110m resolution (small states are tiny), France includes French Guiana, Palestine/Israel are separate entries per CLDR.
+- M4 done (publish pack, queue, experiment log; manual posting, no platform APIs).
 - Next: M2 (2D avatars + dialogue mouth sync, YouTuber claim comparison), M3 templates (breaking, lower third, stat card, offline SVG map), M4 queue + publish pack (should include media credits).
 
 ## Release step (cache busting)
