@@ -1,15 +1,15 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv13n2xh';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv13n2xh';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv13n2xh';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mv13n2xh';
-import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv13n2xh';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE } from './audio.js?v=mv13n2xh';
-import { drawFrame, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mv13n2xh';
-import { exportSupport, exportReel } from './export.js?v=mv13n2xh';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv13n2xh';
-import { draftScript, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mv13n2xh';
-import { putBlob } from './mediastore.js?v=mv13n2xh';
-import { loadBg, playBg } from './bg.js?v=mv13n2xh';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv195uxg';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv195uxg';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv195uxg';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mv195uxg';
+import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv195uxg';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE } from './audio.js?v=mv195uxg';
+import { drawFrame, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mv195uxg';
+import { exportSupport, exportReel } from './export.js?v=mv195uxg';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv195uxg';
+import { draftScript, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mv195uxg';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mv195uxg';
+import { loadBg, playBg } from './bg.js?v=mv195uxg';
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -378,6 +378,7 @@ function fillTemplateFields() {
   $('tkOn').checked = !!reel.ticker?.on;
   $('tkLabel').value = reel.ticker?.label || '';
   $('tkText').value = reel.ticker?.text || '';
+  syncMusic();
   document.querySelector('.tplbox').hidden = st.kind !== 'news';
   $('pinLabel').value = st.map?.pins?.[0]?.label || '';
   if (!$('pfStatus').options.length) $('pfStatus').innerHTML = Object.entries(PROOF_STATUS).map(([k, v]) => `<option value="${k}">${v}</option>`).join('');
@@ -518,7 +519,43 @@ $('stDel').addEventListener('click', () => {
 let restoreTimer = 0;
 
 // الخط الزمني: صوت حقيقي لو متاح، وإلا تقدير صامت للمعاينة
-function currentTimeline() { return buildReelTimeline(reel, audioMap, manualAudio); }
+function currentTimeline() {
+  const info = buildReelTimeline(reel, audioMap, manualAudio);
+  info.tl.music = musicBuf && reel.music ? { buffer: musicBuf, gain: reel.music.vol ?? 0.15 } : null;
+  return info;
+}
+
+/* ---------- موسيقى الخلفية ---------- */
+let musicBuf = null, musicKey = null;
+async function syncMusic() {
+  const m = reel.music;
+  if (!m?.id) { musicBuf = null; musicKey = null; }
+  else if (musicKey !== m.id) {
+    musicKey = m.id; musicBuf = null;
+    try { const b = await getBlob(m.id); if (b && musicKey === m.id) musicBuf = await decode(await b.arrayBuffer()); } catch { /* الملف مش متاح على الجهاز ده */ }
+  }
+  $('musicInfo').textContent = !m ? 'من غير موسيقى. ارفع ملف صوت من عندك (ترخيصه عليك: استخدم موسيقى بدون حقوق أو من مكتبة بترخيصك).'
+    : musicBuf ? `🎵 ${m.name}` : `🎵 ${m.name} — الملف مش موجود على الجهاز ده، ارفعه تاني.`;
+  $('musicDel').hidden = !m;
+  if (m) $('musicVol').value = m.vol ?? 0.15;
+}
+$('musicFile').addEventListener('change', async e => {
+  const f = e.target.files?.[0];
+  if (!f) return;
+  try {
+    const id = 'music' + Date.now().toString(36);
+    await putBlob(id, f);
+    if (reel.music?.id) delBlob(reel.music.id);
+    reel.music = { id, name: f.name.slice(0, 60), vol: Number($('musicVol').value) || 0.15 };
+    musicKey = null;
+    await syncMusic();
+    if (!musicBuf) { reel.music = null; await syncMusic(); throw new Error('الملف ده مش ملف صوت مفهوم'); }
+    persist();
+  } catch (err) { $('musicInfo').textContent = '❌ ' + (err.message || err); }
+  e.target.value = '';
+});
+$('musicVol').addEventListener('input', () => { if (reel.music) { reel.music.vol = Number($('musicVol').value); persist(); } });
+$('musicDel').addEventListener('click', async () => { if (reel.music?.id) delBlob(reel.music.id); reel.music = null; await syncMusic(); persist(); });
 
 function stateFor(info) {
   return { reel, cats: cfg.categories, settings: getSettings(), tl: info.tl, hasB: info.hasB, focusIdx: cur, bgs, shots };
@@ -612,8 +649,8 @@ $('play').addEventListener('click', () => {
   const ac = audioCtx();
   ac.resume();
   let src = null;
-  if (info.real) {
-    const mix = mixTimeline(info.tl.segs, info.tl.duration);
+  if (info.real || info.tl.music) {
+    const mix = mixTimeline(info.tl.segs, info.tl.duration, info.tl.music);
     const buf = ac.createBuffer(2, mix.left.length, SAMPLE_RATE);
     buf.copyToChannel(mix.left, 0); buf.copyToChannel(mix.right, 1);
     src = ac.createBufferSource(); src.buffer = buf; src.connect(ac.destination);
