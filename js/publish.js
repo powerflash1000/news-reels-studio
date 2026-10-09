@@ -1,5 +1,5 @@
 // M4: حزمة النشر (عناوين/وصف/هاشتاجات/مصادر/حقوق وسائط) + سجل التجارب. دوال خالصة من غير DOM.
-import { MED_DISCLAIMER } from './reel.js?v=mv1gnb0a';
+import { MED_DISCLAIMER } from './reel.js?v=mv1h349a';
 
 export const PLATFORMS = { tiktok: 'تيك توك', instagram: 'إنستجرام', facebook: 'فيسبوك' };
 export const ENGAGE = ['likes', 'comments', 'shares', 'saves'];
@@ -8,6 +8,7 @@ const TAGS = {
   politics: ['#سياسة', '#أخبار_العالم'], economy: ['#اقتصاد', '#أسواق'], sports: ['#رياضة', '#كرة_القدم'],
   science: ['#علوم', '#فضاء'], health: ['#صحة', '#طب'], healthtech: ['#تقنية_طبية', '#صحة_رقمية'],
   ai: ['#ذكاء_اصطناعي', '#AI'], defense: ['#دفاع', '#عسكري'], stories: ['#قصص', '#وثائقي'],
+  entertainment: ['#فن', '#ترفيه'], tech: ['#تقنية', '#تكنولوجيا'], trending: ['#ترند', '#تريند'],
 };
 const GENERAL = ['#أخبار', '#ريلز', '#news'];
 const LIMIT = { tiktok: 5, instagram: 12, facebook: 4 };

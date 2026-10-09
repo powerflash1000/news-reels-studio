@@ -1,17 +1,17 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv1gnb0a';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv1gnb0a';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv1gnb0a';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mv1gnb0a';
-import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv1gnb0a';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mv1gnb0a';
-import { drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mv1gnb0a';
-import { exportSupport, exportReel } from './export.js?v=mv1gnb0a';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv1gnb0a';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mv1gnb0a';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mv1gnb0a';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mv1gnb0a';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mv1gnb0a';
-import { loadBg, playBg } from './bg.js?v=mv1gnb0a';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv1h349a';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv1h349a';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv1h349a';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mv1h349a';
+import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv1h349a';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mv1h349a';
+import { drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mv1h349a';
+import { exportSupport, exportReel } from './export.js?v=mv1h349a';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv1h349a';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mv1h349a';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mv1h349a';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mv1h349a';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mv1h349a';
+import { loadBg, playBg } from './bg.js?v=mv1h349a';
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -51,34 +51,67 @@ function showTab(name) {
 $('tabs').addEventListener('click', e => e.target.dataset.tab && showTab(e.target.dataset.tab));
 
 /* ---------- الأخبار ---------- */
+const prefs = (() => { try { return JSON.parse(localStorage.getItem('nrs:feedPrefs') || '{}'); } catch { return {}; } })();
+const savePrefs = () => { try { localStorage.setItem('nrs:feedPrefs', JSON.stringify({ region: filterRegion, sort: $('sortBy').value, trend: $('trendOnly').checked })); } catch { /* ممنوع التخزين */ } };
+let filterRegion = prefs.region || 'all';
+
 function renderChips() {
   const all = [{ id: 'all', label: 'الكل', color: '#3e63dd' }, ...cfg.categories];
   $('cats').innerHTML = all.map(c => `<button class="chip ${c.id === filterCat ? 'on' : ''}" data-c="${c.id}" style="--c:${c.color}">${c.label}</button>`).join('');
+  const regs = [{ id: 'all', label: 'كل المناطق' }, ...(cfg.regions || [])];
+  $('regions').innerHTML = regs.map(r => `<button class="chip ${r.id === filterRegion ? 'on' : ''}" data-r="${r.id}" style="--c:#6b7cff">${r.label}</button>`).join('');
 }
 $('cats').addEventListener('click', e => { if (e.target.dataset.c) { filterCat = e.target.dataset.c; renderChips(); renderFeed(); } });
+$('regions').addEventListener('click', e => { if (e.target.dataset.r) { filterRegion = e.target.dataset.r; savePrefs(); renderChips(); renderFeed(); } });
 $('q').addEventListener('input', renderFeed);
 $('showYt').addEventListener('change', renderFeed);
+$('sortBy').addEventListener('change', () => { savePrefs(); renderFeed(); });
+$('trendOnly').addEventListener('change', () => { savePrefs(); renderFeed(); });
 
-const TYPE_TXT = { agency: 'وكالة', public: 'إعلام عام', state: 'حكومي/موجّه', official: 'رسمي', specialist: 'متخصص', radar: 'رادار — مش مصدر أصلي' };
+const TYPE_TXT = { agency: 'وكالة', public: 'إعلام عام', state: 'حكومي/موجّه', official: 'رسمي', specialist: 'متخصص', radar: 'رادار — مش مصدر أصلي', trend: 'ترند' };
+const regionLabel = id => (cfg.regions || []).find(r => r.id === id)?.label || '';
+function inRegion(item) {
+  if (filterRegion === 'all') return true;
+  const r = item.region || 'world';
+  return r === filterRegion || (cfg.regions || []).find(x => x.id === r)?.in === filterRegion;
+}
+// أهمية الخبر دلوقتي = الأهمية وقت الجمع × تناقص مع عمر الخبر (نص العمر 24 ساعة)
+const effImp = i => (i.imp || 0) * Math.pow(0.5, (i.published ? Math.max(0, Date.now() - Date.parse(i.published)) / 36e5 : 0) / 24);
+const fmtBig = n => (n >= 1e6 ? (n / 1e6).toFixed(1).replace(/\.0$/, '') + ' مليون' : n >= 1e3 ? Math.round(n / 1e3) + ' ألف' : String(n));
+
 function renderFeed() {
   const q = $('q').value.trim().toLowerCase();
   const showYt = $('showYt').checked;
-  const items = feeds.items.filter(i =>
+  const trendOnly = $('trendOnly').checked;
+  const byImp = $('sortBy').value === 'imp';
+  let list = feeds.items.filter(i =>
     (filterCat === 'all' || i.category === filterCat) &&
+    inRegion(i) &&
+    (!trendOnly || i.tk === 'trend' || i.tk === 'top' || (i.cov || 1) >= 3) &&
     (showYt || i.kind !== 'youtube') &&
-    (!q || (i.title + ' ' + i.summary + ' ' + i.source).toLowerCase().includes(q))).slice(0, 150);
+    (!q || (i.title + ' ' + i.summary + ' ' + i.source).toLowerCase().includes(q)));
+  if (byImp) list = list.map(i => [effImp(i), i]).sort((a, b) => b[0] - a[0] || (Date.parse(b[1].published) || 0) - (Date.parse(a[1].published) || 0)).map(x => x[1]);
+  const items = list.slice(0, 150);
   const gen = feeds.generatedAt ? `آخر تحديث: ${timeAgo(feeds.generatedAt)}` : 'لسه مفيش تحديث — شغّل الـ Action (fetch-feeds) من تبويب Actions في GitHub، أو أضف خبر يدويًا تحت.';
   const bad = (feeds.health || []).filter(h => h.status !== 'ok');
-  $('feedInfo').textContent = `${gen} • ${items.length} خبر${bad.length ? ` • ⚠️ ${bad.length} مصدر فيه مشكلة (تحت)` : ''}`;
+  $('feedInfo').textContent = `${gen} • ${items.length} خبر${byImp ? ' (الأهم أولًا)' : ''}${bad.length ? ` • ⚠️ ${bad.length} مصدر فيه مشكلة (تحت)` : ''}`;
   renderHealth();
   renderPickBar();
-  $('feedList').innerHTML = items.map(i => {
+  $('feedList').innerHTML = items.map((i, n) => {
     const c = cat(i.category);
     const yt = i.kind === 'youtube';
+    const badges = [
+      byImp ? `<span class="tag hot">#${n + 1}</span>` : '',
+      i.traffic ? `<span class="tag hot">🔥 بحث ${fmtBig(i.traffic)}+</span>` : '',
+      i.views ? `<span class="tag hot">👁 ${fmtBig(i.views)} مشاهدة</span>` : '',
+      i.tk === 'top' && i.rank ? `<span class="tag hot">من أهم الأخبار (#${i.rank})</span>` : '',
+      i.tk === 'trend' && i.rank && !i.traffic && !i.views ? `<span class="tag hot">ترند #${i.rank}</span>` : '',
+      (i.cov || 1) >= 2 ? `<span class="tag">🗞 ${i.cov} مصادر</span>` : '',
+    ].join('');
     return `<article class="item" style="--c:${c.color}">
       <h3 dir="auto">${esc(i.title)}</h3>
-      <div class="meta"><span>${esc(i.source)}</span><span>${c.label}</span><span>${timeAgo(i.published)}</span>
-        ${yt ? '<span class="tag">رادار — مش مصدر</span>' : ''}${TYPE_TXT[i.type] ? `<span class="tag">${TYPE_TXT[i.type]}</span>` : ''}${i.lang && i.lang !== 'ar' ? `<span>${i.lang.toUpperCase()}</span>` : ''}</div>
+      <div class="meta"><span>${esc(i.source)}</span><span>${c.label}</span>${regionLabel(i.region) ? `<span>${regionLabel(i.region)}</span>` : ''}<span>${timeAgo(i.published)}</span>
+        ${yt ? '<span class="tag">رادار — مش مصدر</span>' : ''}${TYPE_TXT[i.type] ? `<span class="tag">${TYPE_TXT[i.type]}</span>` : ''}${i.lang && i.lang !== 'ar' ? `<span>${i.lang.toUpperCase()}</span>` : ''}${badges}</div>
       ${i.summary ? `<div class="sum" dir="auto">${esc(i.summary.slice(0, 220))}</div>` : ''}
       <div class="row"><label class="pk"><input type="checkbox" data-chk="${esc(i.id)}" ${picked.has(i.id) ? 'checked' : ''}> حدّد</label>
         <button class="btn pri" data-pick="${esc(i.id)}">ريل جديد</button>
@@ -1288,6 +1321,7 @@ $('ver').textContent = `نسخة ${codeV}${codeV === pageV ? '' : ` ⚠️ ال�
   const opts = cfg.categories.map(c => `<option value="${c.id}">${c.label}</option>`).join('');
   $('fCat').innerHTML = opts;
   $('mCat').innerHTML = opts;
+  $('sortBy').value = prefs.sort || 'new'; $('trendOnly').checked = !!prefs.trend;
   renderChips();
   fillSettings();
   const saved = currentId() && getReel(currentId());

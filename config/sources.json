@@ -1,948 +1,2448 @@
 {
-  "_note": "عدّل القايمة دي براحتك. شاشة «صحة المصادر» في تبويب الأخبار بتوريك أي مصدر فاضي أو فاشل وسببه.",
-  "categories": [
-    {
-      "id": "politics",
-      "label": "سياسة",
-      "color": "#e5484d"
-    },
-    {
-      "id": "economy",
-      "label": "اقتصاد",
-      "color": "#f5a623"
-    },
-    {
-      "id": "sports",
-      "label": "رياضة",
-      "color": "#30a46c"
-    },
-    {
-      "id": "science",
-      "label": "علوم وأبحاث",
-      "color": "#3e63dd"
-    },
-    {
-      "id": "health",
-      "label": "طب",
-      "color": "#12a594"
-    },
-    {
-      "id": "healthtech",
-      "label": "طب وتقنية",
-      "color": "#17a2b8"
-    },
-    {
-      "id": "ai",
-      "label": "ذكاء اصطناعي",
-      "color": "#8e4ec6"
-    },
-    {
-      "id": "defense",
-      "label": "عسكري ودفاع",
-      "color": "#7c8a3a"
-    },
-    {
-      "id": "stories",
-      "label": "قصص وأرشيف",
-      "color": "#d9730d"
-    }
-  ],
-  "feeds": [
-    {
-      "id": "un-news-ar",
-      "category": "politics",
-      "name": "أخبار الأمم المتحدة",
-      "url": "https://news.un.org/feed/subscribe/ar/news/all/rss.xml",
-      "lang": "ar",
-      "type": "official"
-    },
-    {
-      "id": "bbc-ar",
-      "category": "politics",
-      "name": "BBC عربي",
-      "url": "https://feeds.bbci.co.uk/arabic/rss.xml",
-      "lang": "ar",
-      "type": "public"
-    },
-    {
-      "id": "bbc-world",
-      "category": "politics",
-      "name": "BBC World",
-      "url": "https://feeds.bbci.co.uk/news/world/rss.xml",
-      "lang": "en",
-      "type": "public"
-    },
-    {
-      "id": "bbc-hindi",
-      "category": "politics",
-      "name": "BBC हिन्दी",
-      "url": "https://feeds.bbci.co.uk/hindi/rss.xml",
-      "lang": "hi",
-      "type": "public"
-    },
-    {
-      "id": "bbc-zh",
-      "category": "politics",
-      "name": "BBC 中文",
-      "url": "https://feeds.bbci.co.uk/zhongwen/simp/rss.xml",
-      "lang": "zh",
-      "type": "public"
-    },
-    {
-      "id": "bbc-afrique",
-      "category": "politics",
-      "name": "BBC Afrique",
-      "url": "https://feeds.bbci.co.uk/afrique/rss.xml",
-      "lang": "fr",
-      "type": "public"
-    },
-    {
-      "id": "aljazeera-en",
-      "category": "politics",
-      "name": "Al Jazeera English",
-      "url": "https://www.aljazeera.com/xml/rss/all.xml",
-      "lang": "en",
-      "type": "state"
-    },
-    {
-      "id": "guardian-world",
-      "category": "politics",
-      "name": "The Guardian — World",
-      "url": "https://www.theguardian.com/world/rss",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "dw-en",
-      "category": "politics",
-      "name": "DW",
-      "url": "https://rss.dw.com/rdf/rss-en-all",
-      "lang": "en",
-      "type": "public"
-    },
-    {
-      "id": "france24-en",
-      "category": "politics",
-      "name": "France 24",
-      "url": "https://www.france24.com/en/rss",
-      "lang": "en",
-      "type": "public"
-    },
-    {
-      "id": "france24-fr",
-      "category": "politics",
-      "name": "France 24 (FR)",
-      "url": "https://www.france24.com/fr/rss",
-      "lang": "fr",
-      "type": "public"
-    },
-    {
-      "id": "rfi-fr",
-      "category": "politics",
-      "name": "RFI",
-      "url": "https://www.rfi.fr/fr/rss",
-      "lang": "fr",
-      "type": "public"
-    },
-    {
-      "id": "lemonde-int",
-      "category": "politics",
-      "name": "Le Monde — International",
-      "url": "https://www.lemonde.fr/international/rss_full.xml",
-      "lang": "fr",
-      "type": "specialist"
-    },
-    {
-      "id": "lefigaro-int",
-      "category": "politics",
-      "name": "Le Figaro — International",
-      "url": "https://www.lefigaro.fr/rss/figaro_international.xml",
-      "lang": "fr",
-      "type": "specialist"
-    },
-    {
-      "id": "axios",
-      "category": "politics",
-      "name": "Axios",
-      "url": "https://api.axios.com/feed/",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "politico",
-      "category": "politics",
-      "name": "Politico",
-      "url": "https://www.politico.com/rss/politicopicks.xml",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "npr",
-      "category": "politics",
-      "name": "NPR",
-      "url": "https://feeds.npr.org/1001/rss.xml",
-      "lang": "en",
-      "type": "public"
-    },
-    {
-      "id": "toi",
-      "category": "politics",
-      "name": "Times of Israel",
-      "url": "https://www.timesofisrael.com/feed/",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "jpost",
-      "category": "politics",
-      "name": "Jerusalem Post",
-      "url": "https://www.jpost.com/Rss/RssFeedsHeadlines.aspx",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "haaretz-en",
-      "category": "politics",
-      "name": "Haaretz (EN)",
-      "url": "https://www.haaretz.com/srv/haaretz-latest-headlines",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "ynet-he",
-      "category": "politics",
-      "name": "Ynet (עברית)",
-      "url": "https://www.ynet.co.il/Integration/StoryRss2.xml",
-      "lang": "he",
-      "type": "specialist"
-    },
-    {
-      "id": "scmp",
-      "category": "politics",
-      "name": "South China Morning Post",
-      "url": "https://www.scmp.com/rss/91/feed",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "xinhua-en",
-      "category": "politics",
-      "name": "Xinhua (EN)",
-      "url": "http://www.xinhuanet.com/english/rss/worldrss.xml",
-      "lang": "en",
-      "type": "state"
-    },
-    {
-      "id": "cgtn",
-      "category": "politics",
-      "name": "CGTN",
-      "url": "https://www.cgtn.com/subscribe/rss/section/world.xml",
-      "lang": "en",
-      "type": "state"
-    },
-    {
-      "id": "people-cn",
-      "category": "politics",
-      "name": "人民网 People's Daily",
-      "url": "http://www.people.com.cn/rss/politics.xml",
-      "lang": "zh",
-      "type": "state"
-    },
-    {
-      "id": "thehindu",
-      "category": "politics",
-      "name": "The Hindu — World",
-      "url": "https://www.thehindu.com/news/international/feeder/default.rss",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "ndtv",
-      "category": "politics",
-      "name": "NDTV — World",
-      "url": "https://feeds.feedburner.com/ndtvnews-world-news",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "ht-world",
-      "category": "politics",
-      "name": "Hindustan Times — World",
-      "url": "https://www.hindustantimes.com/feeds/rss/world-news/rssfeed.xml",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "radar-reuters",
-      "category": "politics",
-      "name": "Reuters (عبر Google News)",
-      "url": "https://news.google.com/rss/search?q=site:reuters.com+when:2d&hl=en-US&gl=US&ceid=US:en",
-      "lang": "en",
-      "type": "radar"
-    },
-    {
-      "id": "radar-ap",
-      "category": "politics",
-      "name": "AP (عبر Google News)",
-      "url": "https://news.google.com/rss/search?q=site:apnews.com+when:2d&hl=en-US&gl=US&ceid=US:en",
-      "lang": "en",
-      "type": "radar"
-    },
-    {
-      "id": "radar-bloomberg",
-      "category": "economy",
-      "name": "Bloomberg (عبر Google News)",
-      "url": "https://news.google.com/rss/search?q=site:bloomberg.com+when:2d&hl=en-US&gl=US&ceid=US:en",
-      "lang": "en",
-      "type": "radar"
-    },
-    {
-      "id": "bbc-business",
-      "category": "economy",
-      "name": "BBC Business",
-      "url": "https://feeds.bbci.co.uk/news/business/rss.xml",
-      "lang": "en",
-      "type": "public"
-    },
-    {
-      "id": "un-news-economy",
-      "category": "economy",
-      "name": "أخبار الأمم المتحدة — اقتصاد",
-      "url": "https://news.un.org/feed/subscribe/ar/news/topic/economic-development/feed/rss.xml",
-      "lang": "ar",
-      "type": "official"
-    },
-    {
-      "id": "wsj-markets",
-      "category": "economy",
-      "name": "WSJ Markets",
-      "url": "https://feeds.a.dj.com/rss/RSSMarketsMain.xml",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "cnbc",
-      "category": "economy",
-      "name": "CNBC",
-      "url": "https://www.cnbc.com/id/100003114/device/rss/rss.html",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "economist-fin",
-      "category": "economy",
-      "name": "The Economist — Finance",
-      "url": "https://www.economist.com/finance-and-economics/rss.xml",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "marketwatch",
-      "category": "economy",
-      "name": "MarketWatch",
-      "url": "https://feeds.content.dowjones.io/public/rss/mw_topstories",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "forbes-biz",
-      "category": "economy",
-      "name": "Forbes — Business",
-      "url": "https://www.forbes.com/business/feed/",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "yahoo-fin",
-      "category": "economy",
-      "name": "Yahoo Finance",
-      "url": "https://finance.yahoo.com/news/rssindex",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "nikkei-asia",
-      "category": "economy",
-      "name": "Nikkei Asia",
-      "url": "https://asia.nikkei.com/rss/feed/nar",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "ecb",
-      "category": "economy",
-      "name": "البنك المركزي الأوروبي — بيانات",
-      "url": "https://www.ecb.europa.eu/rss/press.html",
-      "lang": "en",
-      "type": "official"
-    },
-    {
-      "id": "fed",
-      "category": "economy",
-      "name": "الاحتياطي الفيدرالي — بيانات",
-      "url": "https://www.federalreserve.gov/feeds/press_all.xml",
-      "lang": "en",
-      "type": "official"
-    },
-    {
-      "id": "bbc-sport",
-      "category": "sports",
-      "name": "BBC Sport",
-      "url": "https://feeds.bbci.co.uk/sport/rss.xml",
-      "lang": "en",
-      "type": "public"
-    },
-    {
-      "id": "espn",
-      "category": "sports",
-      "name": "ESPN",
-      "url": "https://www.espn.com/espn/rss/news",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "skysports",
-      "category": "sports",
-      "name": "Sky Sports",
-      "url": "https://www.skysports.com/rss/12040",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "cbssports",
-      "category": "sports",
-      "name": "CBS Sports",
-      "url": "https://www.cbssports.com/rss/headlines/",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "goal",
-      "category": "sports",
-      "name": "Goal",
-      "url": "https://www.goal.com/feeds/en/news",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "lequipe",
-      "category": "sports",
-      "name": "L'Équipe",
-      "url": "https://dwh.lequipe.fr/api/edito/rss?path=/",
-      "lang": "fr",
-      "type": "specialist"
-    },
-    {
-      "id": "marca",
-      "category": "sports",
-      "name": "Marca",
-      "url": "https://e00-marca.uecdn.es/rss/portada.xml",
-      "lang": "es",
-      "type": "specialist"
-    },
-    {
-      "id": "uefa",
-      "category": "sports",
-      "name": "UEFA",
-      "url": "https://www.uefa.com/rssfeed/news/rss.xml",
-      "lang": "en",
-      "type": "official"
-    },
-    {
-      "id": "nasa",
-      "category": "science",
-      "name": "NASA",
-      "url": "https://www.nasa.gov/feed/",
-      "lang": "en",
-      "type": "official"
-    },
-    {
-      "id": "arxiv-physics",
-      "category": "science",
-      "name": "arXiv (physics)",
-      "url": "https://rss.arxiv.org/rss/physics",
-      "lang": "en",
-      "type": "official"
-    },
-    {
-      "id": "nature",
-      "category": "science",
-      "name": "Nature",
-      "url": "https://www.nature.com/nature.rss",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "science-news",
-      "category": "science",
-      "name": "Science (AAAS)",
-      "url": "https://www.science.org/rss/news_current.xml",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "newscientist",
-      "category": "science",
-      "name": "New Scientist",
-      "url": "https://www.newscientist.com/feed/home/",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "sciam",
-      "category": "science",
-      "name": "Scientific American",
-      "url": "http://rss.sciam.com/ScientificAmerican-Global",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "physorg",
-      "category": "science",
-      "name": "Phys.org",
-      "url": "https://phys.org/rss-feed/",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "space-com",
-      "category": "science",
-      "name": "Space.com",
-      "url": "https://www.space.com/feeds/all",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "quanta",
-      "category": "science",
-      "name": "Quanta Magazine",
-      "url": "https://api.quantamagazine.org/feed/",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "esa",
-      "category": "science",
-      "name": "ESA",
-      "url": "https://www.esa.int/rssfeed/Our_Activities/Space_Science",
-      "lang": "en",
-      "type": "official"
-    },
-    {
-      "id": "who-news",
-      "category": "health",
-      "name": "منظمة الصحة العالمية (WHO)",
-      "url": "https://www.who.int/rss-feeds/news-english.xml",
-      "lang": "en",
-      "type": "official"
-    },
-    {
-      "id": "un-news-health",
-      "category": "health",
-      "name": "أخبار الأمم المتحدة — صحة",
-      "url": "https://news.un.org/feed/subscribe/ar/news/topic/health/feed/rss.xml",
-      "lang": "ar",
-      "type": "official"
-    },
-    {
-      "id": "nih-news",
-      "category": "health",
-      "name": "NIH",
-      "url": "https://www.nih.gov/news-releases/feed.xml",
-      "lang": "en",
-      "type": "official"
-    },
-    {
-      "id": "bbc-health",
-      "category": "health",
-      "name": "BBC Health",
-      "url": "https://feeds.bbci.co.uk/news/health/rss.xml",
-      "lang": "en",
-      "type": "public"
-    },
-    {
-      "id": "cdc",
-      "category": "health",
-      "name": "CDC",
-      "url": "https://tools.cdc.gov/api/v2/resources/media/132608.rss",
-      "lang": "en",
-      "type": "official"
-    },
-    {
-      "id": "fda",
-      "category": "health",
-      "name": "FDA — بيانات صحفية",
-      "url": "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml",
-      "lang": "en",
-      "type": "official"
-    },
-    {
-      "id": "lancet",
-      "category": "health",
-      "name": "The Lancet",
-      "url": "https://www.thelancet.com/rssfeed/lancet_current.xml",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "nejm",
-      "category": "health",
-      "name": "NEJM",
-      "url": "https://www.nejm.org/action/showFeed?jc=nejm&type=etoc&feed=rss",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "bmj",
-      "category": "health",
-      "name": "BMJ",
-      "url": "https://www.bmj.com/rss/recent.xml",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "statnews",
-      "category": "health",
-      "name": "STAT News",
-      "url": "https://www.statnews.com/feed/",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "ecdc",
-      "category": "health",
-      "name": "ECDC",
-      "url": "https://www.ecdc.europa.eu/en/taxonomy/term/1307/feed",
-      "lang": "en",
-      "type": "official"
-    },
-    {
-      "id": "fiercebiotech",
-      "category": "healthtech",
-      "name": "Fierce Biotech",
-      "url": "https://www.fiercebiotech.com/rss/xml",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "fiercehealth",
-      "category": "healthtech",
-      "name": "Fierce Healthcare",
-      "url": "https://www.fiercehealthcare.com/rss/xml",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "medcity",
-      "category": "healthtech",
-      "name": "MedCity News",
-      "url": "https://medcitynews.com/feed/",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "healthcareit",
-      "category": "healthtech",
-      "name": "Healthcare IT News",
-      "url": "https://www.healthcareitnews.com/feed",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "npj-digital-med",
-      "category": "healthtech",
-      "name": "npj Digital Medicine",
-      "url": "https://www.nature.com/npjdigitmed.rss",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "nature-medicine",
-      "category": "healthtech",
-      "name": "Nature Medicine",
-      "url": "https://www.nature.com/nm.rss",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "lancet-digital",
-      "category": "healthtech",
-      "name": "The Lancet Digital Health",
-      "url": "https://www.thelancet.com/rssfeed/landig_current.xml",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "mittr-biotech",
-      "category": "healthtech",
-      "name": "MIT Tech Review — Biotech",
-      "url": "https://www.technologyreview.com/topic/biotechnology/feed",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "arxiv-medimg",
-      "category": "healthtech",
-      "name": "arXiv — تصوير طبي (eess.IV)",
-      "url": "https://rss.arxiv.org/rss/eess.IV",
-      "lang": "en",
-      "type": "official"
-    },
-    {
-      "id": "arxiv-ai",
-      "category": "ai",
-      "name": "arXiv cs.AI",
-      "url": "https://rss.arxiv.org/rss/cs.AI",
-      "lang": "en",
-      "type": "official"
-    },
-    {
-      "id": "arxiv-lg",
-      "category": "ai",
-      "name": "arXiv cs.LG",
-      "url": "https://rss.arxiv.org/rss/cs.LG",
-      "lang": "en",
-      "type": "official"
-    },
-    {
-      "id": "hf-blog",
-      "category": "ai",
-      "name": "Hugging Face Blog",
-      "url": "https://huggingface.co/blog/feed.xml",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "openai",
-      "category": "ai",
-      "name": "OpenAI",
-      "url": "https://openai.com/news/rss.xml",
-      "lang": "en",
-      "type": "official"
-    },
-    {
-      "id": "deepmind",
-      "category": "ai",
-      "name": "Google DeepMind",
-      "url": "https://deepmind.google/blog/rss.xml",
-      "lang": "en",
-      "type": "official"
-    },
-    {
-      "id": "google-ai",
-      "category": "ai",
-      "name": "Google AI Blog",
-      "url": "https://blog.google/technology/ai/rss/",
-      "lang": "en",
-      "type": "official"
-    },
-    {
-      "id": "verge-ai",
-      "category": "ai",
-      "name": "The Verge — AI",
-      "url": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "venturebeat-ai",
-      "category": "ai",
-      "name": "VentureBeat — AI",
-      "url": "https://venturebeat.com/category/ai/feed/",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "techcrunch-ai",
-      "category": "ai",
-      "name": "TechCrunch — AI",
-      "url": "https://techcrunch.com/category/artificial-intelligence/feed/",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "mittr-ai",
-      "category": "ai",
-      "name": "MIT Tech Review — AI",
-      "url": "https://www.technologyreview.com/topic/artificial-intelligence/feed",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "importai",
-      "category": "ai",
-      "name": "Import AI",
-      "url": "https://importai.substack.com/feed",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "defensenews",
-      "category": "defense",
-      "name": "Defense News",
-      "url": "https://www.defensenews.com/arc/outboundfeeds/rss/?outputType=xml",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "breakingdefense",
-      "category": "defense",
-      "name": "Breaking Defense",
-      "url": "https://breakingdefense.com/feed/",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "twz",
-      "category": "defense",
-      "name": "The War Zone",
-      "url": "https://www.twz.com/feed",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "defensescoop",
-      "category": "defense",
-      "name": "DefenseScoop",
-      "url": "https://defensescoop.com/feed/",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "defenseone",
-      "category": "defense",
-      "name": "Defense One",
-      "url": "https://www.defenseone.com/rss/all/",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "navalnews",
-      "category": "defense",
-      "name": "Naval News",
-      "url": "https://www.navalnews.com/feed/",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "armytech",
-      "category": "defense",
-      "name": "Army Technology",
-      "url": "https://www.army-technology.com/feed/",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "c4isrnet",
-      "category": "defense",
-      "name": "C4ISRNET",
-      "url": "https://www.c4isrnet.com/arc/outboundfeeds/rss/?outputType=xml",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "dod",
-      "category": "defense",
-      "name": "وزارة الدفاع الأمريكية — أخبار",
-      "url": "https://www.defense.gov/DesktopModules/ArticleCS/RSS.ashx?ContentType=1&Site=945&max=10",
-      "lang": "en",
-      "type": "official"
-    },
-    {
-      "id": "dvids",
-      "category": "defense",
-      "name": "DVIDS",
-      "url": "https://www.dvidshub.net/rss/news",
-      "lang": "en",
-      "type": "official"
-    },
-    {
-      "id": "nsarchive",
-      "category": "stories",
-      "name": "National Security Archive (GWU)",
-      "url": "https://nsarchive.gwu.edu/rss.xml",
-      "lang": "en",
-      "type": "official"
-    },
-    {
-      "id": "blackvault",
-      "category": "stories",
-      "name": "The Black Vault — وثائق UFO/FOIA",
-      "url": "https://www.theblackvault.com/documentarchive/feed/",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "tna-blog",
-      "category": "stories",
-      "name": "UK National Archives",
-      "url": "https://blog.nationalarchives.gov.uk/feed/",
-      "lang": "en",
-      "type": "official"
-    },
-    {
-      "id": "nara-unwritten",
-      "category": "stories",
-      "name": "US National Archives — Unwritten Record",
-      "url": "https://unwritten-record.blogs.archives.gov/feed/",
-      "lang": "en",
-      "type": "official"
-    },
-    {
-      "id": "smithsonian-history",
-      "category": "stories",
-      "name": "Smithsonian — History",
-      "url": "https://www.smithsonianmag.com/rss/history/",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "atlasobscura",
-      "category": "stories",
-      "name": "Atlas Obscura",
-      "url": "https://www.atlasobscura.com/feeds/latest",
-      "lang": "en",
-      "type": "specialist"
-    },
-    {
-      "id": "seti",
-      "category": "stories",
-      "name": "SETI Institute",
-      "url": "https://www.seti.org/feed",
-      "lang": "en",
-      "type": "official"
-    }
-  ],
-  "youtube": [
-    {
-      "handle": "lotfyzakaria",
-      "category": "politics",
-      "name": "lotfyzakaria"
-    },
-    {
-      "handle": "SummaryEgypt",
-      "category": "economy",
-      "name": "SummaryEgypt"
-    },
-    {
-      "handle": "MohamedAssem",
-      "category": "politics",
-      "name": "MohamedAssem"
-    },
-    {
-      "handle": "alsh5anah",
-      "category": "politics",
-      "name": "alsh5anah"
-    },
-    {
-      "handle": "3shwa2yatTV",
-      "category": "politics",
-      "name": "3shwa2yatTV"
-    },
-    {
-      "handle": "MokhbirEqtisadi",
-      "category": "economy",
-      "name": "MokhbirEqtisadi"
-    }
-  ]
+ "_note": "عدّل القايمة دي براحتك. شاشة «صحة المصادر» في تبويب الأخبار بتوريك أي مصدر فاضي أو فاشل وسببه.",
+ "categories": [
+  {
+   "id": "trending",
+   "label": "🔥 ترند",
+   "color": "#ff5a36"
+  },
+  {
+   "id": "politics",
+   "label": "سياسة",
+   "color": "#e5484d"
+  },
+  {
+   "id": "economy",
+   "label": "اقتصاد",
+   "color": "#f5a623"
+  },
+  {
+   "id": "sports",
+   "label": "رياضة",
+   "color": "#30a46c"
+  },
+  {
+   "id": "science",
+   "label": "علوم وأبحاث",
+   "color": "#3e63dd"
+  },
+  {
+   "id": "health",
+   "label": "طب",
+   "color": "#12a594"
+  },
+  {
+   "id": "healthtech",
+   "label": "طب وتقنية",
+   "color": "#17a2b8"
+  },
+  {
+   "id": "ai",
+   "label": "ذكاء اصطناعي",
+   "color": "#8e4ec6"
+  },
+  {
+   "id": "defense",
+   "label": "عسكري ودفاع",
+   "color": "#7c8a3a"
+  },
+  {
+   "id": "stories",
+   "label": "قصص وأرشيف",
+   "color": "#d9730d"
+  },
+  {
+   "id": "entertainment",
+   "label": "فن وترفيه",
+   "color": "#e255a1"
+  },
+  {
+   "id": "tech",
+   "label": "تقنية",
+   "color": "#0090ff"
+  }
+ ],
+ "feeds": [
+  {
+   "id": "un-news-ar",
+   "category": "politics",
+   "name": "أخبار الأمم المتحدة",
+   "url": "https://news.un.org/feed/subscribe/ar/news/all/rss.xml",
+   "lang": "ar",
+   "type": "official",
+   "region": "arab",
+   "weight": 1.4
+  },
+  {
+   "id": "bbc-ar",
+   "category": "politics",
+   "name": "BBC عربي",
+   "url": "https://feeds.bbci.co.uk/arabic/rss.xml",
+   "lang": "ar",
+   "type": "public",
+   "region": "arab",
+   "weight": 1.4
+  },
+  {
+   "id": "bbc-world",
+   "category": "politics",
+   "name": "BBC World",
+   "url": "https://feeds.bbci.co.uk/news/world/rss.xml",
+   "lang": "en",
+   "type": "public",
+   "region": "world",
+   "weight": 1.4
+  },
+  {
+   "id": "bbc-hindi",
+   "category": "politics",
+   "name": "BBC हिन्दी",
+   "url": "https://feeds.bbci.co.uk/hindi/rss.xml",
+   "lang": "hi",
+   "type": "public",
+   "region": "world",
+   "weight": 1.4
+  },
+  {
+   "id": "bbc-zh",
+   "category": "politics",
+   "name": "BBC 中文",
+   "url": "https://feeds.bbci.co.uk/zhongwen/simp/rss.xml",
+   "lang": "zh",
+   "type": "public",
+   "region": "world",
+   "weight": 1.4
+  },
+  {
+   "id": "bbc-afrique",
+   "category": "politics",
+   "name": "BBC Afrique",
+   "url": "https://feeds.bbci.co.uk/afrique/rss.xml",
+   "lang": "fr",
+   "type": "public",
+   "region": "world",
+   "weight": 1.4
+  },
+  {
+   "id": "aljazeera-en",
+   "category": "politics",
+   "name": "Al Jazeera English",
+   "url": "https://www.aljazeera.com/xml/rss/all.xml",
+   "lang": "en",
+   "type": "state",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "guardian-world",
+   "category": "politics",
+   "name": "The Guardian — World",
+   "url": "https://www.theguardian.com/world/rss",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "dw-en",
+   "category": "politics",
+   "name": "DW",
+   "url": "https://rss.dw.com/rdf/rss-en-all",
+   "lang": "en",
+   "type": "public",
+   "region": "world",
+   "weight": 1.4
+  },
+  {
+   "id": "france24-en",
+   "category": "politics",
+   "name": "France 24",
+   "url": "https://www.france24.com/en/rss",
+   "lang": "en",
+   "type": "public",
+   "region": "world",
+   "weight": 1.4
+  },
+  {
+   "id": "france24-fr",
+   "category": "politics",
+   "name": "France 24 (FR)",
+   "url": "https://www.france24.com/fr/rss",
+   "lang": "fr",
+   "type": "public",
+   "region": "world",
+   "weight": 1.4
+  },
+  {
+   "id": "rfi-fr",
+   "category": "politics",
+   "name": "RFI",
+   "url": "https://www.rfi.fr/fr/rss",
+   "lang": "fr",
+   "type": "public",
+   "region": "world",
+   "weight": 1.4
+  },
+  {
+   "id": "lemonde-int",
+   "category": "politics",
+   "name": "Le Monde — International",
+   "url": "https://www.lemonde.fr/international/rss_full.xml",
+   "lang": "fr",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "lefigaro-int",
+   "category": "politics",
+   "name": "Le Figaro — International",
+   "url": "https://www.lefigaro.fr/rss/figaro_international.xml",
+   "lang": "fr",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "axios",
+   "category": "politics",
+   "name": "Axios",
+   "url": "https://api.axios.com/feed/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1
+  },
+  {
+   "id": "npr",
+   "category": "politics",
+   "name": "NPR",
+   "url": "https://feeds.npr.org/1001/rss.xml",
+   "lang": "en",
+   "type": "public",
+   "region": "us",
+   "weight": 1.4
+  },
+  {
+   "id": "haaretz-en",
+   "category": "politics",
+   "name": "Haaretz (EN)",
+   "url": "https://www.haaretz.com/srv/haaretz-latest-headlines",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "ynet-he",
+   "category": "politics",
+   "name": "Ynet (עברית)",
+   "url": "https://www.ynet.co.il/Integration/StoryRss2.xml",
+   "lang": "he",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "scmp",
+   "category": "politics",
+   "name": "South China Morning Post",
+   "url": "https://www.scmp.com/rss/91/feed",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "cgtn",
+   "category": "politics",
+   "name": "CGTN",
+   "url": "https://www.cgtn.com/subscribe/rss/section/world.xml",
+   "lang": "en",
+   "type": "state",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "thehindu",
+   "category": "politics",
+   "name": "The Hindu — World",
+   "url": "https://www.thehindu.com/news/international/feeder/default.rss",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "ndtv",
+   "category": "politics",
+   "name": "NDTV — World",
+   "url": "https://feeds.feedburner.com/ndtvnews-world-news",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "ht-world",
+   "category": "politics",
+   "name": "Hindustan Times — World",
+   "url": "https://www.hindustantimes.com/feeds/rss/world-news/rssfeed.xml",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "radar-reuters",
+   "category": "politics",
+   "name": "Reuters (عبر Google News)",
+   "url": "https://news.google.com/rss/search?q=site:reuters.com+when:2d&hl=en-US&gl=US&ceid=US:en",
+   "lang": "en",
+   "type": "radar",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "radar-ap",
+   "category": "politics",
+   "name": "AP (عبر Google News)",
+   "url": "https://news.google.com/rss/search?q=site:apnews.com+when:2d&hl=en-US&gl=US&ceid=US:en",
+   "lang": "en",
+   "type": "radar",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "radar-bloomberg",
+   "category": "economy",
+   "name": "Bloomberg (عبر Google News)",
+   "url": "https://news.google.com/rss/search?q=site:bloomberg.com+when:2d&hl=en-US&gl=US&ceid=US:en",
+   "lang": "en",
+   "type": "radar",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "bbc-business",
+   "category": "economy",
+   "name": "BBC Business",
+   "url": "https://feeds.bbci.co.uk/news/business/rss.xml",
+   "lang": "en",
+   "type": "public",
+   "region": "world",
+   "weight": 1.4
+  },
+  {
+   "id": "un-news-economy",
+   "category": "economy",
+   "name": "أخبار الأمم المتحدة — اقتصاد",
+   "url": "https://news.un.org/feed/subscribe/ar/news/topic/economic-development/feed/rss.xml",
+   "lang": "ar",
+   "type": "official",
+   "region": "arab",
+   "weight": 1.4
+  },
+  {
+   "id": "cnbc",
+   "category": "economy",
+   "name": "CNBC",
+   "url": "https://www.cnbc.com/id/100003114/device/rss/rss.html",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1
+  },
+  {
+   "id": "economist-fin",
+   "category": "economy",
+   "name": "The Economist — Finance",
+   "url": "https://www.economist.com/finance-and-economics/rss.xml",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "marketwatch",
+   "category": "economy",
+   "name": "MarketWatch",
+   "url": "https://feeds.content.dowjones.io/public/rss/mw_topstories",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1
+  },
+  {
+   "id": "forbes-biz",
+   "category": "economy",
+   "name": "Forbes — Business",
+   "url": "https://www.forbes.com/business/feed/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1
+  },
+  {
+   "id": "nikkei-asia",
+   "category": "economy",
+   "name": "Nikkei Asia",
+   "url": "https://asia.nikkei.com/rss/feed/nar",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "ecb",
+   "category": "economy",
+   "name": "البنك المركزي الأوروبي — بيانات",
+   "url": "https://www.ecb.europa.eu/rss/press.html",
+   "lang": "en",
+   "type": "official",
+   "region": "world",
+   "weight": 1.4
+  },
+  {
+   "id": "fed",
+   "category": "economy",
+   "name": "الاحتياطي الفيدرالي — بيانات",
+   "url": "https://www.federalreserve.gov/feeds/press_all.xml",
+   "lang": "en",
+   "type": "official",
+   "region": "us",
+   "weight": 1.4
+  },
+  {
+   "id": "bbc-sport",
+   "category": "sports",
+   "name": "BBC Sport",
+   "url": "https://feeds.bbci.co.uk/sport/rss.xml",
+   "lang": "en",
+   "type": "public",
+   "region": "world",
+   "weight": 1.4
+  },
+  {
+   "id": "skysports",
+   "category": "sports",
+   "name": "Sky Sports",
+   "url": "https://www.skysports.com/rss/12040",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "cbssports",
+   "category": "sports",
+   "name": "CBS Sports",
+   "url": "https://www.cbssports.com/rss/headlines/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1
+  },
+  {
+   "id": "lequipe",
+   "category": "sports",
+   "name": "L'Équipe",
+   "url": "https://dwh.lequipe.fr/api/edito/rss?path=/",
+   "lang": "fr",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "marca",
+   "category": "sports",
+   "name": "Marca",
+   "url": "https://e00-marca.uecdn.es/rss/portada.xml",
+   "lang": "es",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "nasa",
+   "category": "science",
+   "name": "NASA",
+   "url": "https://www.nasa.gov/feed/",
+   "lang": "en",
+   "type": "official",
+   "region": "us",
+   "weight": 1.4
+  },
+  {
+   "id": "arxiv-physics",
+   "category": "science",
+   "name": "arXiv (physics)",
+   "url": "https://rss.arxiv.org/rss/physics",
+   "lang": "en",
+   "type": "official",
+   "region": "world",
+   "weight": 1.4
+  },
+  {
+   "id": "nature",
+   "category": "science",
+   "name": "Nature",
+   "url": "https://www.nature.com/nature.rss",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "science-news",
+   "category": "science",
+   "name": "Science (AAAS)",
+   "url": "https://www.science.org/rss/news_current.xml",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "newscientist",
+   "category": "science",
+   "name": "New Scientist",
+   "url": "https://www.newscientist.com/feed/home/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "sciam",
+   "category": "science",
+   "name": "Scientific American",
+   "url": "http://rss.sciam.com/ScientificAmerican-Global",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "physorg",
+   "category": "science",
+   "name": "Phys.org",
+   "url": "https://phys.org/rss-feed/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "quanta",
+   "category": "science",
+   "name": "Quanta Magazine",
+   "url": "https://api.quantamagazine.org/feed/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "esa",
+   "category": "science",
+   "name": "ESA",
+   "url": "https://www.esa.int/rssfeed/Our_Activities/Space_Science",
+   "lang": "en",
+   "type": "official",
+   "region": "world",
+   "weight": 1.4
+  },
+  {
+   "id": "un-news-health",
+   "category": "health",
+   "name": "أخبار الأمم المتحدة — صحة",
+   "url": "https://news.un.org/feed/subscribe/ar/news/topic/health/feed/rss.xml",
+   "lang": "ar",
+   "type": "official",
+   "region": "arab",
+   "weight": 1.4
+  },
+  {
+   "id": "nih-news",
+   "category": "health",
+   "name": "NIH",
+   "url": "https://www.nih.gov/news-releases/feed.xml",
+   "lang": "en",
+   "type": "official",
+   "region": "us",
+   "weight": 1.4
+  },
+  {
+   "id": "bbc-health",
+   "category": "health",
+   "name": "BBC Health",
+   "url": "https://feeds.bbci.co.uk/news/health/rss.xml",
+   "lang": "en",
+   "type": "public",
+   "region": "world",
+   "weight": 1.4
+  },
+  {
+   "id": "cdc",
+   "category": "health",
+   "name": "CDC",
+   "url": "https://tools.cdc.gov/api/v2/resources/media/132608.rss",
+   "lang": "en",
+   "type": "official",
+   "region": "us",
+   "weight": 1.4
+  },
+  {
+   "id": "fda",
+   "category": "health",
+   "name": "FDA — بيانات صحفية",
+   "url": "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml",
+   "lang": "en",
+   "type": "official",
+   "region": "us",
+   "weight": 1.4
+  },
+  {
+   "id": "lancet",
+   "category": "health",
+   "name": "The Lancet",
+   "url": "https://www.thelancet.com/rssfeed/lancet_current.xml",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "nejm",
+   "category": "health",
+   "name": "NEJM",
+   "url": "https://www.nejm.org/action/showFeed?jc=nejm&type=etoc&feed=rss",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "bmj",
+   "category": "health",
+   "name": "BMJ",
+   "url": "https://www.bmj.com/rss/recent.xml",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "statnews",
+   "category": "health",
+   "name": "STAT News",
+   "url": "https://www.statnews.com/feed/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1
+  },
+  {
+   "id": "ecdc",
+   "category": "health",
+   "name": "ECDC",
+   "url": "https://www.ecdc.europa.eu/en/taxonomy/term/1307/feed",
+   "lang": "en",
+   "type": "official",
+   "region": "world",
+   "weight": 1.4
+  },
+  {
+   "id": "fiercebiotech",
+   "category": "healthtech",
+   "name": "Fierce Biotech",
+   "url": "https://www.fiercebiotech.com/rss/xml",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1
+  },
+  {
+   "id": "fiercehealth",
+   "category": "healthtech",
+   "name": "Fierce Healthcare",
+   "url": "https://www.fiercehealthcare.com/rss/xml",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1
+  },
+  {
+   "id": "medcity",
+   "category": "healthtech",
+   "name": "MedCity News",
+   "url": "https://medcitynews.com/feed/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1
+  },
+  {
+   "id": "nature-medicine",
+   "category": "healthtech",
+   "name": "Nature Medicine",
+   "url": "https://www.nature.com/nm.rss",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "lancet-digital",
+   "category": "healthtech",
+   "name": "The Lancet Digital Health",
+   "url": "https://www.thelancet.com/rssfeed/landig_current.xml",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "mittr-biotech",
+   "category": "healthtech",
+   "name": "MIT Tech Review — Biotech",
+   "url": "https://www.technologyreview.com/topic/biotechnology/feed",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "arxiv-medimg",
+   "category": "healthtech",
+   "name": "arXiv — تصوير طبي (eess.IV)",
+   "url": "https://rss.arxiv.org/rss/eess.IV",
+   "lang": "en",
+   "type": "official",
+   "region": "world",
+   "weight": 1.4
+  },
+  {
+   "id": "arxiv-ai",
+   "category": "ai",
+   "name": "arXiv cs.AI",
+   "url": "https://rss.arxiv.org/rss/cs.AI",
+   "lang": "en",
+   "type": "official",
+   "region": "world",
+   "weight": 1.4
+  },
+  {
+   "id": "arxiv-lg",
+   "category": "ai",
+   "name": "arXiv cs.LG",
+   "url": "https://rss.arxiv.org/rss/cs.LG",
+   "lang": "en",
+   "type": "official",
+   "region": "world",
+   "weight": 1.4
+  },
+  {
+   "id": "hf-blog",
+   "category": "ai",
+   "name": "Hugging Face Blog",
+   "url": "https://huggingface.co/blog/feed.xml",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "openai",
+   "category": "ai",
+   "name": "OpenAI",
+   "url": "https://openai.com/news/rss.xml",
+   "lang": "en",
+   "type": "official",
+   "region": "world",
+   "weight": 1.4
+  },
+  {
+   "id": "deepmind",
+   "category": "ai",
+   "name": "Google DeepMind",
+   "url": "https://deepmind.google/blog/rss.xml",
+   "lang": "en",
+   "type": "official",
+   "region": "world",
+   "weight": 1.4
+  },
+  {
+   "id": "google-ai",
+   "category": "ai",
+   "name": "Google AI Blog",
+   "url": "https://blog.google/technology/ai/rss/",
+   "lang": "en",
+   "type": "official",
+   "region": "world",
+   "weight": 1.4
+  },
+  {
+   "id": "verge-ai",
+   "category": "ai",
+   "name": "The Verge — AI",
+   "url": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1
+  },
+  {
+   "id": "venturebeat-ai",
+   "category": "ai",
+   "name": "VentureBeat — AI",
+   "url": "https://venturebeat.com/category/ai/feed/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1
+  },
+  {
+   "id": "techcrunch-ai",
+   "category": "ai",
+   "name": "TechCrunch — AI",
+   "url": "https://techcrunch.com/category/artificial-intelligence/feed/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1
+  },
+  {
+   "id": "mittr-ai",
+   "category": "ai",
+   "name": "MIT Tech Review — AI",
+   "url": "https://www.technologyreview.com/topic/artificial-intelligence/feed",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1
+  },
+  {
+   "id": "defensenews",
+   "category": "defense",
+   "name": "Defense News",
+   "url": "https://www.defensenews.com/arc/outboundfeeds/rss/?outputType=xml",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1
+  },
+  {
+   "id": "breakingdefense",
+   "category": "defense",
+   "name": "Breaking Defense",
+   "url": "https://breakingdefense.com/feed/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1
+  },
+  {
+   "id": "twz",
+   "category": "defense",
+   "name": "The War Zone",
+   "url": "https://www.twz.com/feed",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1
+  },
+  {
+   "id": "defensescoop",
+   "category": "defense",
+   "name": "DefenseScoop",
+   "url": "https://defensescoop.com/feed/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1
+  },
+  {
+   "id": "defenseone",
+   "category": "defense",
+   "name": "Defense One",
+   "url": "https://www.defenseone.com/rss/all/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1
+  },
+  {
+   "id": "navalnews",
+   "category": "defense",
+   "name": "Naval News",
+   "url": "https://www.navalnews.com/feed/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1
+  },
+  {
+   "id": "armytech",
+   "category": "defense",
+   "name": "Army Technology",
+   "url": "https://www.army-technology.com/feed/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1
+  },
+  {
+   "id": "c4isrnet",
+   "category": "defense",
+   "name": "C4ISRNET",
+   "url": "https://www.c4isrnet.com/arc/outboundfeeds/rss/?outputType=xml",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1
+  },
+  {
+   "id": "dod",
+   "category": "defense",
+   "name": "وزارة الدفاع الأمريكية — أخبار",
+   "url": "https://www.defense.gov/DesktopModules/ArticleCS/RSS.ashx?ContentType=1&Site=945&max=10",
+   "lang": "en",
+   "type": "official",
+   "region": "us",
+   "weight": 1.4
+  },
+  {
+   "id": "dvids",
+   "category": "defense",
+   "name": "DVIDS",
+   "url": "https://www.dvidshub.net/rss/news",
+   "lang": "en",
+   "type": "official",
+   "region": "us",
+   "weight": 1.4
+  },
+  {
+   "id": "blackvault",
+   "category": "stories",
+   "name": "The Black Vault — وثائق UFO/FOIA",
+   "url": "https://www.theblackvault.com/documentarchive/feed/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1
+  },
+  {
+   "id": "smithsonian-history",
+   "category": "stories",
+   "name": "Smithsonian — History",
+   "url": "https://www.smithsonianmag.com/rss/history/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1
+  },
+  {
+   "id": "atlasobscura",
+   "category": "stories",
+   "name": "Atlas Obscura",
+   "url": "https://www.atlasobscura.com/feeds/latest",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1
+  },
+  {
+   "type": "radar",
+   "lang": "en",
+   "region": "us",
+   "weight": 2.5,
+   "id": "gn-us-top",
+   "category": "politics",
+   "name": "Google News أمريكا — أهم الأخبار",
+   "url": "https://news.google.com/rss?hl=en-US&gl=US&ceid=US:en",
+   "kind": "top",
+   "fmt": "gnews",
+   "keepDays": 3,
+   "limit": 15
+  },
+  {
+   "type": "radar",
+   "lang": "en",
+   "region": "us",
+   "weight": 2,
+   "id": "gn-us-world",
+   "category": "politics",
+   "name": "Google News أمريكا — العالم",
+   "url": "https://news.google.com/rss/headlines/section/topic/WORLD?hl=en-US&gl=US&ceid=US:en",
+   "kind": "top",
+   "fmt": "gnews",
+   "keepDays": 3,
+   "limit": 15
+  },
+  {
+   "type": "radar",
+   "lang": "en",
+   "region": "us",
+   "weight": 2,
+   "id": "gn-us-nation",
+   "category": "politics",
+   "name": "Google News أمريكا — الداخل",
+   "url": "https://news.google.com/rss/headlines/section/topic/NATION?hl=en-US&gl=US&ceid=US:en",
+   "kind": "top",
+   "fmt": "gnews",
+   "keepDays": 3,
+   "limit": 15
+  },
+  {
+   "type": "radar",
+   "lang": "en",
+   "region": "us",
+   "weight": 2,
+   "id": "gn-us-business",
+   "category": "economy",
+   "name": "Google News أمريكا — أعمال",
+   "url": "https://news.google.com/rss/headlines/section/topic/BUSINESS?hl=en-US&gl=US&ceid=US:en",
+   "kind": "top",
+   "fmt": "gnews",
+   "keepDays": 3,
+   "limit": 15
+  },
+  {
+   "type": "radar",
+   "lang": "en",
+   "region": "us",
+   "weight": 2,
+   "id": "gn-us-technology",
+   "category": "tech",
+   "name": "Google News أمريكا — تقنية",
+   "url": "https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=en-US&gl=US&ceid=US:en",
+   "kind": "top",
+   "fmt": "gnews",
+   "keepDays": 3,
+   "limit": 15
+  },
+  {
+   "type": "radar",
+   "lang": "en",
+   "region": "us",
+   "weight": 2,
+   "id": "gn-us-entertainment",
+   "category": "entertainment",
+   "name": "Google News أمريكا — فن وترفيه",
+   "url": "https://news.google.com/rss/headlines/section/topic/ENTERTAINMENT?hl=en-US&gl=US&ceid=US:en",
+   "kind": "top",
+   "fmt": "gnews",
+   "keepDays": 3,
+   "limit": 15
+  },
+  {
+   "type": "radar",
+   "lang": "en",
+   "region": "us",
+   "weight": 2,
+   "id": "gn-us-sports",
+   "category": "sports",
+   "name": "Google News أمريكا — رياضة",
+   "url": "https://news.google.com/rss/headlines/section/topic/SPORTS?hl=en-US&gl=US&ceid=US:en",
+   "kind": "top",
+   "fmt": "gnews",
+   "keepDays": 3,
+   "limit": 15
+  },
+  {
+   "type": "radar",
+   "lang": "en",
+   "region": "us",
+   "weight": 2,
+   "id": "gn-us-science",
+   "category": "science",
+   "name": "Google News أمريكا — علوم",
+   "url": "https://news.google.com/rss/headlines/section/topic/SCIENCE?hl=en-US&gl=US&ceid=US:en",
+   "kind": "top",
+   "fmt": "gnews",
+   "keepDays": 3,
+   "limit": 15
+  },
+  {
+   "type": "radar",
+   "lang": "en",
+   "region": "us",
+   "weight": 2,
+   "id": "gn-us-health",
+   "category": "health",
+   "name": "Google News أمريكا — صحة",
+   "url": "https://news.google.com/rss/headlines/section/topic/HEALTH?hl=en-US&gl=US&ceid=US:en",
+   "kind": "top",
+   "fmt": "gnews",
+   "keepDays": 3,
+   "limit": 15
+  },
+  {
+   "type": "radar",
+   "lang": "en",
+   "region": "world",
+   "weight": 2.5,
+   "id": "gn-gb-top",
+   "category": "politics",
+   "name": "Google News بريطانيا — أهم الأخبار",
+   "url": "https://news.google.com/rss?hl=en-GB&gl=GB&ceid=GB:en",
+   "kind": "top",
+   "fmt": "gnews",
+   "keepDays": 3,
+   "limit": 15
+  },
+  {
+   "type": "radar",
+   "lang": "en",
+   "region": "world",
+   "weight": 2,
+   "id": "gn-gb-entertainment",
+   "category": "entertainment",
+   "name": "Google News بريطانيا — فن وترفيه",
+   "url": "https://news.google.com/rss/headlines/section/topic/ENTERTAINMENT?hl=en-GB&gl=GB&ceid=GB:en",
+   "kind": "top",
+   "fmt": "gnews",
+   "keepDays": 3,
+   "limit": 15
+  },
+  {
+   "type": "radar",
+   "lang": "en",
+   "region": "world",
+   "weight": 2,
+   "id": "gn-gb-sports",
+   "category": "sports",
+   "name": "Google News بريطانيا — رياضة",
+   "url": "https://news.google.com/rss/headlines/section/topic/SPORTS?hl=en-GB&gl=GB&ceid=GB:en",
+   "kind": "top",
+   "fmt": "gnews",
+   "keepDays": 3,
+   "limit": 15
+  },
+  {
+   "type": "radar",
+   "lang": "ar",
+   "region": "eg",
+   "weight": 2.5,
+   "id": "gn-eg-top",
+   "category": "politics",
+   "name": "Google News مصر — أهم الأخبار",
+   "url": "https://news.google.com/rss?hl=ar&gl=EG&ceid=EG:ar",
+   "kind": "top",
+   "fmt": "gnews",
+   "keepDays": 3,
+   "limit": 15
+  },
+  {
+   "type": "radar",
+   "lang": "ar",
+   "region": "eg",
+   "weight": 2,
+   "id": "gn-eg-world",
+   "category": "politics",
+   "name": "Google News مصر — العالم",
+   "url": "https://news.google.com/rss/headlines/section/topic/WORLD?hl=ar&gl=EG&ceid=EG:ar",
+   "kind": "top",
+   "fmt": "gnews",
+   "keepDays": 3,
+   "limit": 15
+  },
+  {
+   "type": "radar",
+   "lang": "ar",
+   "region": "eg",
+   "weight": 2,
+   "id": "gn-eg-business",
+   "category": "economy",
+   "name": "Google News مصر — أعمال",
+   "url": "https://news.google.com/rss/headlines/section/topic/BUSINESS?hl=ar&gl=EG&ceid=EG:ar",
+   "kind": "top",
+   "fmt": "gnews",
+   "keepDays": 3,
+   "limit": 15
+  },
+  {
+   "type": "radar",
+   "lang": "ar",
+   "region": "eg",
+   "weight": 2,
+   "id": "gn-eg-technology",
+   "category": "tech",
+   "name": "Google News مصر — تقنية",
+   "url": "https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=ar&gl=EG&ceid=EG:ar",
+   "kind": "top",
+   "fmt": "gnews",
+   "keepDays": 3,
+   "limit": 15
+  },
+  {
+   "type": "radar",
+   "lang": "ar",
+   "region": "eg",
+   "weight": 2,
+   "id": "gn-eg-entertainment",
+   "category": "entertainment",
+   "name": "Google News مصر — فن وترفيه",
+   "url": "https://news.google.com/rss/headlines/section/topic/ENTERTAINMENT?hl=ar&gl=EG&ceid=EG:ar",
+   "kind": "top",
+   "fmt": "gnews",
+   "keepDays": 3,
+   "limit": 15
+  },
+  {
+   "type": "radar",
+   "lang": "ar",
+   "region": "eg",
+   "weight": 2,
+   "id": "gn-eg-sports",
+   "category": "sports",
+   "name": "Google News مصر — رياضة",
+   "url": "https://news.google.com/rss/headlines/section/topic/SPORTS?hl=ar&gl=EG&ceid=EG:ar",
+   "kind": "top",
+   "fmt": "gnews",
+   "keepDays": 3,
+   "limit": 15
+  },
+  {
+   "type": "radar",
+   "lang": "ar",
+   "region": "eg",
+   "weight": 2,
+   "id": "gn-eg-science",
+   "category": "science",
+   "name": "Google News مصر — علوم",
+   "url": "https://news.google.com/rss/headlines/section/topic/SCIENCE?hl=ar&gl=EG&ceid=EG:ar",
+   "kind": "top",
+   "fmt": "gnews",
+   "keepDays": 3,
+   "limit": 15
+  },
+  {
+   "type": "radar",
+   "lang": "ar",
+   "region": "eg",
+   "weight": 2,
+   "id": "gn-eg-health",
+   "category": "health",
+   "name": "Google News مصر — صحة",
+   "url": "https://news.google.com/rss/headlines/section/topic/HEALTH?hl=ar&gl=EG&ceid=EG:ar",
+   "kind": "top",
+   "fmt": "gnews",
+   "keepDays": 3,
+   "limit": 15
+  },
+  {
+   "type": "radar",
+   "lang": "ar",
+   "region": "gulf",
+   "weight": 2.5,
+   "id": "gn-sa-top",
+   "category": "politics",
+   "name": "Google News السعودية — أهم الأخبار",
+   "url": "https://news.google.com/rss?hl=ar&gl=SA&ceid=SA:ar",
+   "kind": "top",
+   "fmt": "gnews",
+   "keepDays": 3,
+   "limit": 15
+  },
+  {
+   "type": "radar",
+   "lang": "ar",
+   "region": "gulf",
+   "weight": 2,
+   "id": "gn-sa-world",
+   "category": "politics",
+   "name": "Google News السعودية — العالم",
+   "url": "https://news.google.com/rss/headlines/section/topic/WORLD?hl=ar&gl=SA&ceid=SA:ar",
+   "kind": "top",
+   "fmt": "gnews",
+   "keepDays": 3,
+   "limit": 15
+  },
+  {
+   "type": "radar",
+   "lang": "ar",
+   "region": "gulf",
+   "weight": 2,
+   "id": "gn-sa-business",
+   "category": "economy",
+   "name": "Google News السعودية — أعمال",
+   "url": "https://news.google.com/rss/headlines/section/topic/BUSINESS?hl=ar&gl=SA&ceid=SA:ar",
+   "kind": "top",
+   "fmt": "gnews",
+   "keepDays": 3,
+   "limit": 15
+  },
+  {
+   "type": "radar",
+   "lang": "ar",
+   "region": "gulf",
+   "weight": 2,
+   "id": "gn-sa-technology",
+   "category": "tech",
+   "name": "Google News السعودية — تقنية",
+   "url": "https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=ar&gl=SA&ceid=SA:ar",
+   "kind": "top",
+   "fmt": "gnews",
+   "keepDays": 3,
+   "limit": 15
+  },
+  {
+   "type": "radar",
+   "lang": "ar",
+   "region": "gulf",
+   "weight": 2,
+   "id": "gn-sa-entertainment",
+   "category": "entertainment",
+   "name": "Google News السعودية — فن وترفيه",
+   "url": "https://news.google.com/rss/headlines/section/topic/ENTERTAINMENT?hl=ar&gl=SA&ceid=SA:ar",
+   "kind": "top",
+   "fmt": "gnews",
+   "keepDays": 3,
+   "limit": 15
+  },
+  {
+   "type": "radar",
+   "lang": "ar",
+   "region": "gulf",
+   "weight": 2,
+   "id": "gn-sa-sports",
+   "category": "sports",
+   "name": "Google News السعودية — رياضة",
+   "url": "https://news.google.com/rss/headlines/section/topic/SPORTS?hl=ar&gl=SA&ceid=SA:ar",
+   "kind": "top",
+   "fmt": "gnews",
+   "keepDays": 3,
+   "limit": 15
+  },
+  {
+   "type": "radar",
+   "lang": "ar",
+   "region": "gulf",
+   "weight": 2,
+   "id": "gn-sa-science",
+   "category": "science",
+   "name": "Google News السعودية — علوم",
+   "url": "https://news.google.com/rss/headlines/section/topic/SCIENCE?hl=ar&gl=SA&ceid=SA:ar",
+   "kind": "top",
+   "fmt": "gnews",
+   "keepDays": 3,
+   "limit": 15
+  },
+  {
+   "type": "radar",
+   "lang": "ar",
+   "region": "gulf",
+   "weight": 2,
+   "id": "gn-sa-health",
+   "category": "health",
+   "name": "Google News السعودية — صحة",
+   "url": "https://news.google.com/rss/headlines/section/topic/HEALTH?hl=ar&gl=SA&ceid=SA:ar",
+   "kind": "top",
+   "fmt": "gnews",
+   "keepDays": 3,
+   "limit": 15
+  },
+  {
+   "type": "radar",
+   "lang": "ar",
+   "region": "gulf",
+   "weight": 2.5,
+   "id": "gn-ae-top",
+   "category": "politics",
+   "name": "Google News الإمارات — أهم الأخبار",
+   "url": "https://news.google.com/rss?hl=ar&gl=AE&ceid=AE:ar",
+   "kind": "top",
+   "fmt": "gnews",
+   "keepDays": 3,
+   "limit": 15
+  },
+  {
+   "type": "radar",
+   "lang": "ar",
+   "region": "gulf",
+   "weight": 2,
+   "id": "gn-ae-entertainment",
+   "category": "entertainment",
+   "name": "Google News الإمارات — فن وترفيه",
+   "url": "https://news.google.com/rss/headlines/section/topic/ENTERTAINMENT?hl=ar&gl=AE&ceid=AE:ar",
+   "kind": "top",
+   "fmt": "gnews",
+   "keepDays": 3,
+   "limit": 15
+  },
+  {
+   "type": "radar",
+   "lang": "ar",
+   "region": "gulf",
+   "weight": 2,
+   "id": "gn-ae-sports",
+   "category": "sports",
+   "name": "Google News الإمارات — رياضة",
+   "url": "https://news.google.com/rss/headlines/section/topic/SPORTS?hl=ar&gl=AE&ceid=AE:ar",
+   "kind": "top",
+   "fmt": "gnews",
+   "keepDays": 3,
+   "limit": 15
+  },
+  {
+   "type": "trend",
+   "lang": "en",
+   "region": "us",
+   "weight": 3,
+   "id": "gt-us",
+   "category": "trending",
+   "name": "Google Trends — أمريكا",
+   "url": "https://trends.google.com/trending/rss?geo=US",
+   "kind": "trend",
+   "fmt": "gtrends",
+   "keepDays": 2,
+   "limit": 15
+  },
+  {
+   "type": "trend",
+   "lang": "en",
+   "region": "world",
+   "weight": 3,
+   "id": "gt-gb",
+   "category": "trending",
+   "name": "Google Trends — بريطانيا",
+   "url": "https://trends.google.com/trending/rss?geo=GB",
+   "kind": "trend",
+   "fmt": "gtrends",
+   "keepDays": 2,
+   "limit": 15
+  },
+  {
+   "type": "trend",
+   "lang": "en",
+   "region": "asia",
+   "weight": 3,
+   "id": "gt-in",
+   "category": "trending",
+   "name": "Google Trends — الهند",
+   "url": "https://trends.google.com/trending/rss?geo=IN",
+   "kind": "trend",
+   "fmt": "gtrends",
+   "keepDays": 2,
+   "limit": 15
+  },
+  {
+   "type": "trend",
+   "lang": "fr",
+   "region": "eu",
+   "weight": 3,
+   "id": "gt-fr",
+   "category": "trending",
+   "name": "Google Trends — فرنسا",
+   "url": "https://trends.google.com/trending/rss?geo=FR",
+   "kind": "trend",
+   "fmt": "gtrends",
+   "keepDays": 2,
+   "limit": 15
+  },
+  {
+   "type": "trend",
+   "lang": "en",
+   "region": "eu",
+   "weight": 3,
+   "id": "gt-de",
+   "category": "trending",
+   "name": "Google Trends — ألمانيا",
+   "url": "https://trends.google.com/trending/rss?geo=DE",
+   "kind": "trend",
+   "fmt": "gtrends",
+   "keepDays": 2,
+   "limit": 15
+  },
+  {
+   "type": "trend",
+   "lang": "en",
+   "region": "world",
+   "weight": 3,
+   "id": "gt-br",
+   "category": "trending",
+   "name": "Google Trends — البرازيل",
+   "url": "https://trends.google.com/trending/rss?geo=BR",
+   "kind": "trend",
+   "fmt": "gtrends",
+   "keepDays": 2,
+   "limit": 15
+  },
+  {
+   "type": "trend",
+   "lang": "en",
+   "region": "asia",
+   "weight": 3,
+   "id": "gt-jp",
+   "category": "trending",
+   "name": "Google Trends — اليابان",
+   "url": "https://trends.google.com/trending/rss?geo=JP",
+   "kind": "trend",
+   "fmt": "gtrends",
+   "keepDays": 2,
+   "limit": 15
+  },
+  {
+   "type": "trend",
+   "lang": "ar",
+   "region": "eg",
+   "weight": 3,
+   "id": "gt-eg",
+   "category": "trending",
+   "name": "Google Trends — مصر",
+   "url": "https://trends.google.com/trending/rss?geo=EG",
+   "kind": "trend",
+   "fmt": "gtrends",
+   "keepDays": 2,
+   "limit": 15
+  },
+  {
+   "type": "trend",
+   "lang": "ar",
+   "region": "gulf",
+   "weight": 3,
+   "id": "gt-sa",
+   "category": "trending",
+   "name": "Google Trends — السعودية",
+   "url": "https://trends.google.com/trending/rss?geo=SA",
+   "kind": "trend",
+   "fmt": "gtrends",
+   "keepDays": 2,
+   "limit": 15
+  },
+  {
+   "type": "trend",
+   "lang": "ar",
+   "region": "gulf",
+   "weight": 3,
+   "id": "gt-ae",
+   "category": "trending",
+   "name": "Google Trends — الإمارات",
+   "url": "https://trends.google.com/trending/rss?geo=AE",
+   "kind": "trend",
+   "fmt": "gtrends",
+   "keepDays": 2,
+   "limit": 15
+  },
+  {
+   "type": "trend",
+   "lang": "ar",
+   "region": "gulf",
+   "weight": 3,
+   "id": "gt-kw",
+   "category": "trending",
+   "name": "Google Trends — الكويت",
+   "url": "https://trends.google.com/trending/rss?geo=KW",
+   "kind": "trend",
+   "fmt": "gtrends",
+   "keepDays": 2,
+   "limit": 15
+  },
+  {
+   "type": "trend",
+   "lang": "ar",
+   "region": "arab",
+   "weight": 3,
+   "id": "gt-ma",
+   "category": "trending",
+   "name": "Google Trends — المغرب",
+   "url": "https://trends.google.com/trending/rss?geo=MA",
+   "kind": "trend",
+   "fmt": "gtrends",
+   "keepDays": 2,
+   "limit": 15
+  },
+  {
+   "type": "trend",
+   "lang": "ar",
+   "region": "arab",
+   "weight": 3,
+   "id": "gt-iq",
+   "category": "trending",
+   "name": "Google Trends — العراق",
+   "url": "https://trends.google.com/trending/rss?geo=IQ",
+   "kind": "trend",
+   "fmt": "gtrends",
+   "keepDays": 2,
+   "limit": 15
+  },
+  {
+   "type": "trend",
+   "lang": "ar",
+   "region": "arab",
+   "weight": 3,
+   "id": "gt-jo",
+   "category": "trending",
+   "name": "Google Trends — الأردن",
+   "url": "https://trends.google.com/trending/rss?geo=JO",
+   "kind": "trend",
+   "fmt": "gtrends",
+   "keepDays": 2,
+   "limit": 15
+  },
+  {
+   "type": "trend",
+   "lang": "ar",
+   "region": "arab",
+   "weight": 3,
+   "id": "gt-dz",
+   "category": "trending",
+   "name": "Google Trends — الجزائر",
+   "url": "https://trends.google.com/trending/rss?geo=DZ",
+   "kind": "trend",
+   "fmt": "gtrends",
+   "keepDays": 2,
+   "limit": 15
+  },
+  {
+   "type": "trend",
+   "lang": "ar",
+   "region": "arab",
+   "weight": 3,
+   "id": "gt-lb",
+   "category": "trending",
+   "name": "Google Trends — لبنان",
+   "url": "https://trends.google.com/trending/rss?geo=LB",
+   "kind": "trend",
+   "fmt": "gtrends",
+   "keepDays": 2,
+   "limit": 15
+  },
+  {
+   "type": "trend",
+   "lang": "en",
+   "region": "world",
+   "weight": 2,
+   "id": "wiki-en",
+   "category": "trending",
+   "name": "الأكثر مشاهدة — ويكيبيديا الإنجليزية",
+   "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/top/en.wikipedia/all-access/",
+   "kind": "trend",
+   "fmt": "wikitop",
+   "keepDays": 2,
+   "limit": 15
+  },
+  {
+   "type": "trend",
+   "lang": "ar",
+   "region": "arab",
+   "weight": 2,
+   "id": "wiki-ar",
+   "category": "trending",
+   "name": "الأكثر مشاهدة — ويكيبيديا العربية",
+   "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/top/ar.wikipedia/all-access/",
+   "kind": "trend",
+   "fmt": "wikitop",
+   "keepDays": 2,
+   "limit": 15
+  },
+  {
+   "type": "trend",
+   "lang": "fr",
+   "region": "eu",
+   "weight": 2,
+   "id": "wiki-fr",
+   "category": "trending",
+   "name": "الأكثر مشاهدة — ويكيبيديا الفرنسية",
+   "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/top/fr.wikipedia/all-access/",
+   "kind": "trend",
+   "fmt": "wikitop",
+   "keepDays": 2,
+   "limit": 15
+  },
+  {
+   "type": "trend",
+   "lang": "es",
+   "region": "world",
+   "weight": 2,
+   "id": "wiki-es",
+   "category": "trending",
+   "name": "الأكثر مشاهدة — ويكيبيديا الإسبانية",
+   "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/top/es.wikipedia/all-access/",
+   "kind": "trend",
+   "fmt": "wikitop",
+   "keepDays": 2,
+   "limit": 15
+  },
+  {
+   "type": "trend",
+   "lang": "en",
+   "region": "us",
+   "weight": 2,
+   "id": "hn-front",
+   "category": "tech",
+   "name": "Hacker News — الصفحة الأولى",
+   "url": "https://hnrss.org/frontpage?points=150",
+   "kind": "trend",
+   "keepDays": 2,
+   "limit": 15
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "us",
+   "weight": 1,
+   "id": "nyt-home",
+   "category": "politics",
+   "name": "New York Times",
+   "url": "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "world",
+   "weight": 1,
+   "id": "nyt-world",
+   "category": "politics",
+   "name": "New York Times — World",
+   "url": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "us",
+   "weight": 1,
+   "id": "nyt-arts",
+   "category": "entertainment",
+   "name": "New York Times — Arts",
+   "url": "https://rss.nytimes.com/services/xml/rss/nyt/Arts.xml"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "us",
+   "weight": 1,
+   "id": "wapo-world",
+   "category": "politics",
+   "name": "Washington Post — World",
+   "url": "https://feeds.washingtonpost.com/rss/world"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "us",
+   "weight": 1,
+   "id": "cnn-top",
+   "category": "politics",
+   "name": "CNN",
+   "url": "http://rss.cnn.com/rss/edition.rss"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "us",
+   "weight": 1,
+   "id": "cnn-ent",
+   "category": "entertainment",
+   "name": "CNN — Entertainment",
+   "url": "http://rss.cnn.com/rss/edition_entertainment.rss"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "us",
+   "weight": 1,
+   "id": "fox-latest",
+   "category": "politics",
+   "name": "Fox News",
+   "url": "https://moxie.foxnews.com/google-publisher/latest.xml"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "us",
+   "weight": 1,
+   "id": "abc-top",
+   "category": "politics",
+   "name": "ABC News",
+   "url": "https://abcnews.go.com/abcnews/topstories"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "us",
+   "weight": 1,
+   "id": "cbs-main",
+   "category": "politics",
+   "name": "CBS News",
+   "url": "https://www.cbsnews.com/latest/rss/main"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "us",
+   "weight": 1,
+   "id": "nbc-top",
+   "category": "politics",
+   "name": "NBC News",
+   "url": "https://feeds.nbcnews.com/nbcnews/public/news"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "us",
+   "weight": 1,
+   "id": "usat-top",
+   "category": "politics",
+   "name": "USA Today",
+   "url": "http://rssfeeds.usatoday.com/usatoday-NewsTopStories"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "world",
+   "weight": 1,
+   "id": "sky-world",
+   "category": "politics",
+   "name": "Sky News — World",
+   "url": "https://feeds.skynews.com/feeds/rss/world.xml"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "world",
+   "weight": 1,
+   "id": "independent-world",
+   "category": "politics",
+   "name": "The Independent — World",
+   "url": "https://www.independent.co.uk/news/world/rss"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "us",
+   "weight": 1,
+   "id": "guardian-us",
+   "category": "politics",
+   "name": "The Guardian — US",
+   "url": "https://www.theguardian.com/us-news/rss"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "world",
+   "weight": 1,
+   "id": "guardian-biz",
+   "category": "economy",
+   "name": "The Guardian — Business",
+   "url": "https://www.theguardian.com/business/rss"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "world",
+   "weight": 1,
+   "id": "bbc-tech",
+   "category": "tech",
+   "name": "BBC Technology",
+   "url": "https://feeds.bbci.co.uk/news/technology/rss.xml"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "us",
+   "weight": 1,
+   "id": "verge",
+   "category": "tech",
+   "name": "The Verge",
+   "url": "https://www.theverge.com/rss/index.xml"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "us",
+   "weight": 1,
+   "id": "ars",
+   "category": "tech",
+   "name": "Ars Technica",
+   "url": "https://feeds.arstechnica.com/arstechnica/index"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "us",
+   "weight": 1,
+   "id": "wired",
+   "category": "tech",
+   "name": "Wired",
+   "url": "https://www.wired.com/feed/rss"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "us",
+   "weight": 1,
+   "id": "techcrunch",
+   "category": "tech",
+   "name": "TechCrunch",
+   "url": "https://techcrunch.com/feed/"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "us",
+   "weight": 1,
+   "id": "engadget",
+   "category": "tech",
+   "name": "Engadget",
+   "url": "https://www.engadget.com/rss.xml"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "us",
+   "weight": 1,
+   "id": "variety",
+   "category": "entertainment",
+   "name": "Variety",
+   "url": "https://variety.com/feed/"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "us",
+   "weight": 1,
+   "id": "thr",
+   "category": "entertainment",
+   "name": "The Hollywood Reporter",
+   "url": "https://www.hollywoodreporter.com/feed/"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "us",
+   "weight": 1,
+   "id": "deadline",
+   "category": "entertainment",
+   "name": "Deadline",
+   "url": "https://deadline.com/feed/"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "us",
+   "weight": 1,
+   "id": "billboard",
+   "category": "entertainment",
+   "name": "Billboard",
+   "url": "https://www.billboard.com/feed/"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "us",
+   "weight": 1,
+   "id": "rollingstone",
+   "category": "entertainment",
+   "name": "Rolling Stone",
+   "url": "https://www.rollingstone.com/feed/"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "us",
+   "weight": 1,
+   "id": "ew",
+   "category": "entertainment",
+   "name": "Entertainment Weekly",
+   "url": "https://ew.com/feed/"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "us",
+   "weight": 1,
+   "id": "people",
+   "category": "entertainment",
+   "name": "People",
+   "url": "https://people.com/feed/"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "us",
+   "weight": 1,
+   "id": "pitchfork",
+   "category": "entertainment",
+   "name": "Pitchfork",
+   "url": "https://pitchfork.com/feed/feed-news/rss"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "us",
+   "weight": 1,
+   "id": "ign",
+   "category": "entertainment",
+   "name": "IGN",
+   "url": "https://feeds.ign.com/ign/all"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "world",
+   "weight": 1,
+   "id": "bbc-ent",
+   "category": "entertainment",
+   "name": "BBC Entertainment",
+   "url": "https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "world",
+   "weight": 1,
+   "id": "guardian-culture",
+   "category": "entertainment",
+   "name": "The Guardian — Culture",
+   "url": "https://www.theguardian.com/culture/rss"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "world",
+   "weight": 1,
+   "id": "guardian-film",
+   "category": "entertainment",
+   "name": "The Guardian — Film",
+   "url": "https://www.theguardian.com/film/rss"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "world",
+   "weight": 1,
+   "id": "guardian-music",
+   "category": "entertainment",
+   "name": "The Guardian — Music",
+   "url": "https://www.theguardian.com/music/rss"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "world",
+   "weight": 1,
+   "id": "bbc-football",
+   "category": "sports",
+   "name": "BBC Sport — Football",
+   "url": "https://feeds.bbci.co.uk/sport/football/rss.xml"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "world",
+   "weight": 1,
+   "id": "guardian-football",
+   "category": "sports",
+   "name": "The Guardian — Football",
+   "url": "https://www.theguardian.com/football/rss"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "world",
+   "weight": 1,
+   "id": "guardian-sport",
+   "category": "sports",
+   "name": "The Guardian — Sport",
+   "url": "https://www.theguardian.com/sport/rss"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "world",
+   "weight": 1,
+   "id": "sky-football",
+   "category": "sports",
+   "name": "Sky Sports — Football",
+   "url": "https://www.skysports.com/rss/11095"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "world",
+   "weight": 1,
+   "id": "sky-f1",
+   "category": "sports",
+   "name": "Sky Sports — F1",
+   "url": "https://www.skysports.com/rss/12433"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "us",
+   "weight": 1,
+   "id": "cbs-nba",
+   "category": "sports",
+   "name": "CBS Sports — NBA",
+   "url": "https://www.cbssports.com/rss/headlines/nba/"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "us",
+   "weight": 1,
+   "id": "cbs-nfl",
+   "category": "sports",
+   "name": "CBS Sports — NFL",
+   "url": "https://www.cbssports.com/rss/headlines/nfl/"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "us",
+   "weight": 1,
+   "id": "cbs-mlb",
+   "category": "sports",
+   "name": "CBS Sports — MLB",
+   "url": "https://www.cbssports.com/rss/headlines/mlb/"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "us",
+   "weight": 1,
+   "id": "cbs-soccer",
+   "category": "sports",
+   "name": "CBS Sports — Soccer",
+   "url": "https://www.cbssports.com/rss/headlines/soccer/"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "world",
+   "weight": 1,
+   "id": "bbc-tennis",
+   "category": "sports",
+   "name": "BBC Sport — Tennis",
+   "url": "https://feeds.bbci.co.uk/sport/tennis/rss.xml"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "world",
+   "weight": 1,
+   "id": "talksport",
+   "category": "sports",
+   "name": "talkSPORT",
+   "url": "https://talksport.com/feed/"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "world",
+   "weight": 1,
+   "id": "90min",
+   "category": "sports",
+   "name": "90min",
+   "url": "https://www.90min.com/posts.rss"
+  },
+  {
+   "type": "specialist",
+   "lang": "en",
+   "region": "world",
+   "weight": 1,
+   "id": "fourfourtwo",
+   "category": "sports",
+   "name": "FourFourTwo",
+   "url": "https://www.fourfourtwo.com/feeds/all"
+  },
+  {
+   "type": "specialist",
+   "lang": "ar",
+   "region": "gulf",
+   "weight": 1,
+   "id": "alarabiya",
+   "category": "politics",
+   "name": "العربية",
+   "url": "https://www.alarabiya.net/feed/rss2/ar.xml"
+  },
+  {
+   "type": "specialist",
+   "lang": "ar",
+   "region": "gulf",
+   "weight": 1,
+   "id": "skynews-ar",
+   "category": "politics",
+   "name": "سكاي نيوز عربية",
+   "url": "https://www.skynewsarabia.com/web/rss"
+  },
+  {
+   "type": "specialist",
+   "lang": "ar",
+   "region": "arab",
+   "weight": 1,
+   "id": "aljazeera-ar",
+   "category": "politics",
+   "name": "الجزيرة نت",
+   "url": "https://www.aljazeera.net/rss.xml"
+  },
+  {
+   "type": "public",
+   "lang": "ar",
+   "region": "arab",
+   "weight": 1,
+   "id": "france24-ar",
+   "category": "politics",
+   "name": "فرانس 24 عربي",
+   "url": "https://www.france24.com/ar/rss"
+  },
+  {
+   "type": "public",
+   "lang": "ar",
+   "region": "arab",
+   "weight": 1,
+   "id": "dw-ar",
+   "category": "politics",
+   "name": "DW عربية",
+   "url": "https://rss.dw.com/rdf/rss-ar-all"
+  },
+  {
+   "type": "specialist",
+   "lang": "ar",
+   "region": "arab",
+   "weight": 1,
+   "id": "rt-ar",
+   "category": "politics",
+   "name": "RT عربي",
+   "url": "https://arabic.rt.com/rss/"
+  },
+  {
+   "type": "specialist",
+   "lang": "ar",
+   "region": "arab",
+   "weight": 1,
+   "id": "cnn-ar",
+   "category": "politics",
+   "name": "CNN بالعربية",
+   "url": "https://arabic.cnn.com/api/v1/rss/rss.xml"
+  },
+  {
+   "type": "specialist",
+   "lang": "ar",
+   "region": "arab",
+   "weight": 1,
+   "id": "independent-ar",
+   "category": "politics",
+   "name": "اندبندنت عربية",
+   "url": "https://www.independentarabia.com/rss.xml"
+  },
+  {
+   "type": "specialist",
+   "lang": "ar",
+   "region": "eg",
+   "weight": 1,
+   "id": "youm7",
+   "category": "politics",
+   "name": "اليوم السابع",
+   "url": "https://www.youm7.com/rss/SectionRss?SectionID=65"
+  },
+  {
+   "type": "specialist",
+   "lang": "ar",
+   "region": "eg",
+   "weight": 1,
+   "id": "masrawy",
+   "category": "politics",
+   "name": "مصراوي",
+   "url": "https://www.masrawy.com/rss/feed/1/%D8%A7%D9%84%D8%A3%D8%AE%D8%A8%D8%A7%D8%B1"
+  },
+  {
+   "type": "specialist",
+   "lang": "ar",
+   "region": "eg",
+   "weight": 1,
+   "id": "almasry",
+   "category": "politics",
+   "name": "المصري اليوم",
+   "url": "https://www.almasryalyoum.com/rss/rssfeeds"
+  },
+  {
+   "type": "specialist",
+   "lang": "ar",
+   "region": "eg",
+   "weight": 1,
+   "id": "shorouk",
+   "category": "politics",
+   "name": "الشروق",
+   "url": "https://www.shorouknews.com/rss"
+  },
+  {
+   "type": "specialist",
+   "lang": "ar",
+   "region": "eg",
+   "weight": 1,
+   "id": "ahram",
+   "category": "politics",
+   "name": "الأهرام",
+   "url": "https://gate.ahram.org.eg/rss"
+  },
+  {
+   "type": "specialist",
+   "lang": "ar",
+   "region": "eg",
+   "weight": 1,
+   "id": "elwatan",
+   "category": "politics",
+   "name": "الوطن",
+   "url": "https://www.elwatannews.com/home/rssfeed"
+  },
+  {
+   "type": "specialist",
+   "lang": "ar",
+   "region": "gulf",
+   "weight": 1,
+   "id": "okaz",
+   "category": "politics",
+   "name": "عكاظ",
+   "url": "https://www.okaz.com.sa/rssFeed/0"
+  },
+  {
+   "type": "specialist",
+   "lang": "ar",
+   "region": "gulf",
+   "weight": 1,
+   "id": "aawsat",
+   "category": "politics",
+   "name": "الشرق الأوسط",
+   "url": "https://aawsat.com/feed"
+  },
+  {
+   "type": "public",
+   "lang": "ar",
+   "region": "arab",
+   "weight": 1,
+   "id": "bbc-ar-sport",
+   "category": "sports",
+   "name": "BBC عربي — رياضة",
+   "url": "https://feeds.bbci.co.uk/arabic/sports/rss.xml"
+  },
+  {
+   "type": "specialist",
+   "lang": "ar",
+   "region": "arab",
+   "weight": 1,
+   "id": "yallakora",
+   "category": "sports",
+   "name": "يلا كورة",
+   "url": "https://www.yallakora.com/rss"
+  },
+  {
+   "type": "specialist",
+   "lang": "ar",
+   "region": "eg",
+   "weight": 1,
+   "id": "youm7-sport",
+   "category": "sports",
+   "name": "اليوم السابع — رياضة",
+   "url": "https://www.youm7.com/rss/SectionRss?SectionID=298"
+  },
+  {
+   "type": "specialist",
+   "lang": "ar",
+   "region": "eg",
+   "weight": 1,
+   "id": "youm7-art",
+   "category": "entertainment",
+   "name": "اليوم السابع — فن",
+   "url": "https://www.youm7.com/rss/SectionRss?SectionID=48"
+  },
+  {
+   "type": "specialist",
+   "lang": "ar",
+   "region": "eg",
+   "weight": 1,
+   "id": "masrawy-art",
+   "category": "entertainment",
+   "name": "مصراوي — فن",
+   "url": "https://www.masrawy.com/rss/feed/5/%D9%81%D9%86"
+  },
+  {
+   "type": "specialist",
+   "lang": "ar",
+   "region": "eg",
+   "weight": 1,
+   "id": "youm7-eco",
+   "category": "economy",
+   "name": "اليوم السابع — اقتصاد",
+   "url": "https://www.youm7.com/rss/SectionRss?SectionID=297"
+  },
+  {
+   "type": "specialist",
+   "lang": "ar",
+   "region": "gulf",
+   "weight": 1,
+   "id": "aleqt",
+   "category": "economy",
+   "name": "الاقتصادية",
+   "url": "https://www.aleqt.com/rss"
+  }
+ ],
+ "youtube": [
+  {
+   "handle": "lotfyzakaria",
+   "category": "politics",
+   "name": "lotfyzakaria"
+  },
+  {
+   "handle": "SummaryEgypt",
+   "category": "economy",
+   "name": "SummaryEgypt"
+  },
+  {
+   "handle": "MohamedAssem",
+   "category": "politics",
+   "name": "MohamedAssem"
+  },
+  {
+   "handle": "alsh5anah",
+   "category": "politics",
+   "name": "alsh5anah"
+  },
+  {
+   "handle": "3shwa2yatTV",
+   "category": "politics",
+   "name": "3shwa2yatTV"
+  },
+  {
+   "handle": "MokhbirEqtisadi",
+   "category": "economy",
+   "name": "MokhbirEqtisadi"
+  }
+ ],
+ "regions": [
+  {
+   "id": "world",
+   "label": "عالميًا"
+  },
+  {
+   "id": "us",
+   "label": "أمريكا"
+  },
+  {
+   "id": "arab",
+   "label": "البلاد العربية"
+  },
+  {
+   "id": "eg",
+   "label": "مصر",
+   "in": "arab"
+  },
+  {
+   "id": "gulf",
+   "label": "الخليج",
+   "in": "arab"
+  },
+  {
+   "id": "eu",
+   "label": "أوروبا"
+  },
+  {
+   "id": "asia",
+   "label": "آسيا"
+  }
+ ]
 }
