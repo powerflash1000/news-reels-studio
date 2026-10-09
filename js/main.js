@@ -1,7 +1,7 @@
 import { load, save, getSettings, setSettings, charsUsed } from './storage.js';
 import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js';
 import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js';
-import { newReel, parseScript, buildTimeline, estimateWords, STATUSES } from './reel.js';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS } from './reel.js';
 import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js';
 import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE } from './audio.js';
 import { drawFrame } from './render.js';
@@ -13,6 +13,9 @@ const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '
 let cfg = null;          // config/sources.json
 let feeds = { items: [] };
 let reel = newReel();
+let cur = 0;               // رقم الخبر اللي بنعدّله
+const picked = new Set();  // أخبار متحددة من تبويب الأخبار
+const story = () => reel.stories[cur];
 const audioMap = new Map(); // "A|نص" → {buffer, words}
 let manualAudio = null;     // تسجيل أو ملف لكل الريل
 let filterCat = 'all';
@@ -56,6 +59,7 @@ function renderFeed() {
   const bad = (feeds.health || []).filter(h => h.status !== 'ok');
   $('feedInfo').textContent = `${gen} • ${items.length} خبر${bad.length ? ` • ⚠️ ${bad.length} مصدر فيه مشكلة (تحت)` : ''}`;
   renderHealth();
+  renderPickBar();
   $('feedList').innerHTML = items.map(i => {
     const c = cat(i.category);
     const yt = i.kind === 'youtube';
@@ -64,7 +68,9 @@ function renderFeed() {
       <div class="meta"><span>${esc(i.source)}</span><span>${c.label}</span><span>${timeAgo(i.published)}</span>
         ${yt ? '<span class="tag">رادار — مش مصدر</span>' : ''}${i.lang === 'en' ? '<span>EN</span>' : ''}</div>
       ${i.summary ? `<div class="sum" dir="auto">${esc(i.summary.slice(0, 220))}</div>` : ''}
-      <div class="row"><button class="btn pri" data-pick="${esc(i.id)}">اعمل ريل</button>
+      <div class="row"><label class="pk"><input type="checkbox" data-chk="${esc(i.id)}" ${picked.has(i.id) ? 'checked' : ''}> حدّد</label>
+        <button class="btn pri" data-pick="${esc(i.id)}">ريل جديد</button>
+        <button class="btn" data-add="${esc(i.id)}">＋ للريل الحالي</button>
         <a class="btn ghost" href="${esc(i.link)}" target="_blank" rel="noopener">فتح</a>
         ${i.lang === 'en' ? `<button class="btn ghost" data-tr="${esc(i.id)}">ترجم العنوان</button>` : ''}</div>
     </article>`;
@@ -84,17 +90,29 @@ function renderHealth() {
       ${x.error ? `<div class="e" dir="auto">${esc(x.error)}</div>` : ''}</div></div>`).join('');
 }
 
-$('feedList').addEventListener('click', async e => {
-  const pick = e.target.dataset.pick, tr = e.target.dataset.tr;
-  if (tr) return translateTitle(feeds.items.find(i => i.id === tr), e.target);
-  if (!pick) return;
-  const i = feeds.items.find(x => x.id === pick);
+const storyFromItem = i => i.kind === 'youtube'
+  ? { category: i.category, headline: i.title, fromYoutube: i.source, ytLink: i.link }
+  : { category: i.category, headline: i.title, sourceName: i.source, sourceUrl: i.link };
+
+function renderPickBar() {
+  $('pickBar').hidden = !picked.size;
+  $('pickCount').textContent = `محدد ${picked.size} خبر`;
+}
+
+$('feedList').addEventListener('click', e => {
+  const d = e.target.dataset;
+  if (d.tr) return translateTitle(feeds.items.find(i => i.id === d.tr), e.target);
+  if (d.chk) { e.target.checked ? picked.add(d.chk) : picked.delete(d.chk); return renderPickBar(); }
+  const i = feeds.items.find(x => x.id === (d.pick || d.add));
   if (!i) return;
-  const yt = i.kind === 'youtube';
-  startReel(yt
-    ? { category: i.category, headline: i.title, fromYoutube: i.source, ytLink: i.link }
-    : { category: i.category, headline: i.title, sourceName: i.source, sourceUrl: i.link });
+  if (d.pick) startReel([storyFromItem(i)]);
+  else addStories([storyFromItem(i)]);
 });
+
+$('pickGo').addEventListener('click', () => { startReel(pickedStories()); picked.clear(); renderFeed(); });
+$('pickAdd').addEventListener('click', () => { addStories(pickedStories()); picked.clear(); renderFeed(); });
+$('pickClear').addEventListener('click', () => { picked.clear(); renderFeed(); });
+function pickedStories() { return feeds.items.filter(i => picked.has(i.id)).map(storyFromItem); }
 
 async function translateTitle(item, btn) {
   try {
@@ -108,14 +126,26 @@ async function translateTitle(item, btn) {
 }
 
 $('mAdd').addEventListener('click', () => {
-  const url = $('mUrl').value.trim();
-  startReel({ category: $('mCat').value, headline: $('mTitle').value.trim(), sourceName: $('mSource').value.trim(), sourceUrl: url });
+  startReel([{ category: $('mCat').value, headline: $('mTitle').value.trim(), sourceName: $('mSource').value.trim(), sourceUrl: $('mUrl').value.trim() }]);
 });
 
-function startReel(over) {
-  reel = newReel(over);
+// ريل جديد من قايمة أخبار (كل عنصر بيتحول لخبر)
+function startReel(storyOvers = [{}]) {
+  reel = newReel({ stories: (storyOvers.length ? storyOvers : [{}]).map(o => newStory(o)) });
+  cur = 0;
   audioMap.clear();
   manualAudio = null;
+  persist();
+  fillForm();
+  showTab('studio');
+  restoreAudio();
+}
+
+// إضافة أخبار للريل الحالي (لو الريل لسه فاضي بنستبدل الخبر الفاضي)
+function addStories(overs) {
+  if (reel.stories.length === 1 && isEmptyStory(reel.stories[0])) return startReel(overs);
+  reel.stories.push(...overs.map(o => newStory(o)));
+  cur = reel.stories.length - overs.length;
   persist();
   fillForm();
   showTab('studio');
@@ -125,7 +155,7 @@ function startReel(over) {
 // بيسترجع الصوت المتولّد قبل كده من الكاش (من غير ما يستهلك رصيد)
 async function restoreAudio() {
   const mine = reel.id;
-  for (const l of parseScript(reel.script)) {
+  for (const l of allLines(reel)) {
     if (audioMap.has(lineKey(l))) continue;
     try {
       const hit = await peekLine(l.text, l.speaker);
@@ -138,7 +168,8 @@ async function restoreAudio() {
 function openReel(id) {
   const r = getReel(id);
   if (!r) return;
-  reel = newReel(r);
+  reel = normalizeReel(r);
+  cur = 0;
   audioMap.clear();
   manualAudio = null;
   setCurrentId(reel.id);
@@ -148,95 +179,140 @@ function openReel(id) {
 }
 
 /* ---------- الاستوديو ---------- */
+function renderStrip() {
+  $('storyTabs').innerHTML = reel.stories.map((st, i) => {
+    const c = st.kind === 'news' ? cat(st.category) : { color: '#6b7cff' };
+    const label = (st.headline || (st.kind === 'news' ? 'خبر فاضي' : KINDS[st.kind])).slice(0, 18);
+    return `<button class="chip ${i === cur ? 'on' : ''}" data-i="${i}" style="--c:${c.color}">${i + 1}. ${st.kind !== 'news' ? `<small>${KINDS[st.kind]}</small> ` : ''}${esc(label)}</button>`;
+  }).join('');
+  $('stUp').disabled = cur === 0;
+  $('stDown').disabled = cur === reel.stories.length - 1;
+  $('stDel').disabled = reel.stories.length === 1 && isEmptyStory(story());
+}
+
 function fillForm() {
-  $('fCat').value = reel.category;
-  $('fKind').value = reel.claimKind;
-  $('fHead').value = reel.headline;
-  $('fSrc').value = reel.sourceName;
-  $('fUrl').value = reel.sourceUrl;
-  $('fCredit').value = reel.credit;
-  $('fScript').value = reel.script;
+  const st = story();
+  $('rTitle').value = reel.title || '';
+  $('fCat').value = st.category;
+  $('fKind').value = st.claimKind;
+  $('fHead').value = st.headline;
+  $('fSrc').value = st.sourceName;
+  $('fUrl').value = st.sourceUrl;
+  $('fCredit').value = st.credit;
+  $('fScript').value = st.script;
+  const news = st.kind === 'news';
+  $('newsFields1').hidden = !news;
+  $('newsFields2').hidden = !news;
   const n = $('ytNote');
-  n.hidden = !reel.fromYoutube;
-  if (reel.fromYoutube) {
-    n.innerHTML = `الخبر ده جاي من قناة «${esc(reel.fromYoutube)}» — اليوتيوبر مش مصدر. افتح المصدر الأصلي (بيان رسمي، دراسة، وكالة) وحط اسمه ورابطه تحت. ${reel.ytLink ? `<a href="${esc(reel.ytLink)}" target="_blank" rel="noopener" style="color:inherit">الفيديو</a>` : ''}`;
+  n.hidden = !(news && st.fromYoutube);
+  if (st.fromYoutube) {
+    n.innerHTML = `الخبر ده جاي من قناة «${esc(st.fromYoutube)}» — اليوتيوبر مش مصدر. افتح المصدر الأصلي (بيان رسمي، دراسة، وكالة) وحط اسمه ورابطه فوق. ${st.ytLink ? `<a href="${esc(st.ytLink)}" target="_blank" rel="noopener" style="color:inherit">الفيديو</a>` : ''}`;
   }
+  renderStrip();
   updateInfo();
   redraw();
 }
 
 function readForm() {
-  reel.category = $('fCat').value;
-  reel.claimKind = $('fKind').value;
-  reel.headline = $('fHead').value.trim();
-  reel.sourceName = $('fSrc').value.trim();
-  reel.sourceUrl = $('fUrl').value.trim();
-  reel.credit = $('fCredit').value.trim();
-  reel.script = $('fScript').value;
+  const st = story();
+  reel.title = $('rTitle').value.trim();
+  st.category = $('fCat').value;
+  st.claimKind = $('fKind').value;
+  st.headline = $('fHead').value.trim();
+  st.sourceName = $('fSrc').value.trim();
+  st.sourceUrl = $('fUrl').value.trim();
+  st.credit = $('fCredit').value.trim();
+  st.script = $('fScript').value;
 }
 
 function persist() {
   // ريل فاضي مبيتحفظش في المكتبة
-  if (!reel.headline && !reel.script.trim() && !reel.sourceName) return;
+  if (reel.stories.every(isEmptyStory) && !reel.title) return;
   upsertReel(reel);
   setCurrentId(reel.id);
 }
 
-for (const id of ['fCat', 'fKind', 'fHead', 'fSrc', 'fUrl', 'fCredit', 'fScript']) {
+for (const id of ['rTitle', 'fCat', 'fKind', 'fHead', 'fSrc', 'fUrl', 'fCredit', 'fScript']) {
   $(id).addEventListener('input', () => {
     readForm(); persist(); updateInfo(); redraw();
+    if (id === 'fHead' || id === 'fCat') renderStrip();
     if (id === 'fScript') { clearTimeout(restoreTimer); restoreTimer = setTimeout(restoreAudio, 600); }
   });
 }
-$('newReel').addEventListener('click', () => startReel({}));
+$('newReel').addEventListener('click', () => startReel([{}]));
+
+// أخبار الريل
+$('storyTabs').addEventListener('click', e => {
+  if (e.target.dataset.i == null) return;
+  readForm(); cur = Number(e.target.dataset.i); fillForm();
+});
+function addKind(kind) {
+  readForm();
+  reel.stories.push(newStory({ kind }));
+  cur = reel.stories.length - 1;
+  persist(); fillForm();
+}
+$('addStory').addEventListener('click', () => addKind('news'));
+$('addIntro').addEventListener('click', () => addKind('intro'));
+$('addOutro').addEventListener('click', () => addKind('outro'));
+function moveStory(d) {
+  readForm();
+  const j = cur + d;
+  if (j < 0 || j >= reel.stories.length) return;
+  [reel.stories[cur], reel.stories[j]] = [reel.stories[j], reel.stories[cur]];
+  cur = j; persist(); fillForm();
+}
+$('stUp').addEventListener('click', () => moveStory(-1));
+$('stDown').addEventListener('click', () => moveStory(1));
+$('stDup').addEventListener('click', () => {
+  readForm();
+  reel.stories.splice(cur + 1, 0, newStory({ ...story(), id: undefined }));
+  cur++; persist(); fillForm();
+});
+$('stDel').addEventListener('click', () => {
+  if (reel.stories.length === 1) reel.stories[0] = newStory({ kind: reel.stories[0].kind });
+  else { reel.stories.splice(cur, 1); cur = Math.min(cur, reel.stories.length - 1); }
+  persist(); fillForm();
+});
 
 let restoreTimer = 0;
-function lineKey(l) { return l.speaker + '|' + l.text; }
 
 // الخط الزمني: صوت حقيقي لو متاح، وإلا تقدير صامت للمعاينة
-function currentTimeline() {
-  const lines = parseScript(reel.script);
-  if (manualAudio && lines.length) {
-    const dur = manualAudio.duration;
-    const text = lines.map(l => l.text).join(' ');
-    const words = estimateWords(text, dur);
-    return { tl: { segs: [{ speaker: 'A', text, start: 0.2, end: 0.2 + dur, at: 0.2, buffer: manualAudio, words: words.map(w => ({ ...w, s: w.s + 0.2, e: w.e + 0.2 })) }], duration: dur + 0.8 }, real: true, lines };
-  }
-  const real = lines.length > 0 && lines.every(l => audioMap.has(lineKey(l)));
-  const auds = lines.map(l => audioMap.get(lineKey(l)) || (() => {
-    const d = Math.max(1.5, l.text.length / 13);
-    return { buffer: { duration: d }, words: estimateWords(l.text, d) };
-  })());
-  return { tl: lines.length ? buildTimeline(lines, auds) : { segs: [], duration: 3 }, real, lines };
-}
+function currentTimeline() { return buildReelTimeline(reel, audioMap, manualAudio); }
 
-function stateFor(tlInfo) {
-  return { reel, cat: cat(reel.category), settings: getSettings(), tl: tlInfo.tl, hasB: tlInfo.lines.some(l => l.speaker === 'B') };
+function stateFor(info) {
+  return { reel, cats: cfg.categories, settings: getSettings(), tl: info.tl, hasB: info.hasB, focusIdx: cur };
 }
 
 const ctx = $('cv').getContext('2d');
 function redraw(t) {
   if (!cfg || $('tab-studio').hidden) return;
   const info = currentTimeline();
-  const first = info.tl.segs[0];
-  drawFrame(ctx, stateFor(info), t ?? (first ? first.start + 0.3 : 0));
+  const r = info.tl.stories.find(x => x.idx === cur);
+  const seg = info.tl.segs.find(x => x.storyIdx === cur);
+  drawFrame(ctx, stateFor(info), t ?? (r ? (seg ? seg.start + 0.3 : r.start) : 0));
 }
 
 function updateInfo() {
-  const lines = parseScript(reel.script);
-  const chars = lines.reduce((n, l) => n + l.text.length, 0);
-  const words = lines.reduce((n, l) => n + l.text.split(/\s+/).length, 0);
-  $('scriptInfo').textContent = lines.length ? `${lines.length} سطر • ${words} كلمة • ${chars} حرف • حوالي ${Math.round(words / 2.6)} ثانية` : '';
-  const real = lines.length && (manualAudio || lines.every(l => audioMap.has(lineKey(l))));
-  const done = lines.filter(l => audioMap.has(lineKey(l))).length;
-  $('audioInfo').textContent = manualAudio ? `صوت مسجل/مرفوع (${manualAudio.duration.toFixed(1)} ث)` : real ? 'الصوت جاهز لكل السطور ✅' : `صوت ${done}/${lines.length} سطر.`;
+  const all = allLines(reel);
+  const mine = parseScript(story().script);
+  const chars = mine.reduce((n, l) => n + l.text.length, 0);
+  const words = mine.reduce((n, l) => n + l.text.split(/\s+/).length, 0);
+  const info = currentTimeline();
+  $('scriptInfo').textContent = (mine.length ? `الخبر ده: ${mine.length} سطر • ${words} كلمة • ${chars} حرف • حوالي ${Math.round(words / 2.6)} ثانية. ` : '') +
+    (reel.stories.length > 1 ? `الحلقة كلها: ${reel.stories.length} أخبار • حوالي ${Math.round(info.tl.duration)} ثانية.` : '');
+  const real = all.length && (manualAudio || all.every(l => audioMap.has(lineKey(l))));
+  const done = all.filter(l => audioMap.has(lineKey(l))).length;
+  $('audioInfo').textContent = manualAudio ? `صوت مسجل/مرفوع (${manualAudio.duration.toFixed(1)} ث) للحلقة كلها` : real ? 'الصوت جاهز لكل السطور ✅' : `صوت ${done}/${all.length} سطر في الحلقة.`;
 }
 
 /* ---------- الصوت ---------- */
 $('gen').addEventListener('click', async () => {
-  const lines = parseScript(reel.script);
+  readForm();
+  const lines = allLines(reel);
   if (!lines.length) return setStatus('اكتب السكريبت الأول.', true);
-  const todo = lines.filter(l => !audioMap.has(lineKey(l)));
+  const seen = new Set();
+  const todo = lines.filter(l => { const k = lineKey(l); if (audioMap.has(k) || seen.has(k)) return false; seen.add(k); return true; });
   const chars = todo.reduce((n, l) => n + l.text.length, 0);
   const sub = lastSubscription();
   if (sub && sub.limit && chars > sub.limit - sub.used && !confirm(`المتبقي في رصيدك حوالي ${Math.max(0, sub.limit - sub.used)} حرف والتوليد محتاج ${chars}. تكمل؟`)) return;
@@ -245,13 +321,11 @@ $('gen').addEventListener('click', async () => {
   manualAudio = null;
   try {
     let n = 0;
-    for (const l of lines) {
-      const k = lineKey(l);
-      if (audioMap.has(k)) continue;
+    for (const l of todo) {
       setStatus(`بولّد سطر ${++n}/${todo.length}…`);
-      audioMap.set(k, await speakLine(l.text, l.speaker));
+      audioMap.set(lineKey(l), await speakLine(l.text, l.speaker));
     }
-    setStatus('تم توليد الصوت ✅');
+    setStatus(n ? 'تم توليد الصوت ✅' : 'الصوت كله جاهز من الكاش ✅');
     if (n) fetchSubscription().then(fillUsage).catch(() => {});
   } catch (e) { setStatus(String(e.message || e), true); }
   $('gen').disabled = false;
@@ -265,7 +339,7 @@ $('rec').addEventListener('click', async () => {
       recorder = new Recorder();
       await recorder.start();
       $('rec').textContent = '⏹ إيقاف التسجيل';
-      setStatus('بسجّل… اقرا السكريبت كله.');
+      setStatus('بسجّل… اقرا سكريبت الحلقة كله بالترتيب.');
     } else {
       const r = recorder; recorder = null;
       $('rec').textContent = '⏺ تسجيل بصوتي';
@@ -328,23 +402,35 @@ function stopPlay() {
 }
 
 /* ---------- التصدير ---------- */
-function validateSource() {
+const hasContent = st => parseScript(st.script).length > 0;
+
+function validateReel() {
   const probs = [];
-  if (!reel.headline) probs.push('اكتب عنوان الريل.');
-  if (!reel.sourceName) probs.push('اسم المصدر الأصلي إجباري.');
-  let u = null;
-  try { u = new URL(reel.sourceUrl); } catch { /* ناقص */ }
-  if (!u || u.protocol !== 'https:' && u.protocol !== 'http:') probs.push('رابط المصدر لازم يكون صحيح (https://…).');
-  else if (/(^|\.)(youtube\.com|youtu\.be)$/.test(u.hostname)) probs.push('رابط يوتيوب مش مصدر أصلي. حط المصدر الرسمي للخبر.');
-  if (!parseScript(reel.script).length) probs.push('اكتب السكريبت.');
+  const live = reel.stories.map((st, i) => ({ st, n: i + 1 })).filter(x => hasContent(x.st));
+  if (!live.length) probs.push('اكتب السكريبت.');
+  for (const { st, n } of reel.stories.map((st, i) => ({ st, n: i + 1 }))) {
+    if (!hasContent(st) && (st.headline || st.sourceName || st.sourceUrl)) probs.push(`الخبر ${n}: مفيش سكريبت (اكتبه أو احذف الخبر).`);
+  }
+  for (const { st, n } of live) {
+    const pre = reel.stories.length > 1 ? `الخبر ${n}: ` : '';
+    if (!st.headline) probs.push(pre + 'اكتب العنوان.');
+    if (st.kind !== 'news') continue;
+    if (!st.sourceName) probs.push(pre + 'اسم المصدر الأصلي إجباري.');
+    let u = null;
+    try { u = new URL(st.sourceUrl); } catch { /* ناقص */ }
+    if (!u || (u.protocol !== 'https:' && u.protocol !== 'http:')) probs.push(pre + 'رابط المصدر لازم يكون صحيح (https://…).');
+    else if (/(^|\.)(youtube\.com|youtu\.be)$/.test(u.hostname)) probs.push(pre + 'رابط يوتيوب مش مصدر أصلي. حط المصدر الرسمي للخبر.');
+  }
   return probs;
 }
 
 function checklistFor() {
+  const news = reel.stories.filter(st => st.kind === 'news' && hasContent(st));
   const base = ['المعلومات في السكريبت مطابقة للمصدر الأصلي المذكور.', 'السكريبت بأسلوبي، مش منقول من قناة أو موقع.'];
-  if (reel.claimKind === 'opinion') base.push('واضح إن ده رأي/تحليل ومنسوب لصاحبه.');
-  if (reel.category === 'health') base.push('مفيش نصيحة علاجية أو جرعات، والتنبيه الطبي ظاهر على الشاشة.');
-  if (reel.category === 'politics') base.push('نقل خبري محايد من غير رأي شخصي.');
+  if (news.length > 1) base.push('كل خبر ليه مصدره الخاص على الشاشة، والترتيب والعناوين مظبوطة.');
+  if (news.some(s => s.claimKind === 'opinion')) base.push('واضح إن ده رأي/تحليل ومنسوب لصاحبه.');
+  if (news.some(s => s.category === 'health')) base.push('مفيش نصيحة علاجية أو جرعات، والتنبيه الطبي ظاهر على الشاشة.');
+  if (news.some(s => s.category === 'politics')) base.push('نقل خبري محايد من غير رأي شخصي.');
   return base;
 }
 
@@ -364,12 +450,13 @@ function askChecklist() {
 
 $('exp').addEventListener('click', async () => {
   readForm();
-  const probs = validateSource();
+  const probs = validateReel();
   if (probs.length) return setStatus(probs.join(' '), true);
   const info = currentTimeline();
   if (!info.real) return setStatus('الصوت مش جاهز. ولّد الصوت أو سجّل/ارفع ملف الأول.', true);
   const support = await exportSupport();
   if (!support) return setStatus('المتصفح ده مبيدعمش التصدير السريع. استخدم Chrome أو Edge على الكمبيوتر.', true);
+  if (info.tl.duration > 90 && !confirm(`الحلقة ${Math.round(info.tl.duration)} ثانية، وإنستجرام ريلز بيفضّل لحد 90 ثانية. تكمل؟`)) return;
   if (!(await askChecklist())) return;
   stopPlay();
   $('exp').disabled = true;
@@ -380,7 +467,8 @@ $('exp').addEventListener('click', async () => {
     const blob = await exportReel(stateFor(info), support, p => { $('prog').firstElementChild.style.width = (p * 100).toFixed(0) + '%'; });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = `reel-${new Date().toISOString().slice(0, 10)}-${cat(reel.category).id}.mp4`;
+    const n = info.tl.stories.length;
+    a.download = `reel-${new Date().toISOString().slice(0, 10)}-${n > 1 ? n + 'news' : cat(reel.stories[info.tl.stories[0].idx].category).id}.mp4`;
     a.click();
     reel.status = 'exported';
     persist();
@@ -393,16 +481,19 @@ $('exp').addEventListener('click', async () => {
 /* ---------- المكتبة ---------- */
 let libStatus = 'all';
 function renderLibrary() {
-  const all = listReels();
+  const all = listReels().map(normalizeReel);
   const q = $('libQ').value.trim().toLowerCase();
   const chips = [['all', 'الكل'], ...Object.entries(STATUSES)];
   $('libStatus').innerHTML = chips.map(([k, v]) => `<button class="chip ${k === libStatus ? 'on' : ''}" data-s="${k}">${v} ${k === 'all' ? all.length : all.filter(r => r.status === k).length}</button>`).join('');
-  const rows = all.filter(r => (libStatus === 'all' || r.status === libStatus) && (!q || ((r.headline || '') + (r.script || '') + (r.sourceName || '')).toLowerCase().includes(q)));
+  const text = r => (r.title + ' ' + r.stories.map(x => x.headline + ' ' + x.script + ' ' + x.sourceName).join(' ')).toLowerCase();
+  const rows = all.filter(r => (libStatus === 'all' || r.status === libStatus) && (!q || text(r).includes(q)));
   $('libList').innerHTML = rows.length ? rows.map(r => {
-    const c = cat(r.category);
+    const first = r.stories.find(x => !isEmptyStory(x)) || r.stories[0];
+    const c = first.kind === 'news' ? cat(first.category) : { label: KINDS[first.kind], color: '#6b7cff' };
+    const sources = [...new Set(r.stories.filter(x => x.kind === 'news' && x.sourceName).map(x => x.sourceName))];
     return `<article class="item" style="--c:${c.color}">
-      <h3 dir="auto">${esc(r.headline || '(من غير عنوان)')}</h3>
-      <div class="meta"><span>${c.label}</span><span class="stat ${r.status}">${STATUSES[r.status] || r.status}</span><span>${esc(r.sourceName || 'من غير مصدر')}</span><span>${timeAgo(new Date(r.updatedAt).toISOString())}</span></div>
+      <h3 dir="auto">${esc(r.title || first.headline || '(من غير عنوان)')}</h3>
+      <div class="meta"><span>${r.stories.length > 1 ? r.stories.length + ' أخبار' : c.label}</span><span class="stat ${r.status}">${STATUSES[r.status] || r.status}</span><span dir="auto">${esc(sources.slice(0, 3).join('، ') || 'من غير مصدر')}</span><span>${timeAgo(new Date(r.updatedAt).toISOString())}</span></div>
       <div class="row"><button class="btn pri" data-open="${r.id}">فتح</button>
         <select data-st="${r.id}">${Object.entries(STATUSES).map(([k, v]) => `<option value="${k}" ${k === r.status ? 'selected' : ''}>${v}</option>`).join('')}</select>
         <button class="btn ghost" data-dup="${r.id}">تكرار</button>
@@ -414,8 +505,15 @@ $('libStatus').addEventListener('click', e => { if (e.target.dataset.s) { libSta
 $('libList').addEventListener('click', e => {
   const d = e.target.dataset;
   if (d.open) openReel(d.open);
-  else if (d.dup) { const r = getReel(d.dup); if (r) { upsertReel(newReel({ ...r, id: undefined, status: 'draft', headline: (r.headline || '') + ' (نسخة)' })); renderLibrary(); } }
-  else if (d.del && confirm('تحذف الريل ده نهائيًا؟')) { deleteReel(d.del); if (reel.id === d.del) startReel({}); renderLibrary(); }
+  else if (d.dup) {
+    const r = getReel(d.dup);
+    if (r) {
+      const n = normalizeReel(r);
+      upsertReel(newReel({ title: (n.title || n.stories[0].headline || '') + ' (نسخة)', stories: n.stories.map(x => newStory({ ...x, id: undefined })) }));
+      renderLibrary();
+    }
+  }
+  else if (d.del && confirm('تحذف الريل ده نهائيًا؟')) { deleteReel(d.del); if (reel.id === d.del) startReel([{}]); renderLibrary(); }
 });
 $('libList').addEventListener('change', e => { if (e.target.dataset.st) { setReelStatus(e.target.dataset.st, e.target.value); if (reel.id === e.target.dataset.st) reel.status = e.target.value; renderLibrary(); } });
 
@@ -559,12 +657,12 @@ document.querySelector('#tab-settings').addEventListener('click', async e => {
   $('mCat').innerHTML = opts;
   renderChips();
   fillSettings();
-  const cur = currentId() && getReel(currentId());
-  if (cur) reel = newReel(cur);
+  const saved = currentId() && getReel(currentId());
+  if (saved) reel = normalizeReel(saved);
   fillForm();
   restoreAudio();
   try { feeds = await loadFeeds(); } catch { $('feedInfo').textContent = 'تعذر تحميل data/feeds.json.'; }
   renderFeed();
   loadFonts().then(() => redraw());
-  window.__nrs = { get reel() { return reel; }, audioMap, setManual: b => { manualAudio = b; updateInfo(); redraw(); } };
+  window.__nrs = { get reel() { return reel; }, get cur() { return cur; }, audioMap, setManual: b => { manualAudio = b; updateInfo(); redraw(); } };
 })();

@@ -43,13 +43,6 @@
       "lang": "ar"
     },
     {
-      "id": "bbc-ar-business",
-      "category": "economy",
-      "name": "BBC عربي - اقتصاد",
-      "url": "https://feeds.bbci.co.uk/arabic/business/rss.xml",
-      "lang": "ar"
-    },
-    {
       "id": "bbc-sport",
       "category": "sports",
       "name": "BBC Sport",

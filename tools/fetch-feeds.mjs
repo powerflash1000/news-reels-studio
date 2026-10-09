@@ -2,7 +2,8 @@
 import { readFile, writeFile } from 'node:fs/promises';
 
 const MAX_PER_SOURCE = 25;
-const KEEP_DAYS = 10;
+const MAX_KEPT_PER_FEED = 40;
+const KEEP_DAYS = 45;
 const KEEP_DAYS_YT = 30;
 const UA = 'Mozilla/5.0 (compatible; news-reels-studio feed fetcher)';
 
@@ -97,13 +98,16 @@ for (const i of [...fresh, ...prev.items || []]) {
   if (i.published && Date.parse(i.published) < now - days * 864e5) continue;
   seen.set(i.link, i);
 }
+// حد أقصى لكل مصدر عشان الملف ما يكبرش مع مدة الاحتفاظ الطويلة
+const perFeed = new Map();
 const items = [...seen.values()]
   .sort((a, b) => (Date.parse(b.published) || 0) - (Date.parse(a.published) || 0))
+  .filter(i => { const n = (perFeed.get(i.feed) || 0) + 1; perFeed.set(i.feed, n); return n <= MAX_KEPT_PER_FEED; })
   .map((i, n) => ({ id: `${i.feed}-${n}-${Math.abs([...i.link].reduce((h, c) => (h * 31 + c.charCodeAt(0)) | 0, 7))}`, ...i }));
 
 for (const h of health) {
   h.kept = items.filter(i => i.feed === h.id).length;
-  if (h.status === 'ok' && h.fetched && !h.kept) { h.status = 'stale'; h.error = 'العناصر كلها أقدم من المدة المسموحة'; }
+  if (h.status === 'ok' && h.fetched && !h.kept) { h.status = 'stale'; h.error = 'العناصر كلها أقدم من المدة المسموحة (' + (h.kind === 'youtube' ? KEEP_DAYS_YT : KEEP_DAYS) + ' يوم)'; }
 }
 health.sort((a, b) => a.id.localeCompare(b.id));
 const errors = health.filter(h => h.status !== 'ok').map(h => ({ feed: h.id, status: h.status, error: h.error }));

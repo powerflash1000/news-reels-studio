@@ -66,3 +66,12 @@ dialog label input { width: auto; margin-top: 6px; }
 .stat { font-size: 12px; border-radius: 10px; padding: 0 8px; background: var(--line); }
 .stat.draft { background: #2b3358; } .stat.exported { background: #14543f; } .stat.published { background: #5b3d9c; }
 .item select { width: auto; padding: 2px 8px; }
+
+.strip { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 8px 10px; margin: 8px 0; }
+.strip .chips { margin-bottom: 4px; }
+.strip .row { margin: 4px 0 0; }
+.strip .btn { padding: 4px 10px; font-size: 14px; }
+.chip small { opacity: .7; }
+.pickbar { position: sticky; top: 0; z-index: 5; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; background: #1b2548; border: 1px solid var(--accent); border-radius: 12px; padding: 8px 12px; margin: 8px 0; }
+.item .pk { display: flex; gap: 6px; align-items: center; font-size: 13px; color: var(--muted); }
+.item .pk input { width: auto; margin: 0; }
