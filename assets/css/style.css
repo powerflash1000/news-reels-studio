@@ -98,3 +98,5 @@ dialog label input { width: auto; margin-top: 6px; }
 .pfrow { background: #0f1630; border: 1px solid var(--line); border-radius: 12px; padding: 8px 10px; margin: 8px 0; }
 .pfrow .row { margin: 6px 0 0; }
 .pfrow .thumb { width: 64px; height: 40px; object-fit: cover; border-radius: 6px; vertical-align: middle; }
+
+.draftbox { border-top: 1px dashed var(--line); margin-top: 10px; padding-top: 8px; }

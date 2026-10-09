@@ -32,6 +32,7 @@ const DEFAULT_SETTINGS = {
   proxyUrl: '',
   pixabayKey: '',
   claudeKey: '',
+  claudeModel: 'claude-opus-5-5',
 };
 
 export function getSettings() {
