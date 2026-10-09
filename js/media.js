@@ -2,7 +2,7 @@
 // شكل النتيجة: { id, provider, type:'image'|'video', title, thumb, url, page, author, license, licenseUrl, tier, credit, width, height, duration, size }
 //   tier: 'free' = ملك عام / CC0 / سياسة NASA (من غير شرط)، 'attr' = لازم نسب (CC BY / BY-SA / Pixabay)
 // أي ترخيص فيه NC أو ND أو مش واضح بيتستبعد.
-import { getSettings } from './storage.js?v=mv1e3uci';
+import { getSettings } from './storage.js?v=mv1eewfa';
 
 const strip = html => String(html || '').replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#0?39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/\s+/g, ' ').trim();
 const https = u => String(u || '').replace(/^http:\/\//i, 'https://');
@@ -164,7 +164,7 @@ export const PROVIDERS = {
   commons: { name: 'Wikimedia Commons', types: ['image', 'video'], search: commons, area: 'عام: خرائط، أماكن، علوم، طب', cors: true },
   openverse: { name: 'Openverse', types: ['image'], search: openverse, area: 'صور عامة (CC)', cors: true },
   archive: { name: 'Internet Archive', types: ['video'], search: archive, resolve: archiveResolve, area: 'فيديو أرشيفي', cors: false },
-  pixabay: { name: 'Pixabay', types: ['image', 'video'], search: pixabay, area: 'خلفيات عامة (مفتاح مجاني)', cors: false },
+  pixabay: { name: 'Pixabay', types: ['image', 'video'], search: pixabay, area: 'خلفيات عامة (مفتاح مجاني)', cors: true },
 };
 
 // بيدور في المصادر المختارة بالتوازي، وأي مصدر يفشل بيتسجل خطؤه من غير ما يوقف الباقي
@@ -190,17 +190,13 @@ export async function fetchBlob(item, onProgress) {
   const prov = PROVIDERS[item.provider];
   let url = item.url;
   if (!url) url = item.url = await prov.resolve(item);
+  // دايمًا بنجرب مباشرة الأول (الفحص من GitHub Actions مش دليل: بعض المواقع زي Pixabay بتسمح للمتصفح الحقيقي)، وبعدين الوسيط
   let res = null;
-  if (prov && prov.cors === false) {
-    res = await viaProxy(url);
-    if (!res) throw new Error(`${prov.name}: الموقع ده مبيسمحش بتحميل ملفاته من المتصفح. اضبط «رابط الوسيط» في الإعدادات (الشرح في README)، أو افتح الصفحة الأصلية ونزّل الملف وارفعه من جهازك.`);
-  } else {
-    try { res = await fetch(url, { signal: AbortSignal.timeout(120000) }); if (!res.ok) throw new Error('http'); }
-    catch {
-      res = await viaProxy(url).catch(() => null);
-      if (!res?.ok && item.thumb && item.provider === 'openverse') res = await fetch(item.thumb).catch(() => null); // نسخة مصغّرة من Openverse بتسمح بـCORS
-      if (!res?.ok) throw new Error('الموقع منع تحميل الملف من المتصفح (CORS). جرّب نتيجة تانية أو ارفع الملف من جهازك.');
-    }
+  try { res = await fetch(url, { signal: AbortSignal.timeout(120000) }); if (!res.ok) throw new Error('http'); }
+  catch {
+    res = await viaProxy(url).catch(() => null);
+    if (!res?.ok && item.thumb && item.provider === 'openverse') res = await fetch(item.thumb).catch(() => null); // نسخة مصغّرة من Openverse بتسمح بـCORS
+    if (!res?.ok) throw new Error(`${prov?.name || 'الموقع'}: منع تحميل الملف من المتصفح (CORS)${getSettings().proxyUrl ? ' وحتى عن طريق الوسيط' : '. اضبط «رابط الوسيط» في الإعدادات (الشرح في README)'}، أو افتح الصفحة الأصلية ونزّل الملف وارفعه من جهازك.`);
   }
   if (!res.ok) throw new Error(`تعذر تحميل الملف (HTTP ${res.status})`);
   const total = Number(res.headers.get('content-length')) || item.size || 0;
