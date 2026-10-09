@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-10-09T06:05:41.782Z",
+ "generatedAt": "2026-10-09T13:13:31.269Z",
  "errors": [
   {
    "feed": "who-news",
@@ -7,34 +7,9 @@
    "error": "العناصر كلها أقدم من المدة المسموحة (45 يوم)"
   },
   {
-   "feed": "yt-3shwa2yatTV",
-   "status": "error",
-   "error": "HTTP 404"
-  },
-  {
-   "feed": "yt-alsh5anah",
-   "status": "error",
-   "error": "HTTP 404"
-  },
-  {
-   "feed": "yt-lotfyzakaria",
-   "status": "error",
-   "error": "HTTP 500"
-  },
-  {
    "feed": "yt-MohamedAssem",
-   "status": "error",
-   "error": "HTTP 404"
-  },
-  {
-   "feed": "yt-MokhbirEqtisadi",
-   "status": "error",
-   "error": "HTTP 404"
-  },
-  {
-   "feed": "yt-SummaryEgypt",
-   "status": "error",
-   "error": "HTTP 500"
+   "status": "stale",
+   "error": "العناصر كلها أقدم من المدة المسموحة (30 يوم)"
   }
  ],
  "health": [
@@ -57,8 +32,8 @@
    "url": "https://feeds.bbci.co.uk/arabic/rss.xml",
    "status": "ok",
    "fetched": 25,
-   "newest": "2026-10-08T23:54:47.000Z",
-   "kept": 24
+   "newest": "2026-10-09T12:01:11.000Z",
+   "kept": 30
   },
   {
    "id": "bbc-business",
@@ -67,9 +42,9 @@
    "kind": "official",
    "url": "https://feeds.bbci.co.uk/news/business/rss.xml",
    "status": "ok",
-   "fetched": 51,
-   "newest": "2026-10-09T05:29:43.000Z",
-   "kept": 27
+   "fetched": 48,
+   "newest": "2026-10-09T13:02:47.000Z",
+   "kept": 32
   },
   {
    "id": "bbc-health",
@@ -78,9 +53,9 @@
    "kind": "official",
    "url": "https://feeds.bbci.co.uk/news/health/rss.xml",
    "status": "ok",
-   "fetched": 52,
-   "newest": "2026-10-08T23:48:05.000Z",
-   "kept": 21
+   "fetched": 51,
+   "newest": "2026-10-09T12:16:11.000Z",
+   "kept": 23
   },
   {
    "id": "bbc-sport",
@@ -90,8 +65,8 @@
    "url": "https://feeds.bbci.co.uk/sport/rss.xml",
    "status": "ok",
    "fetched": 71,
-   "newest": "2026-10-09T05:35:26.000Z",
-   "kept": 30
+   "newest": "2026-10-09T12:51:41.000Z",
+   "kept": 40
   },
   {
    "id": "nasa",
@@ -112,8 +87,8 @@
    "url": "https://www.nature.com/nature.rss",
    "status": "ok",
    "fetched": 75,
-   "newest": "2026-10-08T00:00:00.000Z",
-   "kept": 25
+   "newest": "2026-10-09T00:00:00.000Z",
+   "kept": 28
   },
   {
    "id": "nih-news",
@@ -134,8 +109,8 @@
    "url": "https://news.un.org/feed/subscribe/ar/news/all/rss.xml",
    "status": "ok",
    "fetched": 30,
-   "newest": "2026-10-08T12:00:00.000Z",
-   "kept": 25
+   "newest": "2026-10-09T12:00:00.000Z",
+   "kept": 26
   },
   {
    "id": "un-news-economy",
@@ -177,10 +152,9 @@
    "category": "politics",
    "kind": "youtube",
    "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCaIM7U5vrZkvLAz_BFCiyPw",
-   "status": "error",
-   "fetched": 0,
-   "newest": null,
-   "error": "HTTP 404",
+   "status": "ok",
+   "fetched": 15,
+   "newest": "2026-10-02T14:32:16.000Z",
    "kept": 2
   },
   {
@@ -189,10 +163,9 @@
    "category": "politics",
    "kind": "youtube",
    "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCGu86XBNrnoUPRGDuNv6OJQ",
-   "status": "error",
-   "fetched": 0,
-   "newest": null,
-   "error": "HTTP 404",
+   "status": "ok",
+   "fetched": 15,
+   "newest": "2026-09-26T20:45:08.000Z",
    "kept": 2
   },
   {
@@ -201,10 +174,9 @@
    "category": "politics",
    "kind": "youtube",
    "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCAdCmTZIOcGfrRf0BLICDQw",
-   "status": "error",
-   "fetched": 0,
-   "newest": null,
-   "error": "HTTP 500",
+   "status": "ok",
+   "fetched": 15,
+   "newest": "2026-10-08T20:22:40.000Z",
    "kept": 15
   },
   {
@@ -213,11 +185,11 @@
    "category": "politics",
    "kind": "youtube",
    "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCIqnlKGqXxaWwXoL_0A35XQ",
-   "status": "error",
-   "fetched": 0,
-   "newest": null,
-   "error": "HTTP 404",
-   "kept": 0
+   "status": "stale",
+   "fetched": 15,
+   "newest": "2026-08-10T13:58:44.000Z",
+   "kept": 0,
+   "error": "العناصر كلها أقدم من المدة المسموحة (30 يوم)"
   },
   {
    "id": "yt-MokhbirEqtisadi",
@@ -225,10 +197,9 @@
    "category": "economy",
    "kind": "youtube",
    "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UC4kRorAXuIkyIX6vwXKaLWg",
-   "status": "error",
-   "fetched": 0,
-   "newest": null,
-   "error": "HTTP 404",
+   "status": "ok",
+   "fetched": 15,
+   "newest": "2026-10-08T17:00:10.000Z",
    "kept": 3
   },
   {
@@ -237,14 +208,409 @@
    "category": "economy",
    "kind": "youtube",
    "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UC3WziBdrb8ztqlt0n4k9dNw",
-   "status": "error",
-   "fetched": 0,
-   "newest": null,
-   "error": "HTTP 500",
-   "kept": 15
+   "status": "ok",
+   "fetched": 15,
+   "newest": "2026-10-09T10:47:10.000Z",
+   "kept": 16
   }
  ],
  "items": [
+  {
+   "id": "bbc-business-0-366717993",
+   "title": "Burnham promises to curb non-compete rules in job contracts",
+   "summary": "The prime minister says restrictions on what workers can do after leaving roles have \"gone too far\".",
+   "link": "https://www.bbc.co.uk/news/articles/c63r5wx8z8wzo?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-09T13:02:47.000Z",
+   "kind": "official",
+   "category": "economy",
+   "source": "BBC Business",
+   "lang": "en",
+   "feed": "bbc-business"
+  },
+  {
+   "id": "bbc-sport-1-2036126843",
+   "title": "Fury-Joshua tickets priced up to £13,000 sell out in one hour",
+   "summary": "Tickets for Tyson Fury and Anthony Joshua's fight at Cardiff's Principality Stadium sells out in just one hour.",
+   "link": "https://www.bbc.co.uk/sport/boxing/articles/cwp9gxzyplk4o?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-09T12:51:41.000Z",
+   "kind": "official",
+   "category": "sports",
+   "source": "BBC Sport",
+   "lang": "en",
+   "feed": "bbc-sport"
+  },
+  {
+   "id": "bbc-sport-2-1706577502",
+   "title": "Djokovic suffers surprise Hurkacz loss in Shanghai",
+   "summary": "Novak Djokovic suffers a surprise second-round loss to Hubert Hurkacz at the Shanghai Masters, just three days after his triumph at the China Open in Beijing.",
+   "link": "https://www.bbc.co.uk/sport/tennis/articles/cqlydnrperpko?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-09T12:50:28.000Z",
+   "kind": "official",
+   "category": "sports",
+   "source": "BBC Sport",
+   "lang": "en",
+   "feed": "bbc-sport"
+  },
+  {
+   "id": "bbc-business-3-1082976504",
+   "title": "Anthropic bans users from being 'cruel' to its AI systems",
+   "summary": "The firm said users can no longer engage in \"sustained and needless\" abusive behaviour towards the tech.",
+   "link": "https://www.bbc.co.uk/news/articles/c6j9k1l72wkgo?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-09T12:34:27.000Z",
+   "kind": "official",
+   "category": "economy",
+   "source": "BBC Business",
+   "lang": "en",
+   "feed": "bbc-business"
+  },
+  {
+   "id": "bbc-sport-4-2025443031",
+   "title": "33 balls, 0 runs - Maddinson's record-breaking duck on Australia return",
+   "summary": "Opener Nic Maddinson makes the longest duck by a Test opener this century as Australia struggle on his return against South Africa.",
+   "link": "https://www.bbc.co.uk/sport/cricket/articles/ck20wpg18w19o?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-09T12:21:21.000Z",
+   "kind": "official",
+   "category": "sports",
+   "source": "BBC Sport",
+   "lang": "en",
+   "feed": "bbc-sport"
+  },
+  {
+   "id": "bbc-health-5-267759460",
+   "title": "Autism, ADHD and mental health review: What you need to know",
+   "summary": "It contains big lessons for the NHS, welfare, education and employment policies. What are the key takeaways?",
+   "link": "https://www.bbc.co.uk/news/articles/crn8wyl4n42yo?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-09T12:16:11.000Z",
+   "kind": "official",
+   "category": "health",
+   "source": "BBC Health",
+   "lang": "en",
+   "feed": "bbc-health"
+  },
+  {
+   "id": "bbc-ar-6-1450064008",
+   "title": "مقتل ثلاثة سعوديين بهجمات على مطار الرياض ومصدر يربط الهدنة باستعادة الحكومة اليمنية كل الأراضي التي خسرتها",
+   "summary": "تضرر طائرة في مطار الرياض واضطراب الرحلات الجوية مع تصاعد هجمات جماعة أنصار الله على السعودية، وسط بحث دعم عسكري للرياض واستمرار المعارك والنزوح في اليمن.",
+   "link": "https://www.bbc.com/arabic/articles/cw80zv045evno?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-09T12:01:11.000Z",
+   "kind": "official",
+   "category": "politics",
+   "source": "BBC عربي",
+   "lang": "ar",
+   "feed": "bbc-ar"
+  },
+  {
+   "id": "un-news-ar-7-238134516",
+   "title": "مفوضة الأمم المتحدة السامية السابقة لحقوق الإنسان تفوز بجائزة نوبل للسلام",
+   "summary": "فازت نافي بيليه، مفوضة الأمم المتحدة السامية السابقة لحقوق الإنسان، بجائزة نوبل للسلام لعام 2026.",
+   "link": "https://news.un.org/feed/view/ar/story/2026/10/1145510",
+   "published": "2026-10-09T12:00:00.000Z",
+   "kind": "official",
+   "category": "politics",
+   "source": "أخبار الأمم المتحدة",
+   "lang": "ar",
+   "feed": "un-news-ar"
+  },
+  {
+   "id": "bbc-health-8-1650993159",
+   "title": "From the workplace to pop culture - why how we view women's anger is changing",
+   "summary": "Studies suggest women are getting angrier, but are they just more open about it?",
+   "link": "https://www.bbc.co.uk/news/articles/cmg47lx1pqlko?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-09T11:40:22.000Z",
+   "kind": "official",
+   "category": "health",
+   "source": "BBC Health",
+   "lang": "en",
+   "feed": "bbc-health"
+  },
+  {
+   "id": "bbc-ar-9-1018489306",
+   "title": "هل تطيح أزمة الإسكان بحكومة سانشيز أم تنقذها؟ - الغارديان",
+   "summary": "نتناول في عناوين الصحف التي نعرضها لكم الجمعة، مقالاً عن أثر أزمة السكن في إسبانيا على حكومة بيدرو سانشيز، ومقالاً آخر عن احتمالية لجوء إيران لتصعيد الحرب بدلاً من عقد اتفاق مع الولايات المتحدة، وأخيراً تحليل لخطاب الرئيس الأمريكي دونالد ترامب في التجمع الانتخابي في تكساس.",
+   "link": "https://www.bbc.com/arabic/articles/cvy0rpn3551zo?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-09T11:19:20.000Z",
+   "kind": "official",
+   "category": "politics",
+   "source": "BBC عربي",
+   "lang": "ar",
+   "feed": "bbc-ar"
+  },
+  {
+   "id": "bbc-sport-10-1670414769",
+   "title": "Wimbledon boss jokes military would love to 'sort out' influencers",
+   "summary": "Royal Marine Commandos providing security at Wimbledon would like \"nothing more than to sort out\" disruptive social media influencers at the prestigious tournament, its chief executive jokes.",
+   "link": "https://www.bbc.co.uk/sport/tennis/articles/crly0n5j79n5o?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-09T11:18:22.000Z",
+   "kind": "official",
+   "category": "sports",
+   "source": "BBC Sport",
+   "lang": "en",
+   "feed": "bbc-sport"
+  },
+  {
+   "id": "yt-SummaryEgypt-11-340757795",
+   "title": "أحمد الشرع يدرس إرسال 20 ألف جندي سوري إلى اليمن بطلب سعودي لمواجهة الحوثيين",
+   "summary": "أحمد الشرع يدرس إرسال 20 ألف جندي سوري إلى اليمن بطلب سعودي لمواجهة الحوثيين، وسط تقارير عن تحركات عسكرية جديدة قد تغيّر مسار الحرب هل تستعد السعودية لتوسيع المواجهة ضد الحوثيين؟ وما حقيقة مشاركة الجيش السوري في معركة اليمن، خاصة بعد نفي دمشق لهذه التقارير؟ حلقة \"إخلاء الرياض\" من قناة summary ... اعرف القصة من الأول .. برعـــاية \"مزرعة الأمانة\" 🐐قدم صدقتك للناس اللي في أشد الحاجة ليها من خلال مزرعة الامانة تقدر تطلب منهم من خلال 👇 الموقع الإلكتروني : https://alaamana.com واتساب : https://api.whatsapp.com/send/?phone=255793569666 في هذا الفيديو نكشف تفاصيل التحركات العسكرية المحتملة، وأهداف السعودية من التصعيد ضد الحوثيين، وانعكاسات ذلك على باب المندب وأمن البحر الأحمر، في ظل صراع إقليمي مفتوح على جميع الاحتمالات فصــــــــول الحلقة ـــ Chapters :- 00:00 أحمد الشرع و20 ألف جندي سوري إلى اليمن.. ما القصة؟ 02:36 استهداف مطار الرياض وتصعيد الحوثيين ضد السعودية 04:15 كيف يهدد الحوثيون رؤية ",
+   "link": "https://www.youtube.com/watch?v=rhlbDj8hLwg",
+   "published": "2026-10-09T10:47:10.000Z",
+   "kind": "youtube",
+   "category": "economy",
+   "source": "SummaryEgypt",
+   "lang": "ar",
+   "feed": "yt-SummaryEgypt"
+  },
+  {
+   "id": "bbc-sport-12-395326928",
+   "title": "Man City titles 'absolutely not' tainted - Maresca",
+   "summary": "Manchester City manager Enzo Maresca says the club's titles are \"absolutely not\" tainted after they were found guilty of the majority of the 115 charges brought against them by the Premier League.",
+   "link": "https://www.bbc.co.uk/sport/football/articles/cmzxjdvv784xo?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-09T10:24:13.000Z",
+   "kind": "official",
+   "category": "sports",
+   "source": "BBC Sport",
+   "lang": "en",
+   "feed": "bbc-sport"
+  },
+  {
+   "id": "bbc-ar-13-1983512744",
+   "title": "وزير الدفاع الأمريكي يعلن عن بث تنفيذ الإعدام بحق نضال حسن على الهواء مباشرة",
+   "summary": "يُعتقد أن هذه ستكون عملية الإعدام العلنية الأولى في الولايات المتحدة منذ نحو مئة عام. ويعدّ قرار البث المباشر بمثابة \"خطوة غير مسبوقة في العصر الحديث\".",
+   "link": "https://www.bbc.com/arabic/articles/cxnv0qdj9y6vo?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-09T10:11:56.000Z",
+   "kind": "official",
+   "category": "politics",
+   "source": "BBC عربي",
+   "lang": "ar",
+   "feed": "bbc-ar"
+  },
+  {
+   "id": "bbc-ar-14-372207264",
+   "title": "منح جائزة نوبل للسلام للجنوب أفريقية نافانيثيم بيلاي",
+   "summary": "أعلنت لجنة نوبل في أوسلو الجمعة، منح جائزة نوبل السلام للجنوب أفريقية نافانيثيم بيلاي.",
+   "link": "https://www.bbc.com/arabic/articles/cvde89ny1r0ko?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-09T10:04:41.000Z",
+   "kind": "official",
+   "category": "politics",
+   "source": "BBC عربي",
+   "lang": "ar",
+   "feed": "bbc-ar"
+  },
+  {
+   "id": "bbc-sport-15-1862392917",
+   "title": "Irving leads Buccaneers to shock win over Cowboys",
+   "summary": "Bucky Irving scores two touchdowns as the Tampa Bay Buccaneers get their first win of the season with a 24-16 victory at the Dallas Cowboys.",
+   "link": "https://www.bbc.co.uk/sport/american-football/videos/ckqxn9j153gvo?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-09T10:01:05.000Z",
+   "kind": "official",
+   "category": "sports",
+   "source": "BBC Sport",
+   "lang": "en",
+   "feed": "bbc-sport"
+  },
+  {
+   "id": "bbc-sport-16-2091249553",
+   "title": "Mourinho calls criticism of Mbappe 'ridiculous'",
+   "summary": "Jose Mourinho defends Kylian Mbappe who has been scrutinised during the international break.",
+   "link": "https://www.bbc.co.uk/sport/football/articles/crvg6lx2yj29o?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-09T09:57:48.000Z",
+   "kind": "official",
+   "category": "sports",
+   "source": "BBC Sport",
+   "lang": "en",
+   "feed": "bbc-sport"
+  },
+  {
+   "id": "bbc-sport-17-584248202",
+   "title": "Russell fastest from Leclerc in Singapore practice",
+   "summary": "Mercedes driver George Russell leads Ferrari's Charles Leclerc in practice at the Singapore Grand Prix.",
+   "link": "https://www.bbc.co.uk/sport/formula1/articles/cm0e0w5ele7wo?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-09T09:45:25.000Z",
+   "kind": "official",
+   "category": "sports",
+   "source": "BBC Sport",
+   "lang": "en",
+   "feed": "bbc-sport"
+  },
+  {
+   "id": "bbc-business-18-405679968",
+   "title": "I've been with my boyfriend for two years and don't know his salary",
+   "summary": "Talking about salary, spending habits and debt can be some of dating's trickier conversations.",
+   "link": "https://www.bbc.co.uk/news/articles/c8wyz69r0nnpo?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-09T09:37:38.000Z",
+   "kind": "official",
+   "category": "economy",
+   "source": "BBC Business",
+   "lang": "en",
+   "feed": "bbc-business"
+  },
+  {
+   "id": "bbc-business-19-2085704222",
+   "title": "Fired OpenAI researchers say they were let go for 'prioritising safety'",
+   "summary": "The AI firm instead claims the researchers were fired for mishandling sensitive information.",
+   "link": "https://www.bbc.co.uk/news/articles/cvlydn8d3lkjo?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-09T09:30:49.000Z",
+   "kind": "official",
+   "category": "economy",
+   "source": "BBC Business",
+   "lang": "en",
+   "feed": "bbc-business"
+  },
+  {
+   "id": "bbc-sport-20-1304875030",
+   "title": "In-form Carpenter aims to advance England case by outshining Furbank",
+   "summary": "In-form Sale full-back Joe Carpenter admits part of him is focused on outshining Harlequins' George Furbank this weekend to advance his case for an England recall.",
+   "link": "https://www.bbc.co.uk/sport/rugby-union/articles/c615jzgej9zko?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-09T09:27:36.000Z",
+   "kind": "official",
+   "category": "sports",
+   "source": "BBC Sport",
+   "lang": "en",
+   "feed": "bbc-sport"
+  },
+  {
+   "id": "bbc-sport-21-1537376198",
+   "title": "Everton owners consider selling club two years after takeover",
+   "summary": "Everton owners the Friedkin Group are exploring the sale of the club less than two years after taking control.",
+   "link": "https://www.bbc.co.uk/sport/football/articles/cmvg9pgg4keyo?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-09T08:23:50.000Z",
+   "kind": "official",
+   "category": "sports",
+   "source": "BBC Sport",
+   "lang": "en",
+   "feed": "bbc-sport"
+  },
+  {
+   "id": "bbc-sport-22-1588923634",
+   "title": "Legendary Leeds Rhinos winger Hall retires",
+   "summary": "Leeds Rhinos legend Ryan Hall announces his retirement at the age of 38.",
+   "link": "https://www.bbc.co.uk/sport/rugby-league/articles/cje36lkkd9peo?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-09T08:01:30.000Z",
+   "kind": "official",
+   "category": "sports",
+   "source": "BBC Sport",
+   "lang": "en",
+   "feed": "bbc-sport"
+  },
+  {
+   "id": "bbc-sport-23-736473100",
+   "title": "Is £70m Baleba ready for his Man Utd exam?",
+   "summary": "Manchester United's £70m summer signing Carlos Baleba is expected to make his debut against Tottenham Hotspur at Old Trafford",
+   "link": "https://www.bbc.co.uk/sport/football/articles/ck054p2lyeplo?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-09T07:57:23.000Z",
+   "kind": "official",
+   "category": "sports",
+   "source": "BBC Sport",
+   "lang": "en",
+   "feed": "bbc-sport"
+  },
+  {
+   "id": "bbc-sport-24-797158298",
+   "title": "Yet to gel or same old struggles? - De Zerbi's Premier League dilemma",
+   "summary": "After a three-week international break, Tottenham Hotspur return to Premier League action having won none of their opening five matches and sitting bottom of the table. BBC Sport looks back at their poor start to the season and asks if another relegation battle is looming?",
+   "link": "https://www.bbc.co.uk/sport/football/videos/cwp8g355me6no?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-09T07:41:09.000Z",
+   "kind": "official",
+   "category": "sports",
+   "source": "BBC Sport",
+   "lang": "en",
+   "feed": "bbc-sport"
+  },
+  {
+   "id": "bbc-sport-25-1124783384",
+   "title": "Carrick stays cool, but should he be worried about Man Utd's form?",
+   "summary": "After three weeks off because of the international break, BBC Sport looks back at Manchester United's indifferent start to the new Premier League season, which saw Michael Carrick's side win just one of their opening five matches.",
+   "link": "https://www.bbc.co.uk/sport/football/videos/c6x29vg0p7kko?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-09T07:36:24.000Z",
+   "kind": "official",
+   "category": "sports",
+   "source": "BBC Sport",
+   "lang": "en",
+   "feed": "bbc-sport"
+  },
+  {
+   "id": "bbc-sport-26-161338667",
+   "title": "'Different planet' Wilson becomes five-time MVP, but won't celebrate",
+   "summary": "A ceremony marking her record-extending fifth MVP award will take place on Friday night, but A'ja Wilson will not take part before a must-win game.",
+   "link": "https://www.bbc.co.uk/sport/basketball/articles/c8ly02yzg2w1o?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-09T07:35:59.000Z",
+   "kind": "official",
+   "category": "sports",
+   "source": "BBC Sport",
+   "lang": "en",
+   "feed": "bbc-sport"
+  },
+  {
+   "id": "bbc-ar-27-28870112",
+   "title": "سيدة تنجب طفلاً بفضل أنسجة المبيض المُجمَّدة، بعد صراع مع السرطان وانقطاع الطمث المبكر",
+   "summary": "أُعيد بنجاح زرع عينات نسيجية أُخذت من كاساندرا بيكون قبل 23 عاماً في جسدها، ما أتاح لها إنجاب ابنها وهي في الرابعة والأربعين من عمرها.",
+   "link": "https://www.bbc.com/arabic/articles/ckpdgvdyvn4xo?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-09T07:34:31.000Z",
+   "kind": "official",
+   "category": "politics",
+   "source": "BBC عربي",
+   "lang": "ar",
+   "feed": "bbc-ar"
+  },
+  {
+   "id": "bbc-ar-28-1564693575",
+   "title": "الكاس تتوقع إصدار قرار بشأن الفائز بكأس أفريقيا \"في غضون أيام\"",
+   "summary": "بعد جلسة افتتاحية استمرت أكثر من خمس ساعات خلف أبواب مغلقة، وعدت محكمة التحكيم الرياضية (الكاس) بالبت سريعاً في الاستئناف المقدم من السنغال بعد تجريدها من لقب كأس الأمم الأفريقية لكرة القدم ومنحه للمستضيف المغرب، إذ استمعت أعلى محكمة رياضية إلى المرافعات الخميس، فيما يُتوقع أن تصدر قرارها \"في غضون أيام\".",
+   "link": "https://www.bbc.com/arabic/articles/cwe8lx8nz6g7o?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-09T07:30:14.000Z",
+   "kind": "official",
+   "category": "politics",
+   "source": "BBC عربي",
+   "lang": "ar",
+   "feed": "bbc-ar"
+  },
+  {
+   "id": "bbc-business-29-439445262",
+   "title": "Nvidia-backed data centre firm scraps IPO as AI valuation concerns deepen",
+   "summary": "Firmus said it had made the decision due to \"recent market volatility and prevailing market conditions\".",
+   "link": "https://www.bbc.co.uk/news/articles/ck9dzpw4ll8po?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-09T07:14:30.000Z",
+   "kind": "official",
+   "category": "economy",
+   "source": "BBC Business",
+   "lang": "en",
+   "feed": "bbc-business"
+  },
+  {
+   "id": "bbc-sport-30-1410034867",
+   "title": "UFC fighters aren't paid enough to retire, says Strickland",
+   "summary": "Sean Strickland says UFC fighters are not paid enough money to retire from the sport on their own terms.",
+   "link": "https://www.bbc.co.uk/sport/mixed-martial-arts/articles/cmx2dv23e5y8o?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-09T07:12:02.000Z",
+   "kind": "official",
+   "category": "sports",
+   "source": "BBC Sport",
+   "lang": "en",
+   "feed": "bbc-sport"
+  },
+  {
+   "id": "bbc-sport-31-1643136235",
+   "title": "How Arteta's response to Brighton loss may shape Arsenal's next chapter",
+   "summary": "Mikel Arteta has shown an increased appetite for risk this season but, as Arsenal look to stay at the top, failing to reinvent would be a greater gamble.",
+   "link": "https://www.bbc.co.uk/sport/football/articles/crn8wg221lnvo?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-09T06:41:14.000Z",
+   "kind": "official",
+   "category": "sports",
+   "source": "BBC Sport",
+   "lang": "en",
+   "feed": "bbc-sport"
+  },
+  {
+   "id": "bbc-sport-32-1319896415",
+   "title": "James suffers defeat on 76ers debut in pre-season",
+   "summary": "LeBron James says it's \"going to take some time\" for his new team-mates to gel after suffering defeat on his debut for the Philadelphia 76ers in a pre-season game.",
+   "link": "https://www.bbc.co.uk/sport/basketball/articles/cqy0r90nxneeo?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-09T06:17:12.000Z",
+   "kind": "official",
+   "category": "sports",
+   "source": "BBC Sport",
+   "lang": "en",
+   "feed": "bbc-sport"
+  },
   {
    "id": "bbc-sport-0-1409694719",
    "title": "Who am I? Plus today's other quizzes",
@@ -270,7 +636,19 @@
    "feed": "bbc-sport"
   },
   {
-   "id": "bbc-business-2-623809958",
+   "id": "bbc-business-35-321095801",
+   "title": "'You cannot build this car anywhere else in the world'",
+   "summary": "Car maker Longbow, which hopes to build thousands of cars, says the region has the talent and know-how.",
+   "link": "https://www.bbc.co.uk/news/articles/cmx2q7rlxxw8o?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-09T05:11:49.000Z",
+   "kind": "official",
+   "category": "economy",
+   "source": "BBC Business",
+   "lang": "en",
+   "feed": "bbc-business"
+  },
+  {
+   "id": "bbc-business-36-623809958",
    "title": "Trump wants to reduce the cost of fuel as the midterms loom - will it work?",
    "summary": "The price of fuel has soared as the cost of living emerges as a key issue for millions of Americans.",
    "link": "https://www.bbc.co.uk/news/articles/cv2d6x749lwro?at_medium=RSS&at_campaign=rss",
@@ -282,19 +660,7 @@
    "feed": "bbc-business"
   },
   {
-   "id": "bbc-business-3-439445262",
-   "title": "Nvidia-backed AI data centre firm scraps landmark listing over market fears",
-   "summary": "Firmus said it had made the decision due to \"recent market volatility and prevailing market conditions\".",
-   "link": "https://www.bbc.co.uk/news/articles/ck9dzpw4ll8po?at_medium=RSS&at_campaign=rss",
-   "published": "2026-10-09T04:06:23.000Z",
-   "kind": "official",
-   "category": "economy",
-   "source": "BBC Business",
-   "lang": "en",
-   "feed": "bbc-business"
-  },
-  {
-   "id": "nasa-4-2110651777",
+   "id": "nasa-37-2110651777",
    "title": "APOD: 2026 October 9 – Stickney Crater",
    "summary": "APOD Science APOD APOD: 2026 October 9… Today’s APOD Archive Submissions Index Search Calendar RSS Education About Discuss APOD Astronomy Picture of the Day Discover the cosmos! Each day a different image or photograph of our fascinating universe is featured, along with a brief explanation written by a professional astronomer. Stickney Crater Explanation: Stickney […]",
    "link": "https://science.nasa.gov/image-article/apod-2026-october-9-stickney-crater/",
@@ -306,7 +672,7 @@
    "feed": "nasa"
   },
   {
-   "id": "nasa-5-529809406",
+   "id": "nasa-38-529809406",
    "title": "Floodwaters Overwhelm Thailand",
    "summary": "Heavy rains since mid-September have caused widespread flooding that has affected millions of people across the country.",
    "link": "https://science.nasa.gov/earth/earth-observatory/floodwaters-overwhelm-thailand/",
@@ -318,7 +684,7 @@
    "feed": "nasa"
   },
   {
-   "id": "arxiv-physics-6-263449889",
+   "id": "arxiv-physics-39-263449889",
    "title": "Omnisolver: An extensible interface to Ising spin-glass and QUBO solvers: adding a distributed GPU brute-force plugin",
    "summary": "arXiv:2610.10542v1 Announce Type: new Abstract: This software update extends Omnisolver with \\texttt{omnisolver-bruteforce}, a first-class plugin for exact exhaustive search of QUBO and Ising instances on CUDA-enabled GPUs. The update contributes three components: packaging of the single-GPU brute-force kernel of [Computer Physics Communications 260, 107728, 2021] as a first-class Omnisolver plugin with a uniform Python and CLI interface, a Ray-based distributed framework that splits the search into $2^{k}$ fixed-variable subproblems and dispatches them across multiple GPUs and hosts, with a controller that gathers and merges partial results, and numerical stabilization of the fast \\texttt{float32} ground-state path through compensated incremental updates, periodic exact energy re-anchoring, and best-buffer refresh. Stabilization activates automatically for $N \\geq 40$ leaving the public",
    "link": "https://arxiv.org/abs/2610.10542",
@@ -330,7 +696,7 @@
    "feed": "arxiv-physics"
   },
   {
-   "id": "arxiv-physics-7-263449949",
+   "id": "arxiv-physics-40-263449949",
    "title": "Strategic Governance of AI Models in Earth Science",
    "summary": "arXiv:2610.10560v1 Announce Type: new Abstract: AI foundation models pretrained on weather and climate data are increasingly fine-tuned to Earth science tasks well beyond weather forecasting. Their development and adoption are outpacing the scientific community's ability to evaluate them. These models are judged almost entirely by benchmark skill metrics, which measure how closely a forecast reproduces a reference product but not whether a model represents the physical processes governing the system it predicts. Forecast skill and physical reliability are therefore distinct properties. The distinction is most consequential under the nonstationary conditions of a changing climate for which these models were never trained. We identify five priorities for the physical evaluation of AI models in Earth science from task-specific emulators to foundation models, spanning training data, fine-tun",
    "link": "https://arxiv.org/abs/2610.10560",
@@ -342,7 +708,7 @@
    "feed": "arxiv-physics"
   },
   {
-   "id": "arxiv-physics-8-263449951",
+   "id": "arxiv-physics-41-263449951",
    "title": "A Braak-Inspired Spectral Determinant Approach to a Dirac Bound-State Problem",
    "summary": "arXiv:2610.10562v1 Announce Type: new Abstract: We develop a parity-resolved spectral-connection construction for a one-dimensional Dirac particle in an attractive soft-core Coulomb potential. The square-root dependence of the potential produces algebraic branch points in the coordinate plane. We uniformize these branch points by introducing \\(t=\\sqrt{x^2+\\beta^2}\\), while retaining the full-line \\(Z_2\\) symmetry generated by \\(\\Pi=\\sigma_z P_x\\). In each parity sector the resulting problem is formulated as a global connection problem between a solution selected at the physical origin and the decaying solution at infinity. This defines parity-resolved spectral connection functions whose zeros determine bound-state energies. We further construct a quasi-exact Bethe-ansatz sector directly from the same Dirac equations and use its polynomial solutions as independent benchmarks of the spectr",
    "link": "https://arxiv.org/abs/2610.10562",
@@ -354,7 +720,7 @@
    "feed": "arxiv-physics"
   },
   {
-   "id": "arxiv-physics-9-263449954",
+   "id": "arxiv-physics-42-263449954",
    "title": "Inflationary Dynamics and CMB Constraints in $f(T,L_m)$ gravity",
    "summary": "arXiv:2610.10565v1 Announce Type: new Abstract: We investigate slow-roll inflation in a modified teleparallel framework with a non-minimal coupling between torsion and the matter sector. Focusing on Starobinsky-type plateau inflation, we derive the modified background dynamics and the corresponding slow-roll observables, and examine how the gravitational couplings affect the scalar spectral index, tensor-to-scalar ratio, and running of the spectral index. The model continuously recovers the standard Starobinsky scenario in the appropriate weak-coupling limit, while the matter--geometry coupling produces a non-monotonic modification of the inflationary predictions. We find that weak couplings leave the standard predictions essentially unchanged, whereas stronger couplings can significantly shift the scalar spectral index and eventually become incompatible with current cosmic microwave bac",
    "link": "https://arxiv.org/abs/2610.10565",
@@ -366,7 +732,7 @@
    "feed": "arxiv-physics"
   },
   {
-   "id": "arxiv-physics-10-263449957",
+   "id": "arxiv-physics-43-263449957",
    "title": "Neutrino Spin--Flavor Dynamics and Quantum Rabi Model: Spectral Correspondence and QRM Benchmarks",
    "summary": "arXiv:2610.10568v1 Announce Type: new Abstract: We formulate a two-state neutrino spin--flavor system coupled through a transition magnetic moment to a single quantized electromagnetic mode and establish its operator-level correspondence with the quantum Rabi model (QRM). For the sector $\\{\\lvert\\nu_{iL}\\rangle,\\lvert\\nu_{jR}\\rangle\\}$, the diagonal splitting is $\\Delta_s=(m_i^2-m_j^2)/(2E)+V_{iL}-V_{jR}$, while quantization of a transverse electromagnetic mode gives a coupling $g_\\nu=\\mu_{ij}B_{\\rm zpf}$. The effective Hamiltonian consequently has the QRM form $H_\\nu=\\Delta_s\\sigma_z/2+\\omega_c a^\\dagger a+g_\\nu\\sigma_x(a+a^\\dagger)$. We then formulate the correspondence at the level of the exact QRM spectrum, focusing on its exceptional (Juddian) states, and transfer the QRM constraint polynomials directly to neutrino variables. This yields explicit algebraic conditions on the neutrino",
    "link": "https://arxiv.org/abs/2610.10568",
@@ -378,7 +744,7 @@
    "feed": "arxiv-physics"
   },
   {
-   "id": "arxiv-physics-11-263449958",
+   "id": "arxiv-physics-44-263449958",
    "title": "Collapse and causality in generalised trace dynamics: record selection in Connes time and the causal consistency of emergent records",
    "summary": "arXiv:2610.10569v1 Announce Type: new Abstract: Dynamical wave-function collapse must not violate causality: a record selected \"now\" has no frame-independent meaning, and a nonlinear law can let distant observers signal. We ask whether this conflict is avoided when classical spacetime, with its causal structure, itself arises from localisation, as proposed in generalized trace dynamics (GTD), where the fluctuations that select a record come from unresolved pregeometric degrees of freedom ordered by Connes time, not by a spacetime coordinate. The hypersurface question is then not posed where selection happens; it returns as the requirement that emergent records do not signal. We apply the standard no-signalling theorem to an effective collapse law of CSL type. The norm-preserving, response-free law of a naive coarse-graining never selects. In history form, record weights are martingales o",
    "link": "https://arxiv.org/abs/2610.10569",
@@ -390,7 +756,7 @@
    "feed": "arxiv-physics"
   },
   {
-   "id": "arxiv-physics-12-263450016",
+   "id": "arxiv-physics-45-263450016",
    "title": "Partially Thermalized eV-Scale Sterile Neutrinos in Dynamical Dark Energy and Non-Flat Cosmologies",
    "summary": "arXiv:2610.10585v1 Announce Type: new Abstract: We investigate cosmological constraints on a $(3+1)$ neutrino framework containing an additional partially thermalized, eV-scale sterile neutrino alongside the three active species. Rather than assuming full thermalization, we allow the sterile abundance to vary independently through its physical mass $m_s$ and contribution $\\Delta N_{\\rm eff}$ to the effective number of relativistic species. The sterile state is modeled as a thermally distributed non-cold relic with a temperature below that of the active-neutrino background. We consider flat and non-flat $\\Lambda$CDM and $w_0w_a$CDM cosmologies, all including the same $(3+1)\\nu$ sector. The models are constrained using Planck 2018 CMB data, DESI DR2 BAO, Pantheon+ Type Ia supernovae, a conservative compilation of $f\\sigma_8$ measurements, and the recent H0DN. Oscillation-informed priors ar",
    "link": "https://arxiv.org/abs/2610.10585",
@@ -402,7 +768,7 @@
    "feed": "arxiv-physics"
   },
   {
-   "id": "arxiv-physics-13-263450018",
+   "id": "arxiv-physics-46-263450018",
    "title": "A Sign in Space part 2, a new simulated First Contact scenario engaging the global scientific SETI network, and integrating deep space technologies into SETI search",
    "summary": "arXiv:2610.10587v1 Announce Type: new Abstract: The Search for Extraterrestrial Intelligence programme aims to find evidence of extraterrestrial intelligence. SETI scientists pursue this objective by searching for technosignatures primarily in the radio or optical spectrum. The IAA SETI Committee has been developing protocols to offer guidelines in case of an actual extraterrestrial signal reception. These protocols establish procedures to confirm the authenticity of the signal and its actual extraterrestrial nature, as well as the committee's role in managing the discovery in relation to the scientific community and the general public, targeting scientific queries in relation to the management and development of equipment and methodologies employed in current SETI search. The project A Sign in Space part 2 aims to actively engage the global SETI community and the global telescope networ",
    "link": "https://arxiv.org/abs/2610.10587",
@@ -414,7 +780,7 @@
    "feed": "arxiv-physics"
   },
   {
-   "id": "arxiv-physics-14-263450019",
+   "id": "arxiv-physics-47-263450019",
    "title": "When quantum field theory kicks in: the relation between matter, gravity and energy",
    "summary": "arXiv:2610.10588v1 Announce Type: new Abstract: The existence of energy is the main criterion for (i) providing a common core to the materiality of all types of classical matter and (ii) denying that the gravitational field of General Relativity is a type of matter. Extending this criterion to quantum field theory, though formally straightforward, carries new conceptual consequences for the interpretation of gravity. Renormalization of the quantum matter stress-energy tensor forces a local, purely geometric term, built from the metric alone, into the conserved stress-energy, and this has two faces. It grants the metric a material significance alongside its spatio-temporal one (the egalitarian view); and it binds gravitational to non-gravitational energy so tightly that the two cannot be split apart without a choice of vacuum that a generic spacetime does not supply (the unificationist vi",
    "link": "https://arxiv.org/abs/2610.10588",
@@ -426,7 +792,7 @@
    "feed": "arxiv-physics"
   },
   {
-   "id": "arxiv-physics-15-263450729",
+   "id": "arxiv-physics-48-263450729",
    "title": "Kinetic Reduction and Hydrodynamics under Time-Dependent Helical Symmetry",
    "summary": "arXiv:2610.10605v1 Announce Type: new Abstract: Translational and helical symmetries provide idealized descriptions of many flows encountered in nature and engineering. While translationally symmetric flows have been extensively studied within kinetic and continuum frameworks, the corresponding connection between microscopic dynamics and continuum behaviour for helical flows is less developed. Here, we investigate this connection for a dilute gas with time-dependent helical symmetry. Using the objective molecular dynamics framework, we derive a reduced Boltzmann equation that retains radial variations while preserving the classical collision operator under helical symmetry. Formal hydrodynamic expansions then yield the corresponding Euler and Navier-Stokes-Fourier equations. The resulting models describe how cylindrical geometry and axial deformation influence transport, including viscou",
    "link": "https://arxiv.org/abs/2610.10605",
@@ -438,7 +804,7 @@
    "feed": "arxiv-physics"
   },
   {
-   "id": "arxiv-physics-16-263451780",
+   "id": "arxiv-physics-49-263451780",
    "title": "Propagation-Invariant Transmission Eigenmodes in Weakly Scattering Media",
    "summary": "arXiv:2610.10732v1 Announce Type: new Abstract: Propagation-invariant beams (PIBs) with annular angular spectra preserve their transverse intensity structure over extended propagation distances. Here, we investigate whether scattering invariant modes (SIMs) can simultaneously exhibit scattering and propagation invariance. We measure free-space and sample transmission matrices (TMs) in an orthonormal annular basis for weak, moderate, and strong scattering media and identify localized SIMs (LSIMs) whose angular spectra remain predominantly confined to one or a few neighboring rings. Under weak scattering, 75 of the 128 SIMs considered for annular localization satisfy this criterion, with LSIMs exhibiting Bessel-like propagation. Under moderate scattering, 25 LSIMs are recovered after filtering low-intensity spectral components, whereas none are found under strong scattering. Although incre",
    "link": "https://arxiv.org/abs/2610.10732",
@@ -450,7 +816,7 @@
    "feed": "arxiv-physics"
   },
   {
-   "id": "arxiv-physics-17-263451934",
+   "id": "arxiv-physics-50-263451934",
    "title": "Photoluminescence study of Vanadium in 4H- and 6H- Silicon Carbide",
    "summary": "arXiv:2610.10781v1 Announce Type: new Abstract: Point defects with optically addressable spin states are a key building block for quantum networks, but few solid-state emitters combine a spin-photon interface with emission in the low-loss telecommunications band. Vanadium (V4+) defects in silicon carbide (SiC) meet this requirement, emitting zero-phonon lines (ZPLs) throughout the telecom O-band in both the 4H- and 6H-SiC polytypes while retaining an addressable electron and nuclear spin system [1,2]. Although the orbital and spin structure of these defects has been characterized in detail, the polarization selection rules have not been fully mapped experimentally. Here we present polarization-dependent photoluminescence (PL) measurements of vanadium ZPLs in 4H- and 6H-SiC at cryogenic temperature, of two scattering geometries: edge and face-on (emission wavevector perpendicular and para",
    "link": "https://arxiv.org/abs/2610.10781",
@@ -462,7 +828,7 @@
    "feed": "arxiv-physics"
   },
   {
-   "id": "arxiv-physics-18-263451941",
+   "id": "arxiv-physics-51-263451941",
    "title": "Fault-conditioned Seismic Image Generation using Denoising Diffusion Probabilistic Modeling and Neural Style Transfer",
    "summary": "arXiv:2610.10788v1 Announce Type: new Abstract: Seismic data augmentation is critical for training robust deep learning (DL) models for fault detection and characterization, yet conventional approaches remain inadequate. Geometric transforms, e.g., flips or rotations, and noise injection fail to capture realistic seismic textures, while physics-based forward modeling is computationally expensive and often poorly aligned with the statistical characteristics of field data. We present a denoising diffusion probabilistic model (DDPM) framework that learns the high-dimensional distribution of seismic images directly from field data via iterative noise injection and learned denoising. We develop two variants: an unconditional model (U-DDPM) that generates realistic post-stack seismic patches and a fault-conditioned model (FC-DDPM) that produces diverse seismic realizations that honor user-spec",
    "link": "https://arxiv.org/abs/2610.10788",
@@ -474,7 +840,7 @@
    "feed": "arxiv-physics"
   },
   {
-   "id": "arxiv-physics-19-263451972",
+   "id": "arxiv-physics-52-263451972",
    "title": "A critical-layer instability of structural acoustic wall modes in a two-flexible-plate channel with Poiseuille flow: closed-form low-Mach corrections and parity-protected absorption",
    "summary": "arXiv:2610.10798v1 Announce Type: new Abstract: A compressible fluid column between two thin elastic plates carrying plane Poiseuille flow supports discrete structural-acoustic wall modes. This paper analyses their coupled dispersion and reports a flow-induced instability. Because a no-slip profile has zero velocity at the wall, the convective (Ingard-Myers) term in the compliant-wall boundary condition vanishes identically, so the plate-admittance conditions stay Mach-independent and a Fredholm solvability argument yields a closed-form $O(M)$ correction to every coupled wavenumber, valid for any smooth no-slip shear profile. Above the critical Mach number $M_c=\\Omega/\\xi$ at which an interior critical layer first appears, the two structural branches behave oppositely. The antisymmetric mode is not absorbed by the critical layer, a null protected by an exact mid-plane pressure node rathe",
    "link": "https://arxiv.org/abs/2610.10798",
@@ -486,7 +852,7 @@
    "feed": "arxiv-physics"
   },
   {
-   "id": "arxiv-physics-20-263452712",
+   "id": "arxiv-physics-53-263452712",
    "title": "Technical Preparations for the First Carbon-Ion Therapy Facility in the United States",
    "summary": "arXiv:2610.10824v1 Announce Type: new Abstract: Carbon ion radiotherapy (CIRT) provides greater biological effectiveness than conventional photon therapy because of its high linear energy transfer and its ability to induce complex DNA damage. Mayo Clinic Florida is developing the first CIRT facility in the United States, using a synchrotron-based system with dose-driven continuous scanning (DDCS). Although DDCS improves delivery efficiency by keeping the beam on during spot transitions, it also creates the challenge of accurately modeling the dose delivered during beam motion (move dose), which is not fully addressed in current treatment planning systems. In this work, we present a method for accurate simulation of move dose to support Monte Carlo (MC) dose calculations. The method models realistic beam trajectories, including the characteristic hockey stick motion caused by different sc",
    "link": "https://arxiv.org/abs/2610.10824",
@@ -498,7 +864,7 @@
    "feed": "arxiv-physics"
   },
   {
-   "id": "arxiv-physics-21-263452739",
+   "id": "arxiv-physics-54-263452739",
    "title": "Overcoming the limitations of body-ordered potentials for atomistic machine learning",
    "summary": "arXiv:2610.10830v1 Announce Type: new Abstract: Machine-learning interatomic potentials have become indispensable tools in atomistic simulations. The most popular models rely heavily on physical priors, such as locality, smoothness and symmetry, that are assumed to improve the accuracy and transferability of the trained models. However, recent evidence suggests that, in the data-rich regime, unconstrained models that learn symmetry from the data can achieve very competitive accuracy and computational efficiency, without sacrificing stability and generalization power. Many equivariant symmetric architectures historically rely on the assumption that the interatomic potential can be approximated well by a convergentcluster expansion, i.e., a decomposition in terms associated to atomic pairs, triplets, quadruplets, and higher-order tuples. We describe an architecture that incorporates locali",
    "link": "https://arxiv.org/abs/2610.10830",
@@ -510,7 +876,7 @@
    "feed": "arxiv-physics"
   },
   {
-   "id": "arxiv-physics-22-263452772",
+   "id": "arxiv-physics-55-263452772",
    "title": "Optimal Diffractive Focusing of Vortex Beams",
    "summary": "arXiv:2610.10842v1 Announce Type: new Abstract: We formulate diffractive ring focusing of paraxial beams carrying orbital angular momentum (OAM) through a finite circular aperture as a variational optimization problem. For a fixed topological charge, we determine the real-valued radial pupil that maximizes the intensity at a prescribed ring radius and propagation distance under a normalization constraint on the input field. The resulting problem admits an exact analytical solution: the optimal pupil combines the familiar Fresnel phase structure with an OAM-dependent Bessel radial modulation, and the associated eigenvalue yields a rigorous upper bound on the achievable ring intensity. We further analyze the lens-assisted configuration and derive a simple bound that allows direct comparison between diffractive and refractive vortex focusing. The theory also provides a quantitative framewor",
    "link": "https://arxiv.org/abs/2610.10842",
@@ -522,7 +888,7 @@
    "feed": "arxiv-physics"
   },
   {
-   "id": "arxiv-physics-23-263452836",
+   "id": "arxiv-physics-56-263452836",
    "title": "Localized, unstable, and entangled: Exploring `Us vs. Them' bias in Large Language Models",
    "summary": "arXiv:2610.10864v1 Announce Type: new Abstract: Large language models (LLMs) exhibit us-vs.-them bias: A behavioral asymmetry in which prompts framed around an ingroup (``we''/``us'') receive systematically more positive continuations than matched prompts framed around an outgroup (``they''/``them''). Using Edge Attribution Patching (EAP), we localize this behavior to directed circuits in GPT-2 Small, GPT-2 Large, Llama-2 7B, and Llama-3 8B. Across models, high-attribution edges are sparse and concentrated primarily in middle-to-late layers, while ingroup- and outgroup-related pathways are only partially overlapping and reorganize under fine-tuning. Behavioral comparisons and 30-token generations show that the measured asymmetry extends beyond next-token evaluation. Targeted patching of EAP-ranked edges reduces the bias score more than equal-cardinality random-edge controls, but also sub",
    "link": "https://arxiv.org/abs/2610.10864",
@@ -534,7 +900,7 @@
    "feed": "arxiv-physics"
   },
   {
-   "id": "arxiv-physics-24-263453607",
+   "id": "arxiv-physics-57-263453607",
    "title": "Ab Initio Investigation of Excited States and Absorption Spectra of Small Mercury Clusters (Hg$_{2-5}$)",
    "summary": "arXiv:2610.10900v1 Announce Type: new Abstract: We report a systematic \\textit{ab initio} investigation of the excited states and absorption spectra of small mercury clusters (Hg$_{\\mathrm{2-5}}$). Benchmarking multi-reference configuration interaction (MR-CISD) and equation-of-motion coupled-cluster (EOM-CCSD) methods shows that EOM-CCSD/aug-cc-PVTZ-PP reproduces atomic excitation energies within $\\pm$500 cm$^{-1}$ of experiment, whereas MR-CISD deviates by about $\\pm$1100 cm$^{-1}$. For the mercury dimer, EOM-CCSD potential energy curves yield absorption bands in excellent agreement with experimental transitions, while asymptotic excitation energies closely match atomic references. Extending this methodology, we present the first systematic \\textit{ab initio} study of absorption spectra of Hg$_{\\mathrm{3}}$, Hg$_{\\mathrm{4}}$, Hg$_{\\mathrm{5}}$, which display broad bands in the ranges ",
    "link": "https://arxiv.org/abs/2610.10900",
@@ -546,7 +912,7 @@
    "feed": "arxiv-physics"
   },
   {
-   "id": "arxiv-physics-25-263453642",
+   "id": "arxiv-physics-58-263453642",
    "title": "An ecology of participation for fusion energy development",
    "summary": "arXiv:2610.10914v1 Announce Type: new Abstract: Decisions that will shape future fusion facilities, including the production of waste, the management of tritium, the achievement of safety, and impacts on land, water, and local communities, are increasingly becoming sociotechnical in nature. For prior energy technologies, fission among them, such decisions were made top-down and met sustained public opposition. Research shows such opposition is rarely a deficit of public understanding and is instead rooted in place-specific environmental, health, sociocultural, and economic concerns and in distrust of how technologies are selected and sited. We argue that fusion developers have an opportunity to design differently, and we propose an ecology of participation: multiple, complementary modalities of engagement sustained over time, replacing the one-off public consultations now typical of larg",
    "link": "https://arxiv.org/abs/2610.10914",
@@ -558,7 +924,7 @@
    "feed": "arxiv-physics"
   },
   {
-   "id": "arxiv-physics-26-263453644",
+   "id": "arxiv-physics-59-263453644",
    "title": "Polarization of the Drosophila oocyte by active cortical exchange",
    "summary": "arXiv:2610.10916v1 Announce Type: new Abstract: Anterior-posterior polarization in the Drosophila oocyte requires posterior localization of oskar mRNA. oskar mRNA is produced in the anteriorly situated nurse cells, moved into the oocyte, and assembled into oskar-Staufen ribonucleoprotein particles (RNPs). These RNPs then move through the oocyte and interact with the cortex, where myosin-V binds them to the actin network and kinesin-1 removes them along cortically anchored microtubules. This cortical tug-of-war takes place against an anterior-to-posterior decrease in microtubule density. How the interplay between cytoplasmic transport and cortical binding and unbinding produces a stable posterior cap is unclear. Here, we combine quantitative microscopy, photoconversion experiments, experimental perturbations, and biophysical modeling to show that posterior localization emerges from positi",
    "link": "https://arxiv.org/abs/2610.10916",
@@ -570,7 +936,7 @@
    "feed": "arxiv-physics"
   },
   {
-   "id": "arxiv-physics-27-263453645",
+   "id": "arxiv-physics-60-263453645",
    "title": "Fast Angular Sweep Monostatic Radar Cross Section Computation via Model Order Reduction",
    "summary": "arXiv:2610.10917v1 Announce Type: new Abstract: The radar cross section (RCS) is a fundamental parameter in radar engineering, as it determines the detectability of a given target by a radar system. Increasing interest in very low observability (VLO) targets has arisen recently. As a result, especial effort is put in developing numerical tools to accurately predict the electromagnetic scattering from perfect electric conductor objects. Integral equation methods are commonly used in this task. However, full-wave computation of the monostatic RCS at a single angle can be rather time-consuming, nevermind computing the RCS in a specific angular interval with a fine sampling. In fact, this is what is needed in industrial applications. A reduced-order model for fast full-wave monostatic RCS evaluation is proposed to easily achieve fine details in the desired angular domain. An open source inte",
    "link": "https://arxiv.org/abs/2610.10917",
@@ -582,7 +948,7 @@
    "feed": "arxiv-physics"
   },
   {
-   "id": "arxiv-physics-28-263453856",
+   "id": "arxiv-physics-61-263453856",
    "title": "Visualizing Three-Dimensional Quantum Fluctuations of Ground-State C$_3$H$_4$ via Deep Sub-Angstrom Coulomb Explosion Imaging",
    "summary": "arXiv:2610.10981v1 Announce Type: new Abstract: Coulomb explosion imaging (CEI) is a powerful tool for determining static geometries of isolated gas-phase molecules. In this work, taking allene and propyne as prototype, we demonstrate sub-angstrom resolution achieved with highly charged ion-induced CEI. Using 41.9 keV/u Xe$^{20+}$ beam, minute variations of CC single, double and triple bond lengths are clearly visualized, indicating that an ultrahigh resolution of 0.1 $\\mathring{\\mathrm{A}}$ is achieved. This unprecedented resolution not only makes it possible to distinguish CC bonds with different bond orders, but also lays a solid foundation for direct observation of quantum fluctuations inherent to 3D structure of a ground-state molecule. Notably, the coupled collective motion of the two CH$_2$ moieties spaced by a central carbon within allene is unambiguously visualized in our measur",
    "link": "https://arxiv.org/abs/2610.10981",
@@ -594,7 +960,7 @@
    "feed": "arxiv-physics"
   },
   {
-   "id": "arxiv-physics-29-263474753",
+   "id": "arxiv-physics-62-263474753",
    "title": "Reconstruction of Multiscale Plasma Dynamics Across Operating Regimes",
    "summary": "arXiv:2610.11004v1 Announce Type: new Abstract: Reconstructing spatially resolved plasma dynamics from few sensors is essential for diagnostics, reduced-order modelling and control, yet remains difficult because the sparse measurements incompletely constrain multiscale, regime-dependent degrees of freedom. The Shallow Recurrent Decoder (SHRED) partially addresses spatial sparsity by using measurement histories; however, its fully connected decoder provides no explicit mechanism for resolving spatial structure across scales or explicit parametric dependency. We introduce the Recurrent Multiscale Affine-modulated Inference Network (ReMAIN), which preserves SHRED's recurrent temporal encoding but replaces its decoder with a U-Net whose feature hierarchy is conditioned by the recurrent state through feature-wise linear modulation. The temporal representation supplies both a dense prior and s",
    "link": "https://arxiv.org/abs/2610.11004",
@@ -606,7 +972,7 @@
    "feed": "arxiv-physics"
   },
   {
-   "id": "arxiv-physics-30-263474757",
+   "id": "arxiv-physics-63-263474757",
    "title": "Why LLM Agents Favor Their Group: Stakes, Observed Norms, and Reputation",
    "summary": "arXiv:2610.11008v1 Announce Type: new Abstract: Language-model agents favor their own group because they have watched their members favor each other. The group label alone does little once the decision has a cost; what drives favoritism is observed behavior, and an individual's own record can override it. We test this in small societies with arbitrary group labels, ten rounds of point sharing, and matched one-shot decisions across fifteen OpenAI models and three Claude models, about 4,400 societies and 3.3 million audited model calls. First, the large effect of a bare group label reported in earlier work appears only when giving others points costs the agent nothing; once the agent can keep points for itself, that effect collapses on every model that shows it. Second, under a stake, interaction history becomes the main source of favoritism: the history effect is statistically positive on",
    "link": "https://arxiv.org/abs/2610.11008",
@@ -618,7 +984,7 @@
    "feed": "arxiv-physics"
   },
   {
-   "id": "bbc-business-31-1240140077",
+   "id": "bbc-business-64-1240140077",
    "title": "Adidas sues Australian label White Fox over four stripes design",
    "summary": "The German sportswear brand wants the Sydney-based label to stop selling the clothes and pay damages.",
    "link": "https://www.bbc.co.uk/news/articles/c9e8ld448km8o?at_medium=RSS&at_campaign=rss",
@@ -630,7 +996,43 @@
    "feed": "bbc-business"
   },
   {
-   "id": "bbc-ar-32-599840828",
+   "id": "nature-65-52512598",
+   "title": "Chimp and gorilla brains resist weight loss with age — unlike human brains",
+   "summary": "",
+   "link": "https://www.nature.com/articles/d41586-026-03158-0",
+   "published": "2026-10-09T00:00:00.000Z",
+   "kind": "official",
+   "category": "science",
+   "source": "Nature",
+   "lang": "en",
+   "feed": "nature"
+  },
+  {
+   "id": "nature-66-51709196",
+   "title": "The life of Darwin and the science of clouds: Books in brief",
+   "summary": "",
+   "link": "https://www.nature.com/articles/d41586-026-03217-6",
+   "published": "2026-10-09T00:00:00.000Z",
+   "kind": "official",
+   "category": "science",
+   "source": "Nature",
+   "lang": "en",
+   "feed": "nature"
+  },
+  {
+   "id": "nature-67-52633613",
+   "title": "Five movements from the edge of the singularity",
+   "summary": "",
+   "link": "https://www.nature.com/articles/d41586-026-03116-w",
+   "published": "2026-10-09T00:00:00.000Z",
+   "kind": "official",
+   "category": "science",
+   "source": "Nature",
+   "lang": "en",
+   "feed": "nature"
+  },
+  {
+   "id": "bbc-ar-68-599840828",
    "title": "ترامب يستبعد مهاجمة إيران قبل الانتخابات النصفية ويعلن عن محادثات \"مثمرة\" مع طهران",
    "summary": "فرضت واشنطن عقوبات على 17 سفينة تنقل النفط الإيراني، فيما لم يستبعد مسؤول إيراني توجيه ضربة استباقية لإسرائيل، وسط مساعٍ لإنهاء الحرب وإعادة فتح مضيق هرمز.",
    "link": "https://www.bbc.com/arabic/articles/ckpqg9x4rz70o?at_medium=RSS&at_campaign=rss",
@@ -642,19 +1044,7 @@
    "feed": "bbc-ar"
   },
   {
-   "id": "bbc-health-33-1650993159",
-   "title": "'I rage and I don't care': Why women are reclaiming their anger",
-   "summary": "Studies suggest women are getting angrier, but are they just more open about it?",
-   "link": "https://www.bbc.co.uk/news/articles/cmg47lx1pqlko?at_medium=RSS&at_campaign=rss",
-   "published": "2026-10-08T23:48:05.000Z",
-   "kind": "official",
-   "category": "health",
-   "source": "BBC Health",
-   "lang": "en",
-   "feed": "bbc-health"
-  },
-  {
-   "id": "bbc-business-34-921976061",
+   "id": "bbc-business-69-921976061",
    "title": "Mark Zuckerberg has an image problem - so why is Meta's business booming?",
    "summary": "A new film paints the Meta founder as a villain. But the tech firm seems immune to bad publicity, writes our North America tech correspondent.",
    "link": "https://www.bbc.co.uk/news/articles/cq8rzjv8g7ejo?at_medium=RSS&at_campaign=rss",
@@ -666,7 +1056,7 @@
    "feed": "bbc-business"
   },
   {
-   "id": "bbc-business-35-1785182652",
+   "id": "bbc-business-70-1785182652",
    "title": "Why are more roofs not made of solar tiles?",
    "summary": "Solar tiles were touted as an attractive alternative to solar panels - why have they not taken off?",
    "link": "https://www.bbc.co.uk/news/articles/cdr7n610rmzo?at_medium=RSS&at_campaign=rss",
@@ -678,8 +1068,8 @@
    "feed": "bbc-business"
   },
   {
-   "id": "bbc-business-36-999069805",
-   "title": "'Add me to WhatsApp' scam calls to be investigated",
+   "id": "bbc-business-71-999069805",
+   "title": "'Add me on WhatsApp' scam calls to be investigated",
    "summary": "The UK's data watchdog is investigating a spike in complaints about \"robo calls\" that appear to lead to a recruitment scam.",
    "link": "https://www.bbc.co.uk/news/articles/cqd09g4l2k9yo?at_medium=RSS&at_campaign=rss",
    "published": "2026-10-08T23:05:09.000Z",
@@ -690,7 +1080,7 @@
    "feed": "bbc-business"
   },
   {
-   "id": "bbc-health-37-1533110458",
+   "id": "bbc-health-72-1533110458",
    "title": "ADHD and autism at risk of over-diagnosis, says government review",
    "summary": "The review, which focuses on younger people, warned there was a risk society was moving from an era of under-diagnosis to over-diagnosis.",
    "link": "https://www.bbc.co.uk/news/articles/crkg7n1ypj24o?at_medium=RSS&at_campaign=rss",
@@ -702,19 +1092,7 @@
    "feed": "bbc-health"
   },
   {
-   "id": "bbc-business-38-405679968",
-   "title": "'I don't know what my partner earns': How soon into dating should you reveal your salary?",
-   "summary": "Talking about salary, spending habits and debt can be some of dating's trickier conversations.",
-   "link": "https://www.bbc.co.uk/news/articles/c8wyz69r0nnpo?at_medium=RSS&at_campaign=rss",
-   "published": "2026-10-08T23:01:16.000Z",
-   "kind": "official",
-   "category": "economy",
-   "source": "BBC Business",
-   "lang": "en",
-   "feed": "bbc-business"
-  },
-  {
-   "id": "bbc-sport-39-272110314",
+   "id": "bbc-sport-73-272110314",
    "title": "Spurs' Simons enrols at iconic university Harvard",
    "summary": "Tottenham's Xavi Simons enrols at prestigious American university Harvard as he continues his recovery from a long-term injury.",
    "link": "https://www.bbc.co.uk/sport/football/articles/ckpqg9388e7wo?at_medium=RSS&at_campaign=rss",
@@ -726,7 +1104,7 @@
    "feed": "bbc-sport"
   },
   {
-   "id": "bbc-business-40-1764243357",
+   "id": "bbc-business-74-1764243357",
    "title": "White House blocks Microsoft from foreign worker hiring programme",
    "summary": "An international visa programme has for years allowed US tech companies to hire highly skilled workers from abroad.",
    "link": "https://www.bbc.co.uk/news/articles/ck5yngl2y4gpo?at_medium=RSS&at_campaign=rss",
@@ -750,7 +1128,7 @@
    "feed": "bbc-sport"
   },
   {
-   "id": "bbc-sport-42-384475303",
+   "id": "bbc-sport-76-384475303",
    "title": "Sutton's predictions v Starsailor frontman James Walsh",
    "summary": "BBC Sport football expert Chris Sutton takes on Starsailor frontman James Walsh, plus the BBC readers and AI with his predictions for this weekend's Premier League fixtures.",
    "link": "https://www.bbc.co.uk/sport/football/articles/c5zjx92v1mero?at_medium=RSS&at_campaign=rss",
@@ -774,7 +1152,7 @@
    "feed": "bbc-sport"
   },
   {
-   "id": "yt-SummaryEgypt-11-1693175409",
+   "id": "yt-SummaryEgypt-78-1693175409",
    "title": "ترامب يبيع أوروبا لبوتين رسميـــاً .. صفقة نورد ستريم السرية تشعل العالم",
    "summary": "ترامب وبوتين يقتربان من صفقة نورد ستريم.. فهل يعود الغاز الروسي إلى أوروبا من جديد؟ صفقة ترامب وبوتين تفتح أخطر فصل في حرب روسيا وأوكرانيا، مع تحركات لإعادة تشغيل نورد ستريم وعودة الغاز الروسي إلى أوروبا - كوشنر وويتكوف في موسكو.. ومفاوضات نورد ستريم قد تكشف عن صفقة أكبر بين ترامب وبوتين تغيّر شكل العلاقة بين روسيا وأمريكا حلقة \"صفقة الشيطان\" من قناة summary ... اعرف القصة من الأول .. برعـــاية \"شركة نيل مصر للسياحة\" 🕋 الخط الساخن لشركة نيل مصر للسياحة الحج و العمرة 🕋 : 19740 فيس بوك : https://www.facebook.com/ENT.NileMisr?mibextid=LQQJ4d نستاجرام : https://www.instagram.com/nilemisrtravel?igsh=MTRya3diMjcyMmMzOQ= فصـــول الحلقة ــ Chapters 00:00 — ترامب وبوتين.. صفقة تهز العالم 01:59 — الحرب الروسية الأوكرانية تدخل مرحلة جديدة 04:08 — أوكرانيا تضرب قلب التكنولوجيا الروسية 05:38 — أوروبا تتعب.. واليمين المتطرف يصعد 06:49 — كوشنر وويتكوف في موسكو.. مفاجأة نورد ستريم 09:59 — ترامب وبوتين",
    "link": "https://www.youtube.com/watch?v=oD0c1pwEOf8",
@@ -786,7 +1164,7 @@
    "feed": "yt-SummaryEgypt"
   },
   {
-   "id": "yt-lotfyzakaria-12-634582564",
+   "id": "yt-lotfyzakaria-79-634582564",
    "title": "قصف مطار الرياض وتدمير طائرة سعودية وباكستان تقصف اليمن وترامب يتحرك لضرب ايران قبل الانتخابات",
    "summary": "اليمن يضرب مطار الملك خالد الدولي في الرياض وتدمير طائرة سعودية ، ترامب يتحرك لعودة الحرب على ايران قبل الانتخابات ، وانباء تتحدث عن مشاركة باكستان في قصف اليمن جوياً ، تشهد العاصمة السعودية الرياض فاعليات اقتصادية وسياسية هامة قد تتأثر مع احجام شركات الطيران من الاقتراب من مطار الملك خالد الدولي. تاريخ النشر : 8/10/2026",
    "link": "https://www.youtube.com/watch?v=5mRhZjpgd_Q",
@@ -798,7 +1176,7 @@
    "feed": "yt-lotfyzakaria"
   },
   {
-   "id": "nasa-46-540928834",
+   "id": "nasa-80-540928834",
    "title": "NASA Briefing to Highlight Contributions to Martian Moons Mission",
    "summary": "Media are invited to join NASA for a media teleconference at 4 p.m. EDT, Thursday, Oct. 15, to preview the agency’s contributions to JAXA’s (Japan Aerospace Exploration Agency) Martian Moons eXploration (MMX) mission. The mission is scheduled to launch from JAXA’s Tanegashima Space Center in Japan on Monday, Oct. 19 EDT (Tuesday, Oct. 20 JST). […]",
    "link": "https://www.nasa.gov/news-release/nasa-briefing-to-highlight-contributions-to-martian-moons-mission/",
@@ -822,7 +1200,7 @@
    "feed": "bbc-sport"
   },
   {
-   "id": "nasa-48-942462635",
+   "id": "nasa-82-942462635",
    "title": "NASA Announces Bold Science Initiatives for America’s Golden Age Summit",
    "summary": "Editor’s note: This release was updated Oct. 8, 2026 with the formal name of the summit. NASA is launching two new science and technology initiatives to deepen scientific understanding and accelerate the innovation that will shape America’s future in space. The initiatives are announced in conjunction with the White House Office of Science and Technology […]",
    "link": "https://www.nasa.gov/news-release/nasa-announces-bold-science-initiatives-for-americas-golden-age-summit/",
@@ -834,7 +1212,7 @@
    "feed": "nasa"
   },
   {
-   "id": "bbc-ar-49-1697348544",
+   "id": "bbc-ar-83-1697348544",
    "title": "نيكولاس مادورو يواجه اتهامات بالتآمر لارتكاب أعمال تعذيب",
    "summary": "تتعلق الاتهامات الجديدة بالتعذيب المزعوم لمواطنين أمريكيين محتجزين في فنزويلا أثناء حكم مادورو.",
    "link": "https://www.bbc.com/arabic/articles/cr3wvelj95yyo?at_medium=RSS&at_campaign=rss",
@@ -846,7 +1224,7 @@
    "feed": "bbc-ar"
   },
   {
-   "id": "bbc-sport-50-1038406685",
+   "id": "bbc-sport-84-1038406685",
    "title": "Ticket rises and more TV packages - why is price of sport increasing?",
    "summary": "The price of sports tickets and TV subscriptions are on the rise - so what is behind the increases and how are they justified?",
    "link": "https://www.bbc.co.uk/sport/articles/cx7vpe1p070mo?at_medium=RSS&at_campaign=rss",
@@ -858,7 +1236,7 @@
    "feed": "bbc-sport"
   },
   {
-   "id": "nasa-51-395755487",
+   "id": "nasa-85-395755487",
    "title": "NASA’s SSPICY Mission to Demonstrate In-Space Inspection Technologies",
    "summary": "A new NASA-supported spacecraft will get up close to satellites that are no longer in service, demonstrating technologies that could support future in-space repairs and reduce orbital debris. The Small Spacecraft Propulsion and Inspection Capability (SSPICY) mission launched Oct. 1 from Vandenberg Space Force Base in California. The mission is a technology demonstration where an […]",
    "link": "https://www.nasa.gov/centers-and-facilities/ames/nasas-sspicy-mission-to-demonstrate-in-space-inspection-technologies/",
@@ -870,7 +1248,7 @@
    "feed": "nasa"
   },
   {
-   "id": "bbc-health-52-646593178",
+   "id": "bbc-health-86-646593178",
    "title": "Harry says he 'slipped into depression' after leaving UK",
    "summary": "The Duke of Sussex says he had an \"adrenaline crash\" while visiting Vancouver Island to \"get some space\".",
    "link": "https://www.bbc.co.uk/news/articles/c623dv9n93evo?at_medium=RSS&at_campaign=rss",
@@ -882,7 +1260,7 @@
    "feed": "bbc-health"
   },
   {
-   "id": "nasa-53-1727777217",
+   "id": "nasa-87-1727777217",
    "title": "Crew-12 Returns to Earth",
    "summary": "The SpaceX Crew Dragon Freedom spacecraft is seen moments before splashing down in the Pacific Ocean off the coast of California in this Oct. 8, 2026, photograph. Aboard were NASA’s SpaceX Crew-12 members NASA astronauts Jessica Meir and Jack Hathaway, ESA (European Space Agency) astronaut Sophie Adenot, and Roscosmos cosmonaut Andrey Fedyaev. The four spent […]",
    "link": "https://www.nasa.gov/image-article/crew-12-returns-to-earth/",
@@ -894,7 +1272,7 @@
    "feed": "nasa"
   },
   {
-   "id": "nasa-54-1833048357",
+   "id": "nasa-88-1833048357",
    "title": "NASA’s SPHEREx Telescope Sees Menagerie of Brown Dwarfs",
    "summary": "NASA’s SPHEREx (Spectro-Photometer for the History of the Universe, Epoch of Reionization, and Ices Explorer) space telescope is shedding light on brown dwarfs, celestial objects that blur the line between stars and exoplanets. New findings published in The Astrophysical Journal show that these dark and cloudy worlds have chemically rich atmospheres not unlike the giant […]",
    "link": "https://www.nasa.gov/missions/spherex/nasas-spherex-telescope-sees-menagerie-of-brown-dwarfs/",
@@ -906,7 +1284,7 @@
    "feed": "nasa"
   },
   {
-   "id": "nasa-55-639531858",
+   "id": "nasa-89-639531858",
    "title": "Webb Measures Distance to Farthest Fast Radio Burst, Suggesting Origin",
    "summary": "First discovered in 2007, fast radio bursts are enigmatic, millisecond-long flashes of radio emission from the distant universe. Their origin remains uncertain, particularly since most are seen once and never again. Astronomers using NASA’s James Webb Space Telescope have pinpointed the host galaxy of the most distant fast radio burst (FRB) seen to date. Their […]",
    "link": "https://science.nasa.gov/missions/webb/webb-measures-distance-to-farthest-fast-radio-burst-suggesting-origin/",
@@ -930,7 +1308,7 @@
    "feed": "bbc-sport"
   },
   {
-   "id": "bbc-business-57-928606376",
+   "id": "bbc-business-91-928606376",
    "title": "Plans to shut Marston's Brewery in Burton revealed",
    "summary": "Burton-upon-Trent's links with beer and brewing date back centuries.",
    "link": "https://www.bbc.co.uk/news/articles/ck8dzq095lj3o?at_medium=RSS&at_campaign=rss",
@@ -942,7 +1320,7 @@
    "feed": "bbc-business"
   },
   {
-   "id": "nasa-58-873890681",
+   "id": "nasa-92-873890681",
    "title": "NASA’s SpaceX Crew‑12 Splashes Down, Sets Briefing to Discuss Mission",
    "summary": "After more than seven months aboard the International Space Station, NASA’s SpaceX Crew-12 mission safely splashed down Thursday in the Pacific Ocean off the coast of Los Angeles. The crew members will discuss their science mission during a news conference at 3:30 p.m. EDT, Thursday, Oct. 15, at the agency’s Johnson Space Center in Houston. […]",
    "link": "https://www.nasa.gov/news-release/nasas-spacex-crew-12-splashes-down-sets-briefing-to-discuss-mission/",
@@ -966,7 +1344,7 @@
    "feed": "bbc-ar"
   },
   {
-   "id": "yt-MokhbirEqtisadi-28-1842885138",
+   "id": "yt-MokhbirEqtisadi-94-1842885138",
    "title": "هل نشهد انهيار أقوى شركة رياضية في التاريخ؟",
    "summary": "أودو نظام متكامل لإدارة الأعمال، فيه أكتر من 45 تطبيق بيغطوا ويخدموا كل احتياجاتك.. أودو بيقدملك تطبيق الـ CRM مجاناً تماماً مدى الحياة! لعدد مستخدمين غير محدود ومع دعم فني مجاني. لو عايز تدير شغلك بشكل أسهل وأذكى.. جرب أودو دلوقتي بدون تسجيل من الرابط https://www.odoo.com/r/Y4qP #Odoo #OdooMENA #OdooCreatorsClub ---------------------------- تابع المخبر الاقتصادي على منصات التواصل الاجتماعي ملحوظة: الحسابات الواردة في الوصف هنا هي الحسابات الرسمية والوحيدة للمخبر الاقتصادي فيسبوك https://bit.ly/3rLmDMG تويتر https://bit.ly/34Fy6EL انستجرام https://bit.ly/3Bkf8iT حساب دكتور أشرف ابراهيم على انستجرام https://www.instagram.com/ashraf.ibrahim3/ تيك توك (الحساب الجديد نظرًا لحذف منصة تيك توك حسابنا الأساسي) https://bit.ly/4aoOHtt تليجرام https://t.me/mokhbirEqtisadiOfficiall لينكدان https://bit.ly/3KKNpvF سناب شات https://bit.ly/374Ibfg تابع أشرف إبراهيم على فيسبوك https://bit.ly/AshrafIbrahi",
    "link": "https://www.youtube.com/watch?v=AP4RaREpijY",
@@ -978,7 +1356,7 @@
    "feed": "yt-MokhbirEqtisadi"
   },
   {
-   "id": "bbc-ar-61-460042472",
+   "id": "bbc-ar-95-460042472",
    "title": "منصة \"متصدقش\": كيف ترون حرية الصحافة في مصر؟",
    "summary": "أفادت النيابة العامة المصرية، الأربعاء 7 أكتوبر/تشرين الأول، بحبس ستة صحفيين مصريين من فريق منصة \"متصدقش\" لمدة 15 يوما احتياطيا على ذمة التحقيقات، في قضية أثارت انتقادات من جانب منظمات حقوقية، وأعادت إلى الواجهة جدلا بشأن واقع حرية الصحافة والتعبير في مصر.",
    "link": "https://www.bbc.com/arabic/articles/cmq5nl7vvg2zo?at_medium=RSS&at_campaign=rss",
@@ -990,9 +1368,9 @@
    "feed": "bbc-ar"
   },
   {
-   "id": "bbc-ar-62-1748583530",
+   "id": "bbc-ar-96-1748583530",
    "title": "آن كارسون: شاعرة كندية \"جريئة ومبتكرة\" تفوز بجائزة نوبل في الأدب",
-   "summary": "تشتهر كارسون، البالغة من العمر 76 عاماً، بأعماله التي غالباً ما تتجاوز الحدود بين الشعر والخيال والبحث العلمي.",
+   "summary": "تشتهر كارسون، البالغة من العمر 76 عاماً، بأعمالها التي غالباً ما تتجاوز الحدود بين الشعر والخيال والبحث العلمي.",
    "link": "https://www.bbc.com/arabic/articles/cqp8g30kjke9o?at_medium=RSS&at_campaign=rss",
    "published": "2026-10-08T16:37:30.000Z",
    "kind": "official",
@@ -1002,7 +1380,7 @@
    "feed": "bbc-ar"
   },
   {
-   "id": "bbc-business-63-1197121567",
+   "id": "bbc-business-97-1197121567",
    "title": "Asos hackers took more personal details than first revealed, BBC finds",
    "summary": "Retailer issues update after BBC contacted by cyber criminals who said this week's breach went beyond \"basic contact details\"",
    "link": "https://www.bbc.co.uk/news/articles/c3zxjdw5ywgpo?at_medium=RSS&at_campaign=rss",
@@ -1038,7 +1416,7 @@
    "feed": "bbc-sport"
   },
   {
-   "id": "nasa-66-360714560",
+   "id": "nasa-100-360714560",
    "title": "NASA, Energy Department Advance New Era of Nuclear-Powered Exploration",
    "summary": "Editor’s note: This release was updated Oct. 8, 2026 with the formal name of the summit. As the Golden Age of deep-space exploration begins, NASA and the U.S. Department of Energy are advancing the development of safe, reliable, next-generation nuclear technologies for space. Together, the agencies will supercharge civil space exploration, unlock bold scientific discovery, […]",
    "link": "https://www.nasa.gov/news-release/nasa-energy-department-advance-new-era-of-nuclear-powered-exploration/",
@@ -1062,7 +1440,7 @@
    "feed": "nasa"
   },
   {
-   "id": "bbc-business-68-599515864",
+   "id": "bbc-business-102-599515864",
    "title": "Bid to run new trains on West Coast Mainline refused",
    "summary": "Plans for more trains would “likely increase delays and cancelled trains\", the rail regulator says.",
    "link": "https://www.bbc.co.uk/news/articles/cm3wve9l057vo?at_medium=RSS&at_campaign=rss",
@@ -1074,7 +1452,7 @@
    "feed": "bbc-business"
   },
   {
-   "id": "yt-SummaryEgypt-37-1272057119",
+   "id": "yt-SummaryEgypt-103-1272057119",
    "title": "حرب مصر وإثيوبيا تقترب !! تحرك عسكري مصري بعد دخول إريتريا أراضي آبي أحمد",
    "summary": "إريتريا تدخل إثيوبيا.. ومصر تتحرك وسط أخطر تصعيد في القرن الإفريقي والبحر الأحمر، بعد دخول قوات إريترية إلى إقليم تيغراي وتصاعد المواجهة مع حكومة آبي أحمد ــ أخطر تطورات إثيوبيا اليوم تفتح الباب أمام مواجهة إقليمية جديدة، وسط تحركات مصرية مع إريتريا والسودان والصومال، وتصاعد التوتر حول البحر الأحمر وسد النهضة حلقة \"رصاصة الرحمة\" من قناة summary ... اعرف القصة من الأول .. برعـــاية \"Better House\" •فرصة قوية جدا في منتجع ڤيدالا مع شركة Better house بخصم 10% علي وحدتك وفرش بالكامل هدية و0% رسوم تنازل، بمقدم 5% و تقسيط علي 8 سنين * بادر بالحجز باستمارة قيمتها 25,000 جنيه فقط https://betterhouse-eg.com/contact-us/ 📞الخط الساخن 15136 📲 واتساب : 201227000507+ ماذا تريد إريتريا من آبي أحمد؟ وما موقف مصر من الحرب في إثيوبيا؟ وهل يتحول التصعيد في تيغراي إلى أزمة تهدد أمن البحر الأحمر وسد النهضة؟ شـــاهد و اعــرف القــصة من الأول من قناة Summary فصـــــــــــول الحلقـــة ـــ Chapters :- 00:00 إري",
    "link": "https://www.youtube.com/watch?v=vCAMEgEhp5A",
@@ -1098,7 +1476,7 @@
    "feed": "bbc-sport"
   },
   {
-   "id": "bbc-sport-71-1934889315",
+   "id": "bbc-sport-105-1934889315",
    "title": "Cummins not worried about potential Khawaja revelations",
    "summary": "Pat Cummins confirms he has spoken to Usman Khawaja about his former team-mate’s upcoming autobiography but the Australia captain says he has no concerns about potential sandpapergate revelations.",
    "link": "https://www.bbc.co.uk/sport/cricket/articles/cr4g1z3913z1o?at_medium=RSS&at_campaign=rss",
@@ -1146,7 +1524,7 @@
    "feed": "bbc-sport"
   },
   {
-   "id": "bbc-ar-75-282585297",
+   "id": "bbc-ar-109-282585297",
    "title": "احتجاجات الطلاب في فرنسا مستمرة.. فماذا نعرف عنها؟",
    "summary": "شهدت الاحتجاجات أعمال عنف واندلاع حرائق وانتشار للغاز المسيل للدموع في الشوارع وحوصرت عشرات الجامعات وتم تعليق خدمات النقل العام في عدد من المناطق.",
    "link": "https://www.bbc.com/arabic/articles/c3x2wy0879d9o?at_medium=RSS&at_campaign=rss",
@@ -1170,7 +1548,7 @@
    "feed": "bbc-ar"
   },
   {
-   "id": "bbc-business-77-348182660",
+   "id": "bbc-business-111-348182660",
    "title": "Chrysler Building to get its crown restored after being sold",
    "summary": "The distinctive Manhattan skyscraper will undergo a major renovation and provide a new supply of offices.",
    "link": "https://www.bbc.co.uk/news/articles/c8g47z3r4dzvo?at_medium=RSS&at_campaign=rss",
@@ -1182,7 +1560,7 @@
    "feed": "bbc-business"
   },
   {
-   "id": "bbc-health-78-154874827",
+   "id": "bbc-health-112-154874827",
    "title": "'Ominous signs' of winter pressures as NHS waiting list grows",
    "summary": "NHS winter pressures appear to be building already, with rises in waiting times for planned surgery.",
    "link": "https://www.bbc.co.uk/news/articles/cxnv03e9nmp4o?at_medium=RSS&at_campaign=rss",
@@ -1194,7 +1572,7 @@
    "feed": "bbc-health"
   },
   {
-   "id": "bbc-business-79-401256430",
+   "id": "bbc-business-113-401256430",
    "title": "Derry firm becomes one of UK's biggest car park operators after buying NCP",
    "summary": "The Martin Group has become one of the UK's biggest car park operators after buying NCP out of administration.",
    "link": "https://www.bbc.co.uk/news/articles/c693z8dz1kq4o?at_medium=RSS&at_campaign=rss",
@@ -1206,7 +1584,7 @@
    "feed": "bbc-business"
   },
   {
-   "id": "un-news-ar-80-238134539",
+   "id": "un-news-ar-114-238134539",
    "title": "مقتل أو إصابة نحو 50 ألف امرأة وفتاة في غزة خلال ثلاث سنوات من الحرب",
    "summary": "قدّرت هيئة الأمم المتحدة للمرأة أن نحو 50 ألف امرأة وفتاة في غزة قُتلن أو أُصبن بجروح بالغة منذ اندلاع الحرب في تشرين الأول/ أكتوبر2023، بما يعني أن واحدة من كل 21 امرأة وفتاة في غزة فقدت حياتها أو تعيش مع إعاقات دائمة.",
    "link": "https://news.un.org/feed/view/ar/story/2026/10/1145508",
@@ -1218,7 +1596,7 @@
    "feed": "un-news-ar"
   },
   {
-   "id": "un-news-ar-81-238134540",
+   "id": "un-news-ar-115-238134540",
    "title": "نائبة الأمين العام تزور إثيوبيا وتؤكد ضرورة احترام وحدة أراضيها وسيادتها",
    "summary": "تزور نائبة الأمين العام للأمم المتحدة أمينة محمد إثيوبيا حيث التقت بوزير الخارجية لمناقشة التطورات الراهنة في البلاد والمنطقة الأوسع. وهنأت الحكومة الجديدة التي أدت اليمين الدستورية اليوم الخميس، وأشارت إلى أن النساء يشكلن 41% من قوامها.",
    "link": "https://news.un.org/feed/view/ar/story/2026/10/1145507",
@@ -1230,7 +1608,7 @@
    "feed": "un-news-ar"
   },
   {
-   "id": "un-news-ar-82-238134541",
+   "id": "un-news-ar-116-238134541",
    "title": "إطلاق نيران على موقع تابع لليونيفيل، والبعثة تجري تحقيقا حول الملابسات",
    "summary": "تعرض موقع تابع لقوة الأمم المتحدة في لبنان (اليونيفيل) قرب كفر شوبا على الخط الأزرق في القطاع الشرقي لإطلاق نار من أسلحة خفيفة. وقالت البعثة إن أي هجوم على حفظة السلام قد يرقى إلى مستوى جريمة حرب.",
    "link": "https://news.un.org/feed/view/ar/story/2026/10/1145506",
@@ -1242,7 +1620,7 @@
    "feed": "un-news-ar"
   },
   {
-   "id": "un-news-ar-83-238134542",
+   "id": "un-news-ar-117-238134542",
    "title": "الأمم المتحدة تجدد إدانتها لهجمات الحوثيين على السعودية وتحذر من تصعيد القتال في اليمن",
    "summary": "جددت الأمم المتحدة إدانتها الشديدة لاستمرار هجمات الحوثيين العابرة للحدود ضد المملكة العربية السعودية، بما فيها هجماتهم الأخيرة على مطار أبها الدولي ومطار الملك خالد الدولي في العاصمة الرياض.",
    "link": "https://news.un.org/feed/view/ar/story/2026/10/1145505",
@@ -1254,7 +1632,7 @@
    "feed": "un-news-ar"
   },
   {
-   "id": "un-news-ar-84-238134543",
+   "id": "un-news-ar-118-238134543",
    "title": "ظلم الاستعباد لا يزال حيا - الأمم المتحدة تدعو إلى ضمان العدالة التعويضية للأفارقة",
    "summary": "استعباد عشرات ملايين الرجال والنساء والأطفال الأفارقة، لم يؤد فقط إلى انتهاكات وجرائم وأعمال عنف جسيمة، بل خلف أيضا ظلما لا يزال حيا اليوم، ولا تزال عواقبه تتمثل في حرمان الأفارقة والمنحدرين من أصل أفريقي من الفرص والمساواة. ورغم ذلك لم تتحقق \"العدالة التعويضية\" التي تجبر الضرر الذي لحق بهم.",
    "link": "https://news.un.org/feed/view/ar/story/2026/10/1145504",
@@ -1266,7 +1644,7 @@
    "feed": "un-news-ar"
   },
   {
-   "id": "un-news-ar-85-238134544",
+   "id": "un-news-ar-119-238134544",
    "title": "مجلس الأمن يمدد العقوبات المفروضة على السودان لمدة شهرين",
    "summary": "بالإجماع، اعتمد مجلس الأمن الدولي، صباح اليوم الخميس، قرارا مدد بموجبه نظام العقوبات المفروض على السودان، بصورة تقنية، لمدة شهرين – أي حتى 11 كانون الأول/ديسمبر 2026.",
    "link": "https://news.un.org/feed/view/ar/story/2026/10/1145503",
@@ -1278,7 +1656,7 @@
    "feed": "un-news-ar"
   },
   {
-   "id": "un-news-ar-86-238134545",
+   "id": "un-news-ar-120-238134545",
    "title": "أفغانستان - الأمم المتحدة تدعو إلى وقف اعتقال النساء بسبب مخالفات مزعومة لقواعد اللباس",
    "summary": "أعربت بعثة الأمم المتحدة للمساعدة في أفغانستان (يوناما) عن قلقها البالغ إزاء عمليات الاحتجاز والتهديد التي استهدفت النساء والفتيات في مناطق متعددة من قبل سلطات الأمر الواقع، وذلك على خلفية مخالفات مزعومة لقواعد اللباس التي تفرضها تلك السلطات.",
    "link": "https://news.un.org/feed/view/ar/story/2026/10/1145502",
@@ -1290,7 +1668,7 @@
    "feed": "un-news-ar"
   },
   {
-   "id": "un-news-ar-87-238134546",
+   "id": "un-news-ar-121-238134546",
    "title": "منظمة الصحة العالمية تضع خارطة طريق عالمية جديدة للتصدي لارتفاع ضغط الدم أثناء الحمل",
    "summary": "أطلقت منظمة الصحة العالمية وشركاؤها خارطة طريق عالمية جديدة للتصدي لاضطرابات ارتفاع ضغط الدم أثناء الحمل، بما في ذلك مقدمات الارتعاج (المعروف أيضا بتسمم الحمل)، التي تعد من الأسباب الرئيسية للوفاة والأمراض الخطيرة بين النساء الحوامل وأطفالهن.",
    "link": "https://news.un.org/feed/view/ar/story/2026/10/1145501",
@@ -1398,7 +1776,7 @@
    "feed": "bbc-sport"
   },
   {
-   "id": "yt-SummaryEgypt-63-205157782",
+   "id": "yt-SummaryEgypt-130-205157782",
    "title": "بعد ضرب مطارات السعودية.. أمريكا تحذر من إغلاق المجال الجوي: هل يستعد الحوثيون لهجوم أكبر؟",
    "summary": "بعد ضرب مطارات السعودية.. أمريكا تحذر من إغلاق المجال الجوي: هل يستعد الحوثيون لهجوم أكبر؟ حلقة \"غلق المجال الجوي\" من قناة summary ... اعرف القصة من الأول ..برعـــاية \"مزرعة الأمانة\" 🐐قدم صدقتك للناس اللي في أشد الحاجة ليها من خلال مزرعة الامانة تقدر تطلب منهم من خلال 👇 الموقع الإلكتروني : https://alaamana.com واتساب : https://api.whatsapp.com/send/?phone=255793569666 بعد تصاعد هجمات الحوثيين على السعودية واستهداف مطاراتها وبنيتها التحتية، خرجت السفارة الأمريكية في الرياض بتحذير لافت لرعاياها، محذرة من احتمال إلغاء الرحلات الجوية ووقوع اضطرابات في السفر، بل واحتمال إغلاق المجال الجوي السعودي بالكامل.. فهل يستعد الحوثيون لهجوم أكبر؟ أم أن هناك تطورات أخطر بكثير في المنطقة؟ في هذا الفيديو نكشف تفاصيل التصعيد الجديد بين السعودية والحوثيين، وما الذي حدث في مطاري أبها والملك خالد الدولي، وسقوط قتلى ومصابين جراء الهجمات، بالتزامن مع استمرار تقدم القوات الشرعية اليمنية وألوية العمالقة في عدد ",
    "link": "https://www.youtube.com/watch?v=6l7O05GqqrE",
@@ -1422,7 +1800,7 @@
    "feed": "bbc-ar"
   },
   {
-   "id": "bbc-business-98-691307967",
+   "id": "bbc-business-132-691307967",
    "title": "We spent thousands on a Tui river cruise but ended up on coach trips",
    "summary": "Passengers have described their anger after their itineraries changed to involve hours spent on coach trips instead.",
    "link": "https://www.bbc.co.uk/news/articles/cq62j2lzlnm8o?at_medium=RSS&at_campaign=rss",
@@ -1446,31 +1824,7 @@
    "feed": "bbc-sport"
   },
   {
-   "id": "bbc-sport-100-1355257834",
-   "title": "How can home nations reach Women's World Cup?",
-   "summary": "England, Wales, Northern Ireland, Scotland and the Republic of Ireland are among those hoping to qualify for next year's Women's World Cup. What awaits them in the play-offs?",
-   "link": "https://www.bbc.co.uk/sport/football/articles/cqzrdmjp5162o?at_medium=RSS&at_campaign=rss",
-   "published": "2026-10-08T07:01:10.000Z",
-   "kind": "official",
-   "category": "sports",
-   "source": "BBC Sport",
-   "lang": "en",
-   "feed": "bbc-sport"
-  },
-  {
-   "id": "bbc-sport-101-1947635513",
-   "title": "Inside the £1-an-hour official football shirt factories",
-   "summary": "A BBC Sport investigation traces official football shirt production to factories in Cambodia where workers are paid less than £1 an hour.",
-   "link": "https://www.bbc.co.uk/sport/football/articles/cx2lggyz2wgo?at_medium=RSS&at_campaign=rss",
-   "published": "2026-10-08T05:48:17.000Z",
-   "kind": "official",
-   "category": "sports",
-   "source": "BBC Sport",
-   "lang": "en",
-   "feed": "bbc-sport"
-  },
-  {
-   "id": "bbc-health-102-1671267974",
+   "id": "bbc-health-134-1671267974",
    "title": "'I was blamed for my baby's death, now NHS needs to change'",
    "summary": "Neil and Katie Russell are working with the hospital where their daughter died on the scheme.",
    "link": "https://www.bbc.co.uk/news/articles/cxe8ry571z9eo?at_medium=RSS&at_campaign=rss",
@@ -1482,19 +1836,7 @@
    "feed": "bbc-health"
   },
   {
-   "id": "bbc-sport-103-2000943855",
-   "title": "Faster than F1: The extreme motorsport where women keep winning",
-   "summary": "Top Fuel drag racing is the only elite motorsport class where women frequently beat men to major titles.",
-   "link": "https://www.bbc.co.uk/sport/motorsport/articles/c68xkx9gqv89o?at_medium=RSS&at_campaign=rss",
-   "published": "2026-10-08T05:41:20.000Z",
-   "kind": "official",
-   "category": "sports",
-   "source": "BBC Sport",
-   "lang": "en",
-   "feed": "bbc-sport"
-  },
-  {
-   "id": "bbc-business-104-612433110",
+   "id": "bbc-business-135-612433110",
    "title": "New electric car 'make or break for Jaguar'",
    "summary": "Prof David Bailey says there is a lot riding on the Type 01 in terms of jobs and investment.",
    "link": "https://www.bbc.co.uk/news/articles/cwvgrx5ner6go?at_medium=RSS&at_campaign=rss",
@@ -1518,7 +1860,7 @@
    "feed": "nasa"
   },
   {
-   "id": "bbc-business-106-1466168397",
+   "id": "bbc-business-137-1466168397",
    "title": "'Come all the way' back to EU, French finance minister tells UK",
    "summary": "Roland Lescure tells the BBC that being in the bloc enables members to better address the challenges facing the world.",
    "link": "https://www.bbc.co.uk/news/articles/cqdjvg3xww2go?at_medium=RSS&at_campaign=rss",
@@ -1734,7 +2076,7 @@
    "feed": "bbc-business"
   },
   {
-   "id": "nature-124-1292499236",
+   "id": "nature-155-1292499236",
    "title": "Author Correction: Histone readers MLLT1 and MLLT3 concentrate AID to confer locus specificity",
    "summary": "",
    "link": "https://www.nature.com/articles/s41586-026-11266-0",
@@ -1746,7 +2088,7 @@
    "feed": "nature"
   },
   {
-   "id": "nature-125-1294322182",
+   "id": "nature-156-1294322182",
    "title": "Editorial Expression of Concern: Maternal gut bacteria promote neurodevelopmental abnormalities in mouse offspring",
    "summary": "",
    "link": "https://www.nature.com/articles/s41586-026-11070-w",
@@ -1758,7 +2100,7 @@
    "feed": "nature"
   },
   {
-   "id": "nature-126-51708236",
+   "id": "nature-157-51708236",
    "title": "Women are talking about menopause — health systems must listen",
    "summary": "",
    "link": "https://www.nature.com/articles/d41586-026-03218-5",
@@ -1770,7 +2112,7 @@
    "feed": "nature"
   },
   {
-   "id": "nature-127-73849674",
+   "id": "nature-158-73849674",
    "title": "US proposes $100,000 charge for international students to do post-graduate work",
    "summary": "",
    "link": "https://www.nature.com/articles/d41586-026-02921-7",
@@ -1782,7 +2124,7 @@
    "feed": "nature"
   },
   {
-   "id": "nature-128-52398167",
+   "id": "nature-159-52398167",
    "title": "How to build a mouse: embryo development captured in stunning detail",
    "summary": "",
    "link": "https://www.nature.com/articles/d41586-026-03193-x",
@@ -1794,7 +2136,7 @@
    "feed": "nature"
   },
   {
-   "id": "nature-129-53468785",
+   "id": "nature-160-53468785",
    "title": "Woody ‘blankets’ are being deployed on Arctic permafrost to reduce carbon emissions",
    "summary": "",
    "link": "https://www.nature.com/articles/d41586-026-03045-8",
@@ -1806,7 +2148,7 @@
    "feed": "nature"
   },
   {
-   "id": "nature-130-52601965",
+   "id": "nature-161-52601965",
    "title": "Will AI scoop your science? Some researchers see a gloomy future",
    "summary": "",
    "link": "https://www.nature.com/articles/d41586-026-03128-6",
@@ -1818,7 +2160,7 @@
    "feed": "nature"
   },
   {
-   "id": "nature-131-51711116",
+   "id": "nature-162-51711116",
    "title": "Plague scare: what scientists know — and what Russia won’t say",
    "summary": "",
    "link": "https://www.nature.com/articles/d41586-026-03215-8",
@@ -1830,7 +2172,7 @@
    "feed": "nature"
   },
   {
-   "id": "nature-132-52392468",
+   "id": "nature-163-52392468",
    "title": "Big dogs age faster than little ones — rogue ‘jumping genes’ might be to blame",
    "summary": "",
    "link": "https://www.nature.com/articles/d41586-026-03199-5",
@@ -1842,7 +2184,7 @@
    "feed": "nature"
   },
   {
-   "id": "nature-133-52516438",
+   "id": "nature-164-52516438",
    "title": "UAE completes Arab world's first solo space probe – and sets course for an asteroid",
    "summary": "",
    "link": "https://www.nature.com/articles/d41586-026-03154-4",
@@ -1854,7 +2196,7 @@
    "feed": "nature"
   },
   {
-   "id": "bbc-business-134-769409725",
+   "id": "bbc-business-165-769409725",
    "title": "Fuel prices added to Google Maps as petrol and diesel costs soar",
    "summary": "A search for forecourts will now display their pricing, using the government's Fuel Finder scheme.",
    "link": "https://www.bbc.co.uk/news/articles/ckx2d4ddjn2eo?at_medium=RSS&at_campaign=rss",
@@ -1866,7 +2208,19 @@
    "feed": "bbc-business"
   },
   {
-   "id": "bbc-business-135-1300840156",
+   "id": "bbc-business-166-468427940",
+   "title": "How oil-rich Alberta's economy might fare if it broke away from Canada",
+   "summary": "Albertans vote this month on staying in Canada or moving ahead to a binding independence referendum.",
+   "link": "https://www.bbc.co.uk/news/articles/cy745jznvxpo?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-07T23:10:13.000Z",
+   "kind": "official",
+   "category": "economy",
+   "source": "BBC Business",
+   "lang": "en",
+   "feed": "bbc-business"
+  },
+  {
+   "id": "bbc-business-167-1300840156",
    "title": "The wildlife winners set to appear on your banknotes revealed",
    "summary": "The decision comes after nearly half a million people voted on a shortlist of 18 creatures.",
    "link": "https://www.bbc.co.uk/news/articles/cwe8ld517ry3o?at_medium=RSS&at_campaign=rss",
@@ -1878,7 +2232,7 @@
    "feed": "bbc-business"
   },
   {
-   "id": "bbc-business-136-1309786331",
+   "id": "bbc-business-168-1309786331",
    "title": "'Stop throwing shade' - the woman trying to stop firms leaving the UK",
    "summary": "British people need more incentives to invest in big firms listed in the UK, Dame Julia Hoggett, boss of the London Stock Exchange, says.",
    "link": "https://www.bbc.co.uk/news/articles/cmgqwydpd4xwo?at_medium=RSS&at_campaign=rss",
@@ -1890,7 +2244,7 @@
    "feed": "bbc-business"
   },
   {
-   "id": "yt-lotfyzakaria-113-2047997090",
+   "id": "yt-lotfyzakaria-169-2047997090",
    "title": "سوريا تدخل حرب اليمن برياً بطلب من السعودية وارسال الاف الجنود للحرب على الحوثيين بدعم امريكي",
    "summary": "سوريا تدخل الحرب في اليمن بطلب سعودي ، احمد الشرع يدرس ارسال 20 الف جندي سوري الى اليمن لدعم الهجوم المضاد ضد الحوثيين ! تم تنسيق التدخل العسكري السوري في اليمن مع القيادة المركزية الامريكية ، وذالك بالتزامن مع تصعيد امريكي محتمل ضد ايران ، هل تنجح القوات السورية في هزيمة الحوثيين ؟. تاريخ النشر : 8/10/2026",
    "link": "https://www.youtube.com/watch?v=iQHlZflw-0E",
@@ -1914,19 +2268,7 @@
    "feed": "bbc-business"
   },
   {
-   "id": "bbc-sport-139-763713342",
-   "title": "'Amazing' Kane targets 100 international goals",
-   "summary": "Striker Harry Kane says he could reach 100 goals for England after equalling his country's appearance record of 125, drawing praise from team-mates Morgan Rogers and Jude Bellingham.",
-   "link": "https://www.bbc.co.uk/sport/football/videos/cm75pwl3w2x7o?at_medium=RSS&at_campaign=rss",
-   "published": "2026-10-07T20:31:17.000Z",
-   "kind": "official",
-   "category": "sports",
-   "source": "BBC Sport",
-   "lang": "en",
-   "feed": "bbc-sport"
-  },
-  {
-   "id": "bbc-ar-140-1922755895",
+   "id": "bbc-ar-171-1922755895",
    "title": "الذكاء الاصطناعي يدعم فحوصات الموجات فوق الصوتية للجنين",
    "summary": "الذكاء الاصطناعي يدعم فحوصات الموجات فوق الصوتية للجنين",
    "link": "https://www.bbc.com/arabic/articles/cw4g1lpp0zj1o?at_medium=RSS&at_campaign=rss",
@@ -1950,7 +2292,7 @@
    "feed": "bbc-business"
   },
   {
-   "id": "yt-SummaryEgypt-118-45651788",
+   "id": "yt-SummaryEgypt-173-45651788",
    "title": "السيسي يحرك الأسطول الحربي المصري مع ضرب حدود إثيوبيا في مفاجأة عسكرية كبرى",
    "summary": "السيسي يحرك الأسطول الحربي المصري مع ضرب حدود إثيوبيا في مفاجأة عسكرية كبرى حلقة \"انقـــلاب عسكري\" من قناة summary ... اعرف القصة من الأول .. برعـــاية \"Change Me\" 🦷🧒🏻 احجز من هنــا : https://www.changemeclinic.net/promo-summary Hotline : 16732 Change Me : Mobile: 01225555230 / 01204480200 Instagram:https://instagram.com/changemeclinics?igshid=MWI4MTIyMDE= Facebook: https://www.facebook.com/changemeclinic.net/ You tube: https://m.youtube.com/@changemeclinics5243?ra=m New Location : https://maps.app.goo.gl/cvuatejuGwMAvY189 🗣 تواصل معانا علي مواقع التواصل الاجتماعي! - Summary channel : https://www.facebook.com/SummaryChannel - summary Egypt :- https://bit.ly/43MVcTH - Instagram :- https://bit.ly/3KVEiK1 - Tik-Tok :- https://www.tiktok.com/@summaryegy - X : https://x.com/SummaryChannel _______ 📺 Top Recommended Playlists - حرب روسيا و اوكرانيا : https://bit.ly/RussiaUkrainewar - قضايا",
    "link": "https://www.youtube.com/watch?v=EX4EjTNpKoE",
@@ -1974,7 +2316,7 @@
    "feed": "bbc-business"
   },
   {
-   "id": "bbc-ar-144-199111110",
+   "id": "bbc-ar-175-199111110",
    "title": "شركة أرامكو هدف لهجمات الحوثيين، فما أهميتها للسعودية؟",
    "summary": "في موازاة التصعيد الميداني، برزت منشآت شركة أرامكو السعودية ضمن أهداف الحوثيين، إذ أعلنت الجماعة استهداف منشآت تابعة للشركة، مؤكدة أن الهجمات تأتي رداً على الغارات السعودية على صنعاء ومحافظات يمنية أخرى.",
    "link": "https://www.bbc.com/arabic/articles/cqx2v82w27xzo?at_medium=RSS&at_campaign=rss",
@@ -2010,7 +2352,7 @@
    "feed": "bbc-business"
   },
   {
-   "id": "bbc-ar-147-816252718",
+   "id": "bbc-ar-178-816252718",
    "title": "كريستا بايك.. قصة السجينة الأمريكية التي نجت من حقنتين قاتلتين",
    "summary": "نُقلت بايك إلى المستشفى بعد أن نجت من محاولتين لإعدامها عن طريق الحقنة القاتلة الأسبوع الماضي.",
    "link": "https://www.bbc.com/arabic/articles/cmje50q8x83zo?at_medium=RSS&at_campaign=rss",
@@ -2022,7 +2364,7 @@
    "feed": "bbc-ar"
   },
   {
-   "id": "un-news-ar-148-238134547",
+   "id": "un-news-ar-179-238134547",
    "title": "منظمة الصحة العالمية تصدر أول إرشادات عالمية بشأن سمنة الأطفال مع تزايد الحالات",
    "summary": "مع زيادة تُقدر بأربع مرات منذ عام 1990 أصدرت منظمة الصحة العالمية أول إرشادات عالمية مخصصة للتعامل مع السمنة لدى الأطفال والمراهقين. وأوصت بعدم استخدام الأدوية، أو جراحات السمنة، أو أجهزة إنقاص الوزن للأطفال دون سن العاشرة.",
    "link": "https://news.un.org/feed/view/ar/story/2026/10/1145500",
@@ -2034,7 +2376,7 @@
    "feed": "un-news-ar"
   },
   {
-   "id": "un-news-ar-149-238135220",
+   "id": "un-news-ar-180-238135220",
    "title": "منظمة الصحة العالمية تتابع تقارير وفاة موظفين في مختبر لأبحاث مكافحة الطاعون في روسيا",
    "summary": "تتابع منظمة الصحة العالمية ظروف وفاة أحد العاملين في مختبر مركز إيركوتسك لأبحاث مكافحة الطاعون في روسيا. وردا على طلب المنظمة، بموجب اللوائح الصحية الدولية، أفادت السلطات الصحية الروسية بعدم تسجيل أي إصابة بالطاعون مؤخرا في المقاطعة التي يقع فيها المختبر.",
    "link": "https://news.un.org/feed/view/ar/story/2026/10/1145499",
@@ -2046,7 +2388,7 @@
    "feed": "un-news-ar"
   },
   {
-   "id": "un-news-ar-150-238135221",
+   "id": "un-news-ar-181-238135221",
    "title": "تقارير عن عدد غير مسبوق من الضحايا - الأمم المتحدة تدين الهجمات الروسية على أوكرانيا",
    "summary": "أدان الأمين العام للأمم المتحدة أنطونيو غوتيريش بشدة الهجمات المستمرة التي تشنها القوات المسلحة للاتحاد الروسي على المدن الأوكرانية الكبرى، والتي تفيد التقارير بأنها تتسبب في عدد قياسي من الضحايا المدنيين وتلحق أضرارا جسيمة بالبنية التحتية المدنية الحيوية.",
    "link": "https://news.un.org/feed/view/ar/story/2026/10/1145498",
@@ -2058,7 +2400,7 @@
    "feed": "un-news-ar"
   },
   {
-   "id": "un-news-ar-151-238135228",
+   "id": "un-news-ar-182-238135228",
    "title": "رؤى متباينة بشأن العمل المناخي الفعال بين مطالب التحول السريع ودعوات لمسارات متأنية",
    "summary": "هل ينبغي للعالم أن يتحرك بشكل حاد وسريع بعيدا عن الوقود الأحفوري، أم يدير عملية تحول أكثر تأنيا وحذرا؟ كان هذا السؤال محورا للعديد من الكلمات التي ألقاها قادة العالم خلال الأسبوع رفيع المستوى للجمعية العامة للأمم المتحدة في نيويورك هذا العام، حيث برز تغير المناخ كأحد أبرز نقاط الانقسام الجوهري بين الدول الأعضاء.",
    "link": "https://news.un.org/feed/view/ar/story/2026/10/1145491",
@@ -2070,7 +2412,7 @@
    "feed": "un-news-ar"
   },
   {
-   "id": "un-news-ar-152-238135223",
+   "id": "un-news-ar-183-238135223",
    "title": "تفاقم الجوع في الشرق الأدنى وشمال أفريقيا - منظمة الفاو تحث على الاستثمار لحماية الإنتاج الغذائي",
    "summary": "دعت منظمة الأغذية والزراعة للأمم المتحدة (الفاو) إلى الاستثمار بشكل عاجل في المساعدات الزراعية الطارئة في منطقة الشرق الأدنى وشمال أفريقيا، حيث يؤدي استمرار الصراعات والصدمات الاقتصادية والضغوط المناخية إلى تفاقم الجوع.",
    "link": "https://news.un.org/feed/view/ar/story/2026/10/1145496",
@@ -2082,7 +2424,7 @@
    "feed": "un-news-ar"
   },
   {
-   "id": "un-news-ar-153-238135224",
+   "id": "un-news-ar-184-238135224",
    "title": "ثلثا الأطفال المهاجرين وصلوا إلى أوروبا بمفردهم عام 2025، مما جعلهم عرضة لاستغلال المهربين",
    "summary": "كشف تقييم أممي مشترك أن أكثر من 20 ألف طفل وصلوا إلى أوروبا عبر مسارات الهجرة المختلطة في العام الماضي من دون أحد والديهم أو أولياء أمورهم، وسط غياب البدائل الأكثر أمانا، مما جعلهم عرضة لاستغلال المهربين وزاد من تعرضهم للعنف والإساءة.",
    "link": "https://news.un.org/feed/view/ar/story/2026/10/1145495",
@@ -2094,7 +2436,7 @@
    "feed": "un-news-ar"
   },
   {
-   "id": "un-news-ar-154-238135225",
+   "id": "un-news-ar-185-238135225",
    "title": "اليمن - فجوة تمويلية حرجة تهدد الاستجابة الصحية وسط تفشي الأمراض واستمرار القتال",
    "summary": "دقت منظمة الصحة العالمية ناقوس الخطر بشأن الفجوة المتزايدة بين التمويل المتاح للاستجابة الصحية في اليمن والاحتياجات المتنامية على أرض الواقع، في ظل استمرار الصراع وتداعياته الوخيمة على المدنيين.",
    "link": "https://news.un.org/feed/view/ar/story/2026/10/1145494",
@@ -2106,19 +2448,7 @@
    "feed": "un-news-ar"
   },
   {
-   "id": "bbc-sport-155-333124388",
-   "title": "Could Manchester City be expelled from the Premier League?",
-   "summary": "A panel of BBC Sport correspondents explore what sanctions Manchester City could face after being found guilty of all charges related to breaches of Premier League financial rules between the 2009-10 and 2017-18 seasons.",
-   "link": "https://www.bbc.co.uk/sport/football/videos/cm70p48l9v8vo?at_medium=RSS&at_campaign=rss",
-   "published": "2026-10-07T11:44:57.000Z",
-   "kind": "official",
-   "category": "sports",
-   "source": "BBC Sport",
-   "lang": "en",
-   "feed": "bbc-sport"
-  },
-  {
-   "id": "yt-SummaryEgypt-132-1262623373",
+   "id": "yt-SummaryEgypt-186-1262623373",
    "title": "الحوثي يتوقف عن الهروب و يبدأ استهداف مطارات السعودية والمملكة تعد لنهاية الحوثيين",
    "summary": "الحوثي يتوقف عن الهروب و يبدأ استهداف مطارات السعودية والمملكة تعد لنهاية الحوثيين حلقة \"إنسحاب عسكري\" من قناة summary ... اعرف القصة من الأول .. برعـــاية \"Change Me\" 🦷🧒🏻 احجز من هنــا : https://www.changemeclinic.net/promo-summary Hotline : 16732 Change Me : Mobile: 01225555230 / 01204480200 Instagram:https://instagram.com/changemeclinics?igshid=MWI4MTIyMDE= Facebook: https://www.facebook.com/changemeclinic.net/ You tube: https://m.youtube.com/@changemeclinics5243?ra=m ------------------- السعودية والحوثيين.. ماذا يحدث في اليمن؟ وهل دخلت تركيا وباكستان الحرب؟ وماذا يريد ترامب؟ الحرب في اليمن تدخل مرحلة جديدة ومفتوحة على كل الاحتمالات، وفي هذه الحلقة نضع كل قطع الصورة جنبًا إلى جنب: تقدم القوات الشرعية، معركة المخا وتعز وباب المندب، ضربات الحوثيين على السعودية، والتحرك السعودي الجوي، وصولًا إلى حلف مكة ودور تركيا وباكستان وموقف الولايات المتحدة ودونالد ترامب. ماذا يحدث على الأرض في ا",
    "link": "https://www.youtube.com/watch?v=EwJSlCQLN0Y",
@@ -2130,7 +2460,7 @@
    "feed": "yt-SummaryEgypt"
   },
   {
-   "id": "bbc-health-157-1576474090",
+   "id": "bbc-health-187-1576474090",
    "title": "New global guidelines warn against obesity drugs for children under 10",
    "summary": "Care should focus on healthy eating and exercise, not medicines such as weight-loss injections, says the World Health Organization",
    "link": "https://www.bbc.co.uk/news/articles/crvg904yw397o?at_medium=RSS&at_campaign=rss",
@@ -2142,7 +2472,7 @@
    "feed": "bbc-health"
   },
   {
-   "id": "bbc-ar-158-1032039628",
+   "id": "bbc-ar-188-1032039628",
    "title": "ماريا فالتورتا: لغز امرأة أعادت كتابة حياة المسيح والعذراء مريم والإنجيل بـ \"رؤى خارقة للطبيعة\"",
    "summary": "في عزلتها الطويلة بسبب المرض، روت ماريا فالتورتا مشاهد تفصيلية لم تذكرها الأناجيل المعتمدة عن حياة المسيح وبيئته عن طريق \"رؤى وإملاءات\" من المسيح نفسه، بحسب تعبيرها، لتصبح إحدى أكثر الشخصيات جدلاً في الكتابات المسيحية الحديثة.",
    "link": "https://www.bbc.com/arabic/articles/cm9qzl4rzvn0o?at_medium=RSS&at_campaign=rss",
@@ -2152,18 +2482,6 @@
    "source": "BBC عربي",
    "lang": "ar",
    "feed": "bbc-ar"
-  },
-  {
-   "id": "bbc-sport-159-324820600",
-   "title": "Watch: Every Messi World Cup goal for Argentina",
-   "summary": "Watch every World Cup goal scored by Lionel Messi, as the Argentina forward retires from international football.",
-   "link": "https://www.bbc.co.uk/sport/football/videos/c61kdn0nwld4o?at_medium=RSS&at_campaign=rss",
-   "published": "2026-10-07T05:24:54.000Z",
-   "kind": "official",
-   "category": "sports",
-   "source": "BBC Sport",
-   "lang": "en",
-   "feed": "bbc-sport"
   },
   {
    "id": "bbc-business-160-1664261961",
@@ -2178,7 +2496,7 @@
    "feed": "bbc-business"
   },
   {
-   "id": "bbc-health-161-1385553609",
+   "id": "bbc-health-190-1385553609",
    "title": "Baby termination was 'our most loving choice'",
    "summary": "Rosanna Brown was advised to end her pregnancy because her baby had a life-threatening condition.",
    "link": "https://www.bbc.co.uk/news/articles/cvp8g7z95ggno?at_medium=RSS&at_campaign=rss",
@@ -2190,7 +2508,7 @@
    "feed": "bbc-health"
   },
   {
-   "id": "nature-162-73633382",
+   "id": "nature-191-73633382",
    "title": "A guide to Nature Index tables",
    "summary": "",
    "link": "https://www.nature.com/articles/d41586-026-02999-z",
@@ -2202,7 +2520,7 @@
    "feed": "nature"
   },
   {
-   "id": "nature-163-51738025",
+   "id": "nature-192-51738025",
    "title": "Nobel prizes 2026: ‘ghost’ particles, mirror molecules and light switches in the brain",
    "summary": "",
    "link": "https://www.nature.com/articles/d41586-026-03208-7",
@@ -2214,7 +2532,7 @@
    "feed": "nature"
   },
   {
-   "id": "nature-164-52394388",
+   "id": "nature-193-52394388",
    "title": "NASA releases trove of Moon data from historic Artemis II flight",
    "summary": "",
    "link": "https://www.nature.com/articles/d41586-026-03197-7",
@@ -2226,7 +2544,7 @@
    "feed": "nature"
   },
   {
-   "id": "nature-165-74738603",
+   "id": "nature-194-74738603",
    "title": "How we ditched presentations and embraced silence in our lab meetings",
    "summary": "",
    "link": "https://www.nature.com/articles/d41586-026-02836-3",
@@ -2238,7 +2556,7 @@
    "feed": "nature"
   },
   {
-   "id": "nature-166-74651081",
+   "id": "nature-195-74651081",
    "title": "Blend",
    "summary": "",
    "link": "https://www.nature.com/articles/d41586-026-02864-z",
@@ -2250,7 +2568,7 @@
    "feed": "nature"
   },
   {
-   "id": "nature-167-73723784",
+   "id": "nature-196-73723784",
    "title": "Semiconductors pushed into insulator territory",
    "summary": "",
    "link": "https://www.nature.com/articles/d41586-026-02968-6",
@@ -2262,7 +2580,7 @@
    "feed": "nature"
   },
   {
-   "id": "nature-168-53382298",
+   "id": "nature-197-53382298",
    "title": "Genome accessibility reveals disease risk that gene expression misses",
    "summary": "",
    "link": "https://www.nature.com/articles/d41586-026-03072-5",
@@ -2274,7 +2592,7 @@
    "feed": "nature"
   },
   {
-   "id": "nature-169-53414007",
+   "id": "nature-198-53414007",
    "title": "Nuclear clocks tick for the first time",
    "summary": "",
    "link": "https://www.nature.com/articles/d41586-026-03060-9",
@@ -2286,7 +2604,7 @@
    "feed": "nature"
   },
   {
-   "id": "nature-170-53435156",
+   "id": "nature-199-53435156",
    "title": "Retrofitted LLM can count the letter ‘i’s in ‘artificial intelligence’",
    "summary": "",
    "link": "https://www.nature.com/articles/d41586-026-03059-2",
@@ -2298,7 +2616,7 @@
    "feed": "nature"
   },
   {
-   "id": "nature-171-73667086",
+   "id": "nature-200-73667086",
    "title": "Why sound, strong science alone isn’t enough in pandemic preparedness",
    "summary": "",
    "link": "https://www.nature.com/articles/d41586-026-02985-5",
@@ -2310,7 +2628,7 @@
    "feed": "nature"
   },
   {
-   "id": "nature-172-52602925",
+   "id": "nature-201-52602925",
    "title": "‘When prevention disappears, infections rise’: can the world still end AIDS?",
    "summary": "",
    "link": "https://www.nature.com/articles/d41586-026-03127-7",
@@ -2322,7 +2640,7 @@
    "feed": "nature"
   },
   {
-   "id": "nature-173-52393428",
+   "id": "nature-202-52393428",
    "title": "The science of superintelligence and why AI is still a useful word",
    "summary": "",
    "link": "https://www.nature.com/articles/d41586-026-03198-6",
@@ -2370,7 +2688,7 @@
    "feed": "nature"
   },
   {
-   "id": "bbc-health-177-1739183402",
+   "id": "bbc-health-206-1739183402",
    "title": "'That nagging feeling of dread': Is 'hang-xiety' a real thing?",
    "summary": "For some, a hangover can start an anxious spiral. We spoke to experts about the reasons why.",
    "link": "https://www.bbc.co.uk/news/articles/c32l4nqx5wvko?at_medium=RSS&at_campaign=rss",
@@ -2382,7 +2700,7 @@
    "feed": "bbc-health"
   },
   {
-   "id": "yt-lotfyzakaria-154-177455126",
+   "id": "yt-lotfyzakaria-207-177455126",
    "title": "تعثر الهجوم المضاد في اليمن و حصار تعز وامريكا تكشف محاولة ايران لضرب القاذفات الامريكية في بريطانيا",
    "summary": "تعثر الهجوم المضاد في اليمن والمدعوم من السعودية في دخول مدينة ذوباب او السيطرة على الوازعية ! قصف مطارات السعودية في نجران وجيزان ، و امريكا تكشف محاولة ايران لضرب القاذفات الامريكية المسيرات في بريطانيا. تاريخ النشر : 7/10/2026",
    "link": "https://www.youtube.com/watch?v=bO_RbldApYw",
@@ -2394,19 +2712,7 @@
    "feed": "yt-lotfyzakaria"
   },
   {
-   "id": "bbc-sport-179-1700045263",
-   "title": "Scotland let lead slip in abject defeat by Slovenia",
-   "summary": "Watch the best of the action as Slovenia come from behind to beat Scotland 2-1 in the Nations League at Hampden.",
-   "link": "https://www.bbc.co.uk/sport/football/videos/ckpqgdyyg2wgo?at_medium=RSS&at_campaign=rss",
-   "published": "2026-10-06T21:23:34.000Z",
-   "kind": "official",
-   "category": "sports",
-   "source": "BBC Sport",
-   "lang": "en",
-   "feed": "bbc-sport"
-  },
-  {
-   "id": "yt-SummaryEgypt-156-1722361592",
+   "id": "yt-SummaryEgypt-208-1722361592",
    "title": "صدمة | الجيش الاسرائيلي أعد خطة لإبادة الجيش المصري في سيناء ومفاجأة في فشل الخطة",
    "summary": "صدمة | الجيش الاسرائيلي أعد خطة لإبادة الجيش المصري في سيناء ومفاجأة في فشل الخطة حلقة \"صدمة الجيش المصري\" من قناة summary ... اعرف القصة من الأول .. برعـــاية \"مزرعة الأمانة\" 🐐قدم صدقتك للناس اللي في أشد الحاجة ليها من خلال مزرعة الامانة تقدر تطلب منهم من خلال 👇 الموقع الإلكتروني : https://alaamana.com واتساب : https://api.whatsapp.com/send/?phone=255793569666 خطة \"دوف كوت\" السرية.. كيف حوّل الجيش المصري كمين إسرائيل في حرب اكتوبر لأكبر نصر في تاريخ مصر 🇪🇬🔥 ماذا كانت إسرائيل تنتظر أن يحدث لحظة عبور الجيش المصري قناة السويس في حرب أكتوبر 1973؟ ولماذا كانت القيادة الإسرائيلية واثقة أن الدبابات الإسرائيلية قادرة على تدمير القوات المصرية بعد العبور؟ في هذه الحلقة نكشف تفاصيل الرواية التي تتناول خطة \"دوف كوت\" الإسرائيلية، أو ما يُشار إليها باسم \"خطة المزاغل\"، وهي الخطة التي اعتمدت على وجود قوة مدرعة إسرائيلية خلف خط بارليف، كان من المفترض أن تتحرك فور عبور القوات المصرية لقناة السويس وت",
    "link": "https://www.youtube.com/watch?v=3Pr3E02PJ3U",
@@ -2418,7 +2724,7 @@
    "feed": "yt-SummaryEgypt"
   },
   {
-   "id": "bbc-health-181-306409303",
+   "id": "bbc-health-209-306409303",
    "title": "Family of woman who died after 'misread' smear test join calls for inquiry",
    "summary": "Relatives of Louise Corbett Gibbons support the campaign for an inquiry into screening services.",
    "link": "https://www.bbc.co.uk/news/articles/cr3wvq5lejn9o?at_medium=RSS&at_campaign=rss",
@@ -2430,7 +2736,7 @@
    "feed": "bbc-health"
   },
   {
-   "id": "bbc-ar-182-727236527",
+   "id": "bbc-ar-210-727236527",
    "title": "هل تستغني السعودية عن شراكتها مع الولايات المتحدة؟",
    "summary": "لم تعد فكرة تنويع السعودية لشراكاتها الأمنية مجرد حديث عن المستقبل. ففي الخامس من أكتوبر/تشرين الأول، أعلنت السعودية وتركيا وباكستان الانتقال الفوري إلى التنفيذ العملي لالتزامات الدفاع المشترك ضمن \"حلف مكة\"، واتخاذ الإجراءات اللازمة لتوفير القوات والقدرات العسكرية المتفق عليها وسرعة نشرها في السعودية، إثر استهدافات متكررة للدولة الخليجية من قبل جماعة أنصار الله الحوثي في اليمن.",
    "link": "https://www.bbc.com/arabic/articles/cv5yn5k8x615o?at_medium=RSS&at_campaign=rss",
@@ -2442,19 +2748,7 @@
    "feed": "bbc-ar"
   },
   {
-   "id": "bbc-sport-183-2064712496",
-   "title": "Djokovic ends trophy drought with victory in China",
-   "summary": "Novak Djokovic wins the China Open for a seventh time after Alex de Minaur retires in the final in Beijing, as the Serb wins the 102nd title of his career.",
-   "link": "https://www.bbc.co.uk/sport/tennis/videos/cw0k08n0rry4o?at_medium=RSS&at_campaign=rss",
-   "published": "2026-10-06T16:48:18.000Z",
-   "kind": "official",
-   "category": "sports",
-   "source": "BBC Sport",
-   "lang": "en",
-   "feed": "bbc-sport"
-  },
-  {
-   "id": "yt-SummaryEgypt-160-993496818",
+   "id": "yt-SummaryEgypt-211-993496818",
    "title": "\"لن تكون هناك سيناء\".. سموتريتش يهدد مصر في ذكرى نصر أكتوبر ــ فماذا تخشى إسرائيل من الجيش المصري ؟",
    "summary": "«لن تكون هناك سيناء».. تصريح بتسلئيل سموتريتش، وزير المالية الإسرائيلي، في ذكرى نصر أكتوبر، يفتح سؤالًا أكبر من مجرد تهديد أو تصريح سياسي: ماذا تخشى إسرائيل من الجيش المصري؟ حلقة \"اسرائيل تهدد مصر\" من قناة summary ... اعرف القصة من الأول .. برعـــاية \"Better House\" •فرصة قوية جدا في منتجع ڤيدالا مع شركة Better house بخصم 10% علي وحدتك وفرش بالكامل هدية و0% رسوم تنازل، بمقدم 5% و تقسيط علي 8 سنين * بادر بالحجز باستمارة قيمتها 25,000 جنيه فقط https://betterhouse-eg.com/contact-us/ 📞الخط الساخن 15136 📲 واتساب : 201227000507+ في هذه الحلقة نناقش تصريحات سموتريتش بشأن مصر وسيناء، ولماذا اختار الحديث عن إعادة احتلال سيناء في هذا التوقيت، وما علاقة التصريح بما يُطرح حول تآكل الردع الإسرائيلي وتطور قدرات الجيش المصري. ونفتح ملف القوات الجوية المصرية بالتفصيل: ماذا وراء الحديث عن صفقة جديدة لشراء 24 مقاتلة رافال؟ وكيف يمكن أن يصل أسطول الرافال المصري إلى 78 مقاتلة إذا تحولت الصفقة إلى عقد؟ وما ",
    "link": "https://www.youtube.com/watch?v=CxW2DlR8Tvo",
@@ -2466,7 +2760,7 @@
    "feed": "yt-SummaryEgypt"
   },
   {
-   "id": "bbc-ar-185-1885312167",
+   "id": "bbc-ar-212-1885312167",
    "title": "هل تدخل الإمارات وبريطانيا في أزمة بسبب نادي مانشستر سيتي؟",
    "summary": "تقارير تفيد بأن الإمارات العربية المتحدة قد توقف خطط استثمارية على مستوى المملكة المتحدة بقيمة مليارات الجنيهات نتيجة لقرار الدوري الإنجليزي الممتاز.",
    "link": "https://www.bbc.com/arabic/articles/cr0qkd8kl1vjo?at_medium=RSS&at_campaign=rss",
@@ -2478,7 +2772,7 @@
    "feed": "bbc-ar"
   },
   {
-   "id": "un-news-ar-186-238135226",
+   "id": "un-news-ar-213-238135226",
    "title": "المحكمة الجنائية الدولية ترفع السرية عن أوامر بإلقاء القبض على 4 من قيادات طالبان بتهمة اضطهاد النساء",
    "summary": "أعلنت المحكمة الجنائية الدولية عن أربع مذكرات اعتقال بحق شخصيات بارزة في حركة طالبان، متهمة إياهم باضطهاد النساء والفتيات في أفغانستان، وهو ما يشكل جريمة ضد الإنسانية.",
    "link": "https://news.un.org/feed/view/ar/story/2026/10/1145493",
@@ -2490,7 +2784,7 @@
    "feed": "un-news-ar"
   },
   {
-   "id": "un-news-ar-187-238135227",
+   "id": "un-news-ar-214-238135227",
    "title": "تفشي الإيبولا - تسجيل أول حالة إصابة في كينيا، والمرض يحرم أطفالا من آبائهم في الكونغو الديمقراطية",
    "summary": "قال المتحدث باسم الأمم المتحدة ستيفان دوجاريك إن الحكومة الكينية أكدت تسجيل أول حالة إصابة وافدة بفيروس الإيبولا في البلاد، وإن السلطات هناك سارعت إلى تحديد الحالة وعزلها وإجراء الفحوصات اللازمة.",
    "link": "https://news.un.org/feed/view/ar/story/2026/10/1145492",
@@ -2502,7 +2796,7 @@
    "feed": "un-news-ar"
   },
   {
-   "id": "un-news-ar-188-238135229",
+   "id": "un-news-ar-215-238135229",
    "title": "مسؤول أممي: النزاعات المعقدة في أفريقيا تتطلب شراكة أقوى بين الأمم المتحدة والاتحاد الأفريقي",
    "summary": "قال مسؤول أممي رفيع المستوى إن حجم التحديات التي تواجه أفريقيا وتعقيدها يتطلبان شراكة أقوى بين الأمم المتحدة والاتحاد الأفريقي، مع تركيز أكبر على الوقاية والوساطة واتخاذ إجراءات سريعة وخاضعة للمساءلة.",
    "link": "https://news.un.org/feed/view/ar/story/2026/10/1145490",
@@ -2514,7 +2808,7 @@
    "feed": "un-news-ar"
   },
   {
-   "id": "un-news-ar-189-238135253",
+   "id": "un-news-ar-216-238135253",
    "title": "غوتيريش من باكستان يدعو إلى إنهاء الصراع في الشرق الأوسط والعودة إلى الدبلوماسية",
    "summary": "دعا الأمين العام للأمم المتحدة، أنطونيو غوتيريش، جميع الأطراف المتحاربة في أزمة الشرق الأوسط إلى \"إنهاء الصراع، والعودة إلى الدبلوماسية، واستعادة الحقوق والحريات الملاحية بالكامل وفقا للقانون الدولي\".",
    "link": "https://news.un.org/feed/view/ar/story/2026/10/1145487",
@@ -2526,7 +2820,7 @@
    "feed": "un-news-ar"
   },
   {
-   "id": "un-news-ar-190-238135252",
+   "id": "un-news-ar-217-238135252",
    "title": "منظمة الصحة العالمية - دارفور بحاجة إلى موارد توازي صمود سكانها وتفاني العاملين الصحيين",
    "summary": "حذرت منظمة الصحة العالمية من أن حجم الاحتياجات الصحية في دارفور يفوق بكثير الموارد المتاحة، فيما من المتوقع أن يؤدي استمرار انعدام الاستقرار والصدمات المناخية إلى مفاقمة معدلات النزوح وسوء التغذية وانتشار الأمراض الوبائية. ودعت إلى زيادة الدعم لتجنب المزيد من المعاناة، ومواكبة مستوى التزام العاملين الصحيين الاستثنائيين في الميدان.",
    "link": "https://news.un.org/feed/view/ar/story/2026/10/1145488",
@@ -2538,7 +2832,7 @@
    "feed": "un-news-ar"
   },
   {
-   "id": "un-news-ar-191-238135251",
+   "id": "un-news-ar-218-238135251",
    "title": "جيبوتي تواجه \"حالات طوارئ متداخلة\" مع استمرار تدفق المهاجرين واللاجئين من وإلى اليمن",
    "summary": "حذرت المنظمة الدولية للهجرة من أن جيبوتي تواجه \"حالات طوارئ متداخلة\" في ظل استمرار تعاملها مع تدفقات القادمين من اليمن والمارين عبر أراضيها باتجاه دول الخليج، مشيرة إلى أن حجم احتياجاتهم وطبيعتها المعقدة تضع الموارد والخدمات المتاحة تحت ضغط شديد.",
    "link": "https://news.un.org/feed/view/ar/story/2026/10/1145489",
@@ -2550,7 +2844,7 @@
    "feed": "un-news-ar"
   },
   {
-   "id": "un-news-ar-192-238135260",
+   "id": "un-news-ar-219-238135260",
    "title": "تقرير أممي: نقص الأدوية في منطقة وسط أفريقيا يغذي سوقا غير مشروعة تزداد نشاطا",
    "summary": "مضادات حيوية، وأدوية لعلاج الملاريا، ومسكنات للألم، ومواد أفيونية، هي بعض المنتجات الطبية التي صودرت بكميات تجاوزت 250 طنا على مدار ست سنوات في منطقة وسط أفريقيا. ووراء هذه الأرقام سوق غير مشروعة تنشط رغم هشاشة الأنظمة الصحية في المنطقة، بل وأيضا بسبب تلك الهشاشة.",
    "link": "https://news.un.org/feed/view/ar/story/2026/10/1145480",
@@ -2562,7 +2856,7 @@
    "feed": "un-news-ar"
   },
   {
-   "id": "un-news-ar-193-238135255",
+   "id": "un-news-ar-220-238135255",
    "title": "أكثر من 347 مليون طفل في 100 دولة يواجهون مخاطر الجفاف والفيضانات بسبب ظاهرة النينيو",
    "summary": "حذرت منظمة اليونيسف من أنه من المتوقع أن يواجه أكثر من 347 مليون طفل في نحو 100 دولة وإقليم ظروفا مناخية تتسم بمعدلات هطول أمطار غير معتادة في الفترة ما بين تشرين الأول/أكتوبر وكانون الأول/ديسمبر 2026 بسبب ظاهرة النينيو، مما يزيد من مخاطر حدوث جفاف وفيضانات شديدة قد تكون لها عواقب مدمرة.",
    "link": "https://news.un.org/feed/view/ar/story/2026/10/1145485",
@@ -2574,7 +2868,7 @@
    "feed": "un-news-ar"
   },
   {
-   "id": "bbc-health-194-783766546",
+   "id": "bbc-health-221-783766546",
    "title": "One million UK people who have never smoked are now vaping",
    "summary": "Latest statistics also show, for the second year in a row, more over-16s vape than smoke.",
    "link": "https://www.bbc.co.uk/news/articles/cwe8ldgzj277o?at_medium=RSS&at_campaign=rss",
@@ -2586,7 +2880,7 @@
    "feed": "bbc-health"
   },
   {
-   "id": "yt-SummaryEgypt-171-1907134379",
+   "id": "yt-SummaryEgypt-222-1907134379",
    "title": "السعودية تحسمها .. سقوط المخا وباب المندب والحوثيين تحت الحصار وتعز تحدد مصير الحرب",
    "summary": "السعودية تحسمها .. سقوط المخا وباب المندب والحوثيين تحت الحصار وتعز تحدد مصير الحرب حلقة \"ضرب مطار الرياض\" من قناة summary ... اعرف القصة من الأول .. برعـــاية \"Better House\" •فرصة قوية جدا في منتجع ڤيدالا مع شركة Better house بخصم 10% علي وحدتك وفرش بالكامل هدية و0% رسوم تنازل، بمقدم 5% و تقسيط علي 8 سنين * بادر بالحجز باستمارة قيمتها 25,000 جنيه فقط https://betterhouse-eg.com/contact-us/ 📞الخط الساخن 15136 📲 واتساب : 201227000507+ السعودية تدخل أخطر مراحل الحرب في اليمن.. والقوات الشرعية تتقدم نحو باب المندب والمخا، بينما الحوثيون يردون بضربات داخل السعودية! لكن هل اقترب فعلًا حسم الحرب؟ أم أن المعركة الحقيقية بدأت الآن؟ 🇸🇦🇾🇪 في هذه الحلقة نكشف الصورة الكاملة لما يحدث في اليمن والسعودية، بعيدًا عن عناوين الانتصار السريع والهزيمة السريعة. القوات الحكومية اليمنية المدعومة سعوديًا أعلنت تقدمًا كبيرًا على الساحل الغربي، والسيطرة على مواقع استراتيجية في محيط باب المندب والتقدم باتجاه ",
    "link": "https://www.youtube.com/watch?v=NVhaGRqy61A",
@@ -2598,7 +2892,7 @@
    "feed": "yt-SummaryEgypt"
   },
   {
-   "id": "bbc-ar-196-1043665326",
+   "id": "bbc-ar-223-1043665326",
    "title": "أطفال اليمن يتحدّون نيران القناصة وقذائف الهاون في طريقهم إلى المدرسة",
    "summary": "في زيارة نادرة إلى مدينة تعز، التقت بي بي سي أطفالاً ومعلمين وعائلات يعيشون تحت وطأة القتال.",
    "link": "https://www.bbc.com/arabic/articles/cm70p4z3724go?at_medium=RSS&at_campaign=rss",
@@ -2610,7 +2904,7 @@
    "feed": "bbc-ar"
   },
   {
-   "id": "bbc-health-197-1205462459",
+   "id": "bbc-health-224-1205462459",
    "title": "Ten NHS trusts referred over monitoring consent",
    "summary": "Infrared technology is used in patients' bedrooms and can monitor their breathing and pulse.",
    "link": "https://www.bbc.co.uk/news/articles/cxm234pzj952o?at_medium=RSS&at_campaign=rss",
@@ -2622,7 +2916,19 @@
    "feed": "bbc-health"
   },
   {
-   "id": "yt-SummaryEgypt-174-550740018",
+   "id": "bbc-health-225-509164391",
+   "title": "'Life-saving' mums charity could close waiting list",
+   "summary": "The charity recently lost out on a bid for funding and now might have to close its waiting list.",
+   "link": "https://www.bbc.co.uk/news/articles/c94g1rdp88v3o?at_medium=RSS&at_campaign=rss",
+   "published": "2026-10-06T05:20:34.000Z",
+   "kind": "official",
+   "category": "health",
+   "source": "BBC Health",
+   "lang": "en",
+   "feed": "bbc-health"
+  },
+  {
+   "id": "yt-SummaryEgypt-226-550740018",
    "title": "انهيار الحوثي / انذار الجيش المصري / وباء النهاية / هروب المقاتلات الامريكية",
    "summary": "حلقة \"\" من قناة summary ... اعرف القصة من الأول .. برعـــاية \"\" 🗣 تواصل معانا علي مواقع التواصل الاجتماعي! - Summary channel : https://www.facebook.com/SummaryChannel - summary Egypt :- https://bit.ly/43MVcTH - Instagram :- https://bit.ly/3KVEiK1 - Tik-Tok :- https://www.tiktok.com/@summaryegy - X : https://x.com/SummaryChannel _______ 📺 Top Recommended Playlists - حرب روسيا و اوكرانيا : https://bit.ly/RussiaUkrainewar - قضايا و مستجدات عالمية : https://bit.ly/3YY8Guz _______ ©2026 Copyright Summary Channel. All rights reserved",
    "link": "https://www.youtube.com/watch?v=QefbjXUvt7Q",
@@ -2634,7 +2940,7 @@
    "feed": "yt-SummaryEgypt"
   },
   {
-   "id": "yt-lotfyzakaria-175-1060977112",
+   "id": "yt-lotfyzakaria-227-1060977112",
    "title": "السعودية تنجح في السيطرة على باب المندب بهجوم خاطف وتطرد الحوثيين بغطاء جوي ضخم",
    "summary": "السعودية تنجح في استعادة ساحل باب المندب من الحوثيين بهجوم مضاد خاطف وغطاء جوي ضخم ، هل تتفاوض السعودية ام تواصل الضغط العسكري لما بعد المخا والتحرك الى الحديدة ؟ يواصل الحوثيين استهداف منشأت النفط السعودية وقصف مصفاة رابغ واستهداف مطار الرياض ، في المقابل يشتد الحصار الامريكي على ايران مما قد يدفع ايران الى شن هجوم تصعيدي استباقي. تاريخ النشر : 6/10/2026",
    "link": "https://www.youtube.com/watch?v=CFuhv2Y43xw",
@@ -2646,7 +2952,7 @@
    "feed": "yt-lotfyzakaria"
   },
   {
-   "id": "yt-SummaryEgypt-176-268124896",
+   "id": "yt-SummaryEgypt-228-268124896",
    "title": "السعودية تدخل حرب اليمن رسمياً بـ 100 مقاتلة والحوثيون يتراجعون من باب المندب وتعز",
    "summary": "السعودية تدخل حرب اليمن رسمياً بـ 100 مقاتلة والحوثيون يتراجعون من باب المندب وتعز حلقة \"هروب الحوثي\" من قناة summary ... اعرف القصة من الأول ..برعـــاية \"مزرعة الأمانة\" 🐐قدم صدقتك للناس اللي في أشد الحاجة ليها من خلال مزرعة الامانة تقدر تطلب منهم من خلال 👇 الموقع الإلكتروني : https://alaamana.com واتساب : https://api.whatsapp.com/send/?phone=255793569666 السعودية تدخل حرب اليمن رسميًا بـ100 مقاتلة.. فما الذي يحدث الآن في اليمن؟ 🇸🇦🇾🇪 في هذه الحلقة نرصد التطورات العسكرية المتسارعة في اليمن، مع إطلاق عملية «فجر اليمن» وبدء هجوم واسع للقوات الحكومية اليمنية ضد الحوثيين، بدعم جوي مكثف من التحالف بقيادة السعودية. أعلنت قوات التحالف مشاركة 100 طائرة مقاتلة في العملية، مع تدمير 324 هدفًا عالي القيمة وتوفير إسناد جوي للقوات اليمنية على مدار الساعة، بالتزامن مع تأمين الحماية الجوية لمضيق باب المندب. وعلى الأرض، أعلنت القوات الحكومية اليمنية تقدمها في مناطق استراتيجية قرب باب المندب وذو باب،",
    "link": "https://www.youtube.com/watch?v=jgpnnDsRnts",
@@ -2658,7 +2964,7 @@
    "feed": "yt-SummaryEgypt"
   },
   {
-   "id": "un-news-ar-201-238135254",
+   "id": "un-news-ar-229-238135254",
    "title": "في ذكرى هجوم 7 أكتوبر، الأمين العام يدعو إلى بناء مستقبل مختلف للإسرائيليين والفلسطينيين",
    "summary": "في الذكرى السنوية للهجوم الإرهابي على إسرائيل في 7 تشرين الأول/أكتوبر عام 2023 دعا الأمين العام للأمم المتحدة أنطونيو غوتيريش إلى تجديد العزم على بناء مستقبل مختلف يستطيع فيه الإسرائيليون والفلسطينيون \"العيش جنبا إلى جنب في سلام وأمن، مع إعمال حقوقهم وصون كرامتهم وتحقيق تطلعاتهم\".",
    "link": "https://news.un.org/feed/view/ar/story/2026/10/1145486",
@@ -2668,6 +2974,18 @@
    "source": "أخبار الأمم المتحدة",
    "lang": "ar",
    "feed": "un-news-ar"
+  },
+  {
+   "id": "un-news-economy-230-238135283",
+   "title": "اليوم العالمي للموئل - دعوة من مسقط للتحرك بشأن أزمة الإسكان العالمية",
+   "summary": "بمناسبة الاحتفال باليوم العالمي للموئل، دعا ممثلون عن الحكومات والمجتمع المدني والأوساط الأكاديمية من العاصمة العُمانية مسقط إلى اتخاذ إجراءات عاجلة لمعالجة أزمة إسكان عالمية تطال ما يقرب من 3.4 مليار نسمة، في ظل تفاقم المشكلة بسبب النزاعات والكوارث وتغير المناخ والصعوبات الاقتصادية التي تؤدي إلى نزوح الملايين سنويا.",
+   "link": "https://news.un.org/feed/view/ar/story/2026/10/1145478",
+   "published": "2026-10-05T12:00:00.000Z",
+   "kind": "official",
+   "category": "economy",
+   "source": "أخبار الأمم المتحدة - اقتصاد",
+   "lang": "ar",
+   "feed": "un-news-economy"
   },
   {
    "id": "un-news-ar-202-238135256",
@@ -2682,19 +3000,7 @@
    "feed": "un-news-ar"
   },
   {
-   "id": "un-news-economy-203-238135283",
-   "title": "اليوم العالمي للموئل - دعوة من مسقط للتحرك بشأن أزمة الإسكان العالمية",
-   "summary": "بمناسبة الاحتفال باليوم العالمي للموئل، دعا ممثلون عن الحكومات والمجتمع المدني والأوساط الأكاديمية من العاصمة العُمانية مسقط إلى اتخاذ إجراءات عاجلة لمعالجة أزمة إسكان عالمية تطال ما يقرب من 3.4 مليار نسمة، في ظل تفاقم المشكلة بسبب النزاعات والكوارث وتغير المناخ والصعوبات الاقتصادية التي تؤدي إلى نزوح الملايين سنويا.",
-   "link": "https://news.un.org/feed/view/ar/story/2026/10/1145478",
-   "published": "2026-10-05T12:00:00.000Z",
-   "kind": "official",
-   "category": "economy",
-   "source": "أخبار الأمم المتحدة - اقتصاد",
-   "lang": "ar",
-   "feed": "un-news-economy"
-  },
-  {
-   "id": "yt-SummaryEgypt-180-832965255",
+   "id": "yt-SummaryEgypt-232-832965255",
    "title": "أمريكا تهرب بقاذفاتها من قاعدة فيرفورد البريطانية.. إيران أجبرت واشنطن على التراجع والسبب خطير",
    "summary": "أمريكا تهرب بقاذفاتها من قاعدة فيرفورد فجــــــــــــــــأة! هل أخافت إيران واشنطن؟.. وليه القاذفات خرجت من بريطانيا بالسرعة دي؟ والأخطر.. إيه علاقة اللي حصل بتصعيد أمريكا وإيران والخليج؟ .. اعـــرف القـــصة من الأول @SummaryEgypt حلقة \"اخلاء القاذفات الامريكية\" من قناة summary ..برعـــاية \"مزرعة الأمانة\" 🐐قدم صدقتك للناس اللي في أشد الحاجة ليها من خلال مزرعة الامانة تقدر تطلب منهم من خلال 👇 الموقع الإلكتروني : https://alaamana.com واتساب : https://api.whatsapp.com/send/?phone=255793569666 أمريكا سحبت قاذفاتها من قاعدة فيرفورد البريطانية بشكل مفاجئ.. لكن السؤال الأخطر: إيه اللي حصل فعلًا داخل أهم قاعدة أمريكية للقاذفات في أوروبا؟ وهل سحب القاذفات له علاقة بتهديد إيراني محتمل وتصعيد جديد في الحرب مع إيران؟ في الحلقة دي بنفكك القصة من أولها، ونحاول نفهم ليه الولايات المتحدة قررت إعادة نشر القاذفات الأمريكية من قاعدة فيرفورد إلى قواعدها داخل أمريكا، وإيه علاقة القرار بالتحقيقات البريطانية",
    "link": "https://www.youtube.com/watch?v=QevAsPB1qaQ",
@@ -2706,7 +3012,7 @@
    "feed": "yt-SummaryEgypt"
   },
   {
-   "id": "bbc-health-205-1532135019",
+   "id": "bbc-health-233-1532135019",
    "title": "Nobel Prize awarded for revealing inner workings of the brain",
    "summary": "US psychiatrist and neurologist Karl Deisseroth and his German colleagues Peter Hegemann and Georg Nagel have been awarded for their work.",
    "link": "https://www.bbc.co.uk/news/articles/c5ev3ypmzly8o?at_medium=RSS&at_campaign=rss",
@@ -2718,7 +3024,7 @@
    "feed": "bbc-health"
   },
   {
-   "id": "bbc-health-206-857689333",
+   "id": "bbc-health-234-857689333",
    "title": "Early Lampard findings could come within weeks",
    "summary": "Early recommendations could be issued if evidence highlights patient safety risks, the chair says.",
    "link": "https://www.bbc.co.uk/news/articles/cmp3k32k778ko?at_medium=RSS&at_campaign=rss",
@@ -2730,7 +3036,7 @@
    "feed": "bbc-health"
   },
   {
-   "id": "yt-lotfyzakaria-183-1764881081",
+   "id": "yt-lotfyzakaria-235-1764881081",
    "title": "ايران تضرب 8 سفن نفط في هرمز وتتحرك لغلق نافذة ترامب النفطية وبدء الهجوم المضاد في اليمن",
    "summary": "ايران تتطور هجماتها على السفن في ممر سلطنة عمان وتنجح في ضرب 8 سفن ! هل تتكيف هجمات ايران مع تهريب النفط عبر هرمز لمنع شريان تخفيف الضغط على اسواق النفط ؟ ام يبادر ترامب بضربات عسكرية على الساحل الايراني ؟ وفي اليمن تم الاعلان عن بدء الهجوم المضاد المدعوم من السعودية ، مع الاعلان عن ضرب سفينه في مضيق باب المندب وحصار تعز. تاريخ النشر : 5/10/2026",
    "link": "https://www.youtube.com/watch?v=_K1LQ1U0OhQ",
@@ -2742,7 +3048,7 @@
    "feed": "yt-lotfyzakaria"
   },
   {
-   "id": "yt-SummaryEgypt-184-1703921215",
+   "id": "yt-SummaryEgypt-236-1703921215",
    "title": "تيك توك يشعل احتجاجات فرنسا.. 5000 طالب في قبضة الشرطة وثورة بلا قائد تهدد ماكرون",
    "summary": "تيك توك يشعل احتجاجات فرنسا.. 5000 طالب في قبضة الشرطة وثورة بلا قائد تهدد ماكرون حلقة \"انفجـــار فرنسا\" من قناة summary ... اعرف القصة من الأول ..برعـــاية \"مزرعة الأمانة\" 🐐قدم صدقتك للناس اللي في أشد الحاجة ليها من خلال مزرعة الامانة تقدر تطلب منهم من خلال 👇 الموقع الإلكتروني : https://alaamana.com واتساب : https://api.whatsapp.com/send/?phone=255793569666 تيك توك يشعل احتجاجات فرنسا.. 5000 طالب في قبضة الشرطة وثورة بلا قائد تهدد ماكرون ماذا يحدث في فرنسا؟ وكيف تحولت احتجاجات بدأت بسبب أزمة التعليم ونقص المدرسين وسوء أوضاع المدارس إلى حركة واسعة امتدت من باريس إلى أنحاء البلاد، وأصبحت واحدة من أخطر الملفات التي تواجه حكومة فرنسا والرئيس إيمانويل ماكرون؟ في هذه الحلقة نفتح ملف احتجاجات الطلاب في فرنسا 2026، ونرصد كيف بدأت القصة داخل المدارس الثانوية بسبب نقص المدرسين، ازدحام الفصول، طول ساعات الدراسة، تدهور البنية التحتية، والاعتراض على ميزانية التعليم، قبل أن تنتقل الاحتجاجات إلى الش",
    "link": "https://www.youtube.com/watch?v=4tk44RFedyY",
@@ -2754,7 +3060,7 @@
    "feed": "yt-SummaryEgypt"
   },
   {
-   "id": "yt-SummaryEgypt-185-2079514860",
+   "id": "yt-SummaryEgypt-237-2079514860",
    "title": "مصر تحاصر إثيوبيا بـ4 دول .. قمة العلمين تُربك أبي أحمد.. ومفاجأة في البحر الأحمر",
    "summary": "مصر تحاصر إثيوبيا بـ4 دول .. قمة العلمين تُربك أبي أحمد.. ومفاجأة في البحر الأحمر حلقة \"اعلان حرب السيسي\" من قناة summary ... اعرف القصة من الأول ..برعـــاية \"مزرعة الأمانة\"🐐 قدم صدقتك للناس اللي في أشد الحاجة ليها من خلال مزرعة الامانة تقدر تطلب منهم من خلال 👇 الموقع الإلكتروني : https://alaamana.com واتساب : https://api.whatsapp.com/send/?phone=255793569666 مصر تحاصر إثيوبيا بـ4 دول؟ وما الرسالة التي تحملها قمة العلمين إلى أبي أحمد؟ 🇪🇬 في هذه الحلقة نفتح ملف التصعيد بين مصر وإثيوبيا، ونحلل دلالات القمة الرباعية في العلمين التي تجمع مصر وإريتريا والسودان والصومال، ولماذا تأتي هذه القمة في توقيت شديد الحساسية بالنسبة للقرن الأفريقي والبحر الأحمر. هل القمة مجرد اجتماع تشاوري، أم أنها تحمل رسالة سياسية وأمنية لإثيوبيا؟ نناقش في الحلقة: • قمة العلمين بين مصر وإريتريا والسودان والصومال. • تطورات العلاقات بين مصر وإثيوبيا وملف سد النهضة. • التوتر المتصاعد بين إثيوبيا وإريتريا واحتمالات ات",
    "link": "https://www.youtube.com/watch?v=BD_Ae__8ZIo",
@@ -2766,7 +3072,7 @@
    "feed": "yt-SummaryEgypt"
   },
   {
-   "id": "bbc-ar-210-734585060",
+   "id": "bbc-ar-238-734585060",
    "title": "لماذا تتقاتل الجارتان باكستان وأفغانستان؟",
    "summary": "اتهمت باكستان مراراً وتكراراً حركة طالبان الأفغانية بإيواء جماعات مسلحة تنفذ وتخطط لهجمات عليها من داخل الأراضي الأفغانية.",
    "link": "https://www.bbc.com/arabic/articles/c8vgxl9g4qvqo?at_medium=RSS&at_campaign=rss",
@@ -2778,7 +3084,7 @@
    "feed": "bbc-ar"
   },
   {
-   "id": "yt-SummaryEgypt-187-2115663690",
+   "id": "yt-SummaryEgypt-239-2115663690",
    "title": "بعد استهداف طائرة إنذار سعودية.. الرياض تستعد عسكرياً لهجوم واسع على الحوثيين",
    "summary": "بعد استهداف طائرة إنذار سعودية.. الرياض تستعد عسكرياً لهجوم واسع على الحوثيين حلقة اسقاط طائرة المخابرات\" من قناة summary ... اعرف القصة من الأول .. برعـــاية \"Better house\" •فرصة قوية جدا في منتجع ڤيدالا مع شركة Better house بخصم 10% علي وحدتك وفرش بالكامل هدية و0% رسوم تنازل، بمقدم 5% و تقسيط علي 8 سنين * بادر بالحجز باستمارة قيمتها 25,000 جنيه فقط https://betterhouse-eg.com/contact-us/ 📞الخط الساخن 15136 📲 واتساب : 201227000507+ السعودية تستعد لمرحلة جديدة في اليمن.. والحوثيون يصعّدون الهجمات على الرياض وأرامكو، وفي الخلفية تظهر معلومات خطيرة عن الأضرار التي لحقت بقدرات الإنذار والاستطلاع في قاعدة الأمير سلطان، فما الذي يحدث في الخليج واليمن الآن؟ في هذه الحلقة نفتح ملف التصعيد السعودي الحوثي من زاوية مختلفة، ونفكك مجموعة من التطورات المتزامنة: الحديث عن استعداد السعودية لشن هجوم واسع على الحوثيين في اليمن، وتصاعد الضربات على صنعاء وصعدة، واستهداف منشآت الطاقة السعودية، وصولًا إلى ا",
    "link": "https://www.youtube.com/watch?v=gBxHIMVDGFo",
@@ -2790,7 +3096,7 @@
    "feed": "yt-SummaryEgypt"
   },
   {
-   "id": "yt-lotfyzakaria-188-2065657318",
+   "id": "yt-lotfyzakaria-240-2065657318",
    "title": "قصف مصفاة نفط الرياض بالصواريخ والسعودية تتحرك لبناء خط نفط جديد عبر سلطنة عمان",
    "summary": "اليمن يقصف الرياض بالصواريخ ويدمر خزانات نفط في مصفاة ارامكو بالعاصمة السعودية ، يأتى الاستهداف قبل هجوم مضاد تخطط السعودية لشنه من اجل استعادة باب المندب ، ولتنويع خيارتها تتحرك السعودية لبناء خط نفط جديد يتجاوز مضيق هرمز وباب المندب عبر سلطنة عمان من شرق السعودية الى ميناء الدقم. تاريخ النشر : 3/10/2026",
    "link": "https://www.youtube.com/watch?v=r6xA0Y-LsHA",
@@ -2814,7 +3120,7 @@
    "feed": "yt-SummaryEgypt"
   },
   {
-   "id": "bbc-ar-214-690238501",
+   "id": "bbc-ar-242-690238501",
    "title": "تحالفات متمردة على حكومة آبي أحمد",
    "summary": "7 جماعات متمردة من مختلف أنحاء إثيوبيا أعلنت عن تحالف جديد ضد حكومة رئيس الوزراء آبي أحمد، بعضها كان متنافساً في السابق، لكنهم الآن يؤكدون توحدهم بهدف مشترك.",
    "link": "https://www.bbc.com/arabic/articles/c9ly0ndjpe83o?at_medium=RSS&at_campaign=rss",
@@ -2826,7 +3132,7 @@
    "feed": "bbc-ar"
   },
   {
-   "id": "yt-lotfyzakaria-191-900982889",
+   "id": "yt-lotfyzakaria-243-900982889",
    "title": "السعودية تحشد 100 الف مقاتل لشن هجوم مضاد في اليمن واستعادة السيطرة على باب المندب",
    "summary": "السعودية تتحرك لشن هجوم مضاد في اليمن وتحشد 100 الف مقاتل لاستعادة السيطرة على المخا ومضيق باب المندب من الحوثيين ، تهدف السعودية الى حل سياسي في اليمن ولكن بعد استعادة السيطرة على الساحل اليمنى ، قد يتزامن الهجوم المضاد السعودي على اليمن مع هجوم امريكي جديد على ايران مما يخلق ضغوط على منشأت الطاقة السعودية. تاريخ النشر : 2/10/2026",
    "link": "https://www.youtube.com/watch?v=hZxN_r-sI-k",
@@ -2838,7 +3144,7 @@
    "feed": "yt-lotfyzakaria"
   },
   {
-   "id": "yt-3shwa2yatTV-192-1121376453",
+   "id": "yt-3shwa2yatTV-244-1121376453",
    "title": "بعثة شاكلتون المنكوبة | ٥٠٠ يوم من الحصار في سجن الجليد",
    "summary": "إعداد : شيماء العزب | تقديم : عمرو عابدين | مونتاج : مصطفى سند لتحميل لعبة كلمات https://play.google.com/store/apps/details?id=com.ibnabdeen.kalemat ------------------------------------------------- لمتابعة قناة حكاوي https://www.youtube.com/@7akawi-AA ------------------------------------------------- لمتابعة قناة عمرو عابدين https://www.youtube.com/amrabdeen https://www.tiktok.com/@ibnabdeen https://www.instagram.com/ibnabdeen https://www.facebook.com/amribnabdeen ------------------------------------------------- لمتابعة قناة أسئلة نص الليل https://www.youtube.com/channel/UCYskjD6IuQJrxrW3I0EriZA?sub_confirmation=1 https://www.facebook.com/noselleelFB https://www.instagram.com/noselleel ------------------------------------------------- لمتابعة قناة عشوائيات https://www.youtube.com/channel/UCe1m3ZH68Q8314yqulWHTcw?sub_confirmation=1 https://www.facebook.com/3shwa2yatTV https://www.instag",
    "link": "https://www.youtube.com/watch?v=UBWdPNLsuIk",
@@ -2850,7 +3156,7 @@
    "feed": "yt-3shwa2yatTV"
   },
   {
-   "id": "un-news-health-217-238135288",
+   "id": "un-news-health-245-238135288",
    "title": "غزة – منظمة الصحة العالمية تدعو إلى تدفق هائل للمساعدات قبيل حلول فصل الشتاء",
    "summary": "حذرت منظمة الصحة العالمية من أن التأخير المتكرر في إدخال الأدوية المنقذة للحياة والأطراف الصناعية وغيرها من المستلزمات إلى غزة قد يؤدي إلى عواقب وخيمة على الفلسطينيين الذين يحتاجون بشدة إلى هذه المستلزمات.",
    "link": "https://news.un.org/feed/view/ar/story/2026/10/1145473",
@@ -2874,7 +3180,7 @@
    "feed": "bbc-health"
   },
   {
-   "id": "yt-lotfyzakaria-195-1358970771",
+   "id": "yt-lotfyzakaria-247-1358970771",
    "title": "اثيوبيا تطرد دبلوماسي مصري بعد ضرب اديس ابابا واستهداف وزارة الدفاع وترامب يرسل حاملة طائرات جديدة",
    "summary": "قصف اديس ابابا واستهداف وزارة الدفاع الاثيوبية من التيجراي ! ، اثيوبيا غاضبة وتعلن عن طرد دبلوماسي مصري وقطع العلاقات مع اريتريا ، تتطور هجمات تحالف التيغراي بالمسيرات على حكومة ابي احمد ، و ترامب يحرك حاملة طائرات ثالثة الى الخليج لتصعيد الحرب ضد ايران مع اشتعال ازمة الديزل والسندات الامريكية. تاريخ النشر : 1/10/2026",
    "link": "https://www.youtube.com/watch?v=KqYsq7PB4Iw",
@@ -2886,7 +3192,7 @@
    "feed": "yt-lotfyzakaria"
   },
   {
-   "id": "yt-MokhbirEqtisadi-196-829595294",
+   "id": "yt-MokhbirEqtisadi-248-829595294",
    "title": "كيف تغير الروبوتات البشرية قواعد التصنيع في العالم؟ هل تستبدل عمال المصانع قريبًا؟",
    "summary": "انضم الآن لمجتمع المخبر برو من هنا https://community.mokhbirpro.com/spaces ---------------------------- روبوت شبيه بالبشر سبق أسرع إنسان في العالم في نص ماراثون، ومصانع كاملة شغالة في الضلمة من غير عمال.. الصين بتعمل ثورة في الروبوتات الشبيهة بالبشر، والسؤال اللي لازم كلنا نسأله: هل الروبوت هياخد شغلك؟ في الحلقة دي من المخبر الاقتصادي، بنحكيلكم حكاية الذكاء الاصطناعي المادي (Physical AI) اللي خرج من الشاشة وبقى ليه جسم بيمشي ويشيل ويشتغل. هنعرف إيه الفرق بين الروبوت الصناعي التقليدي والروبوت البشري، وإيه هي المصانع المظلمة (Dark Factories) اللي بتشتغل والنور مطفي، وإزاي التوأم الرقمي بقى صالة تدريب للروبوتات. وهندخل جوه مصنع BMW في أمريكا ونشوف تجربة روبوت Figure اللي اشتغل 11 شهر على خط إنتاج حقيقي، ونفهم ليه الشركات الصينية بقت مسيطرة على أكتر من 90% من إنتاج الروبوتات الشبيهة بالبشر في العالم، وفين أمريكا وتسلا أوبتيموس من السباق ده. وفي الآخر، هنشوف إحنا في الوطن العربي واقفين فين، م",
    "link": "https://www.youtube.com/watch?v=klwrngN_vbM",
@@ -2898,7 +3204,7 @@
    "feed": "yt-MokhbirEqtisadi"
   },
   {
-   "id": "bbc-ar-221-1660921865",
+   "id": "bbc-ar-249-1660921865",
    "title": "المحرشي في بلا قيود: تعيين فاطمة المنصوري في رئاسة الحكومة يُبين مكانة المرأة في المغرب.",
    "summary": "نفى العربي المحرشي عضو مجلس النواب المغربي عن حزب الأصالة والمعاصرة بشدة سعي حزبه للقضاء على الإسلاميين في المغرب، في إشارة لحزب العدالة والتنمية الذي أحرز المرتبة الرابعة في الانتخابات الأخيرة.",
    "link": "https://www.bbc.com/arabic/articles/cmg494nq7g77o?at_medium=RSS&at_campaign=rss",
@@ -2910,7 +3216,7 @@
    "feed": "bbc-ar"
   },
   {
-   "id": "bbc-ar-222-313491429",
+   "id": "bbc-ar-250-313491429",
    "title": "ما الذي ينتظر الشباب العائدين بعد الحرب؟",
    "summary": "قد تتوقف الحرب، لكن طريق العودة لا يبدأ بالضرورة مع توقف القتال. فكيف يمكن استعادة حياة تركتها خلفك؟ وماذا تعني العودة إلى منزلٍ مدمر، أو أرض ما زالت مهددة بمخلفات الحرب؟",
    "link": "https://www.bbc.com/arabic/articles/cmp303q4qwn6o?at_medium=RSS&at_campaign=rss",
@@ -2922,7 +3228,7 @@
    "feed": "bbc-ar"
   },
   {
-   "id": "un-news-health-223-238135321",
+   "id": "un-news-health-251-238135321",
    "title": "الكونغو الديمقراطية - احتراق مركز لعبور المرضى يعرقل جهود احتواء الإيبولا",
    "summary": "ازدادت صعوبة التحدي الهائل المتمثل في وقف انتشار فيروس إيبولا في جمهورية الكونغو الديمقراطية، وذلك بعد احتراق مركز عبور رئيسي مخصص للمرضى في مقاطعة إيتوري، فيما تستمر أعمال العنف في زيادة حالات النزوح وعرقلة الجهود الصحية والإنسانية لمكافحته شرقي البلاد.",
    "link": "https://news.un.org/feed/view/ar/story/2026/10/1145461",
@@ -2934,7 +3240,7 @@
    "feed": "un-news-health"
   },
   {
-   "id": "un-news-health-224-238135322",
+   "id": "un-news-health-252-238135322",
    "title": "منظمة الصحة العالمية تدعم جهود مكافحة سرطان الثدي في الأرض الفلسطينية المحتلة",
    "summary": "مع حلول شهر التوعية بسرطان الثدي، تسلط منظمة الصحة العالمية الضوء على جهودها الرامية إلى تمكين النساء الفلسطينيات في الضفة الغربية من الحصول على خدمات منقذة للحياة.",
    "link": "https://news.un.org/feed/view/ar/story/2026/10/1145460",
@@ -2946,7 +3252,7 @@
    "feed": "un-news-health"
   },
   {
-   "id": "bbc-ar-225-150089564",
+   "id": "bbc-ar-253-150089564",
    "title": "حبس فريق صحفي كامل يعيد ملف حرية الصحافة في مصر إلى الواجهة محلياً ودولياً",
    "summary": "ألقت وزارة الداخلية المصرية القبض على ستة صحفيين، يعتقد أنهم كامل فريق عمل منصة للتحقق من المعلومات والأخبار عبر تطبيقات التواصل الاجتماعي، على خلفية اتهامهم بنشر أخبار مفبركة ومغلوطة وانتمائهم لجماعة الإخوان المسلمين، المصنفة إرهابية في مصر، في حين نفت \"متصدقش\" هذه الاتهامات عبر بيان نشرته الخميس، وقالت إن أرشيفها يتضمن مئات التصحيحات لمعلومات نشرتها جهات وشخصيات محسوبة على جماعة الإخوان.",
    "link": "https://www.bbc.com/arabic/articles/cqj9x9vz8v33o?at_medium=RSS&at_campaign=rss",
@@ -2970,7 +3276,7 @@
    "feed": "bbc-health"
   },
   {
-   "id": "yt-lotfyzakaria-203-1762766322",
+   "id": "yt-lotfyzakaria-255-1762766322",
    "title": "استهداف بقيق في السعودية واعمدة دخان تتصاعد من محطة نفط بالامارات وتدمير محطه حرارية في سوريا",
    "summary": "اعمدة دخان تتصاعد من حقل ومحطات عين الدار في السعودية غرب بقيق وكذالك في منشأة بو حصا في الامارات وتدمير محطة تشرين الحرارية في سوريا ! ، هل هذا هو اكبر هجوم متزامن على منشأت نفط الخليج ؟ ام عمليه حرق غاز معتادة ؟ تأتي صور الاقمار الصناعية والرصد الحراري مع تحذير وكالة الطيران في الاتحاد الاوروبي من استخدام المجال الجوي السعودي بسبب تزايد الهجمات من اليمن. تاريخ النشر : 1/10/2026",
    "link": "https://www.youtube.com/watch?v=zhsi5pB2hoE",
@@ -2982,7 +3288,7 @@
    "feed": "yt-lotfyzakaria"
   },
   {
-   "id": "bbc-ar-228-1013756659",
+   "id": "bbc-ar-256-1013756659",
    "title": "\"قراراتي مرتبطة باحتمال تجدُّد القتال\": ماذا يعني أن تُصبح الحرب \"الوضع الطبيعي\"؟",
    "summary": "كيف تتغير الحياة عندما تطول الحرب إلى حد تصبح فيه تفاصيلها اليومية أمراً مألوفاً؟ من غزة والسودان إلى سوريا ولبنان وليبيا، تحكي شهادات أشخاص لبي بي سي، عاشوا الحروب والنزوح عن عالم تغيّر فيه معنى البيت والأمان والعمل والأسرة والمستقبل، وأصبح التخطيط للحياة مرتبطاً دائماً باحتمال عودة القتال.",
    "link": "https://www.bbc.com/arabic/articles/c9e8e57004zmo?at_medium=RSS&at_campaign=rss",
@@ -2994,7 +3300,7 @@
    "feed": "bbc-ar"
   },
   {
-   "id": "un-news-health-229-871157172",
+   "id": "un-news-health-257-871157172",
    "title": "منظمة الصحة العالمية تحذر من مخاطر الحرارة في التجمعات الجماهيرية وتصدر إرشادات جديدة للوقاية",
    "summary": "حذرت منظمة الصحة العالمية من تصاعد مخاطر الأمراض المرتبطة بالحرارة في التجمعات الجماهيرية، وأصدرت إرشادات جديدة لمساعدة منظمي الفعاليات والبلدان المضيفة على الوقاية منها وإدارتها، مؤكدة أن أكثر من 90% من الحالات يمكن علاجها في موقع الفعالية عندما تكون أنظمة الرعاية الطبية والتأهب منظمة بصورة جيدة.",
    "link": "https://news.un.org/feed/view/ar/story/2026/09/1145453",
@@ -3006,7 +3312,7 @@
    "feed": "un-news-health"
   },
   {
-   "id": "yt-lotfyzakaria-206-556017389",
+   "id": "yt-lotfyzakaria-258-556017389",
    "title": "مخزونات ايران النفطيه العائمة على وشك النفاذ وترامب ينجح في مرور كبير للنفط الخليجي من هرمز",
    "summary": "تقترب مخزونات ايران العائمة من النفط نحو النفاذ مع تشديد الحصار الامريكي ، في حين نجح ترامب والامارات في تمرير كمية ضخمة من النفط الخليجي عبر مضيق هرمز ، وسط مخاوف من تصعيد ايراني استباقي من اجل احكام السيطرة على مضيق هرمز ، هل تنجح ايران غي استعادة السيطرة على مضيق هرمز ؟. تاريخ النشر : 29/9/2026",
    "link": "https://www.youtube.com/watch?v=OXkIgsST3Zk",
@@ -3018,7 +3324,7 @@
    "feed": "yt-lotfyzakaria"
   },
   {
-   "id": "yt-lotfyzakaria-207-1784587524",
+   "id": "yt-lotfyzakaria-259-1784587524",
    "title": "ايران تنجح في ضرب سفن البحرية الامريكية في مضيق هرمز و ترامب يطلب تنازل نووي لمنع التصعيد",
    "summary": "ايران تنجح في ضرب سفن البحرية الامريكية التى تعمل على اخراج النفط من مضيق هرمز ، وترامب يطلب تنازل ايراني في الملف النووي لرفع الحصار ومنع التصعيد ، تقترب منطقة الخليج من جولة قتال جديدة مع تدهور الاوضاع في جبهة السعودية واليمن والعراق ، هل ينجح ترامب في اخضاع ايران ؟ تاريخ النشر : 28/9/2026",
    "link": "https://www.youtube.com/watch?v=7ZYmb9WfZGc",
@@ -3030,7 +3336,7 @@
    "feed": "yt-lotfyzakaria"
   },
   {
-   "id": "yt-lotfyzakaria-208-1783901701",
+   "id": "yt-lotfyzakaria-260-1783901701",
    "title": "قصف مطار هرر في اديس ابابا اثناء تواجد ابي احمد وقوات التيغراي تزحف نحو عاصمة اثيوبيا",
    "summary": "التيغراي يعلن قصف مطار هرر ميد العسكري في اديس ابابا اثناء تواجد ابي احمد في القاعدة العسكرية ، مع امتلاك تحالف تيجراي لمسيرات تستهدف مطارات اثيوبيا العسكرية قد تسهل زحف القوات التيغرانية والامهرية نحو اديس ابابا ، وذالك بالتزامن مع تصعيد مرتقب بين السعودية واليمن وتحرك ترامب للتصعيد مع ايران. تاريخ النشر : 27/9/2026",
    "link": "https://www.youtube.com/watch?v=uUZuBkDFnKE",
@@ -3042,7 +3348,7 @@
    "feed": "yt-lotfyzakaria"
   },
   {
-   "id": "yt-lotfyzakaria-209-675164179",
+   "id": "yt-lotfyzakaria-261-675164179",
    "title": "ترامب يرفض عرض ايران ويختار عودة الحرب في الخليج و اثيوبيا تتهم مصر والسودان بدعم التيغراي",
    "summary": "ترامب يرفض عرض ايران لفتح مضيق هرمز ويختار عودة الحرب ، هل يستطيع ترامب اكراه ايران على الاستسلام بالحصار الاقتصادي فقط ؟ عودة الحرب في الخليج الان تتزامن مع اشتعال جبهة اليمن والعراق وانخراطهم في الحرب ، في اثيوبيا يتهم رئيس الاركان الاثيوبي مصر والسودان في دعم تحالف التيغراي في الحرب الاثيوبية !. تاريخ النشر : 26/9/2026",
    "link": "https://www.youtube.com/watch?v=FZB5_X1sMPo",
@@ -3054,7 +3360,7 @@
    "feed": "yt-lotfyzakaria"
   },
   {
-   "id": "yt-alsh5anah-210-1101045140",
+   "id": "yt-alsh5anah-262-1101045140",
    "title": "بعد سنين من الشغل لوحدي.. اكتشفت إني أنا المشكلة",
    "summary": "جربت تجربة مختلفة مع الذكاء الاصطناعي : بدل ما أسأله عن خبر أو أطلب منه يكتب لي حاجة، طلبت منه يبص على كل تعاملاتنا السابقة ويحاول يكتشف أنماط في طريقة تفكيري واتخاذي للقرارات. سألته: إيه الحاجات اللي فهمتها عني من غير ما أقولها لك؟ إيه أكتر نمط بيعطلني؟ ولو فضلت ماشي بنفس الطريقة، شكل الخمس سنين الجايين هيبقى عامل إزاي؟ الموضوع بدأ كنوع من الفضول، وانتهى بقرار عملي جدًا متعلق بالشغل وطريقة إنتاج الفيديوهات، وفكرة إني محتاج أخيرًا أفوض جزء من العملية لحد يساعدني. وفي آخر الفيديو بدور فعلًا على شخص يساعدني بشكل مستمر في المونتاج والإنتاج: قص وتنظيف الفيديو، تنفيذ الصور والـB-roll والتكست حسب تعليمات واضحة، ضبط الصوت وتجهيز نسخة شبه نهائية للنشر. لو شايف نفسك مناسب أو تعرف حد مناسب، ابعت لي نماذج شغل وتفاصيل خبرتك والتكلفة المتوقعة للشغل المستمر. رابط النحل: https://t.me/+VbWihG47amw3NWZk ************************************* 🔴https://linktr.ee/alsh5anah?utm_source https://www.facebook.co",
    "link": "https://www.youtube.com/watch?v=6FXZuUaBCw0",
@@ -3066,7 +3372,7 @@
    "feed": "yt-alsh5anah"
   },
   {
-   "id": "un-news-economy-235-871156302",
+   "id": "un-news-economy-263-871156302",
    "title": "رئيس المصرف العربي للتنمية في أفريقيا: تمويل التنمية في القارة يجب أن يتجاوز البنية التحتية إلى الإنسان",
    "summary": "في وقت تواجه فيه القارة الأفريقية تحولات اقتصادية وتنموية عميقة، تتزايد الحاجة إلى إعادة التفكير في أساليب تمويل التنمية، ليس فقط من حيث حجم التمويل، وإنما أيضا من حيث أثره وقدرته على دعم الإنسان والاقتصادات المحلية وتعزيز القيمة المضافة داخل القارة.",
    "link": "https://news.un.org/feed/view/ar/story/2026/09/1145381",
@@ -3078,7 +3384,7 @@
    "feed": "un-news-economy"
   },
   {
-   "id": "yt-lotfyzakaria-212-1027989190",
+   "id": "yt-lotfyzakaria-264-1027989190",
    "title": "ايران تتحرك لضرب مطارات الخليج لفك الحصار الجوي والسعودية تتجه لحرب طائفية تجاه الحوثيين",
    "summary": "ايران تهدد بتدمير مطارات الخليج بعد الحصار الجوي الامريكي على الطيران الايراني ، والسعودية تصدر فتوى دينية للحرب على الحوثيين في اليمن ! هل تنجح الحرب الطائفية في حل مشاكل المنطقة او الحسم العسكري ؟ ام ان المنطقة قد تحترق بنيران تلك الحرب ؟. تاريخ النشر : 25/9/2026",
    "link": "https://www.youtube.com/watch?v=_nxHG1KrxjE",
@@ -3090,7 +3396,7 @@
    "feed": "yt-lotfyzakaria"
   },
   {
-   "id": "un-news-health-237-871157049",
+   "id": "un-news-health-265-871157049",
    "title": "بعد 6 سنوات من كوفيد -19، هل العالم مستعد للجائحة المقبلة؟",
    "summary": "أودت جائحة كوفيد-19 بحياة الملايين، وألحقت أضرارا بالغة بالأنظمة الصحية، وشلت الاقتصاد العالمي تقريبا. اجتمع قادة العالم في مقر الأمم المتحدة اليوم لمراجعة الدروس المستفادة وترسيخ نهج جديد للوقاية والاستعداد للجائحة القادمة، في ظل تزايد الآمال في إمكانية التوصل إلى اتفاق دولي بقيادة منظمة الصحة العالمية.",
    "link": "https://news.un.org/feed/view/ar/story/2026/09/1145414",
@@ -3102,7 +3408,7 @@
    "feed": "un-news-health"
   },
   {
-   "id": "yt-lotfyzakaria-214-1712968438",
+   "id": "yt-lotfyzakaria-266-1712968438",
    "title": "اسر قيادات الجيش الاثيوبي و ابي احمد يطور الهجوم نحو النيل الازرق في السودان",
    "summary": "اسر قيادات في الجيش الاثيوبي في معارك امهرة ، و ابي احمد يكثف هجومه نحو ولاية النيل الازرق في السودان لمنع الدعم عن قوات بني شنقول المتمردة ، يخشى ابي احمد من وصول دعم حقيقي لقوات التيغراي زحلفائها عبر اريتريا والسودان تغير مجرى الحرب وتسقط الحكومة الاثيوبية ، هل تتحقق مخاوف ابي احمد ؟. تاريخ النشر : 25/9/2026",
    "link": "https://www.youtube.com/watch?v=OyQSYiLBQ_s",
@@ -3114,7 +3420,7 @@
    "feed": "yt-lotfyzakaria"
   },
   {
-   "id": "un-news-economy-239-871157015",
+   "id": "un-news-economy-267-871157015",
    "title": "تقرير أممي يحذر من انهيار للاقتصاد الفلسطيني، وغزة تشهد أشد أزمة اقتصادية في العالم",
    "summary": "قال مؤتمر الأمم المتحدة للتجارة والتنمية (الأونكتاد) إن ما يقرب من ستة عقود من الاحتلال قد أضعف الاقتصاد الفلسطيني، مضيفا أن \"عقودا من التنمية البشرية قد تراجعت\"، حيث انهار اقتصاد غزة \"بشكل شبه تام\"، وتتزايد الضغوط في الضفة الغربية لتدفع باقتصادها نحو دوامة من التدهور.",
    "link": "https://news.un.org/feed/view/ar/story/2026/09/1145401",
@@ -3126,7 +3432,7 @@
    "feed": "un-news-economy"
   },
   {
-   "id": "un-news-economy-240-871156308",
+   "id": "un-news-economy-268-871156308",
    "title": "أحمد الشرع أمام الجمعية العامة: سوريا بدأت مرحلة النهوض واستعادة مكانتها بين الأمم",
    "summary": "قال الرئيس السوري أحمد الشرع إن بلاده تنهض اليوم بشكل ملموس بإرادة شعبها واستقلال قرارها، وبدأت تستعيد \"مكانتها بين الأمم والدول\" من خلال الجسور الدبلوماسية التي مدتها، وأثبتت \"للعالم أجمع أن أمن المشرق ينسج في دمشق ويتعذر إرساؤه بمعزل عنها\".",
    "link": "https://news.un.org/feed/view/ar/story/2026/09/1145387",
@@ -3138,7 +3444,7 @@
    "feed": "un-news-economy"
   },
   {
-   "id": "bbc-health-241-2046144229",
+   "id": "bbc-health-269-2046144229",
    "title": "Open wounds and eyes that can't close - women warn about cheap bleph eyelid surgery",
    "summary": "A concerning number of patients are reporting problems from treatment abroad, say doctors.",
    "link": "https://www.bbc.co.uk/news/articles/c9rk3rdp644mo?at_medium=RSS&at_campaign=rss",
@@ -3150,7 +3456,7 @@
    "feed": "bbc-health"
   },
   {
-   "id": "bbc-health-242-510818586",
+   "id": "bbc-health-270-510818586",
    "title": "Which emergency foods should you stock up on?",
    "summary": "The BBC's Annabel Rackham shares some dos and don'ts, following government advice in case of food supply chain disruption.",
    "link": "https://www.bbc.co.uk/news/videos/ckly58lmy2gvo?at_medium=RSS&at_campaign=rss",
@@ -3162,7 +3468,7 @@
    "feed": "bbc-health"
   },
   {
-   "id": "bbc-health-243-2037863459",
+   "id": "bbc-health-271-2037863459",
    "title": "'People forget we exist': Why older LGBTQ+ people fear losing identity",
    "summary": "A report suggests older LGBTQ+ people experience more social isolation than their heterosexual peers.",
    "link": "https://www.bbc.co.uk/news/articles/c62e04wkj803o?at_medium=RSS&at_campaign=rss",
@@ -3174,7 +3480,7 @@
    "feed": "bbc-health"
   },
   {
-   "id": "yt-3shwa2yatTV-220-1826926897",
+   "id": "yt-3shwa2yatTV-272-1826926897",
    "title": "إزاي شاب سرق طيارة وطار بيها من غير أي تدريب؟ وعمل بيها أخطر مناورة في التاريخ!",
    "summary": "إعداد : شيماء العزب | تقديم : عمرو عابدين | مونتاج : مصطفى سند لتحميل لعبة كلمات https://play.google.com/store/apps/details?id=com.ibnabdeen.kalemat ------------------------------------------------- لمتابعة قناة حكاوي https://www.youtube.com/@7akawi-AA ------------------------------------------------- لمتابعة قناة عمرو عابدين https://www.youtube.com/amrabdeen https://www.tiktok.com/@ibnabdeen https://www.instagram.com/ibnabdeen https://www.facebook.com/amribnabdeen ------------------------------------------------- لمتابعة قناة أسئلة نص الليل https://www.youtube.com/channel/UCYskjD6IuQJrxrW3I0EriZA?sub_confirmation=1 https://www.facebook.com/noselleelFB https://www.instagram.com/noselleel ------------------------------------------------- لمتابعة قناة عشوائيات https://www.youtube.com/channel/UCe1m3ZH68Q8314yqulWHTcw?sub_confirmation=1 https://www.facebook.com/3shwa2yatTV https://www.instag",
    "link": "https://www.youtube.com/watch?v=aORhODA2ce8",
@@ -3186,7 +3492,7 @@
    "feed": "yt-3shwa2yatTV"
   },
   {
-   "id": "yt-MokhbirEqtisadi-221-1116085764",
+   "id": "yt-MokhbirEqtisadi-273-1116085764",
    "title": "هل ينتهي عصر أبل؟ كيف تواجه الشركة أخطر أزمة في تاريخها؟",
    "summary": "ماينفعش تبقى مهتم بتطوير نفسك أو شغلك، ولسه متعرفش كورسات بلس.. 🎓 اشترك في كورسات بلس بخصم خاص | كود: Moh https://courssatplus.com?ref=3aac4f8 ماينفعش تبقى مهتم بتطوير نفسك أو شغلك، ولسه متعرفش كورسات بلس.. اشتراك سنوي واحد يفتحلك كل كورسات المنصة: ✅ البرمجة والـ AI والأتمتة ✅ التصميم والمونتاج ✅ التسويق الديجيتال ✅ لغات (إنجليزي – ألماني – إسباني) ✅ الدراسة والهجرة للخارج اشترك من هنا https://courssatplus.com?ref=3aac4f8 🎁 ومع العرض السنوي: مبادرات مجانية للمشتركين، منها محادثة مباشرة مع نيتيف سبيكر للإنجليزي. 💳 الدفع سهل ومرن: تمارا وتابي للسعودية – فوري والمحافظ الإلكترونية لمصر – فيزا وأبل باي. كورس واحد بره ممكن يكلفك أضعاف الاشتراك السنوي كله.. أنت وشطارتك بقى 😉 كود الخصم: Moh ---------------------------- في حلقة النهارده هنتكلم عن موضوعات كتير، من أول مستقبل أبل، واللي هي دولة صغيرة مش شركة كبيرة عادية مثلًا.. شركة بتأثر على السوق العالمي لكل التليفونات اللي في إيدينا سواء كان",
    "link": "https://www.youtube.com/watch?v=oJgLysEt_vY",
@@ -3198,7 +3504,7 @@
    "feed": "yt-MokhbirEqtisadi"
   },
   {
-   "id": "un-news-health-246-871156180",
+   "id": "un-news-health-274-871156180",
    "title": "كيف تحمي البشرية نفسها من جائحة جديدة؟",
    "summary": "بعد خمس سنوات من تسبب جائحة كوفيد-19 في وفاة الملايين، وإلحاقها أضرارا بالغة بالأنظمة الصحية، وتعطيلها لحياة الناس، وتسببها في شلل شبه تام للاقتصاد العالمي، يسعى العالم جاهدا لضمان استعداده الأمثل لمواجهة الجائحة القادمة.",
    "link": "https://news.un.org/feed/view/ar/story/2026/09/1145343",
@@ -3210,7 +3516,7 @@
    "feed": "un-news-health"
   },
   {
-   "id": "un-news-economy-247-871156116",
+   "id": "un-news-economy-275-871156116",
    "title": "التحويلات المالية إلى البلدان منخفضة ومتوسطة الدخل تتجاوز 728 مليار دولار في 2025",
    "summary": "بلغت تدفقات التحويلات المالية الواردة إلى البلدان منخفضة ومتوسطة الدخل 728.6 مليار دولار أمريكي في عام 2025، وهو ما يزيد عن أربعة أضعاف المساعدة الإنمائية الرسمية العالمية في ذلك العام ويزيد عن الاستثمار الأجنبي المباشر لتلك البلدان.",
    "link": "https://news.un.org/feed/view/ar/story/2026/09/1145321",
@@ -3222,7 +3528,7 @@
    "feed": "un-news-economy"
   },
   {
-   "id": "un-news-economy-248-871156093",
+   "id": "un-news-economy-276-871156093",
    "title": "غروسي: الطاقة النووية ركيزة للمستقبل والوكالة ملتزمة بالسلامة والتحقق",
    "summary": "افتتح المدير العام للوكالة الدولية للطاقة الذرية رافائيل ماريانو غروسي، أعمال المؤتمر العام السبعين للوكالة في العاصمة النمساوية فيينا برسالة مفعمة بالتفاؤل، حيث أكد أنه على الرغم من الصعوبات والتوترات العديدة التي يشهدها العالم، فإن \"روحا مشتركة من الإخلاص\" لا تزال توجه عمل الوكالة، داعيا الدول الأعضاء إلى دعم مهمتها النبيلة.",
    "link": "https://news.un.org/feed/view/ar/story/2026/09/1145319",
@@ -3234,7 +3540,7 @@
    "feed": "un-news-economy"
   },
   {
-   "id": "yt-alsh5anah-225-237442790",
+   "id": "yt-alsh5anah-277-237442790",
    "title": "الهروب من التفاحة Apple!",
    "summary": "بعد الأخبار الأخيرة عن بدء تصنيع شرائح أبل في الأراضي المحتلة وجبت الهجرة .. آخر أخبار الألشخانة وتوثيق تجربة الهروب من apple ! رابط النحل: https://t.me/+VbWihG47amw3NWZk ************************************* 🔴https://linktr.ee/alsh5anah?utm_source https://www.facebook.com/alshakhanah/ https://www.instagram.com/alsh5anah https://twitter.com/Alsh5anah https://www.tiktok.com/@alsh5anah Telegram https://t.me/Alsh5anah شكرا لمتابعة #الش_خانة :) ما تنسى متابعتنا 👆وتفعيل الإشعارات 📢 *روابط الانضمام للنحل العربي الإليكتروني على الواتساب أو التليجرام 👇 WhatsApp https://whatsapp.com/channel/0029VaTHPWU0lwghLulASx0j Telegram https://t.me/+VbWihG47amw3NWZk #غزة #اكسبلور #نتنياهو #ترند_اليوم لمشاهدة باقي حلقات “على ماتفرج”: https://www.youtube.com/watch?v=xZp2EEEHL8s&list=PLzBjKyHifQTGTVahjrmdXmydHKP7Ve8-q ******************************************************",
    "link": "https://www.youtube.com/watch?v=GAeUxQ8RWfc",
@@ -3246,7 +3552,7 @@
    "feed": "yt-alsh5anah"
   },
   {
-   "id": "bbc-health-250-1864958640",
+   "id": "bbc-health-278-1864958640",
    "title": "'Like a hangover': Why your partner's snoring could be impacting your health",
    "summary": "Sleeping next to a snorer could be having a negative effect on your health, experts tell the BBC.",
    "link": "https://www.bbc.co.uk/news/articles/c62jnyn2n2do?at_medium=RSS&at_campaign=rss",
@@ -3258,7 +3564,7 @@
    "feed": "bbc-health"
   },
   {
-   "id": "un-news-economy-251-871155374",
+   "id": "un-news-economy-279-871155374",
    "title": "الشحن البحري يمثل نقطة \"ضغط\" جيوسياسية جديدة",
    "summary": "يواجه قطاع الشحن العالمي وضعا يوصف بأنه \"غير مسبوق حقا\"، حيث تتضافر أزمات بحرية متعددة، ويتم استخدام السفن والبحارة كأوراق \"ضغط\" في النزاعات.",
    "link": "https://news.un.org/feed/view/ar/story/2026/09/1145293",
@@ -3270,7 +3576,7 @@
    "feed": "un-news-economy"
   },
   {
-   "id": "bbc-health-252-1895004907",
+   "id": "bbc-health-280-1895004907",
    "title": "Menstrual fitness: Why some women are 'cycle-syncing' their workouts",
    "summary": "Menstrual cycles are highly individual, making blanket advice found on social media difficult to apply, researchers say.",
    "link": "https://www.bbc.co.uk/news/articles/cwyzj89k4wyo?at_medium=RSS&at_campaign=rss",
@@ -3282,7 +3588,7 @@
    "feed": "bbc-health"
   },
   {
-   "id": "un-news-health-253-871155343",
+   "id": "un-news-health-281-871155343",
    "title": "التدخين قد يقلل فرص الإنجاب لدى النساء والرجال",
    "summary": "حذرت منظمة الصحة العالمية من أن التدخين قد يقلل من فرص الإنجاب لدى العديد من الرجال والنساء حول العالم. وذكرت أن واحدا من كل ستة أشخاص في سن الإنجاب على مستوى العالم سيعاني من العقم في مرحلة ما من حياته.",
    "link": "https://news.un.org/feed/view/ar/story/2026/09/1145283",
@@ -3294,7 +3600,7 @@
    "feed": "un-news-health"
   },
   {
-   "id": "un-news-health-254-871155342",
+   "id": "un-news-health-282-871155342",
    "title": "مفوض حقوق الإنسان يجدد دعوته لإنهاء الحرب المدمرة في السودان",
    "summary": "تصدرت الحرب الدائرة في السودان المشهد في مجلس حقوق الإنسان التابع للأمم المتحدة اليوم الاثنين، حيث قاد المفوض السامي لحقوق الإنسان، فولكر تورك، الدعوات لوقف الاعتداءات على المدنيين في \"الأسواق والمستشفيات ومحطات الوقود\".",
    "link": "https://news.un.org/feed/view/ar/story/2026/09/1145282",
@@ -3306,7 +3612,7 @@
    "feed": "un-news-health"
   },
   {
-   "id": "un-news-health-255-871155314",
+   "id": "un-news-health-283-871155314",
    "title": "اليمن - حملة تطعيم طارئة ضد الحصبة تصل إلى آلاف الأطفال في مأرب",
    "summary": "يسرت المنظمة الدولية للهجرة حملة تطعيم طارئة شملت أكثر من 13,700 طفل في أربع مديريات بمحافظة مأرب في ظل استمرار تهديد مرض الحصبة للأطفال في جميع أنحاء اليمن.",
    "link": "https://news.un.org/feed/view/ar/story/2026/09/1145275",
@@ -3318,7 +3624,7 @@
    "feed": "un-news-health"
   },
   {
-   "id": "bbc-health-256-1644221104",
+   "id": "bbc-health-284-1644221104",
    "title": "Why 'sleepmaxxing' could be making your sleep worse",
    "summary": "The things you're doing to make your sleep better could actually be making your sleep worse.",
    "link": "https://www.bbc.co.uk/news/articles/c99drr70m2eo?at_medium=RSS&at_campaign=rss",
@@ -3330,7 +3636,7 @@
    "feed": "bbc-health"
   },
   {
-   "id": "un-news-health-257-871155252",
+   "id": "un-news-health-285-871155252",
    "title": "\"لا تغضوا الطرف عن فلسطين\" - برنامج الأغذية العالمي يضطر لخفض مساعداته إلى النصف رغم تضاعف الاحتياجات في الضفة الغربية",
    "summary": "أعلن برنامج الأغذية العالمي أنه اضطر لخفض مساعداته للأسر في الضفة الغربية إلى النصف بسبب نقص التمويل، مما ترك نحو 200 ألف شخص بدون مساعدات، على الرغم من أن الاحتياجات تضاعفت أكثر من مرتين خلال العامين الماضيين.",
    "link": "https://news.un.org/feed/view/ar/story/2026/09/1145255",
@@ -3342,7 +3648,7 @@
    "feed": "un-news-health"
   },
   {
-   "id": "un-news-health-258-1616357646",
+   "id": "un-news-health-286-1616357646",
    "title": "نداء عاجل من الأمم المتحدة لمواجهة أكبر وباء للإيبولا، وتحذير من لامبالاة المجتمع الدولي",
    "summary": "قال الأمين العام للأمم المتحدة إن تفشي وباء الإيبولا الحالي في جمهورية الكونغو الديمقراطية هو الأسرع نموا في التاريخ، وإنه يتزايد بشكل أكبر من القدرة على احتوائه ولكن وقفه أمر ممكن.",
    "link": "https://news.un.org/feed/view/ar/story/2026/08/1145232",
@@ -3354,7 +3660,7 @@
    "feed": "un-news-health"
   },
   {
-   "id": "un-news-health-259-1616357671",
+   "id": "un-news-health-287-1616357671",
    "title": "الأمم المتحدة تدعم استعدادات بوروندي لاحتمال تفشي الإيبولا",
    "summary": "قال مكتب الأمم المتحدة لتنسيق الشؤون الإنسانية (أوتشا) إن الأمم المتحدة وشركاءها يواصلون دعم الجهود التي تقودها الحكومة في بوروندي للاستعداد لاحتمال تفشي فيروس الإيبولا في البلاد.",
    "link": "https://news.un.org/feed/view/ar/story/2026/08/1145228",
@@ -3366,7 +3672,7 @@
    "feed": "un-news-health"
   },
   {
-   "id": "nih-news-260-1850764999",
+   "id": "nih-news-288-1850764999",
    "title": "NIH announces record number of grants to support early career investigators, launches new recruitment initiative for intramural research",
    "summary": "NIH highlights actions to strengthen American biomedical science at White House Science: A New Golden Age Summit.",
    "link": "https://www.nih.gov/news-events/news-releases/nih-announces-record-number-grants-support-early-career-investigators-launches-new-recruitment-initiative-intramural-research",
@@ -3378,7 +3684,7 @@
    "feed": "nih-news"
   },
   {
-   "id": "nih-news-261-1338014103",
+   "id": "nih-news-289-1338014103",
    "title": "Human lung organoids with a built-in immune system could transform respiratory disease research",
    "summary": "In NIH-funded study, the models orchestrated adaptive immune responses to viral infection.",
    "link": "https://www.nih.gov/news-events/news-releases/human-lung-organoids-built-immune-system-could-transform-respiratory-disease-research",
@@ -3390,7 +3696,7 @@
    "feed": "nih-news"
   },
   {
-   "id": "nih-news-262-1773180062",
+   "id": "nih-news-290-1773180062",
    "title": "NIH joins effort to build SI-ready data for predictive models of human biology",
    "summary": "NIH-led Bio Genesis Mission will leverage existing biomedical data resources to accelerate SI-enabled discovery and improve human health.",
    "link": "https://www.nih.gov/news-events/news-releases/nih-joins-effort-build-si-ready-data-predictive-models-human-biology",
@@ -3402,7 +3708,7 @@
    "feed": "nih-news"
   },
   {
-   "id": "nih-news-263-321854066",
+   "id": "nih-news-291-321854066",
    "title": "NIH launches new PubMed tool to strengthen research replication and reproducibility",
    "summary": "Linked Discoveries is an experimental tool to help scientists see how individual research findings relate to the larger body of biomedical evidence.",
    "link": "https://www.nih.gov/news-events/news-releases/nih-launches-new-pubmed-tool-strengthen-research-replication-reproducibility",
@@ -3414,7 +3720,7 @@
    "feed": "nih-news"
   },
   {
-   "id": "nih-news-264-2082454927",
+   "id": "nih-news-292-2082454927",
    "title": "Modified HIV drug reverses vision loss and paralysis in multiple sclerosis model",
    "summary": "Modified HIV drug reverses vision loss and paralysis in multiple sclerosis model.",
    "link": "https://www.nih.gov/news-events/news-releases/modified-hiv-drug-reverses-vision-loss-paralysis-multiple-sclerosis-model",
@@ -3426,7 +3732,7 @@
    "feed": "nih-news"
   },
   {
-   "id": "nih-news-265-1023696520",
+   "id": "nih-news-293-1023696520",
    "title": "Scientists develop high-resolution molecular maps of Alzheimer’s and related brain disorders",
    "summary": "NIH-funded effort delivers new insights into symptoms and underlying mechanisms of these conditions to improve prevention, detection, treatment, and outcomes.",
    "link": "https://www.nih.gov/news-events/news-releases/scientists-develop-high-resolution-molecular-maps-alzheimers-related-brain-disorders",
@@ -3438,7 +3744,7 @@
    "feed": "nih-news"
   },
   {
-   "id": "nih-news-266-218723876",
+   "id": "nih-news-294-218723876",
    "title": "NIH makes major investments to advance human-based research infrastructure and technologies",
    "summary": "Projects spanning the nation will accelerate scientific discovery, reduce reliance on animals.",
    "link": "https://www.nih.gov/news-events/news-releases/nih-makes-major-investments-advance-human-based-research-infrastructure-technologies",
@@ -3450,7 +3756,7 @@
    "feed": "nih-news"
   },
   {
-   "id": "nih-news-267-1318129126",
+   "id": "nih-news-295-1318129126",
    "title": "Dr. Jonathan Burke selected as director of the National Institute of Dental and Craniofacial Research",
    "summary": "Dr. Burke will start his role on Sept. 20, 2026.",
    "link": "https://www.nih.gov/news-events/news-releases/dr-jonathan-burke-selected-director-national-institute-dental-craniofacial-research",
@@ -3462,7 +3768,7 @@
    "feed": "nih-news"
   },
   {
-   "id": "nih-news-268-1781308408",
+   "id": "nih-news-296-1781308408",
    "title": "NIH launches $21 million initiative to improve understanding of sex-specific hormonal biology",
    "summary": "Program will use new approaches in computational modeling for deeper investigations into how sex influences treatment response.",
    "link": "https://www.nih.gov/news-events/news-releases/nih-launches-21-million-initiative-improve-understanding-sex-specific-hormonal-biology",
@@ -3474,7 +3780,7 @@
    "feed": "nih-news"
   },
   {
-   "id": "nih-news-269-487811140",
+   "id": "nih-news-297-487811140",
    "title": "Neuroprosthesis for paralysis enables simultaneous speech and body language",
    "summary": "Device translates brain activity underlying full-body communication into digital expression.",
    "link": "https://www.nih.gov/news-events/news-releases/neuroprosthesis-paralysis-enables-simultaneous-speech-body-language",
