@@ -6,6 +6,9 @@ import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscript
 import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE } from './audio.js';
 import { drawFrame } from './render.js';
 import { exportSupport, exportReel } from './export.js';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js';
+import { putBlob } from './mediastore.js';
+import { loadBg, playBg } from './bg.js';
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -14,6 +17,7 @@ let cfg = null;          // config/sources.json
 let feeds = { items: [] };
 let reel = newReel();
 let cur = 0;               // رقم الخبر اللي بنعدّله
+const bgs = new Map();     // story.id → خلفية محمّلة
 const picked = new Set();  // أخبار متحددة من تبويب الأخبار
 const story = () => reel.stories[cur];
 const audioMap = new Map(); // "A|نص" → {buffer, words}
@@ -33,9 +37,10 @@ function setStatus(msg, bad = false) {
 /* ---------- التبويبات ---------- */
 function showTab(name) {
   for (const b of document.querySelectorAll('#tabs button')) b.classList.toggle('on', b.dataset.tab === name);
-  for (const id of ['feed', 'studio', 'library', 'settings']) $('tab-' + id).hidden = id !== name;
+  for (const id of ['feed', 'studio', 'media', 'library', 'settings']) $('tab-' + id).hidden = id !== name;
   if (name === 'studio') redraw();
   if (name === 'library') renderLibrary();
+  if (name === 'media') renderMediaTarget();
 }
 $('tabs').addEventListener('click', e => e.target.dataset.tab && showTab(e.target.dataset.tab));
 
@@ -209,8 +214,10 @@ function fillForm() {
     n.innerHTML = `الخبر ده جاي من قناة «${esc(st.fromYoutube)}» — اليوتيوبر مش مصدر. افتح المصدر الأصلي (بيان رسمي، دراسة، وكالة) وحط اسمه ورابطه فوق. ${st.ytLink ? `<a href="${esc(st.ytLink)}" target="_blank" rel="noopener" style="color:inherit">الفيديو</a>` : ''}`;
   }
   renderStrip();
+  renderBgInfo();
   updateInfo();
   redraw();
+  ensureBgs();
 }
 
 function readForm() {
@@ -281,7 +288,7 @@ let restoreTimer = 0;
 function currentTimeline() { return buildReelTimeline(reel, audioMap, manualAudio); }
 
 function stateFor(info) {
-  return { reel, cats: cfg.categories, settings: getSettings(), tl: info.tl, hasB: info.hasB, focusIdx: cur };
+  return { reel, cats: cfg.categories, settings: getSettings(), tl: info.tl, hasB: info.hasB, focusIdx: cur, bgs };
 }
 
 const ctx = $('cv').getContext('2d');
@@ -384,6 +391,7 @@ $('play').addEventListener('click', () => {
   const tick = () => {
     const t = ac.currentTime - t0;
     if (t > st.tl.duration) return stopPlay();
+    syncPlayback(st, t);
     drawFrame(ctx, st, Math.max(0, t));
     $('time').textContent = `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
     playing.raf = requestAnimationFrame(tick);
@@ -396,6 +404,7 @@ function stopPlay() {
   if (!playing) return;
   cancelAnimationFrame(playing.raf);
   try { playing.src?.stop(); } catch { /* خلص */ }
+  for (const b of bgs.values()) playBg(b, false);
   playing = null;
   $('play').textContent = '▶ معاينة';
   redraw();
@@ -452,6 +461,9 @@ $('exp').addEventListener('click', async () => {
   readForm();
   const probs = validateReel();
   if (probs.length) return setStatus(probs.join(' '), true);
+  await ensureBgs();
+  const missing = reel.stories.map((st, i) => ({ st, n: i + 1 })).filter(x => x.st.media && hasContent(x.st) && !bgs.has(x.st.id));
+  if (missing.length) return setStatus(`خلفية الخبر ${missing.map(x => x.n).join('، ')} مش موجودة على الجهاز ده. اختارها تاني أو شيلها.`, true);
   const info = currentTimeline();
   if (!info.real) return setStatus('الصوت مش جاهز. ولّد الصوت أو سجّل/ارفع ملف الأول.', true);
   const support = await exportSupport();
@@ -476,6 +488,135 @@ $('exp').addEventListener('click', async () => {
   } catch (e) { setStatus('فشل التصدير: ' + (e.message || e), true); }
   $('exp').disabled = false;
   $('prog').hidden = true;
+});
+
+/* ---------- خلفيات الأخبار ---------- */
+async function ensureBgs() {
+  let changed = false;
+  for (const st of reel.stories) {
+    if (!st.media || bgs.has(st.id)) continue;
+    const b = await loadBg(st.media);
+    if (b) { bgs.set(st.id, b); changed = true; }
+  }
+  if (changed) redraw();
+  renderBgInfo();
+}
+
+function syncPlayback(st, t) {
+  const k = st.tl.stories.findIndex(x => t >= x.start && t < x.end);
+  const activeId = k >= 0 ? st.reel.stories[st.tl.stories[k].idx]?.id : null;
+  for (const [id, b] of bgs) playBg(b, id === activeId);
+}
+
+function renderBgInfo() {
+  const m = story().media;
+  const el = $('bgInfo');
+  if (!m) { el.textContent = 'من غير خلفية (لون القسم بس).'; $('bgDim').value = 0.5; return; }
+  const ok = bgs.has(story().id);
+  el.innerHTML = `${m.kind === 'video' ? '🎞' : '🖼'} <b dir="auto">${esc(m.title || 'خلفية')}</b> — ${esc(m.license || '')}${m.page ? ` — <a href="${esc(m.page)}" target="_blank" rel="noopener" style="color:inherit">المصدر</a>` : ''}${ok ? '' : ' <span style="color:#ffb86b">⚠️ الملف مش موجود على الجهاز ده — اختار الخلفية تاني</span>'}`;
+  $('bgDim').value = m.dim ?? 0.5;
+}
+
+$('bgDim').addEventListener('input', () => { const m = story().media; if (m) { m.dim = Number($('bgDim').value); persist(); redraw(); } });
+$('bgClear').addEventListener('click', () => { const st = story(); st.media = null; bgs.delete(st.id); persist(); renderBgInfo(); redraw(); });
+$('bgPick').addEventListener('click', () => showTab('media'));
+
+async function attachMedia(blob, meta) {
+  const st = story();
+  const id = 'm' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+  await putBlob(id, blob);
+  st.media = { id, dim: 0.5, ...meta };
+  bgs.delete(st.id);
+  persist();
+  const b = await loadBg(st.media);
+  if (!b) { st.media = null; persist(); throw new Error('الملف اتحمل بس مقدرتش أفتحه (صيغة غير مدعومة).'); }
+  bgs.set(st.id, b);
+}
+
+$('bgFile').addEventListener('change', async e => {
+  const f = e.target.files[0];
+  e.target.value = '';
+  if (!f) return;
+  try {
+    await attachMedia(f, { kind: f.type.startsWith('video') ? 'video' : 'image', provider: 'upload', title: f.name, credit: '', license: 'ملكي / من جهازي', tier: 'free' });
+    fillForm();
+    setStatus('الخلفية اتحطت ✅');
+  } catch (err) { setStatus(String(err.message || err), true); }
+});
+
+/* ---------- مكتبة الوسائط ---------- */
+let mProv = load('mprov', ['commons', 'openverse', 'nasa']);
+let mItems = [];
+
+function renderMediaTarget() {
+  const st = story();
+  $('mTarget').innerHTML = `الوسيط هيتحط خلفية للخبر <b>${cur + 1}</b>${st.headline ? ` «${esc(st.headline.slice(0, 40))}»` : ''}. غيّر الخبر من الاستوديو.`;
+  $('mProv').innerHTML = Object.entries(PROVIDERS).map(([k, p]) => `<button class="chip ${mProv.includes(k) ? 'on' : ''}" data-p="${k}" title="${esc(p.area)}">${p.name}${p.cors === false ? ' 🔌' : ''}</button>`).join('') + '<span class="muted"> 🔌 = تحميل الملف محتاج الوسيط (الإعدادات)</span>';
+}
+$('mProv').addEventListener('click', e => {
+  const k = e.target.dataset.p;
+  if (!k) return;
+  mProv = mProv.includes(k) ? mProv.filter(x => x !== k) : [...mProv, k];
+  save('mprov', mProv);
+  renderMediaTarget();
+});
+
+async function runSearch() {
+  const q = $('mq').value.trim();
+  if (!q) return;
+  $('mInfo').textContent = 'بدوّر…';
+  $('mGo').disabled = true;
+  try {
+    const { items, errors } = await searchAll(q, { providers: mProv, type: $('mType').value, tier: $('mTier').value });
+    mItems = items;
+    $('mInfo').textContent = `${items.length} نتيجة` + (errors.length ? ` • ⚠️ ${errors.map(e => `${PROVIDERS[e.provider].name}: ${e.error}`).join(' | ')}` : '');
+    renderGrid();
+  } catch (e) { $('mInfo').textContent = 'فشل البحث: ' + (e.message || e); }
+  $('mGo').disabled = false;
+}
+$('mGo').addEventListener('click', runSearch);
+$('mq').addEventListener('keydown', e => { if (e.key === 'Enter') runSearch(); });
+
+function renderGrid() {
+  $('mGrid').innerHTML = mItems.map((m, i) => `<div class="mcard">
+    <div class="th"><img src="${esc(m.thumb)}" loading="lazy" referrerpolicy="no-referrer" alt="">${m.type === 'video' ? `<span class="vb">🎞 فيديو${m.duration ? ' ' + Math.round(m.duration) + 'ث' : ''}</span>` : ''}</div>
+    <div class="bd"><b dir="auto" title="${esc(m.title)}">${esc(m.title || '—')}</b>
+      <span><span class="lic ${m.tier}">${esc(m.license)}</span> <span class="muted">${esc(PROVIDERS[m.provider].name)}</span></span>
+      ${m.author ? `<span class="muted" dir="auto">${esc(m.author.slice(0, 40))}</span>` : ''}
+      <div class="row" style="margin:0"><button class="btn pri" data-use="${i}">استخدم</button><a class="btn ghost" href="${esc(m.page)}" target="_blank" rel="noopener">المصدر</a></div></div></div>`).join('');
+}
+
+$('mGrid').addEventListener('click', async e => {
+  const i = e.target.dataset.use;
+  if (i == null) return;
+  const m = mItems[Number(i)];
+  const btn = e.target;
+  btn.disabled = true;
+  try {
+    btn.textContent = 'بحمّل…';
+    const blob = await fetchBlob(m, p => { btn.textContent = `بحمّل ${Math.round(p * 100)}%`; });
+    await attachMedia(blob, { kind: m.type, provider: m.provider, title: m.title, credit: m.tier === 'free' && m.provider !== 'nasa' ? '' : m.credit, license: m.license, licenseUrl: m.licenseUrl, page: m.page, tier: m.tier });
+    showTab('studio');
+    fillForm();
+    setStatus('الخلفية اتحطت ✅ (الحقوق بتظهر على الشاشة لو الترخيص بيطلب نسب)');
+  } catch (err) { $('mInfo').textContent = '❌ ' + (err.message || err); }
+  btn.disabled = false;
+  btn.textContent = 'استخدم';
+});
+
+$('uGo').addEventListener('click', async () => {
+  const url = $('uUrl').value.trim();
+  if (!/^https?:\/\//.test(url)) return ($('uMsg').textContent = 'اكتب رابط صحيح.');
+  if (!$('uOk').checked) return ($('uMsg').textContent = 'أكّد الترخيص الأول.');
+  if (!$('uCredit').value.trim() || !$('uLicense').value.trim()) return ($('uMsg').textContent = 'الحقوق والترخيص إجباريين.');
+  $('uMsg').textContent = 'بحمّل…';
+  try {
+    const kind = /\.(mp4|webm|mov|ogv)(\?|$)/i.test(url) ? 'video' : 'image';
+    const blob = await fetchBlob({ provider: 'manual', url, type: kind, thumb: '' });
+    await attachMedia(blob, { kind, provider: 'manual', title: url.split('/').pop().slice(0, 50), credit: $('uCredit').value.trim(), license: $('uLicense').value.trim(), page: url, tier: 'attr' });
+    $('uMsg').textContent = '';
+    showTab('studio'); fillForm();
+  } catch (err) { $('uMsg').textContent = '❌ ' + (err.message || err); }
 });
 
 /* ---------- المكتبة ---------- */
@@ -537,7 +678,7 @@ $('bkImport').addEventListener('change', async e => {
 });
 
 /* ---------- الإعدادات ---------- */
-const TEXT_FIELDS = { sChannel: 'channelName', sHandle: 'handle', sKey: 'elevenKey', sModel: 'elevenModel', sProxy: 'proxyUrl' };
+const TEXT_FIELDS = { sChannel: 'channelName', sHandle: 'handle', sKey: 'elevenKey', sModel: 'elevenModel', sProxy: 'proxyUrl', sPixabay: 'pixabayKey' };
 const SLIDERS = [['stability', 'الثبات', 0, 1, 0.05], ['similarity', 'التشابه', 0, 1, 0.05], ['style', 'التعبير', 0, 1, 0.05], ['speed', 'السرعة', 0.7, 1.2, 0.05]];
 let voices = [];
 

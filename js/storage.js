@@ -30,6 +30,7 @@ const DEFAULT_SETTINGS = {
   vsA: { stability: 0.5, similarity: 0.75, style: 0, speed: 1 },
   vsB: { stability: 0.5, similarity: 0.75, style: 0, speed: 1 },
   proxyUrl: '',
+  pixabayKey: '',
   claudeKey: '',
 };
 

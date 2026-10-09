@@ -2,6 +2,7 @@
 import { Muxer, ArrayBufferTarget } from '../vendor/mp4-muxer/mp4-muxer.mjs';
 import { SAMPLE_RATE, mixTimeline } from './audio.js';
 import { W, H, drawFrame } from './render.js';
+import { seekBg } from './bg.js';
 
 export const FPS = 30;
 const AVC = ['avc1.640028', 'avc1.4d0028', 'avc1.640032', 'avc1.42e028'];
@@ -68,7 +69,13 @@ export async function exportReel(st, cfg, onProgress) {
   const ctx = canvas.getContext('2d');
   const frames = Math.ceil(tl.duration * FPS), dur = 1e6 / FPS;
   for (let i = 0; i < frames; i++) {
-    drawFrame(ctx, st, i / FPS);
+    const t = i / FPS;
+    // فيديو الخلفية: بنروح للإطار الصح قبل الرسم
+    const k = tl.stories.findIndex(x => t >= x.start && t < x.end);
+    const sr = tl.stories[k < 0 ? 0 : k];
+    const cur = sr && st.reel.stories[sr.idx];
+    if (cur && st.bgs?.get(cur.id)?.kind === 'video') await seekBg(st.bgs.get(cur.id), t - sr.start);
+    drawFrame(ctx, st, t);
     const vf = new VideoFrame(canvas, { timestamp: Math.round(i * dur), duration: Math.round(dur) });
     venc.encode(vf, { keyFrame: i % (FPS * 2) === 0 });
     vf.close();

@@ -19,6 +19,7 @@ export function newStory(over = {}) {
     claimKind: 'fact',
     fromYoutube: '',
     ytLink: '',
+    media: null, // { id, kind, provider, title, credit, license, licenseUrl, page, tier, dim }
     ...over,
   };
   if (!s.id) s.id = rid('s');
