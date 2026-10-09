@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mv19b8x4">
+<html lang="ar" dir="rtl" data-v="mv1avlap">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mv19b8x4">
+<link rel="stylesheet" href="assets/css/style.css?v=mv1avlap">
 </head>
 <body>
 <header class="top">
@@ -176,6 +176,12 @@
         </div>
         <p id="refMsg" class="muted">أعد صياغته بأسلوبك قبل التصدير. الأداة بتسحب الملخص بس، مش نص الخبر الكامل (حقوق النشر).</p>
       </details>
+      <div class="card fxbox">
+        <b>تأثيرات الصوت قبل التوليد</b>
+        <div class="muted">دوس على التأثير عشان يتحط عند المؤشر في السكريبت. بتشتغل مع موديل <b>Eleven v3</b> بس (على v2 بتتشال تلقائيًا ومبتتقراش). ✅ = من القايمة الرسمية، ٭ = تجريبي (v3 بيفهم أوصاف حرة، جرّب وسمّع).</div>
+        <div id="fxTags" class="chips"></div>
+        <div id="fxWarn" class="warn" hidden></div>
+      </div>
       <label>السكريبت — كل سطر جملة. للحوار ابدأ السطر بـ «أ:» أو «ب:»
         <textarea id="fScript" rows="9" placeholder="أ: أهلاً بيكم…&#10;ب: وفيه خبر مهم…"></textarea>
       </label>
@@ -330,7 +336,32 @@
         <div class="row"><button class="btn" data-prev="B">▶ عينة الصوت</button><button class="btn" data-try="B">🧪 جرّب بإعداداتي (~45 حرف)</button></div>
       </div>
     </div>
+    <div class="grid">
+      <label>أسلوب جاهز للمذيعين (بيظبط الإعدادات فوق)<select id="sStylePreset"></select></label>
+      <div>
+        <label class="chk"><input id="sDialect" type="checkbox"> تلميح اللهجة المصرية (بيضيف [Egyptian Arabic accent] قبل كل سطر — v3 بس، تجريبي)</label>
+        <label class="chk"><input id="sLang" type="checkbox"> إرسال كود اللغة ar (لو ElevenLabs رفض الطلب بعد تفعيله، شيله)</label>
+      </div>
+    </div>
+    <p class="muted">اللهجة المصرية بتتحدد من التلات حاجات دول مع بعض: (1) صوت مصري (استنساخ صوتك أحسن حاجة)، (2) السكريبت مكتوب بالعامية المصرية (زرار المسودة بالذكاء الاصطناعي بيكتب كده)، (3) التلميح فوق. ElevenLabs مفيهوش اختيار «لهجة» منفصل.</p>
     <p class="muted">موديل Eleven v3 بياخد «الثبات» بس (بيتقرّب لـ 0 / 0.5 / 1)، والباقي بيتجاهله. لو المذيع ب من غير صوت، هيستخدم صوت أ.</p>
+  </div>
+
+  <div class="card">
+    <h3>تحسين الصوت (بعد التوليد — محلي ومن غير رصيد)</h3>
+    <label>أسلوب جاهز<select id="sFxPreset"></select></label>
+    <div class="sliders" id="slFx"></div>
+    <label class="chk"><input id="sFxNorm" type="checkbox"> توحيد مستوى الصوت (ثابت من أول الحلقة لآخرها)</label>
+    <div class="row"><button class="btn" data-fx="raw">▶ قبل</button><button class="btn" data-fx="fx">▶ بعد التأثير</button></div>
+    <p class="muted">بيشتغل على الصوت المتولّد في المعاينة والتصدير. التجربة بتستخدم سطر قصير (بيتسجّل في الكاش وبعدها مجاني). الصوت الأصلي في الكاش مبيتغيرش، فتقدر تغيّر الأسلوب براحتك.</p>
+  </div>
+
+  <div class="card">
+    <h3>الكتابة على الشاشة (الكابشن)</h3>
+    <label>حجم الخط <input id="sCapSize" type="range" min="56" max="110" step="2"></label>
+    <label class="chk"><input id="sCapPlate" type="checkbox"> خلفية غامقة خلف الكلام (أوضح فوق أي خلفية)</label>
+    <label class="chk"><input id="sCapStroke" type="checkbox"> إطار غامق حول الحروف</label>
+    <p class="muted">الكلمات الإنجليزية والأرقام وسط الجملة العربي بتترسم دلوقتي بالاتجاه الصح.</p>
   </div>
 
   <div class="card">
@@ -365,6 +396,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mv19b8x4"></script>
+<script type="module" src="js/main.js?v=mv1avlap"></script>
 </body>
 </html>

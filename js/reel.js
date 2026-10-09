@@ -72,6 +72,9 @@ export function parseScript(text) {
   return out;
 }
 
+// وسوم ElevenLabs v3 زي [sad] مبتتقراش ومبتظهرش على الشاشة
+export const stripTags = t => String(t || '').replace(/\[[^\]]*\]/g, ' ').replace(/\s+/g, ' ').trim();
+
 export const lineKey = l => l.speaker + '|' + l.text;
 
 // كل سطور الريل (من كل الأخبار) مع رقم الخبر
@@ -85,7 +88,7 @@ const LEAD = 0.2;
 
 // توزيع كلمات بالتساوي (حسب عدد الحروف) لما الصوت من تسجيل أو ملف ومفيش توقيت حقيقي
 export function estimateWords(text, duration) {
-  const ws = text.split(/\s+/).filter(Boolean);
+  const ws = stripTags(text).split(/\s+/).filter(Boolean);
   const total = ws.reduce((n, w) => n + w.length + 1, 0) || 1;
   let c = 0;
   return ws.map(w => {
@@ -128,7 +131,7 @@ export function buildReelTimeline(reel, audioMap, manual = null) {
   const segs = [];
   if (manual) {
     // التسجيل بيتوزّع على الأخبار بنسبة عدد الحروف
-    const per = reel.stories.map((s, si) => ({ si, text: parseScript(s.script).map(l => l.text).join(' ') })).filter(x => x.text);
+    const per = reel.stories.map((s, si) => ({ si, text: stripTags(parseScript(s.script).map(l => l.text).join(' ')) })).filter(x => x.text);
     const total = per.reduce((n, x) => n + x.text.length, 0) || 1;
     let at = LEAD;
     per.forEach((x, k) => {
@@ -147,7 +150,7 @@ export function buildReelTimeline(reel, audioMap, manual = null) {
       let a = audioMap.get(lineKey(l));
       if (!a) {
         real = false;
-        const d = Math.max(1.5, l.text.length / 13);
+        const d = Math.max(1.5, stripTags(l.text).length / 13);
         a = { buffer: { duration: d }, words: estimateWords(l.text, d) };
       }
       const dur = a.buffer.duration;

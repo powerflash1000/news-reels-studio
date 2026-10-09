@@ -1,6 +1,6 @@
 // توليد الصوت من ElevenLabs مع توقيت كل كلمة، وكاش لكل سطر
-import { getSettings, addChars, cacheGet, cachePut, sha1, load, save } from './storage.js?v=mv19b8x4';
-import { decode } from './audio.js?v=mv19b8x4';
+import { getSettings, addChars, cacheGet, cachePut, sha1, load, save } from './storage.js?v=mv1avlap';
+import { decode } from './audio.js?v=mv1avlap';
 
 const API = 'https://api.elevenlabs.io';
 
@@ -8,6 +8,14 @@ export const MODELS = [
   { id: 'eleven_multilingual_v2', name: 'Multilingual v2 (ثابت ومجرّب مع العربي)' },
   { id: 'eleven_v3', name: 'Eleven v3 (أحدث وأكثر تعبيرًا)' },
 ];
+
+// الوسوم الصوتية (v3 بس) والتلميح باللهجة: على موديل v2 الوسوم بتتشال عشان متتقراش بصوت عالي
+export const DIALECT_TAG = '[Egyptian Arabic accent]';
+export function prepareText(text) {
+  const s = getSettings();
+  if (s.elevenModel !== 'eleven_v3') return String(text).replace(/\[[^\]]*\]/g, ' ').replace(/\s+/g, ' ').trim();
+  return (s.dialectTag && !/^\s*\[[^\]]*accent/i.test(text) ? DIALECT_TAG + ' ' : '') + text;
+}
 
 export function voiceFor(speaker) {
   const s = getSettings();
@@ -50,8 +58,12 @@ async function call(path, init) {
 export function wordsFromAlignment(al) {
   const ch = al.characters, st = al.character_start_times_seconds, en = al.character_end_times_seconds;
   const words = [];
-  let cur = null;
+  let cur = null, tag = 0;
   for (let i = 0; i < ch.length; i++) {
+    // أي حاجة بين [ ] وسم صوتي مش كلام: منعرضهاش في الكابشن
+    if (ch[i] === '[') { tag++; cur = null; continue; }
+    if (ch[i] === ']') { tag = Math.max(0, tag - 1); cur = null; continue; }
+    if (tag) continue;
     if (/\s/.test(ch[i])) { cur = null; continue; }
     if (!cur) { cur = { w: '', s: st[i], e: en[i] }; words.push(cur); }
     cur.w += ch[i];
@@ -68,11 +80,12 @@ function b64ToBuf(b64) {
 }
 
 function cacheKey(text, voiceId, vs) {
-  return sha1([voiceId, getSettings().elevenModel, JSON.stringify(vs), text].join('|'));
+  return sha1([voiceId, getSettings().elevenModel, JSON.stringify(vs), getSettings().langCode ? 'ar' : '', text].join('|'));
 }
 
 // بيدوّر في الكاش بس (من غير أي استهلاك رصيد). بيرجع null لو السطر مش متولّد قبل كده بنفس الإعدادات
 export async function peekLine(text, speaker) {
+  text = prepareText(text);
   const voiceId = voiceFor(speaker);
   if (!voiceId) return null;
   const hit = await cacheGet(await cacheKey(text, voiceId, voiceSettingsFor(speaker)));
@@ -82,6 +95,7 @@ export async function peekLine(text, speaker) {
 // بيرجع {buffer, words, cached}
 export async function speakLine(text, speaker) {
   const s = getSettings();
+  text = prepareText(text);
   const voiceId = voiceFor(speaker);
   if (!s.elevenKey || !voiceId) throw new Error('ضبط مفتاح ElevenLabs وصوت المذيع في الإعدادات الأول.');
   const vs = voiceSettingsFor(speaker);
@@ -91,7 +105,7 @@ export async function speakLine(text, speaker) {
 
   const res = await call(`/v1/text-to-speech/${voiceId}/with-timestamps?output_format=mp3_44100_128`, {
     method: 'POST',
-    body: JSON.stringify({ text, model_id: s.elevenModel, voice_settings: vs }),
+    body: JSON.stringify({ text, model_id: s.elevenModel, voice_settings: vs, ...(s.langCode ? { language_code: 'ar' } : {}) }),
   });
   if (!res.ok) throw new Error(`ElevenLabs رفض التوليد (${res.status}): ${await errDetail(res)}`);
   const j = await res.json();
