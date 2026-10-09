@@ -1,14 +1,14 @@
-import { load, save, getSettings, setSettings, charsUsed } from './storage.js?v=mv0ag1cp';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv0ag1cp';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv0ag1cp';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS } from './reel.js?v=mv0ag1cp';
-import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv0ag1cp';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE } from './audio.js?v=mv0ag1cp';
-import { drawFrame } from './render.js?v=mv0ag1cp';
-import { exportSupport, exportReel } from './export.js?v=mv0ag1cp';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv0ag1cp';
-import { putBlob } from './mediastore.js?v=mv0ag1cp';
-import { loadBg, playBg } from './bg.js?v=mv0ag1cp';
+import { load, save, getSettings, setSettings, charsUsed } from './storage.js?v=mv0amqs7';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv0amqs7';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv0amqs7';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS } from './reel.js?v=mv0amqs7';
+import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv0amqs7';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE } from './audio.js?v=mv0amqs7';
+import { drawFrame } from './render.js?v=mv0amqs7';
+import { exportSupport, exportReel } from './export.js?v=mv0amqs7';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv0amqs7';
+import { putBlob } from './mediastore.js?v=mv0amqs7';
+import { loadBg, playBg } from './bg.js?v=mv0amqs7';
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -772,6 +772,32 @@ $('elVoices').addEventListener('click', async () => {
     renderVoiceSelect('A'); renderVoiceSelect('B');
     $('usage').textContent = `اتحمّل ${voices.length} صوت من حسابك. اختار صوت المذيع أ وب وبعدها «حفظ الإعدادات».`;
   } catch (e) { $('usage').textContent = elError(e); }
+});
+
+// تشخيص كامل بضغطة: شكل المفتاح، الصوت، الرصيد، الأصوات، وتوليد فعلي لكلمة واحدة
+$('elDiag').addEventListener('click', async () => {
+  saveSettings();
+  const s = getSettings();
+  const out = [`نسخة الكود: ${new URL(import.meta.url).searchParams.get('v') || '-'}`];
+  const box = $('diag');
+  const log = (icon, t) => { out.push(`${icon} ${t}`); box.textContent = out.join('\n'); };
+  box.hidden = false;
+  box.textContent = 'بشخّص…';
+  const k = s.elevenKey;
+  if (!k) log('❌', 'مفيش مفتاح في الإعدادات.');
+  else if (!k.startsWith('sk_')) log('❌', `المفتاح مش بيبدأ بـ sk_ (بيبدأ بـ "${k.slice(0, 4)}"، وطوله ${k.length}). غالبًا ده معرّف المفتاح مش المفتاح نفسه.`);
+  else log('✅', `شكل المفتاح سليم (sk_… طوله ${k.length}).`);
+  log(s.voiceA ? '✅' : '❌', s.voiceA ? `صوت المذيع أ: ${s.voiceA}` : 'مفيش صوت للمذيع أ (الصق رقم الصوت في «أو رقم الصوت يدويًا»).');
+  log('ℹ️', `الموديل: ${s.elevenModel}${s.proxyUrl ? ' • بوسيط' : ''}`);
+  const soft = e => (/missing_permissions/.test(e.message) ? '⚠️' : '❌');
+  try { const sub = await fetchSubscription(); log('✅', `الرصيد: ${sub.used} من ${sub.limit} حرف.`); fillUsage(sub); } catch (e) { log(soft(e), 'قراءة الرصيد (اختيارية): ' + e.message); }
+  try { const v = await fetchVoices(); voices = v; log('✅', `الأصوات: ${v.length} صوت.`); } catch (e) { log(soft(e), 'قراءة الأصوات (اختيارية): ' + e.message); }
+  if (s.elevenKey && s.voiceA) {
+    try {
+      const r = await speakLine('تجربة', 'A');
+      log('✅', `التوليد شغّال (${r.buffer.duration.toFixed(1)} ثانية${r.cached ? '، من الكاش' : ''}). كده الأداة جاهزة للصوت.`);
+    } catch (e) { log('❌', 'التوليد: ' + e.message); }
+  } else log('⏭', 'اتخطّيت اختبار التوليد (ناقص مفتاح أو صوت).');
 });
 
 let previewEl = null;
