@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mv0bd92q">
+<html lang="ar" dir="rtl" data-v="mv0by2gm">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mv0bd92q">
+<link rel="stylesheet" href="assets/css/style.css?v=mv0by2gm">
 </head>
 <body>
 <header class="top">
@@ -92,7 +92,19 @@
           <label>أضف دولة (اكتب الاسم واختار)<input id="mapAdd" list="countryList" placeholder="مثال: مصر"></label>
           <datalist id="countryList"></datalist>
           <div id="mapChips" class="chips"></div>
+          <label>دبوس مدينة (اكتب الاسم واختار، مثلًا: الرياض)<input id="mapCity" list="cityList" placeholder="مثال: الرياض"></label>
+          <datalist id="cityList"></datalist>
+          <div id="pinChips" class="chips"></div>
+          <label>نص الدبوس (اختياري، مثلًا: مطار الملك خالد) — بيتطبّق على أول دبوس<input id="pinLabel" dir="auto"></label>
           <label>عنوان صغير على الخريطة (اختياري)<input id="mapLabel" dir="auto" placeholder="مثال: منطقة الخليج"></label>
+        </div>
+        <div id="tplProof" hidden>
+          <p class="muted">بطاقات مصادر بتظهر على الشاشة (لحد 3) كل واحدة بـQR كود لرابط الخبر الأصلي. اللقطة اختيارية: لقطة شاشة بتاعتك للخبر (عنوان بس يفضّل).</p>
+          <label>حالة التأكيد
+            <select id="pfStatus"></select>
+          </label>
+          <div id="pfRows"></div>
+          <button id="pfAdd" class="btn">＋ مصدر</button>
         </div>
       </div>
       <div id="newsFields1" class="grid">
@@ -266,6 +278,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mv0bd92q"></script>
+<script type="module" src="js/main.js?v=mv0by2gm"></script>
 </body>
 </html>

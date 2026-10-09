@@ -1,14 +1,14 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv0bd92q';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv0bd92q';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv0bd92q';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES } from './reel.js?v=mv0bd92q';
-import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv0bd92q';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE } from './audio.js?v=mv0bd92q';
-import { drawFrame, setWorld, worldLoaded, toLatinDigits } from './render.js?v=mv0bd92q';
-import { exportSupport, exportReel } from './export.js?v=mv0bd92q';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv0bd92q';
-import { putBlob } from './mediastore.js?v=mv0bd92q';
-import { loadBg, playBg } from './bg.js?v=mv0bd92q';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv0by2gm';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv0by2gm';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv0by2gm';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mv0by2gm';
+import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv0by2gm';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE } from './audio.js?v=mv0by2gm';
+import { drawFrame, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mv0by2gm';
+import { exportSupport, exportReel } from './export.js?v=mv0by2gm';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv0by2gm';
+import { putBlob } from './mediastore.js?v=mv0by2gm';
+import { loadBg, playBg } from './bg.js?v=mv0by2gm';
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -18,6 +18,8 @@ let feeds = { items: [] };
 let reel = newReel();
 let cur = 0;               // رقم الخبر اللي بنعدّله
 const bgs = new Map();     // story.id → خلفية محمّلة
+const shots = new Map();   // معرّف لقطة مصدر → صورة محمّلة
+let cities = [];
 const picked = new Set();  // أخبار متحددة من تبويب الأخبار
 const story = () => reel.stories[cur];
 const audioMap = new Map(); // "A|نص" → {buffer, words}
@@ -234,7 +236,12 @@ function readForm() {
   if (st.kind === 'news') {
     st.template = $('fTpl').value;
     st.stat = { value: $('stValue').value.trim(), unit: $('stUnit').value.trim(), label: $('stLabel').value.trim(), trend: $('stTrend').value };
-    st.map = { countries: st.map?.countries || [], label: $('mapLabel').value.trim() };
+    st.map = { countries: st.map?.countries || [], pins: st.map?.pins || [], label: $('mapLabel').value.trim() };
+    if (st.template === 'proof') {
+      const first = proofSources(st)[0];
+      if (first && !st.sourceName) st.sourceName = first.outlet;
+      if (first && !st.sourceUrl) st.sourceUrl = first.url;
+    }
   }
   reel.ticker = { on: $('tkOn').checked, label: $('tkLabel').value.trim(), text: $('tkText').value.trim() };
 }
@@ -266,6 +273,7 @@ async function loadWorld() {
     world = await (await fetch('assets/data/world.json')).json();
     setWorld(world);
     $('countryList').innerHTML = world.countries.map(c => `<option value="${esc(c.ar)}"></option>`).join('');
+    try { cities = await (await fetch('assets/data/cities.json')).json(); $('cityList').innerHTML = cities.map(c => `<option value="${esc(c.ar)}"></option>`).join(''); } catch { /* من غير مدن */ }
     renderMapChips();
     redraw();
   } catch { /* الخريطة مش هتظهر */ }
@@ -277,11 +285,13 @@ function toggleTemplateFields() {
   const tpl = news ? $('fTpl').value : 'standard';
   $('tplStat').hidden = tpl !== 'stat';
   $('tplMap').hidden = tpl !== 'map';
+  $('tplProof').hidden = tpl !== 'proof';
   $('tkFields').hidden = !$('tkOn').checked;
   if (tpl === 'map') loadWorld();
 }
 
 function renderMapChips() {
+  renderPinChips();
   const ids = story().map?.countries || [];
   $('mapChips').innerHTML = ids.map(id => {
     const c = world?.countries.find(x => x.id === id);
@@ -303,9 +313,90 @@ function fillTemplateFields() {
   $('tkLabel').value = reel.ticker?.label || '';
   $('tkText').value = reel.ticker?.text || '';
   document.querySelector('.tplbox').hidden = st.kind !== 'news';
+  $('pinLabel').value = st.map?.pins?.[0]?.label || '';
+  if (!$('pfStatus').options.length) $('pfStatus').innerHTML = Object.entries(PROOF_STATUS).map(([k, v]) => `<option value="${k}">${v}</option>`).join('');
+  $('pfStatus').value = st.proof?.status || 'none';
   toggleTemplateFields();
   renderMapChips();
+  renderProofRows();
 }
+
+function renderProofRows() {
+  const srcs = story().proof?.sources || [];
+  $('pfRows').innerHTML = srcs.map((s, i) => `<div class="pfrow" data-i="${i}">
+    <div class="grid">
+      <label>الجهة / الوكالة<input data-f="outlet" value="${esc(s.outlet)}" placeholder="مثال: وكالة الأنباء السعودية (واس)"></label>
+      <label>تاريخ الخبر<input data-f="date" value="${esc(s.date)}" placeholder="2026-10-09"></label>
+    </div>
+    <label>عنوان الخبر عند المصدر (قصير)<input data-f="title" dir="auto" value="${esc(s.title)}"></label>
+    <label>رابط الخبر (https://…)<input data-f="url" dir="ltr" value="${esc(s.url)}"></label>
+    <div class="row">
+      <label class="btn file">🖼 لقطة من جهازي<input data-shot="${i}" type="file" accept="image/*" hidden></label>
+      ${s.shot ? `<span class="muted">${esc(s.shot.name || 'لقطة')}</span> <button class="btn ghost" data-noshot="${i}">إزالة اللقطة</button>` : ''}
+      <button class="btn ghost" data-rmsrc="${i}">حذف المصدر</button>
+    </div>
+  </div>`).join('');
+  $('pfAdd').disabled = srcs.length >= 3;
+}
+
+function proofOf() { return (story().proof ||= { status: 'none', sources: [] }); }
+$('pfAdd').addEventListener('click', () => { const p = proofOf(); if (p.sources.length < 3) p.sources.push(newProofSource()); persist(); renderProofRows(); redraw(); });
+$('pfStatus').addEventListener('input', () => { proofOf().status = $('pfStatus').value; persist(); redraw(); });
+$('pfRows').addEventListener('input', e => {
+  const row = e.target.closest('.pfrow');
+  if (!row || !e.target.dataset.f) return;
+  proofOf().sources[Number(row.dataset.i)][e.target.dataset.f] = e.target.value.trim();
+  persist(); redraw();
+});
+$('pfRows').addEventListener('click', e => {
+  const d = e.target.dataset;
+  const p = proofOf();
+  if (d.rmsrc != null) p.sources.splice(Number(d.rmsrc), 1);
+  else if (d.noshot != null) p.sources[Number(d.noshot)].shot = null;
+  else return;
+  persist(); renderProofRows(); redraw();
+});
+$('pfRows').addEventListener('change', async e => {
+  const i = e.target.dataset.shot;
+  const f = e.target.files?.[0];
+  if (i == null || !f) return;
+  try {
+    const id = 's' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+    await putBlob(id, f);
+    const b = await loadBg({ id, kind: 'image' });
+    if (!b) throw new Error('الصورة مش مفهومة');
+    shots.set(id, b);
+    proofOf().sources[Number(i)].shot = { id, name: f.name };
+    persist(); renderProofRows(); redraw();
+  } catch (err) { setStatus('مقدرتش أقرا اللقطة: ' + (err.message || err), true); }
+  e.target.value = '';
+});
+
+// دبابيس المدن على الخريطة
+function renderPinChips() {
+  $('pinChips').innerHTML = (story().map?.pins || []).map((p, i) => `<button class="chip on" data-rmpin="${i}" style="--c:#e5484d">📍 ${esc(p.name)} <span class="x">✕</span></button>`).join('');
+}
+$('mapCity').addEventListener('input', () => {
+  const name = $('mapCity').value.trim();
+  const c = cities.find(x => x.ar === name);
+  if (!c) return;
+  const m = (story().map ||= { countries: [], label: '', pins: [] });
+  (m.pins ||= []).push({ name: c.ar, lat: c.lat, lon: c.lon, label: '' });
+  $('mapCity').value = '';
+  persist(); renderPinChips(); redraw();
+});
+$('pinChips').addEventListener('click', e => {
+  const b = e.target.closest('[data-rmpin]');
+  if (!b) return;
+  story().map.pins.splice(Number(b.dataset.rmpin), 1);
+  persist(); renderPinChips(); redraw();
+});
+$('pinLabel').addEventListener('input', () => {
+  const pin = story().map?.pins?.[0];
+  if (!pin) return;
+  pin.label = $('pinLabel').value.trim();
+  persist(); redraw();
+});
 
 $('mapAdd').addEventListener('input', () => {
   const name = $('mapAdd').value.trim();
@@ -364,7 +455,7 @@ let restoreTimer = 0;
 function currentTimeline() { return buildReelTimeline(reel, audioMap, manualAudio); }
 
 function stateFor(info) {
-  return { reel, cats: cfg.categories, settings: getSettings(), tl: info.tl, hasB: info.hasB, focusIdx: cur, bgs };
+  return { reel, cats: cfg.categories, settings: getSettings(), tl: info.tl, hasB: info.hasB, focusIdx: cur, bgs, shots };
 }
 
 const ctx = $('cv').getContext('2d');
@@ -501,7 +592,12 @@ function validateReel() {
     if (!st.headline) probs.push(pre + 'اكتب العنوان.');
     if (st.kind !== 'news') continue;
     if (st.template === 'stat' && !st.stat?.value) probs.push(pre + 'قالب الرقم محتاج رقم.');
-    if (st.template === 'map' && !(st.map?.countries || []).length) probs.push(pre + 'قالب الخريطة محتاج دولة واحدة على الأقل.');
+    if (st.template === 'proof') {
+      const ok = proofSources(st).filter(x => /^https?:\/\//.test(x.url || '') && x.outlet);
+      if (!ok.length) probs.push(pre + 'قالب التوثيق محتاج مصدر واحد على الأقل (جهة + رابط).');
+      if (proofSources(st).some(x => /(^|\.)(youtube\.com|youtu\.be)$/.test((() => { try { return new URL(x.url).hostname; } catch { return ''; } })()))) probs.push(pre + 'رابط يوتيوب مش مصدر أصلي.');
+    }
+    if (st.template === 'map' && !(st.map?.countries || []).length && !(st.map?.pins || []).length) probs.push(pre + 'قالب الخريطة محتاج دولة أو دبوس مدينة.');
     if (!st.sourceName) probs.push(pre + 'اسم المصدر الأصلي إجباري.');
     let u = null;
     try { u = new URL(st.sourceUrl); } catch { /* ناقص */ }
@@ -516,6 +612,7 @@ function checklistFor() {
   const base = ['المعلومات في السكريبت مطابقة للمصدر الأصلي المذكور.', 'السكريبت بأسلوبي، مش منقول من قناة أو موقع.'];
   if (news.length > 1) base.push('كل خبر ليه مصدره الخاص على الشاشة، والترتيب والعناوين مظبوطة.');
   if (news.some(s => s.claimKind === 'opinion')) base.push('واضح إن ده رأي/تحليل ومنسوب لصاحبه.');
+  if (news.some(s => s.template === 'proof')) base.push('حالة التأكيد (رسمي / غير مؤكد) مطابقة لما قالته المصادر المعروضة، ومفيش لقطة فيها محتوى مصوّر محمي.');
   if (news.some(s => s.category === 'health')) base.push('مفيش نصيحة علاجية أو جرعات، والتنبيه الطبي ظاهر على الشاشة.');
   if (news.some(s => s.category === 'politics')) base.push('نقل خبري محايد من غير رأي شخصي.');
   return base;
@@ -576,6 +673,13 @@ async function ensureBgs() {
     if (!st.media || bgs.has(st.id)) continue;
     const b = await loadBg(st.media);
     if (b) { bgs.set(st.id, b); changed = true; }
+  }
+  for (const st of reel.stories) {
+    for (const src of st.proof?.sources || []) {
+      if (!src.shot || shots.has(src.shot.id)) continue;
+      const b = await loadBg({ id: src.shot.id, kind: 'image' });
+      if (b) { shots.set(src.shot.id, b); changed = true; }
+    }
   }
   if (changed) redraw();
   renderBgInfo();
