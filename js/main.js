@@ -1,14 +1,14 @@
-import { load, save, getSettings, setSettings, charsUsed } from './storage.js?v=mv0amqs7';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv0amqs7';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv0amqs7';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS } from './reel.js?v=mv0amqs7';
-import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv0amqs7';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE } from './audio.js?v=mv0amqs7';
-import { drawFrame } from './render.js?v=mv0amqs7';
-import { exportSupport, exportReel } from './export.js?v=mv0amqs7';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv0amqs7';
-import { putBlob } from './mediastore.js?v=mv0amqs7';
-import { loadBg, playBg } from './bg.js?v=mv0amqs7';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv0aqq6i';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv0aqq6i';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv0aqq6i';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS } from './reel.js?v=mv0aqq6i';
+import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv0aqq6i';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE } from './audio.js?v=mv0aqq6i';
+import { drawFrame } from './render.js?v=mv0aqq6i';
+import { exportSupport, exportReel } from './export.js?v=mv0aqq6i';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv0aqq6i';
+import { putBlob } from './mediastore.js?v=mv0aqq6i';
+import { loadBg, playBg } from './bg.js?v=mv0aqq6i';
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -798,6 +798,24 @@ $('elDiag').addEventListener('click', async () => {
       log('✅', `التوليد شغّال (${r.buffer.duration.toFixed(1)} ثانية${r.cached ? '، من الكاش' : ''}). كده الأداة جاهزة للصوت.`);
     } catch (e) { log('❌', 'التوليد: ' + e.message); }
   } else log('⏭', 'اتخطّيت اختبار التوليد (ناقص مفتاح أو صوت).');
+});
+
+$('elReset').addEventListener('click', () => {
+  if (!confirm('تمسح مفتاح ElevenLabs والأصوات وإعداداتها من الأداة دي؟ (الريلز والصوت المتولّد مش هيتأثروا. رابط الوسيط ومفتاح Pixabay هيفضلوا.)')) return;
+  resetElevenSettings();
+  voices = [];
+  $('diag').hidden = true;
+  fillSettings();
+  $('usage').textContent = 'اتمسحت إعدادات ElevenLabs. تقدر تلصق مفتاح جديد، أو تشتغل بتسجيل صوتك / رفع ملف صوت من غير ElevenLabs.';
+});
+
+$('elCache').addEventListener('click', async () => {
+  if (!confirm('تمسح كل الصوت المتولّد المحفوظ؟ لو ولّدته تاني هيصرف حروف من رصيدك.')) return;
+  await cacheClear();
+  audioMap.clear();
+  updateInfo();
+  redraw();
+  $('usage').textContent = 'اتمسح كاش الصوت.';
 });
 
 let previewEl = null;
