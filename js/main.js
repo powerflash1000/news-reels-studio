@@ -1,14 +1,14 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv0aqq6i';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv0aqq6i';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv0aqq6i';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS } from './reel.js?v=mv0aqq6i';
-import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv0aqq6i';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE } from './audio.js?v=mv0aqq6i';
-import { drawFrame } from './render.js?v=mv0aqq6i';
-import { exportSupport, exportReel } from './export.js?v=mv0aqq6i';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv0aqq6i';
-import { putBlob } from './mediastore.js?v=mv0aqq6i';
-import { loadBg, playBg } from './bg.js?v=mv0aqq6i';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv0bd92q';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv0bd92q';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv0bd92q';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES } from './reel.js?v=mv0bd92q';
+import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv0bd92q';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE } from './audio.js?v=mv0bd92q';
+import { drawFrame, setWorld, worldLoaded, toLatinDigits } from './render.js?v=mv0bd92q';
+import { exportSupport, exportReel } from './export.js?v=mv0bd92q';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv0bd92q';
+import { putBlob } from './mediastore.js?v=mv0bd92q';
+import { loadBg, playBg } from './bg.js?v=mv0bd92q';
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -205,6 +205,7 @@ function fillForm() {
   $('fUrl').value = st.sourceUrl;
   $('fCredit').value = st.credit;
   $('fScript').value = st.script;
+  fillTemplateFields();
   const news = st.kind === 'news';
   $('newsFields1').hidden = !news;
   $('newsFields2').hidden = !news;
@@ -230,6 +231,12 @@ function readForm() {
   st.sourceUrl = $('fUrl').value.trim();
   st.credit = $('fCredit').value.trim();
   st.script = $('fScript').value;
+  if (st.kind === 'news') {
+    st.template = $('fTpl').value;
+    st.stat = { value: $('stValue').value.trim(), unit: $('stUnit').value.trim(), label: $('stLabel').value.trim(), trend: $('stTrend').value };
+    st.map = { countries: st.map?.countries || [], label: $('mapLabel').value.trim() };
+  }
+  reel.ticker = { on: $('tkOn').checked, label: $('tkLabel').value.trim(), text: $('tkText').value.trim() };
 }
 
 function persist() {
@@ -239,14 +246,83 @@ function persist() {
   setCurrentId(reel.id);
 }
 
-for (const id of ['rTitle', 'fCat', 'fKind', 'fHead', 'fSrc', 'fUrl', 'fCredit', 'fScript']) {
+for (const id of ['rTitle', 'fCat', 'fKind', 'fHead', 'fSrc', 'fUrl', 'fCredit', 'fScript', 'fTpl', 'stValue', 'stUnit', 'stTrend', 'stLabel', 'mapLabel', 'tkOn', 'tkLabel', 'tkText']) {
   $(id).addEventListener('input', () => {
     readForm(); persist(); updateInfo(); redraw();
     if (id === 'fHead' || id === 'fCat') renderStrip();
+    if (id === 'fTpl' || id === 'tkOn') toggleTemplateFields();
     if (id === 'fScript') { clearTimeout(restoreTimer); restoreTimer = setTimeout(restoreAudio, 600); }
   });
 }
 $('newReel').addEventListener('click', () => startReel([{}]));
+
+
+/* ---------- قوالب الخبر (عاجل / رقم / خريطة) وشريط الأخبار ---------- */
+let world = null;
+
+async function loadWorld() {
+  if (world) return world;
+  try {
+    world = await (await fetch('assets/data/world.json')).json();
+    setWorld(world);
+    $('countryList').innerHTML = world.countries.map(c => `<option value="${esc(c.ar)}"></option>`).join('');
+    renderMapChips();
+    redraw();
+  } catch { /* الخريطة مش هتظهر */ }
+  return world;
+}
+
+function toggleTemplateFields() {
+  const news = story().kind === 'news';
+  const tpl = news ? $('fTpl').value : 'standard';
+  $('tplStat').hidden = tpl !== 'stat';
+  $('tplMap').hidden = tpl !== 'map';
+  $('tkFields').hidden = !$('tkOn').checked;
+  if (tpl === 'map') loadWorld();
+}
+
+function renderMapChips() {
+  const ids = story().map?.countries || [];
+  $('mapChips').innerHTML = ids.map(id => {
+    const c = world?.countries.find(x => x.id === id);
+    return `<button class="chip on" data-rm="${id}" style="--c:#3e63dd">${esc(c?.ar || id)} <span class="x">✕</span></button>`;
+  }).join('');
+}
+
+function fillTemplateFields() {
+  const st = story();
+  const sel = $('fTpl');
+  if (!sel.options.length) sel.innerHTML = Object.entries(TEMPLATES).map(([k, v]) => `<option value="${k}">${v}</option>`).join('');
+  $('fTpl').value = st.template || 'standard';
+  $('stValue').value = st.stat?.value || '';
+  $('stUnit').value = st.stat?.unit || '';
+  $('stTrend').value = st.stat?.trend || 'none';
+  $('stLabel').value = st.stat?.label || '';
+  $('mapLabel').value = st.map?.label || '';
+  $('tkOn').checked = !!reel.ticker?.on;
+  $('tkLabel').value = reel.ticker?.label || '';
+  $('tkText').value = reel.ticker?.text || '';
+  document.querySelector('.tplbox').hidden = st.kind !== 'news';
+  toggleTemplateFields();
+  renderMapChips();
+}
+
+$('mapAdd').addEventListener('input', () => {
+  const name = $('mapAdd').value.trim();
+  const c = world?.countries.find(x => x.ar === name || x.en.toLowerCase() === name.toLowerCase());
+  if (!c) return;
+  const m = (story().map ||= { countries: [], label: '' });
+  if (!m.countries.includes(c.id)) m.countries.push(c.id);
+  $('mapAdd').value = '';
+  persist(); renderMapChips(); redraw();
+});
+$('mapChips').addEventListener('click', e => {
+  const btn = e.target.closest('[data-rm]');
+  if (!btn) return;
+  const m = story().map;
+  m.countries = m.countries.filter(x => x !== btn.dataset.rm);
+  persist(); renderMapChips(); redraw();
+});
 
 // أخبار الريل
 $('storyTabs').addEventListener('click', e => {
@@ -424,6 +500,8 @@ function validateReel() {
     const pre = reel.stories.length > 1 ? `الخبر ${n}: ` : '';
     if (!st.headline) probs.push(pre + 'اكتب العنوان.');
     if (st.kind !== 'news') continue;
+    if (st.template === 'stat' && !st.stat?.value) probs.push(pre + 'قالب الرقم محتاج رقم.');
+    if (st.template === 'map' && !(st.map?.countries || []).length) probs.push(pre + 'قالب الخريطة محتاج دولة واحدة على الأقل.');
     if (!st.sourceName) probs.push(pre + 'اسم المصدر الأصلي إجباري.');
     let u = null;
     try { u = new URL(st.sourceUrl); } catch { /* ناقص */ }
@@ -461,6 +539,7 @@ $('exp').addEventListener('click', async () => {
   readForm();
   const probs = validateReel();
   if (probs.length) return setStatus(probs.join(' '), true);
+  if (reel.stories.some(x => x.template === 'map')) await loadWorld();
   await ensureBgs();
   const missing = reel.stories.map((st, i) => ({ st, n: i + 1 })).filter(x => x.st.media && hasContent(x.st) && !bgs.has(x.st.id));
   if (missing.length) return setStatus(`خلفية الخبر ${missing.map(x => x.n).join('، ')} مش موجودة على الجهاز ده. اختارها تاني أو شيلها.`, true);
@@ -862,6 +941,7 @@ $('ver').textContent = `نسخة ${codeV}${codeV === pageV ? '' : ` ⚠️ ال�
   if (saved) reel = normalizeReel(saved);
   fillForm();
   restoreAudio();
+  if (reel.stories.some(x => x.template === 'map')) loadWorld();
   try { feeds = await loadFeeds(); } catch { $('feedInfo').textContent = 'تعذر تحميل data/feeds.json.'; }
   renderFeed();
   loadFonts().then(() => redraw());

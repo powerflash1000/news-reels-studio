@@ -4,6 +4,7 @@ export const MED_DISCLAIMER = 'معلومة عامة وليست استشارة �
 
 export const STATUSES = { draft: 'مسودة', exported: 'متصدّر', published: 'منشور' };
 export const KINDS = { news: 'خبر', intro: 'افتتاحية', outro: 'خاتمة' };
+export const TEMPLATES = { standard: 'عادي', breaking: 'عاجل', stat: 'بطاقة رقم', map: 'خريطة' };
 
 const rid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 
@@ -20,21 +21,31 @@ export function newStory(over = {}) {
     fromYoutube: '',
     ytLink: '',
     media: null, // { id, kind, provider, title, credit, license, licenseUrl, page, tier, dim }
+    template: 'standard', // standard | breaking | stat | map
+    stat: { value: '', unit: '', label: '', trend: 'none' },
+    map: { countries: [], label: '' },
     ...over,
   };
+  s.stat = { value: '', unit: '', label: '', trend: 'none', ...(s.stat || {}) };
+  s.map = { countries: [], label: '', ...(s.map || {}) };
   if (!s.id) s.id = rid('s');
   return s;
 }
 
 export function newReel(over = {}) {
-  const r = { status: 'draft', updatedAt: Date.now(), title: '', stories: [newStory()], ...over };
+  const r = { status: 'draft', updatedAt: Date.now(), title: '', stories: [newStory()], ticker: { on: false, text: '', label: '' }, ...over };
+  r.ticker = { on: false, text: '', label: '', ...(r.ticker || {}) };
   if (!r.id) r.id = rid('r');
   return r;
 }
 
 // ريلز المرحلة الأولى كانت خبر واحد بحقول مسطّحة، بنحوّلها لخبر جوه stories
 export function normalizeReel(r) {
-  if (r && Array.isArray(r.stories) && r.stories.length) return r;
+  if (r && Array.isArray(r.stories) && r.stories.length) {
+    r.stories = r.stories.map(s => newStory(s));
+    r.ticker = { on: false, text: '', label: '', ...(r.ticker || {}) };
+    return r;
+  }
   const { id, status, updatedAt, title, ...rest } = r || {};
   return newReel({ id, status: status || 'draft', updatedAt: updatedAt || Date.now(), title: title || '', stories: [newStory(rest)] });
 }

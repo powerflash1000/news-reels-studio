@@ -1,7 +1,7 @@
 // رسم إطار الريل على canvas (مقاس 1080×1920). نفس الدالة للمعاينة والتصدير.
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mv0aqq6i';
-import { hostOf } from './feeds.js?v=mv0aqq6i';
-import { drawBg } from './bg.js?v=mv0aqq6i';
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mv0bd92q';
+import { hostOf } from './feeds.js?v=mv0bd92q';
+import { drawBg } from './bg.js?v=mv0bd92q';
 
 export const W = 1080, H = 1920;
 const FONT = 'Cairo, Tajawal, "Noto Naskh Arabic", "Segoe UI", Tahoma, sans-serif';
@@ -53,18 +53,36 @@ function topBar(ctx, st) {
   ctx.font = font(44);
   const label = st.cat.label;
   const w = ctx.measureText(label).width + 80;
+  let right = W - 60;
+  if (st.story.template === 'breaking') {
+    // شريط «عاجل» بنقطة بتنبض، والقسم بيروح على يساره
+    ctx.font = font(56, 800);
+    const bw = ctx.measureText('عاجل').width + 150;
+    ctx.fillStyle = '#e5484d';
+    rrect(ctx, right - bw, 82, bw, 100, 22);
+    ctx.fill();
+    ctx.fillStyle = `rgba(255,255,255,${0.45 + 0.55 * Math.abs(Math.sin(st.t * 3.2))})`;
+    ctx.beginPath();
+    ctx.arc(right - bw + 46, 132, 15, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.textAlign = 'center';
+    ctx.fillText('عاجل', right - bw / 2 + 20, 136);
+    right -= bw + 16;
+    ctx.font = font(44);
+  }
   ctx.fillStyle = st.cat.color;
-  rrect(ctx, W - 60 - w, 90, w, 84, 42);
+  rrect(ctx, right - w, 90, w, 84, 42);
   ctx.fill();
   ctx.fillStyle = '#fff';
   ctx.textAlign = 'center';
-  ctx.fillText(label, W - 60 - w / 2, 133);
+  ctx.fillText(label, right - w / 2, 133);
   if (st.n > 1) {
     ctx.direction = 'ltr';
     ctx.textAlign = 'center';
     ctx.font = font(40, 800);
     ctx.fillStyle = 'rgba(255,255,255,.9)';
-    ctx.fillText(`${st.k + 1} / ${st.n}`, W / 2 - 40, 133);
+    ctx.fillText(`${st.k + 1} / ${st.n}`, st.story.template === 'breaking' ? 330 : W / 2 - 40, 133);
   }
   const name = [st.settings.channelName, st.settings.handle].filter(Boolean).join('  ');
   if (name) {
@@ -76,21 +94,25 @@ function topBar(ctx, st) {
   }
 }
 
+// بيرجّع أسفل نقطة وصلها العنوان (عشان القوالب اللي تحته)
 function headline(ctx, st) {
   const text = st.story.headline || 'اكتب العنوان';
-  const pad = 48, maxW = W - 120 - pad * 2 - 16;
-  let size = 76, lines;
-  for (; size >= 48; size -= 6) {
+  const tpl = st.story.template;
+  const compact = tpl === 'stat' || tpl === 'map';
+  const pad = compact ? 36 : 48, maxW = W - 120 - pad * 2 - 16;
+  const maxLines = compact ? 2 : 4;
+  let size = compact ? 64 : 76, lines;
+  for (; size >= 44; size -= 4) {
     ctx.font = font(size, 800);
     lines = wrap(ctx, text, maxW);
-    if (lines.length <= 4) break;
+    if (lines.length <= maxLines) break;
   }
   const lh = size * 1.35, h = lines.length * lh + pad * 2;
   const y = 250;
   ctx.fillStyle = 'rgba(255,255,255,.07)';
   rrect(ctx, 60, y, W - 120, h, 36);
   ctx.fill();
-  ctx.fillStyle = st.cat.color;
+  ctx.fillStyle = tpl === 'breaking' ? '#e5484d' : st.cat.color;
   rrect(ctx, W - 60 - 16, y + 24, 16, h - 48, 8);
   ctx.fill();
   ctx.fillStyle = '#fff';
@@ -99,7 +121,9 @@ function headline(ctx, st) {
   ctx.textBaseline = 'middle';
   ctx.font = font(size, 800);
   lines.forEach((l, i) => ctx.fillText(l, W - 60 - pad - 16, y + pad + lh * (i + 0.5)));
+  let bottom = y + h;
   if (st.story.kind === 'news' && st.story.claimKind === 'opinion') {
+    bottom += 88;
     ctx.font = font(36);
     const t = 'رأي وتحليل';
     const w = ctx.measureText(t).width + 56;
@@ -110,6 +134,7 @@ function headline(ctx, st) {
     ctx.textAlign = 'center';
     ctx.fillText(t, W - 60 - w / 2, y + h + 56);
   }
+  return bottom;
 }
 
 // الكابشن: العبارة الحالية بكلماتها، والكلمة الجارية مضيئة
@@ -121,7 +146,8 @@ function captions(ctx, st, t) {
   if (gi < 0) gi = groups.length - 1;
   const g = groups[gi];
   if (!g) return;
-  const size = 84;
+  const tall = st.story.template === 'stat' || st.story.template === 'map';
+  const size = tall ? 74 : 84;
   ctx.font = font(size, 800);
   ctx.direction = 'rtl';
   ctx.textBaseline = 'middle';
@@ -135,7 +161,7 @@ function captions(ctx, st, t) {
     rows[rows.length - 1].push({ ...w, ww });
     rw += (rows[rows.length - 1].length > 1 ? space : 0) + ww;
   }
-  const lh = size * 1.5, y0 = 1130 - (rows.length * lh) / 2;
+  const lh = size * 1.5, y0 = (tall ? 1300 : 1130) - (rows.length * lh) / 2;
   if (st.hasB) {
     ctx.font = font(34, 700);
     ctx.fillStyle = seg.speaker === 'B' ? '#ffb86b' : hexA(st.cat.color, 1);
@@ -206,6 +232,203 @@ function sourceBar(ctx, st) {
   }
 }
 
+/* ---------- قوالب: خريطة، بطاقة رقم، شريط أخبار ---------- */
+let world = null;
+const pathCache = new Map();
+export function setWorld(w) { world = w; pathCache.clear(); }
+export const worldLoaded = () => !!world;
+
+const clamp01 = v => Math.max(0, Math.min(1, v));
+const easeOut = p => 1 - Math.pow(1 - p, 3);
+const easeInOut = p => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2);
+
+const AR_DIGITS = '٠١٢٣٤٥٦٧٨٩';
+export const toLatinDigits = v => String(v ?? '').replace(/[٠-٩]/g, d => AR_DIGITS.indexOf(d)).replace(/٫/g, '.').replace(/[٬,\s]/g, '');
+const fmtNum = (n, dec) => n.toLocaleString('ar-EG', { minimumFractionDigits: dec, maximumFractionDigits: dec, useGrouping: false }).replace(/[.,]/g, '٫');
+
+function statPanel(ctx, st, y0) {
+  const s = st.story.stat || {};
+  const x = 60, w = W - 120, h = 580;
+  ctx.fillStyle = 'rgba(255,255,255,.07)';
+  rrect(ctx, x, y0, w, h, 36);
+  ctx.fill();
+  const raw = toLatinDigits(s.value);
+  const numeric = /^-?\d+(\.\d+)?$/.test(raw);
+  const dec = numeric ? (raw.split('.')[1] || '').length : 0;
+  const p = easeOut(clamp01((st.local - 0.3) / 1.5));
+  const text = numeric ? fmtNum(parseFloat(raw) * p, dec) : (s.value || '٠');
+  ctx.direction = 'rtl';
+  ctx.textBaseline = 'middle';
+  ctx.textAlign = 'center';
+  let size = 250;
+  ctx.font = font(size, 800);
+  const unit = s.unit || '';
+  const unitSize = 110;
+  const gap = unit ? 24 : 0;
+  while (size > 90) {
+    ctx.font = font(size, 800);
+    const uw = unit ? (ctx.font = font(unitSize, 800), ctx.measureText(unit).width) : 0;
+    ctx.font = font(size, 800);
+    if (ctx.measureText(numeric ? fmtNum(parseFloat(raw), dec) : text).width + uw + gap <= w - 120) break;
+    size -= 10;
+  }
+  ctx.font = font(size, 800);
+  const nw = ctx.measureText(numeric ? fmtNum(parseFloat(raw), dec) : text).width;
+  ctx.font = font(unitSize, 800);
+  const uw = unit ? ctx.measureText(unit).width : 0;
+  const total = nw + (unit ? gap + uw : 0);
+  const cx = x + w / 2, cy = y0 + 255;
+  // الرقم على اليمين والوحدة على يساره (ترتيب القراءة العربي)
+  ctx.fillStyle = '#fff';
+  ctx.font = font(size, 800);
+  ctx.textAlign = 'right';
+  ctx.fillText(text, cx + total / 2, cy);
+  if (unit) {
+    ctx.font = font(unitSize, 800);
+    ctx.fillStyle = st.cat.color;
+    ctx.textAlign = 'left';
+    ctx.fillText(unit, cx - total / 2, cy + 14);
+  }
+  if (s.trend === 'up' || s.trend === 'down') {
+    ctx.font = font(84, 800);
+    ctx.fillStyle = s.trend === 'up' ? '#30a46c' : '#e5484d';
+    ctx.textAlign = 'center';
+    ctx.globalAlpha *= clamp01((st.local - 1.4) / 0.4);
+    ctx.fillText(s.trend === 'up' ? '▲' : '▼', cx, y0 + 88);
+    ctx.globalAlpha = 1;
+  }
+  if (s.label) {
+    ctx.font = font(50, 700);
+    ctx.fillStyle = 'rgba(255,255,255,.88)';
+    ctx.textAlign = 'center';
+    wrap(ctx, s.label, w - 140).slice(0, 2).forEach((l, i) => ctx.fillText(l, cx, y0 + 435 + i * 70));
+  }
+}
+
+function countryPath(c) {
+  let p = pathCache.get(c.id);
+  if (!p) { p = new Path2D(c.d); pathCache.set(c.id, p); }
+  return p;
+}
+
+function mapPanel(ctx, st, y0) {
+  if (!world) return;
+  const m = st.story.map || {};
+  const x = 60, w = W - 120, h = 620, ar = w / h;
+  const sel = new Set(m.countries || []);
+  const hl = world.countries.filter(c => sel.has(c.id));
+  // الشاشة النهائية: على الدول المختارة، أو العالم كله لو مفيش
+  const fit = (cx, cy, vw) => { const vh = vw / ar; return { vx: cx - vw / 2, vy: cy - vh / 2, vw }; };
+  const full = fit(world.w / 2, world.h / 2, world.w);
+  let target = full;
+  if (hl.length) {
+    const b = hl.reduce((a, c) => [Math.min(a[0], c.fb[0]), Math.min(a[1], c.fb[1]), Math.max(a[2], c.fb[2]), Math.max(a[3], c.fb[3])], [1e9, 1e9, -1e9, -1e9]);
+    const bw = b[2] - b[0], bh = b[3] - b[1];
+    const vw = Math.min(world.w, Math.max(150, bw * 1.8, bh * 1.8 * ar));
+    const t0 = fit((b[0] + b[2]) / 2, (b[1] + b[3]) / 2, vw);
+    // ما نخرجش برّه حدود الخريطة
+    t0.vx = Math.max(0, Math.min(world.w - vw, t0.vx));
+    const vh = vw / ar;
+    t0.vy = vh >= world.h ? (world.h - vh) / 2 : Math.max(0, Math.min(world.h - vh, t0.vy));
+    target = t0;
+  }
+  const z = easeInOut(clamp01((st.local - 0.2) / 1.3));
+  const v = { vx: full.vx + (target.vx - full.vx) * z, vy: full.vy + (target.vy - full.vy) * z, vw: full.vw + (target.vw - full.vw) * z };
+  const sc = w / v.vw;
+  ctx.save();
+  rrect(ctx, x, y0, w, h, 36);
+  ctx.clip();
+  ctx.fillStyle = '#0c1630';
+  ctx.fillRect(x, y0, w, h);
+  ctx.translate(x, y0);
+  ctx.scale(sc, sc);
+  ctx.translate(-v.vx, -v.vy);
+  ctx.lineJoin = 'round';
+  ctx.lineWidth = 0.9 / sc;
+  ctx.strokeStyle = '#0a1128';
+  ctx.fillStyle = '#26396b';
+  for (const c of world.countries) { const p = countryPath(c); ctx.fill(p); ctx.stroke(p); }
+  const a = clamp01((st.local - 0.9) / 0.6);
+  for (const c of hl) {
+    const p = countryPath(c);
+    ctx.globalAlpha = a;
+    ctx.fillStyle = st.cat.color;
+    ctx.fill(p);
+    ctx.lineWidth = 2.2 / sc;
+    ctx.strokeStyle = '#fff';
+    ctx.stroke(p);
+  }
+  ctx.globalAlpha = 1;
+  ctx.restore();
+  // اسم الدول المختارة (بالعربي) فوق الخريطة
+  ctx.direction = 'rtl';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.save();
+  rrect(ctx, x, y0, w, h, 36);
+  ctx.clip();
+  if (hl.length && hl.length <= 4) {
+    ctx.font = font(42, 800);
+    for (const c of hl) {
+      const X = x + (c.c[0] - v.vx) * sc, Y = y0 + (c.c[1] - v.vy) * sc;
+      ctx.globalAlpha = a;
+      ctx.lineWidth = 8;
+      ctx.strokeStyle = 'rgba(8,12,28,.85)';
+      ctx.strokeText(c.ar, X, Y);
+      ctx.fillStyle = '#fff';
+      ctx.fillText(c.ar, X, Y);
+    }
+    ctx.globalAlpha = 1;
+  }
+  ctx.restore();
+  if (m.label) {
+    ctx.font = font(36, 700);
+    const tw = ctx.measureText(m.label).width + 48;
+    ctx.fillStyle = 'rgba(0,0,0,.6)';
+    rrect(ctx, x + w - 24 - tw, y0 + 24, tw, 64, 32);
+    ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.fillText(m.label, x + w - 24 - tw / 2, y0 + 57);
+  }
+}
+
+// شريط الأخبار السفلي: بيمشي من اليمين لليسار. النص الافتراضي = عناوين باقي الأخبار في الحلقة
+function ticker(ctx, st, t) {
+  const tk = st.reel.ticker;
+  if (!tk?.on) return;
+  const others = st.reel.stories.filter(s => s !== st.story && s.headline).map(s => s.headline);
+  const text = (tk.text || others.join('   •   ') || st.story.headline || '').trim();
+  if (!text) return;
+  const y = 1412, h = 60, x = 60, w = W - 120;
+  ctx.fillStyle = 'rgba(0,0,0,.62)';
+  rrect(ctx, x, y, w, h, 20);
+  ctx.fill();
+  const label = tk.label || 'آخر الأخبار';
+  ctx.font = font(30, 800);
+  ctx.direction = 'rtl';
+  ctx.textBaseline = 'middle';
+  const lw = ctx.measureText(label).width + 56;
+  ctx.fillStyle = '#e5484d';
+  rrect(ctx, x + w - lw, y, lw, h, 20);
+  ctx.fill();
+  ctx.fillStyle = '#fff';
+  ctx.textAlign = 'center';
+  ctx.fillText(label, x + w - lw / 2, y + h / 2 + 2);
+  const areaR = x + w - lw - 18, areaL = x + 18, aw = areaR - areaL;
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(areaL, y, aw, h);
+  ctx.clip();
+  ctx.font = font(32, 600);
+  ctx.textAlign = 'left';
+  ctx.fillStyle = '#fff';
+  const tw = ctx.measureText(text).width;
+  const cycle = Math.max(tw, aw) + 160;
+  const off = (t * 150) % cycle;
+  for (let n = 0; n < 2; n++) ctx.fillText(text, areaR - off + n * cycle, y + h / 2 + 2);
+  ctx.restore();
+}
+
 // سطر حقوق الصورة/الفيديو (لازم يظهر لما الترخيص بيطلب نسب)
 function mediaCredit(ctx, text) {
   ctx.font = font(26, 600);
@@ -256,14 +479,24 @@ export function drawFrame(ctx, st, t) {
   // دخول الخبر الجديد بتلاشي قصير، ولون الخلفية بينتقل من لون الخبر اللي قبله
   const fade = k > 0 ? Math.min(1, (t - tl.stories[k].start) / 0.3) : 1;
   const prev = k > 0 ? catFor(st, st.reel.stories[tl.stories[k - 1].idx]) : cat;
-  const c = { ...st, story, cat, k: Math.max(0, k), n: tl.stories.length };
+  const c = { ...st, story, cat, k: Math.max(0, k), n: tl.stories.length, t, local: k >= 0 ? t - tl.stories[k].start : t };
   background(ctx, lerpHex(prev.color, cat.color, fade));
   const bg = st.bgs?.get(story.id);
   if (bg) drawBg(ctx, bg, W, H, story.media?.dim ?? 0.5);
   ctx.globalAlpha = fade;
+  if (story.template === 'breaking') {
+    const g = ctx.createRadialGradient(W / 2, H / 2, H * 0.35, W / 2, H / 2, H * 0.75);
+    g.addColorStop(0, 'rgba(229,72,77,0)');
+    g.addColorStop(1, `rgba(229,72,77,${0.16 + 0.1 * Math.abs(Math.sin(t * 3.2))})`);
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, W, H);
+  }
   topBar(ctx, c);
-  headline(ctx, c);
+  const hb = headline(ctx, c);
+  if (story.template === 'stat') statPanel(ctx, c, hb + 30);
+  else if (story.template === 'map') mapPanel(ctx, c, hb + 30);
   captions(ctx, c, t);
+  ticker(ctx, c, t);
   sourceBar(ctx, c);
   if (bg && story.media?.credit) mediaCredit(ctx, story.media.credit);
   ctx.globalAlpha = 1;
