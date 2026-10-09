@@ -1,17 +1,20 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv1hnvi0';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv1hnvi0';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv1hnvi0';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mv1hnvi0';
-import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv1hnvi0';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mv1hnvi0';
-import { drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mv1hnvi0';
-import { exportSupport, exportReel } from './export.js?v=mv1hnvi0';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv1hnvi0';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mv1hnvi0';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mv1hnvi0';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mv1hnvi0';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mv1hnvi0';
-import { loadBg, playBg } from './bg.js?v=mv1hnvi0';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv1kf7cx';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv1kf7cx';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv1kf7cx';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mv1kf7cx';
+import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv1kf7cx';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mv1kf7cx';
+import { drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mv1kf7cx';
+import { exportSupport, exportReel } from './export.js?v=mv1kf7cx';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv1kf7cx';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mv1kf7cx';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mv1kf7cx';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mv1kf7cx';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mv1kf7cx';
+import { loadBg, playBg } from './bg.js?v=mv1kf7cx';
+import { initI18n } from './i18n.js?v=mv1kf7cx';
+
+initI18n();
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -109,10 +112,10 @@ function renderFeed() {
       (i.cov || 1) >= 2 ? `<span class="tag">🗞 ${i.cov} مصادر</span>` : '',
     ].join('');
     return `<article class="item" style="--c:${c.color}">
-      <h3 dir="auto">${esc(i.title)}</h3>
-      <div class="meta"><span>${esc(i.source)}</span><span>${c.label}</span>${regionLabel(i.region) ? `<span>${regionLabel(i.region)}</span>` : ''}<span>${timeAgo(i.published)}</span>
+      <h3 dir="auto" translate="no">${esc(i.title)}</h3>
+      <div class="meta"><span translate="no">${esc(i.source)}</span><span>${c.label}</span>${regionLabel(i.region) ? `<span>${regionLabel(i.region)}</span>` : ''}<span>${timeAgo(i.published)}</span>
         ${yt ? '<span class="tag">رادار — مش مصدر</span>' : ''}${TYPE_TXT[i.type] ? `<span class="tag">${TYPE_TXT[i.type]}</span>` : ''}${i.lang && i.lang !== 'ar' ? `<span>${i.lang.toUpperCase()}</span>` : ''}${badges}</div>
-      ${i.summary ? `<div class="sum" dir="auto">${esc(i.summary.slice(0, 220))}</div>` : ''}
+      ${i.summary ? `<div class="sum" dir="auto" translate="no">${esc(i.summary.slice(0, 220))}</div>` : ''}
       <div class="row"><label class="pk"><input type="checkbox" data-chk="${esc(i.id)}" ${picked.has(i.id) ? 'checked' : ''}> حدّد</label>
         <button class="btn pri" data-pick="${esc(i.id)}">ريل جديد</button>
         <button class="btn" data-add="${esc(i.id)}">＋ للريل الحالي</button>
@@ -228,7 +231,7 @@ function renderStrip() {
   $('storyTabs').innerHTML = reel.stories.map((st, i) => {
     const c = st.kind === 'news' ? cat(st.category) : { color: '#6b7cff' };
     const label = (st.headline || (st.kind === 'news' ? 'خبر فاضي' : KINDS[st.kind])).slice(0, 18);
-    return `<button class="chip ${i === cur ? 'on' : ''}" data-i="${i}" style="--c:${c.color}">${i + 1}. ${st.kind !== 'news' ? `<small>${KINDS[st.kind]}</small> ` : ''}${esc(label)}</button>`;
+    return `<button class="chip ${i === cur ? 'on' : ''}" data-i="${i}" style="--c:${c.color}">${i + 1}. ${st.kind !== 'news' ? `<small>${KINDS[st.kind]}</small> ` : ''}${st.headline ? `<span translate="no">${esc(label)}</span>` : esc(label)}</button>`;
   }).join('');
   $('stUp').disabled = cur === 0;
   $('stDown').disabled = cur === reel.stories.length - 1;
@@ -553,8 +556,9 @@ $('mapChips').addEventListener('click', e => {
 
 // أخبار الريل
 $('storyTabs').addEventListener('click', e => {
-  if (e.target.dataset.i == null) return;
-  readForm(); cur = Number(e.target.dataset.i); fillForm();
+  const b = e.target.closest('[data-i]');
+  if (!b) return;
+  readForm(); cur = Number(b.dataset.i); fillForm();
 });
 function addKind(kind) {
   readForm();
@@ -995,8 +999,8 @@ function renderLibrary() {
     const c = first.kind === 'news' ? cat(first.category) : { label: KINDS[first.kind], color: '#6b7cff' };
     const sources = [...new Set(r.stories.filter(x => x.kind === 'news' && x.sourceName).map(x => x.sourceName))];
     return `<article class="item" style="--c:${c.color}">
-      <h3 dir="auto">${esc(r.title || first.headline || '(من غير عنوان)')}</h3>
-      <div class="meta"><span>${r.stories.length > 1 ? r.stories.length + ' أخبار' : c.label}</span><span class="stat ${r.status}">${STATUSES[r.status] || r.status}</span><span dir="auto">${esc(sources.slice(0, 3).join('، ') || 'من غير مصدر')}</span><span>${timeAgo(new Date(r.updatedAt).toISOString())}</span></div>
+      <h3 dir="auto" translate="no">${esc(r.title || first.headline || '(من غير عنوان)')}</h3>
+      <div class="meta"><span>${r.stories.length > 1 ? r.stories.length + ' أخبار' : c.label}</span><span class="stat ${r.status}">${STATUSES[r.status] || r.status}</span>${sources.length ? `<span dir="auto" translate="no">${esc(sources.slice(0, 3).join('، '))}</span>` : '<span>من غير مصدر</span>'}<span>${timeAgo(new Date(r.updatedAt).toISOString())}</span></div>
       <div class="row"><button class="btn pri" data-open="${r.id}">فتح</button>
         <select data-st="${r.id}">${Object.entries(STATUSES).map(([k, v]) => `<option value="${k}" ${k === r.status ? 'selected' : ''}>${v}</option>`).join('')}</select>
         <button class="btn ghost" data-dup="${r.id}">تكرار</button>
@@ -1355,7 +1359,7 @@ function patchReel(id, fn) {
 function renderPublish() {
   const all = listReels().map(normalizeReel).filter(r => !r.stories.every(isEmptyStory));
   if (!pbId || !all.some(r => r.id === pbId)) pbId = (all.find(r => r.id === reel.id) || all[0])?.id || null;
-  $('pbReel').innerHTML = all.length ? all.map(r => `<option value="${r.id}" ${r.id === pbId ? 'selected' : ''}>${esc(r.title || r.stories[0].headline || '(من غير عنوان)')}</option>`).join('') : '<option value="">مفيش ريلز لسه</option>';
+  $('pbReel').innerHTML = all.length ? all.map(r => `<option translate="no" value="${r.id}" ${r.id === pbId ? 'selected' : ''}>${esc(r.title || r.stories[0].headline || '(من غير عنوان)')}</option>`).join('') : '<option value="">مفيش ريلز لسه</option>';
   $('lgPlat').innerHTML = Object.entries(PLATFORMS).map(([k, v]) => `<option value="${k}">${v}</option>`).join('');
   if (!$('lgDate').value) $('lgDate').value = today();
   const rec = pbId ? normalizeReel(getReel(pbId)) : null;
@@ -1365,7 +1369,7 @@ function renderPublish() {
   $('pbTitle').value = pack.title || '';
   $('pbDesc').value = pack.desc || '';
   $('pbTags').value = pack.tags || '';
-  $('pbTitles').innerHTML = (pack.titles || []).map((t, i) => `<button class="chip" data-t="${i}">${esc(t.slice(0, 40))}</button>`).join('');
+  $('pbTitles').innerHTML = (pack.titles || []).map((t, i) => `<button class="chip" data-t="${i}" translate="no">${esc(t.slice(0, 40))}</button>`).join('');
   $('pbDate').value = r?.plan?.date || '';
   document.querySelectorAll('[data-plat]').forEach(c => { c.checked = !!r?.plan?.platforms?.includes(c.dataset.plat); });
   renderQueue(all);
@@ -1376,7 +1380,7 @@ function renderQueue(all) {
   const rows = all.filter(r => r.plan?.date && r.status !== 'published').sort((a, b) => a.plan.date.localeCompare(b.plan.date));
   $('pbQueue').innerHTML = rows.length ? rows.map(r => {
     const late = r.plan.date < today();
-    return `<article class="item"><h3 dir="auto">${esc(r.title || r.stories[0].headline || '')}</h3>
+    return `<article class="item"><h3 dir="auto" translate="no">${esc(r.title || r.stories[0].headline || '')}</h3>
       <div class="meta"><span>${r.plan.date}${late ? ' ⚠️ متأخر' : r.plan.date === today() ? ' • النهارده' : ''}</span><span>${(r.plan.platforms || []).map(p => PLATFORMS[p]).join('، ') || 'من غير منصة'}</span><span class="stat ${r.status}">${STATUSES[r.status]}</span></div>
       <div class="row"><button class="btn" data-pbopen="${r.id}">الحزمة</button><button class="btn ghost" data-pbstudio="${r.id}">الاستوديو</button></div></article>`;
   }).join('') : '<p class="muted">الطابور فاضي. اختار ريل وتاريخ واضغط «حفظ في الطابور».</p>';
