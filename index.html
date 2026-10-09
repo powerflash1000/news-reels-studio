@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mv13n2xh">
+<html lang="ar" dir="rtl" data-v="mv195uxg">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mv13n2xh">
+<link rel="stylesheet" href="assets/css/style.css?v=mv195uxg">
 </head>
 <body>
 <header class="top">
@@ -134,6 +134,16 @@
             <label>النص (فاضي = عناوين باقي الأخبار تلقائيًا)<input id="tkText" dir="auto"></label>
           </div>
         </div>
+      </div>
+      <div class="card musicbox">
+        <b>موسيقى خلفية (اختياري)</b>
+        <div id="musicInfo" class="muted">من غير موسيقى. ارفع ملف صوت من عندك (ترخيصه عليك: استخدم موسيقى بدون حقوق أو من مكتبة بترخيصك).</div>
+        <div class="row">
+          <input id="musicFile" type="file" accept="audio/*">
+          <label>مستوى الموسيقى<input id="musicVol" type="range" min="0.03" max="0.4" step="0.01" value="0.15"></label>
+          <button id="musicDel" class="btn ghost" hidden>شيل الموسيقى</button>
+        </div>
+        <p class="muted">بتنزل تلقائيًا وقت الكلام وبتتكرر لآخر الحلقة وبتخفت في الأول والآخر. الملف بيفضل على جهازك.</p>
       </div>
       <div class="card bgbox">
         <b>خلفية الخبر</b>
@@ -307,6 +317,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mv13n2xh"></script>
+<script type="module" src="js/main.js?v=mv195uxg"></script>
 </body>
 </html>
