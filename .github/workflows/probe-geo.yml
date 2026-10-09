@@ -1,5 +1,8 @@
 name: probe-geo
-on: workflow_dispatch
+on:
+  push:
+    branches: ["claude/**"]
+    paths: [".github/workflows/probe-geo.yml"]
 jobs:
   probe:
     runs-on: ubuntu-latest
