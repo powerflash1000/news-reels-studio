@@ -97,3 +97,23 @@ export async function sha1(text) {
   const b = await crypto.subtle.digest('SHA-1', new TextEncoder().encode(text));
   return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join('');
 }
+
+// إعادة ضبط ElevenLabs: بيمسح المفتاح والأصوات وإعدادات الصوت والرصيد المحفوظ (الباقي زي الوسيط ومفتاح Pixabay بيفضل)
+export function resetElevenSettings() {
+  const d = DEFAULT_SETTINGS;
+  setSettings({ elevenKey: d.elevenKey, elevenModel: d.elevenModel, voiceA: '', voiceB: '', voiceNameA: '', voiceNameB: '', vsA: d.vsA, vsB: d.vsB });
+  try { localStorage.removeItem('nrs:sub'); localStorage.removeItem('nrs:chars'); } catch { /* مفيش تخزين */ }
+}
+
+// مسح كاش الصوت المتولّد (التوليد بعده بيصرف حروف تاني)
+export async function cacheClear() {
+  try {
+    const d = await db();
+    await new Promise((res, rej) => {
+      const tx = d.transaction('lines', 'readwrite');
+      tx.objectStore('lines').clear();
+      tx.oncomplete = res;
+      tx.onerror = () => rej(tx.error);
+    });
+  } catch { /* الكاش اختياري */ }
+}
