@@ -1,6 +1,7 @@
 // رسم إطار الريل على canvas (مقاس 1080×1920). نفس الدالة للمعاينة والتصدير.
 import { MED_DISCLAIMER, phrases } from './reel.js';
 import { hostOf } from './feeds.js';
+import { drawBg } from './bg.js';
 
 export const W = 1080, H = 1920;
 const FONT = 'Cairo, Tajawal, "Noto Naskh Arabic", "Segoe UI", Tahoma, sans-serif';
@@ -205,6 +206,22 @@ function sourceBar(ctx, st) {
   }
 }
 
+// سطر حقوق الصورة/الفيديو (لازم يظهر لما الترخيص بيطلب نسب)
+function mediaCredit(ctx, text) {
+  ctx.font = font(26, 600);
+  ctx.direction = 'rtl';
+  ctx.textAlign = 'right';
+  ctx.textBaseline = 'middle';
+  let t = '🖼 ' + text;
+  while (ctx.measureText(t).width > W - 160 && t.length > 12) t = t.slice(0, -2);
+  ctx.fillStyle = 'rgba(0,0,0,.45)';
+  const w = ctx.measureText(t).width + 36;
+  rrect(ctx, W - 60 - w, H - 78, w, 44, 22);
+  ctx.fill();
+  ctx.fillStyle = 'rgba(255,255,255,.85)';
+  ctx.fillText(t, W - 78, H - 56);
+}
+
 function progress(ctx, st, t) {
   const d = st.tl.duration;
   ctx.fillStyle = 'rgba(255,255,255,.12)';
@@ -241,11 +258,14 @@ export function drawFrame(ctx, st, t) {
   const prev = k > 0 ? catFor(st, st.reel.stories[tl.stories[k - 1].idx]) : cat;
   const c = { ...st, story, cat, k: Math.max(0, k), n: tl.stories.length };
   background(ctx, lerpHex(prev.color, cat.color, fade));
+  const bg = st.bgs?.get(story.id);
+  if (bg) drawBg(ctx, bg, W, H, story.media?.dim ?? 0.5);
   ctx.globalAlpha = fade;
   topBar(ctx, c);
   headline(ctx, c);
   captions(ctx, c, t);
   sourceBar(ctx, c);
+  if (bg && story.media?.credit) mediaCredit(ctx, story.media.credit);
   ctx.globalAlpha = 1;
   progress(ctx, c, t);
 }

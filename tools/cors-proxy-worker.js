@@ -1,12 +1,16 @@
 // وسيط CORS صغير على Cloudflare Workers (مجاني حتى 100 ألف طلب في اليوم).
-// استخدمه بس لو المتصفح منع الاتصال بـ ElevenLabs (CORS).
+// استخدمه لو المتصفح منع الاتصال بـ ElevenLabs أو تحميل ملفات NASA / Internet Archive / Pixabay (CORS).
 // الطريقة: dash.cloudflare.com ← Workers & Pages ← Create ← Hello World ← Edit code
 // الصق الكود ده ← Deploy ← انسخ الرابط وحطه في «رابط الوسيط» في إعدادات البرنامج.
 
 // بيسمح بس بالمواقع دي، عشان محدش يستخدم الوسيط بتاعك في حاجة تانية
 const ALLOWED_HOSTS = [
   'api.elevenlabs.io',
+  'images-assets.nasa.gov', // صور وفيديو NASA
+  'archive.org',            // Internet Archive (وكل النطاقات الفرعية)
+  'cdn.pixabay.com',
 ];
+const hostAllowed = h => ALLOWED_HOSTS.some(a => h === a || h.endsWith('.' + a));
 // الهيدرز اللي بتتبعت للخدمة الأصلية (مفتاح ElevenLabs ونوع المحتوى)
 const FORWARD_HEADERS = ['xi-api-key', 'content-type', 'accept'];
 
@@ -22,7 +26,7 @@ export default {
     const target = new URL(request.url).searchParams.get('url');
     let url;
     try { url = new URL(target); } catch { return new Response('missing ?url=', { status: 400, headers: cors }); }
-    if (url.protocol !== 'https:' || !ALLOWED_HOSTS.includes(url.hostname)) {
+    if (url.protocol !== 'https:' || !hostAllowed(url.hostname)) {
       return new Response('host not allowed', { status: 403, headers: cors });
     }
 

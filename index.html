@@ -13,6 +13,7 @@
   <nav id="tabs">
     <button data-tab="feed" class="on">الأخبار</button>
     <button data-tab="studio">الاستوديو</button>
+    <button data-tab="media">الوسائط</button>
     <button data-tab="library">المكتبة</button>
     <button data-tab="settings">الإعدادات</button>
   </nav>
@@ -92,6 +93,16 @@
         <label>ترخيص / حقوق (اختياري)<input id="fCredit" placeholder="مثال: بيانات منظمة الصحة العالمية"></label>
         <div id="ytNote" class="warn" hidden></div>
       </div>
+      <div class="card bgbox">
+        <b>خلفية الخبر</b>
+        <div id="bgInfo" class="muted">من غير خلفية (لون القسم بس).</div>
+        <div class="row">
+          <button id="bgPick" class="btn">🖼 من مكتبة الوسائط</button>
+          <label class="btn file">⬆ من جهازي<input id="bgFile" type="file" accept="image/*,video/*" hidden></label>
+          <button id="bgClear" class="btn ghost">إزالة</button>
+        </div>
+        <label>التعتيم (عشان النص يتقري)<input id="bgDim" type="range" min="0" max="0.85" step="0.05" value="0.5"></label>
+      </div>
       <label>السكريبت — كل سطر جملة. للحوار ابدأ السطر بـ «أ:» أو «ب:»
         <textarea id="fScript" rows="9" placeholder="أ: أهلاً بيكم…&#10;ب: وفيه خبر مهم…"></textarea>
       </label>
@@ -111,6 +122,31 @@
       <p id="status" class="muted"></p>
     </div>
   </div>
+</section>
+
+<!-- الوسائط -->
+<section id="tab-media" hidden>
+  <p id="mTarget" class="muted"></p>
+  <div class="bar">
+    <input id="mq" type="search" placeholder="ابحث (الإنجليزي أدق: heart, Mars, stadium, economy…)">
+    <select id="mType"><option value="any">صور وفيديو</option><option value="image">صور</option><option value="video">فيديو</option></select>
+    <select id="mTier"><option value="all">كل التراخيص المسموحة</option><option value="free">حر بس (من غير نسب)</option></select>
+    <button id="mGo" class="btn pri">بحث</button>
+  </div>
+  <div id="mProv" class="chips"></div>
+  <p id="mInfo" class="muted"></p>
+  <div id="mGrid" class="mgrid"></div>
+  <details class="manual">
+    <summary>➕ إضافة وسيط برابط مباشر (CDC / NOAA / أي مصدر رسمي)</summary>
+    <div class="grid">
+      <label>رابط الملف المباشر (jpg / png / mp4 / webm)<input id="uUrl" dir="ltr" placeholder="https://"></label>
+      <label>الحقوق (هتظهر على الشاشة)<input id="uCredit" placeholder="مثال: CDC / PHIL / اسم المصور"></label>
+      <label>الترخيص<input id="uLicense" placeholder="مثال: ملك عام (حكومة أمريكية)"></label>
+    </div>
+    <label class="chk"><input id="uOk" type="checkbox"> متأكد إن الترخيص بيسمح بالاستخدام التجاري والتعديل</label>
+    <button id="uGo" class="btn">تحميل واستخدام في الخبر الحالي</button>
+    <p id="uMsg" class="muted"></p>
+  </details>
 </section>
 
 <!-- المكتبة -->
@@ -175,7 +211,9 @@
 
   <div class="card">
     <h3>متقدم</h3>
-    <label>رابط الوسيط (اختياري، لو المتصفح منع الاتصال بـ ElevenLabs)<input id="sProxy" dir="ltr" placeholder="https://….workers.dev"></label>
+    <label>مفتاح Pixabay (مجاني من pixabay.com/api/docs)<input id="sPixabay" type="password" dir="ltr" autocomplete="off"></label>
+    <label>رابط الوسيط (Cloudflare Worker) — لازم لتحميل ملفات NASA و Internet Archive و Pixabay، واختياري لباقي المصادر<input id="sProxy" dir="ltr" placeholder="https://….workers.dev"></label>
+    <p class="muted">الوسيط بيتعمل في دقيقتين من الملف <code>tools/cors-proxy-worker.js</code> في الريبو (الشرح في أول الملف). لو متحدّث قديم، ألصق النسخة الجديدة لأن فيها مواقع الوسائط.</p>
   </div>
 
   <button id="sSave" class="btn pri">حفظ الإعدادات</button>
