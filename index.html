@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>استوديو ريلز الأخبار</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<header class="top">
+  <h1>📰 استوديو ريلز الأخبار</h1>
+  <nav id="tabs">
+    <button data-tab="feed" class="on">الأخبار</button>
+    <button data-tab="studio">الاستوديو</button>
+    <button data-tab="settings">الإعدادات</button>
+  </nav>
+</header>
+
+<main>
+<!-- الأخبار -->
+<section id="tab-feed">
+  <div class="bar">
+    <div id="cats" class="chips"></div>
+    <input id="q" type="search" placeholder="بحث في العناوين…">
+    <label class="chk"><input id="showYt" type="checkbox" checked> رادار اليوتيوب</label>
+  </div>
+  <p id="feedInfo" class="muted"></p>
+  <div id="feedList" class="list"></div>
+  <details class="manual">
+    <summary>➕ إضافة خبر يدويًا</summary>
+    <div class="grid">
+      <label>العنوان<input id="mTitle"></label>
+      <label>رابط المصدر<input id="mUrl" dir="ltr" placeholder="https://"></label>
+      <label>اسم المصدر<input id="mSource"></label>
+      <label>القسم<select id="mCat"></select></label>
+    </div>
+    <button id="mAdd" class="btn">ابدأ ريل من الخبر ده</button>
+  </details>
+</section>
+
+<!-- الاستوديو -->
+<section id="tab-studio" hidden>
+  <div class="studio">
+    <div class="preview">
+      <canvas id="cv" width="1080" height="1920"></canvas>
+      <div class="transport">
+        <button id="play" class="btn">▶ معاينة</button>
+        <span id="time" class="muted">0:00</span>
+      </div>
+    </div>
+    <div class="form">
+      <div class="grid">
+        <label>القسم<select id="fCat"></select></label>
+        <label>نوع المحتوى
+          <select id="fKind">
+            <option value="fact">خبر موثّق بمصدر أصلي</option>
+            <option value="opinion">رأي / تحليل (منسوب)</option>
+          </select>
+        </label>
+      </div>
+      <label>العنوان على الشاشة<input id="fHead"></label>
+      <div class="grid">
+        <label>اسم المصدر الأصلي (إجباري)<input id="fSrc"></label>
+        <label>رابط المصدر الأصلي (إجباري)<input id="fUrl" dir="ltr" placeholder="https://"></label>
+      </div>
+      <label>ترخيص / حقوق (اختياري)<input id="fCredit" placeholder="مثال: بيانات منظمة الصحة العالمية"></label>
+      <div id="ytNote" class="warn" hidden></div>
+      <label>السكريبت — كل سطر جملة. للحوار ابدأ السطر بـ «أ:» أو «ب:»
+        <textarea id="fScript" rows="9" placeholder="أ: أهلاً بيكم…&#10;ب: وفيه خبر مهم…"></textarea>
+      </label>
+      <p id="scriptInfo" class="muted"></p>
+      <div class="row">
+        <button id="gen" class="btn pri">🎙 توليد الصوت (ElevenLabs)</button>
+        <button id="rec" class="btn">⏺ تسجيل بصوتي</button>
+        <label class="btn file">⬆ رفع ملف صوت<input id="upl" type="file" accept="audio/*" hidden></label>
+        <button id="clearAudio" class="btn ghost">مسح الصوت</button>
+      </div>
+      <p id="audioInfo" class="muted">مفيش صوت لسه.</p>
+      <div class="row">
+        <button id="exp" class="btn pri big">⬇ تصدير MP4</button>
+        <button id="newReel" class="btn ghost">ريل جديد</button>
+      </div>
+      <div id="prog" class="prog" hidden><i></i></div>
+      <p id="status" class="muted"></p>
+    </div>
+  </div>
+</section>
+
+<!-- الإعدادات -->
+<section id="tab-settings" hidden>
+  <p class="muted">كل المفاتيح بتتحفظ في متصفحك بس، ومش بتترفع على GitHub.</p>
+  <div class="grid">
+    <label>اسم القناة (على الشاشة)<input id="sChannel"></label>
+    <label>اليوزر (@…)<input id="sHandle" dir="ltr"></label>
+    <label>مفتاح ElevenLabs<input id="sKey" type="password" dir="ltr" autocomplete="off"></label>
+    <label>الموديل<select id="sModel"></select></label>
+    <label>رقم صوت المذيع أ (صوتك)<input id="sVoiceA" dir="ltr"></label>
+    <label>رقم صوت المذيع ب<input id="sVoiceB" dir="ltr"></label>
+    <label>رصيد الحروف الشهري في ElevenLabs<input id="sMonthly" type="number" min="0" placeholder="مثال: 100000"></label>
+    <label>رابط الوسيط (اختياري، CORS)<input id="sProxy" dir="ltr" placeholder="https://….workers.dev"></label>
+  </div>
+  <p id="usage" class="muted"></p>
+  <button id="sSave" class="btn pri">حفظ الإعدادات</button>
+  <span id="sSaved" class="muted"></span>
+</section>
+</main>
+
+<dialog id="checkDlg">
+  <form method="dialog">
+    <h3>قائمة التحقق قبل التصدير</h3>
+    <div id="checkList"></div>
+    <div class="row">
+      <button id="checkOk" class="btn pri" value="ok">تمام، صدّر</button>
+      <button class="btn ghost" value="cancel">رجوع</button>
+    </div>
+  </form>
+</dialog>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
