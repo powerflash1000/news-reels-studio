@@ -29,7 +29,7 @@ export function parseFeed(xml) {
     const t = Date.parse(date);
     return {
       title: clean(tag(b, 'title')),
-      summary: clean(tag(b, 'description') || tag(b, 'summary') || tag(b, 'media:description')).slice(0, 900),
+      summary: clean(tag(b, 'description') || tag(b, 'summary') || tag(b, 'media:description')).slice(0, 600),
       link: decode(link).trim(),
       published: Number.isNaN(t) ? null : new Date(t).toISOString(),
     };
@@ -181,6 +181,7 @@ const seen = new Map();
 const keepOf = new Map(cfg.feeds.map(f => [f.id, f.keepDays]));
 for (const i of [...fresh, ...prev.items || []]) {
   if (seen.has(i.link)) continue;
+  if (!keepOf.has(i.feed) && !i.feed.startsWith('yt-')) continue; // مصدر اتشال من الإعدادات
   const days = keepOf.get(i.feed) || (i.kind === 'youtube' ? KEEP_DAYS_YT : KEEP_DAYS);
   if (i.published && Date.parse(i.published) < now - days * 864e5) continue;
   seen.set(i.link, i);

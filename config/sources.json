@@ -794,16 +794,6 @@
    "weight": 1
   },
   {
-   "id": "venturebeat-ai",
-   "category": "ai",
-   "name": "VentureBeat — AI",
-   "url": "https://venturebeat.com/category/ai/feed/",
-   "lang": "en",
-   "type": "specialist",
-   "region": "us",
-   "weight": 1
-  },
-  {
    "id": "techcrunch-ai",
    "category": "ai",
    "name": "TechCrunch — AI",
@@ -1735,16 +1725,6 @@
    "lang": "en",
    "region": "us",
    "weight": 1,
-   "id": "cnn-ent",
-   "category": "entertainment",
-   "name": "CNN — Entertainment",
-   "url": "http://rss.cnn.com/rss/edition_entertainment.rss"
-  },
-  {
-   "type": "specialist",
-   "lang": "en",
-   "region": "us",
-   "weight": 1,
    "id": "fox-latest",
    "category": "politics",
    "name": "Fox News",
@@ -1779,16 +1759,6 @@
    "category": "politics",
    "name": "NBC News",
    "url": "https://feeds.nbcnews.com/nbcnews/public/news"
-  },
-  {
-   "type": "specialist",
-   "lang": "en",
-   "region": "us",
-   "weight": 1,
-   "id": "usat-top",
-   "category": "politics",
-   "name": "USA Today",
-   "url": "http://rssfeeds.usatoday.com/usatoday-NewsTopStories"
   },
   {
    "type": "specialist",
@@ -1939,26 +1909,6 @@
    "category": "entertainment",
    "name": "Rolling Stone",
    "url": "https://www.rollingstone.com/feed/"
-  },
-  {
-   "type": "specialist",
-   "lang": "en",
-   "region": "us",
-   "weight": 1,
-   "id": "ew",
-   "category": "entertainment",
-   "name": "Entertainment Weekly",
-   "url": "https://ew.com/feed/"
-  },
-  {
-   "type": "specialist",
-   "lang": "en",
-   "region": "us",
-   "weight": 1,
-   "id": "people",
-   "category": "entertainment",
-   "name": "People",
-   "url": "https://people.com/feed/"
   },
   {
    "type": "specialist",
@@ -2135,16 +2085,6 @@
    "lang": "en",
    "region": "world",
    "weight": 1,
-   "id": "90min",
-   "category": "sports",
-   "name": "90min",
-   "url": "https://www.90min.com/posts.rss"
-  },
-  {
-   "type": "specialist",
-   "lang": "en",
-   "region": "world",
-   "weight": 1,
    "id": "fourfourtwo",
    "category": "sports",
    "name": "FourFourTwo",
@@ -2155,30 +2095,10 @@
    "lang": "ar",
    "region": "gulf",
    "weight": 1,
-   "id": "alarabiya",
-   "category": "politics",
-   "name": "العربية",
-   "url": "https://www.alarabiya.net/feed/rss2/ar.xml"
-  },
-  {
-   "type": "specialist",
-   "lang": "ar",
-   "region": "gulf",
-   "weight": 1,
    "id": "skynews-ar",
    "category": "politics",
    "name": "سكاي نيوز عربية",
    "url": "https://www.skynewsarabia.com/web/rss"
-  },
-  {
-   "type": "specialist",
-   "lang": "ar",
-   "region": "arab",
-   "weight": 1,
-   "id": "aljazeera-ar",
-   "category": "politics",
-   "name": "الجزيرة نت",
-   "url": "https://www.aljazeera.net/rss.xml"
   },
   {
    "type": "public",
@@ -2245,50 +2165,10 @@
    "lang": "ar",
    "region": "eg",
    "weight": 1,
-   "id": "masrawy",
-   "category": "politics",
-   "name": "مصراوي",
-   "url": "https://www.masrawy.com/rss/feed/1/%D8%A7%D9%84%D8%A3%D8%AE%D8%A8%D8%A7%D8%B1"
-  },
-  {
-   "type": "specialist",
-   "lang": "ar",
-   "region": "eg",
-   "weight": 1,
    "id": "almasry",
    "category": "politics",
    "name": "المصري اليوم",
    "url": "https://www.almasryalyoum.com/rss/rssfeeds"
-  },
-  {
-   "type": "specialist",
-   "lang": "ar",
-   "region": "eg",
-   "weight": 1,
-   "id": "shorouk",
-   "category": "politics",
-   "name": "الشروق",
-   "url": "https://www.shorouknews.com/rss"
-  },
-  {
-   "type": "specialist",
-   "lang": "ar",
-   "region": "eg",
-   "weight": 1,
-   "id": "ahram",
-   "category": "politics",
-   "name": "الأهرام",
-   "url": "https://gate.ahram.org.eg/rss"
-  },
-  {
-   "type": "specialist",
-   "lang": "ar",
-   "region": "eg",
-   "weight": 1,
-   "id": "elwatan",
-   "category": "politics",
-   "name": "الوطن",
-   "url": "https://www.elwatannews.com/home/rssfeed"
   },
   {
    "type": "specialist",
@@ -2309,26 +2189,6 @@
    "category": "politics",
    "name": "الشرق الأوسط",
    "url": "https://aawsat.com/feed"
-  },
-  {
-   "type": "public",
-   "lang": "ar",
-   "region": "arab",
-   "weight": 1,
-   "id": "bbc-ar-sport",
-   "category": "sports",
-   "name": "BBC عربي — رياضة",
-   "url": "https://feeds.bbci.co.uk/arabic/sports/rss.xml"
-  },
-  {
-   "type": "specialist",
-   "lang": "ar",
-   "region": "arab",
-   "weight": 1,
-   "id": "yallakora",
-   "category": "sports",
-   "name": "يلا كورة",
-   "url": "https://www.yallakora.com/rss"
   },
   {
    "type": "specialist",
@@ -2355,30 +2215,10 @@
    "lang": "ar",
    "region": "eg",
    "weight": 1,
-   "id": "masrawy-art",
-   "category": "entertainment",
-   "name": "مصراوي — فن",
-   "url": "https://www.masrawy.com/rss/feed/5/%D9%81%D9%86"
-  },
-  {
-   "type": "specialist",
-   "lang": "ar",
-   "region": "eg",
-   "weight": 1,
    "id": "youm7-eco",
    "category": "economy",
    "name": "اليوم السابع — اقتصاد",
    "url": "https://www.youm7.com/rss/SectionRss?SectionID=297"
-  },
-  {
-   "type": "specialist",
-   "lang": "ar",
-   "region": "gulf",
-   "weight": 1,
-   "id": "aleqt",
-   "category": "economy",
-   "name": "الاقتصادية",
-   "url": "https://www.aleqt.com/rss"
   }
  ],
  "youtube": [
