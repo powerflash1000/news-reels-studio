@@ -1,10 +1,37 @@
-// رسم إطار الريل على canvas (مقاس 1080×1920). نفس الدالة للمعاينة والتصدير.
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mv1eewfa';
-import { hostOf } from './feeds.js?v=mv1eewfa';
-import QR from '../vendor/qrcode/qrcode.mjs?v=mv1eewfa';
-import { drawBg } from './bg.js?v=mv1eewfa';
+// رسم إطار الريل على canvas (عمودي 1080×1920 أو 4:5 أو مربع أو أفقي). نفس الدالة للمعاينة والتصدير.
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mv1f1uk6';
+import { hostOf } from './feeds.js?v=mv1f1uk6';
+import QR from '../vendor/qrcode/qrcode.mjs?v=mv1f1uk6';
+import { drawBg } from './bg.js?v=mv1f1uk6';
 
-export const W = 1080, H = 1920;
+// مقاسات الإخراج. W/H متغيّرين (live binding) والتصدير بيقراهم وقت التصدير
+export const FORMATS = {
+  v: { w: 1080, h: 1920, name: 'عمودي 9:16 (ريلز / تيك توك / شورتس)' },
+  p: { w: 1080, h: 1350, name: 'بورتريه 4:5 (إنستجرام / فيسبوك)' },
+  s: { w: 1080, h: 1080, name: 'مربع 1:1' },
+  h: { w: 1920, h: 1080, name: 'أفقي 16:9 (يوتيوب)' },
+};
+export let W = 1080, H = 1920;
+// أماكن العناصر حسب المقاس (العمودي = القيم الأصلية بالظبط)
+let L = layoutFor(1080, 1920);
+function layoutFor(w, h) {
+  const vert = h >= 1900;
+  const srcH = h >= 1900 ? 260 : h >= 1300 ? 230 : 200;
+  const srcY = h - srcH - 100;
+  return {
+    vert, srcH, srcY, tickY: srcY - 148,
+    topDy: vert ? 0 : -40,
+    headY: vert ? 250 : 170,
+    headMax: vert ? 4 : h >= 1300 ? 3 : 2,
+    headSize: vert ? 76 : h >= 1300 ? 66 : 58,
+    capScale: vert ? 1 : h >= 1300 ? 0.9 : 0.8,
+    capMaxW: Math.min(w - 160, 1500),
+  };
+}
+export function setFormat(id) {
+  const f = FORMATS[id] || FORMATS.v;
+  W = f.w; H = f.h; L = layoutFor(W, H);
+}
 const FONT = 'Cairo, Tajawal, "Noto Naskh Arabic", "Segoe UI", Tahoma, sans-serif';
 const font = (size, weight = 700) => `${weight} ${size}px ${FONT}`;
 
@@ -101,15 +128,15 @@ function headline(ctx, st) {
   const tpl = st.story.template;
   const compact = tpl === 'stat' || tpl === 'map' || tpl === 'proof';
   const pad = compact ? 36 : 48, maxW = W - 120 - pad * 2 - 16;
-  const maxLines = compact ? 2 : 4;
-  let size = compact ? 64 : 76, lines;
-  for (; size >= 44; size -= 4) {
+  const maxLines = compact ? 2 : L.headMax;
+  let size = compact ? Math.min(64, L.headSize) : L.headSize, lines;
+  for (; size >= 40; size -= 4) {
     ctx.font = font(size, 800);
     lines = wrap(ctx, text, maxW);
     if (lines.length <= maxLines) break;
   }
   const lh = size * 1.35, h = lines.length * lh + pad * 2;
-  const y = 250;
+  const y = L.headY;
   ctx.fillStyle = 'rgba(255,255,255,.07)';
   rrect(ctx, 60, y, W - 120, h, 36);
   ctx.fill();
@@ -151,10 +178,10 @@ function bidiRow(row) {
 }
 
 // الكابشن: العبارة الحالية بكلماتها، والكلمة الجارية مضيئة
-function captions(ctx, st, t) {
+function captions(ctx, st, t, hb = 0) {
   const seg = st.tl.segs.find(s => t >= s.start - 0.05 && t <= s.end + 0.25) || null;
   if (!seg) return;
-  const groups = phrases(seg.words, 5);
+  const groups = phrases(seg.words, L.vert ? 5 : st.reel.ticker?.on ? 3 : 4);
   let gi = groups.findIndex(g => t <= g[g.length - 1].e + 0.05);
   if (gi < 0) gi = groups.length - 1;
   const g = groups[gi];
@@ -163,12 +190,12 @@ function captions(ctx, st, t) {
   const tall = tpl === 'stat' || tpl === 'map' || tpl === 'proof';
   const cs = st.settings?.caps || {};
   const base = Math.min(110, Math.max(56, Number(cs.size) || 84));
-  const size = tall ? Math.round(base * 0.88) : base;
+  const size = Math.round((tall ? base * 0.88 : base) * L.capScale);
   ctx.font = font(size, 800);
   ctx.direction = 'rtl';
   ctx.textBaseline = 'middle';
   const space = ctx.measureText(' ').width;
-  const maxW = W - 160;
+  const maxW = L.capMaxW;
   const rows = [[]];
   let rw = 0;
   for (const w of g) {
@@ -177,7 +204,15 @@ function captions(ctx, st, t) {
     rows[rows.length - 1].push({ ...w, ww });
     rw += (rows[rows.length - 1].length > 1 ? space : 0) + ww;
   }
-  const lh = size * 1.5, y0 = (tpl === 'proof' ? (st.reel.ticker?.on ? 1610 : 1560) : tall ? 1300 : 1130) - (rows.length * lh) / 2;
+  const lh = size * 1.5;
+  let cy = tpl === 'proof' ? (st.reel.ticker?.on ? 1610 : 1560) : tall ? 1300 : 1130;
+  if (!L.vert) {
+    // المقاسات الأصغر: الكابشن في نص المساحة الفاضية بين العنوان والتيكر/المصدر
+    const disc = st.story.category === 'health' || st.story.category === 'healthtech';
+    const top = hb + 24, bot = (st.reel.ticker?.on ? L.tickY : disc ? L.srcY - 96 : L.srcY) - 24;
+    cy = (top + bot) / 2;
+  }
+  const y0 = cy - (rows.length * lh) / 2;
   if (st.hasB) {
     ctx.font = font(34, 700);
     ctx.fillStyle = seg.speaker === 'B' ? '#ffb86b' : hexA(st.cat.color, 1);
@@ -217,7 +252,8 @@ function captions(ctx, st, t) {
 function sourceBar(ctx, st) {
   const r = st.story;
   if (r.kind !== 'news') return; // الافتتاحية والخاتمة من غير مصدر
-  const y = 1560, h = 260;
+  const y = L.srcY, h = L.srcH;
+  const bw = Math.min(W - 120, 1100), bx = W - 60 - bw, rx = bx + bw - 40; // الأفقي: الشريط أضيق ومحاذي لليمين
   if (r.category === 'health' || r.category === 'healthtech') {
     ctx.font = font(32, 700);
     ctx.direction = 'rtl';
@@ -232,30 +268,30 @@ function sourceBar(ctx, st) {
   }
   if (r.template === 'proof' && proofSources(r).length) return; // بطاقات التوثيق بتحل محل شريط المصدر
   ctx.fillStyle = 'rgba(255,255,255,.10)';
-  rrect(ctx, 60, y, W - 120, h, 36);
+  rrect(ctx, bx, y, bw, h, 36);
   ctx.fill();
   ctx.textBaseline = 'middle';
   ctx.direction = 'rtl';
   ctx.textAlign = 'right';
   ctx.font = font(32, 700);
   ctx.fillStyle = st.cat.color;
-  ctx.fillText('المصدر', W - 100, y + 48);
-  ctx.font = font(50, 800);
+  ctx.fillText('المصدر', rx, y + 48);
+  ctx.font = font(L.vert ? 50 : 44, 800);
   ctx.fillStyle = '#fff';
   const name = r.sourceName || '— اكتب اسم المصدر —';
   let nm = name;
-  while (ctx.measureText(nm).width > W - 240 && nm.length > 8) nm = nm.slice(0, -2);
-  ctx.fillText(nm === name ? nm : nm + '…', W - 100, y + 112);
+  while (ctx.measureText(nm).width > bw - 120 && nm.length > 8) nm = nm.slice(0, -2);
+  ctx.fillText(nm === name ? nm : nm + '…', rx, y + (L.vert ? 112 : 100));
   ctx.direction = 'ltr';
   ctx.textAlign = 'right';
   ctx.font = font(34, 600);
   ctx.fillStyle = 'rgba(255,255,255,.75)';
-  ctx.fillText(hostOf(r.sourceUrl) || '', W - 100, y + 174);
-  if (r.credit) {
+  ctx.fillText(hostOf(r.sourceUrl) || '', rx, y + (L.vert ? 174 : 148));
+  if (r.credit && h >= 230) {
     ctx.direction = 'rtl';
     ctx.font = font(28, 600);
     ctx.fillStyle = 'rgba(255,255,255,.6)';
-    ctx.fillText(r.credit.slice(0, 70), W - 100, y + 224);
+    ctx.fillText(r.credit.slice(0, 70), rx, y + 204);
   }
 }
 
@@ -560,7 +596,7 @@ function ticker(ctx, st, t) {
   const others = st.reel.stories.filter(s => s !== st.story && s.headline).map(s => s.headline);
   const text = (tk.text || others.join('   •   ') || st.story.headline || '').trim();
   if (!text) return;
-  const y = 1412, h = 60, x = 60, w = W - 120;
+  const y = L.tickY, h = 60, x = 60, w = W - 120;
   ctx.fillStyle = 'rgba(0,0,0,.62)';
   rrect(ctx, x, y, w, h, 20);
   ctx.fill();
@@ -630,7 +666,11 @@ function catFor(st, story) {
   return st.cats.find(c => c.id === story.category) || st.cats[0];
 }
 
+const PANEL_TPLS = new Set(['stat', 'map', 'proof']);
+
 export function drawFrame(ctx, st, t) {
+  setFormat(st.reel.format);
+  if (ctx.canvas && (ctx.canvas.width !== W || ctx.canvas.height !== H)) { ctx.canvas.width = W; ctx.canvas.height = H; }
   const tl = st.tl;
   let k = tl.stories.findIndex(s => t >= s.start && t < s.end);
   if (k < 0) k = tl.stories.length ? (t < tl.stories[0].start ? 0 : tl.stories.length - 1) : -1;
@@ -643,7 +683,7 @@ export function drawFrame(ctx, st, t) {
   const c = { ...st, story, cat, k: Math.max(0, k), n: tl.stories.length, t, local: k >= 0 ? t - tl.stories[k].start : t };
   background(ctx, lerpHex(prev.color, cat.color, fade));
   const bg = st.bgs?.get(story.id);
-  if (bg) drawBg(ctx, bg, W, H, story.media?.dim ?? 0.5);
+  if (bg) drawBg(ctx, bg, W, H, story.media?.dim ?? 0.5, story.media);
   ctx.globalAlpha = fade;
   if (story.template === 'breaking') {
     const g = ctx.createRadialGradient(W / 2, H / 2, H * 0.35, W / 2, H / 2, H * 0.75);
@@ -652,14 +692,31 @@ export function drawFrame(ctx, st, t) {
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, W, H);
   }
+  // قوالب الرقم/الخريطة/التوثيق مصمّمة للعمودي: في باقي المقاسات بنرسمها عمودي مصغّر في النص (من غير ما تتكسر)
+  const fullW = W, fullH = H;
+  const fallback = !L.vert && PANEL_TPLS.has(story.template);
+  if (fallback) {
+    const s = Math.min(fullW / 1080, fullH / 1920);
+    ctx.save();
+    ctx.translate((fullW - 1080 * s) / 2, (fullH - 1920 * s) / 2);
+    ctx.scale(s, s);
+    W = 1080; H = 1920; L = layoutFor(W, H);
+  }
+  ctx.save();
+  ctx.translate(0, L.topDy);
   topBar(ctx, c);
+  ctx.restore();
   const hb = headline(ctx, c);
   if (story.template === 'stat') statPanel(ctx, c, hb + 30);
   else if (story.template === 'map') mapPanel(ctx, c, hb + 30);
   else if (story.template === 'proof') proofPanel(ctx, c, hb + 30);
-  captions(ctx, c, t);
+  captions(ctx, c, t, hb);
   ticker(ctx, c, t);
   sourceBar(ctx, c);
+  if (fallback) {
+    ctx.restore();
+    W = fullW; H = fullH; L = layoutFor(W, H);
+  }
   if (bg && story.media?.credit) mediaCredit(ctx, story.media.credit);
   ctx.globalAlpha = 1;
   progress(ctx, c, t);

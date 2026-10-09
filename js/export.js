@@ -1,14 +1,15 @@
 // تصدير MP4 سريع بالـ WebCodecs (H.264 + AAC) — بيشتغل في Chrome و Edge
-import { Muxer, ArrayBufferTarget } from '../vendor/mp4-muxer/mp4-muxer.mjs?v=mv1eewfa';
-import { SAMPLE_RATE, mixTimeline } from './audio.js?v=mv1eewfa';
-import { W, H, drawFrame } from './render.js?v=mv1eewfa';
-import { seekBg } from './bg.js?v=mv1eewfa';
+import { Muxer, ArrayBufferTarget } from '../vendor/mp4-muxer/mp4-muxer.mjs?v=mv1f1uk6';
+import { SAMPLE_RATE, mixTimeline } from './audio.js?v=mv1f1uk6';
+import { W, H, drawFrame, setFormat } from './render.js?v=mv1f1uk6';
+import { seekBg } from './bg.js?v=mv1f1uk6';
 
 export const FPS = 30;
 const AVC = ['avc1.640028', 'avc1.4d0028', 'avc1.640032', 'avc1.42e028'];
 const testCodecs = () => typeof window !== 'undefined' && window.__nrsTestCodecs;
 
-export async function exportSupport() {
+export async function exportSupport(fmt) {
+  if (fmt) setFormat(fmt);
   if (typeof VideoEncoder === 'undefined' || typeof AudioEncoder === 'undefined') return null;
   const cands = AVC.map(codec => ({ mux: 'avc', codec }));
   if (testCodecs()) cands.push({ mux: 'vp9', codec: 'vp09.00.40.08' });
@@ -34,6 +35,7 @@ export async function exportSupport() {
 }
 
 export async function exportReel(st, cfg, onProgress) {
+  setFormat(st.reel.format);
   const tl = st.tl;
   const mix = mixTimeline(tl.segs, tl.duration, tl.music, tl.fx);
   const target = new ArrayBufferTarget();

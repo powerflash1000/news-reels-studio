@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mv1eewfa">
+<html lang="ar" dir="rtl" data-v="mv1f1uk6">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mv1eewfa">
+<link rel="stylesheet" href="assets/css/style.css?v=mv1f1uk6">
 </head>
 <body>
 <header class="top">
@@ -65,6 +65,8 @@
     </div>
     <div class="form">
       <label>اسم الحلقة (للمكتبة بس)<input id="rTitle" placeholder="مثال: نشرة الخميس"></label>
+      <label>مقاس الفيديو<select id="rFormat"></select></label>
+      <p id="fmtNote" class="muted" hidden>قوالب «رقم / خريطة / توثيق» مصمّمة للعمودي: في المقاس ده بتتعرض مصغّرة في النص. العادي والعاجل بيتظبطوا على المقاس.</p>
       <div class="strip">
         <div id="storyTabs" class="chips"></div>
         <div class="row">
@@ -155,6 +157,12 @@
           <button id="bgClear" class="btn ghost">إزالة</button>
         </div>
         <label>التعتيم (عشان النص يتقري)<input id="bgDim" type="range" min="0" max="0.85" step="0.05" value="0.5"></label>
+        <div class="grid">
+          <label>ملاءمة الصورة للمقاس<select id="bgFit"><option value="auto">تلقائي (احتواء بغباش لو المقاس بعيد)</option><option value="cover">تغطية الشاشة (قصّ)</option><option value="contain">احتواء كامل + غباش</option></select></label>
+          <label>تكبير<input id="bgZoom" type="range" min="1" max="2.5" step="0.05" value="1"></label>
+          <label>إزاحة أفقية (في التغطية)<input id="bgFx" type="range" min="0" max="1" step="0.05" value="0.5"></label>
+          <label>إزاحة رأسية (في التغطية)<input id="bgFy" type="range" min="0" max="1" step="0.05" value="0.5"></label>
+        </div>
       </div>
       <details id="refBox" class="card">
         <summary>📄 ملخص الخبر من المصدر (مرجع — مش بيظهر في الفيديو)</summary>
@@ -397,6 +405,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mv1eewfa"></script>
+<script type="module" src="js/main.js?v=mv1f1uk6"></script>
 </body>
 </html>

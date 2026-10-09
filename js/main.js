@@ -1,16 +1,16 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv1eewfa';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv1eewfa';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv1eewfa';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mv1eewfa';
-import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv1eewfa';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mv1eewfa';
-import { drawFrame, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mv1eewfa';
-import { exportSupport, exportReel } from './export.js?v=mv1eewfa';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv1eewfa';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mv1eewfa';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mv1eewfa';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mv1eewfa';
-import { loadBg, playBg } from './bg.js?v=mv1eewfa';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv1f1uk6';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv1f1uk6';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv1f1uk6';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mv1f1uk6';
+import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv1f1uk6';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mv1f1uk6';
+import { drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mv1f1uk6';
+import { exportSupport, exportReel } from './export.js?v=mv1f1uk6';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv1f1uk6';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mv1f1uk6';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mv1f1uk6';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mv1f1uk6';
+import { loadBg, playBg } from './bg.js?v=mv1f1uk6';
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -201,8 +201,20 @@ function renderStrip() {
   $('stDel').disabled = reel.stories.length === 1 && isEmptyStory(story());
 }
 
+function applyFormat() {
+  const f = FORMATS[reel.format] || FORMATS.v;
+  const cv = $('cv');
+  cv.style.aspectRatio = `${f.w} / ${f.h}`;
+  if (cv.width !== f.w || cv.height !== f.h) { cv.width = f.w; cv.height = f.h; }
+  $('rFormat').value = reel.format || 'v';
+  $('fmtNote').hidden = (reel.format || 'v') === 'v';
+}
+$('rFormat').innerHTML = Object.entries(FORMATS).map(([k, v]) => `<option value="${k}">${v.name}</option>`).join('');
+$('rFormat').addEventListener('change', () => { reel.format = $('rFormat').value; persist(); applyFormat(); redraw(); });
+
 function fillForm() {
   const st = story();
+  applyFormat();
   $('rTitle').value = reel.title || '';
   $('fCat').value = st.category;
   $('fKind').value = st.claimKind;
@@ -750,7 +762,7 @@ $('exp').addEventListener('click', async () => {
   if (missing.length) return setStatus(`خلفية الخبر ${missing.map(x => x.n).join('، ')} مش موجودة على الجهاز ده. اختارها تاني أو شيلها.`, true);
   const info = currentTimeline();
   if (!info.real) return setStatus('الصوت مش جاهز. ولّد الصوت أو سجّل/ارفع ملف الأول.', true);
-  const support = await exportSupport();
+  const support = await exportSupport(reel.format);
   if (!support) return setStatus('المتصفح ده مبيدعمش التصدير السريع. استخدم Chrome أو Edge على الكمبيوتر.', true);
   if (info.tl.duration > 90 && !confirm(`الحلقة ${Math.round(info.tl.duration)} ثانية، وإنستجرام ريلز بيفضّل لحد 90 ثانية. تكمل؟`)) return;
   if (!(await askChecklist())) return;
@@ -802,13 +814,17 @@ function syncPlayback(st, t) {
 function renderBgInfo() {
   const m = story().media;
   const el = $('bgInfo');
-  if (!m) { el.textContent = 'من غير خلفية (لون القسم بس).'; $('bgDim').value = 0.5; return; }
+  if (!m) { el.textContent = 'من غير خلفية (لون القسم بس).'; $('bgDim').value = 0.5; $('bgFit').value = 'auto'; $('bgZoom').value = 1; $('bgFx').value = 0.5; $('bgFy').value = 0.5; return; }
   const ok = bgs.has(story().id);
   el.innerHTML = `${m.kind === 'video' ? '🎞' : '🖼'} <b dir="auto">${esc(m.title || 'خلفية')}</b> — ${esc(m.license || '')}${m.page ? ` — <a href="${esc(m.page)}" target="_blank" rel="noopener" style="color:inherit">المصدر</a>` : ''}${ok ? '' : ' <span style="color:#ffb86b">⚠️ الملف مش موجود على الجهاز ده — اختار الخلفية تاني</span>'}`;
   $('bgDim').value = m.dim ?? 0.5;
+  $('bgFit').value = m.fit || 'auto'; $('bgZoom').value = m.zoom || 1; $('bgFx').value = m.fx ?? 0.5; $('bgFy').value = m.fy ?? 0.5;
 }
 
 $('bgDim').addEventListener('input', () => { const m = story().media; if (m) { m.dim = Number($('bgDim').value); persist(); redraw(); } });
+for (const [id, key] of [['bgFit', 'fit'], ['bgZoom', 'zoom'], ['bgFx', 'fx'], ['bgFy', 'fy']]) {
+  $(id).addEventListener('input', () => { const m = story().media; if (m) { m[key] = id === 'bgFit' ? $(id).value : Number($(id).value); persist(); redraw(); } });
+}
 $('bgClear').addEventListener('click', () => { const st = story(); st.media = null; bgs.delete(st.id); persist(); renderBgInfo(); redraw(); });
 $('bgPick').addEventListener('click', () => showTab('media'));
 
