@@ -18,24 +18,26 @@ async function probe(name, url, { follow } = {}) {
   return r;
 }
 
-await probe('nasa-search', 'https://images-api.nasa.gov/search?q=mars&media_type=image,video&page_size=3', {
-  follow: async j => {
-    const id = j.collection.items[0].data[0].nasa_id;
-    const res = await fetch('https://images-api.nasa.gov/asset/' + encodeURIComponent(id), { headers: { Origin: 'https://powerflash1000.github.io', 'User-Agent': UA }, signal: AbortSignal.timeout(20000) });
-    return { id, status: res.status, acao: res.headers.get('access-control-allow-origin'), sample: (await res.text()).slice(0, 1500) };
-  },
-});
-await probe('commons-image', 'https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrnamespace=6&gsrsearch=heart%20anatomy&gsrlimit=3&prop=imageinfo&iiprop=url%7Cextmetadata%7Cmime%7Csize&iiurlwidth=640&format=json&origin=*');
-await probe('commons-video', 'https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrnamespace=6&gsrsearch=filetype%3Avideo%20mars&gsrlimit=3&prop=imageinfo&iiprop=url%7Cextmetadata%7Cmime%7Csize%7Cduration&format=json&origin=*');
-await probe('openverse', 'https://api.openverse.org/v1/images/?q=heart&page_size=3&license_type=commercial,modification');
-await probe('archive-search', 'https://archive.org/advancedsearch.php?q=mars+AND+mediatype%3Amovies&fl%5B%5D=identifier&fl%5B%5D=title&fl%5B%5D=creator&fl%5B%5D=licenseurl&rows=3&output=json', {
-  follow: async j => {
-    const id = j.response.docs[0].identifier;
-    const res = await fetch('https://archive.org/metadata/' + id, { headers: { Origin: 'https://powerflash1000.github.io', 'User-Agent': UA }, signal: AbortSignal.timeout(20000) });
-    const m = await res.json();
-    return { id, status: res.status, acao: res.headers.get('access-control-allow-origin'), server: m.server, dir: m.dir, files: (m.files || []).slice(0, 8).map(f => ({ name: f.name, format: f.format, size: f.size })), license: m.metadata?.licenseurl };
-  },
-});
-await probe('pixabay-nokey', 'https://pixabay.com/api/?key=x&q=mars');
-await probe('smithsonian', 'https://api.si.edu/openaccess/api/v1.0/search?q=heart+AND+online_media_type%3A%22Images%22&rows=2&api_key=DEMO_KEY');
-
+// المرحلة 2: هل مواقع الملفات نفسها (صور/فيديو) بتسمح بالقراءة من المتصفح؟ (ضروري عشان الكانفس ما يتلوّثش)
+async function head(name, url) {
+  const r = { name, url };
+  try {
+    const res = await fetch(url, { method: 'HEAD', redirect: 'follow', headers: { 'User-Agent': UA, Origin: 'https://powerflash1000.github.io' }, signal: AbortSignal.timeout(20000) });
+    Object.assign(r, { status: res.status, finalUrl: res.url, acao: res.headers.get('access-control-allow-origin'), type: res.headers.get('content-type'), length: res.headers.get('content-length') });
+  } catch (e) { r.error = String(e.message || e); }
+  out.push(r);
+  await writeFile('data/media-probe.json', JSON.stringify({ at: new Date().toISOString(), results: out }, null, 1));
+  console.log(r.name, r.status ?? r.error, 'ACAO=' + r.acao, r.finalUrl || '');
+}
+const nasa = 'https://images-assets.nasa.gov/video/JPL-20190606-TECHf-0001-Mars%20Chopper%20Ready%20for%20a%20Spin%20on%20Mars/JPL-20190606-TECHf-0001-Mars%20Chopper%20Ready%20for%20a%20Spin%20on%20Mars';
+await head('nasa-thumb', nasa + '~thumb.jpg');
+await head('nasa-video-medium', nasa + '~medium.mp4');
+await head('nasa-video-large', nasa + '~large.mp4');
+await head('commons-original', 'https://upload.wikimedia.org/wikipedia/commons/5/57/Heart_frontally_PDA.jpg');
+await head('commons-thumb', 'https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/Heart_frontally_PDA.jpg/960px-Heart_frontally_PDA.jpg');
+await head('commons-webm', 'https://upload.wikimedia.org/wikipedia/commons/0/05/Mars_360.webm');
+await head('openverse-thumb', 'https://api.openverse.org/v1/images/413bf4cb-ad4a-49c9-84f6-fda46dbc1fd7/thumb/');
+await head('flickr-original', 'https://live.staticflickr.com/4068/4397711604_2afe581dcc.jpg');
+await head('archive-mp4', 'https://archive.org/download/youtube-cUwYCgRY3ZM/cUwYCgRY3ZM.mp4');
+await head('archive-thumb', 'https://archive.org/services/img/youtube-cUwYCgRY3ZM');
+await head('pixabay-cdn-image', 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg');
