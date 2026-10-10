@@ -1,19 +1,20 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv28jjt1';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv28jjt1';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv28jjt1';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mv28jjt1';
-import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv28jjt1';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mv28jjt1';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mv28jjt1';
-import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mv28jjt1';
-import { exportSupport, exportReel } from './export.js?v=mv28jjt1';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv28jjt1';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mv28jjt1';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mv28jjt1';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mv28jjt1';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mv28jjt1';
-import { loadBg, playBg } from './bg.js?v=mv28jjt1';
-import { initI18n } from './i18n.js?v=mv28jjt1';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv2kwqdz';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv2kwqdz';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv2kwqdz';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mv2kwqdz';
+import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv2kwqdz';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mv2kwqdz';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mv2kwqdz';
+import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mv2kwqdz';
+import { exportSupport, exportReel } from './export.js?v=mv2kwqdz';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv2kwqdz';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mv2kwqdz';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mv2kwqdz';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mv2kwqdz';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mv2kwqdz';
+import { loadBg, playBg } from './bg.js?v=mv2kwqdz';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mv2kwqdz';
+import { initI18n } from './i18n.js?v=mv2kwqdz';
 
 initI18n();
 
@@ -721,6 +722,43 @@ $('musicFile').addEventListener('change', async e => {
   } catch (err) { $('musicInfo').textContent = '❌ ' + (err.message || err); }
   e.target.value = '';
 });
+/* ---------- بحث الموسيقى ---------- */
+$('msSrc').innerHTML = Object.entries(MUSIC_SOURCES).map(([k, v]) => `<option value="${k}">${v.name}</option>`).join('');
+$('msSrc').value = getSettings().freesoundKey ? 'freesound' : 'openverse';
+let msItems = [];
+async function musicSearch() {
+  const q = $('msQ').value.trim();
+  if (!q) return;
+  $('msInfo').textContent = 'بدوّر…'; $('msList').innerHTML = '';
+  try {
+    msItems = await searchMusic(q, $('msSrc').value);
+    $('msInfo').textContent = msItems.length ? `${msItems.length} نتيجة بترخيص آمن.` : 'مفيش نتايج بترخيص آمن. جرّب كلمة إنجليزي تانية.';
+    $('msList').innerHTML = msItems.map((it, i) => `<div class="msrow"><div class="msmeta"><b translate="no">${esc(it.title.slice(0, 60))}</b><span class="muted" translate="no"> ${esc(it.author)} • ${Math.round(it.duration)}s • ${esc(it.license)}</span></div><audio controls preload="none" src="${esc(it.url)}"></audio><button class="btn" type="button" data-use="${i}">استخدمها</button></div>`).join('');
+  } catch (e) { $('msInfo').textContent = '❌ ' + (e.message || e); }
+}
+$('msGo').addEventListener('click', musicSearch);
+$('msQ').addEventListener('keydown', e => { if (e.key === 'Enter') musicSearch(); });
+$('msList').addEventListener('play', e => { for (const a of $('msList').querySelectorAll('audio')) if (a !== e.target) a.pause(); }, true);
+$('msList').addEventListener('click', async e => {
+  const btn = e.target.closest('[data-use]');
+  if (!btn) return;
+  const it = msItems[Number(btn.dataset.use)];
+  btn.disabled = true; $('msInfo').textContent = 'بنزّل التراك…';
+  try {
+    const blob = await fetchTrack(it);
+    const id = 'music' + Date.now().toString(36);
+    await putBlob(id, blob);
+    const old = reel.music?.id;
+    reel.music = { id, name: (it.title || 'track').slice(0, 60), vol: Number($('musicVol').value) || 0.15, credit: musicCredit(it) };
+    musicKey = null;
+    await syncMusic();
+    if (!musicBuf) { reel.music = null; delBlob(id); await syncMusic(); throw new Error('الملف ده مش ملف صوت مفهوم'); }
+    if (old) delBlob(old);
+    persist(); redraw();
+    $('msInfo').textContent = '✅ اتضافت كموسيقى للحلقة.';
+  } catch (err) { $('msInfo').textContent = '❌ ' + (err.message || err); }
+  btn.disabled = false;
+});
 $('musicVol').addEventListener('input', () => { if (reel.music) { reel.music.vol = Number($('musicVol').value); persist(); } });
 $('musicDel').addEventListener('click', async () => { if (reel.music?.id) delBlob(reel.music.id); reel.music = null; await syncMusic(); persist(); });
 
@@ -1138,7 +1176,7 @@ $('bkImport').addEventListener('change', async e => {
 });
 
 /* ---------- الإعدادات ---------- */
-const TEXT_FIELDS = { sChannel: 'channelName', sHandle: 'handle', sReelLang: 'reelLang', sKey: 'elevenKey', sModel: 'elevenModel', sProxy: 'proxyUrl', sPixabay: 'pixabayKey', sClaude: 'claudeKey', sClaudeModel: 'claudeModel', sAiProv: 'aiProvider', sGemini: 'geminiKey', sGroq: 'groqKey', sOr: 'orKey', sAiModel: 'aiModel' };
+const TEXT_FIELDS = { sChannel: 'channelName', sHandle: 'handle', sReelLang: 'reelLang', sKey: 'elevenKey', sModel: 'elevenModel', sProxy: 'proxyUrl', sPixabay: 'pixabayKey', sFreesound: 'freesoundKey', sClaude: 'claudeKey', sClaudeModel: 'claudeModel', sAiProv: 'aiProvider', sGemini: 'geminiKey', sGroq: 'groqKey', sOr: 'orKey', sAiModel: 'aiModel' };
 const FX_SLIDERS = [['bass', 'جهارة الطبقات (Bass)', -6, 6, 0.5], ['presence', 'وضوح الكلام (Presence)', -6, 6, 0.5], ['air', 'لمعة (Air)', -6, 6, 0.5], ['comp', 'ضغط ديناميكي', 0, 1, 0.05], ['deess', 'تخفيف السين والشين', 0, 1, 0.05], ['room', 'صدى / مساحة', 0, 0.4, 0.02]];
 const STYLE_PRESETS = {
   '': { name: '— اختار —' },

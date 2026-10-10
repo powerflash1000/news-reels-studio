@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mv28jjt1">
+<html lang="ar" dir="rtl" data-v="mv2kwqdz">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mv28jjt1">
+<link rel="stylesheet" href="assets/css/style.css?v=mv2kwqdz">
 </head>
 <body>
 <header class="top">
@@ -170,6 +170,17 @@
           <label>مستوى الموسيقى<input id="musicVol" type="range" min="0.03" max="0.4" step="0.01" value="0.15"></label>
           <button id="musicDel" class="btn ghost" hidden>شيل الموسيقى</button>
         </div>
+        <details class="musicsearch">
+          <summary>🔎 ابحث عن موسيقى أو مؤثرات مجانية (ترخيص آمن)</summary>
+          <div class="row">
+            <select id="msSrc"></select>
+            <input id="msQ" dir="auto" placeholder="مثلًا: cinematic news, ambient, tension">
+            <button id="msGo" class="btn" type="button">بحث</button>
+          </div>
+          <p id="msInfo" class="muted"></p>
+          <div id="msList" class="mslist"></div>
+          <p class="muted">بنعرض بس CC0 وCC BY (من غير NC/ND). لو CC BY الكريديت بيتحط تلقائيًا في باكج النشر.</p>
+        </details>
         <p class="muted">بتنزل تلقائيًا وقت الكلام وبتتكرر لآخر الحلقة وبتخفت في الأول والآخر. الملف بيفضل على جهازك.</p>
       </div>
       <div class="card bgbox">
@@ -440,6 +451,7 @@
     <label class="aiK aiM" data-p="gemini groq openrouter">اسم الموديل (سيبه فاضي للافتراضي)<input id="sAiModel" dir="ltr" list="aiModels" autocomplete="off"><datalist id="aiModels"></datalist></label>
     <div class="row aiK" data-p="gemini groq openrouter"><button id="aiModelsLoad" class="btn" type="button">↻ هات الموديلات المتاحة لمفتاحي</button><span id="aiModelsMsg" class="muted"></span></div>
     <p class="muted aiK" data-p="gemini groq openrouter">الخطط المجانية ليها حد يومي، وممكن المزوّد يستخدم المدخلات في التحسين: بنبعت العنوان والملخص بس (أخبار عامة). أسماء الموديلات المجانية بتتغير؛ لو ظهر «اسم الموديل غلط» اختار غيره من القائمة. جودة العربي أقل من Claude، فراجع المسودة.</p>
+    <label>مفتاح Freesound للموسيقى (مجاني من freesound.org/apiv2/apply)<input id="sFreesound" type="password" dir="ltr" autocomplete="off"></label>
     <label>مفتاح Pixabay (مجاني من pixabay.com/api/docs)<input id="sPixabay" type="password" dir="ltr" autocomplete="off"></label>
     <label>رابط الوسيط (Cloudflare Worker) — لازم لتحميل ملفات NASA و Internet Archive و Pixabay، واختياري لباقي المصادر<input id="sProxy" dir="ltr" placeholder="https://….workers.dev"></label>
     <p class="muted">الوسيط بيتعمل في دقيقتين من الملف <code>tools/cors-proxy-worker.js</code> في الريبو (الشرح في أول الملف). لو متحدّث قديم، ألصق النسخة الجديدة لأن فيها مواقع الوسائط.</p>
@@ -462,6 +474,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mv28jjt1"></script>
+<script type="module" src="js/main.js?v=mv2kwqdz"></script>
 </body>
 </html>
