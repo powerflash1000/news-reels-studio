@@ -37,8 +37,12 @@ export function newStory(over = {}) {
   return s;
 }
 
+export const BUMPER = 2.2; // مدة المقدمة/الخاتمة التلقائية بالثواني
+const bumpersOf = b => ({ intro: { on: false, text: '', ...(b?.intro || {}) }, outro: { on: false, text: '', ...(b?.outro || {}) } });
+
 export function newReel(over = {}) {
   const r = { status: 'draft', updatedAt: Date.now(), title: '', stories: [newStory()], ticker: { on: false, text: '', label: '' }, ...over };
+  r.bumpers = bumpersOf(r.bumpers);
   r.ticker = { on: false, text: '', label: '', ...(r.ticker || {}) };
   r.format = r.format || 'v';
   r.lang = r.lang || 'ar';
@@ -53,6 +57,7 @@ export function normalizeReel(r) {
     r.ticker = { on: false, text: '', label: '', ...(r.ticker || {}) };
     r.format = r.format || 'v';
     r.lang = r.lang || 'ar';
+    r.bumpers = bumpersOf(r.bumpers);
     return r;
   }
   const { id, status, updatedAt, title, ...rest } = r || {};
@@ -124,6 +129,16 @@ function storyRanges(segs, duration) {
   }));
 }
 
+// مقدمة/خاتمة تلقائية: بتتضاف كعناصر في stories بـ idx = -1 (من غير صوت)، والمحتوى الفعلي بيبدأ بعد المقدمة
+function withBumpers(reel, segs, duration0) {
+  const stories = storyRanges(segs, duration0);
+  const bp = reel.bumpers || {};
+  let duration = duration0;
+  if (bp.intro?.on) { if (stories.length) stories[0].start = BUMPER; stories.unshift({ idx: -1, bumper: 'intro', start: 0, end: BUMPER }); }
+  if (bp.outro?.on) { stories.push({ idx: -1, bumper: 'outro', start: duration0, end: duration0 + BUMPER }); duration = duration0 + BUMPER; }
+  return { segs, stories, duration };
+}
+
 // الخط الزمني للريل كله.
 // audioMap: Map(lineKey → {buffer, words}); manual: AudioBuffer لتسجيل/ملف بيغطي الريل كله
 // بيرجع { tl:{segs, stories, duration}, real, lines, hasB }
@@ -137,17 +152,18 @@ export function buildReelTimeline(reel, audioMap, manual = null) {
     // التسجيل بيتوزّع على الأخبار بنسبة عدد الحروف
     const per = reel.stories.map((s, si) => ({ si, text: stripTags(parseScript(s.script).map(l => l.text).join(' ')) })).filter(x => x.text);
     const total = per.reduce((n, x) => n + x.text.length, 0) || 1;
-    let at = LEAD;
+    const t0 = reel.bumpers?.intro?.on ? BUMPER : 0;
+    let at = LEAD + t0;
     per.forEach((x, k) => {
       const d = manual.duration * (x.text.length / total);
       const words = estimateWords(x.text, d).map(w => ({ ...w, s: w.s + at, e: w.e + at }));
-      segs.push({ speaker: 'A', text: x.text, storyIdx: x.si, start: at, end: at + d, at: LEAD, buffer: k === 0 ? manual : null, words });
+      segs.push({ speaker: 'A', text: x.text, storyIdx: x.si, start: at, end: at + d, at: LEAD + t0, buffer: k === 0 ? manual : null, words });
       at += d;
     });
-    return { tl: { segs, stories: storyRanges(segs, LEAD + manual.duration + 0.6), duration: LEAD + manual.duration + 0.6 }, real: true, lines, hasB };
+    return { tl: withBumpers(reel, segs, LEAD + t0 + manual.duration + 0.6), real: true, lines, hasB };
   }
 
-  let t = LEAD, real = true;
+  let t = LEAD + (reel.bumpers?.intro?.on ? BUMPER : 0), real = true;
   reel.stories.forEach((st, si) => {
     const ls = parseScript(st.script);
     ls.forEach((l, li) => {
@@ -163,5 +179,5 @@ export function buildReelTimeline(reel, audioMap, manual = null) {
     });
   });
   const duration = Math.max(1, t - STORY_GAP + 0.6);
-  return { tl: { segs, stories: storyRanges(segs, duration), duration }, real, lines, hasB };
+  return { tl: withBumpers(reel, segs, duration), real, lines, hasB };
 }

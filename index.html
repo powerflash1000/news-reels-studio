@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mv1kf7cx">
+<html lang="ar" dir="rtl" data-v="mv28jjt1">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mv1kf7cx">
+<link rel="stylesheet" href="assets/css/style.css?v=mv28jjt1">
 </head>
 <body>
 <header class="top">
@@ -155,6 +155,13 @@
           </div>
         </div>
       </div>
+      <div class="card bumpbox">
+        <b>مقدمة وخاتمة تلقائية (من غير صوت، حوالي ثانيتين)</b>
+        <label class="chk"><input id="bpIntro" type="checkbox"> مقدمة: لوجو واسم القناة في أول الحلقة</label>
+        <label>نص المقدمة (فاضي = اسم القناة)<input id="bpIntroText" dir="auto"></label>
+        <label class="chk"><input id="bpOutro" type="checkbox"> خاتمة: «تابعنا للمزيد» في آخر الحلقة</label>
+        <label>نص الخاتمة (فاضي = تابعنا للمزيد)<input id="bpOutroText" dir="auto"></label>
+      </div>
       <div class="card musicbox">
         <b>موسيقى خلفية (اختياري)</b>
         <div id="musicInfo" class="muted">من غير موسيقى. ارفع ملف صوت من عندك (ترخيصه عليك: استخدم موسيقى بدون حقوق أو من مكتبة بترخيصك).</div>
@@ -221,6 +228,23 @@
       <div class="row">
         <button id="exp" class="btn pri big">⬇ تصدير MP4</button>
         <button id="newReel" class="btn ghost">ريل جديد</button>
+      </div>
+      <div class="row">
+        <button id="exSrt" class="btn">⬇ ترجمة SRT</button>
+        <button id="exWav" class="btn">⬇ صوت الحلقة WAV</button>
+        <button id="exVoice" class="btn ghost">⬇ صوت الكلام بس WAV</button>
+      </div>
+      <p class="muted">للمونتاج في Filmora أو أي برنامج: الترجمة SRT بتتوقّت على الكلام، والصوت WAV هو نفس صوت الفيديو (بالتأثيرات والموسيقى). محتاج صوت جاهز (متولّد أو مسجّل).</p>
+      <div class="card coverbox">
+        <b>غلاف / ثمبنيل للخبر</b>
+        <div class="grid">
+          <label>المقاس<select id="cvFmt"></select></label>
+          <label>الخبر<select id="cvStory"></select></label>
+          <label>الصيغة<select id="cvType"><option value="png">PNG</option><option value="jpg">JPG (حجم أصغر)</option></select></label>
+        </div>
+        <canvas id="coverCv" class="coverprev"></canvas>
+        <div class="row"><button id="cvDl" class="btn pri">⬇ تحميل الغلاف</button></div>
+        <p class="muted">بيستخدم عنوان الخبر وقسمه ومصدره وخلفيته واللوجو، بنفس لغة الريل.</p>
       </div>
       <div id="prog" class="prog" hidden><i></i></div>
       <p id="status" class="muted"></p>
@@ -383,6 +407,21 @@
   </div>
 
   <div class="card">
+    <h3>لوجو القناة</h3>
+    <div id="logoInfo" class="muted">مفيش لوجو. ارفع صورة (PNG بخلفية شفافة أحسن).</div>
+    <div class="row">
+      <label class="btn file">⬆ ارفع اللوجو<input id="logoFile" type="file" accept="image/*" hidden></label>
+      <button id="logoDel" class="btn ghost" type="button">شيل اللوجو</button>
+    </div>
+    <label class="chk"><input id="logoOn" type="checkbox"> اعرض اللوجو في كل الريلز والأغلفة</label>
+    <div class="grid">
+      <label>المكان<select id="logoPos"><option value="tl">أعلى اليسار</option><option value="tr">أعلى اليمين</option><option value="bl">أسفل اليسار</option><option value="br">أسفل اليمين</option></select></label>
+      <label>الحجم<input id="logoSize" type="range" min="50" max="260" step="5"></label>
+    </div>
+    <p class="muted">في الريل الإنجليزي الأماكن بتتعكس تلقائيًا. اللوجو بيفضل على جهازك.</p>
+  </div>
+
+  <div class="card">
     <h3>الكتابة على الشاشة (الكابشن)</h3>
     <label>حجم الخط <input id="sCapSize" type="range" min="56" max="110" step="2"></label>
     <label class="chk"><input id="sCapPlate" type="checkbox"> خلفية غامقة خلف الكلام (أوضح فوق أي خلفية)</label>
@@ -423,6 +462,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mv1kf7cx"></script>
+<script type="module" src="js/main.js?v=mv28jjt1"></script>
 </body>
 </html>

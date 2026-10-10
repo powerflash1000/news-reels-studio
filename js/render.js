@@ -1,8 +1,8 @@
 // رسم إطار الريل على canvas (عمودي 1080×1920 أو 4:5 أو مربع أو أفقي). نفس الدالة للمعاينة والتصدير.
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mv1kf7cx';
-import { hostOf } from './feeds.js?v=mv1kf7cx';
-import QR from '../vendor/qrcode/qrcode.mjs?v=mv1kf7cx';
-import { drawBg } from './bg.js?v=mv1kf7cx';
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mv28jjt1';
+import { hostOf } from './feeds.js?v=mv28jjt1';
+import QR from '../vendor/qrcode/qrcode.mjs?v=mv28jjt1';
+import { drawBg } from './bg.js?v=mv28jjt1';
 
 // مقاسات الإخراج. W/H متغيّرين (live binding) والتصدير بيقراهم وقت التصدير
 export const FORMATS = {
@@ -17,8 +17,8 @@ let L = layoutFor(1080, 1920);
 
 // لغة الريل: نصوص الواجهة على الشاشة + اتجاه الكتابة (الإنجليزي = تخطيط معكوس أفقيًا بنفس العناصر)
 const STR = {
-  ar: { source: 'المصدر', opinion: 'رأي وتحليل', breaking: 'عاجل', hostA: 'المذيع أ', hostB: 'المذيع ب', ticker: 'آخر الأخبار', head: 'اكتب العنوان', src: '— اكتب اسم المصدر —', channel: 'النشرة', med: MED_DISCLAIMER, proof: { official: 'مؤكد رسميًا', reported: 'تقارير غير مؤكدة', pending: 'بانتظار التأكيد' }, zero: '٠' },
-  en: { source: 'Source', opinion: 'Opinion & analysis', breaking: 'BREAKING', hostA: 'Host A', hostB: 'Host B', ticker: 'Latest news', head: 'Write the headline', src: '— Add the source name —', channel: 'Newsroom', med: 'General information, not medical advice — consult your doctor', proof: { official: 'Officially confirmed', reported: 'Unconfirmed reports', pending: 'Awaiting confirmation' }, zero: '0' },
+  ar: { source: 'المصدر', opinion: 'رأي وتحليل', breaking: 'عاجل', hostA: 'المذيع أ', hostB: 'المذيع ب', follow: 'تابعنا للمزيد', ticker: 'آخر الأخبار', head: 'اكتب العنوان', src: '— اكتب اسم المصدر —', channel: 'النشرة', med: MED_DISCLAIMER, proof: { official: 'مؤكد رسميًا', reported: 'تقارير غير مؤكدة', pending: 'بانتظار التأكيد' }, zero: '٠' },
+  en: { source: 'Source', opinion: 'Opinion & analysis', breaking: 'BREAKING', hostA: 'Host A', hostB: 'Host B', follow: 'Follow for more', ticker: 'Latest news', head: 'Write the headline', src: '— Add the source name —', channel: 'Newsroom', med: 'General information, not medical advice — consult your doctor', proof: { official: 'Officially confirmed', reported: 'Unconfirmed reports', pending: 'Awaiting confirmation' }, zero: '0' },
 };
 let S = STR.ar, RTL = true;
 export function setLang(lang) { RTL = lang !== 'en'; S = STR[RTL ? 'ar' : 'en']; }
@@ -708,6 +708,98 @@ function catFor(st, story) {
   return RTL ? c : { ...c, label: c.en || c.label };
 }
 
+// لوجو القناة: في ركن من الأركان الأربعة (بيتعكس تلقائيًا في الريل الإنجليزي)
+function logoBox(st, scale = 1) {
+  const lg = st.settings?.logo, img = st.logo;
+  if (!lg?.on || !img) return null;
+  const iw = img.naturalWidth || img.width, ih = img.naturalHeight || img.height;
+  if (!iw || !ih) return null;
+  const h0 = Math.max(40, Math.min(300, lg.size || 110)) * (L.vert ? 1 : 0.8) * scale;
+  const w = Math.min((h0 * iw) / ih, W * 0.45 * scale), h = (w * ih) / iw;
+  return { img, w, h, pos: lg.pos || 'tl' };
+}
+function drawLogo(ctx, st) {
+  const b = logoBox(st);
+  if (!b) return;
+  const x = b.pos.endsWith('l') ? 60 : W - 60 - b.w;
+  const y = b.pos.startsWith('t') ? 22 : H - 34 - b.h;
+  ctx.drawImage(b.img, x, y, b.w, b.h);
+}
+
+// مقدمة/خاتمة تلقائية: لوجو + اسم القناة (أو نص مخصص) بحركة دخول ناعمة
+function drawBumper(ctx, st, ent, t) {
+  const kind = ent.bumper, local = t - ent.start, dur = ent.end - ent.start;
+  const bp = st.reel.bumpers?.[kind] || {};
+  const a = easeOut(clamp01(local / 0.55)), out = clamp01((dur - local) / 0.35);
+  const col = st.cat.color;
+  const box = logoBox({ ...st, settings: { ...st.settings, logo: { ...(st.settings?.logo || {}), on: !!st.logo, size: 300 } } }, 1.2);
+  const cx = W / 2, cy = H * (L.vert ? 0.42 : 0.44);
+  ctx.save();
+  ctx.globalAlpha = a * out;
+  const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(W, H) * 0.6);
+  g.addColorStop(0, hexA(col, 0.4)); g.addColorStop(1, hexA(col, 0));
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  let y = cy;
+  if (box) {
+    const s = 0.86 + 0.14 * a;
+    ctx.drawImage(box.img, cx - (box.w * s) / 2, cy - box.h * s * 0.7, box.w * s, box.h * s);
+    y = cy + box.h * s * 0.3 + 90;
+  }
+  const main = (bp.text || '').trim() || (kind === 'intro' ? (st.settings?.channelName || S.channel) : S.follow);
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.direction = 'rtl';
+  let size = L.vert ? 104 : 84;
+  ctx.font = font(size, 800);
+  while (ctx.measureText(main).width > W - 160 && size > 40) { size -= 4; ctx.font = font(size, 800); }
+  ctx.fillStyle = '#fff';
+  ctx.fillText(main, cx, y);
+  const lw = Math.min(W * 0.5, 520) * a;
+  ctx.fillStyle = col;
+  rrect(ctx, cx - lw / 2, y + size * 0.75, lw, 10, 5);
+  ctx.fill();
+  const handle = st.settings?.handle || '';
+  if (handle) {
+    ctx.font = font(L.vert ? 52 : 42, 700);
+    ctx.fillStyle = 'rgba(255,255,255,.85)';
+    ctx.direction = 'ltr';
+    ctx.fillText(handle, cx, y + size * 0.75 + 70);
+  }
+  ctx.restore();
+}
+
+// غلاف / ثمبنيل ثابت للخبر: عنوان كبير + القسم + المصدر + اللوجو، بأي مقاس
+export function drawCover(ctx, st, idx, fmt) {
+  setFormat(fmt || st.reel.format);
+  setLang(st.reel.lang);
+  if (ctx.canvas && (ctx.canvas.width !== W || ctx.canvas.height !== H)) { ctx.canvas.width = W; ctx.canvas.height = H; }
+  const story = st.reel.stories[idx] || st.reel.stories[0];
+  const cat = catFor(st, story);
+  const c = { ...st, story, cat, k: 0, n: 1, t: 0, local: 99, tl: { duration: 1, stories: [] } };
+  background(ctx, cat.color);
+  const bg = st.bgs?.get(story.id);
+  if (bg) drawBg(ctx, bg, W, H, Math.max(0.25, story.media?.dim ?? 0.5), story.media);
+  const shade = ctx.createLinearGradient(0, 0, 0, H);
+  shade.addColorStop(0, 'rgba(0,0,0,.35)'); shade.addColorStop(0.5, 'rgba(0,0,0,.15)'); shade.addColorStop(1, 'rgba(0,0,0,.55)');
+  ctx.fillStyle = shade; ctx.fillRect(0, 0, W, H);
+  const U = RTL ? ctx : wrapCtx(ctx, true);
+  ctx.save(); ctx.translate(0, L.topDy); topBar(U, c); ctx.restore();
+  // العنوان بخط كبير في المساحة بين الشريط العلوي وشريط المصدر
+  const text = story.headline || S.head;
+  const top = L.headY + 10, bottom = L.srcY - 50, pad = 56, maxW = W - 120 - pad * 2 - 20;
+  let size = L.vert ? 140 : H >= 1300 ? 118 : H >= 1070 && W < 1500 ? 104 : 96, lines;
+  for (; size >= 48; size -= 4) {
+    U.font = font(size, 800);
+    lines = wrap(U, text, maxW);
+    if (lines.length * size * 1.3 + pad * 2 <= bottom - top) break;
+  }
+  const lh = size * 1.3, h = lines.length * lh + pad * 2, y = top + Math.max(0, (bottom - top - h) / 2);
+  U.fillStyle = 'rgba(8,12,26,.62)'; rrect(U, 60, y, W - 120, h, 40); U.fill();
+  U.fillStyle = story.template === 'breaking' ? '#e5484d' : cat.color; rrect(U, W - 60 - 20, y + 28, 20, h - 56, 10); U.fill();
+  U.fillStyle = '#fff'; U.textAlign = 'right'; U.direction = 'rtl'; U.textBaseline = 'middle'; U.font = font(size, 800);
+  lines.forEach((l, i) => U.fillText(l, W - 60 - pad - 20, y + pad + lh * (i + 0.5)));
+  sourceBar(U, c);
+  drawLogo(U, st);
+}
+
 const PANEL_TPLS = new Set(['stat', 'map', 'proof']);
 
 // opts.settled: المعاينة الثابتة بترسم القالب بعد انتهاء حركته (الخريطة متقرّبة، الرقم نهائي)
@@ -718,13 +810,27 @@ export function drawFrame(ctx, st, t, opts = {}) {
   const tl = st.tl;
   let k = tl.stories.findIndex(s => t >= s.start && t < s.end);
   if (k < 0) k = tl.stories.length ? (t < tl.stories[0].start ? 0 : tl.stories.length - 1) : -1;
-  const idx = k >= 0 ? tl.stories[k].idx : Math.min(st.focusIdx ?? 0, st.reel.stories.length - 1);
+  const ent = k >= 0 ? tl.stories[k] : null;
+  if (ent?.bumper) {
+    // مقدمة/خاتمة: بتاخد لون وقسم أول/آخر خبر
+    const realAll = tl.stories.filter(s => s.idx >= 0);
+    const ref = st.reel.stories[(ent.bumper === 'intro' ? realAll[0] : realAll[realAll.length - 1])?.idx ?? 0];
+    const bcat = catFor(st, ref);
+    background(ctx, bcat.color);
+    const U0 = RTL ? ctx : wrapCtx(ctx, true);
+    drawBumper(U0, { ...st, cat: bcat }, ent, t);
+    ctx.globalAlpha = 1;
+    return;
+  }
+  const real = tl.stories.filter(s => s.idx >= 0);
+  const kr = ent ? real.indexOf(ent) : -1;
+  const idx = ent ? ent.idx : Math.min(st.focusIdx ?? 0, st.reel.stories.length - 1);
   const story = st.reel.stories[idx];
   const cat = catFor(st, story);
   // دخول الخبر الجديد بتلاشي قصير، ولون الخلفية بينتقل من لون الخبر اللي قبله
-  const fade = k > 0 ? Math.min(1, (t - tl.stories[k].start) / 0.3) : 1;
-  const prev = k > 0 ? catFor(st, st.reel.stories[tl.stories[k - 1].idx]) : cat;
-  const c = { ...st, story, cat, k: Math.max(0, k), n: tl.stories.length, t, local: k >= 0 ? t - tl.stories[k].start : t };
+  const fade = kr > 0 ? Math.min(1, (t - ent.start) / 0.3) : 1;
+  const prev = kr > 0 ? catFor(st, st.reel.stories[real[kr - 1].idx]) : cat;
+  const c = { ...st, story, cat, k: Math.max(0, kr), n: real.length, t, local: ent ? t - ent.start : t };
   if (opts.settled) c.local = Math.max(c.local, 3.5);
   background(ctx, lerpHex(prev.color, cat.color, fade));
   const bg = st.bgs?.get(story.id);
@@ -754,6 +860,7 @@ export function drawFrame(ctx, st, t, opts = {}) {
   ctx.translate(0, L.topDy);
   topBar(U, c);
   ctx.restore();
+  drawLogo(U, st);
   const hb = headline(U, c);
   if (story.template === 'stat') statPanel(U, c, hb + 30);
   else if (story.template === 'map') mapPanel(D, c, hb + 30);

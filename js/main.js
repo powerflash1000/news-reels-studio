@@ -1,18 +1,19 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv1kf7cx';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv1kf7cx';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv1kf7cx';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mv1kf7cx';
-import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv1kf7cx';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mv1kf7cx';
-import { drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mv1kf7cx';
-import { exportSupport, exportReel } from './export.js?v=mv1kf7cx';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv1kf7cx';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mv1kf7cx';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mv1kf7cx';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mv1kf7cx';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mv1kf7cx';
-import { loadBg, playBg } from './bg.js?v=mv1kf7cx';
-import { initI18n } from './i18n.js?v=mv1kf7cx';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mv28jjt1';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mv28jjt1';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mv28jjt1';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mv28jjt1';
+import { speakLine, peekLine, voiceFor, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mv28jjt1';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mv28jjt1';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mv28jjt1';
+import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mv28jjt1';
+import { exportSupport, exportReel } from './export.js?v=mv28jjt1';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mv28jjt1';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mv28jjt1';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mv28jjt1';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mv28jjt1';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mv28jjt1';
+import { loadBg, playBg } from './bg.js?v=mv28jjt1';
+import { initI18n } from './i18n.js?v=mv28jjt1';
 
 initI18n();
 
@@ -254,6 +255,9 @@ $('rLang').addEventListener('change', () => { reel.lang = $('rLang').value; pers
 function fillForm() {
   const st = story();
   applyFormat();
+  fillBumpers();
+  fillCoverSelects();
+  refreshCover();
   $('rTitle').value = reel.title || '';
   $('fCat').value = st.category;
   $('fKind').value = st.claimKind;
@@ -591,6 +595,95 @@ $('stDel').addEventListener('click', () => {
 
 let restoreTimer = 0;
 
+/* ---------- لوجو القناة ---------- */
+let logoImg = null, coverTimer = 0;
+async function loadLogo() {
+  logoImg = null;
+  try {
+    const b = await getBlob('__logo');
+    if (b) {
+      const img = new Image();
+      img.src = URL.createObjectURL(b);
+      await img.decode();
+      logoImg = img;
+    }
+  } catch { /* مفيش لوجو */ }
+  $('logoInfo').textContent = logoImg ? "✅ اللوجو محمّل." : 'مفيش لوجو. ارفع صورة (PNG بخلفية شفافة أحسن).';
+}
+$('logoFile').addEventListener('change', async e => {
+  const f = e.target.files[0];
+  e.target.value = '';
+  if (!f) return;
+  if (!f.type.startsWith('image/')) return void ($('logoInfo').textContent = '❌ الملف ده مش صورة.');
+  await putBlob('__logo', f);
+  await loadLogo();
+  $('logoOn').checked = true;
+  saveSettings();
+  redraw();
+});
+$('logoDel').addEventListener('click', async () => { await delBlob('__logo'); await loadLogo(); $('logoOn').checked = false; saveSettings(); redraw(); });
+
+/* ---------- مقدمة / خاتمة ---------- */
+function fillBumpers() {
+  const b = reel.bumpers || {};
+  $('bpIntro').checked = !!b.intro?.on; $('bpIntroText').value = b.intro?.text || '';
+  $('bpOutro').checked = !!b.outro?.on; $('bpOutroText').value = b.outro?.text || '';
+}
+function readBumpers() {
+  reel.bumpers = { intro: { on: $('bpIntro').checked, text: $('bpIntroText').value.trim() }, outro: { on: $('bpOutro').checked, text: $('bpOutroText').value.trim() } };
+  persist(); redraw();
+}
+for (const id of ['bpIntro', 'bpIntroText', 'bpOutro', 'bpOutroText']) $(id).addEventListener('change', readBumpers);
+
+/* ---------- ملفات للمونتاج: SRT و WAV ---------- */
+function exportInfo() {
+  const info = currentTimeline();
+  if (!info.real) { setStatus('الصوت مش جاهز. ولّد الصوت أو سجّل/ارفع ملف الأول.', true); return null; }
+  return info;
+}
+const fileBase = () => (reel.title || 'reel').replace(/[^\w؀-ۿ -]+/g, '').trim().replace(/\s+/g, '-').slice(0, 40) || 'reel';
+$('exSrt').addEventListener('click', () => {
+  const info = exportInfo(); if (!info) return;
+  const srt = buildSrt(info.tl.segs);
+  if (!srt.trim()) return setStatus('مفيش كلام متوقّت أطلّع منه ترجمة.', true);
+  download(new Blob(['﻿' + srt], { type: 'application/x-subrip' }), fileBase() + '.srt');
+  setStatus('نزلت ملف الترجمة SRT ✅');
+});
+function exportWav(voiceOnly) {
+  const info = exportInfo(); if (!info) return;
+  const t = info.tl;
+  const { left, right } = mixTimeline(t.segs, t.duration, voiceOnly ? null : t.music, t.fx);
+  download(wavBlob(left, right, SAMPLE_RATE), fileBase() + (voiceOnly ? '-voice' : '') + '.wav');
+  setStatus('نزل ملف الصوت WAV ✅');
+}
+$('exWav').addEventListener('click', () => exportWav(false));
+$('exVoice').addEventListener('click', () => exportWav(true));
+
+/* ---------- غلاف / ثمبنيل ---------- */
+function fillCoverSelects() {
+  const f = $('cvFmt'), s = $('cvStory');
+  const pf = f.value || reel.format, ps = s.value;
+  f.innerHTML = Object.entries(FORMATS).map(([k, v]) => `<option value="${k}">${v.name}</option>`).join('');
+  f.value = FORMATS[pf] ? pf : reel.format;
+  s.innerHTML = reel.stories.map((x, i) => `<option value="${i}">${i + 1}. ${(x.headline || '(من غير عنوان)').slice(0, 40).replace(/</g, '&lt;')}</option>`).join('');
+  s.value = ps && ps < reel.stories.length ? ps : String(cur);
+}
+function drawCoverPreview(cv) {
+  const info = currentTimeline();
+  drawCover(cv.getContext('2d'), stateFor(info), Number($('cvStory').value) || 0, $('cvFmt').value);
+}
+async function refreshCover() {
+  if (!cfg || $('tab-studio').hidden) return;
+  try { await ensureBgs(); await loadFonts(); drawCoverPreview($('coverCv')); } catch { /* مش حرج */ }
+}
+for (const id of ['cvFmt', 'cvStory']) $(id).addEventListener('change', refreshCover);
+$('cvDl').addEventListener('click', async () => {
+  await refreshCover();
+  const jpg = $('cvType').value === 'jpg';
+  const blob = await new Promise(r => $('coverCv').toBlob(r, jpg ? 'image/jpeg' : 'image/png', 0.92));
+  if (blob) download(blob, `${fileBase()}-cover-${Number($('cvStory').value) + 1}.${jpg ? 'jpg' : 'png'}`);
+});
+
 // الخط الزمني: صوت حقيقي لو متاح، وإلا تقدير صامت للمعاينة
 function currentTimeline() {
   const info = buildReelTimeline(reel, audioMap, manualAudio);
@@ -632,15 +725,16 @@ $('musicVol').addEventListener('input', () => { if (reel.music) { reel.music.vol
 $('musicDel').addEventListener('click', async () => { if (reel.music?.id) delBlob(reel.music.id); reel.music = null; await syncMusic(); persist(); });
 
 function stateFor(info) {
-  return { reel, cats: cfg.categories, settings: getSettings(), tl: info.tl, hasB: info.hasB, focusIdx: cur, bgs, shots };
+  return { reel, cats: cfg.categories, settings: getSettings(), tl: info.tl, hasB: info.hasB, focusIdx: cur, bgs, shots, logo: logoImg };
 }
 
 const ctx = $('cv').getContext('2d');
 function redraw(t) {
   if (!cfg || $('tab-studio').hidden) return;
   const info = currentTimeline();
-  const r = info.tl.stories.find(x => x.idx === cur);
+  const r = info.tl.stories.find(x => x.idx === cur && !x.bumper);
   const seg = info.tl.segs.find(x => x.storyIdx === cur);
+  clearTimeout(coverTimer); coverTimer = setTimeout(refreshCover, 400);
   drawFrame(ctx, stateFor(info), t ?? (r ? (seg ? seg.start + 0.3 : r.start) : 0), { settled: true });
 }
 
@@ -834,8 +928,8 @@ $('exp').addEventListener('click', async () => {
     const blob = await exportReel(stateFor(info), support, p => { $('prog').firstElementChild.style.width = (p * 100).toFixed(0) + '%'; });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    const n = info.tl.stories.length;
-    a.download = `reel-${new Date().toISOString().slice(0, 10)}-${n > 1 ? n + 'news' : cat(reel.stories[info.tl.stories[0].idx].category).id}.mp4`;
+    const real = info.tl.stories.filter(x => x.idx >= 0), n = real.length;
+    a.download = `reel-${new Date().toISOString().slice(0, 10)}-${n > 1 ? n + 'news' : cat(reel.stories[real[0].idx].category).id}.mp4`;
     a.click();
     reel.status = 'exported';
     persist();
@@ -1067,6 +1161,7 @@ function renderFxControls() {
   $('sStylePreset').innerHTML = Object.entries(STYLE_PRESETS).map(([k, v]) => `<option value="${k}">${v.name}</option>`).join('');
   const s = getSettings();
   $('sDialect').checked = !!s.dialectTag; $('sLang').checked = !!s.langCode;
+  $('logoOn').checked = !!s.logo?.on; $('logoPos').value = s.logo?.pos || 'tl'; $('logoSize').value = s.logo?.size || 110;
   $('sCapSize').value = s.caps.size; $('sCapPlate').checked = s.caps.plate !== false; $('sCapStroke').checked = s.caps.stroke !== false;
 }
 function collectFx() {
@@ -1214,6 +1309,7 @@ function collectSettings() {
   o.fx = collectFx();
   o.dialectTag = $('sDialect').checked;
   o.langCode = $('sLang').checked;
+  o.logo = { on: $('logoOn').checked, pos: $('logoPos').value, size: Number($('logoSize').value) || 110 };
   o.caps = { size: Number($('sCapSize').value) || 84, plate: $('sCapPlate').checked, stroke: $('sCapStroke').checked };
   return o;
 }
@@ -1330,6 +1426,7 @@ $('ver').textContent = `نسخة ${codeV}${codeV === pageV ? '' : ` ⚠️ ال�
   $('sortBy').value = prefs.sort || 'new'; $('trendOnly').checked = !!prefs.trend;
   renderChips();
   fillSettings();
+  await loadLogo();
   const saved = currentId() && getReel(currentId());
   if (saved) reel = normalizeReel(saved);
   fillForm();
@@ -1338,7 +1435,7 @@ $('ver').textContent = `نسخة ${codeV}${codeV === pageV ? '' : ` ⚠️ ال�
   try { feeds = await loadFeeds(); } catch { $('feedInfo').textContent = 'تعذر تحميل data/feeds.json.'; }
   renderFeed();
   loadFonts().then(() => redraw());
-  window.__nrs = { get reel() { return reel; }, get cur() { return cur; }, audioMap, setManual: b => { manualAudio = b; updateInfo(); redraw(); } };
+  window.__nrs = { redraw, get reel() { return reel; }, get cur() { return cur; }, audioMap, setManual: b => { manualAudio = b; updateInfo(); redraw(); } };
 })();
 
 /* ---------- النشر: حزمة + طابور + سجل تجارب (M4) ---------- */
