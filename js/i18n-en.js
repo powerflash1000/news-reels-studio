@@ -620,5 +620,17 @@ export default {
  "نزل ملف الصوت WAV ✅": "WAV audio downloaded ✅",
  "مفيش كلام متوقّت أطلّع منه ترجمة.": "No timed speech to build subtitles from.",
  "(من غير عنوان)": "(no headline)",
+ "مفتاح Freesound للموسيقى (مجاني من freesound.org/apiv2/apply)": "Freesound key for music (free from freesound.org/apiv2/apply)",
+ "🔎 ابحث عن موسيقى أو مؤثرات مجانية (ترخيص آمن)": "🔎 Search free music or sound effects (safe licenses)",
+ "مثلًا: cinematic news, ambient, tension": "e.g. cinematic news, ambient, tension",
+ "بنعرض بس CC0 وCC BY (من غير NC/ND). لو CC BY الكريديت بيتحط تلقائيًا في باكج النشر.": "We only show CC0 and CC BY (no NC/ND). For CC BY the credit is added to the publish pack automatically.",
+ "Freesound (محتاج مفتاح مجاني)": "Freesound (needs a free key)",
+ "Openverse (من غير مفتاح)": "Openverse (no key)",
+ "استخدمها": "Use it",
+ "مفيش نتايج بترخيص آمن. جرّب كلمة إنجليزي تانية.": "No safe-license results. Try another English keyword.",
+ "بنزّل التراك…": "Downloading the track…",
+ "✅ اتضافت كموسيقى للحلقة.": "✅ Added as the episode music.",
+ "حط مفتاح Freesound في الإعدادات (مجاني من freesound.org/apiv2/apply).": "Add your Freesound key in Settings (free from freesound.org/apiv2/apply).",
+ "المفتاح مرفوض (تأكد من مفتاح Freesound في الإعدادات).": "Key rejected (check your Freesound key in Settings).",
  "ARABIC_SWITCH_LABEL": "عربي"
 };

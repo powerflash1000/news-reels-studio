@@ -1,5 +1,5 @@
 // M4: حزمة النشر (عناوين/وصف/هاشتاجات/مصادر/حقوق وسائط) + سجل التجارب. دوال خالصة من غير DOM.
-import { MED_DISCLAIMER } from './reel.js?v=mv28jjt1';
+import { MED_DISCLAIMER } from './reel.js?v=mv2kwqdz';
 
 export const PLATFORMS = { tiktok: 'تيك توك', instagram: 'إنستجرام', facebook: 'فيسبوك' };
 export const ENGAGE = ['likes', 'comments', 'shares', 'saves'];
@@ -38,7 +38,7 @@ export function buildPack(reel, { handle = '' } = {}) {
   if (items.length > 1) lines.push(...items.map((s, i) => `${i + 1}. ${s.headline}`), '');
   lines.push(en ? 'Sources:' : 'المصادر:');
   for (const s of items) lines.push(`• ${s.sourceName || '—'}${s.sourceUrl ? ': ' + s.sourceUrl : ''}${s.claimKind === 'opinion' ? (en ? ' (opinion)' : ' (رأي وتحليل)') : ''}`);
-  const credits = [...new Set(reel.stories.map(s => s.media?.credit).filter(Boolean))];
+  const credits = [...new Set([...reel.stories.map(s => s.media?.credit), reel.music?.credit].filter(Boolean))];
   if (credits.length) lines.push('', (en ? 'Media: ' : 'الوسائط: ') + credits.join(' • '));
   if (items.some(s => s.category === 'health' || s.category === 'healthtech')) lines.push('', en ? EN_DISC : MED_DISCLAIMER);
   if (items.some(s => s.category === 'stories')) lines.push('', en ? 'Based on public records and documents; unproven claims are marked as unconfirmed.' : 'القصة مبنية على وثائق وقضايا معلنة، وأي ادعاء غير مثبت مذكور إنه غير مؤكد.');

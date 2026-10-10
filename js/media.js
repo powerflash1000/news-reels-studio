@@ -2,7 +2,7 @@
 // شكل النتيجة: { id, provider, type:'image'|'video', title, thumb, url, page, author, license, licenseUrl, tier, credit, width, height, duration, size }
 //   tier: 'free' = ملك عام / CC0 / سياسة NASA (من غير شرط)، 'attr' = لازم نسب (CC BY / BY-SA / Pixabay)
 // أي ترخيص فيه NC أو ND أو مش واضح بيتستبعد.
-import { getSettings } from './storage.js?v=mv28jjt1';
+import { getSettings } from './storage.js?v=mv2kwqdz';
 
 const strip = html => String(html || '').replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#0?39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/\s+/g, ' ').trim();
 const https = u => String(u || '').replace(/^http:\/\//i, 'https://');
@@ -179,7 +179,7 @@ export async function searchAll(q, { providers, type = 'any', tier = 'all' }) {
   return { items: keep, errors };
 }
 
-async function viaProxy(url) {
+export async function viaProxy(url) {
   const { proxyUrl } = getSettings();
   if (!proxyUrl) return null;
   return fetch(`${proxyUrl.replace(/\/+$/, '')}/?url=${encodeURIComponent(url)}`, { signal: AbortSignal.timeout(180000) });
