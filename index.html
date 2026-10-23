@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mv2kwqdz">
+<html lang="ar" dir="rtl" data-v="mvlkiyq9">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mv2kwqdz">
+<link rel="stylesheet" href="assets/css/style.css?v=mvlkiyq9">
 </head>
 <body>
 <header class="top">
@@ -16,6 +16,7 @@
     <button data-tab="media">الوسائط</button>
     <button data-tab="library">المكتبة</button>
     <button data-tab="publish">النشر</button>
+    <button data-tab="live">لايف</button>
     <button data-tab="settings">الإعدادات</button>
   </nav>
   <button id="uiLang" class="btn ghost" type="button" title="Language / اللغة">EN</button>
@@ -189,8 +190,11 @@
         <div class="row">
           <button id="bgPick" class="btn">🖼 من مكتبة الوسائط</button>
           <label class="btn file">⬆ من جهازي<input id="bgFile" type="file" accept="image/*,video/*" hidden></label>
+          <button id="bgCapture" class="btn">📸 التقط من شاشتي</button>
+          <button id="bgOpenSrc" class="btn ghost" type="button">↗ افتح صفحة المصدر</button>
           <button id="bgClear" class="btn ghost">إزالة</button>
         </div>
+        <p class="muted">افتح صفحة الخبر في تبويب، وبعدين «التقط من شاشتي» واختار التبويب أو النافذة. أو انسخ صورة (لقطة أو أي صورة) واضغط Ctrl+V هنا. بنحط على الشاشة اسم المصدر. حقوق الصور والمقاطع على مصدرها، فاستخدم لقطات قصيرة للتعليق على الخبر أو صور المصادر الرسمية والمفتوحة.</p>
         <label>التعتيم (عشان النص يتقري)<input id="bgDim" type="range" min="0" max="0.85" step="0.05" value="0.5"></label>
         <div class="grid">
           <label>ملاءمة الصورة للمقاس<select id="bgFit"><option value="auto">تلقائي (احتواء بغباش لو المقاس بعيد)</option><option value="cover">تغطية الشاشة (قصّ)</option><option value="contain">احتواء كامل + غباش</option></select></label>
@@ -304,6 +308,37 @@
 </section>
 
 <!-- النشر: حزمة النشر + الطابور + سجل التجارب -->
+<section id="tab-live" hidden>
+  <div class="card">
+    <h3>لايف: تشغيل الريلز في دورة مستمرة</h3>
+    <p class="muted">اختار ريلز من مكتبتك (صوتها لازم يكون متولّد قبل كده)، وابدأ. البرنامج بيشغّلها ورا بعض في دورة، وإنت بتشارك الشاشة دي في OBS أو أي برنامج بث، فتنزل على المنصات لايف.</p>
+    <div id="lvList" class="list"></div>
+    <div class="row"><button id="lvPrep" class="btn" type="button">↻ جهّز المختار</button><span id="lvPrepMsg" class="muted"></span></div>
+    <div class="grid">
+      <label>مقاس اللايف<select id="lvFmt"></select></label>
+      <label>الإيقاف<select id="lvMode"><option value="loop">دورة مستمرة لحد ما أوقفها</option><option value="minutes">لمدة (بالدقائق)</option><option value="count">عدد دورات</option></select></label>
+      <label id="lvLimitBox">المدة / العدد<input id="lvLimit" type="number" min="1" value="60"></label>
+    </div>
+    <label class="chk"><input id="lvTicker" type="checkbox"> شريط أخبار حي أسفل الشاشة بآخر عناوين الموقع (بيتحدّث كل 10 دقايق)</label>
+    <div class="row">
+      <button id="lvStart" class="btn pri" type="button">▶ ابدأ اللايف</button>
+      <button id="lvStop" class="btn ghost" type="button">⏹ إيقاف</button>
+      <button id="lvFull" class="btn" type="button">⛶ ملء الشاشة</button>
+    </div>
+    <p id="lvStatus" class="muted"></p>
+    <canvas id="lvCv" class="livecv"></canvas>
+    <details>
+      <summary>إزاي أطلع لايف بيها؟</summary>
+      <ol class="muted">
+        <li>الموقع نفسه مش بيبعت بث مباشر للمنصات (ده محتاج برنامج بث). استخدم OBS (مجاني) أو برنامج المنصة (TikTok LIVE Studio أو Meta Live Producer أو YouTube Studio).</li>
+        <li>في OBS: أضف مصدر «Window Capture» أو «Display Capture» على نافذة المتصفح بعد «ملء الشاشة»، وأضف «Audio Output Capture» عشان الصوت.</li>
+        <li>خلّي نافذة المتصفح ظاهرة (مش مصغّرة) وجهازك صاحي: البرنامج بيمنع إطفاء الشاشة، بس لو النافذة اتخبّت الصورة ممكن تبطّأ.</li>
+        <li>اللايف بيكرر ريلزك. راجع سياسة كل منصة في المحتوى المعاد/المسجّل، وحافظ على التنويه بالمصادر المعروض في الريل.</li>
+      </ol>
+    </details>
+  </div>
+</section>
+
 <section id="tab-publish" hidden>
   <div class="card">
     <h3>حزمة النشر</h3>
@@ -364,6 +399,21 @@
   </div>
 
   <div class="card">
+    <h3>مزوّد الصوت (قراءة الأخبار)</h3>
+    <label>المزوّد<select id="sTts"><option value="elevenlabs">ElevenLabs (صوتك المستنسخ)</option><option value="gemini">Google Gemini (أصوات جاهزة، له حصة مجانية)</option></select></label>
+    <div id="gemBox" hidden>
+      <div class="grid">
+        <label>صوت المذيع أ<select id="sGemA"></select></label>
+        <label>صوت المذيع ب<select id="sGemB"></select></label>
+      </div>
+      <label>موديل الصوت<select id="sGemModel"></select></label>
+      <label>أسلوب الإلقاء (بالإنجليزي أدق، فاضي = مذيع أخبار بالعامية المصرية)<textarea id="sGemStyle" rows="2" dir="ltr"></textarea></label>
+      <div class="row"><button id="gemTest" class="btn pri" type="button">🔊 جرّب الصوت</button><span id="gemMsg" class="muted"></span></div>
+      <p class="muted">بيستخدم مفتاح Gemini اللي في قسم المسودات (aistudio.google.com/apikey). Gemini مبيرجّعش توقيت كلمات، فالكابشن بيتوزّع تقديريًا على الصوت. الوسوم زي [sad] بتتشال. لو حصلت رسالة «موديل مش متاح» غيّره، أسماء الموديلات بتتغير.</p>
+    </div>
+  </div>
+
+  <div class="card" id="elCard">
     <h3>ElevenLabs</h3>
     <div class="grid">
       <label>مفتاح API<input id="sKey" type="password" dir="ltr" autocomplete="off"></label>
@@ -474,6 +524,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mv2kwqdz"></script>
+<script type="module" src="js/main.js?v=mvlkiyq9"></script>
 </body>
 </html>
