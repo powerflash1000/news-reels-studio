@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mvlly7yl">
+<html lang="ar" dir="rtl" data-v="mvlmlljv">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mvlly7yl">
+<link rel="stylesheet" href="assets/css/style.css?v=mvlmlljv">
 </head>
 <body>
 <header class="top">
@@ -164,8 +164,28 @@
           <label>مدة الظهور (ثواني)<input id="avSec" type="range" min="3" max="15" step="1" value="6"></label>
           <label>لون البشرة<select id="avSkin"><option value="l">فاتح</option><option value="m">قمحي</option><option value="d">أسمر</option></select></label>
         </div>
-        <label class="chk"><input id="avHijab" type="checkbox"> الست محجبة</label>
-        <label class="chk"><input id="avBeard" type="checkbox"> الراجل بدقن</label>
+        <label>الشكل<select id="avMode"><option value="cartoon">رسوم كرتون</option><option value="photo">صور حقيقية (صورتك وصورة التاني)</option></select></label>
+        <div id="avCartoon">
+          <label class="chk"><input id="avHijab" type="checkbox"> الست محجبة</label>
+          <label class="chk"><input id="avBeard" type="checkbox"> الراجل بدقن</label>
+        </div>
+        <div id="avPhotoBox" hidden>
+          <div class="avpair">
+            <div class="avp"><b>صورة المذيع أ</b>
+              <canvas id="avPrevA" width="170" class="avprev"></canvas>
+              <div class="row"><label class="btn file">⬆ ارفع صورة<input id="avFileA" type="file" accept="image/*" hidden></label><button id="avDelA" class="btn ghost" type="button">شيل</button></div>
+              <label>عرض الفم<input id="avMwA" type="range" min="0.12" max="0.5" step="0.01" value="0.28"></label>
+              <label>جرّب فتح الفم<input id="avTestA" type="range" min="0" max="1" step="0.05" value="0"></label>
+            </div>
+            <div class="avp"><b>صورة المذيع ب</b>
+              <canvas id="avPrevB" width="170" class="avprev"></canvas>
+              <div class="row"><label class="btn file">⬆ ارفع صورة<input id="avFileB" type="file" accept="image/*" hidden></label><button id="avDelB" class="btn ghost" type="button">شيل</button></div>
+              <label>عرض الفم<input id="avMwB" type="range" min="0.12" max="0.5" step="0.01" value="0.28"></label>
+              <label>جرّب فتح الفم<input id="avTestB" type="range" min="0" max="1" step="0.05" value="0"></label>
+            </div>
+          </div>
+          <p class="muted">اضغط على الصورة في مكان الفم بالظبط، واظبط عرض الفم، وجرّب شريط «فتح الفم». الأحسن صورة أمامية واضحة والفم مقفول. استخدم صورك أو صور ناس موافقين، ومتستخدمش صور شخصيات سياسية. الصور بتفضل على جهازك. بتحرّك الفم والفك بس (الراس والعين ثابتين).</p>
+        </div>
         <p class="muted">المذيع أ = الراجل والمذيع ب = الست، فاضبط صوت أ راجل وصوت ب ست من الإعدادات. لو اخترت مذيع واحد هو اللي بيقرا كل السطور. بيظهر في أول خبر بالقالب العادي أو العاجل، وبيكمل لآخر الجملة لو قريب.</p>
       </div>
       <div class="card bumpbox">
@@ -572,6 +592,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mvlly7yl"></script>
+<script type="module" src="js/main.js?v=mvlmlljv"></script>
 </body>
 </html>

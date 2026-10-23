@@ -1,9 +1,9 @@
 // رسم إطار الريل على canvas (عمودي 1080×1920 أو 4:5 أو مربع أو أفقي). نفس الدالة للمعاينة والتصدير.
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mvlly7yl';
-import { drawAvatars, mouthAt, avatarWindow } from './avatar.js?v=mvlly7yl';
-import { hostOf } from './feeds.js?v=mvlly7yl';
-import QR from '../vendor/qrcode/qrcode.mjs?v=mvlly7yl';
-import { drawBg } from './bg.js?v=mvlly7yl';
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mvlmlljv';
+import { drawAvatars, mouthAt, avatarWindow } from './avatar.js?v=mvlmlljv';
+import { hostOf } from './feeds.js?v=mvlmlljv';
+import QR from '../vendor/qrcode/qrcode.mjs?v=mvlmlljv';
+import { drawBg } from './bg.js?v=mvlmlljv';
 
 // مقاسات الإخراج. W/H متغيّرين (live binding) والتصدير بيقراهم وقت التصدير
 export const FORMATS = {
@@ -793,7 +793,9 @@ function avatarsLayer(ctx, st, t, hb, kr) {
   const disc = st.story.category === 'health' || st.story.category === 'healthtech';
   const top = hb + 24, bot = (st.reel.ticker?.on ? L.tickY : disc ? L.srcY - 96 : L.srcY) - 24;
   const box = { x: 60, y: top, w: W - 120, h: Math.max(200, bot - top) };
-  drawAvatars(ctx, box, { who: av.who, t, mouth: mouthAt(st.tl, t), appear: easeOut(appear), skin: av.skin, hijab: !!av.hijab, beard: !!av.beard, color: st.cat.color, rtl: RTL });
+  const photos = {};
+  for (const k of ['A', 'B']) photos[k] = { img: st.avImgs?.[k], ...(st.settings?.avPhotos?.[k] || {}) };
+  drawAvatars(ctx, box, { who: av.who, mode: av.mode, photos, t, mouth: mouthAt(st.tl, t), appear: easeOut(appear), skin: av.skin, hijab: !!av.hijab, beard: !!av.beard, color: st.cat.color, rtl: RTL });
   return true;
 }
 

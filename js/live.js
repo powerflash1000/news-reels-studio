@@ -1,11 +1,11 @@
 // وضع اللايف: شاشة بث مستمرة (طابور + دورة خلفية + شاشة انتظار) وبث لعدة منصات عن طريق وسيط محلي (tools/live-relay.mjs)
-import { normalizeReel, buildReelTimeline, allLines, lineKey } from './reel.js?v=mvlly7yl';
-import { peekLine } from './tts.js?v=mvlly7yl';
-import { audioCtx, mixTimeline, decode, SAMPLE_RATE } from './audio.js?v=mvlly7yl';
-import { drawFrame, drawSlate } from './render.js?v=mvlly7yl';
-import { loadBg, playBg } from './bg.js?v=mvlly7yl';
-import { getBlob } from './mediastore.js?v=mvlly7yl';
-import { getSettings } from './storage.js?v=mvlly7yl';
+import { normalizeReel, buildReelTimeline, allLines, lineKey } from './reel.js?v=mvlmlljv';
+import { peekLine } from './tts.js?v=mvlmlljv';
+import { audioCtx, mixTimeline, decode, SAMPLE_RATE } from './audio.js?v=mvlmlljv';
+import { drawFrame, drawSlate } from './render.js?v=mvlmlljv';
+import { loadBg, playBg } from './bg.js?v=mvlmlljv';
+import { getBlob } from './mediastore.js?v=mvlmlljv';
+import { getSettings } from './storage.js?v=mvlmlljv';
 
 // بيجهّز ريل للتشغيل. من غير opts: الصوت من الكاش (من غير رصيد). مع opts.audioMap/manual: من الاستوديو مباشرة (من غير حفظ)
 export async function prepare(raw, opts = {}) {
@@ -73,7 +73,7 @@ export function createEngine(canvas, env) {
     const fmt = env.getFmt();
     const ticker = env.getTicker();
     const reel = { ...p.reel, format: fmt, ticker: ticker ? { on: true, text: ticker, label: p.reel.ticker?.label || '' } : p.reel.ticker };
-    return { reel, cats: env.cats, settings: getSettings(), tl: p.tl, hasB: p.hasB, focusIdx: 0, bgs: p.bgs, shots: p.shots, logo: env.getLogo() };
+    return { reel, cats: env.cats, settings: getSettings(), tl: p.tl, hasB: p.hasB, focusIdx: 0, bgs: p.bgs, shots: p.shots, logo: env.getLogo(), avImgs: env.getAvImgs?.() };
   }
 
   function begin(p, from) {

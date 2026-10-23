@@ -38,7 +38,7 @@ export function newStory(over = {}) {
 }
 
 export const BUMPER = 2.2; // مدة المقدمة/الخاتمة التلقائية بالثواني
-const avatarsOf = a => ({ on: false, who: 'both', seconds: 6, skin: 'm', hijab: false, beard: false, ...(a || {}) });
+const avatarsOf = a => ({ on: false, mode: 'cartoon', who: 'both', seconds: 6, skin: 'm', hijab: false, beard: false, ...(a || {}) });
 const bumpersOf = b => ({ intro: { on: false, text: '', ...(b?.intro || {}) }, outro: { on: false, text: '', ...(b?.outro || {}) } });
 
 export function newReel(over = {}) {
