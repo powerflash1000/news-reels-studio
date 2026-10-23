@@ -38,11 +38,13 @@ export function newStory(over = {}) {
 }
 
 export const BUMPER = 2.2; // مدة المقدمة/الخاتمة التلقائية بالثواني
+const avatarsOf = a => ({ on: false, who: 'both', seconds: 6, skin: 'm', hijab: false, beard: false, ...(a || {}) });
 const bumpersOf = b => ({ intro: { on: false, text: '', ...(b?.intro || {}) }, outro: { on: false, text: '', ...(b?.outro || {}) } });
 
 export function newReel(over = {}) {
   const r = { status: 'draft', updatedAt: Date.now(), title: '', stories: [newStory()], ticker: { on: false, text: '', label: '' }, ...over };
   r.bumpers = bumpersOf(r.bumpers);
+  r.avatars = avatarsOf(r.avatars);
   r.ticker = { on: false, text: '', label: '', ...(r.ticker || {}) };
   r.format = r.format || 'v';
   r.lang = r.lang || 'ar';
@@ -58,6 +60,7 @@ export function normalizeReel(r) {
     r.format = r.format || 'v';
     r.lang = r.lang || 'ar';
     r.bumpers = bumpersOf(r.bumpers);
+    r.avatars = avatarsOf(r.avatars);
     return r;
   }
   const { id, status, updatedAt, title, ...rest } = r || {};

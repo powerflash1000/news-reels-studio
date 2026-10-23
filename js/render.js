@@ -1,8 +1,9 @@
 // رسم إطار الريل على canvas (عمودي 1080×1920 أو 4:5 أو مربع أو أفقي). نفس الدالة للمعاينة والتصدير.
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mvllh1ya';
-import { hostOf } from './feeds.js?v=mvllh1ya';
-import QR from '../vendor/qrcode/qrcode.mjs?v=mvllh1ya';
-import { drawBg } from './bg.js?v=mvllh1ya';
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mvlly7yl';
+import { drawAvatars, mouthAt, avatarWindow } from './avatar.js?v=mvlly7yl';
+import { hostOf } from './feeds.js?v=mvlly7yl';
+import QR from '../vendor/qrcode/qrcode.mjs?v=mvlly7yl';
+import { drawBg } from './bg.js?v=mvlly7yl';
 
 // مقاسات الإخراج. W/H متغيّرين (live binding) والتصدير بيقراهم وقت التصدير
 export const FORMATS = {
@@ -782,6 +783,20 @@ export function drawSlate(ctx, st, t) {
   ticker(D, s2, t);
 }
 
+// مذيعين أفاتار بيقروا أول كام ثانية من الحلقة (بدل الكابشن)؛ بيرجّع true لو ظاهرين
+function avatarsLayer(ctx, st, t, hb, kr) {
+  const av = st.reel.avatars;
+  if (!av?.on || kr !== 0 || PANEL_TPLS.has(st.story.template)) return false;
+  const w = avatarWindow(st.tl, Math.max(2, Math.min(20, Number(av.seconds) || 6)));
+  const appear = clamp01((t - w.t0) / 0.45) * clamp01((w.t1 - t) / 0.35);
+  if (appear <= 0.01) return false;
+  const disc = st.story.category === 'health' || st.story.category === 'healthtech';
+  const top = hb + 24, bot = (st.reel.ticker?.on ? L.tickY : disc ? L.srcY - 96 : L.srcY) - 24;
+  const box = { x: 60, y: top, w: W - 120, h: Math.max(200, bot - top) };
+  drawAvatars(ctx, box, { who: av.who, t, mouth: mouthAt(st.tl, t), appear: easeOut(appear), skin: av.skin, hijab: !!av.hijab, beard: !!av.beard, color: st.cat.color, rtl: RTL });
+  return true;
+}
+
 // غلاف / ثمبنيل ثابت للخبر: عنوان كبير + القسم + المصدر + اللوجو، بأي مقاس
 export function drawCover(ctx, st, idx, fmt) {
   setFormat(fmt || st.reel.format);
@@ -881,7 +896,7 @@ export function drawFrame(ctx, st, t, opts = {}) {
   if (story.template === 'stat') statPanel(U, c, hb + 30);
   else if (story.template === 'map') mapPanel(D, c, hb + 30);
   else if (story.template === 'proof') proofPanel(U, c, hb + 30);
-  captions(U, c, t, hb);
+  if (!avatarsLayer(D, c, t, hb, kr)) captions(U, c, t, hb);
   ticker(D, c, t);
   sourceBar(U, c);
   if (fallback) {

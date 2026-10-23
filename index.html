@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mvllh1ya">
+<html lang="ar" dir="rtl" data-v="mvlly7yl">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mvllh1ya">
+<link rel="stylesheet" href="assets/css/style.css?v=mvlly7yl">
 </head>
 <body>
 <header class="top">
@@ -155,6 +155,18 @@
             <label>النص (فاضي = عناوين باقي الأخبار تلقائيًا)<input id="tkText" dir="auto"></label>
           </div>
         </div>
+      </div>
+      <div class="card avbox">
+        <b>مذيعين أفاتار (راجل / ست) يقروا أول الأخبار</b>
+        <label class="chk"><input id="avOn" type="checkbox"> المذيعين يظهروا ويقروا أول كام ثانية بصوتهم مع حركة شفايف، وبعدين الأخبار تكمل بالصوت</label>
+        <div class="grid">
+          <label>مين يظهر<select id="avWho"><option value="both">راجل وست مع بعض</option><option value="m">راجل بس</option><option value="f">ست بس</option></select></label>
+          <label>مدة الظهور (ثواني)<input id="avSec" type="range" min="3" max="15" step="1" value="6"></label>
+          <label>لون البشرة<select id="avSkin"><option value="l">فاتح</option><option value="m">قمحي</option><option value="d">أسمر</option></select></label>
+        </div>
+        <label class="chk"><input id="avHijab" type="checkbox"> الست محجبة</label>
+        <label class="chk"><input id="avBeard" type="checkbox"> الراجل بدقن</label>
+        <p class="muted">المذيع أ = الراجل والمذيع ب = الست، فاضبط صوت أ راجل وصوت ب ست من الإعدادات. لو اخترت مذيع واحد هو اللي بيقرا كل السطور. بيظهر في أول خبر بالقالب العادي أو العاجل، وبيكمل لآخر الجملة لو قريب.</p>
       </div>
       <div class="card bumpbox">
         <b>مقدمة وخاتمة تلقائية (من غير صوت، حوالي ثانيتين)</b>
@@ -560,6 +572,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mvllh1ya"></script>
+<script type="module" src="js/main.js?v=mvlly7yl"></script>
 </body>
 </html>

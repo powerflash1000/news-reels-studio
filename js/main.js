@@ -1,21 +1,22 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvllh1ya';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvllh1ya';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvllh1ya';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvllh1ya';
-import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvllh1ya';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvllh1ya';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvllh1ya';
-import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvllh1ya';
-import { exportSupport, exportReel } from './export.js?v=mvllh1ya';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvllh1ya';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mvllh1ya';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvllh1ya';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvllh1ya';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvllh1ya';
-import { loadBg, playBg } from './bg.js?v=mvllh1ya';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvllh1ya';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvllh1ya';
-import { initI18n } from './i18n.js?v=mvllh1ya';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvlly7yl';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvlly7yl';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvlly7yl';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvlly7yl';
+import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvlly7yl';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvlly7yl';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvlly7yl';
+import { mouthAt } from './avatar.js?v=mvlly7yl';
+import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvlly7yl';
+import { exportSupport, exportReel } from './export.js?v=mvlly7yl';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvlly7yl';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mvlly7yl';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvlly7yl';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvlly7yl';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvlly7yl';
+import { loadBg, playBg } from './bg.js?v=mvlly7yl';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvlly7yl';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvlly7yl';
+import { initI18n } from './i18n.js?v=mvlly7yl';
 
 initI18n();
 
@@ -259,6 +260,7 @@ function fillForm() {
   const st = story();
   applyFormat();
   fillBumpers();
+  fillAvatars();
   fillCoverSelects();
   refreshCover();
   $('rTitle').value = reel.title || '';
@@ -645,6 +647,16 @@ function fillBumpers() {
   $('bpIntro').checked = !!b.intro?.on; $('bpIntroText').value = b.intro?.text || '';
   $('bpOutro').checked = !!b.outro?.on; $('bpOutroText').value = b.outro?.text || '';
 }
+function fillAvatars() {
+  const a = reel.avatars || {};
+  $('avOn').checked = !!a.on; $('avWho').value = a.who || 'both'; $('avSec').value = a.seconds || 6;
+  $('avSkin').value = a.skin || 'm'; $('avHijab').checked = !!a.hijab; $('avBeard').checked = !!a.beard;
+}
+function readAvatars() {
+  reel.avatars = { on: $('avOn').checked, who: $('avWho').value, seconds: Number($('avSec').value) || 6, skin: $('avSkin').value, hijab: $('avHijab').checked, beard: $('avBeard').checked };
+  persist(); redraw();
+}
+for (const id of ['avOn', 'avWho', 'avSec', 'avSkin', 'avHijab', 'avBeard']) $(id).addEventListener('input', readAvatars);
 function readBumpers() {
   reel.bumpers = { intro: { on: $('bpIntro').checked, text: $('bpIntroText').value.trim() }, outro: { on: $('bpOutro').checked, text: $('bpOutroText').value.trim() } };
   persist(); redraw();
@@ -1715,7 +1727,7 @@ $('ver').textContent = `نسخة ${codeV}${codeV === pageV ? '' : ` ⚠️ ال�
   try { feeds = await loadFeeds(); } catch { $('feedInfo').textContent = 'تعذر تحميل data/feeds.json.'; }
   renderFeed();
   loadFonts().then(() => redraw());
-  window.__nrs = { live: { engine, bcast, prepare: livePrepare, enqueue: lvEnqueue }, redraw, get reel() { return reel; }, get cur() { return cur; }, audioMap, setManual: b => { manualAudio = b; updateInfo(); redraw(); } };
+  window.__nrs = { avatar: { mouthAt }, live: { engine, bcast, prepare: livePrepare, enqueue: lvEnqueue }, redraw, get reel() { return reel; }, get cur() { return cur; }, audioMap, setManual: b => { manualAudio = b; updateInfo(); redraw(); } };
 })();
 
 /* ---------- النشر: حزمة + طابور + سجل تجارب (M4) ---------- */
