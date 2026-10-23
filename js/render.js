@@ -1,8 +1,8 @@
 // رسم إطار الريل على canvas (عمودي 1080×1920 أو 4:5 أو مربع أو أفقي). نفس الدالة للمعاينة والتصدير.
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mvlkiyq9';
-import { hostOf } from './feeds.js?v=mvlkiyq9';
-import QR from '../vendor/qrcode/qrcode.mjs?v=mvlkiyq9';
-import { drawBg } from './bg.js?v=mvlkiyq9';
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mvllh1ya';
+import { hostOf } from './feeds.js?v=mvllh1ya';
+import QR from '../vendor/qrcode/qrcode.mjs?v=mvllh1ya';
+import { drawBg } from './bg.js?v=mvllh1ya';
 
 // مقاسات الإخراج. W/H متغيّرين (live binding) والتصدير بيقراهم وقت التصدير
 export const FORMATS = {
@@ -764,6 +764,22 @@ function drawBumper(ctx, st, ent, t) {
     ctx.fillText(handle, cx, y + size * 0.75 + 70);
   }
   ctx.restore();
+}
+
+// شاشة انتظار للايف (لما مفيش خبر على الهواء): لوجو + اسم القناة + شريط الأخبار الحي
+export function drawSlate(ctx, st, t) {
+  setFormat(st.reel.format);
+  setLang(st.reel.lang);
+  if (ctx.canvas && (ctx.canvas.width !== W || ctx.canvas.height !== H)) { ctx.canvas.width = W; ctx.canvas.height = H; }
+  const cat = (st.cats || []).find(c => c.id === 'politics') || st.cats?.[0] || { id: 'x', color: '#e5484d' };
+  background(ctx, cat.color);
+  const U = RTL ? ctx : wrapCtx(ctx, true), D = RTL ? ctx : wrapCtx(ctx, false);
+  const text = st.slateText || '';
+  const reel = { ...st.reel, bumpers: { intro: { text }, outro: {} } };
+  const s2 = { ...st, reel, cat, story: { headline: '' } };
+  drawBumper(U, s2, { bumper: 'intro', start: t - 5, end: t + 1000 }, t);
+  ctx.globalAlpha = 1;
+  ticker(D, s2, t);
 }
 
 // غلاف / ثمبنيل ثابت للخبر: عنوان كبير + القسم + المصدر + اللوجو، بأي مقاس

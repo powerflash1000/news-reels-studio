@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mvlkiyq9">
+<html lang="ar" dir="rtl" data-v="mvllh1ya">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mvlkiyq9">
+<link rel="stylesheet" href="assets/css/style.css?v=mvllh1ya">
 </head>
 <body>
 <header class="top">
@@ -245,6 +245,8 @@
         <button id="newReel" class="btn ghost">ريل جديد</button>
       </div>
       <div class="row">
+        <button id="toLive" class="btn pri" type="button">📡 للايف (بعد الحالي)</button>
+        <button id="toLiveNow" class="btn" type="button">⚡ للايف دلوقتي</button>
         <button id="exSrt" class="btn">⬇ ترجمة SRT</button>
         <button id="exWav" class="btn">⬇ صوت الحلقة WAV</button>
         <button id="exVoice" class="btn ghost">⬇ صوت الكلام بس WAV</button>
@@ -310,30 +312,64 @@
 <!-- النشر: حزمة النشر + الطابور + سجل التجارب -->
 <section id="tab-live" hidden>
   <div class="card">
-    <h3>لايف: تشغيل الريلز في دورة مستمرة</h3>
-    <p class="muted">اختار ريلز من مكتبتك (صوتها لازم يكون متولّد قبل كده)، وابدأ. البرنامج بيشغّلها ورا بعض في دورة، وإنت بتشارك الشاشة دي في OBS أو أي برنامج بث، فتنزل على المنصات لايف.</p>
-    <div id="lvList" class="list"></div>
-    <div class="row"><button id="lvPrep" class="btn" type="button">↻ جهّز المختار</button><span id="lvPrepMsg" class="muted"></span></div>
-    <div class="grid">
-      <label>مقاس اللايف<select id="lvFmt"></select></label>
-      <label>الإيقاف<select id="lvMode"><option value="loop">دورة مستمرة لحد ما أوقفها</option><option value="minutes">لمدة (بالدقائق)</option><option value="count">عدد دورات</option></select></label>
-      <label id="lvLimitBox">المدة / العدد<input id="lvLimit" type="number" min="1" value="60"></label>
-    </div>
-    <label class="chk"><input id="lvTicker" type="checkbox"> شريط أخبار حي أسفل الشاشة بآخر عناوين الموقع (بيتحدّث كل 10 دقايق)</label>
+    <h3>غرفة اللايف</h3>
     <div class="row">
-      <button id="lvStart" class="btn pri" type="button">▶ ابدأ اللايف</button>
-      <button id="lvStop" class="btn ghost" type="button">⏹ إيقاف</button>
+      <span id="lvBadge" class="badge">⚫ مطفي</span>
+      <button id="lvStart" class="btn pri" type="button">▶ شغّل شاشة اللايف</button>
+      <button id="lvStop" class="btn ghost" type="button">⏹ أوقف الشاشة</button>
       <button id="lvFull" class="btn" type="button">⛶ ملء الشاشة</button>
     </div>
     <p id="lvStatus" class="muted"></p>
     <canvas id="lvCv" class="livecv"></canvas>
+    <div class="grid">
+      <label>مقاس البث<select id="lvFmt"></select></label>
+      <label>إيقاف تلقائي بعد (دقائق، 0 = من غير)<input id="lvMax" type="number" min="0" value="0"></label>
+      <label>نص شاشة الانتظار (فاضي = اسم القناة)<input id="lvSlate" dir="auto"></label>
+    </div>
+    <label class="chk"><input id="lvTicker" type="checkbox"> شريط أخبار حي بآخر عناوين الموقع (بيتحدّث كل 10 دقايق)</label>
+    <label class="chk"><input id="lvMonitor" type="checkbox" checked> أسمع صوت اللايف في سماعتي</label>
+  </div>
+
+  <div class="card">
+    <h3>الطابور (اللي هيطلع على الهواء)</h3>
+    <p class="muted">من الاستوديو: جهّز الخبر وعاينه، وبعدين «📡 للايف» (بعد الحالي) أو «⚡ للايف دلوقتي». من غير حفظ أو تصدير. لما الطابور يفضى بيرجع للدورة، ولو مفيش دورة بيرجع لشاشة الانتظار.</p>
+    <div id="lvQueue" class="list"></div>
+    <div class="row"><button id="lvCut" class="btn ghost" type="button">⏭ اقطع الحالي وروح للي بعده</button></div>
+  </div>
+
+  <div class="card">
+    <h3>الدورة (بتشتغل لما الطابور فاضي)</h3>
+    <div id="lvList" class="list"></div>
+    <div class="row"><button id="lvPrep" class="btn" type="button">↻ جهّز المختار</button><span id="lvPrepMsg" class="muted"></span></div>
+    <p class="muted">الريلز لازم صوتها يكون متولّد قبل كده (بيتقرا من الكاش من غير رصيد).</p>
+  </div>
+
+  <div class="card">
+    <h3>البث للمنصات (يوتيوب + فيسبوك + تيك توك)</h3>
+    <p class="muted">المتصفح مش بيبعت بث مباشر للمنصات، فبنستخدم «وسيط البث» (ملف صغير بتشغّله على جهازك). هو اللي بياخد الصورة والصوت ويبعتهم لكل المنصات في نفس الوقت. مفاتيح البث بتفضل عندك في ملف على جهازك بس.</p>
+    <div class="grid">
+      <label>رابط الوسيط<input id="lvRelay" dir="ltr" placeholder="ws://localhost:8787"></label>
+      <label>الرمز السري<input id="lvToken" type="password" dir="ltr" autocomplete="off"></label>
+    </div>
+    <div class="row"><button id="lvConnect" class="btn" type="button">🔌 اتصل بالوسيط</button><span id="lvConnMsg" class="muted"></span></div>
+    <div id="lvOuts" class="chips"></div>
+    <div class="grid">
+      <label>الجودة<select id="lvQual"><option value="540|1500">خفيفة 540p (أضعف جهاز / نت بطيء)</option><option value="720|2500">متوسطة 720p (الأنسب)</option><option value="1080|4500">عالية 1080p (محتاج جهاز قوي ونت سريع)</option></select></label>
+    </div>
+    <div class="row">
+      <button id="lvGo" class="btn pri" type="button">🔴 ابدأ البث للمنصات المختارة</button>
+      <button id="lvEnd" class="btn ghost" type="button">⏹ أوقف البث</button>
+    </div>
+    <p id="lvStream" class="muted"></p>
     <details>
-      <summary>إزاي أطلع لايف بيها؟</summary>
+      <summary>إزاي أجهّز الوسيط؟ (مرة واحدة)</summary>
       <ol class="muted">
-        <li>الموقع نفسه مش بيبعت بث مباشر للمنصات (ده محتاج برنامج بث). استخدم OBS (مجاني) أو برنامج المنصة (TikTok LIVE Studio أو Meta Live Producer أو YouTube Studio).</li>
-        <li>في OBS: أضف مصدر «Window Capture» أو «Display Capture» على نافذة المتصفح بعد «ملء الشاشة»، وأضف «Audio Output Capture» عشان الصوت.</li>
-        <li>خلّي نافذة المتصفح ظاهرة (مش مصغّرة) وجهازك صاحي: البرنامج بيمنع إطفاء الشاشة، بس لو النافذة اتخبّت الصورة ممكن تبطّأ.</li>
-        <li>اللايف بيكرر ريلزك. راجع سياسة كل منصة في المحتوى المعاد/المسجّل، وحافظ على التنويه بالمصادر المعروض في الريل.</li>
+        <li>ثبّت Node.js وffmpeg على جهازك (مجانيين).</li>
+        <li>نزّل ملف tools/live-relay.mjs من الريبو، وشغّل: node live-relay.mjs. أول مرة بيعمل ملف إعداد جنبه ويطبع الرمز السري.</li>
+        <li>افتح الملف live-relay.config.json وحط لكل منصة رابط البث (السيرفر + المفتاح): يوتيوب من YouTube Studio ← Go live، فيسبوك من Live Producer، وتيك توك من LIVE Studio (محتاج حساب مؤهّل للبث بمفتاح). امسح المنصات اللي مش هتستخدمها.</li>
+        <li>شغّل الوسيط تاني، وارجع هنا: حط الرمز السري واضغط «اتصل». اختار المنصات، وشغّل شاشة اللايف، وبعدين «ابدأ البث».</li>
+        <li>خلّي نافذة المتصفح ظاهرة وجهازك صاحي، ومتقفلش الوسيط. لو ظهر طلب إذن اتصال بالشبكة المحلية، وافق.</li>
+        <li>لو عايز OBS بدل الوسيط: شارك نافذة المتصفح في OBS (Window Capture) وزوّد التقاط صوت الجهاز.</li>
       </ol>
     </details>
   </div>
@@ -524,6 +560,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mvlkiyq9"></script>
+<script type="module" src="js/main.js?v=mvllh1ya"></script>
 </body>
 </html>

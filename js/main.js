@@ -1,21 +1,21 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvlkiyq9';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvlkiyq9';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvlkiyq9';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvlkiyq9';
-import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvlkiyq9';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvlkiyq9';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvlkiyq9';
-import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvlkiyq9';
-import { exportSupport, exportReel } from './export.js?v=mvlkiyq9';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvlkiyq9';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mvlkiyq9';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvlkiyq9';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvlkiyq9';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvlkiyq9';
-import { loadBg, playBg } from './bg.js?v=mvlkiyq9';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvlkiyq9';
-import { prepare as livePrepare, createRunner } from './live.js?v=mvlkiyq9';
-import { initI18n } from './i18n.js?v=mvlkiyq9';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvllh1ya';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvllh1ya';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvllh1ya';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvllh1ya';
+import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvllh1ya';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvllh1ya';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvllh1ya';
+import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvllh1ya';
+import { exportSupport, exportReel } from './export.js?v=mvllh1ya';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvllh1ya';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mvllh1ya';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvllh1ya';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvllh1ya';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvllh1ya';
+import { loadBg, playBg } from './bg.js?v=mvllh1ya';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvllh1ya';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvllh1ya';
+import { initI18n } from './i18n.js?v=mvllh1ya';
 
 initI18n();
 
@@ -1058,21 +1058,61 @@ $('bgFile').addEventListener('change', async e => {
 });
 
 /* ---------- لايف ---------- */
-const lvCfg = { ids: [], fmt: 'v', mode: 'loop', limit: 60, ticker: true, ...load('live', {}) };
+const lvCfg = { ids: [], fmt: 'v', max: 0, ticker: true, slate: '', monitor: true, relay: 'ws://localhost:8787', token: '', qual: '720|2500', outs: null, ...load('live', {}) };
 const lvPrepared = new Map();
-const runner = createRunner($('lvCv'));
 let lvFeedAt = 0, lvTickerText = '';
 function lvSave() { save('live', lvCfg); }
+async function lvRefreshTicker() {
+  if (!lvCfg.ticker || Date.now() - lvFeedAt < 600000) return;
+  lvFeedAt = Date.now();
+  try {
+    const j = await (await fetch('data/feeds.json', { cache: 'no-cache' })).json();
+    const lang = getSettings().reelLang || 'ar';
+    lvTickerText = j.items.filter(i => !i.lang || i.lang === lang).sort((a, b) => Date.parse(b.published || 0) - Date.parse(a.published || 0)).slice(0, 12).map(i => i.title).join('   •   ');
+  } catch { /* نكمّل بآخر نص */ }
+}
+const engine = createEngine($('lvCv'), {
+  get cats() { return cfg.categories; },
+  getLogo: () => logoImg,
+  getFmt: () => lvCfg.fmt,
+  getTicker: () => { lvRefreshTicker(); return lvCfg.ticker ? lvTickerText : ''; },
+  getSlateText: () => lvCfg.slate,
+});
+const bcast = createBroadcaster(engine);
+let lvState = { running: false, onAir: null, queue: [], bgCount: 0 };
+engine.onChange(st => { lvState = st; renderLiveStatus(); });
+
+function renderLiveStatus() {
+  const { running, onAir, queue } = lvState;
+  const streaming = bcast.streaming;
+  $('lvBadge').className = 'badge' + (streaming ? ' stream' : running ? ' on' : '');
+  $('lvBadge').textContent = streaming ? '🔴 بث مباشر' : running ? '🟢 الشاشة شغّالة' : '⚫ مطفي';
+  $('lvStatus').textContent = !running ? 'الشاشة مطفية. اضغط «شغّل شاشة اللايف».' : onAir ? `على الهواء: ${onAir.title.slice(0, 50)} (${onAir.from === 'queue' ? 'من الطابور' : 'من الدورة'}) — فاضل ${Math.ceil(onAir.left)} ث` : 'شاشة الانتظار (مفيش خبر دلوقتي).';
+  $('lvQueue').innerHTML = queue.length ? queue.map((q, i) => `<div class="pfrow"><b translate="no">${i + 1}. ${esc(q.title.slice(0, 60))}</b> <button class="btn" data-lvnow="${q.uid}" type="button">⚡ دلوقتي</button> <button class="btn ghost" data-lvrm="${q.uid}" type="button">✕</button></div>`).join('') : '<p class="muted">الطابور فاضي.</p>';
+}
+$('lvQueue').addEventListener('click', e => {
+  const now = e.target.closest('[data-lvnow]')?.dataset.lvnow, rm = e.target.closest('[data-lvrm]')?.dataset.lvrm;
+  if (rm) engine.remove(rm);
+  if (now) { const q = lvState.queue.find(x => x.uid === now); if (q) { const p = lvQueueItems.get(now); engine.remove(now); engine.enqueue(p, { now: true }); } }
+});
+const lvQueueItems = new Map();
+function lvEnqueue(p, now) {
+  lvQueueItems.set(p.uid, p);
+  engine.enqueue(p, { now });
+}
+
 function renderLive() {
   $('lvFmt').innerHTML = Object.entries(FORMATS).map(([k, v]) => `<option value="${k}">${v.name}</option>`).join('');
-  $('lvFmt').value = lvCfg.fmt; $('lvMode').value = lvCfg.mode; $('lvLimit').value = lvCfg.limit; $('lvTicker').checked = !!lvCfg.ticker;
-  $('lvLimitBox').hidden = lvCfg.mode === 'loop';
+  $('lvFmt').value = lvCfg.fmt; $('lvMax').value = lvCfg.max; $('lvSlate').value = lvCfg.slate; $('lvTicker').checked = !!lvCfg.ticker; $('lvMonitor').checked = !!lvCfg.monitor;
+  $('lvRelay').value = lvCfg.relay; $('lvToken').value = lvCfg.token; $('lvQual').value = lvCfg.qual;
   const reels = listReels();
   $('lvList').innerHTML = reels.length ? reels.map(r => {
     const p = lvPrepared.get(r.id);
     const mark = !p ? '' : p.ready ? ' ✅' : ` ⚠️ ${esc(p.why)}`;
     return `<label class="chk"><input type="checkbox" data-lv="${esc(r.id)}" ${lvCfg.ids.includes(r.id) ? 'checked' : ''}> <span translate="no">${esc((r.title || r.stories?.find(s => s.headline)?.headline || 'ريل').slice(0, 60))}</span>${mark}</label>`;
   }).join('') : '<p class="muted">مفيش ريلز في المكتبة لسه.</p>';
+  renderOuts();
+  renderLiveStatus();
 }
 $('lvList').addEventListener('change', e => {
   const id = e.target.dataset.lv;
@@ -1080,16 +1120,15 @@ $('lvList').addEventListener('change', e => {
   lvCfg.ids = e.target.checked ? [...lvCfg.ids, id] : lvCfg.ids.filter(x => x !== id);
   lvSave();
 });
-for (const [id, k] of [['lvFmt', 'fmt'], ['lvMode', 'mode'], ['lvLimit', 'limit'], ['lvTicker', 'ticker']]) {
-  $(id).addEventListener('change', () => {
-    lvCfg[k] = id === 'lvLimit' ? Math.max(1, Number($(id).value) || 1) : id === 'lvTicker' ? $(id).checked : $(id).value;
-    $('lvLimitBox').hidden = lvCfg.mode === 'loop';
-    lvSave();
-  });
+for (const [id, k, get] of [['lvFmt', 'fmt', v => v], ['lvMax', 'max', v => Math.max(0, Number(v) || 0)], ['lvSlate', 'slate', v => v.trim()], ['lvRelay', 'relay', v => v.trim()], ['lvToken', 'token', v => v.trim()], ['lvQual', 'qual', v => v]]) {
+  $(id).addEventListener('change', () => { lvCfg[k] = get($(id).value); lvSave(); });
 }
+$('lvTicker').addEventListener('change', () => { lvCfg.ticker = $('lvTicker').checked; lvSave(); lvFeedAt = 0; });
+$('lvMonitor').addEventListener('change', () => { lvCfg.monitor = $('lvMonitor').checked; lvSave(); engine.setMonitor(lvCfg.monitor); });
+
 async function lvPrepareAll() {
   const ids = lvCfg.ids.filter(id => getReel(id));
-  if (!ids.length) { $('lvPrepMsg').textContent = 'اختار ريل واحد على الأقل.'; return []; }
+  if (!ids.length) { $('lvPrepMsg').textContent = 'مفيش دورة مختارة (ممكن تشتغل من الطابور بس).'; engine.setBackground([]); return; }
   await loadFonts();
   const out = [];
   for (const id of ids) {
@@ -1099,38 +1138,88 @@ async function lvPrepareAll() {
     const p = await livePrepare(raw).catch(err => ({ id, title: raw.title || 'ريل', ready: false, why: String(err.message || err) }));
     lvPrepared.set(id, p); out.push(p);
   }
+  engine.setBackground(out);
   $('lvPrepMsg').textContent = `${out.filter(p => p.ready).length} من ${out.length} جاهزين.`;
   renderLive();
-  return out;
 }
 $('lvPrep').addEventListener('click', lvPrepareAll);
-// آخر عناوين الموقع للشريط الحي (بتتحدّث كل 10 دقايق من data/feeds.json)
-async function lvTicker() {
-  if (!lvCfg.ticker) return '';
-  if (Date.now() - lvFeedAt > 600000) {
-    try {
-      const j = await (await fetch('data/feeds.json', { cache: 'no-cache' })).json();
-      const lang = (reel.lang || 'ar');
-      const items = j.items.filter(i => !i.lang || i.lang === lang).sort((a, b) => Date.parse(b.published || 0) - Date.parse(a.published || 0)).slice(0, 12);
-      lvTickerText = items.map(i => i.title).join('   •   ');
-      lvFeedAt = Date.now();
-    } catch { /* نكمّل بآخر نص */ }
-  }
-  return lvTickerText;
-}
+
 $('lvStart').addEventListener('click', async () => {
-  if (runner.running) return;
-  const items = await lvPrepareAll();
-  if (!items.some(p => p.ready)) return void ($('lvStatus').textContent = '❌ مفيش ريلز جاهزة. ولّد صوت الريلز من الاستوديو الأول.');
-  await lvTicker();
-  runner.run({
-    items, fmt: lvCfg.fmt, mode: lvCfg.mode, limit: lvCfg.limit, cats: cfg.categories, logo: logoImg,
-    tickerText: () => { lvTicker(); return lvCfg.ticker ? lvTickerText : ''; },
-    onStatus: t => { $('lvStatus').textContent = t; },
-  }).catch(err => { $('lvStatus').textContent = '❌ ' + (err.message || err); });
+  if (engine.running) return;
+  await loadFonts();
+  await lvPrepareAll();
+  await lvRefreshTicker();
+  engine.setMonitor(lvCfg.monitor);
+  await engine.start({ maxMinutes: lvCfg.max });
 });
-$('lvStop').addEventListener('click', () => runner.stop());
+$('lvStop').addEventListener('click', () => { if (bcast.streaming) bcast.stop(); engine.stop(); renderLiveStatus(); });
+$('lvCut').addEventListener('click', () => engine.cutNow());
 $('lvFull').addEventListener('click', () => $('lvCv').requestFullscreen?.().catch(() => {}));
+
+// من الاستوديو للطابور: بيجهّز الريل الحالي من الذاكرة (من غير حفظ أو تصدير)
+async function sendToLive(now) {
+  readForm();
+  const probs = validateReel();
+  if (probs.length) return setStatus(probs.join(' '), true);
+  if (!hasAudioForLive()) return setStatus('الصوت مش جاهز. ولّد الصوت أو سجّل/ارفع ملف الأول.', true);
+  if (!(await askChecklist())) return;
+  setStatus('بجهّز للايف…');
+  try {
+    await loadFonts();
+    if (reel.stories.some(x => x.template === 'map')) await loadWorld();
+    const p = await livePrepare(reel, { audioMap, manual: manualAudio });
+    if (!p.ready) return setStatus('مقدرتش أجهّز الريل: ' + p.why, true);
+    lvEnqueue(p, !!now);
+    setStatus(engine.running ? (now ? '⚡ الريل طلع على الهواء دلوقتي ✅' : '📡 اتضاف للطابور، هيطلع بعد الحالي ✅') : '📡 اتضاف للطابور. شغّل شاشة اللايف من تبويب «لايف».');
+  } catch (e) { setStatus('فشل التجهيز للايف: ' + (e.message || e), true); }
+}
+const hasAudioForLive = () => !!currentTimeline().real;
+$('toLive').addEventListener('click', () => sendToLive(false));
+$('toLiveNow').addEventListener('click', () => sendToLive(true));
+
+/* البث للمنصات */
+function renderOuts() {
+  const h = bcast.hello;
+  if (!h) { $('lvOuts').innerHTML = ''; return; }
+  const sel = lvCfg.outs || h.outputs;
+  $('lvOuts').innerHTML = h.outputs.map(n => `<button class="chip ${sel.includes(n) ? 'on' : ''}" data-out="${esc(n)}" type="button">${esc(n)}</button>`).join('')
+    + (h.skipped?.length ? `<span class="muted"> (مش مضبوطة في ملف الإعداد: ${esc(h.skipped.join('، '))})</span>` : '');
+}
+$('lvOuts').addEventListener('click', e => {
+  const n = e.target.dataset.out;
+  if (!n) return;
+  const cur = lvCfg.outs || bcast.hello?.outputs || [];
+  lvCfg.outs = cur.includes(n) ? cur.filter(x => x !== n) : [...cur, n];
+  lvSave(); renderOuts();
+});
+bcast.onMessage(m => {
+  if (m.type === 'stats') $('lvStream').textContent = `🔴 البث شغّال — ${m.fps} إطار/ث • ${m.bitrate} • سرعة ${m.speed} • مدة ${m.time}`;
+  else if (m.type === 'log') $('lvStream').textContent = '⚠️ ' + m.line;
+  else if (m.type === 'started') $('lvStream').textContent = `🔴 اتبدأ البث على: ${m.outputs.join('، ')}`;
+  else if (m.type === 'ended') { $('lvStream').textContent = m.error ? '❌ ' + m.error : `⏹ البث وقف${m.code ? ` (ffmpeg خرج بكود ${m.code})` : ''}.`; }
+  else if (m.type === 'closed') { $('lvConnMsg').textContent = 'الاتصال بالوسيط اتقفل.'; $('lvOuts').innerHTML = ''; }
+  renderLiveStatus();
+});
+$('lvConnect').addEventListener('click', async () => {
+  $('lvConnMsg').textContent = 'بتّصل…';
+  try {
+    const h = await bcast.connect(lvCfg.relay, lvCfg.token);
+    $('lvConnMsg').textContent = `✅ متصل. المنصات الجاهزة: ${h.outputs.join('، ') || 'مفيش (اضبط روابط البث في ملف الإعداد)'}`;
+    renderOuts();
+  } catch (e) { $('lvConnMsg').textContent = '❌ ' + (e.message || e); }
+});
+$('lvGo').addEventListener('click', () => {
+  try {
+    if (!bcast.connected) throw new Error('اتصل بالوسيط الأول.');
+    const outs = (lvCfg.outs || bcast.hello.outputs).filter(n => bcast.hello.outputs.includes(n));
+    if (!outs.length) throw new Error('اختار منصة واحدة على الأقل.');
+    if (!confirm(`هتبدأ بث مباشر حقيقي على: ${outs.join('، ')}. تكمل؟`)) return;
+    const [side, kbps] = lvCfg.qual.split('|');
+    bcast.start({ outputs: outs, side: Number(side) || 720, bitrate: Number(kbps) || 2500 });
+    renderLiveStatus();
+  } catch (e) { $('lvStream').textContent = '❌ ' + (e.message || e); }
+});
+$('lvEnd').addEventListener('click', () => { bcast.stop(); $('lvStream').textContent = '⏹ البث وقف.'; renderLiveStatus(); });
 
 /* ---------- التقاط من الشاشة / لصق صورة ---------- */
 // المستخدم بيختار التبويب أو النافذة بنفسه، وبناخد لقطة واحدة (مفيش تحميل تلقائي من مواقع الأخبار)
@@ -1626,7 +1715,7 @@ $('ver').textContent = `نسخة ${codeV}${codeV === pageV ? '' : ` ⚠️ ال�
   try { feeds = await loadFeeds(); } catch { $('feedInfo').textContent = 'تعذر تحميل data/feeds.json.'; }
   renderFeed();
   loadFonts().then(() => redraw());
-  window.__nrs = { redraw, get reel() { return reel; }, get cur() { return cur; }, audioMap, setManual: b => { manualAudio = b; updateInfo(); redraw(); } };
+  window.__nrs = { live: { engine, bcast, prepare: livePrepare, enqueue: lvEnqueue }, redraw, get reel() { return reel; }, get cur() { return cur; }, audioMap, setManual: b => { manualAudio = b; updateInfo(); redraw(); } };
 })();
 
 /* ---------- النشر: حزمة + طابور + سجل تجارب (M4) ---------- */
