@@ -41,6 +41,7 @@ const DEFAULT_SETTINGS = {
   claudeModel: 'claude-opus-5-5',
   reelLang: 'ar',
   logo: { on: false, pos: 'tl', size: 110, name: '' },
+  avPhotos: { A: { mx: 0.5, my: 0.68, mw: 0.28, has: false }, B: { mx: 0.5, my: 0.68, mw: 0.28, has: false } },
   dialectTag: false,
   langCode: false,
   fx: { preset: 'none', bass: 0, presence: 0, air: 0, comp: 0, deess: 0, room: 0, norm: false, target: -16 },
@@ -54,7 +55,7 @@ const DEFAULT_SETTINGS = {
 
 export function getSettings() {
   const s = load('settings', {});
-  return { ...DEFAULT_SETTINGS, ...s, fx: { ...DEFAULT_SETTINGS.fx, ...(s.fx || {}) }, caps: { ...DEFAULT_SETTINGS.caps, ...(s.caps || {}) }, logo: { ...DEFAULT_SETTINGS.logo, ...(s.logo || {}) } };
+  return { ...DEFAULT_SETTINGS, ...s, fx: { ...DEFAULT_SETTINGS.fx, ...(s.fx || {}) }, caps: { ...DEFAULT_SETTINGS.caps, ...(s.caps || {}) }, logo: { ...DEFAULT_SETTINGS.logo, ...(s.logo || {}) }, avPhotos: { A: { ...DEFAULT_SETTINGS.avPhotos.A, ...(s.avPhotos?.A || {}) }, B: { ...DEFAULT_SETTINGS.avPhotos.B, ...(s.avPhotos?.B || {}) } } };
 }
 
 export function setSettings(s) {

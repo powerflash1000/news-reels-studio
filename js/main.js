@@ -1,22 +1,22 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvlly7yl';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvlly7yl';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvlly7yl';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvlly7yl';
-import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvlly7yl';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvlly7yl';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvlly7yl';
-import { mouthAt } from './avatar.js?v=mvlly7yl';
-import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvlly7yl';
-import { exportSupport, exportReel } from './export.js?v=mvlly7yl';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvlly7yl';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mvlly7yl';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvlly7yl';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvlly7yl';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvlly7yl';
-import { loadBg, playBg } from './bg.js?v=mvlly7yl';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvlly7yl';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvlly7yl';
-import { initI18n } from './i18n.js?v=mvlly7yl';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvlmlljv';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvlmlljv';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvlmlljv';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvlmlljv';
+import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvlmlljv';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvlmlljv';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvlmlljv';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvlmlljv';
+import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvlmlljv';
+import { exportSupport, exportReel } from './export.js?v=mvlmlljv';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvlmlljv';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mvlmlljv';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvlmlljv';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvlmlljv';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvlmlljv';
+import { loadBg, playBg } from './bg.js?v=mvlmlljv';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvlmlljv';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvlmlljv';
+import { initI18n } from './i18n.js?v=mvlmlljv';
 
 initI18n();
 
@@ -635,6 +635,7 @@ $('logoFile').addEventListener('change', async e => {
   if (!f.type.startsWith('image/')) return void ($('logoInfo').textContent = '❌ الملف ده مش صورة.');
   await putBlob('__logo', f);
   await loadLogo();
+  await loadAvPhotos();
   $('logoOn').checked = true;
   saveSettings();
   redraw();
@@ -647,16 +648,81 @@ function fillBumpers() {
   $('bpIntro').checked = !!b.intro?.on; $('bpIntroText').value = b.intro?.text || '';
   $('bpOutro').checked = !!b.outro?.on; $('bpOutroText').value = b.outro?.text || '';
 }
+/* صور المذيعين الحقيقية (أ / ب): الصورة في nrs-media والمعايرة في الإعدادات */
+const avImgs = { A: null, B: null };
+async function loadAvPhotos() {
+  for (const k of ['A', 'B']) {
+    avImgs[k] = null;
+    if (!getSettings().avPhotos[k].has) continue;
+    try {
+      const b = await getBlob('__av' + k);
+      if (b) { const img = new Image(); img.src = URL.createObjectURL(b); await img.decode(); avImgs[k] = img; }
+    } catch { /* مفيش صورة */ }
+  }
+  for (const k of ['A', 'B']) avPreview(k);
+}
+const avMeta = k => getSettings().avPhotos[k];
+function avPreview(k) {
+  const cv = $('avPrev' + k);
+  if (!cv) return;
+  drawPhotoPreview(cv, avImgs[k] ? { img: avImgs[k], ...avMeta(k) } : null, Number($('avTest' + k).value) || 0);
+  $('avMw' + k).value = avMeta(k).mw;
+}
+function avSaveMeta(k, patch) {
+  const cur = getSettings().avPhotos;
+  setSettings({ avPhotos: { ...cur, [k]: { ...cur[k], ...patch } } });
+  avPreview(k); redraw();
+}
+for (const k of ['A', 'B']) {
+  $('avFile' + k).addEventListener('change', async e => {
+    const f = e.target.files[0];
+    e.target.value = '';
+    if (!f) return;
+    if (!f.type.startsWith('image/')) return setStatus('الملف ده مش صورة.', true);
+    await putBlob('__av' + k, f);
+    let guess = { mx: 0.5, my: 0.68, mw: 0.28 };
+    try {
+      if ('FaceDetector' in window) {
+        const bmp = await createImageBitmap(f);
+        const face = (await new window.FaceDetector({ fastMode: true }).detect(bmp))[0];
+        const m = face?.landmarks?.find(l => l.type === 'mouth')?.locations;
+        if (m?.length) { const xs = m.map(p => p.x), ys = m.map(p => p.y); guess = { mx: (Math.min(...xs) + Math.max(...xs)) / 2 / bmp.width, my: (Math.min(...ys) + Math.max(...ys)) / 2 / bmp.height, mw: Math.max(0.12, Math.min(0.5, (Math.max(...xs) - Math.min(...xs)) / bmp.width * 1.1)) }; }
+      }
+    } catch { /* هنستخدم التقدير الافتراضي */ }
+    const cur = getSettings().avPhotos;
+    setSettings({ avPhotos: { ...cur, [k]: { ...cur[k], ...guess, has: true } } });
+    await loadAvPhotos(); redraw();
+    setStatus(`صورة المذيع ${k === 'A' ? 'أ' : 'ب'} اتحطت. اضغط عليها في مكان الفم واظبط العرض ✅`);
+  });
+  $('avDel' + k).addEventListener('click', async () => { await delBlob('__av' + k); avSaveMeta(k, { has: false }); await loadAvPhotos(); redraw(); });
+  $('avPrev' + k).addEventListener('click', e => {
+    if (!avImgs[k]) return;
+    const cv = e.target, r = cv.getBoundingClientRect();
+    avSaveMeta(k, previewToImage(cv, { img: avImgs[k] }, (e.clientX - r.left) * cv.width / r.width, (e.clientY - r.top) * cv.height / r.height));
+  });
+  $('avMw' + k).addEventListener('input', () => avSaveMeta(k, { mw: Number($('avMw' + k).value) }));
+  $('avTest' + k).addEventListener('input', () => avPreview(k));
+}
+function showAvMode() {
+  const photo = $('avMode').value === 'photo';
+  $('avPhotoBox').hidden = !photo; $('avCartoon').hidden = photo; $('avSkin').closest('label').hidden = photo;
+  const o = $('avWho').options;
+  o[0].textContent = photo ? 'الاتنين مع بعض (أ و ب)' : 'راجل وست مع بعض';
+  o[1].textContent = photo ? 'المذيع أ بس' : 'راجل بس';
+  o[2].textContent = photo ? 'المذيع ب بس' : 'ست بس';
+}
+$('avMode').addEventListener('change', showAvMode);
 function fillAvatars() {
   const a = reel.avatars || {};
+  $('avMode').value = a.mode || 'cartoon'; showAvMode();
   $('avOn').checked = !!a.on; $('avWho').value = a.who || 'both'; $('avSec').value = a.seconds || 6;
   $('avSkin').value = a.skin || 'm'; $('avHijab').checked = !!a.hijab; $('avBeard').checked = !!a.beard;
 }
 function readAvatars() {
-  reel.avatars = { on: $('avOn').checked, who: $('avWho').value, seconds: Number($('avSec').value) || 6, skin: $('avSkin').value, hijab: $('avHijab').checked, beard: $('avBeard').checked };
+  reel.avatars = { on: $('avOn').checked, mode: $('avMode').value, who: $('avWho').value, seconds: Number($('avSec').value) || 6, skin: $('avSkin').value, hijab: $('avHijab').checked, beard: $('avBeard').checked };
   persist(); redraw();
 }
-for (const id of ['avOn', 'avWho', 'avSec', 'avSkin', 'avHijab', 'avBeard']) $(id).addEventListener('input', readAvatars);
+for (const id of ['avOn', 'avMode', 'avWho', 'avSec', 'avSkin', 'avHijab', 'avBeard']) $(id).addEventListener('input', readAvatars);
 function readBumpers() {
   reel.bumpers = { intro: { on: $('bpIntro').checked, text: $('bpIntroText').value.trim() }, outro: { on: $('bpOutro').checked, text: $('bpOutroText').value.trim() } };
   persist(); redraw();
@@ -790,7 +856,7 @@ $('musicVol').addEventListener('input', () => { if (reel.music) { reel.music.vol
 $('musicDel').addEventListener('click', async () => { if (reel.music?.id) delBlob(reel.music.id); reel.music = null; await syncMusic(); persist(); });
 
 function stateFor(info) {
-  return { reel, cats: cfg.categories, settings: getSettings(), tl: info.tl, hasB: info.hasB, focusIdx: cur, bgs, shots, logo: logoImg };
+  return { reel, cats: cfg.categories, settings: getSettings(), tl: info.tl, hasB: info.hasB, focusIdx: cur, bgs, shots, logo: logoImg, avImgs };
 }
 
 const ctx = $('cv').getContext('2d');
@@ -1087,6 +1153,7 @@ const engine = createEngine($('lvCv'), {
   get cats() { return cfg.categories; },
   getLogo: () => logoImg,
   getFmt: () => lvCfg.fmt,
+  getAvImgs: () => avImgs,
   getTicker: () => { lvRefreshTicker(); return lvCfg.ticker ? lvTickerText : ''; },
   getSlateText: () => lvCfg.slate,
 });

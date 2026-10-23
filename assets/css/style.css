@@ -117,3 +117,6 @@ dialog label input { width: auto; margin-top: 6px; }
 .badge.on { background: #e5484d; color: #fff; }
 .badge.stream { background: #c0262b; color: #fff; animation: pulse 1.4s infinite; }
 @keyframes pulse { 50% { opacity: .6; } }
+.avpair { display: flex; flex-wrap: wrap; gap: 14px; }
+.avp { flex: 1 1 200px; }
+.avprev { width: 170px; max-width: 100%; border-radius: 12px; background: #0b0f18; cursor: crosshair; display: block; margin: 6px 0; }

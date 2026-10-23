@@ -176,6 +176,65 @@ function drawWoman(ctx, o) {
   ctx.restore();
 }
 
+// مذيع بصورة حقيقية: الفم بيتفتح بتحريك الفك (الجزء اللي تحت الفم بينزل وبيتمط الجلد حواليه) ومعاه تجويف الفم
+// photo = { img, mx, my, mw }: مكان مركز الفم ونسبة عرضه (من عرض الصورة)
+export function drawPhoto(ctx, o) {
+  const p = o.photo, img = p.img;
+  const iw = img.naturalWidth || img.width, ih = img.naturalHeight || img.height;
+  const fx = 20, fy = 20, fw = 360, fh = 480;
+  const s = Math.max(fw / iw, fh / ih), dw = iw * s, dh = ih * s, ox = fx + (fw - dw) / 2, oy = fy + (fh - dh) / 2;
+  const open = o.open || 0;
+  const mwPx = p.mw * iw * s, drop = open * mwPx * 0.28;
+  const mySrc = p.my * ih, mxD = ox + p.mx * iw * s, myD = oy + mySrc * s;
+  const band = Math.min(p.mw * iw * 0.4, ih * 0.07);
+  const y1 = Math.max(0, mySrc - band), y2 = Math.min(ih, mySrc + band);
+  ctx.save();
+  ctx.beginPath(); ctx.roundRect(fx, fy, fw, fh, 36); ctx.clip();
+  ctx.fillStyle = '#10151f'; ctx.fillRect(fx, fy, fw, fh);
+  const breathe = Math.sin(o.t * 1.3 + (o.seed || 0)) * 2.5 + open * 2;
+  ctx.translate(0, breathe);
+  if (y1 > 0) ctx.drawImage(img, 0, 0, iw, y1, ox, oy, dw, y1 * s);
+  ctx.drawImage(img, 0, y1, iw, y2 - y1, ox, oy + y1 * s, dw, (y2 - y1) * s + drop);
+  if (y2 < ih) ctx.drawImage(img, 0, y2, iw, ih - y2, ox, oy + y2 * s + drop, dw, (ih - y2) * s);
+  if (open > 0.06) {
+    const cx = mxD, cy = myD + drop * 0.45, rx = mwPx * 0.36 * (0.75 + 0.25 * open), ry = drop * 0.5 + mwPx * 0.025;
+    ctx.fillStyle = '#35101a';
+    ctx.beginPath(); ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.save();
+    ctx.beginPath(); ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2); ctx.clip();
+    if (open > 0.35) { ctx.fillStyle = '#f4f0ea'; ctx.fillRect(cx - rx, cy - ry, rx * 2, ry * 0.5); }
+    ctx.fillStyle = '#b8505f';
+    ctx.beginPath(); ctx.ellipse(cx, cy + ry * 0.85, rx * 0.6, ry * 0.5, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
+    ctx.strokeStyle = 'rgba(120,40,50,.55)'; ctx.lineWidth = Math.max(2, mwPx * 0.025);
+    ctx.beginPath(); ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2); ctx.stroke();
+  }
+  ctx.restore();
+  ctx.strokeStyle = o.color || '#fff'; ctx.lineWidth = 6;
+  ctx.beginPath(); ctx.roundRect(fx, fy, fw, fh, 36); ctx.stroke();
+}
+
+// معاينة المعايرة في كانفس صغير
+export function drawPhotoPreview(canvas, photo, open = 0, color = '#e5484d') {
+  const c = canvas.getContext('2d');
+  const w = canvas.width, sc = w / 400;
+  canvas.height = Math.round(520 * sc);
+  c.clearRect(0, 0, canvas.width, canvas.height);
+  if (!photo?.img) return;
+  c.save(); c.scale(sc, sc);
+  drawPhoto(c, { photo, open, t: 0, color });
+  c.restore();
+}
+
+// ضغطة على كانفس المعاينة (px,py بوحدات الكانفس) → مكان على الصورة كنسبة (0..1)
+export function previewToImage(canvas, photo, px, py) {
+  const img = photo.img, iw = img.naturalWidth || img.width, ih = img.naturalHeight || img.height;
+  const sc = canvas.width / 400, fx = 20, fy = 20, fw = 360, fh = 480;
+  const s = Math.max(fw / iw, fh / ih), ox = fx + (fw - iw * s) / 2, oy = fy + (fh - ih * s) / 2;
+  const clamp = v => Math.max(0.02, Math.min(0.98, v));
+  return { mx: clamp((px / sc - ox) / (iw * s)), my: clamp((py / sc - oy) / (ih * s)) };
+}
+
 // box: المساحة على الشاشة. opts: { who: both|m|f, t, mouth:{open,speaker}, appear, skin, hijab, beard, color, rtl, hasB }
 export function drawAvatars(ctx, box, opts) {
   const { who, appear, mouth: mo, rtl } = opts;
@@ -204,7 +263,9 @@ export function drawAvatars(ctx, box, opts) {
     ctx.globalAlpha *= both && !speaking ? 0.88 : 1;
     ctx.translate(cx - 200 * sc * k, box.y + box.h - 520 * sc * k + (both && !speaking ? 14 : 0));
     ctx.scale(sc * k, sc * k);
-    (kind === 'm' ? drawMan : drawWoman)(ctx, { ...opts, open, seed: kind === 'm' ? 0.4 : 1.9 });
+    const ph = opts.mode === 'photo' ? opts.photos?.[kind === 'm' ? 'A' : 'B'] : null;
+    if (ph?.img) drawPhoto(ctx, { ...opts, photo: ph, open, seed: kind === 'm' ? 0.4 : 1.9 });
+    else (kind === 'm' ? drawMan : drawWoman)(ctx, { ...opts, open, seed: kind === 'm' ? 0.4 : 1.9 });
     ctx.restore();
   });
   ctx.restore();
