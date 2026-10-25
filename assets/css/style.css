@@ -120,3 +120,8 @@ dialog label input { width: auto; margin-top: 6px; }
 .avpair { display: flex; flex-wrap: wrap; gap: 14px; }
 .avp { flex: 1 1 200px; }
 .avprev { width: 170px; max-width: 100%; border-radius: 12px; background: #0b0f18; cursor: crosshair; display: block; margin: 6px 0; }
+.vcres { margin-top: 8px; }
+.vcm { border-top: 1px solid var(--line, #2a2f3a); padding: 8px 0; }
+.vcv { font-weight: 800; margin: 6px 0; }
+.vcm .meta { margin: 2px 0 6px; }
+.vcm .btn { margin-inline-end: 6px; }

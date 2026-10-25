@@ -1,22 +1,23 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvlmlljv';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvlmlljv';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvlmlljv';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvlmlljv';
-import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvlmlljv';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvlmlljv';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvlmlljv';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvlmlljv';
-import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvlmlljv';
-import { exportSupport, exportReel } from './export.js?v=mvlmlljv';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvlmlljv';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mvlmlljv';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvlmlljv';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvlmlljv';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvlmlljv';
-import { loadBg, playBg } from './bg.js?v=mvlmlljv';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvlmlljv';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvlmlljv';
-import { initI18n } from './i18n.js?v=mvlmlljv';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvo9rwis';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvo9rwis';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvo9rwis';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvo9rwis';
+import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvo9rwis';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvo9rwis';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvo9rwis';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvo9rwis';
+import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvo9rwis';
+import { exportSupport, exportReel } from './export.js?v=mvo9rwis';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvo9rwis';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mvo9rwis';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvo9rwis';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvo9rwis';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvo9rwis';
+import { loadBg, playBg } from './bg.js?v=mvo9rwis';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvo9rwis';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvo9rwis';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvo9rwis';
+import { initI18n } from './i18n.js?v=mvo9rwis';
 
 initI18n();
 
@@ -125,7 +126,9 @@ function renderFeed() {
         <button class="btn pri" data-pick="${esc(i.id)}">ريل جديد</button>
         <button class="btn" data-add="${esc(i.id)}">＋ للريل الحالي</button>
         <a class="btn ghost" href="${esc(i.link)}" target="_blank" rel="noopener">فتح</a>
+        ${yt ? `<button class="btn" data-vc="${esc(i.id)}" type="button">🔍 قارنه بالمصادر</button>` : ''}
         ${i.lang && i.lang !== 'ar' ? `<button class="btn ghost" data-tr="${esc(i.id)}">ترجم العنوان</button>` : ''}</div>
+      ${yt ? '<div class="vcres"></div>' : ''}
     </article>`;
   }).join('');
 }
@@ -1133,6 +1136,72 @@ $('bgFile').addEventListener('change', async e => {
     fillForm();
     setStatus('الخلفية اتحطت ✅');
   } catch (err) { setStatus(String(err.message || err), true); }
+});
+
+/* ---------- مقارنة الادعاءات ---------- */
+let vIndex = null;
+function renderVerify(res, { actions = true } = {}) {
+  const [ic, txt] = VERDICT_TXT[res.verdict];
+  const head = `<div class="vcv">${ic} ${txt}${res.outlets > 1 ? ` — ${res.outlets} مصادر بتقول نفس الكلام` : ''}</div>`;
+  if (res.tooShort) return head + '<p class="muted">الادعاء قصير جدًا. اكتب جملة كاملة.</p>';
+  const rows = res.matches.map((m, i) => `<div class="vcm">
+    <div dir="auto" translate="no"><b>${esc(m.item.title.slice(0, 140))}</b></div>
+    <div class="meta"><span translate="no">${esc(m.item.source)}</span>${TYPE_TXT[m.item.type] ? `<span class="tag">${TYPE_TXT[m.item.type]}</span>` : ''}<span>${timeAgo(m.item.published)}</span><span class="tag">تطابق ${Math.round(m.cover * 100)}%</span>${m.numbers === 'diff' ? '<span class="tag hot">⚠️ الأرقام مختلفة</span>' : m.numbers === 'same' ? '<span class="tag">✔ نفس الأرقام</span>' : ''}${m.primary ? '<span class="tag">مصدر أصلي</span>' : ''}</div>
+    <div class="row"><a class="btn ghost" href="${esc(m.item.link)}" target="_blank" rel="noopener">فتح المصدر</a>${actions ? `<button class="btn" data-vcuse="${i}" type="button">استخدمه كمصدر للخبر</button><button class="btn" data-vcproof="${i}" type="button">＋ في شاشة الإثبات</button>` : ''}</div>
+  </div>`).join('');
+  return head + (rows || '<p class="muted">جرّب تعدّل الصياغة أو تكتب الكلمات الأساسية بس.</p>');
+}
+let vLast = null;
+async function runVerify(claim) {
+  if (!feeds.items.length) { try { feeds = await loadFeeds(); } catch { return null; } }
+  if (!feeds.items.length) return null;
+  if (!vIndex || !vIndex.docs.length) vIndex = buildIndex(feeds.items);
+  return verifyClaim(claim, vIndex);
+}
+$('vcFill').addEventListener('click', () => { $('vcText').value = story().headline || ''; });
+$('vcGo').addEventListener('click', async () => {
+  const c = $('vcText').value.trim();
+  if (!c) return;
+  $('vcOut').textContent = 'بقارن…';
+  vLast = await runVerify(c);
+  $('vcOut').innerHTML = vLast ? renderVerify(vLast) : 'مفيش أخبار متجمّعة للمقارنة لسه.';
+});
+$('vcOut').addEventListener('click', e => {
+  const use = e.target.closest('[data-vcuse]')?.dataset.vcuse, pf = e.target.closest('[data-vcproof]')?.dataset.vcproof;
+  const m = vLast?.matches[Number(use ?? pf)];
+  if (!m) return;
+  const st = story();
+  if (use != null) {
+    st.sourceName = m.item.source; st.sourceUrl = m.item.link;
+    persist(); fillForm();
+    setStatus('اتحط المصدر ✅ راجع الصفحة بنفسك قبل ما تعتمد على الخبر.');
+  } else {
+    const p = proofOf();
+    if (p.sources.length >= 3) return setStatus('شاشة الإثبات فيها 3 مصادر بالفعل.', true);
+    p.sources.push({ outlet: m.item.source, title: m.item.title.slice(0, 90), date: (m.item.published || '').slice(0, 10), url: m.item.link, shot: null });
+    if (p.status === 'none') p.status = vLast.verdict === 'confirmed' ? 'official' : 'reported';
+    persist(); renderProofRows(); setStatus('اتضاف لشاشة الإثبات ✅ (فعّل قالب «التوثيق» عشان يظهر).');
+  }
+});
+// من الأخبار: مقارنة ادعاء اليوتيوبر بالمصادر من غير ما تفتح الاستوديو
+$('feedList').addEventListener('click', async e => {
+  const id = e.target.closest('[data-vc]')?.dataset.vc;
+  if (!id) return;
+  const it = feeds.items.find(x => x.id === id);
+  const box = e.target.closest('.item').querySelector('.vcres');
+  if (!it || !box) return;
+  box.innerHTML = 'بقارن…';
+  const r = await runVerify(it.title);
+  box.innerHTML = r ? renderVerify(r, { actions: false }) + `<div class="row"><button class="btn" data-vcstudio="${esc(id)}" type="button">انقل الادعاء للاستوديو</button></div>` : '';
+});
+$('feedList').addEventListener('click', async e => {
+  const id = e.target.closest('[data-vcstudio]')?.dataset.vcstudio;
+  if (!id) return;
+  const it = feeds.items.find(x => x.id === id);
+  showTab('studio');
+  $('vcText').value = it.title;
+  document.querySelector('.verifybox').open = true;
+  $('vcGo').click();
 });
 
 /* ---------- لايف ---------- */
