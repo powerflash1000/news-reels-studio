@@ -69,3 +69,6 @@ GitHub Pages caches JS modules ~10 min and browsers keep stale modules, so every
 
 ## Testing
 Playwright + chromium from `/opt/pw-browsers`: serve the repo with `python3 -m http.server`, set `window.__nrsTestCodecs = true` before load, inject audio via `window.__nrs.setManual(AudioBuffer)`. RSS parser: `parseFeed` in `tools/fetch-feeds.mjs`.
+
+## MCP
+`.mcp.json` registers the Playwright MCP server (`npx @playwright/mcp@latest`) so a local Claude Code session can drive a real browser against the app. It needs a new session after the file is added, and Claude Code asks to approve the project server on first use. Needs Node + a browser on the user's machine.
