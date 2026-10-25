@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mvlmlljv">
+<html lang="ar" dir="rtl" data-v="mvo9rwis">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mvlmlljv">
+<link rel="stylesheet" href="assets/css/style.css?v=mvo9rwis">
 </head>
 <body>
 <header class="top">
@@ -147,6 +147,13 @@
         <label>ترخيص / حقوق (اختياري)<input id="fCredit" placeholder="مثال: بيانات منظمة الصحة العالمية"></label>
         <div id="ytNote" class="warn" hidden></div>
       </div>
+      <details class="card verifybox">
+        <summary>🔍 تحقق من ادعاء (قارنه بالمصادر)</summary>
+        <label>الادعاء (من يوتيوبر أو أي مكان)<textarea id="vcText" rows="2" dir="auto" placeholder="الصق الادعاء أو الخبر اللي عايز تتأكد منه…"></textarea></label>
+        <div class="row"><button id="vcFill" class="btn ghost" type="button">خد من العنوان</button><button id="vcGo" class="btn pri" type="button">قارن بالأخبار المتجمّعة</button></div>
+        <div id="vcOut"></div>
+        <p class="muted">ده كاشف تطابق بالنص والأرقام مع آخر الأخبار المتجمّعة من المصادر، مش حكم نهائي. بيقارن بنفس لغة الادعاء. اليوتيوبر مش مصدر: لازم تفتح المصدر وتتأكد بنفسك قبل ما تستخدمه.</p>
+      </details>
       <div class="card tickbox">
         <label class="chk"><input id="tkOn" type="checkbox"> شريط الأخبار أسفل الشاشة (بيمشي في كل أخبار الحلقة)</label>
         <div id="tkFields" hidden>
@@ -592,6 +599,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mvlmlljv"></script>
+<script type="module" src="js/main.js?v=mvo9rwis"></script>
 </body>
 </html>
