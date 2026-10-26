@@ -45,7 +45,7 @@ const DEFAULT_SETTINGS = {
   dialectTag: false,
   langCode: false,
   fx: { preset: 'none', bass: 0, presence: 0, air: 0, comp: 0, deess: 0, room: 0, norm: false, target: -16 },
-  caps: { size: 84, plate: true, stroke: true },
+  caps: { size: 64, plate: true, stroke: true },
   aiProvider: 'claude',
   geminiKey: '',
   groqKey: '',

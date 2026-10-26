@@ -182,15 +182,16 @@ export function drawPhoto(ctx, o) {
   const p = o.photo, img = p.img;
   const iw = img.naturalWidth || img.width, ih = img.naturalHeight || img.height;
   const fx = 20, fy = 20, fw = 360, fh = 480;
-  const s = Math.max(fw / iw, fh / ih), dw = iw * s, dh = ih * s, ox = fx + (fw - dw) / 2, oy = fy + (fh - dh) / 2;
+  // صورة مقصوصة (PNG بخلفية شفافة): بتتحط كاملة وقاعدها تحت، من غير إطار، فتبان قاعدة في الاستوديو
+  const cut = !!img.cutout;
+  const s = cut ? Math.min(fw / iw, fh / ih) * 1.1 : Math.max(fw / iw, fh / ih), dw = iw * s, dh = ih * s, ox = fx + (fw - dw) / 2, oy = cut ? fy + fh - dh + 40 : fy + (fh - dh) / 2;
   const open = o.open || 0;
   const mwPx = p.mw * iw * s, drop = open * mwPx * 0.28;
   const mySrc = p.my * ih, mxD = ox + p.mx * iw * s, myD = oy + mySrc * s;
   const band = Math.min(p.mw * iw * 0.4, ih * 0.07);
   const y1 = Math.max(0, mySrc - band), y2 = Math.min(ih, mySrc + band);
   ctx.save();
-  ctx.beginPath(); ctx.roundRect(fx, fy, fw, fh, 36); ctx.clip();
-  ctx.fillStyle = '#10151f'; ctx.fillRect(fx, fy, fw, fh);
+  if (!cut) { ctx.beginPath(); ctx.roundRect(fx, fy, fw, fh, 36); ctx.clip(); ctx.fillStyle = '#10151f'; ctx.fillRect(fx, fy, fw, fh); }
   const breathe = Math.sin(o.t * 1.3 + (o.seed || 0)) * 2.5 + open * 2;
   ctx.translate(0, breathe);
   if (y1 > 0) ctx.drawImage(img, 0, 0, iw, y1, ox, oy, dw, y1 * s);
@@ -210,6 +211,7 @@ export function drawPhoto(ctx, o) {
     ctx.beginPath(); ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2); ctx.stroke();
   }
   ctx.restore();
+  if (cut || o.noFrame) return;
   ctx.strokeStyle = o.color || '#fff'; ctx.lineWidth = 6;
   ctx.beginPath(); ctx.roundRect(fx, fy, fw, fh, 36); ctx.stroke();
 }
@@ -268,5 +270,163 @@ export function drawAvatars(ctx, box, opts) {
     else (kind === 'm' ? drawMan : drawWoman)(ctx, { ...opts, open, seed: kind === 'm' ? 0.4 : 1.9 });
     ctx.restore();
   });
+  ctx.restore();
+}
+
+/* ---------- مشهد استوديو أخبار: ديكور + إضاءة + حركة كاميرا ---------- */
+const ease = p => (p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2);
+function hexA(hex, a) {
+  const n = parseInt(String(hex || '#e5484d').slice(1), 16);
+  return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`;
+}
+
+// الكاميرا بتروح ناحية اللي بيتكلم: -1 = المذيع أ، 1 = المذيع ب، 0 = لقطة واسعة
+function focusAt(tl, t) {
+  const segs = [...tl.segs].sort((a, b) => a.start - b.start);
+  let i = -1;
+  for (let k = 0; k < segs.length; k++) if (segs[k].start <= t) i = k;
+  if (i < 0) return 0;
+  const val = s => (s.speaker === 'B' ? 1 : -1);
+  const cur = val(segs[i]), prev = i > 0 ? val(segs[i - 1]) : 0;
+  return prev + (cur - prev) * ease(clamp01((t - segs[i].start) / 0.8));
+}
+
+// o: { t, win:{t0,t1}, tl, who, mode, photos, mouth, color, channel, handle, headline, catLabel, logo, rtl, skin, hijab, beard, font }
+export function drawStudio(ctx, W, H, o) {
+  const { t, win, rtl } = o;
+  const vert = H > W;
+  const life = t - win.t0, left = win.t1 - t, dur = win.t1 - win.t0;
+  const both = o.who === 'both';
+  const people = both ? ['m', 'f'] : [o.who === 'f' ? 'f' : 'm'];
+  // أماكن المذيعين: أ على اليمين في العربي
+  const xs = both ? (rtl ? [0.71, 0.29] : [0.29, 0.71]) : [0.5];
+  const deskY = H * (vert ? 0.6 : 0.64);
+  const ph = both ? Math.min(H * (vert ? 0.34 : 0.46), W * 0.42 * 520 / 400) : Math.min(H * (vert ? 0.4 : 0.52), W * 0.6 * 520 / 400);
+  const sc = ph / 520;
+  // الكاميرا: دخول من قريب، زووم بطيء، ميل ناحية اللي بيتكلم، وزووم خاطف في الآخر للخبر
+  const focus = both ? focusAt(o.tl, t) : 0;
+  const prog = clamp01(life / Math.max(1, dur));
+  let z = 0.98 + 0.07 * ease(prog) + 0.05 * Math.abs(focus) + 0.14 * (1 - ease(clamp01(life / 0.9)));
+  const out = clamp01(1 - left / 0.4);
+  z += 0.7 * out * out;
+  const sideX = focus < 0 ? xs[0] : (xs[1] ?? xs[0]);
+  const camX = W / 2 + (sideX * W - W / 2) * Math.abs(focus) * 0.35 + Math.sin(t * 0.35) * W * 0.01;
+  const camY = deskY - ph * (vert ? 0.42 : 0.5) + Math.sin(t * 0.27) * H * 0.004;
+  ctx.save();
+  ctx.globalAlpha *= clamp01(life / 0.35) * (1 - out);
+  ctx.fillStyle = '#05070d';
+  ctx.fillRect(0, 0, W, H);
+  ctx.translate(W / 2, H * 0.47);
+  ctx.scale(z, z);
+  ctx.translate(-camX, -camY);
+  // الحيطة
+  const wall = ctx.createLinearGradient(0, -H * 0.2, 0, deskY);
+  wall.addColorStop(0, '#0b1224'); wall.addColorStop(1, '#16213d');
+  ctx.fillStyle = wall;
+  ctx.fillRect(-W * 0.5, -H * 0.5, W * 2, H * 2);
+  // ألواح الحيطة وشرايط إضاءة رأسية
+  for (let i = -6; i <= 16; i++) {
+    const x = i * W * 0.09;
+    ctx.fillStyle = i % 2 ? 'rgba(255,255,255,.025)' : 'rgba(0,0,0,.12)';
+    ctx.fillRect(x, -H * 0.5, W * 0.09, deskY + H * 0.5);
+    if (i % 4 === 0) { ctx.fillStyle = hexA(o.color, 0.18 + 0.08 * Math.sin(t * 1.3 + i)); ctx.fillRect(x, -H * 0.5, 6, deskY + H * 0.5); }
+  }
+  // الشاشة الكبيرة ورا المذيعين
+  const sw = W * (vert ? 0.86 : 0.56), sh = Math.min(H * (vert ? 0.22 : 0.3), sw * 0.5), sx = (W - sw) / 2, sy = deskY - ph * 0.98 - sh * (vert ? 0.62 : 0.45);
+  ctx.fillStyle = '#02040a';
+  ctx.beginPath(); ctx.roundRect(sx - 10, sy - 10, sw + 20, sh + 20, 18); ctx.fill();
+  const sg = ctx.createLinearGradient(sx, sy, sx + sw, sy + sh);
+  sg.addColorStop(0, hexA(o.color, 0.85)); sg.addColorStop(0.55, '#121a33'); sg.addColorStop(1, hexA(o.color, 0.5));
+  ctx.fillStyle = sg;
+  ctx.beginPath(); ctx.roundRect(sx, sy, sw, sh, 12); ctx.fill();
+  ctx.save();
+  ctx.beginPath(); ctx.roundRect(sx, sy, sw, sh, 12); ctx.clip();
+  ctx.strokeStyle = 'rgba(255,255,255,.08)'; ctx.lineWidth = 2;
+  for (let i = 0; i < 14; i++) { const gx = sx + ((i * sw) / 13 + t * 18) % sw; ctx.beginPath(); ctx.moveTo(gx, sy); ctx.lineTo(gx - sh * 0.4, sy + sh); ctx.stroke(); }
+  const sweep = sx + ((t * 0.25) % 1.4 - 0.2) * sw;
+  const sweepG = ctx.createLinearGradient(sweep - 120, 0, sweep + 120, 0);
+  sweepG.addColorStop(0, 'rgba(255,255,255,0)'); sweepG.addColorStop(0.5, 'rgba(255,255,255,.12)'); sweepG.addColorStop(1, 'rgba(255,255,255,0)');
+  ctx.fillStyle = sweepG; ctx.fillRect(sx, sy, sw, sh);
+  ctx.restore();
+  ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.direction = rtl ? 'rtl' : 'ltr';
+  let fs = Math.round(sh * 0.3);
+  ctx.font = o.font(fs, 800);
+  const ch = o.channel || (rtl ? 'النشرة' : 'Newsroom');
+  while (ctx.measureText(ch).width > sw * 0.7 && fs > 20) { fs -= 4; ctx.font = o.font(fs, 800); }
+  if (o.logo) {
+    const lh = sh * 0.42, lw = Math.min(sw * 0.3, lh * (o.logo.naturalWidth || o.logo.width) / (o.logo.naturalHeight || o.logo.height));
+    ctx.drawImage(o.logo, sx + sw / 2 - lw / 2, sy + sh * 0.1, lw, lh);
+    ctx.fillText(ch, sx + sw / 2, sy + sh * 0.76);
+  } else ctx.fillText(ch, sx + sw / 2, sy + sh / 2);
+  // كشافات الإضاءة من فوق
+  ctx.save();
+  ctx.globalCompositeOperation = 'lighter';
+  for (let i = 0; i < 3; i++) {
+    const lx = W * (0.2 + 0.3 * i) + Math.sin(t * 0.5 + i * 2) * W * 0.06, ly = -H * 0.1;
+    const g = ctx.createRadialGradient(lx, ly, 10, lx, ly + H * 0.45, H * 0.6);
+    g.addColorStop(0, `rgba(180,200,255,${0.18 + 0.04 * Math.sin(t * 2 + i)})`); g.addColorStop(1, 'rgba(180,200,255,0)');
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.moveTo(lx - 20, ly); ctx.lineTo(lx + W * 0.22, deskY); ctx.lineTo(lx - W * 0.22, deskY); ctx.closePath(); ctx.fill();
+  }
+  ctx.restore();
+  // المذيعين
+  people.forEach((kind, i) => {
+    const speaking = !both || (kind === 'm' ? o.mouth.speaker !== 'B' : o.mouth.speaker === 'B');
+    const cx = xs[i] * W;
+    ctx.save();
+    ctx.translate(cx - 200 * sc, deskY + ph * 0.2 - 520 * sc);
+    ctx.scale(sc, sc);
+    const ph2 = o.mode === 'photo' ? o.photos?.[kind === 'm' ? 'A' : 'B'] : null;
+    const args = { ...o, open: speaking ? o.mouth.open : 0, seed: kind === 'm' ? 0.4 : 1.9, noFrame: false };
+    if (ph2?.img) drawPhoto(ctx, { ...args, photo: ph2 });
+    else (kind === 'm' ? drawMan : drawWoman)(ctx, args);
+    ctx.restore();
+  });
+  // الديسك
+  const dw = W * (both ? 0.94 : 0.7), dx = (W - dw) / 2, dh = H * (vert ? 0.14 : 0.2);
+  const dg = ctx.createLinearGradient(0, deskY, 0, deskY + dh);
+  dg.addColorStop(0, '#1d2747'); dg.addColorStop(1, '#0a0f1f');
+  ctx.fillStyle = '#2b375e';
+  ctx.beginPath(); ctx.ellipse(W / 2, deskY, dw / 2, dh * 0.16, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = dg;
+  ctx.beginPath(); ctx.moveTo(dx, deskY); ctx.lineTo(dx + dw, deskY); ctx.lineTo(dx + dw * 0.94, deskY + dh); ctx.lineTo(dx + dw * 0.06, deskY + dh); ctx.closePath(); ctx.fill();
+  ctx.fillStyle = hexA(o.color, 0.9);
+  ctx.fillRect(dx + dw * 0.03, deskY + dh * 0.42, dw * 0.94, Math.max(6, dh * 0.07));
+  ctx.fillStyle = 'rgba(255,255,255,.85)'; ctx.font = o.font(Math.round(dh * 0.18), 800);
+  ctx.fillText(ch, W / 2, deskY + dh * 0.72);
+  // الأرضية
+  const fg = ctx.createLinearGradient(0, deskY + dh, 0, deskY + dh + H * 0.5);
+  fg.addColorStop(0, '#0a0f1f'); fg.addColorStop(1, '#020308');
+  ctx.fillStyle = fg; ctx.fillRect(-W * 0.5, deskY + dh, W * 2, H);
+  ctx.restore();
+  // بانر العنوان تحت (ثابت على الشاشة، برّه الكاميرا)
+  const bp = ease(clamp01((life - 0.5) / 0.6)) * (1 - out);
+  if (bp > 0.01 && o.headline) {
+    const unit = Math.round(H * (vert ? 0.062 : 0.1)), bx = W * 0.04, bw = W * 0.92;
+    ctx.font = o.font(Math.round(unit * 0.36), 800);
+    const lab0 = o.catLabel || '';
+    const room0 = bw - (ctx.measureText(lab0).width + unit * 0.6) - unit * 0.6;
+    const hs = Math.round(unit * 0.4);
+    ctx.font = o.font(hs, 700);
+    const words = o.headline.split(/\s+/), lines = [''];
+    for (const w of words) { const tryL = lines[lines.length - 1] ? lines[lines.length - 1] + ' ' + w : w; if (ctx.measureText(tryL).width > room0 && lines[lines.length - 1]) { if (lines.length === 2) { lines[1] += '…'; break; } lines.push(w); } else lines[lines.length - 1] = tryL; }
+    const bh = Math.round(unit * (lines.length > 1 ? 1.55 : 1)), by = H - bh - H * (vert ? 0.08 : 0.06);
+    ctx.save();
+    ctx.globalAlpha *= bp;
+    ctx.translate(rtl ? (1 - bp) * 120 : -(1 - bp) * 120, 0);
+    ctx.fillStyle = 'rgba(5,8,18,.85)';
+    ctx.beginPath(); ctx.roundRect(bx, by, bw, bh, 14); ctx.fill();
+    ctx.font = o.font(Math.round(unit * 0.36), 800);
+    const lab = lab0;
+    const lw = ctx.measureText(lab).width + unit * 0.6;
+    ctx.fillStyle = o.color;
+    ctx.beginPath(); ctx.roundRect(rtl ? bx + bw - lw : bx, by, lw, bh, 14); ctx.fill();
+    ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.direction = rtl ? 'rtl' : 'ltr';
+    ctx.fillText(lab, rtl ? bx + bw - lw / 2 : bx + lw / 2, by + bh / 2);
+    ctx.font = o.font(hs, 700);
+    ctx.textAlign = rtl ? 'right' : 'left';
+    lines.forEach((l, i) => ctx.fillText(l, rtl ? bx + bw - lw - unit * 0.3 : bx + lw + unit * 0.3, by + bh / 2 + (i - (lines.length - 1) / 2) * hs * 1.25));
+    ctx.restore();
+  }
   ctx.restore();
 }

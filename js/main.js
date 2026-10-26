@@ -1,24 +1,24 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvpvaqhr';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvpvaqhr';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvpvaqhr';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvpvaqhr';
-import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvpvaqhr';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvpvaqhr';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvpvaqhr';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvpvaqhr';
-import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvpvaqhr';
-import { exportSupport, exportReel } from './export.js?v=mvpvaqhr';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvpvaqhr';
-import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvpvaqhr';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mvpvaqhr';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvpvaqhr';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvpvaqhr';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvpvaqhr';
-import { loadBg, playBg } from './bg.js?v=mvpvaqhr';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvpvaqhr';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvpvaqhr';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvpvaqhr';
-import { initI18n } from './i18n.js?v=mvpvaqhr';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvpvrzok';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvpvrzok';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvpvrzok';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvpvrzok';
+import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvpvrzok';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvpvrzok';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvpvrzok';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvpvrzok';
+import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvpvrzok';
+import { exportSupport, exportReel } from './export.js?v=mvpvrzok';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvpvrzok';
+import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvpvrzok';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mvpvrzok';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvpvrzok';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvpvrzok';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvpvrzok';
+import { loadBg, playBg } from './bg.js?v=mvpvrzok';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvpvrzok';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvpvrzok';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvpvrzok';
+import { initI18n } from './i18n.js?v=mvpvrzok';
 
 initI18n();
 
@@ -127,6 +127,7 @@ function renderFeed() {
         <button class="btn pri" data-pick="${esc(i.id)}">ريل جديد</button>
         <button class="btn" data-add="${esc(i.id)}">＋ للريل الحالي</button>
         <a class="btn ghost" href="${esc(i.link)}" target="_blank" rel="noopener">فتح</a>
+        ${yt ? '' : `<button class="btn" data-auto="${esc(i.id)}" type="button">⚡ أوتوماتيك</button>`}
         ${yt ? `<button class="btn" data-vc="${esc(i.id)}" type="button">🔍 قارنه بالمصادر</button>` : ''}
         ${i.lang && i.lang !== 'ar' ? `<button class="btn ghost" data-tr="${esc(i.id)}">ترجم العنوان</button>` : ''}</div>
       ${yt ? '<div class="vcres"></div>' : ''}
@@ -458,6 +459,92 @@ $('agGo').addEventListener('click', async () => {
   $('agGo').disabled = false;
 });
 
+// تطبيق اقتراحات المحرر على خبر/ريل (بيستخدمها زرار «طبّق» والأتمتة)
+async function applyInfoTo(st, g) {
+  if (g.type === 'stat') { st.template = 'stat'; st.stat = { value: g.value, unit: g.unit, label: g.label, trend: g.trend }; }
+  else if (g.type === 'quote') { st.template = 'quote'; st.quote = { text: g.quote_text, who: g.who, role: g.role }; }
+  else if (g.type === 'lower') { st.lower = { on: true, name: g.who, role: g.role }; }
+  else if (g.type === 'map') {
+    await loadWorld();
+    const ids = [...new Set(g.countries.flatMap(n => localMatches(n, world, cities).filter(m => m.type === 'country').slice(0, 1).map(m => m.id)))];
+    if (!ids.length) return false;
+    st.template = 'map'; st.map = { ...(st.map || {}), countries: ids, pins: st.map?.pins || [], label: g.map_label || '', zoom: 'auto' };
+  }
+  return true;
+}
+function applyVfxTo(r, st, v, format) {
+  if (st.kind === 'news' && !['stat', 'map', 'proof', 'quote', 'timeline'].includes(st.template)) st.template = v.template;
+  if (v.avatars) r.avatars = { ...r.avatars, on: true, who: format === 'dialogue' ? 'both' : 'm' };
+  if (v.ticker) r.ticker = { on: true, label: r.ticker?.label || '', text: v.ticker };
+  if (v.introOutro) r.bumpers = { intro: { on: true, text: r.bumpers?.intro?.text || '' }, outro: { on: true, text: r.bumpers?.outro?.text || '' } };
+}
+const scriptFrom = (res, format) => res.lines.map(l => (l.speaker === 'B' ? 'ب: ' : format === 'dialogue' ? 'أ: ' : '') + l.text).join('\n');
+
+/* ---------- الأتمتة: خبر ← محرر ذكي ← صوت ← ريل محفوظ للمراجعة ---------- */
+$('auStyle').innerHTML = Object.entries(STYLES).map(([k, v]) => `<option value="${k}">${v.label}</option>`).join('');
+const auCfg = { style: 'neutral', len: '45', fmt: 'single', voice: 'gemini', info: true, vfx: true, av: false, ...load('auto', {}) };
+$('auStyle').value = auCfg.style; $('auLen').value = auCfg.len; $('auFmt').value = auCfg.fmt; $('auVoice').value = auCfg.voice;
+$('auInfo').checked = auCfg.info; $('auVfx').checked = auCfg.vfx; $('auAv').checked = auCfg.av;
+for (const [id, k] of [['auStyle', 'style'], ['auLen', 'len'], ['auFmt', 'fmt'], ['auVoice', 'voice'], ['auInfo', 'info'], ['auVfx', 'vfx'], ['auAv', 'av']]) {
+  $(id).addEventListener('change', () => { auCfg[k] = $(id).type === 'checkbox' ? $(id).checked : $(id).value; save('auto', auCfg); });
+}
+let autoBusy = false;
+function auLog(html) { const d = document.createElement('div'); d.className = 'pfrow'; d.innerHTML = html; $('auLog').prepend(d); return d; }
+async function autoMake(items) {
+  if (autoBusy) return setStatus('الأتمتة شغّالة على أخبار تانية، استنى لما تخلص.', true);
+  const gs = getSettings(), AP = AI_PROVIDERS[gs.aiProvider] || AI_PROVIDERS.claude;
+  if (!gs[AP.keyField]) { $('autoBox').open = true; return auLog(`❌ محتاج مفتاح ${AP.name.split(' (')[0]}: الإعدادات ← مزوّد الذكاء الاصطناعي.`); }
+  if (auCfg.voice === 'gemini' && !gs.geminiKey) { $('autoBox').open = true; return auLog('❌ محتاج مفتاح Gemini للصوت، أو اختار صوت تاني.'); }
+  autoBusy = true;
+  $('autoBox').open = true;
+  for (const it of items) {
+    const row = auLog(`⏳ <span translate="no">${esc(it.title.slice(0, 70))}</span> <span class="muted">بيكتب…</span>`);
+    const set = t => { row.querySelector('.muted').textContent = t; };
+    if (it.kind === 'youtube') { set('اتخطّى: يوتيوب رادار مش مصدر.'); continue; }
+    try {
+      const r = newReel({ lang: gs.reelLang || 'ar', stories: [newStory(storyFromItem(it))] });
+      const st = r.stories[0];
+      const style = auCfg.style, format = auCfg.fmt;
+      const res = await runAgent({ story: st, categoryLabel: cat(st.category).label, style, seconds: Number(auCfg.len), format, lang: r.lang, parts: { script: true, story: style === 'storyteller', infographic: auCfg.info, vfx: auCfg.vfx } });
+      if (!res.lines.length) throw new Error('المحرر مرجّعش سكريبت.');
+      st.script = scriptFrom(res, format);
+      st.agent = { style, claims: res.claims, at: Date.now(), auto: true };
+      if (auCfg.info) {
+        const ok = res.infographic.find(g => (g.type === 'stat' && numberInSource(g.value, st)) || g.type === 'map' || g.type === 'lower');
+        if (ok) await applyInfoTo(st, ok);
+      }
+      if (auCfg.vfx && res.vfx) applyVfxTo(r, st, res.vfx, format);
+      if (auCfg.av) r.avatars = { ...r.avatars, on: true, scene: 'studio', who: format === 'dialogue' ? 'both' : 'm' };
+      r.title = st.headline.slice(0, 80);
+      r.status = 'review';
+      upsertReel(r);
+      if (auCfg.voice !== 'none') {
+        const lines = allLines(r);
+        let n = 0;
+        for (const l of lines) { set(`بيولّد الصوت ${++n}/${lines.length}…`); await speakLine(l.text, l.speaker, r.lang, auCfg.voice); }
+      }
+      row.firstChild.textContent = '✅ ';
+      set(`جاهز للمراجعة${res.claims.length ? ' (فيه تواريخ لازم تتراجع)' : ''}${res.missing.length ? ' ⚠️ ناقص معلومات' : ''}`);
+      row.insertAdjacentHTML('beforeend', ` <button class="btn" data-auopen="${esc(r.id)}" type="button">افتح وراجع</button>`);
+    } catch (e) {
+      row.firstChild.textContent = '❌ ';
+      set(String(e.message || e).slice(0, 160));
+    }
+  }
+  autoBusy = false;
+}
+$('auLog').addEventListener('click', e => { const id = e.target.closest('[data-auopen]')?.dataset.auopen; if (id) openReel(id); });
+$('feedList').addEventListener('click', e => {
+  const id = e.target.closest('[data-auto]')?.dataset.auto;
+  const it = id && feeds.items.find(x => x.id === id);
+  if (it) autoMake([it]);
+});
+$('pickAuto').addEventListener('click', () => {
+  const items = feeds.items.filter(i => picked.has(i.id));
+  if (items.length > 10 && !confirm(`هيتعمل ${items.length} ريل ورا بعض، وده بيستهلك من حصة الذكاء الاصطناعي والصوت. تكمل؟`)) return;
+  autoMake(items);
+});
+
 $('agOut').addEventListener('click', async e => {
   const b = e.target.closest('[data-ag]');
   if (!b || !agLast) return;
@@ -476,22 +563,10 @@ $('agOut').addEventListener('click', async e => {
   } else if (kind === 'info') {
     const g = r.infographic[Number(b.dataset.i)];
     if (!g) return;
-    if (g.type === 'stat') { st.template = 'stat'; st.stat = { value: g.value, unit: g.unit, label: g.label, trend: g.trend }; }
-    else if (g.type === 'quote') { st.template = 'quote'; st.quote = { text: g.quote_text, who: g.who, role: g.role }; }
-    else if (g.type === 'lower') { st.lower = { on: true, name: g.who, role: g.role }; }
-    else if (g.type === 'map') {
-      await loadWorld();
-      const ids = [...new Set(g.countries.flatMap(n => localMatches(n, world, cities).filter(m => m.type === 'country').slice(0, 1).map(m => m.id)))];
-      if (!ids.length) return setStatus('مقدرتش أطابق الدول دي على الخريطة. اختارها يدويًا من قالب الخريطة.', true);
-      st.template = 'map'; st.map = { ...(st.map || {}), countries: ids, pins: st.map?.pins || [], label: g.map_label || '', zoom: 'auto' };
-    }
+    if (!(await applyInfoTo(st, g))) return setStatus('مقدرتش أطابق الدول دي على الخريطة. اختارها يدويًا من قالب الخريطة.', true);
     persist(); fillForm(); redraw(); setStatus('اتطبّق ✅');
   } else if (kind === 'vfx') {
-    const v = r.vfx;
-    if (st.kind === 'news' && !['stat', 'map', 'proof', 'quote', 'timeline'].includes(st.template)) st.template = v.template;
-    if (v.avatars) reel.avatars = { ...reel.avatars, on: true, who: r.format === 'dialogue' ? 'both' : 'm' };
-    if (v.ticker) reel.ticker = { on: true, label: reel.ticker?.label || '', text: v.ticker };
-    if (v.introOutro) reel.bumpers = { intro: { on: true, text: reel.bumpers?.intro?.text || '' }, outro: { on: true, text: reel.bumpers?.outro?.text || '' } };
+    applyVfxTo(reel, st, r.vfx, r.format);
     persist(); fillForm(); redraw(); setStatus('اتطبّقت المؤثرات ✅');
   } else if (kind === 'music') {
     $('msQ').value = r.vfx.music;
@@ -782,10 +857,19 @@ async function loadAvPhotos() {
     if (!getSettings().avPhotos[k].has) continue;
     try {
       const b = await getBlob('__av' + k);
-      if (b) { const img = new Image(); img.src = URL.createObjectURL(b); await img.decode(); avImgs[k] = img; }
+      if (b) { const img = new Image(); img.src = URL.createObjectURL(b); await img.decode(); img.cutout = isCutout(img); avImgs[k] = img; }
     } catch { /* مفيش صورة */ }
   }
   for (const k of ['A', 'B']) avPreview(k);
+}
+// صورة مقصوصة = الأركان شفافة (PNG من غير خلفية): بتترسم في الاستوديو من غير إطار
+function isCutout(img) {
+  try {
+    const c = document.createElement('canvas'); c.width = 40; c.height = 40;
+    const x = c.getContext('2d'); x.drawImage(img, 0, 0, 40, 40);
+    const d = x.getImageData(0, 0, 40, 40).data, a = (px, py) => d[(py * 40 + px) * 4 + 3];
+    return [a(0, 0), a(39, 0), a(0, 20), a(39, 20)].every(v => v < 20);
+  } catch { return false; }
 }
 const avMeta = k => getSettings().avPhotos[k];
 function avPreview(k) {
@@ -841,14 +925,15 @@ $('avMode').addEventListener('change', showAvMode);
 function fillAvatars() {
   const a = reel.avatars || {};
   $('avMode').value = a.mode || 'cartoon'; showAvMode();
+  $('avScene').value = a.scene || 'studio';
   $('avOn').checked = !!a.on; $('avWho').value = a.who || 'both'; $('avSec').value = a.seconds || 6;
   $('avSkin').value = a.skin || 'm'; $('avHijab').checked = !!a.hijab; $('avBeard').checked = !!a.beard;
 }
 function readAvatars() {
-  reel.avatars = { on: $('avOn').checked, mode: $('avMode').value, who: $('avWho').value, seconds: Number($('avSec').value) || 6, skin: $('avSkin').value, hijab: $('avHijab').checked, beard: $('avBeard').checked };
+  reel.avatars = { on: $('avOn').checked, scene: $('avScene').value, mode: $('avMode').value, who: $('avWho').value, seconds: Number($('avSec').value) || 6, skin: $('avSkin').value, hijab: $('avHijab').checked, beard: $('avBeard').checked };
   persist(); redraw();
 }
-for (const id of ['avOn', 'avMode', 'avWho', 'avSec', 'avSkin', 'avHijab', 'avBeard']) $(id).addEventListener('input', readAvatars);
+for (const id of ['avOn', 'avScene', 'avMode', 'avWho', 'avSec', 'avSkin', 'avHijab', 'avBeard']) $(id).addEventListener('input', readAvatars);
 function readBumpers() {
   reel.bumpers = { intro: { on: $('bpIntro').checked, text: $('bpIntroText').value.trim() }, outro: { on: $('bpOutro').checked, text: $('bpOutroText').value.trim() } };
   persist(); redraw();
@@ -1853,6 +1938,23 @@ $('gemTest').addEventListener('click', async () => {
     $('gemMsg').textContent = `✅ شغّال (${r.buffer.duration.toFixed(1)} ثانية).`;
   } catch (e) { $('gemMsg').textContent = '❌ ' + (e.message || e); }
 });
+// حجم الكابشن السريع من الاستوديو (بيتحفظ في الإعدادات)
+function fillCapQ() {
+  const v = String(getSettings().caps.size);
+  $('capQ').value = ['52', '64', '78'].includes(v) ? v : 'custom';
+}
+$('capQ').addEventListener('change', () => {
+  const v = Number($('capQ').value);
+  if (!v) return;
+  const s = getSettings();
+  setSettings({ caps: { ...s.caps, size: v } });
+  $('sCapSize').value = v;
+  redraw();
+});
+// الحجم القديم الافتراضي (84) كان كبير: بننقله مرة واحدة للمتوسط الجديد
+{ const s = getSettings(); if (!s.capsV) setSettings({ caps: { ...s.caps, size: s.caps.size === 84 ? 64 : s.caps.size }, capsV: 2 }); }
+fillCapQ();
+
 function fillSettings() {
   const s = getSettings();
   for (const [id, k] of Object.entries(TEXT_FIELDS)) $(id).value = s[k] ?? '';
@@ -1864,6 +1966,7 @@ function fillSettings() {
   fillUsage();
   showTts();
   fillGemVoices();
+  fillCapQ();
 }
 
 function collectSettings() {
@@ -1882,7 +1985,7 @@ function collectSettings() {
   o.dialectTag = $('sDialect').checked;
   o.langCode = $('sLang').checked;
   o.logo = { on: $('logoOn').checked, pos: $('logoPos').value, size: Number($('logoSize').value) || 110 };
-  o.caps = { size: Number($('sCapSize').value) || 84, plate: $('sCapPlate').checked, stroke: $('sCapStroke').checked };
+  o.caps = { size: Number($('sCapSize').value) || 64, plate: $('sCapPlate').checked, stroke: $('sCapStroke').checked };
   return o;
 }
 
