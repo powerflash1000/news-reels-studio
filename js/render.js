@@ -1,9 +1,9 @@
 // رسم إطار الريل على canvas (عمودي 1080×1920 أو 4:5 أو مربع أو أفقي). نفس الدالة للمعاينة والتصدير.
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mvo9rwis';
-import { drawAvatars, mouthAt, avatarWindow } from './avatar.js?v=mvo9rwis';
-import { hostOf } from './feeds.js?v=mvo9rwis';
-import QR from '../vendor/qrcode/qrcode.mjs?v=mvo9rwis';
-import { drawBg } from './bg.js?v=mvo9rwis';
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mvps5por';
+import { drawAvatars, mouthAt, avatarWindow } from './avatar.js?v=mvps5por';
+import { hostOf } from './feeds.js?v=mvps5por';
+import QR from '../vendor/qrcode/qrcode.mjs?v=mvps5por';
+import { drawBg } from './bg.js?v=mvps5por';
 
 // مقاسات الإخراج. W/H متغيّرين (live binding) والتصدير بيقراهم وقت التصدير
 export const FORMATS = {
@@ -223,7 +223,7 @@ function captions(ctx, st, t, hb = 0) {
   const g = groups[gi];
   if (!g) return;
   const tpl = st.story.template;
-  const tall = tpl === 'stat' || tpl === 'map' || tpl === 'proof';
+  const tall = tpl === 'stat' || tpl === 'map' || tpl === 'proof' || tpl === 'quote';
   const cs = st.settings?.caps || {};
   const base = Math.min(110, Math.max(56, Number(cs.size) || 84));
   const size = Math.round((tall ? base * 0.88 : base) * L.capScale);
@@ -245,7 +245,7 @@ function captions(ctx, st, t, hb = 0) {
   if (!L.vert) {
     // المقاسات الأصغر: الكابشن في نص المساحة الفاضية بين العنوان والتيكر/المصدر
     const disc = st.story.category === 'health' || st.story.category === 'healthtech';
-    const top = hb + 24, bot = (st.reel.ticker?.on ? L.tickY : disc ? L.srcY - 96 : L.srcY) - 24;
+    const top = hb + 24 + ltReserve(st), bot = (st.reel.ticker?.on ? L.tickY : disc ? L.srcY - 96 : L.srcY) - 24;
     cy = (top + bot) / 2;
   }
   const y0 = cy - (rows.length * lh) / 2;
@@ -404,6 +404,78 @@ function statPanel(ctx, st, y0) {
     ctx.textAlign = 'center';
     wrap(ctx, s.label, w - 140).slice(0, 2).forEach((l, i) => ctx.fillText(l, cx, y0 + 435 + i * 70));
   }
+}
+
+// بطاقة اقتباس: علامة تنصيص كبيرة + نص الاقتباس + اسم صاحبه ووظيفته (من غير صور أشخاص)
+function quotePanel(ctx, st, y0) {
+  const q = st.story.quote || {};
+  const x = 60, w = W - 120, h = 540;
+  const p = easeOut(clamp01((st.local - 0.2) / 0.8));
+  ctx.save();
+  ctx.fillStyle = 'rgba(255,255,255,.07)';
+  rrect(ctx, x, y0, w, h, 36);
+  ctx.fill();
+  ctx.fillStyle = st.cat.color;
+  rrect(ctx, x + w - 14, y0 + 36, 14, h - 72, 7);
+  ctx.fill();
+  ctx.globalAlpha *= p;
+  ctx.direction = 'rtl';
+  ctx.textBaseline = 'middle';
+  ctx.textAlign = 'right';
+  ctx.font = font(230, 800);
+  ctx.fillStyle = hexA(st.cat.color, 0.85);
+  ctx.fillText('”', x + w - 56, y0 + 96);
+  const text = (q.text || '').trim() || '…';
+  let size = 68, lines = [];
+  for (; size >= 38; size -= 4) {
+    ctx.font = font(size, 700);
+    lines = wrap(ctx, text, w - 190);
+    if (lines.length <= Math.floor(270 / (size * 1.4))) break;
+  }
+  ctx.font = font(size, 700);
+  ctx.fillStyle = '#fff';
+  const lh = size * 1.4, top = y0 + 130 + (270 - Math.min(lines.length, 5) * lh) / 2;
+  lines.slice(0, 5).forEach((l, i) => { ctx.textAlign = 'right'; ctx.fillText(l, x + w - 100, top + i * lh + lh / 2); });
+  // صاحب الاقتباس: دايرة بالحرف الأول + الاسم والوظيفة
+  const ay = y0 + h - 68, name = (q.who || '').trim();
+  if (name) {
+    ctx.fillStyle = st.cat.color;
+    ctx.beginPath(); ctx.arc(x + w - 82, ay, 38, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.font = font(44, 800);
+    ctx.fillText([...name][0] || '', x + w - 82, ay + 3);
+    ctx.textAlign = 'right';
+    ctx.font = font(46, 800); ctx.fillStyle = '#fff';
+    ctx.fillText(name.slice(0, 40), x + w - 140, ay - (q.role ? 16 : 0));
+    if (q.role) { ctx.font = font(32, 600); ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.fillText(q.role.slice(0, 48), x + w - 140, ay + 28); }
+  }
+  ctx.restore();
+}
+
+// شريط اسم (Lower third) للعاجل والعادي: بيدخل من الجنب ويقعد 6 ثواني
+const LT_H = 100;
+const ltOn = st => !!(st.story.lower?.on && (st.story.lower.name || '').trim() && !PANEL_TPLS.has(st.story.template));
+const ltReserve = st => (!L.vert && ltOn(st) ? LT_H + 16 : 0);
+function lowerThird(ctx, st, hb) {
+  if (!ltOn(st)) return;
+  const lt = st.story.lower, local = st.local ?? 0;
+  const a = easeOut(clamp01((local - 0.5) / 0.5)) * clamp01((6.9 - local) / 0.4);
+  if (a <= 0.01) return;
+  const w = Math.min(W - 120, 780), x = W - 60 - w, y = hb + 28;
+  ctx.save();
+  ctx.globalAlpha *= a;
+  ctx.translate((1 - a) * 220, 0);
+  ctx.fillStyle = 'rgba(5,8,18,.72)';
+  rrect(ctx, x, y, w, LT_H, 22);
+  ctx.fill();
+  ctx.fillStyle = st.cat.color;
+  rrect(ctx, x + w - 16, y, 16, LT_H, 8);
+  ctx.fill();
+  ctx.direction = 'rtl'; ctx.textBaseline = 'middle'; ctx.textAlign = 'right';
+  ctx.fillStyle = '#fff';
+  ctx.font = font(lt.role ? 40 : 48, 800);
+  ctx.fillText(lt.name.slice(0, 40), x + w - 40, y + (lt.role ? 32 : LT_H / 2));
+  if (lt.role) { ctx.font = font(28, 600); ctx.fillStyle = 'rgba(255,255,255,.78)'; ctx.fillText(lt.role.slice(0, 54), x + w - 40, y + 72); }
+  ctx.restore();
 }
 
 function countryPath(c) {
@@ -791,7 +863,7 @@ function avatarsLayer(ctx, st, t, hb, kr) {
   const appear = clamp01((t - w.t0) / 0.45) * clamp01((w.t1 - t) / 0.35);
   if (appear <= 0.01) return false;
   const disc = st.story.category === 'health' || st.story.category === 'healthtech';
-  const top = hb + 24, bot = (st.reel.ticker?.on ? L.tickY : disc ? L.srcY - 96 : L.srcY) - 24;
+  const top = hb + 24 + ltReserve(st), bot = (st.reel.ticker?.on ? L.tickY : disc ? L.srcY - 96 : L.srcY) - 24;
   const box = { x: 60, y: top, w: W - 120, h: Math.max(200, bot - top) };
   const photos = {};
   for (const k of ['A', 'B']) photos[k] = { img: st.avImgs?.[k], ...(st.settings?.avPhotos?.[k] || {}) };
@@ -833,7 +905,7 @@ export function drawCover(ctx, st, idx, fmt) {
   drawLogo(U, st);
 }
 
-const PANEL_TPLS = new Set(['stat', 'map', 'proof']);
+const PANEL_TPLS = new Set(['stat', 'map', 'proof', 'quote']);
 
 // opts.settled: المعاينة الثابتة بترسم القالب بعد انتهاء حركته (الخريطة متقرّبة، الرقم نهائي)
 export function drawFrame(ctx, st, t, opts = {}) {
@@ -898,6 +970,8 @@ export function drawFrame(ctx, st, t, opts = {}) {
   if (story.template === 'stat') statPanel(U, c, hb + 30);
   else if (story.template === 'map') mapPanel(D, c, hb + 30);
   else if (story.template === 'proof') proofPanel(U, c, hb + 30);
+  else if (story.template === 'quote') quotePanel(U, c, hb + 30);
+  lowerThird(U, c, hb);
   if (!avatarsLayer(D, c, t, hb, kr)) captions(U, c, t, hb);
   ticker(D, c, t);
   sourceBar(U, c);
