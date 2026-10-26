@@ -135,3 +135,4 @@ dialog label input { width: auto; margin-top: 6px; }
 .xres .vcres { margin-top: 6px; }
 .tag.op { background: #6b4fbb; }
 .tag.sp { background: #a35a00; }
+.xprompt { white-space: pre-wrap; background: rgba(255,255,255,.05); padding: 8px; border-radius: 8px; font-size: 13px; margin: 6px 0; }
