@@ -130,3 +130,8 @@ dialog label input { width: auto; margin-top: 6px; }
 .agline { display: flex; gap: 8px; margin: 4px 0; align-items: baseline; }
 .agline .tag { flex: none; }
 .agwarn { color: #ffb86b; }
+.xitem { border-top: 1px solid var(--line, #2a2f3a); padding: 10px 0; }
+.xitem .meta { margin: 4px 0; }
+.xres .vcres { margin-top: 6px; }
+.tag.op { background: #6b4fbb; }
+.tag.sp { background: #a35a00; }

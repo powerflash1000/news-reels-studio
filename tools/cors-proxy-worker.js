@@ -9,6 +9,7 @@ const ALLOWED_HOSTS = [
   'images-assets.nasa.gov', // صور وفيديو NASA
   'archive.org',            // Internet Archive (وكل النطاقات الفرعية)
   'cdn.pixabay.com',
+  'youtube.com',            // صفحة القناة وRSS آخر الفيديوهات (لتبويب «تحليل»)
 ];
 const hostAllowed = h => ALLOWED_HOSTS.some(a => h === a || h.endsWith('.' + a));
 // الهيدرز اللي بتتبعت للخدمة الأصلية (مفتاح ElevenLabs ونوع المحتوى)

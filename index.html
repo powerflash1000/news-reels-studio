@@ -1,17 +1,18 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mvpvrzok">
+<html lang="ar" dir="rtl" data-v="mvpwhmjk">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mvpvrzok">
+<link rel="stylesheet" href="assets/css/style.css?v=mvpwhmjk">
 </head>
 <body>
 <header class="top">
   <h1>📰 استوديو ريلز الأخبار</h1>
   <nav id="tabs">
     <button data-tab="feed" class="on">الأخبار</button>
+    <button data-tab="analyze">تحليل مصادر</button>
     <button data-tab="studio">الاستوديو</button>
     <button data-tab="media">الوسائط</button>
     <button data-tab="library">المكتبة</button>
@@ -76,6 +77,39 @@
 </section>
 
 <!-- الاستوديو -->
+<section id="tab-analyze" hidden>
+  <div class="card">
+    <h3>🎬 تحليل مصادر خارجية (يوتيوب / فيسبوك / بودكاست / أي نص)</h3>
+    <label>رابط فيديو يوتيوب أو قناة يوتيوب<input id="xUrl" dir="ltr" placeholder="https://www.youtube.com/watch?v=… أو https://www.youtube.com/@channel"></label>
+    <div class="row">
+      <button id="xGo" class="btn pri" type="button">🔍 حلّل الرابط</button>
+      <label class="btn file">⬆ فيديو أو صوت من جهازك (لحد 18 MB)<input id="xFile" type="file" accept="video/*,audio/*" hidden></label>
+    </div>
+    <details>
+      <summary>📝 أو الصق نص (تفريغ فيديو، بوست فيسبوك، مقال…)</summary>
+      <textarea id="xText" rows="6" dir="auto" placeholder="الصق النص هنا"></textarea>
+      <button id="xGoText" class="btn" type="button">حلّل النص</button>
+    </details>
+    <div class="grid">
+      <label>لغة النتيجة<select id="xLang"><option value="ar">العربية</option><option value="en">English</option></select></label>
+      <label>ركّز على (اختياري)<input id="xNote" dir="auto" placeholder="مثال: الأخبار الاقتصادية بس، أو كل ما يخص مصر"></label>
+      <label>موديل Gemini<input id="xModel" dir="ltr" list="xModels" placeholder="الافتراضي"><datalist id="xModels"></datalist></label>
+    </div>
+    <p id="xMsg" class="muted"></p>
+    <p class="muted">التحليل بيتم بمفتاح Gemini بتاعك (بيتفرج على فيديو يوتيوب العام من رابطه مباشرة). فيسبوك ومنصات تانية: نزّل الفيديو أو الصوت وارفعه، أو الصق النص. الفيديوهات الطويلة بتستهلك حصة أكبر. النتيجة «مرجع» بس: أي خبر هتعمله منها لازم تربطه بمصدر أصلي قبل التصدير، واليوتيوبر نفسه مش مصدر.</p>
+  </div>
+  <div id="xChannel" class="card" hidden></div>
+  <div id="xOut"></div>
+  <details class="card">
+    <summary>📺 فيديوهات من قنوات رادار اليوتيوب</summary>
+    <div id="xRadar" class="list"></div>
+  </details>
+  <details class="card">
+    <summary>🕘 آخر التحليلات</summary>
+    <div id="xHist" class="list"></div>
+  </details>
+</section>
+
 <section id="tab-studio" hidden>
   <div class="studio">
     <div class="preview">
@@ -660,6 +694,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mvpvrzok"></script>
+<script type="module" src="js/main.js?v=mvpwhmjk"></script>
 </body>
 </html>
