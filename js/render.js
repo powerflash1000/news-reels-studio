@@ -1,9 +1,9 @@
 // رسم إطار الريل على canvas (عمودي 1080×1920 أو 4:5 أو مربع أو أفقي). نفس الدالة للمعاينة والتصدير.
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mvps5por';
-import { drawAvatars, mouthAt, avatarWindow } from './avatar.js?v=mvps5por';
-import { hostOf } from './feeds.js?v=mvps5por';
-import QR from '../vendor/qrcode/qrcode.mjs?v=mvps5por';
-import { drawBg } from './bg.js?v=mvps5por';
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mvpszv4s';
+import { drawAvatars, mouthAt, avatarWindow } from './avatar.js?v=mvpszv4s';
+import { hostOf } from './feeds.js?v=mvpszv4s';
+import QR from '../vendor/qrcode/qrcode.mjs?v=mvpszv4s';
+import { drawBg } from './bg.js?v=mvpszv4s';
 
 // مقاسات الإخراج. W/H متغيّرين (live binding) والتصدير بيقراهم وقت التصدير
 export const FORMATS = {
@@ -223,7 +223,7 @@ function captions(ctx, st, t, hb = 0) {
   const g = groups[gi];
   if (!g) return;
   const tpl = st.story.template;
-  const tall = tpl === 'stat' || tpl === 'map' || tpl === 'proof' || tpl === 'quote';
+  const tall = tpl === 'stat' || tpl === 'map' || tpl === 'proof' || tpl === 'quote' || tpl === 'timeline';
   const cs = st.settings?.caps || {};
   const base = Math.min(110, Math.max(56, Number(cs.size) || 84));
   const size = Math.round((tall ? base * 0.88 : base) * L.capScale);
@@ -448,6 +448,42 @@ function quotePanel(ctx, st, y0) {
     ctx.fillText(name.slice(0, 40), x + w - 140, ay - (q.role ? 16 : 0));
     if (q.role) { ctx.font = font(32, 600); ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.fillText(q.role.slice(0, 48), x + w - 140, ay + 28); }
   }
+  ctx.restore();
+}
+
+// خط زمني للقصة: لحد 4 أحداث (سنة + جملة قصيرة) بتظهر واحد ورا التاني
+function timelinePanel(ctx, st, y0) {
+  const ev = (st.story.timeline?.events || []).filter(e => e.year || e.text).slice(0, 4);
+  const x = 60, w = W - 120, h = 600;
+  ctx.save();
+  ctx.fillStyle = 'rgba(255,255,255,.07)';
+  rrect(ctx, x, y0, w, h, 36);
+  ctx.fill();
+  const n = Math.max(1, ev.length), rowH = Math.min(150, (h - 90) / n), top = y0 + 55 + ((h - 90) - rowH * n) / 2;
+  const cx = x + w - 70, k = n <= 2 ? 1.25 : 1;
+  ctx.fillStyle = 'rgba(255,255,255,.18)';
+  if (ev.length > 1) rrect(ctx, cx - 3, top + rowH / 2, 6, rowH * (ev.length - 1), 3), ctx.fill();
+  ctx.direction = 'rtl'; ctx.textBaseline = 'middle';
+  ev.forEach((e, i) => {
+    const p = easeOut(clamp01((st.local - 0.3 - i * 0.9) / 0.5));
+    if (p <= 0) return;
+    const cy = top + rowH * i + rowH / 2;
+    ctx.save();
+    ctx.globalAlpha *= p;
+    ctx.translate((1 - p) * -60, 0);
+    ctx.fillStyle = st.cat.color;
+    ctx.beginPath(); ctx.arc(cx, cy, 24, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.beginPath(); ctx.arc(cx, cy, 9, 0, Math.PI * 2); ctx.fill();
+    ctx.textAlign = 'right';
+    ctx.font = font(54 * k, 800); ctx.fillStyle = st.cat.color;
+    ctx.fillText(toLatinDigits(e.year || ''), cx - 54, cy - (e.text ? rowH * 0.2 : 0));
+    if (e.text) {
+      ctx.font = font(36 * k, 600); ctx.fillStyle = '#fff';
+      wrap(ctx, e.text, w - 220).slice(0, 2).forEach((l, j) => ctx.fillText(l, cx - 54, cy + rowH * 0.2 + j * 42 * k));
+    }
+    ctx.restore();
+  });
   ctx.restore();
 }
 
@@ -905,7 +941,7 @@ export function drawCover(ctx, st, idx, fmt) {
   drawLogo(U, st);
 }
 
-const PANEL_TPLS = new Set(['stat', 'map', 'proof', 'quote']);
+const PANEL_TPLS = new Set(['stat', 'map', 'proof', 'quote', 'timeline']);
 
 // opts.settled: المعاينة الثابتة بترسم القالب بعد انتهاء حركته (الخريطة متقرّبة، الرقم نهائي)
 export function drawFrame(ctx, st, t, opts = {}) {
@@ -971,6 +1007,7 @@ export function drawFrame(ctx, st, t, opts = {}) {
   else if (story.template === 'map') mapPanel(D, c, hb + 30);
   else if (story.template === 'proof') proofPanel(U, c, hb + 30);
   else if (story.template === 'quote') quotePanel(U, c, hb + 30);
+  else if (story.template === 'timeline') timelinePanel(U, c, hb + 30);
   lowerThird(U, c, hb);
   if (!avatarsLayer(D, c, t, hb, kr)) captions(U, c, t, hb);
   ticker(D, c, t);

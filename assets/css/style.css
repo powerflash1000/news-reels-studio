@@ -125,3 +125,8 @@ dialog label input { width: auto; margin-top: 6px; }
 .vcv { font-weight: 800; margin: 6px 0; }
 .vcm .meta { margin: 2px 0 6px; }
 .vcm .btn { margin-inline-end: 6px; }
+.agsec { border-top: 1px solid var(--line, #2a2f3a); padding: 10px 0; }
+.agsec h4 { margin: 0 0 6px; }
+.agline { display: flex; gap: 8px; margin: 4px 0; align-items: baseline; }
+.agline .tag { flex: none; }
+.agwarn { color: #ffb86b; }

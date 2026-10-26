@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mvps5por">
+<html lang="ar" dir="rtl" data-v="mvpszv4s">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mvps5por">
+<link rel="stylesheet" href="assets/css/style.css?v=mvpszv4s">
 </head>
 <body>
 <header class="top">
@@ -127,6 +127,10 @@
             <label>وظيفته / صفته<input id="quRole" dir="auto" placeholder="مثال: متحدث وزارة الخارجية"></label>
           </div>
           <p class="muted">البطاقة بتعرض الاسم بحرفه الأول في دايرة (من غير صور أشخاص). لازم المصدر الأصلي للاقتباس يكون مكتوب تحت.</p>
+        </div>
+        <div id="tplTimeline" hidden>
+          <p class="muted">لحد 4 أحداث بتظهر واحد ورا التاني (سنة + جملة قصيرة). مناسب للقصة والخلفية التاريخية. راجع كل تاريخ من مصدر موثوق.</p>
+          <div id="tlRows"></div>
         </div>
         <div id="tplProof" hidden>
           <p class="muted">بطاقات مصادر بتظهر على الشاشة (لحد 3) كل واحدة بـQR كود لرابط الخبر الأصلي. اللقطة اختيارية: لقطة شاشة بتاعتك للخبر (عنوان بس يفضّل).</p>
@@ -278,6 +282,24 @@
           <p class="muted">بيبعت العنوان والملخص للمزوّد اللي اخترته في الإعدادات (مفتاحك أنت). المسودة بتستخدم معلومات الملخص بس، وراجعها وعدّلها بأسلوبك قبل التصدير.</p>
         </div>
         <p id="refMsg" class="muted">أعد صياغته بأسلوبك قبل التصدير. الأداة بتسحب الملخص بس، مش نص الخبر الكامل (حقوق النشر).</p>
+      </details>
+      <details id="agentBox" class="card agentbox">
+        <summary>🧠 المحرر الذكي (اختياري): يجهّز الخبر كقصة وإنفوجرافيك ومؤثرات</summary>
+        <div class="grid">
+          <label>أسلوب القناة<select id="agStyle"></select></label>
+          <label>المدة<select id="agLen"><option value="30">حوالي 30 ثانية</option><option value="45" selected>حوالي 45 ثانية</option><option value="60">حوالي 60 ثانية</option><option value="90">حوالي 90 ثانية</option></select></label>
+          <label>الشكل<select id="agFmt"><option value="single">مذيع واحد</option><option value="dialogue">حوار أ / ب</option></select></label>
+        </div>
+        <label>ملاحظات للمحرر (اختياري)<input id="agNote" dir="auto" placeholder="مثال: ابدأ بسؤال، أو ركّز على الأثر على المواطن"></label>
+        <div class="chips">
+          <label class="chk"><input id="agPScript" type="checkbox" checked> سكريبت</label>
+          <label class="chk"><input id="agPStory" type="checkbox"> خلفية تاريخية وخط زمني</label>
+          <label class="chk"><input id="agPInfo" type="checkbox" checked> اقتراحات إنفوجرافيك</label>
+          <label class="chk"><input id="agPVfx" type="checkbox" checked> مؤثرات وبحث وسائط وموسيقى</label>
+        </div>
+        <div class="row"><button id="agGo" class="btn pri" type="button">🧠 شغّل المحرر</button><span id="agMsg" class="muted"></span></div>
+        <div id="agOut"></div>
+        <p class="muted">بيبعت العنوان والملخص للمزوّد اللي اخترته في الإعدادات (مفتاحك أنت). الخبر نفسه بيتكتب من الملخص بس. الخلفية التاريخية من معلومات الموديل العامة وممكن تغلط، فكل تاريخ أو اسم فيها بيتعلّم «لازم يتراجع»، وفي قائمة التحقق قبل التصدير سطر بيطلب تراجعها. كل حاجة اقتراح: مفيش حاجة بتتطبّق من غير ضغطتك.</p>
       </details>
       <div class="card fxbox">
         <b>تأثيرات الصوت قبل التوليد</b>
@@ -616,6 +638,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mvps5por"></script>
+<script type="module" src="js/main.js?v=mvpszv4s"></script>
 </body>
 </html>
