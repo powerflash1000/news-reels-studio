@@ -1,24 +1,24 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvpszv4s';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvpszv4s';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvpszv4s';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvpszv4s';
-import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvpszv4s';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvpszv4s';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvpszv4s';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvpszv4s';
-import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvpszv4s';
-import { exportSupport, exportReel } from './export.js?v=mvpszv4s';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvpszv4s';
-import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvpszv4s';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mvpszv4s';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvpszv4s';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvpszv4s';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvpszv4s';
-import { loadBg, playBg } from './bg.js?v=mvpszv4s';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvpszv4s';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvpszv4s';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvpszv4s';
-import { initI18n } from './i18n.js?v=mvpszv4s';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvpuc3t7';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvpuc3t7';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvpuc3t7';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvpuc3t7';
+import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvpuc3t7';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvpuc3t7';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvpuc3t7';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvpuc3t7';
+import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvpuc3t7';
+import { exportSupport, exportReel } from './export.js?v=mvpuc3t7';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvpuc3t7';
+import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvpuc3t7';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mvpuc3t7';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvpuc3t7';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvpuc3t7';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvpuc3t7';
+import { loadBg, playBg } from './bg.js?v=mvpuc3t7';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvpuc3t7';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvpuc3t7';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvpuc3t7';
+import { initI18n } from './i18n.js?v=mvpuc3t7';
 
 initI18n();
 
@@ -1755,7 +1755,8 @@ document.querySelector('#tab-settings').addEventListener('click', async e => {
 });
 function showAiFields() {
   const p = $('sAiProv').value || 'claude';
-  document.querySelectorAll('.aiK').forEach(el => { el.hidden = !el.dataset.p.split(' ').includes(p); });
+  const gemTts = $('sTts').value === 'gemini';
+  document.querySelectorAll('.aiK').forEach(el => { el.hidden = !(el.dataset.p.split(' ').includes(p) || (gemTts && el.contains($('sGemini')))); });
   const P = AI_PROVIDERS[p];
   $('aiModels').innerHTML = (P.models || []).map(m => `<option value="${m}">`).join('');
   $('sAiModel').placeholder = P.model || '';
@@ -1825,6 +1826,7 @@ $('sGemModel').innerHTML = GEMINI_TTS_MODELS.map(m => `<option value="${m.id}">$
 function showTts() {
   const g = $('sTts').value === 'gemini';
   $('gemBox').hidden = !g; $('elCard').hidden = g;
+  if (typeof showAiFields === 'function') showAiFields();
 }
 $('sTts').addEventListener('change', showTts);
 $('gemTest').addEventListener('click', async () => {
