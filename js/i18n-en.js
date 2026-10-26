@@ -641,7 +641,7 @@ export default {
  "موديل الصوت": "Voice model",
  "أسلوب الإلقاء (بالإنجليزي أدق، فاضي = مذيع أخبار بالعامية المصرية)": "Delivery style (English works best; empty = Egyptian-Arabic news anchor)",
  "🔊 جرّب الصوت": "🔊 Test voice",
- "بيستخدم مفتاح Gemini اللي في قسم المسودات (aistudio.google.com/apikey). Gemini مبيرجّعش توقيت كلمات، فالكابشن بيتوزّع تقديريًا على الصوت. الوسوم زي [sad] بتتشال. لو حصلت رسالة «موديل مش متاح» غيّره، أسماء الموديلات بتتغير.": "Uses the Gemini key from the drafts section (aistudio.google.com/apikey). Gemini returns no word timing, so captions are spread across the audio by estimate. Tags like [sad] are removed. If you get a \"model unavailable\" message, change it; model names change.",
+ "حط مفتاح Gemini في خانة «مفتاح Gemini» اللي بتظهر تحت في قسم «مزوّد الذكاء الاصطناعي» (مجاني من aistudio.google.com/apikey، ونفس المفتاح بيشتغل للمسودات). بعد ما تحطه اضغط «حفظ الإعدادات» وبعدها «جرّب الصوت». Gemini مبيرجّعش توقيت كلمات، فالكابشن بيتوزّع تقديريًا على الصوت. الوسوم زي [sad] بتتشال. لو حصلت رسالة «موديل مش متاح» غيّره، أسماء الموديلات بتتغير.": "Uses the Gemini key from the drafts section (aistudio.google.com/apikey). Gemini returns no word timing, so captions are spread across the audio by estimate. Tags like [sad] are removed. If you get a \"model unavailable\" message, change it; model names change.",
  "Gemini 2.5 Flash TTS (أسرع، له حصة مجانية)": "Gemini 2.5 Flash TTS (faster, free quota)",
  "Gemini 2.5 Pro TTS (جودة أعلى)": "Gemini 2.5 Pro TTS (higher quality)",
  "بولّد…": "Generating…",
