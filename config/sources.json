@@ -2231,6 +2231,116 @@
    "category": "economy",
    "name": "اليوم السابع — اقتصاد",
    "url": "https://www.youm7.com/rss/SectionRss?SectionID=297"
+  },
+  {
+   "id": "tactical-report",
+   "category": "defense",
+   "name": "Tactical Report",
+   "url": "https://tacticalreport.com/feed",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 0.9
+  },
+  {
+   "id": "isw",
+   "category": "defense",
+   "name": "ISW — معهد دراسة الحرب",
+   "url": "https://www.understandingwar.org/rss.xml",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1.1
+  },
+  {
+   "id": "long-war-journal",
+   "category": "defense",
+   "name": "Long War Journal",
+   "url": "https://www.longwarjournal.org/feed",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1.0
+  },
+  {
+   "id": "bellingcat",
+   "category": "defense",
+   "name": "Bellingcat",
+   "url": "https://www.bellingcat.com/feed/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1.0
+  },
+  {
+   "id": "war-on-the-rocks",
+   "category": "defense",
+   "name": "War on the Rocks",
+   "url": "https://warontherocks.com/feed/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1.0
+  },
+  {
+   "id": "defense-post",
+   "category": "defense",
+   "name": "The Defense Post",
+   "url": "https://thedefensepost.com/feed/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1.0
+  },
+  {
+   "id": "al-monitor",
+   "category": "politics",
+   "name": "Al-Monitor",
+   "url": "https://www.al-monitor.com/rss",
+   "lang": "en",
+   "type": "specialist",
+   "region": "arab",
+   "weight": 1.0
+  },
+  {
+   "id": "toi-en",
+   "category": "politics",
+   "name": "Times of Israel",
+   "url": "https://www.timesofisrael.com/feed/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1.0
+  },
+  {
+   "id": "jpost-en",
+   "category": "politics",
+   "name": "The Jerusalem Post",
+   "url": "https://www.jpost.com/Rss/RssFeedsHeadlines.aspx",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1.0
+  },
+  {
+   "id": "israel-hayom-en",
+   "category": "politics",
+   "name": "Israel Hayom",
+   "url": "https://www.israelhayom.com/feed/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 0.9
+  },
+  {
+   "id": "arutz-sheva-en",
+   "category": "politics",
+   "name": "Arutz Sheva (Israel National News)",
+   "url": "https://www.israelnationalnews.com/Rss.aspx",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 0.8
   }
  ],
  "youtube": [

@@ -4,7 +4,7 @@ export const MED_DISCLAIMER = 'معلومة عامة وليست استشارة �
 
 export const STATUSES = { draft: 'مسودة', exported: 'متصدّر', published: 'منشور' };
 export const KINDS = { news: 'خبر', intro: 'افتتاحية', outro: 'خاتمة' };
-export const TEMPLATES = { standard: 'عادي', breaking: 'عاجل', stat: 'بطاقة رقم', map: 'خريطة', proof: 'توثيق (مصادر)' };
+export const TEMPLATES = { standard: 'عادي', breaking: 'عاجل', stat: 'بطاقة رقم', map: 'خريطة', proof: 'توثيق (مصادر)', quote: 'اقتباس' };
 export const PROOF_STATUS = { none: 'من غير حالة', official: 'مؤكد رسميًا', reported: 'تقارير غير مؤكدة', pending: 'بانتظار التأكيد' };
 export const newProofSource = () => ({ outlet: '', title: '', date: '', url: '', shot: null });
 
@@ -28,11 +28,15 @@ export function newStory(over = {}) {
     stat: { value: '', unit: '', label: '', trend: 'none' },
     map: { countries: [], label: '', pins: [] },
     proof: { status: 'none', sources: [] },
+    quote: { text: '', who: '', role: '' },
+    lower: { on: false, name: '', role: '' },
     ...over,
   };
   s.stat = { value: '', unit: '', label: '', trend: 'none', ...(s.stat || {}) };
   s.map = { countries: [], label: '', pins: [], ...(s.map || {}) };
   s.proof = { status: 'none', sources: [], ...(s.proof || {}) };
+  s.quote = { text: '', who: '', role: '', ...(s.quote || {}) };
+  s.lower = { on: false, name: '', role: '', ...(s.lower || {}) };
   if (!s.id) s.id = rid('s');
   return s;
 }

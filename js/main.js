@@ -1,23 +1,23 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvo9rwis';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvo9rwis';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvo9rwis';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvo9rwis';
-import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvo9rwis';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvo9rwis';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvo9rwis';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvo9rwis';
-import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvo9rwis';
-import { exportSupport, exportReel } from './export.js?v=mvo9rwis';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvo9rwis';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mvo9rwis';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvo9rwis';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvo9rwis';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvo9rwis';
-import { loadBg, playBg } from './bg.js?v=mvo9rwis';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvo9rwis';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvo9rwis';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvo9rwis';
-import { initI18n } from './i18n.js?v=mvo9rwis';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvps5por';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvps5por';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvps5por';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvps5por';
+import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvps5por';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvps5por';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvps5por';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvps5por';
+import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvps5por';
+import { exportSupport, exportReel } from './export.js?v=mvps5por';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvps5por';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mvps5por';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvps5por';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvps5por';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvps5por';
+import { loadBg, playBg } from './bg.js?v=mvps5por';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvps5por';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvps5por';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvps5por';
+import { initI18n } from './i18n.js?v=mvps5por';
 
 initI18n();
 
@@ -306,6 +306,8 @@ function readForm() {
     st.template = $('fTpl').value;
     st.stat = { value: $('stValue').value.trim(), unit: $('stUnit').value.trim(), label: $('stLabel').value.trim(), trend: $('stTrend').value };
     st.map = { countries: st.map?.countries || [], pins: st.map?.pins || [], label: $('mapLabel').value.trim(), zoom: st.map?.zoom || 'auto' };
+    st.quote = { text: $('quText').value.trim(), who: $('quWho').value.trim(), role: $('quRole').value.trim() };
+    st.lower = { on: $('ltOn').checked, name: $('ltName').value.trim(), role: $('ltRole').value.trim() };
     if (st.template === 'proof') {
       const first = proofSources(st)[0];
       if (first && !st.sourceName) st.sourceName = first.outlet;
@@ -322,11 +324,11 @@ function persist() {
   setCurrentId(reel.id);
 }
 
-for (const id of ['rTitle', 'fCat', 'fKind', 'fHead', 'fSrc', 'fUrl', 'fCredit', 'fScript', 'fTpl', 'stValue', 'stUnit', 'stTrend', 'stLabel', 'mapLabel', 'tkOn', 'tkLabel', 'tkText']) {
+for (const id of ['rTitle', 'fCat', 'fKind', 'fHead', 'fSrc', 'fUrl', 'fCredit', 'fScript', 'fTpl', 'stValue', 'stUnit', 'stTrend', 'stLabel', 'mapLabel', 'quText', 'quWho', 'quRole', 'ltOn', 'ltName', 'ltRole', 'tkOn', 'tkLabel', 'tkText']) {
   $(id).addEventListener('input', () => {
     readForm(); persist(); updateInfo(); redraw();
     if (id === 'fHead' || id === 'fCat') renderStrip();
-    if (id === 'fTpl' || id === 'tkOn') toggleTemplateFields();
+    if (id === 'fTpl' || id === 'tkOn' || id === 'ltOn') toggleTemplateFields();
     if (id === 'fScript') { clearTimeout(restoreTimer); restoreTimer = setTimeout(restoreAudio, 600); }
   });
 }
@@ -416,6 +418,8 @@ function toggleTemplateFields() {
   $('tplStat').hidden = tpl !== 'stat';
   $('tplMap').hidden = tpl !== 'map';
   $('tplProof').hidden = tpl !== 'proof';
+  $('tplQuote').hidden = tpl !== 'quote';
+  $('ltFields').hidden = !$('ltOn').checked;
   $('tkFields').hidden = !$('tkOn').checked;
   if (tpl === 'map') loadWorld();
 }
@@ -439,6 +443,8 @@ function fillTemplateFields() {
   $('stTrend').value = st.stat?.trend || 'none';
   $('stLabel').value = st.stat?.label || '';
   $('mapLabel').value = st.map?.label || '';
+  $('quText').value = st.quote?.text || ''; $('quWho').value = st.quote?.who || ''; $('quRole').value = st.quote?.role || '';
+  $('ltOn').checked = !!st.lower?.on; $('ltName').value = st.lower?.name || ''; $('ltRole').value = st.lower?.role || '';
   $('tkOn').checked = !!reel.ticker?.on;
   $('tkLabel').value = reel.ticker?.label || '';
   $('tkText').value = reel.ticker?.text || '';
@@ -997,6 +1003,8 @@ function validateReel() {
     if (!st.headline) probs.push(pre + 'اكتب العنوان.');
     if (st.kind !== 'news') continue;
     if (st.template === 'stat' && !st.stat?.value) probs.push(pre + 'قالب الرقم محتاج رقم.');
+    if (st.template === 'quote' && (!st.quote?.text || !st.quote?.who)) probs.push(pre + 'قالب الاقتباس محتاج نص الاقتباس واسم صاحبه.');
+    if (st.lower?.on && !st.lower?.name) probs.push(pre + 'شريط الاسم محتاج اسم.');
     if (st.template === 'proof') {
       const ok = proofSources(st).filter(x => /^https?:\/\//.test(x.url || '') && x.outlet);
       if (!ok.length) probs.push(pre + 'قالب التوثيق محتاج مصدر واحد على الأقل (جهة + رابط).');
@@ -1017,6 +1025,7 @@ function checklistFor() {
   const base = ['المعلومات في السكريبت مطابقة للمصدر الأصلي المذكور.', 'السكريبت بأسلوبي، مش منقول من قناة أو موقع.'];
   if (news.length > 1) base.push('كل خبر ليه مصدره الخاص على الشاشة، والترتيب والعناوين مظبوطة.');
   if (news.some(s => s.claimKind === 'opinion')) base.push('واضح إن ده رأي/تحليل ومنسوب لصاحبه.');
+  if (news.some(s => s.template === 'quote')) base.push('الاقتباس منقول بنصه من المصدر الأصلي ومنسوب لصاحبه الصح.');
   if (news.some(s => s.template === 'proof')) base.push('حالة التأكيد (رسمي / غير مؤكد) مطابقة لما قالته المصادر المعروضة، ومفيش لقطة فيها محتوى مصوّر محمي.');
   if (news.some(s => s.category === 'health' || s.category === 'healthtech')) base.push('مفيش نصيحة علاجية أو جرعات، والتنبيه الطبي ظاهر على الشاشة.');
   if (news.some(s => s.category === 'stories')) base.push('القصة من وثائق أو قضايا منتهية ومعلنة: راجعت التواريخ والأسماء، ومفيش اتهام لشخص من غير حكم، وأي ادعاء غير مثبت (UFO وغيره) متقدّم على إنه «غير مؤكد».');

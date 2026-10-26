@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mvo9rwis">
+<html lang="ar" dir="rtl" data-v="mvps5por">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mvo9rwis">
+<link rel="stylesheet" href="assets/css/style.css?v=mvps5por">
 </head>
 <body>
 <header class="top">
@@ -120,6 +120,14 @@
           </div>
           <p class="muted">الخريطة بحدود الدول بس (دقة منخفضة)، فالمدن الصغيرة بتظهر كدبوس على الخريطة من غير تفاصيل شوارع أو ولايات.</p>
         </div>
+        <div id="tplQuote" hidden>
+          <label>نص الاقتباس (بنصه من المصدر الأصلي)<textarea id="quText" rows="3" dir="auto" placeholder="الاقتباس زي ما اتقال بالظبط"></textarea></label>
+          <div class="grid">
+            <label>صاحب الاقتباس<input id="quWho" dir="auto" placeholder="الاسم"></label>
+            <label>وظيفته / صفته<input id="quRole" dir="auto" placeholder="مثال: متحدث وزارة الخارجية"></label>
+          </div>
+          <p class="muted">البطاقة بتعرض الاسم بحرفه الأول في دايرة (من غير صور أشخاص). لازم المصدر الأصلي للاقتباس يكون مكتوب تحت.</p>
+        </div>
         <div id="tplProof" hidden>
           <p class="muted">بطاقات مصادر بتظهر على الشاشة (لحد 3) كل واحدة بـQR كود لرابط الخبر الأصلي. اللقطة اختيارية: لقطة شاشة بتاعتك للخبر (عنوان بس يفضّل).</p>
           <label>حالة التأكيد
@@ -154,6 +162,15 @@
         <div id="vcOut"></div>
         <p class="muted">ده كاشف تطابق بالنص والأرقام مع آخر الأخبار المتجمّعة من المصادر، مش حكم نهائي. بيقارن بنفس لغة الادعاء. اليوتيوبر مش مصدر: لازم تفتح المصدر وتتأكد بنفسك قبل ما تستخدمه.</p>
       </details>
+      <div class="card ltbox">
+        <label class="chk"><input id="ltOn" type="checkbox"> شريط اسم (Lower third): اسم المتحدث أو الجهة بيظهر أول 6 ثواني (للقالب العادي والعاجل)</label>
+        <div id="ltFields" hidden>
+          <div class="grid">
+            <label>الاسم أو الجهة<input id="ltName" dir="auto" placeholder="مثال: د. أحمد علي"></label>
+            <label>الوظيفة / الصفة (اختياري)<input id="ltRole" dir="auto" placeholder="مثال: أستاذ الاقتصاد"></label>
+          </div>
+        </div>
+      </div>
       <div class="card tickbox">
         <label class="chk"><input id="tkOn" type="checkbox"> شريط الأخبار أسفل الشاشة (بيمشي في كل أخبار الحلقة)</label>
         <div id="tkFields" hidden>
@@ -599,6 +616,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mvo9rwis"></script>
+<script type="module" src="js/main.js?v=mvps5por"></script>
 </body>
 </html>
