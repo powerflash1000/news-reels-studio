@@ -1,24 +1,24 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvpuc3t7';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvpuc3t7';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvpuc3t7';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvpuc3t7';
-import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvpuc3t7';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvpuc3t7';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvpuc3t7';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvpuc3t7';
-import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvpuc3t7';
-import { exportSupport, exportReel } from './export.js?v=mvpuc3t7';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvpuc3t7';
-import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvpuc3t7';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mvpuc3t7';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvpuc3t7';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvpuc3t7';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvpuc3t7';
-import { loadBg, playBg } from './bg.js?v=mvpuc3t7';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvpuc3t7';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvpuc3t7';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvpuc3t7';
-import { initI18n } from './i18n.js?v=mvpuc3t7';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvpvaqhr';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvpvaqhr';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvpvaqhr';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvpvaqhr';
+import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvpvaqhr';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvpvaqhr';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvpvaqhr';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvpvaqhr';
+import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvpvaqhr';
+import { exportSupport, exportReel } from './export.js?v=mvpvaqhr';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvpvaqhr';
+import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvpvaqhr';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mvpvaqhr';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvpvaqhr';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvpvaqhr';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvpvaqhr';
+import { loadBg, playBg } from './bg.js?v=mvpvaqhr';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvpvaqhr';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvpvaqhr';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvpvaqhr';
+import { initI18n } from './i18n.js?v=mvpvaqhr';
 
 initI18n();
 
@@ -215,7 +215,9 @@ async function restoreAudio() {
   for (const l of allLines(reel)) {
     if (audioMap.has(lineKey(l))) continue;
     try {
-      const hit = await peekLine(l.text, l.speaker, reel.lang);
+      // بنجرّب مزوّد الإعدادات الأول وبعدين التاني (الصوت المتولّد قبل كده من أي واحد فيهم)
+      const first = getSettings().ttsProvider === 'gemini' ? 'gemini' : 'elevenlabs';
+      const hit = (await peekLine(l.text, l.speaker, reel.lang, first)) || (await peekLine(l.text, l.speaker, reel.lang, first === 'gemini' ? 'elevenlabs' : 'gemini'));
       if (hit && reel.id === mine) audioMap.set(lineKey(l), hit);
     } catch { /* الكاش اختياري */ }
   }
@@ -1007,31 +1009,44 @@ function updateInfo() {
 }
 
 /* ---------- الصوت ---------- */
-$('gen').addEventListener('click', async () => {
+// توليد الصوت بمزوّد محدد: كل زرار بيستخدم مزوّده بغض النظر عن اللي في الإعدادات، وبيعيد توليد السطور اللي صوتها من مزوّد تاني
+async function generateAudio(provider) {
   readForm();
   const lines = allLines(reel);
   if (!lines.length) return setStatus('اكتب السكريبت الأول.', true);
+  const gem = provider === 'gemini', gs = getSettings();
+  if (gem && !gs.geminiKey) return setStatus('محتاج مفتاح Gemini: الإعدادات ← مزوّد الذكاء الاصطناعي ← مفتاح Gemini (مجاني من aistudio.google.com/apikey).', true);
   const seen = new Set();
-  const todo = lines.filter(l => { const k = lineKey(l); if (audioMap.has(k) || seen.has(k)) return false; seen.add(k); return true; });
+  const todo = lines.filter(l => { const k = lineKey(l); const have = audioMap.get(k); if ((have && have.provider === provider) || seen.has(k)) return false; seen.add(k); return true; });
   const chars = todo.reduce((n, l) => n + l.text.length, 0);
   const sub = lastSubscription();
-  if (!usingGemini() && sub && sub.limit && chars > sub.limit - sub.used && !confirm(`المتبقي في رصيدك حوالي ${Math.max(0, sub.limit - sub.used)} حرف والتوليد محتاج ${chars}. تكمل؟`)) return;
-  if (!usingGemini() && chars > 1500 && !confirm(`هيتولّد ${chars} حرف من رصيد ElevenLabs. تكمل؟`)) return;
-  $('gen').disabled = true;
+  if (!gem && sub && sub.limit && chars > sub.limit - sub.used && !confirm(`المتبقي في رصيدك حوالي ${Math.max(0, sub.limit - sub.used)} حرف والتوليد محتاج ${chars}. تكمل؟`)) return;
+  if (!gem && chars > 1500 && !confirm(`هيتولّد ${chars} حرف من رصيد ElevenLabs. تكمل؟`)) return;
+  const btn = $(gem ? 'genGem' : 'gen');
+  $('gen').disabled = $('genGem').disabled = true;
   manualAudio = null;
   try {
     let n = 0;
     for (const l of todo) {
       setStatus(`بولّد سطر ${++n}/${todo.length}…`);
-      audioMap.set(lineKey(l), await speakLine(l.text, l.speaker, reel.lang));
+      audioMap.set(lineKey(l), await speakLine(l.text, l.speaker, reel.lang, provider));
     }
-    setStatus(n ? 'تم توليد الصوت ✅' : 'الصوت كله جاهز من الكاش ✅');
-    if (n && !usingGemini() && getSettings().elevenKey) fetchSubscription().then(fillUsage).catch(() => {});
+    setStatus(n ? `تم توليد الصوت بـ${gem ? 'Gemini' : 'ElevenLabs'} ✅` : 'الصوت كله جاهز من الكاش ✅');
+    if (n && !gem && gs.elevenKey) fetchSubscription().then(fillUsage).catch(() => {});
   } catch (e) { setStatus(String(e.message || e), true); }
-  $('gen').disabled = false;
+  $('gen').disabled = $('genGem').disabled = false;
+  void btn;
   updateInfo();
   redraw();
-});
+}
+$('gen').addEventListener('click', () => generateAudio('elevenlabs'));
+$('genGem').addEventListener('click', () => generateAudio('gemini'));
+// أصوات Gemini المختارة من الاستوديو مباشرة (بتتحفظ في الإعدادات)
+$('genGemA').innerHTML = $('genGemB').innerHTML = GEMINI_VOICES.map(([id, d]) => `<option value="${id}">${id} — ${d}</option>`).join('');
+function fillGemVoices() { const s = getSettings(); $('genGemA').value = s.gemVoiceA || 'Kore'; $('genGemB').value = s.gemVoiceB || 'Puck'; }
+$('genGemA').addEventListener('change', () => { setSettings({ gemVoiceA: $('genGemA').value }); $('sGemA').value = $('genGemA').value; });
+$('genGemB').addEventListener('change', () => { setSettings({ gemVoiceB: $('genGemB').value }); $('sGemB').value = $('genGemB').value; });
+fillGemVoices();
 
 $('rec').addEventListener('click', async () => {
   try {
@@ -1848,6 +1863,7 @@ function fillSettings() {
   showAiFields();
   fillUsage();
   showTts();
+  fillGemVoices();
 }
 
 function collectSettings() {

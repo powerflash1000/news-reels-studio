@@ -1,11 +1,11 @@
 // وضع اللايف: شاشة بث مستمرة (طابور + دورة خلفية + شاشة انتظار) وبث لعدة منصات عن طريق وسيط محلي (tools/live-relay.mjs)
-import { normalizeReel, buildReelTimeline, allLines, lineKey } from './reel.js?v=mvpuc3t7';
-import { peekLine } from './tts.js?v=mvpuc3t7';
-import { audioCtx, mixTimeline, decode, SAMPLE_RATE } from './audio.js?v=mvpuc3t7';
-import { drawFrame, drawSlate } from './render.js?v=mvpuc3t7';
-import { loadBg, playBg } from './bg.js?v=mvpuc3t7';
-import { getBlob } from './mediastore.js?v=mvpuc3t7';
-import { getSettings } from './storage.js?v=mvpuc3t7';
+import { normalizeReel, buildReelTimeline, allLines, lineKey } from './reel.js?v=mvpvaqhr';
+import { peekLine } from './tts.js?v=mvpvaqhr';
+import { audioCtx, mixTimeline, decode, SAMPLE_RATE } from './audio.js?v=mvpvaqhr';
+import { drawFrame, drawSlate } from './render.js?v=mvpvaqhr';
+import { loadBg, playBg } from './bg.js?v=mvpvaqhr';
+import { getBlob } from './mediastore.js?v=mvpvaqhr';
+import { getSettings } from './storage.js?v=mvpvaqhr';
 
 // بيجهّز ريل للتشغيل. من غير opts: الصوت من الكاش (من غير رصيد). مع opts.audioMap/manual: من الاستوديو مباشرة (من غير حفظ)
 export async function prepare(raw, opts = {}) {
@@ -18,7 +18,8 @@ export async function prepare(raw, opts = {}) {
     audioMap = new Map();
     let missing = 0;
     for (const l of lines) {
-      const hit = await peekLine(l.text, l.speaker, reel.lang).catch(() => null);
+      const first = getSettings().ttsProvider === 'gemini' ? 'gemini' : 'elevenlabs';
+      const hit = (await peekLine(l.text, l.speaker, reel.lang, first).catch(() => null)) || (await peekLine(l.text, l.speaker, reel.lang, first === 'gemini' ? 'elevenlabs' : 'gemini').catch(() => null));
       if (hit) audioMap.set(lineKey(l), hit); else missing++;
     }
     if (missing) return { id: reel.id, title, ready: false, why: `${missing} سطر من غير صوت في الكاش (ولّده من الاستوديو الأول بنفس الصوت)` };

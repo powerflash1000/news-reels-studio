@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mvpuc3t7">
+<html lang="ar" dir="rtl" data-v="mvpvaqhr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mvpuc3t7">
+<link rel="stylesheet" href="assets/css/style.css?v=mvpvaqhr">
 </head>
 <body>
 <header class="top">
@@ -313,9 +313,14 @@
       <p id="scriptInfo" class="muted"></p>
       <div class="row">
         <button id="gen" class="btn pri">🎙 توليد الصوت (ElevenLabs)</button>
+        <button id="genGem" class="btn pri">✨ توليد الصوت (Gemini)</button>
         <button id="rec" class="btn">⏺ تسجيل بصوتي</button>
         <label class="btn file">⬆ رفع ملف صوت<input id="upl" type="file" accept="audio/*" hidden></label>
         <button id="clearAudio" class="btn ghost">مسح الصوت</button>
+      </div>
+      <div class="grid gemvoices">
+        <label>صوت Gemini للمذيع أ<select id="genGemA"></select></label>
+        <label>صوت Gemini للمذيع ب (لو حوار)<select id="genGemB"></select></label>
       </div>
       <p id="audioInfo" class="muted">مفيش صوت لسه.</p>
       <div class="row">
@@ -638,6 +643,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mvpuc3t7"></script>
+<script type="module" src="js/main.js?v=mvpvaqhr"></script>
 </body>
 </html>
