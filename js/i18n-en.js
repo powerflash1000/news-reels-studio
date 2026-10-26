@@ -863,5 +863,11 @@ export default {
  "راجعت كل التواريخ والأسماء والأحداث في الخلفية التاريخية/الخط الزمني من مصادر موثوقة، وشلت أي حاجة مش متأكد منها.": "I verified all dates, names and events in the historical background/timeline from reliable sources and removed anything I was not sure about.",
  "الموديل رفض الطلب ده. غيّر الصياغة أو اكتبها بنفسك.": "The model refused this request. Reword it or write it yourself.",
  "الرد مش بالشكل المتوقع (جرّب تاني، أو غيّر الموديل لو مجاني).": "The reply was not in the expected format (try again, or change the model if it is a free one).",
+ "✨ توليد الصوت (Gemini)": "✨ Generate audio (Gemini)",
+ "صوت Gemini للمذيع أ": "Gemini voice for anchor A",
+ "صوت Gemini للمذيع ب (لو حوار)": "Gemini voice for anchor B (dialogue)",
+ "تم توليد الصوت بـGemini ✅": "Audio generated with Gemini ✅",
+ "تم توليد الصوت بـElevenLabs ✅": "Audio generated with ElevenLabs ✅",
+ "محتاج مفتاح Gemini: الإعدادات ← مزوّد الذكاء الاصطناعي ← مفتاح Gemini (مجاني من aistudio.google.com/apikey).": "Needs a Gemini key: Settings → AI provider → Gemini key (free from aistudio.google.com/apikey).",
  "ARABIC_SWITCH_LABEL": "عربي"
 };

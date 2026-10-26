@@ -1,7 +1,7 @@
 // توليد الصوت من ElevenLabs مع توقيت كل كلمة، وكاش لكل سطر
-import { getSettings, addChars, cacheGet, cachePut, sha1, load, save } from './storage.js?v=mvpuc3t7';
-import { decode } from './audio.js?v=mvpuc3t7';
-import { estimateWords } from './reel.js?v=mvpuc3t7';
+import { getSettings, addChars, cacheGet, cachePut, sha1, load, save } from './storage.js?v=mvpvaqhr';
+import { decode } from './audio.js?v=mvpvaqhr';
+import { estimateWords } from './reel.js?v=mvpvaqhr';
 
 const API = 'https://api.elevenlabs.io';
 
@@ -27,6 +27,8 @@ export const GEMINI_TTS_MODELS = [
 export const GEMINI_STYLE = 'Read the following in a clear, confident Egyptian Arabic (colloquial Egyptian dialect) news-anchor voice, at a steady natural pace';
 const GEM_API = 'https://generativelanguage.googleapis.com/v1beta/models/';
 export const usingGemini = () => getSettings().ttsProvider === 'gemini';
+// provider اختياري: 'gemini' | 'elevenlabs' (لو مش متحدد بنستخدم اللي في الإعدادات)
+const isGem = p => (p || getSettings().ttsProvider) === 'gemini';
 
 function pcmToWav(pcm, rate = 24000) {
   const n = pcm.byteLength, h = new DataView(new ArrayBuffer(44));
@@ -65,16 +67,16 @@ async function geminiSpeak(text, voice) {
   return pcmToWav(b64ToBuf(part.inlineData.data), rate);
 }
 
-export function prepareText(text, lang = 'ar') {
+export function prepareText(text, lang = 'ar', provider) {
   const s = getSettings();
-  if (s.ttsProvider === 'gemini') return String(text).replace(/\[[^\]]*\]/g, ' ').replace(/\s+/g, ' ').trim();
+  if (isGem(provider)) return String(text).replace(/\[[^\]]*\]/g, ' ').replace(/\s+/g, ' ').trim();
   if (s.elevenModel !== 'eleven_v3') return String(text).replace(/\[[^\]]*\]/g, ' ').replace(/\s+/g, ' ').trim();
   return (s.dialectTag && lang === 'ar' && !/^\s*\[[^\]]*accent/i.test(text) ? DIALECT_TAG + ' ' : '') + text;
 }
 
-export function voiceFor(speaker) {
+export function voiceFor(speaker, provider) {
   const s = getSettings();
-  if (s.ttsProvider === 'gemini') return speaker === 'B' ? (s.gemVoiceB || s.gemVoiceA) : s.gemVoiceA;
+  if (isGem(provider)) return speaker === 'B' ? (s.gemVoiceB || s.gemVoiceA) : s.gemVoiceA;
   return speaker === 'B' ? (s.voiceB || s.voiceA) : s.voiceA;
 }
 
@@ -135,38 +137,38 @@ function b64ToBuf(b64) {
   return u.buffer;
 }
 
-function cacheKey(text, voiceId, vs) {
-  if (usingGemini()) { const s = getSettings(); return sha1(['gemini', s.geminiTtsModel, s.geminiStyle, voiceId, text].join('|')); }
+function cacheKey(text, voiceId, vs, provider) {
+  if (isGem(provider)) { const s = getSettings(); return sha1(['gemini', s.geminiTtsModel, s.geminiStyle, voiceId, text].join('|')); }
   return sha1([voiceId, getSettings().elevenModel, JSON.stringify(vs), getSettings().langCode ? 'ar' : '', text].join('|'));
 }
 
 // بيدوّر في الكاش بس (من غير أي استهلاك رصيد). بيرجع null لو السطر مش متولّد قبل كده بنفس الإعدادات
-export async function peekLine(text, speaker, lang = 'ar') {
-  text = prepareText(text, lang);
-  const voiceId = voiceFor(speaker);
+export async function peekLine(text, speaker, lang = 'ar', provider) {
+  text = prepareText(text, lang, provider);
+  const voiceId = voiceFor(speaker, provider);
   if (!voiceId) return null;
-  const hit = await cacheGet(await cacheKey(text, voiceId, voiceSettingsFor(speaker)));
-  return hit ? { buffer: await decode(hit.mp3), words: hit.words, cached: true } : null;
+  const hit = await cacheGet(await cacheKey(text, voiceId, voiceSettingsFor(speaker), provider));
+  return hit ? { buffer: await decode(hit.mp3), words: hit.words, cached: true, provider: isGem(provider) ? 'gemini' : 'elevenlabs' } : null;
 }
 
 // بيرجع {buffer, words, cached}
-export async function speakLine(text, speaker, lang = 'ar') {
+export async function speakLine(text, speaker, lang = 'ar', provider) {
   const s = getSettings();
-  text = prepareText(text, lang);
-  const voiceId = voiceFor(speaker);
-  const gem = usingGemini();
+  const gem = isGem(provider), pv = gem ? 'gemini' : 'elevenlabs';
+  text = prepareText(text, lang, provider);
+  const voiceId = voiceFor(speaker, provider);
   if (!gem && (!s.elevenKey || !voiceId)) throw new Error('ضبط مفتاح ElevenLabs وصوت المذيع في الإعدادات الأول.');
   const vs = voiceSettingsFor(speaker);
-  const key = await cacheKey(text, voiceId, vs);
+  const key = await cacheKey(text, voiceId, vs, provider);
   const hit = await cacheGet(key);
-  if (hit) return { buffer: await decode(hit.mp3), words: hit.words, cached: true };
+  if (hit) return { buffer: await decode(hit.mp3), words: hit.words, cached: true, provider: pv };
   if (gem) {
     // Gemini مبيرجّعش توقيت للكلمات: بنوزّع الكلمات على مدة الصوت بالتقدير
     const wav = await geminiSpeak(text, voiceId);
     const buffer = await decode(wav);
     const words = estimateWords(text, buffer.duration);
     await cachePut(key, { mp3: wav, words });
-    return { buffer, words, cached: false };
+    return { buffer, words, cached: false, provider: pv };
   }
 
   const res = await call(`/v1/text-to-speech/${voiceId}/with-timestamps?output_format=mp3_44100_128`, {
@@ -179,7 +181,7 @@ export async function speakLine(text, speaker, lang = 'ar') {
   const words = wordsFromAlignment(j.alignment || j.normalized_alignment);
   addChars(text.length);
   await cachePut(key, { mp3, words });
-  return { buffer: await decode(mp3), words, cached: false };
+  return { buffer: await decode(mp3), words, cached: false, provider: pv };
 }
 
 /* ---------- بيانات الحساب ---------- */
