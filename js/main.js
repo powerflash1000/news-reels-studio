@@ -1,24 +1,25 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvpvrzok';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvpvrzok';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvpvrzok';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvpvrzok';
-import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvpvrzok';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvpvrzok';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvpvrzok';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvpvrzok';
-import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvpvrzok';
-import { exportSupport, exportReel } from './export.js?v=mvpvrzok';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvpvrzok';
-import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvpvrzok';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mvpvrzok';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvpvrzok';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvpvrzok';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvpvrzok';
-import { loadBg, playBg } from './bg.js?v=mvpvrzok';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvpvrzok';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvpvrzok';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvpvrzok';
-import { initI18n } from './i18n.js?v=mvpvrzok';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvpwhmjk';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvpwhmjk';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvpwhmjk';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvpwhmjk';
+import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvpwhmjk';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvpwhmjk';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvpwhmjk';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvpwhmjk';
+import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvpwhmjk';
+import { exportSupport, exportReel } from './export.js?v=mvpwhmjk';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvpwhmjk';
+import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvpwhmjk';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mvpwhmjk';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvpwhmjk';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvpwhmjk';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvpwhmjk';
+import { loadBg, playBg } from './bg.js?v=mvpwhmjk';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvpwhmjk';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvpwhmjk';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvpwhmjk';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt } from './external.js?v=mvpwhmjk';
+import { initI18n } from './i18n.js?v=mvpwhmjk';
 
 initI18n();
 
@@ -51,12 +52,13 @@ function setStatus(msg, bad = false) {
 /* ---------- التبويبات ---------- */
 function showTab(name) {
   for (const b of document.querySelectorAll('#tabs button')) b.classList.toggle('on', b.dataset.tab === name);
-  for (const id of ['feed', 'studio', 'media', 'library', 'publish', 'live', 'settings']) $('tab-' + id).hidden = id !== name;
+  for (const id of ['feed', 'analyze', 'studio', 'media', 'library', 'publish', 'live', 'settings']) $('tab-' + id).hidden = id !== name;
   if (name === 'studio') redraw();
   if (name === 'library') renderLibrary();
   if (name === 'publish') renderPublish();
   if (name === 'media') renderMediaTarget();
   if (name === 'live') renderLive();
+  if (name === 'analyze') renderAnalyze();
 }
 $('tabs').addEventListener('click', e => e.target.dataset.tab && showTab(e.target.dataset.tab));
 
@@ -128,7 +130,7 @@ function renderFeed() {
         <button class="btn" data-add="${esc(i.id)}">＋ للريل الحالي</button>
         <a class="btn ghost" href="${esc(i.link)}" target="_blank" rel="noopener">فتح</a>
         ${yt ? '' : `<button class="btn" data-auto="${esc(i.id)}" type="button">⚡ أوتوماتيك</button>`}
-        ${yt ? `<button class="btn" data-vc="${esc(i.id)}" type="button">🔍 قارنه بالمصادر</button>` : ''}
+        ${yt ? `<button class="btn" data-vc="${esc(i.id)}" type="button">🔍 قارنه بالمصادر</button><button class="btn" data-xfeed="${esc(i.link)}" type="button">🎬 حلّل الفيديو</button>` : ''}
         ${i.lang && i.lang !== 'ar' ? `<button class="btn ghost" data-tr="${esc(i.id)}">ترجم العنوان</button>` : ''}</div>
       ${yt ? '<div class="vcres"></div>' : ''}
     </article>`;
@@ -1362,6 +1364,108 @@ $('bgFile').addEventListener('change', async e => {
     fillForm();
     setStatus('الخلفية اتحطت ✅');
   } catch (err) { setStatus(String(err.message || err), true); }
+});
+
+/* ---------- تحليل مصادر خارجية ---------- */
+const X_TYPE = { fact: ['خبر منسوب', ''], opinion: ['رأي وتحليل', 'op'], speculation: ['تخمين أو إشاعة', 'sp'] };
+let xLast = null;
+const xHist = () => load('xhist', []);
+function renderAnalyze() {
+  $('xModel').value = getSettings().xModel || '';
+  if (!xModelsLoaded && getSettings().geminiKey) { xModelsLoaded = true; listModels('gemini').then(ids => { $('xModels').innerHTML = ids.map(m => `<option value="${m}">`).join(''); }).catch(() => {}); }
+  const yt = (feeds.items || []).filter(i => i.kind === 'youtube').sort((a, b) => Date.parse(b.published || 0) - Date.parse(a.published || 0)).slice(0, 30);
+  $('xRadar').innerHTML = yt.length ? yt.map(i => `<div class="pfrow"><b dir="auto" translate="no">${esc(i.title.slice(0, 110))}</b><div class="meta"><span translate="no">${esc(i.source)}</span><span>${timeAgo(i.published)}</span></div><div class="row"><button class="btn" data-xa="${esc(i.link)}" type="button">🔍 حلّل</button><a class="btn ghost" href="${esc(i.link)}" target="_blank" rel="noopener">فتح</a></div></div>`).join('') : '<p class="muted">مفيش فيديوهات رادار دلوقتي.</p>';
+  $('xHist').innerHTML = xHist().map((h, k) => `<div class="pfrow"><b dir="auto" translate="no">${esc((h.res.title || h.input).slice(0, 100))}</b> <span class="muted">${timeAgo(new Date(h.at).toISOString())}</span> <button class="btn ghost" data-xh="${k}" type="button">اعرض</button></div>`).join('') || '<p class="muted">لسه مفيش.</p>';
+}
+$('xModel').addEventListener('change', () => setSettings({ xModel: $('xModel').value.trim() }));
+let xModelsLoaded = false;
+
+function renderX(res, input) {
+  xLast = { res, input };
+  const link = parseLink(input);
+  const at = sec => (link?.kind === 'yt-video' && sec != null ? `<a class="tag" href="${esc(ytAt(input, sec))}" target="_blank" rel="noopener">▶ ${esc(new Date(sec * 1000).toISOString().slice(sec >= 3600 ? 11 : 14, 19))}</a>` : '');
+  const catOpts = cfg.categories.map(c => `<option value="${c.id}">${c.label}</option>`).join('');
+  $('xOut').innerHTML = `<div class="card xres">
+    <h3 dir="auto" translate="no">${esc(res.title || 'نتيجة التحليل')}</h3>
+    ${res.channel ? `<div class="meta"><span translate="no">${esc(res.channel)}</span></div>` : ''}
+    <p dir="auto" translate="no">${esc(res.summary)}</p>
+    ${res.chapters.length ? `<details open><summary>📑 أجزاء المصدر (${res.chapters.length})</summary>${res.chapters.map(c => `<div class="xitem">${at(c.sec)} <b dir="auto" translate="no">${esc(c.title)}</b><div class="muted" dir="auto" translate="no">${esc(c.summary)}</div></div>`).join('')}</details>` : ''}
+    <h4>📰 الأخبار والمعلومات المستخلصة (${res.items.length})</h4>
+    <div class="row"><label>القسم<select id="xCat">${catOpts}</select></label><button class="btn pri" data-xnew="sel" type="button">ابدأ حلقة من المحدد</button><button class="btn" data-xadd="sel" type="button">＋ المحدد للريل الحالي</button></div>
+    ${res.items.map((it, i) => `<div class="xitem"><label class="chk"><input type="checkbox" data-xi="${i}"> <b dir="auto" translate="no">${esc(it.headline)}</b></label>
+      <div class="meta"><span class="tag ${X_TYPE[it.type][1]}">${X_TYPE[it.type][0]}</span>${it.who ? `<span translate="no">${esc(it.who)}</span>` : ''}${at(it.sec)}${it.numbers.length ? `<span translate="no">${esc(it.numbers.join(' • '))}</span>` : ''}</div>
+      <div dir="auto" translate="no">${esc(it.detail)}</div>
+      <div class="row"><button class="btn ghost" data-xv="${i}" type="button">🔍 قارن بالمصادر</button><button class="btn" data-xone="${i}" type="button">＋ خبر في الريل</button></div><div class="vcres"></div></div>`).join('')}
+    ${res.quotes.length ? `<details><summary>💬 اقتباسات (${res.quotes.length})</summary>${res.quotes.map(q => `<div class="xitem">${at(q.sec)} <span dir="auto" translate="no">«${esc(q.text)}»</span> <span class="muted" translate="no">— ${esc(q.who)}</span></div>`).join('')}</details>` : ''}
+    <p class="muted">أي خبر بتاخده من هنا بيدخل الريل كـ«رادار»: لازم تحط مصدره الأصلي (اسم + رابط) قبل التصدير. استخدم «قارن بالمصادر» عشان تلاقيه في الأخبار المتجمّعة.</p>
+  </div>`;
+}
+function storyFromX(it) {
+  const { res, input } = xLast;
+  const link = parseLink(input);
+  const warn = it.type === 'speculation' ? '\n⚠️ ده تخمين أو إشاعة في المصدر: لازم يتأكد من مصدر رسمي.' : '';
+  const ref = `${it.detail}${warn}\n\n(مرجع: ${res.title || 'مصدر خارجي'}${res.channel ? ' — ' + res.channel : ''}${it.t ? ' عند ' + it.t : ''}${it.who ? ' — قالها: ' + it.who : ''})`;
+  return { category: $('xCat').value, headline: it.headline, ref, claimKind: it.type === 'fact' ? 'fact' : 'opinion', fromYoutube: res.channel || 'مصدر خارجي', ytLink: link?.kind === 'yt-video' ? ytAt(input, it.sec) : '' };
+}
+$('xOut').addEventListener('click', async e => {
+  if (!xLast) return;
+  const d = e.target.closest('[data-xv],[data-xone],[data-xnew],[data-xadd]')?.dataset;
+  if (!d) return;
+  const items = xLast.res.items;
+  if (d.xv != null) {
+    const it = items[Number(d.xv)], box = e.target.closest('.xitem').querySelector('.vcres');
+    box.innerHTML = 'بقارن…';
+    const r = await runVerify(`${it.headline} ${it.detail}`);
+    box.innerHTML = r ? renderVerify(r, { actions: false }) : 'مفيش أخبار متجمّعة للمقارنة لسه.';
+  } else if (d.xone != null) {
+    addStories([storyFromX(items[Number(d.xone)])]);
+    setStatus('اتضاف للريل ✅ حط المصدر الأصلي للخبر قبل التصدير.');
+  } else {
+    const sel = [...$('xOut').querySelectorAll('[data-xi]:checked')].map(c => items[Number(c.dataset.xi)]);
+    if (!sel.length) return void ($('xMsg').textContent = 'حدّد خبر واحد على الأقل.');
+    (d.xnew ? startReel : addStories)(sel.map(storyFromX));
+    setStatus(`اتضاف ${sel.length} خبر ✅ حط المصدر الأصلي لكل خبر قبل التصدير.`);
+  }
+});
+async function runX(kind, input) {
+  const opts = { lang: $('xLang').value, focus: $('xNote').value.trim() };
+  $('xMsg').textContent = kind === 'yt' ? 'Gemini بيتفرج على الفيديو ويحلله… (الفيديو الطويل ممكن ياخد دقيقة أو أكتر)' : 'بيحلل…';
+  $('xGo').disabled = $('xGoText').disabled = true;
+  try {
+    const res = kind === 'yt' ? await analyzeYouTube(input, opts) : kind === 'file' ? await analyzeFile(input, opts) : await analyzeText(input, opts);
+    const label = kind === 'file' ? input.name : kind === 'text' ? input.slice(0, 80) : input;
+    renderX(res, kind === 'yt' ? input : label);
+    save('xhist', [{ at: Date.now(), input: kind === 'yt' ? input : label, res }, ...xHist()].slice(0, 10));
+    renderAnalyze();
+    $('xMsg').textContent = '✅ خلص التحليل. راجع الأخبار تحت وحدّد اللي يناسبك.';
+  } catch (err) { $('xMsg').textContent = '❌ ' + (err.message || err); }
+  $('xGo').disabled = $('xGoText').disabled = false;
+}
+$('xGo').addEventListener('click', async () => {
+  const p = parseLink($('xUrl').value);
+  if (!p) return void ($('xMsg').textContent = 'الصق رابط صحيح.');
+  if (p.kind === 'yt-video') { $('xChannel').hidden = true; return runX('yt', p.url); }
+  if (p.kind === 'yt-channel') {
+    $('xChannel').hidden = false; $('xChannel').textContent = 'بجيب آخر فيديوهات القناة…';
+    try {
+      const vids = await channelVideos(p);
+      $('xChannel').innerHTML = `<h4 translate="no">${esc(vids[0]?.channel || '')}</h4>` + vids.map(v => `<div class="pfrow"><b dir="auto" translate="no">${esc(v.title)}</b> <span class="muted">${timeAgo(v.published)}</span> <button class="btn" data-xa="${esc(v.url)}" type="button">🔍 حلّل</button></div>`).join('');
+    } catch (err) { $('xChannel').textContent = '❌ ' + (err.message || err); }
+    return;
+  }
+  $('xMsg').textContent = 'الرابط ده مش يوتيوب. لفيسبوك أو أي منصة: نزّل الفيديو أو الصوت وارفعه من «فيديو أو صوت من جهازك»، أو الصق النص.';
+});
+$('xFile').addEventListener('change', e => { const f = e.target.files[0]; e.target.value = ''; if (f) runX('file', f); });
+$('xGoText').addEventListener('click', () => { const t = $('xText').value.trim(); if (t.length < 40) return void ($('xMsg').textContent = 'النص قصير جدًا.'); runX('text', t); });
+for (const box of ['xRadar', 'xChannel']) {
+  $(box).addEventListener('click', e => { const u = e.target.closest('[data-xa]')?.dataset.xa; if (u) { $('xUrl').value = u; runX('yt', u); window.scrollTo({ top: 0, behavior: 'smooth' }); } });
+}
+$('xHist').addEventListener('click', e => { const k = e.target.closest('[data-xh]')?.dataset.xh; const h = k != null && xHist()[Number(k)]; if (h) { renderX(h.res, h.input); $('xMsg').textContent = 'من آخر التحليلات (من غير ما يستهلك حصة).'; } });
+// من الأخبار: زرار تحليل لفيديوهات رادار اليوتيوب
+$('feedList').addEventListener('click', e => {
+  const u = e.target.closest('[data-xfeed]')?.dataset.xfeed;
+  if (!u) return;
+  showTab('analyze'); $('xUrl').value = u; runX('yt', u);
 });
 
 /* ---------- مقارنة الادعاءات ---------- */
