@@ -2,7 +2,7 @@
 
 export const MED_DISCLAIMER = 'معلومة عامة وليست استشارة طبية — استشر طبيبك';
 
-export const STATUSES = { draft: 'مسودة', exported: 'متصدّر', published: 'منشور' };
+export const STATUSES = { draft: 'مسودة', review: 'جاهز للمراجعة', exported: 'متصدّر', published: 'منشور' };
 export const KINDS = { news: 'خبر', intro: 'افتتاحية', outro: 'خاتمة' };
 export const TEMPLATES = { standard: 'عادي', breaking: 'عاجل', stat: 'بطاقة رقم', map: 'خريطة', proof: 'توثيق (مصادر)', quote: 'اقتباس', timeline: 'خط زمني' };
 export const PROOF_STATUS = { none: 'من غير حالة', official: 'مؤكد رسميًا', reported: 'تقارير غير مؤكدة', pending: 'بانتظار التأكيد' };
@@ -45,7 +45,7 @@ export function newStory(over = {}) {
 }
 
 export const BUMPER = 2.2; // مدة المقدمة/الخاتمة التلقائية بالثواني
-const avatarsOf = a => ({ on: false, mode: 'cartoon', who: 'both', seconds: 6, skin: 'm', hijab: false, beard: false, ...(a || {}) });
+const avatarsOf = a => ({ on: false, mode: 'cartoon', scene: 'studio', who: 'both', seconds: 6, skin: 'm', hijab: false, beard: false, ...(a || {}) });
 const bumpersOf = b => ({ intro: { on: false, text: '', ...(b?.intro || {}) }, outro: { on: false, text: '', ...(b?.outro || {}) } });
 
 export function newReel(over = {}) {

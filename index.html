@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mvpvaqhr">
+<html lang="ar" dir="rtl" data-v="mvpvrzok">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mvpvaqhr">
+<link rel="stylesheet" href="assets/css/style.css?v=mvpvrzok">
 </head>
 <body>
 <header class="top">
@@ -36,10 +36,25 @@
     <label class="chk"><input id="trendOnly" type="checkbox"> 🔥 الترند فقط</label>
   </div>
   <p id="feedInfo" class="muted"></p>
+  <details id="autoBox" class="card autobox">
+    <summary>⚡ الأتمتة: تختار الخبر، والبرنامج يكتبه ويولّد صوته ويحفظه جاهز للمراجعة</summary>
+    <div class="grid">
+      <label>أسلوب الكتابة<select id="auStyle"></select></label>
+      <label>المدة<select id="auLen"><option value="30">حوالي 30 ثانية</option><option value="45" selected>حوالي 45 ثانية</option><option value="60">حوالي 60 ثانية</option><option value="90">حوالي 90 ثانية</option></select></label>
+      <label>الشكل<select id="auFmt"><option value="single">مذيع واحد</option><option value="dialogue">حوار أ / ب</option></select></label>
+      <label>الصوت<select id="auVoice"><option value="gemini">Gemini</option><option value="elevenlabs">ElevenLabs</option><option value="none">من غير صوت (أولّده بعدين)</option></select></label>
+    </div>
+    <label class="chk"><input id="auInfo" type="checkbox" checked> طبّق أول إنفوجرافيك موثّق من نص الخبر (رقم / خريطة / شريط اسم)</label>
+    <label class="chk"><input id="auVfx" type="checkbox" checked> طبّق المؤثرات المقترحة (قالب، شريط أخبار، مقدمة وخاتمة)</label>
+    <label class="chk"><input id="auAv" type="checkbox"> مذيعين في استوديو أخبار أول كام ثانية</label>
+    <p class="muted">على كل خبر: اضغط «⚡ أوتوماتيك»، أو حدّد كذا خبر واضغط «⚡ ريلز أوتوماتيك للمحدد». الريل بيتحفظ في المكتبة بحالة «جاهز للمراجعة». التصدير والبث لسه بيعدّوا على قائمة التحقق، لأن لازم تراجع السكريبت والمصدر بنفسك قبل النشر. أخبار اليوتيوب (رادار) بتتخطى لأنها مش مصدر.</p>
+    <div id="auLog" class="list"></div>
+  </details>
   <div id="pickBar" class="pickbar" hidden>
     <span id="pickCount"></span>
     <button id="pickGo" class="btn pri">ابدأ حلقة من المحدد</button>
     <button id="pickAdd" class="btn">أضفهم للريل الحالي</button>
+    <button id="pickAuto" class="btn pri">⚡ ريلز أوتوماتيك للمحدد</button>
     <button id="pickClear" class="btn ghost">مسح التحديد</button>
   </div>
   <details id="health" class="manual" hidden>
@@ -74,6 +89,7 @@
       <label>اسم الحلقة (للمكتبة بس)<input id="rTitle" placeholder="مثال: نشرة الخميس"></label>
       <div class="grid">
         <label>مقاس الفيديو<select id="rFormat"></select></label>
+        <label>حجم الكابشن<select id="capQ"><option value="52">صغير</option><option value="64">متوسط</option><option value="78">كبير</option><option value="custom" hidden>مخصص</option></select></label>
         <label>لغة الريل (النصوص على الشاشة واتجاه الكتابة)<select id="rLang"><option value="ar">العربية (RTL)</option><option value="en">English (LTR)</option></select></label>
       </div>
       <p id="fmtNote" class="muted" hidden>قوالب «رقم / خريطة / توثيق» مصمّمة للعمودي: في المقاس ده بتتعرض مصغّرة في النص. العادي والعاجل بيتظبطوا على المقاس.</p>
@@ -192,6 +208,7 @@
           <label>مدة الظهور (ثواني)<input id="avSec" type="range" min="3" max="15" step="1" value="6"></label>
           <label>لون البشرة<select id="avSkin"><option value="l">فاتح</option><option value="m">قمحي</option><option value="d">أسمر</option></select></label>
         </div>
+        <label>الظهور<select id="avScene"><option value="studio">استوديو أخبار كامل (ديكور وإضاءة وحركة كاميرا)</option><option value="box">مربع بسيط مكان الكابشن</option></select></label>
         <label>الشكل<select id="avMode"><option value="cartoon">رسوم كرتون</option><option value="photo">صور حقيقية (صورتك وصورة التاني)</option></select></label>
         <div id="avCartoon">
           <label class="chk"><input id="avHijab" type="checkbox"> الست محجبة</label>
@@ -603,7 +620,7 @@
 
   <div class="card">
     <h3>الكتابة على الشاشة (الكابشن)</h3>
-    <label>حجم الخط <input id="sCapSize" type="range" min="56" max="110" step="2"></label>
+    <label>حجم الخط <input id="sCapSize" type="range" min="44" max="110" step="2"></label>
     <label class="chk"><input id="sCapPlate" type="checkbox"> خلفية غامقة خلف الكلام (أوضح فوق أي خلفية)</label>
     <label class="chk"><input id="sCapStroke" type="checkbox"> إطار غامق حول الحروف</label>
     <p class="muted">الكلمات الإنجليزية والأرقام وسط الجملة العربي بتترسم دلوقتي بالاتجاه الصح.</p>
@@ -643,6 +660,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mvpvaqhr"></script>
+<script type="module" src="js/main.js?v=mvpvrzok"></script>
 </body>
 </html>

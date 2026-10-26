@@ -1,9 +1,9 @@
 // رسم إطار الريل على canvas (عمودي 1080×1920 أو 4:5 أو مربع أو أفقي). نفس الدالة للمعاينة والتصدير.
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mvpvaqhr';
-import { drawAvatars, mouthAt, avatarWindow } from './avatar.js?v=mvpvaqhr';
-import { hostOf } from './feeds.js?v=mvpvaqhr';
-import QR from '../vendor/qrcode/qrcode.mjs?v=mvpvaqhr';
-import { drawBg } from './bg.js?v=mvpvaqhr';
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mvpvrzok';
+import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mvpvrzok';
+import { hostOf } from './feeds.js?v=mvpvrzok';
+import QR from '../vendor/qrcode/qrcode.mjs?v=mvpvrzok';
+import { drawBg } from './bg.js?v=mvpvrzok';
 
 // مقاسات الإخراج. W/H متغيّرين (live binding) والتصدير بيقراهم وقت التصدير
 export const FORMATS = {
@@ -61,7 +61,7 @@ function layoutFor(w, h) {
     headMax: vert ? 4 : h >= 1300 ? 3 : 2,
     headSize: vert ? 76 : h >= 1300 ? 66 : 58,
     capScale: vert ? 1 : h >= 1300 ? 0.9 : 0.8,
-    capMaxW: Math.min(w - 160, 1500),
+    capMaxW: Math.min(Math.round(w * 0.8), 1400),
   };
 }
 export function setFormat(id) {
@@ -217,7 +217,7 @@ function bidiRow(row) {
 function captions(ctx, st, t, hb = 0) {
   const seg = st.tl.segs.find(s => t >= s.start - 0.05 && t <= s.end + 0.25) || null;
   if (!seg) return;
-  const groups = phrases(seg.words, L.vert ? 5 : st.reel.ticker?.on ? 3 : 4);
+  const groups = phrases(seg.words, L.vert ? 4 : st.reel.ticker?.on ? 3 : 4);
   let gi = groups.findIndex(g => t <= g[g.length - 1].e + 0.05);
   if (gi < 0) gi = groups.length - 1;
   const g = groups[gi];
@@ -225,7 +225,7 @@ function captions(ctx, st, t, hb = 0) {
   const tpl = st.story.template;
   const tall = tpl === 'stat' || tpl === 'map' || tpl === 'proof' || tpl === 'quote' || tpl === 'timeline';
   const cs = st.settings?.caps || {};
-  const base = Math.min(110, Math.max(56, Number(cs.size) || 84));
+  const base = Math.min(110, Math.max(44, Number(cs.size) || 64));
   const size = Math.round((tall ? base * 0.88 : base) * L.capScale);
   ctx.font = font(size, 800);
   ctx.direction = 'rtl';
@@ -258,8 +258,8 @@ function captions(ctx, st, t, hb = 0) {
   }
   if (cs.plate !== false) {
     const pw = Math.max(...rows.map(r => r.reduce((n, w, i) => n + w.ww + (i ? space : 0), 0))) + 80;
-    ctx.fillStyle = 'rgba(5,8,18,.55)';
-    rrect(ctx, (W - pw) / 2, y0 - 10, pw, rows.length * lh + 20, 36);
+    ctx.fillStyle = 'rgba(5,8,18,.42)';
+    rrect(ctx, (W - pw) / 2, y0 - 8, pw, rows.length * lh + 16, 28);
     ctx.fill();
   }
   rows.forEach((row, ri) => {
@@ -898,6 +898,7 @@ function avatarsLayer(ctx, st, t, hb, kr) {
   const w = avatarWindow(st.tl, Math.max(2, Math.min(20, Number(av.seconds) || 6)));
   const appear = clamp01((t - w.t0) / 0.45) * clamp01((w.t1 - t) / 0.35);
   if (appear <= 0.01) return false;
+  if ((av.scene || 'studio') === 'studio') return appear > 0.5; // المشهد الكامل بيترسم في آخر الإطار
   const disc = st.story.category === 'health' || st.story.category === 'healthtech';
   const top = hb + 24 + ltReserve(st), bot = (st.reel.ticker?.on ? L.tickY : disc ? L.srcY - 96 : L.srcY) - 24;
   const box = { x: 60, y: top, w: W - 120, h: Math.max(200, bot - top) };
@@ -1019,4 +1020,20 @@ export function drawFrame(ctx, st, t, opts = {}) {
   if (bg && story.media?.credit) mediaCredit(U, story.media.credit);
   ctx.globalAlpha = 1;
   progress(U, c, t);
+  studioScene(ctx, c, t, kr);
+}
+
+// مشهد الاستوديو: بيغطي الإطار كله أول كام ثانية (ديكور + إضاءة + كاميرا)، وبعدين زووم خاطف للخبر
+function studioScene(ctx, st, t, kr) {
+  const av = st.reel.avatars;
+  if (!av?.on || (av.scene || 'studio') !== 'studio' || kr !== 0 || PANEL_TPLS.has(st.story.template)) return;
+  const win = avatarWindow(st.tl, Math.max(2, Math.min(20, Number(av.seconds) || 6)));
+  if (t < win.t0 || t > win.t1) return;
+  const photos = {};
+  for (const k of ['A', 'B']) photos[k] = { img: st.avImgs?.[k], ...(st.settings?.avPhotos?.[k] || {}) };
+  drawStudio(ctx, W, H, {
+    t, win, tl: st.tl, who: av.who, mode: av.mode, photos, mouth: mouthAt(st.tl, t), color: st.cat.color,
+    channel: st.settings?.channelName || '', headline: st.story.headline || '', catLabel: RTL ? st.cat.label : (st.cat.en || st.cat.label),
+    logo: st.logo, rtl: RTL, skin: av.skin, hijab: !!av.hijab, beard: !!av.beard, font,
+  });
 }
