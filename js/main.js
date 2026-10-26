@@ -1,25 +1,25 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvpwhmjk';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvpwhmjk';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvpwhmjk';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvpwhmjk';
-import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvpwhmjk';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvpwhmjk';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvpwhmjk';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvpwhmjk';
-import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvpwhmjk';
-import { exportSupport, exportReel } from './export.js?v=mvpwhmjk';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvpwhmjk';
-import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvpwhmjk';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mvpwhmjk';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvpwhmjk';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvpwhmjk';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvpwhmjk';
-import { loadBg, playBg } from './bg.js?v=mvpwhmjk';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvpwhmjk';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvpwhmjk';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvpwhmjk';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt } from './external.js?v=mvpwhmjk';
-import { initI18n } from './i18n.js?v=mvpwhmjk';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvpwpgmm';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvpwpgmm';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvpwpgmm';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvpwpgmm';
+import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvpwpgmm';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvpwpgmm';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvpwpgmm';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvpwpgmm';
+import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvpwpgmm';
+import { exportSupport, exportReel } from './export.js?v=mvpwpgmm';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvpwpgmm';
+import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvpwpgmm';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mvpwpgmm';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvpwpgmm';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvpwpgmm';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvpwpgmm';
+import { loadBg, playBg } from './bg.js?v=mvpwpgmm';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvpwpgmm';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvpwpgmm';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvpwpgmm';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvpwpgmm';
+import { initI18n } from './i18n.js?v=mvpwpgmm';
 
 initI18n();
 
@@ -1427,7 +1427,48 @@ $('xOut').addEventListener('click', async e => {
     setStatus(`اتضاف ${sel.length} خبر ✅ حط المصدر الأصلي لكل خبر قبل التصدير.`);
   }
 });
+const CONF = { high: ['ثقة عالية', ''], medium: ['ثقة متوسطة', 'sp'], low: ['ثقة ضعيفة', 'op'] };
+const AI_TXT = { none: 'مفيش علامات واضحة لذكاء اصطناعي', partly: 'جزء منه غالبًا متولّد بالذكاء الاصطناعي', mostly: 'أغلبه غالبًا متولّد بالذكاء الاصطناعي', unclear: 'مش واضح' };
+const STYLE_KEYS = { hook: 'الهوك (أول ثواني)', pacing: 'الإيقاع والتقطيع', structure: 'البناء', editing: 'المونتاج والانتقالات', captions: 'الكتابة والكابشن', graphics: 'الجرافيك والإنفوجرافيك', visuals: 'مصدر الصورة', voice: 'الصوت والتعليق', music: 'الموسيقى والمؤثرات', format: 'المقاس والمدة' };
+function renderStyle(r, sigs) {
+  $('xOut').innerHTML = `<div class="card xres">
+    <h3>🎨 اتعمل إزاي؟</h3>
+    <p dir="auto" translate="no">${esc(r.verdict)}</p>
+    <div class="meta"><span class="tag">${AI_TXT[r.ai]}</span></div>
+    ${r.aiSigns.length ? `<div class="muted" dir="auto" translate="no">${esc(r.aiSigns.join(' • '))}</div>` : ''}
+    ${sigs ? `<h4>🔎 بصمات جوه الملف</h4>${sigs.found.length || sigs.encoders.length ? `<div dir="auto" translate="no">${esc([...sigs.found, ...sigs.encoders.map(e => 'Encoder: ' + e)].join(' • '))}</div>` : '<p class="muted">مفيش بصمات واضحة (غالبًا المنصة مسحتها).</p>'}` : ''}
+    <h4>🧰 الأدوات المحتملة</h4>
+    ${r.tools.map(t => `<div class="xitem"><b translate="no">${esc(t.name)}</b> <span class="tag ${CONF[t.confidence][1]}">${CONF[t.confidence][0]}</span><div class="muted" dir="auto" translate="no">${esc(t.evidence)}</div></div>`).join('') || '<p class="muted">مقدرش يحدد.</p>'}
+    <h4>🎞 الأسلوب</h4>
+    ${Object.entries(STYLE_KEYS).filter(([k]) => r.style[k]).map(([k, label]) => `<div class="xitem"><b>${label}</b><div dir="auto" translate="no">${esc(r.style[k])}</div></div>`).join('')}
+    <h4>🧪 وصفة تعمل زيه</h4>
+    ${r.recipe.map((s, i) => `<div class="xitem"><b>${i + 1}.</b> <b dir="auto" translate="no">${esc(s.step)}</b> ${s.tool ? `<span class="tag" translate="no">${esc(s.tool)}</span>` : ''}<div dir="auto" translate="no">${esc(s.how)}</div></div>`).join('')}
+    ${r.prompts.length ? `<h4>✍️ برومبتات جاهزة</h4>${r.prompts.map((p, i) => `<div class="xitem"><span class="tag" translate="no">${esc(p.tool)}</span> <span dir="auto" translate="no">${esc(p.purpose)}</span><pre dir="ltr" translate="no" class="xprompt">${esc(p.prompt)}</pre><button class="btn ghost" data-xcopy="${i}" type="button">📋 انسخ</button></div>`).join('')}` : ''}
+    <p class="muted">تحديد الأداة تخمين من شكل الفيديو وصوته، مش يقين: المنصات بتمسح بيانات الملف، وأدوات كتير بتطلّع نتيجة شبه بعض. اتعلّم الأسلوب، ومتنسخش لقطات أو أصوات حد.</p>
+  </div>`;
+  xStyleLast = r;
+}
+let xStyleLast = null;
+$('xOut').addEventListener('click', e => {
+  const i = e.target.closest('[data-xcopy]')?.dataset.xcopy;
+  if (i == null || !xStyleLast) return;
+  navigator.clipboard?.writeText(xStyleLast.prompts[Number(i)].prompt).then(() => { e.target.textContent = '✅ اتنسخ'; }).catch(() => {});
+});
+
 async function runX(kind, input) {
+  if ($('xMode').value === 'style' && kind !== 'text') {
+    $('xMsg').textContent = 'Gemini بيحلل أسلوب الفيديو… (ممكن ياخد دقيقة)';
+    $('xGo').disabled = true;
+    try {
+      const opts = { lang: $('xLang').value, focus: $('xNote').value.trim() };
+      const sigs = kind === 'file' ? await fileSignatures(input) : null;
+      const r = kind === 'file' ? await styleFile(input, opts) : await styleYouTube(input, opts);
+      renderStyle(r, sigs);
+      $('xMsg').textContent = '✅ خلص تحليل الأسلوب.';
+    } catch (err) { $('xMsg').textContent = '❌ ' + (err.message || err); }
+    $('xGo').disabled = false;
+    return;
+  }
   const opts = { lang: $('xLang').value, focus: $('xNote').value.trim() };
   $('xMsg').textContent = kind === 'yt' ? 'Gemini بيتفرج على الفيديو ويحلله… (الفيديو الطويل ممكن ياخد دقيقة أو أكتر)' : 'بيحلل…';
   $('xGo').disabled = $('xGoText').disabled = true;
