@@ -1,23 +1,24 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvps5por';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvps5por';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvps5por';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvps5por';
-import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvps5por';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvps5por';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvps5por';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvps5por';
-import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvps5por';
-import { exportSupport, exportReel } from './export.js?v=mvps5por';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvps5por';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mvps5por';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvps5por';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvps5por';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvps5por';
-import { loadBg, playBg } from './bg.js?v=mvps5por';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvps5por';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvps5por';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvps5por';
-import { initI18n } from './i18n.js?v=mvps5por';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvpszv4s';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvpszv4s';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvpszv4s';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvpszv4s';
+import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvpszv4s';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvpszv4s';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvpszv4s';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvpszv4s';
+import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvpszv4s';
+import { exportSupport, exportReel } from './export.js?v=mvpszv4s';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvpszv4s';
+import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvpszv4s';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mvpszv4s';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvpszv4s';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvpszv4s';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvpszv4s';
+import { loadBg, playBg } from './bg.js?v=mvpszv4s';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvpszv4s';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvpszv4s';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvpszv4s';
+import { initI18n } from './i18n.js?v=mvpszv4s';
 
 initI18n();
 
@@ -307,6 +308,7 @@ function readForm() {
     st.stat = { value: $('stValue').value.trim(), unit: $('stUnit').value.trim(), label: $('stLabel').value.trim(), trend: $('stTrend').value };
     st.map = { countries: st.map?.countries || [], pins: st.map?.pins || [], label: $('mapLabel').value.trim(), zoom: st.map?.zoom || 'auto' };
     st.quote = { text: $('quText').value.trim(), who: $('quWho').value.trim(), role: $('quRole').value.trim() };
+    st.timeline = { events: [...document.querySelectorAll('#tlRows .tlrow')].map(r => ({ year: r.querySelector('[data-k=year]').value.trim(), text: r.querySelector('[data-k=text]').value.trim() })).filter(e => e.year || e.text) };
     st.lower = { on: $('ltOn').checked, name: $('ltName').value.trim(), role: $('ltRole').value.trim() };
     if (st.template === 'proof') {
       const first = proofSources(st)[0];
@@ -397,6 +399,110 @@ $('draftGo').addEventListener('click', async () => {
   btn.disabled = false;
 });
 
+/* ---------- المحرر الذكي ---------- */
+$('agStyle').innerHTML = Object.entries(STYLES).map(([k, v]) => `<option value="${k}">${v.label}</option>`).join('');
+$('agStyle').addEventListener('change', () => { if ($('agStyle').value === 'storyteller') { $('agPStory').checked = true; $('agPScript').checked = true; } });
+const KIND_TXT = { hook: 'هوك', history: 'خلفية', context: 'سياق', bridge: 'جسر', news: 'الخبر', outro: 'ختام' };
+let agLast = null;
+
+function renderAgent(r, st) {
+  const sec = (title, body) => `<div class="agsec"><h4>${title}</h4>${body}</div>`;
+  let h = '';
+  if (r.lines.length) {
+    h += sec('✍️ السكريبت المقترح', r.lines.map(l => `<div class="agline"><span class="tag">${(r.lines.some(x => x.speaker === 'B') ? (l.speaker === 'B' ? 'ب · ' : 'أ · ') : '') + (KIND_TXT[l.kind] || '')}</span><span dir="auto" translate="no">${esc(l.text)}</span></div>`).join('')
+      + (r.missing.length ? `<p class="agwarn">⚠️ معلومات ناقصة تتأكد منها من المصدر: <span translate="no">${esc(r.missing.join('، '))}</span></p>` : '')
+      + `<div class="row"><button class="btn pri" data-ag="script" type="button">✅ استخدم السكريبت</button></div>`);
+  }
+  if (r.claims.length || r.timeline.length) {
+    h += sec('📖 الخلفية التاريخية: لازم تراجعها', (r.claims.length ? r.claims.map(c => `<div class="agline"><span class="tag ${c.certainty === 'medium' ? 'hot' : ''}">${c.certainty === 'high' ? 'ثقة عالية' : 'ثقة متوسطة'}</span><span dir="auto" translate="no">${esc(c.claim)}</span></div>`).join('') : '')
+      + `<p class="agwarn">الموديل ممكن يغلط في التواريخ والأسماء. افتح مصدر موثوق وتأكد من كل بند قبل ما تنشر.</p>`
+      + (r.timeline.length ? `<div>${r.timeline.map(e => `<div class="agline"><span class="tag">${esc(e.year)}</span><span dir="auto" translate="no">${esc(e.text)}</span></div>`).join('')}</div><div class="row"><button class="btn" data-ag="timeline" type="button">🕓 حطها كخط زمني (قالب)</button></div>` : ''));
+  }
+  if (r.infographic.length) {
+    h += sec('📊 اقتراحات إنفوجرافيك', r.infographic.map((g, i) => {
+      const label = { stat: 'بطاقة رقم', map: 'خريطة', quote: 'اقتباس', lower: 'شريط اسم' }[g.type];
+      const desc = g.type === 'stat' ? `${g.value} ${g.unit} — ${g.label}` : g.type === 'map' ? `${g.countries.join('، ')}${g.map_label ? ' — ' + g.map_label : ''}` : g.type === 'quote' ? `«${g.quote_text}» — ${g.who}${g.role ? ' (' + g.role + ')' : ''}` : `${g.who}${g.role ? ' — ' + g.role : ''}`;
+      const unsure = (g.type === 'stat' && !numberInSource(g.value, st)) || (g.type === 'quote' && !inSource(g.quote_text, st));
+      return `<div class="agline"><span class="tag">${label}</span><span dir="auto" translate="no">${esc(desc)}</span></div>${unsure ? '<p class="agwarn">⚠️ مش لاقي ده بنصه في ملخص الخبر. اتأكد منه من المصدر قبل ما تستخدمه.</p>' : ''}<div class="row"><span class="muted" translate="no">${esc(g.reason)}</span><button class="btn" data-ag="info" data-i="${i}" type="button">طبّق</button></div>`;
+    }).join(''));
+  }
+  if (r.vfx) {
+    const v = r.vfx;
+    h += sec('🎬 مؤثرات ووسائط', `<div class="agline"><span class="tag">القالب</span><span>${v.template === 'breaking' ? 'عاجل' : 'عادي'}${v.why ? ' — ' : ''}<span dir="auto" translate="no">${esc(v.why)}</span></span></div>`
+      + `<div class="agline"><span class="tag">إضافات</span><span>${[v.avatars ? 'مذيعين أفاتار' : '', v.ticker ? 'شريط أخبار' : '', v.introOutro ? 'مقدمة وخاتمة' : ''].filter(Boolean).join(' • ') || 'مفيش'}</span></div>`
+      + (v.ticker ? `<div class="agline"><span class="tag">الشريط</span><span dir="auto" translate="no">${esc(v.ticker)}</span></div>` : '')
+      + (v.notes ? `<p class="muted" dir="auto" translate="no">${esc(v.notes)}</p>` : '')
+      + `<div class="row"><button class="btn" data-ag="vfx" type="button">طبّق الإعدادات دي</button>${v.music ? `<button class="btn ghost" data-ag="music" type="button">🎵 ابحث عن موسيقى: <span translate="no">${esc(v.music)}</span></button>` : ''}${v.media.map((q, i) => `<button class="btn ghost" data-ag="media" data-i="${i}" type="button">🖼 ابحث عن خلفية: <span translate="no">${esc(q)}</span></button>`).join('')}</div>`);
+  }
+  $('agOut').innerHTML = h || '<p class="muted">الموديل مرجّعش حاجة. جرّب تزوّد الملخص.</p>';
+}
+
+$('agGo').addEventListener('click', async () => {
+  readForm();
+  const st = story();
+  const gs = getSettings(), AP = AI_PROVIDERS[gs.aiProvider] || AI_PROVIDERS.claude;
+  if (!gs[AP.keyField]) return ($('agMsg').textContent = `محتاج مفتاح ${AP.name.split(' (')[0]}: الإعدادات ← مزوّد الذكاء الاصطناعي.`);
+  if (!st.headline && !st.ref) return ($('agMsg').textContent = 'اكتب العنوان أو الملخص الأول.');
+  const parts = { script: $('agPScript').checked, story: $('agPStory').checked, infographic: $('agPInfo').checked, vfx: $('agPVfx').checked };
+  if (!Object.values(parts).some(Boolean)) return ($('agMsg').textContent = 'اختار جزء واحد على الأقل.');
+  $('agGo').disabled = true;
+  $('agMsg').textContent = `${AP.name.split(' (')[0]} بيشتغل…`;
+  try {
+    agLast = await runAgent({ story: st, categoryLabel: cat(st.category).label, style: $('agStyle').value, seconds: Number($('agLen').value), format: $('agFmt').value, note: $('agNote').value.trim(), lang: reel.lang, parts });
+    agLast.style = $('agStyle').value; agLast.format = $('agFmt').value;
+    renderAgent(agLast, st);
+    $('agMsg').textContent = 'جاهز. راجع الاقتراحات واضغط «طبّق» على اللي يعجبك.';
+  } catch (e) { $('agMsg').textContent = '❌ ' + (e.message || e); }
+  $('agGo').disabled = false;
+});
+
+$('agOut').addEventListener('click', async e => {
+  const b = e.target.closest('[data-ag]');
+  if (!b || !agLast) return;
+  const st = story(), r = agLast, kind = b.dataset.ag;
+  if (kind === 'script') {
+    const text = r.lines.map(l => (l.speaker === 'B' ? 'ب: ' : r.format === 'dialogue' ? 'أ: ' : '') + l.text).join('\n');
+    const has = $('fScript').value.trim();
+    $('fScript').value = has && !confirm('السكريبت فيه نص. موافق = استبدله، إلغاء = ضيف الجديد في الآخر.') ? has + '\n' + text : text;
+    st.agent = { style: r.style, claims: r.claims, at: Date.now() };
+    $('fScript').dispatchEvent(new Event('input', { bubbles: true }));
+    persist(); setStatus('اتحط السكريبت ✅ راجعه وعدّله بأسلوبك.' + (r.claims.length ? ' فيه تواريخ وأسماء لازم تتراجع.' : ''));
+  } else if (kind === 'timeline') {
+    st.template = 'timeline'; st.timeline = { events: r.timeline.map(x => ({ ...x })) };
+    st.agent = { style: r.style, claims: r.claims, at: Date.now() };
+    persist(); fillForm(); redraw(); setStatus('اتحط الخط الزمني ✅ راجع كل تاريخ.');
+  } else if (kind === 'info') {
+    const g = r.infographic[Number(b.dataset.i)];
+    if (!g) return;
+    if (g.type === 'stat') { st.template = 'stat'; st.stat = { value: g.value, unit: g.unit, label: g.label, trend: g.trend }; }
+    else if (g.type === 'quote') { st.template = 'quote'; st.quote = { text: g.quote_text, who: g.who, role: g.role }; }
+    else if (g.type === 'lower') { st.lower = { on: true, name: g.who, role: g.role }; }
+    else if (g.type === 'map') {
+      await loadWorld();
+      const ids = [...new Set(g.countries.flatMap(n => localMatches(n, world, cities).filter(m => m.type === 'country').slice(0, 1).map(m => m.id)))];
+      if (!ids.length) return setStatus('مقدرتش أطابق الدول دي على الخريطة. اختارها يدويًا من قالب الخريطة.', true);
+      st.template = 'map'; st.map = { ...(st.map || {}), countries: ids, pins: st.map?.pins || [], label: g.map_label || '', zoom: 'auto' };
+    }
+    persist(); fillForm(); redraw(); setStatus('اتطبّق ✅');
+  } else if (kind === 'vfx') {
+    const v = r.vfx;
+    if (st.kind === 'news' && !['stat', 'map', 'proof', 'quote', 'timeline'].includes(st.template)) st.template = v.template;
+    if (v.avatars) reel.avatars = { ...reel.avatars, on: true, who: r.format === 'dialogue' ? 'both' : 'm' };
+    if (v.ticker) reel.ticker = { on: true, label: reel.ticker?.label || '', text: v.ticker };
+    if (v.introOutro) reel.bumpers = { intro: { on: true, text: reel.bumpers?.intro?.text || '' }, outro: { on: true, text: reel.bumpers?.outro?.text || '' } };
+    persist(); fillForm(); redraw(); setStatus('اتطبّقت المؤثرات ✅');
+  } else if (kind === 'music') {
+    $('msQ').value = r.vfx.music;
+    document.querySelector('.musicsearch').open = true;
+    $('msGo').click();
+    $('msQ').scrollIntoView({ block: 'center' });
+  } else if (kind === 'media') {
+    showTab('media');
+    $('mq').value = r.vfx.media[Number(b.dataset.i)];
+    runSearch();
+  }
+});
+
 /* ---------- قوالب الخبر (عاجل / رقم / خريطة) وشريط الأخبار ---------- */
 let world = null;
 
@@ -412,6 +518,13 @@ async function loadWorld() {
   return world;
 }
 
+function renderTlRows(events) {
+  const rows = [...events];
+  while (rows.length < 4) rows.push({ year: '', text: '' });
+  $('tlRows').innerHTML = rows.slice(0, 4).map(e => `<div class="grid tlrow"><label>السنة<input data-k="year" dir="auto" value="${esc(e.year)}" placeholder="1973"></label><label>الحدث (جملة قصيرة)<input data-k="text" dir="auto" value="${esc(e.text)}"></label></div>`).join('');
+}
+$('tlRows').addEventListener('input', () => { readForm(); persist(); redraw(); });
+
 function toggleTemplateFields() {
   const news = story().kind === 'news';
   const tpl = news ? $('fTpl').value : 'standard';
@@ -419,6 +532,7 @@ function toggleTemplateFields() {
   $('tplMap').hidden = tpl !== 'map';
   $('tplProof').hidden = tpl !== 'proof';
   $('tplQuote').hidden = tpl !== 'quote';
+  $('tplTimeline').hidden = tpl !== 'timeline';
   $('ltFields').hidden = !$('ltOn').checked;
   $('tkFields').hidden = !$('tkOn').checked;
   if (tpl === 'map') loadWorld();
@@ -443,6 +557,7 @@ function fillTemplateFields() {
   $('stTrend').value = st.stat?.trend || 'none';
   $('stLabel').value = st.stat?.label || '';
   $('mapLabel').value = st.map?.label || '';
+  renderTlRows(st.timeline?.events || []);
   $('quText').value = st.quote?.text || ''; $('quWho').value = st.quote?.who || ''; $('quRole').value = st.quote?.role || '';
   $('ltOn').checked = !!st.lower?.on; $('ltName').value = st.lower?.name || ''; $('ltRole').value = st.lower?.role || '';
   $('tkOn').checked = !!reel.ticker?.on;
@@ -1003,6 +1118,7 @@ function validateReel() {
     if (!st.headline) probs.push(pre + 'اكتب العنوان.');
     if (st.kind !== 'news') continue;
     if (st.template === 'stat' && !st.stat?.value) probs.push(pre + 'قالب الرقم محتاج رقم.');
+    if (st.template === 'timeline' && (st.timeline?.events?.length || 0) < 2) probs.push(pre + 'الخط الزمني محتاج حدثين على الأقل.');
     if (st.template === 'quote' && (!st.quote?.text || !st.quote?.who)) probs.push(pre + 'قالب الاقتباس محتاج نص الاقتباس واسم صاحبه.');
     if (st.lower?.on && !st.lower?.name) probs.push(pre + 'شريط الاسم محتاج اسم.');
     if (st.template === 'proof') {
@@ -1025,6 +1141,7 @@ function checklistFor() {
   const base = ['المعلومات في السكريبت مطابقة للمصدر الأصلي المذكور.', 'السكريبت بأسلوبي، مش منقول من قناة أو موقع.'];
   if (news.length > 1) base.push('كل خبر ليه مصدره الخاص على الشاشة، والترتيب والعناوين مظبوطة.');
   if (news.some(s => s.claimKind === 'opinion')) base.push('واضح إن ده رأي/تحليل ومنسوب لصاحبه.');
+  if (news.some(s => s.agent?.claims?.length || s.template === 'timeline')) base.push('راجعت كل التواريخ والأسماء والأحداث في الخلفية التاريخية/الخط الزمني من مصادر موثوقة، وشلت أي حاجة مش متأكد منها.');
   if (news.some(s => s.template === 'quote')) base.push('الاقتباس منقول بنصه من المصدر الأصلي ومنسوب لصاحبه الصح.');
   if (news.some(s => s.template === 'proof')) base.push('حالة التأكيد (رسمي / غير مؤكد) مطابقة لما قالته المصادر المعروضة، ومفيش لقطة فيها محتوى مصوّر محمي.');
   if (news.some(s => s.category === 'health' || s.category === 'healthtech')) base.push('مفيش نصيحة علاجية أو جرعات، والتنبيه الطبي ظاهر على الشاشة.');

@@ -1,6 +1,6 @@
 // مسودة سكريبت بالذكاء الاصطناعي (اختيارية): Claude API من المتصفح بمفتاحك. بتستخدم الملخص والعنوان بس ومبتخترعش معلومات.
 // الموقع من غير build فمفيش SDK؛ بنكلّم الـAPI بـfetch مباشرة (الهيدر anthropic-dangerous-direct-browser-access ضروري لطلبات المتصفح).
-import { getSettings } from './storage.js?v=mvps5por';
+import { getSettings } from './storage.js?v=mvpszv4s';
 
 export const CLAUDE_MODELS = [
   { id: 'claude-opus-5-5', name: 'Claude Opus 5.5 (الأفضل، الافتراضي)' },
@@ -153,4 +153,48 @@ export async function listModels(prov) {
   if (prov === 'gemini') ids = ids.filter(i => /^gemini/.test(i) && !/embed|image|tts|live|vision|aqa/.test(i));
   if (prov === 'groq') ids = ids.filter(i => !/whisper|guard|tts/.test(i));
   return ids.sort();
+}
+
+// استدعاء عام بيرجّع JSON حسب schema (للمحرر الذكي): Claude بـjson_schema، والمجانيين بطلب JSON في النص
+export async function aiJSON({ system, user, schema, maxTokens = 8000 }) {
+  const st = getSettings();
+  const prov = AI_PROVIDERS[st.aiProvider] ? st.aiProvider : 'claude';
+  const P = AI_PROVIDERS[prov];
+  const key = st[P.keyField];
+  if (!key) throw new Error(`محتاج مفتاح ${P.name.split(' (')[0]} في الإعدادات.`);
+  const name = P.name.split(' (')[0];
+  const fail = async res => {
+    let detail = '';
+    try { const j = await res.json(); detail = (Array.isArray(j) ? j[0] : j)?.error?.message || JSON.stringify(j).slice(0, 200); } catch { /* مفيش تفاصيل */ }
+    const hint = res.status === 401 || res.status === 403 ? ' (المفتاح غلط)' : res.status === 429 ? ' (تجاوز الحد أو خلصت الحصة، جرّب بعد شوية)' : res.status === 404 ? ' (اسم الموديل غلط أو اتشال)' : '';
+    throw new Error(`${name} رد بخطأ ${res.status}${hint}: ${detail}`);
+  };
+  let text;
+  try {
+    if (prov === 'claude') {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST', signal: AbortSignal.timeout(180000),
+        headers: { 'content-type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+        body: JSON.stringify({ model: st.claudeModel || 'claude-opus-5-5', max_tokens: maxTokens, system, output_config: { effort: 'low', format: { type: 'json_schema', schema } }, messages: [{ role: 'user', content: user }] }),
+      });
+      if (!res.ok) await fail(res);
+      const j = await res.json();
+      if (j.stop_reason === 'refusal') throw new Error('الموديل رفض الطلب ده. غيّر الصياغة أو اكتبها بنفسك.');
+      text = (j.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
+    } else {
+      const sys = system + '\nReturn ONLY one JSON object (no markdown fences) that matches this JSON schema:\n' + JSON.stringify(schema);
+      const res = await fetch(P.url, {
+        method: 'POST', signal: AbortSignal.timeout(180000),
+        headers: { 'content-type': 'application/json', authorization: 'Bearer ' + key },
+        body: JSON.stringify({ model: st.aiModel || P.model, temperature: 0.4, messages: [{ role: 'system', content: sys }, { role: 'user', content: user }] }),
+      });
+      if (!res.ok) await fail(res);
+      text = String((await res.json()).choices?.[0]?.message?.content || '');
+    }
+  } catch (e) {
+    if (/^(محتاج|الموديل|.* رد بخطأ)/.test(e.message)) throw e;
+    throw new Error(`مقدرتش أوصل لـ ${name} (إنترنت أو مانع من المتصفح): ` + (e.message || e));
+  }
+  const a = text.indexOf('{'), b = text.lastIndexOf('}');
+  try { return JSON.parse(text.slice(a, b + 1)); } catch { throw new Error('الرد مش بالشكل المتوقع (جرّب تاني، أو غيّر الموديل لو مجاني).'); }
 }
