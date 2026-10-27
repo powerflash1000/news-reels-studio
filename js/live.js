@@ -1,11 +1,11 @@
 // وضع اللايف: شاشة بث مستمرة (طابور + دورة خلفية + شاشة انتظار) وبث لعدة منصات عن طريق وسيط محلي (tools/live-relay.mjs)
-import { normalizeReel, buildReelTimeline, allLines, lineKey } from './reel.js?v=mvqv5gad';
-import { peekLine } from './tts.js?v=mvqv5gad';
-import { audioCtx, mixTimeline, decode, SAMPLE_RATE } from './audio.js?v=mvqv5gad';
-import { drawFrame, drawSlate } from './render.js?v=mvqv5gad';
-import { loadBg, playBg } from './bg.js?v=mvqv5gad';
-import { getBlob } from './mediastore.js?v=mvqv5gad';
-import { getSettings } from './storage.js?v=mvqv5gad';
+import { normalizeReel, buildReelTimeline, allLines, lineKey } from './reel.js?v=mvqvfx2z';
+import { peekLine } from './tts.js?v=mvqvfx2z';
+import { audioCtx, mixTimeline, decode, SAMPLE_RATE } from './audio.js?v=mvqvfx2z';
+import { drawFrame, drawSlate } from './render.js?v=mvqvfx2z';
+import { loadBg, playBg } from './bg.js?v=mvqvfx2z';
+import { getBlob } from './mediastore.js?v=mvqvfx2z';
+import { getSettings } from './storage.js?v=mvqvfx2z';
 
 // بيجهّز ريل للتشغيل. من غير opts: الصوت من الكاش (من غير رصيد). مع opts.audioMap/manual: من الاستوديو مباشرة (من غير حفظ)
 export async function prepare(raw, opts = {}) {
