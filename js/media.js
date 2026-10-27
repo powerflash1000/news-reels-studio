@@ -2,7 +2,7 @@
 // شكل النتيجة: { id, provider, type:'image'|'video', title, thumb, url, page, author, license, licenseUrl, tier, credit, width, height, duration, size }
 //   tier: 'free' = ملك عام / CC0 / سياسة NASA (من غير شرط)، 'attr' = لازم نسب (CC BY / BY-SA / Pixabay)
 // أي ترخيص فيه NC أو ND أو مش واضح بيتستبعد.
-import { getSettings } from './storage.js?v=mvqrfrk8';
+import { getSettings } from './storage.js?v=mvqsk8e9';
 
 const strip = html => String(html || '').replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#0?39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/\s+/g, ' ').trim();
 const https = u => String(u || '').replace(/^http:\/\//i, 'https://');
@@ -111,16 +111,31 @@ async function openverse(q, type) {
 /* ---------------- Internet Archive (فيديو) ---------------- */
 async function archive(q, type) {
   if (type === 'image') return [];
-  const query = `(${q}) AND mediatype:movies AND (licenseurl:*creativecommons.org/publicdomain* OR licenseurl:*creativecommons.org/licenses/by/* OR collection:prelinger OR collection:universal_newsreels OR collection:nasa)`;
-  const j = await getJson(`https://archive.org/advancedsearch.php?q=${encodeURIComponent(query)}&fl%5B%5D=identifier&fl%5B%5D=title&fl%5B%5D=creator&fl%5B%5D=licenseurl&rows=20&output=json`);
+  return archiveDocs(`(${q}) AND mediatype:movies AND (licenseurl:*creativecommons.org/publicdomain* OR licenseurl:*creativecommons.org/licenses/by/* OR collection:prelinger OR collection:universal_newsreels OR collection:nasa OR collection:FedFlix)`, { rows: 20 });
+}
+
+// تصفح مجموعة جاهزة من غير بحث (تبويب الأرشيف): الأكتر مشاهدة الأول، وفلتر عقد اختياري
+export function archiveBrowse(q, { page = 1, rows = 24, decade = 0 } = {}) {
+  const query = `(${q}) AND mediatype:movies` + (decade ? ` AND year:[${decade} TO ${decade + 9}]` : '');
+  return archiveDocs(query, { rows, page, sort: 'downloads desc' });
+}
+
+const plain = h => String(Array.isArray(h) ? h[0] : h || '').replace(/<[^>]*>/g, ' ').replace(/&nbsp;|&amp;|&quot;|&#39;/g, m => ({ '&nbsp;': ' ', '&amp;': '&', '&quot;': '"', '&#39;': "'" })[m]).replace(/\s+/g, ' ').trim();
+
+async function archiveDocs(query, { rows = 20, page = 1, sort = '' } = {}) {
+  const fl = ['identifier', 'title', 'creator', 'licenseurl', 'year', 'description', 'downloads'].map(f => `&fl%5B%5D=${f}`).join('');
+  const j = await getJson(`https://archive.org/advancedsearch.php?q=${encodeURIComponent(query)}${fl}${sort ? '&sort%5B%5D=' + encodeURIComponent(sort) : ''}&rows=${rows}&page=${page}&output=json`);
   return (j.response?.docs || []).map(d => {
     const lu = d.licenseurl || '';
-    const lic = /publicdomain/.test(lu) ? { tier: 'free', label: 'ملك عام / CC0' } : /\/licenses\/by\/([\d.]+)/.test(lu) ? { tier: 'attr', label: 'CC BY ' + lu.match(/\/licenses\/by\/([\d.]+)/)[1] } : { tier: 'free', label: 'أرشيف عام (Prelinger / Universal Newsreels / NASA) — راجع صفحة المصدر' };
+    const lic = /publicdomain/.test(lu) ? { tier: 'free', label: 'ملك عام / CC0' } : /\/licenses\/by\/([\d.]+)/.test(lu) ? { tier: 'attr', label: 'CC BY ' + lu.match(/\/licenses\/by\/([\d.]+)/)[1] } : { tier: 'free', label: 'أرشيف عام (Prelinger / Universal Newsreels / NASA / FedFlix) — راجع صفحة المصدر' };
     const o = mk({
       id: 'archive:' + d.identifier, provider: 'archive', type: 'video', title: Array.isArray(d.title) ? d.title[0] : d.title || d.identifier,
       thumb: `https://archive.org/services/img/${d.identifier}`, url: null, assetsHref: d.identifier, page: `https://archive.org/details/${d.identifier}`,
       author: Array.isArray(d.creator) ? d.creator.join('، ') : d.creator || '', license: lic.label, licenseUrl: lu, tier: lic.tier,
     });
+    o.year = Number(d.year) || 0;
+    o.desc = plain(d.description).slice(0, 600);
+    o.views = Number(d.downloads) || 0;
     o.credit = creditLine(o);
     return o;
   });

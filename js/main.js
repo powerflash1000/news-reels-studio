@@ -1,25 +1,26 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvqrfrk8';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvqrfrk8';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvqrfrk8';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvqrfrk8';
-import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvqrfrk8';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvqrfrk8';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvqrfrk8';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvqrfrk8';
-import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvqrfrk8';
-import { exportSupport, exportReel } from './export.js?v=mvqrfrk8';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvqrfrk8';
-import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvqrfrk8';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mvqrfrk8';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvqrfrk8';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvqrfrk8';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvqrfrk8';
-import { loadBg, playBg } from './bg.js?v=mvqrfrk8';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvqrfrk8';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvqrfrk8';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvqrfrk8';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvqrfrk8';
-import { initI18n } from './i18n.js?v=mvqrfrk8';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvqsk8e9';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvqsk8e9';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvqsk8e9';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvqsk8e9';
+import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvqsk8e9';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvqsk8e9';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvqsk8e9';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvqsk8e9';
+import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvqsk8e9';
+import { exportSupport, exportReel } from './export.js?v=mvqsk8e9';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvqsk8e9';
+import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvqsk8e9';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mvqsk8e9';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvqsk8e9';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvqsk8e9';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvqsk8e9';
+import { loadBg, playBg } from './bg.js?v=mvqsk8e9';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvqsk8e9';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvqsk8e9';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvqsk8e9';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvqsk8e9';
+import { initI18n, ui } from './i18n.js?v=mvqsk8e9';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor } from './archive.js?v=mvqsk8e9';
 
 initI18n();
 
@@ -52,13 +53,14 @@ function setStatus(msg, bad = false) {
 /* ---------- التبويبات ---------- */
 function showTab(name) {
   for (const b of document.querySelectorAll('#tabs button')) b.classList.toggle('on', b.dataset.tab === name);
-  for (const id of ['feed', 'analyze', 'studio', 'media', 'library', 'publish', 'live', 'settings']) $('tab-' + id).hidden = id !== name;
+  for (const id of ['feed', 'archive', 'analyze', 'studio', 'media', 'library', 'publish', 'live', 'settings']) $('tab-' + id).hidden = id !== name;
   if (name === 'studio') redraw();
   if (name === 'library') renderLibrary();
   if (name === 'publish') renderPublish();
   if (name === 'media') renderMediaTarget();
   if (name === 'live') renderLive();
   if (name === 'analyze') renderAnalyze();
+  if (name === 'archive') renderArchive();
 }
 $('tabs').addEventListener('click', e => e.target.dataset.tab && showTab(e.target.dataset.tab));
 
@@ -1859,6 +1861,135 @@ $('uGo').addEventListener('click', async () => {
     $('uMsg').textContent = '';
     showTab('studio'); fillForm();
   } catch (err) { $('uMsg').textContent = '❌ ' + (err.message || err); }
+});
+
+/* ---------- الأرشيف: قصص تاريخية مختارة + أفلام قديمة جاهزة ---------- */
+const arSt = { mode: 'stories', theme: null, coll: null, dec: 0, page: 1, films: [], open: new Map(), ft: new Map() };
+const arName = (o, ar) => ui === 'en' ? (o.en || o.t || ar) : ar;
+const yearTxt = y => y < 0 ? (ui === 'en' ? `${-y} BC` : `${-y} ق.م`) : String(y);
+
+async function renderArchive() {
+  let A;
+  try { A = await loadArchive(); } catch (err) { $('arList').innerHTML = `<p class="muted">❌ ${esc(err.message || err)}</p>`; return; }
+  arSt.theme ||= A.themes[0].id;
+  arSt.coll ||= A.films[0].id;
+  for (const b of $('arMode').children) b.classList.toggle('on', b.dataset.am === arSt.mode);
+  $('arStories').hidden = arSt.mode !== 'stories';
+  $('arFilms').hidden = arSt.mode !== 'films';
+  if (arSt.mode === 'stories') {
+    $('arThemes').innerHTML = A.themes.map(t => `<button class="chip ${t.id === arSt.theme ? 'on' : ''}" data-th="${t.id}">${t.icon} ${esc(arName(t, t.label))} <span class="muted">${t.items.length}</span></button>`).join('');
+    const th = A.themes.find(t => t.id === arSt.theme);
+    $('arList').innerHTML = th.items.map((it, k) => arCard(it, k)).join('');
+  } else {
+    $('arColl').innerHTML = A.films.map(f => `<button class="chip ${f.id === arSt.coll ? 'on' : ''}" data-co="${f.id}">${esc(arName(f, f.label))}</button>`).join('');
+    $('arDec').innerHTML = [0, ...A.decades].map(d => `<button class="chip ${d === arSt.dec ? 'on' : ''}" data-dc="${d}" style="--c:#6b7cff">${d ? (ui === 'en' ? d + 's' : 'الـ' + String(d).slice(2)) : 'كل السنين'}</button>`).join('');
+    if (!arSt.films.length) loadFilms();
+    else renderFilms();
+  }
+}
+
+function arCard(it, k) {
+  const inf = arSt.open.get(it.t);
+  const ft = arSt.ft.get(it.t);
+  const body = !inf ? '' : inf.err ? `<p class="muted">❌ ${esc(inf.err)}</p>` : `
+    <div class="ex" dir="auto" translate="no">${esc((inf.ar && ui !== 'en' ? inf.ar.extract : inf.extract) || '—')}</div>
+    <div class="row"><a class="btn ghost" href="${esc(inf.ar && ui !== 'en' ? inf.ar.url : inf.url)}" target="_blank" rel="noopener">ويكيبيديا ↗</a>${inf.ar && ui !== 'en' ? `<a class="btn ghost" href="${esc(inf.url)}" target="_blank" rel="noopener">النسخة الإنجليزية (أطول) ↗</a>` : ''}</div>
+    <div class="row"><button class="btn pri" data-arnew="${k}">🎬 ابدأ حلقة منها</button><button class="btn" data-aradd="${k}">＋ للريل الحالي</button><button class="btn" data-arauto="${k}">⚡ أوتوماتيك (حكّاء)</button><button class="btn ghost" data-arft="${k}">🎞 لقطات أرشيفية</button></div>`;
+  const filmsHtml = !ft ? '' : ft.busy ? '<p class="muted">بدوّر في الأرشيف…</p>' : ft.err ? `<p class="muted">❌ ${esc(ft.err)}</p>` : ft.items.length ? `<div class="films">${ft.items.map((m, j) => filmCard(m, `${k}:${j}`, true)).join('')}</div>` : '<p class="muted">مفيش لقطات ملك عام بالاسم ده. جرّب تبويب «أفلام وجرايد قديمة».</p>';
+  return `<article class="arcard"><h3 dir="auto" translate="no">${esc(arName(it, it.ar))}</h3>
+    <span class="yr" translate="no">${yearTxt(it.y)} • ${esc(it.t)}</span>
+    ${inf ? body : `<div class="row"><button class="btn" data-aropen="${k}">📖 اقرا القصة</button><a class="btn ghost" href="https://en.wikipedia.org/wiki/${encodeURIComponent(it.t.replace(/ /g, '_'))}" target="_blank" rel="noopener">ويكيبيديا ↗</a></div>`}${filmsHtml}</article>`;
+}
+
+function filmCard(m, key, small = false) {
+  return `<div class="mcard"><div class="th"><img src="${esc(m.thumb)}" loading="lazy" referrerpolicy="no-referrer" alt=""><span class="vb">🎞 ${m.year || ''}</span></div>
+    <div class="bd"><b dir="auto" translate="no" title="${esc(m.title)}">${esc(m.title || '—')}</b>
+    ${small ? '' : `${m.desc ? `<span class="ds muted" dir="auto" translate="no">${esc(m.desc)}</span>` : ''}<span><span class="lic ${m.tier}">${esc(m.license)}</span></span>`}
+    <div class="row" style="margin:0"><a class="btn ghost" href="${esc(m.page)}" target="_blank" rel="noopener">▶ شوف</a><button class="btn" data-fbg="${key}">خلفية للخبر الحالي</button>${small ? '' : `<button class="btn pri" data-fnew="${key}">🎬 حلقة منه</button>`}</div></div></div>`;
+}
+
+async function loadFilms(more = false) {
+  const A = await loadArchive();
+  const f = A.films.find(x => x.id === arSt.coll);
+  if (!more) { arSt.page = 1; arSt.films = []; }
+  $('arInfo').textContent = 'بجيب من الأرشيف…';
+  $('arMore').hidden = true;
+  try {
+    const got = await arFilmsOf(f, { page: arSt.page, decade: arSt.dec });
+    arSt.films.push(...got);
+    $('arInfo').textContent = arSt.films.length ? `${arSt.films.length} فيلم` : 'مفيش أفلام في الاختيار ده. غيّر العقد أو المجموعة.';
+    $('arMore').hidden = got.length < 24;
+  } catch (err) { $('arInfo').textContent = '❌ ' + (err.message || err); }
+  renderFilms();
+}
+function renderFilms() { $('arGrid').innerHTML = arSt.films.map((m, i) => filmCard(m, 'g:' + i)).join(''); }
+
+const arItemOf = async k => { const A = await loadArchive(); return A.themes.find(t => t.id === arSt.theme).items[Number(k)]; };
+function arStory(it, inf) {
+  const useAr = inf.ar && ui !== 'en';
+  return { category: 'stories', headline: useAr ? inf.ar.title : inf.title, sourceName: useAr ? 'ويكيبيديا' : 'Wikipedia', sourceUrl: useAr ? inf.ar.url : inf.url, ref: ((useAr ? inf.ar.extract : inf.extract) || '') + `\n(${yearTxt(it.y)} — راجع التواريخ والأسماء قبل النشر)` };
+}
+const filmStory = m => ({ category: 'stories', headline: m.title, sourceName: 'Internet Archive', sourceUrl: m.page, ref: [m.year ? 'سنة ' + m.year : '', m.desc].filter(Boolean).join(' — ') });
+
+async function useFilm(m, btn) {
+  btn.disabled = true;
+  try {
+    btn.textContent = 'بحمّل…';
+    const blob = await fetchBlob(m, p => { btn.textContent = `بحمّل ${Math.round(p * 100)}%`; });
+    await attachMedia(blob, { kind: 'video', provider: 'archive', title: m.title, credit: m.tier === 'free' ? '' : m.credit, license: m.license, licenseUrl: m.licenseUrl, page: m.page, tier: m.tier });
+    showTab('studio'); fillForm();
+    setStatus('اللقطة الأرشيفية اتحطت خلفية ✅');
+  } catch (err) { setStatus('❌ ' + (err.message || err), true); btn.textContent = '❌ ' + String(err.message || err).slice(0, 40); }
+  btn.disabled = false;
+}
+
+$('arMode').addEventListener('click', e => { const m = e.target.closest('[data-am]'); if (m) { arSt.mode = m.dataset.am; renderArchive(); } });
+$('arThemes').addEventListener('click', e => { const b = e.target.closest('[data-th]'); if (b) { arSt.theme = b.dataset.th; renderArchive(); } });
+$('arColl').addEventListener('click', e => { const b = e.target.closest('[data-co]'); if (b) { arSt.coll = b.dataset.co; renderArchive(); loadFilms(); } });
+$('arDec').addEventListener('click', e => { const b = e.target.closest('[data-dc]'); if (b) { arSt.dec = Number(b.dataset.dc); renderArchive(); loadFilms(); } });
+$('arMore').addEventListener('click', () => { arSt.page++; loadFilms(true); });
+$('arList').addEventListener('click', async e => {
+  const b = e.target.closest('button');
+  if (!b) return;
+  const d = b.dataset, k = d.aropen ?? d.arnew ?? d.aradd ?? d.arauto ?? d.arft ?? (d.fbg ? d.fbg.split(':')[0] : null);
+  if (k == null) return;
+  const it = await arItemOf(k);
+  if (d.aropen != null) {
+    b.disabled = true; b.textContent = 'بفتح…';
+    try { arSt.open.set(it.t, await storyInfo(it.t)); } catch (err) { arSt.open.set(it.t, { err: String(err.message || err) }); }
+    return renderArchive();
+  }
+  const inf = arSt.open.get(it.t);
+  if (d.fbg) { const m = arSt.ft.get(it.t)?.items?.[Number(d.fbg.split(':')[1])]; return m && useFilm(m, b); }
+  if (d.arft != null) {
+    arSt.ft.set(it.t, { busy: true }); renderArchive();
+    try {
+      let items = await filmsFor(it.t);
+      if (!items.length) items = await filmsFor(it.t.replace(/\(.*?\)/g, '').split(/\s+/).filter(w => w.length > 3).slice(0, 1).join(' ') || it.t);
+      arSt.ft.set(it.t, { items });
+    } catch (err) { arSt.ft.set(it.t, { err: String(err.message || err) }); }
+    return renderArchive();
+  }
+  if (!inf || inf.err) return;
+  const st = arStory(it, inf);
+  if (d.arnew != null) startReel([st]);
+  else if (d.aradd != null) addStories([st]);
+  else if (d.arauto != null) {
+    // أسلوب «حكّاء» للقصة دي بس (autoMake بيقرا الأسلوب قبل أول await)
+    const prev = auCfg.style;
+    auCfg.style = 'storyteller';
+    showTab('feed');
+    autoMake([{ id: 'ar-' + it.t, title: st.headline, summary: st.ref, link: st.sourceUrl, source: st.sourceName, category: 'stories', lang: ui === 'en' || !inf.ar ? 'en' : 'ar' }]);
+    auCfg.style = prev;
+  }
+});
+$('arGrid').addEventListener('click', e => {
+  const b = e.target.closest('button');
+  if (!b) return;
+  const m = arSt.films[Number((b.dataset.fbg || b.dataset.fnew || '').split(':')[1])];
+  if (!m) return;
+  if (b.dataset.fnew) { startReel([filmStory(m)]); return useFilm(m, b); }
+  useFilm(m, b);
 });
 
 /* ---------- المكتبة ---------- */
