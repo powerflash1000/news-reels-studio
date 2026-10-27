@@ -1050,5 +1050,10 @@ export default {
  "{} حدث": "{} events",
  "📅 حدث في مثل هذا اليوم — من ويكيبيديا مباشرة (اختار أي يوم)": "📅 On this day — live from Wikipedia (pick any day)",
  "بنزّل الترجمة المدمجة {}%": "Downloading built-in translation {}%",
+ "السكريبت فيه وسوم صوتية بس الموديل الحالي مش v3: الوسوم هتتشال ومش هتأثر.": "The script has voice tags but the current model isn't v3: the tags will be removed and have no effect.",
+ "🔁 حوّل لـ Eleven v3": "🔁 Switch to Eleven v3",
+ "(أو من الإعدادات ← ElevenLabs ← الموديل)": "(or Settings → ElevenLabs → Model)",
+ "الموديل بقى Eleven v3 ✅ الوسوم هتشتغل.": "Model switched to Eleven v3 ✅ Tags will work.",
+ "الصوت اللي اتولّد قبل كده بموديل v2 هيتولّد تاني لما تضغط توليد.": "Audio generated earlier with v2 will be regenerated when you press generate.",
  "ARABIC_SWITCH_LABEL": "عربي"
 };
