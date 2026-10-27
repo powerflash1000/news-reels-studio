@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mvqsk8e9">
+<html lang="ar" dir="rtl" data-v="mvqsyrf8">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mvqsk8e9">
+<link rel="stylesheet" href="assets/css/style.css?v=mvqsyrf8">
 </head>
 <body>
 <header class="top">
@@ -36,6 +36,10 @@
     <div id="regions" class="chips"></div>
     <label class="inl">الترتيب <select id="sortBy"><option value="new">الأحدث</option><option value="imp">الأهم والترند (من الأعلى للأقل)</option></select></label>
     <label class="chk"><input id="trendOnly" type="checkbox"> 🔥 الترند فقط</label>
+  </div>
+  <div id="storyBar" hidden>
+    <div id="subCats" class="chips subcats"></div>
+    <div id="feedAr"></div>
   </div>
   <p id="feedInfo" class="muted"></p>
   <details id="autoBox" class="card autobox">
@@ -80,7 +84,7 @@
 <!-- الأرشيف: قصص تاريخية مختارة + أفلام وجرايد قديمة جاهزة -->
 <section id="tab-archive" hidden>
   <div class="bar">
-    <div id="arMode" class="chips"><button class="chip on" data-am="stories">📖 قصص تاريخية مختارة</button><button class="chip" data-am="films">🎞 أفلام وجرايد قديمة</button></div>
+    <div id="arMode" class="chips"><button class="chip on" data-am="stories">📖 قصص تاريخية مختارة</button><button class="chip" data-am="films">🎞 أفلام وجرايد قديمة</button><button class="chip" data-am="live">📡 بث مباشر مفتوح</button></div>
   </div>
   <div id="arStories">
     <p class="muted">قصص قديمة مختارة جاهزة، مش أخبار جديدة. افتح القصة تشوف ملخصها ورابطها، وبعدين ابدأ منها حلقة أو هات لها لقطات أرشيفية. المصدر بيتحط تلقائي (ويكيبيديا)، وراجع التواريخ والأسماء قبل النشر.</p>
@@ -94,6 +98,10 @@
     <p id="arInfo" class="muted"></p>
     <div id="arGrid" class="mgrid"></div>
     <button id="arMore" class="btn ghost" hidden>المزيد</button>
+  </div>
+  <div id="arLive" hidden>
+    <p class="muted">بث مباشر مفتوح لأي حد: كاميرات حول العالم، فضاء، أقمار صناعية، رادارات طيران وسفن، وقنوات أخبار. «حر» = حكومة أمريكية، تقدر تاخد منه لقطة شاشة خلفية مع ذكر المصدر. الباقي للمتابعة والأفكار بس (اللقطات ليها حقوق). مفيش كاميرات مراقبة خاصة: دي بتنتهك خصوصية الناس.</p>
+    <div id="arLiveList"></div>
   </div>
 </section>
 
@@ -718,6 +726,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mvqsk8e9"></script>
+<script type="module" src="js/main.js?v=mvqsyrf8"></script>
 </body>
 </html>
