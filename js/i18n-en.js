@@ -1055,5 +1055,10 @@ export default {
  "(أو من الإعدادات ← ElevenLabs ← الموديل)": "(or Settings → ElevenLabs → Model)",
  "الموديل بقى Eleven v3 ✅ الوسوم هتشتغل.": "Model switched to Eleven v3 ✅ Tags will work.",
  "الصوت اللي اتولّد قبل كده بموديل v2 هيتولّد تاني لما تضغط توليد.": "Audio generated earlier with v2 will be regenerated when you press generate.",
+ "السكريبت فيه وسوم صوتية: مع زرار Gemini هتشتغل عادي، بس مع ElevenLabs الموديل الحالي مش v3 فهتتشال ومش هتأثر.": "The script has voice tags: they work with the Gemini button, but with ElevenLabs the current model isn't v3 so they'll be removed.",
+ "🔁 حوّل ElevenLabs لـ v3": "🔁 Switch ElevenLabs to v3",
+ "دوس على التأثير عشان يتحط عند المؤشر في السكريبت.": "Click an effect to insert it at the cursor in the script.",
+ "بتشتغل مع Gemini (بتتحول لتوجيه أداء) ومع ElevenLabs v3 (على v2 بتتشال تلقائيًا ومبتتقراش).": "Works with Gemini (turned into delivery directions) and ElevenLabs v3 (on v2 they're removed automatically and not read).",
+ "✅ = من قايمة ElevenLabs الرسمية، ٭ = تجريبي (جرّب وسمّع).": "✅ = from ElevenLabs' official list, ٭ = experimental (try and listen).",
  "ARABIC_SWITCH_LABEL": "عربي"
 };

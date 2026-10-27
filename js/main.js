@@ -1,26 +1,26 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvqvfx2z';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvqvfx2z';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvqvfx2z';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvqvfx2z';
-import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvqvfx2z';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvqvfx2z';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvqvfx2z';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvqvfx2z';
-import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvqvfx2z';
-import { exportSupport, exportReel } from './export.js?v=mvqvfx2z';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvqvfx2z';
-import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvqvfx2z';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON } from './draft.js?v=mvqvfx2z';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvqvfx2z';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvqvfx2z';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvqvfx2z';
-import { loadBg, playBg } from './bg.js?v=mvqvfx2z';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvqvfx2z';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvqvfx2z';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvqvfx2z';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvqvfx2z';
-import { initI18n, ui } from './i18n.js?v=mvqvfx2z';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvqvfx2z';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvqvjl5m';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvqvjl5m';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvqvjl5m';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvqvjl5m';
+import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvqvjl5m';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvqvjl5m';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvqvjl5m';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvqvjl5m';
+import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvqvjl5m';
+import { exportSupport, exportReel } from './export.js?v=mvqvjl5m';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvqvjl5m';
+import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvqvjl5m';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON } from './draft.js?v=mvqvjl5m';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvqvjl5m';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvqvjl5m';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvqvjl5m';
+import { loadBg, playBg } from './bg.js?v=mvqvjl5m';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvqvjl5m';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvqvjl5m';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvqvjl5m';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvqvjl5m';
+import { initI18n, ui } from './i18n.js?v=mvqvjl5m';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvqvjl5m';
 
 initI18n();
 
@@ -2324,7 +2324,7 @@ function renderVoiceTags() {
   const v2 = getSettings().elevenModel !== 'eleven_v3';
   const has = /\[[^\]]*\]/.test($('fScript').value);
   $('fxWarn').hidden = !(v2 && has);
-  $('fxWarn').innerHTML = '<span>السكريبت فيه وسوم صوتية بس الموديل الحالي مش v3: الوسوم هتتشال ومش هتأثر.</span> <button class="btn pri" id="toV3" type="button">🔁 حوّل لـ Eleven v3</button> <span class="muted">(أو من الإعدادات ← ElevenLabs ← الموديل)</span>';
+  $('fxWarn').innerHTML = '<span>السكريبت فيه وسوم صوتية: مع زرار Gemini هتشتغل عادي، بس مع ElevenLabs الموديل الحالي مش v3 فهتتشال ومش هتأثر.</span> <button class="btn pri" id="toV3" type="button">🔁 حوّل ElevenLabs لـ v3</button> <span class="muted">(أو من الإعدادات ← ElevenLabs ← الموديل)</span>';
 }
 // زرار سريع: يحوّل موديل ElevenLabs لـ v3 من غير ما تروح الإعدادات
 $('fxWarn').addEventListener('click', e => {
