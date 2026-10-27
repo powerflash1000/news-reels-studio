@@ -2,7 +2,7 @@
 // شكل النتيجة: { id, provider, type:'image'|'video', title, thumb, url, page, author, license, licenseUrl, tier, credit, width, height, duration, size }
 //   tier: 'free' = ملك عام / CC0 / سياسة NASA (من غير شرط)، 'attr' = لازم نسب (CC BY / BY-SA / Pixabay)
 // أي ترخيص فيه NC أو ND أو مش واضح بيتستبعد.
-import { getSettings } from './storage.js?v=mvpwpgmm';
+import { getSettings } from './storage.js?v=mvqrfrk8';
 
 const strip = html => String(html || '').replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#0?39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/\s+/g, ' ').trim();
 const https = u => String(u || '').replace(/^http:\/\//i, 'https://');
@@ -31,7 +31,7 @@ function mk(o) {
 function creditLine(o) {
   if (o.provider === 'nasa') return 'NASA' + (o.author && o.author !== 'NASA' ? ' / ' + o.author : '');
   const by = o.author ? `${o.author} — ` : '';
-  return `${by}${o.title ? '«' + o.title.slice(0, 50) + '» — ' : ''}${o.license}${o.provider === 'commons' ? ' — Wikimedia Commons' : o.provider === 'openverse' ? ' — Openverse' : o.provider === 'archive' ? ' — Internet Archive' : ''}`;
+  return `${by}${o.title ? '«' + o.title.slice(0, 50) + '» — ' : ''}${o.license}${o.provider === 'commons' ? ' — Wikimedia Commons' : o.provider === 'openverse' ? ' — Openverse' : o.provider === 'archive' ? ' — Internet Archive' : o.provider === 'smithsonian' ? ' — Smithsonian' : ''}`;
 }
 
 /* ---------------- NASA ---------------- */
@@ -111,11 +111,11 @@ async function openverse(q, type) {
 /* ---------------- Internet Archive (فيديو) ---------------- */
 async function archive(q, type) {
   if (type === 'image') return [];
-  const query = `(${q}) AND mediatype:movies AND (licenseurl:*creativecommons.org/publicdomain* OR licenseurl:*creativecommons.org/licenses/by/* OR collection:prelinger OR collection:nasa)`;
+  const query = `(${q}) AND mediatype:movies AND (licenseurl:*creativecommons.org/publicdomain* OR licenseurl:*creativecommons.org/licenses/by/* OR collection:prelinger OR collection:universal_newsreels OR collection:nasa)`;
   const j = await getJson(`https://archive.org/advancedsearch.php?q=${encodeURIComponent(query)}&fl%5B%5D=identifier&fl%5B%5D=title&fl%5B%5D=creator&fl%5B%5D=licenseurl&rows=20&output=json`);
   return (j.response?.docs || []).map(d => {
     const lu = d.licenseurl || '';
-    const lic = /publicdomain/.test(lu) ? { tier: 'free', label: 'ملك عام / CC0' } : /\/licenses\/by\/([\d.]+)/.test(lu) ? { tier: 'attr', label: 'CC BY ' + lu.match(/\/licenses\/by\/([\d.]+)/)[1] } : { tier: 'free', label: 'أرشيف عام (Prelinger/NASA) — راجع صفحة المصدر' };
+    const lic = /publicdomain/.test(lu) ? { tier: 'free', label: 'ملك عام / CC0' } : /\/licenses\/by\/([\d.]+)/.test(lu) ? { tier: 'attr', label: 'CC BY ' + lu.match(/\/licenses\/by\/([\d.]+)/)[1] } : { tier: 'free', label: 'أرشيف عام (Prelinger / Universal Newsreels / NASA) — راجع صفحة المصدر' };
     const o = mk({
       id: 'archive:' + d.identifier, provider: 'archive', type: 'video', title: Array.isArray(d.title) ? d.title[0] : d.title || d.identifier,
       thumb: `https://archive.org/services/img/${d.identifier}`, url: null, assetsHref: d.identifier, page: `https://archive.org/details/${d.identifier}`,
@@ -135,6 +135,27 @@ async function archiveResolve(o) {
   if (!f) throw new Error('مفيش ملف mp4 للعنصر ده');
   o.size = Number(f.size) || 0;
   return `https://archive.org/download/${encodeURIComponent(o.assetsHref)}/${f.name.split('/').map(encodeURIComponent).join('/')}`;
+}
+
+/* ---------------- Smithsonian Open Access (CC0 بس: متاحف وتاريخ وغرائب) ---------------- */
+async function smithsonian(q, type) {
+  if (type === 'video') return [];
+  const key = getSettings().siKey || 'DEMO_KEY';
+  const j = await getJson(`https://api.si.edu/openaccess/api/v1.0/search?q=${encodeURIComponent(`${q} AND online_media_type:Images AND media_usage:CC0`)}&rows=30&api_key=${encodeURIComponent(key)}`);
+  const out = [];
+  for (const r of j.response?.rows || []) {
+    const d = r.content?.descriptiveNonRepeating || {};
+    const m = (d.online_media?.media || []).find(x => x.type === 'Images' && /cc0/i.test(x.usage?.access || ''));
+    if (!m?.content) continue;
+    const o = mk({
+      id: 'si:' + (r.id || m.idsId || m.content), provider: 'smithsonian', type: 'image', title: d.title?.content || r.title || '',
+      thumb: https(m.thumbnail || m.content + '&max=300'), url: https(m.content + (m.content.includes('?') ? '&max=2000' : '')),
+      page: d.record_link || '', author: d.data_source || 'Smithsonian', license: 'CC0 — Smithsonian Open Access', licenseUrl: 'https://creativecommons.org/publicdomain/zero/1.0/', tier: 'free',
+    });
+    o.credit = `${o.author} — Smithsonian Open Access (CC0)`;
+    out.push(o);
+  }
+  return out;
 }
 
 /* ---------------- Pixabay (محتاج مفتاح مجاني) ---------------- */
@@ -163,7 +184,8 @@ export const PROVIDERS = {
   nasa: { name: 'NASA', types: ['image', 'video'], search: nasa, resolve: nasaResolve, area: 'علوم وفضاء', cors: false },
   commons: { name: 'Wikimedia Commons', types: ['image', 'video'], search: commons, area: 'عام: خرائط، أماكن، علوم، طب', cors: true },
   openverse: { name: 'Openverse', types: ['image'], search: openverse, area: 'صور عامة (CC)', cors: true },
-  archive: { name: 'Internet Archive', types: ['video'], search: archive, resolve: archiveResolve, area: 'فيديو أرشيفي', cors: false },
+  archive: { name: 'Internet Archive', types: ['video'], search: archive, resolve: archiveResolve, area: 'فيديو أرشيفي: أفلام Prelinger وجرايد Universal Newsreels القديمة', cors: false },
+  smithsonian: { name: 'Smithsonian', types: ['image'], search: smithsonian, area: 'متاحف وتاريخ وغرائب (CC0)', cors: false },
   pixabay: { name: 'Pixabay', types: ['image', 'video'], search: pixabay, area: 'خلفيات عامة (مفتاح مجاني)', cors: true },
 };
 

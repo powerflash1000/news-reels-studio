@@ -2341,6 +2341,116 @@
    "type": "specialist",
    "region": "world",
    "weight": 0.8
+  },
+  {
+   "id": "onthisday-ar",
+   "category": "stories",
+   "name": "ويكيبيديا — حدث في مثل هذا اليوم",
+   "url": "https://api.wikimedia.org/feed/v1/wikipedia/ar/onthisday/selected",
+   "fmt": "onthisday",
+   "lang": "ar",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1.1,
+   "keepDays": 1
+  },
+  {
+   "id": "onthisday-en",
+   "category": "stories",
+   "name": "Wikipedia — On this day",
+   "url": "https://api.wikimedia.org/feed/v1/wikipedia/en/onthisday/selected",
+   "fmt": "onthisday",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1.1,
+   "keepDays": 1
+  },
+  {
+   "id": "fbi-stories",
+   "category": "stories",
+   "name": "FBI — Stories (قضايا رسمية)",
+   "url": "https://www.fbi.gov/feeds/stories/rss.xml",
+   "lang": "en",
+   "type": "official",
+   "region": "us",
+   "weight": 1.2
+  },
+  {
+   "id": "doj-press",
+   "category": "stories",
+   "name": "US Justice Department — قضايا وأحكام",
+   "url": "https://www.justice.gov/news/rss?type=press_release&m=1",
+   "lang": "en",
+   "type": "official",
+   "region": "us",
+   "weight": 0.9,
+   "limit": 15
+  },
+  {
+   "id": "nara-unwritten",
+   "category": "stories",
+   "name": "National Archives — The Unwritten Record (أفلام وصور أرشيفية)",
+   "url": "https://unwritten-record.blogs.archives.gov/feed/",
+   "lang": "en",
+   "type": "official",
+   "region": "us",
+   "weight": 1.0,
+   "keepDays": 120
+  },
+  {
+   "id": "nara-history",
+   "category": "stories",
+   "name": "National Archives — Pieces of History",
+   "url": "https://prologue.blogs.archives.gov/feed/",
+   "lang": "en",
+   "type": "official",
+   "region": "us",
+   "weight": 1.0,
+   "keepDays": 120
+  },
+  {
+   "id": "loc-headlines",
+   "category": "stories",
+   "name": "Library of Congress — Headlines & Heroes (جرائد قديمة)",
+   "url": "https://blogs.loc.gov/headlinesandheroes/feed/",
+   "lang": "en",
+   "type": "official",
+   "region": "us",
+   "weight": 1.0,
+   "keepDays": 120
+  },
+  {
+   "id": "pd-review",
+   "category": "stories",
+   "name": "The Public Domain Review (غرائب أرشيفية)",
+   "url": "https://publicdomainreview.org/rss.xml",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 0.9,
+   "keepDays": 120
+  },
+  {
+   "id": "livescience",
+   "category": "stories",
+   "name": "Live Science (ظواهر وغرائب علمية)",
+   "url": "https://www.livescience.com/feeds/all",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 0.9
+  },
+  {
+   "id": "reddit-unresolved",
+   "category": "stories",
+   "name": "Reddit r/UnresolvedMysteries (رادار أفكار — مش مصدر)",
+   "url": "https://www.reddit.com/r/UnresolvedMysteries/top/.rss?t=week",
+   "lang": "en",
+   "type": "radar",
+   "region": "world",
+   "weight": 0.6,
+   "limit": 10
   }
  ],
  "youtube": [

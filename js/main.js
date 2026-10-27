@@ -1,25 +1,25 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvpwpgmm';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvpwpgmm';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvpwpgmm';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvpwpgmm';
-import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvpwpgmm';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvpwpgmm';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvpwpgmm';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvpwpgmm';
-import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvpwpgmm';
-import { exportSupport, exportReel } from './export.js?v=mvpwpgmm';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvpwpgmm';
-import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvpwpgmm';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mvpwpgmm';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvpwpgmm';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvpwpgmm';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvpwpgmm';
-import { loadBg, playBg } from './bg.js?v=mvpwpgmm';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvpwpgmm';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvpwpgmm';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvpwpgmm';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvpwpgmm';
-import { initI18n } from './i18n.js?v=mvpwpgmm';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvqrfrk8';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvqrfrk8';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvqrfrk8';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvqrfrk8';
+import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvqrfrk8';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvqrfrk8';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvqrfrk8';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvqrfrk8';
+import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvqrfrk8';
+import { exportSupport, exportReel } from './export.js?v=mvqrfrk8';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvqrfrk8';
+import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvqrfrk8';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mvqrfrk8';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvqrfrk8';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvqrfrk8';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvqrfrk8';
+import { loadBg, playBg } from './bg.js?v=mvqrfrk8';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvqrfrk8';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvqrfrk8';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvqrfrk8';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvqrfrk8';
+import { initI18n } from './i18n.js?v=mvqrfrk8';
 
 initI18n();
 
@@ -1920,7 +1920,7 @@ $('bkImport').addEventListener('change', async e => {
 });
 
 /* ---------- الإعدادات ---------- */
-const TEXT_FIELDS = { sChannel: 'channelName', sHandle: 'handle', sReelLang: 'reelLang', sTts: 'ttsProvider', sGemModel: 'geminiTtsModel', sGemStyle: 'geminiStyle', sGemA: 'gemVoiceA', sGemB: 'gemVoiceB', sKey: 'elevenKey', sModel: 'elevenModel', sProxy: 'proxyUrl', sPixabay: 'pixabayKey', sFreesound: 'freesoundKey', sClaude: 'claudeKey', sClaudeModel: 'claudeModel', sAiProv: 'aiProvider', sGemini: 'geminiKey', sGroq: 'groqKey', sOr: 'orKey', sAiModel: 'aiModel' };
+const TEXT_FIELDS = { sChannel: 'channelName', sHandle: 'handle', sReelLang: 'reelLang', sTts: 'ttsProvider', sGemModel: 'geminiTtsModel', sGemStyle: 'geminiStyle', sGemA: 'gemVoiceA', sGemB: 'gemVoiceB', sKey: 'elevenKey', sModel: 'elevenModel', sProxy: 'proxyUrl', sPixabay: 'pixabayKey', sSi: 'siKey', sFreesound: 'freesoundKey', sClaude: 'claudeKey', sClaudeModel: 'claudeModel', sAiProv: 'aiProvider', sGemini: 'geminiKey', sGroq: 'groqKey', sOr: 'orKey', sAiModel: 'aiModel' };
 const FX_SLIDERS = [['bass', 'جهارة الطبقات (Bass)', -6, 6, 0.5], ['presence', 'وضوح الكلام (Presence)', -6, 6, 0.5], ['air', 'لمعة (Air)', -6, 6, 0.5], ['comp', 'ضغط ديناميكي', 0, 1, 0.05], ['deess', 'تخفيف السين والشين', 0, 1, 0.05], ['room', 'صدى / مساحة', 0, 0.4, 0.02]];
 const STYLE_PRESETS = {
   '': { name: '— اختار —' },

@@ -977,5 +977,10 @@ export default {
  "تحديد الأداة تخمين من شكل الفيديو وصوته، مش يقين: المنصات بتمسح بيانات الملف، وأدوات كتير بتطلّع نتيجة شبه بعض. اتعلّم الأسلوب، ومتنسخش لقطات أو أصوات حد.": "Tool identification is a guess from the video's look and sound, not certainty: platforms strip file data, and many tools produce similar results. Learn the style, and don't copy anyone's footage or voice.",
  "Gemini بيحلل أسلوب الفيديو… (ممكن ياخد دقيقة)": "Gemini is analyzing the video's style… (may take a minute)",
  "✅ خلص تحليل الأسلوب.": "✅ Style analysis done.",
+ "فيديو أرشيفي: أفلام Prelinger وجرايد Universal Newsreels القديمة": "Archive video: Prelinger films and old Universal Newsreels",
+ "متاحف وتاريخ وغرائب (CC0)": "Museums, history and curiosities (CC0)",
+ "مفتاح Smithsonian / api.data.gov (اختياري، مجاني من api.data.gov/signup — من غيره بيستخدم DEMO_KEY بحد 30 طلب في الساعة)": "Smithsonian / api.data.gov key (optional, free from api.data.gov/signup — without it DEMO_KEY is used, limited to 30 requests/hour)",
+ "🎞 للقصص والأرشيف: فعّل Internet Archive (أفلام Prelinger وجرايد Universal Newsreels القديمة، ملك عام) وSmithsonian (صور متاحف CC0) وWikimedia Commons (صور تاريخية). ابحث بالإنجليزي، مثلًا: newsreel 1950s, crime scene 1930s, UFO, shipwreck, Cairo 1940.": "🎞 For stories and archives: enable Internet Archive (Prelinger films and old Universal Newsreels, public domain), Smithsonian (CC0 museum images) and Wikimedia Commons (historical photos). Search in English, e.g. newsreel 1950s, crime scene 1930s, UFO, shipwreck, Cairo 1940.",
+ "أرشيف عام (Prelinger / Universal Newsreels / NASA) — راجع صفحة المصدر": "Public archive (Prelinger / Universal Newsreels / NASA) — check the source page",
  "ARABIC_SWITCH_LABEL": "عربي"
 };

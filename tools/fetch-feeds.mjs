@@ -104,6 +104,24 @@ async function wikiTop(f) {
   return [];
 }
 
+// «حدث في مثل هذا اليوم» من ويكيبيديا (أحداث مختارة لنفس اليوم في التاريخ): مادة للقصص والأرشيف
+export function parseOnThisDay(j, lang, now = new Date()) {
+  return (j.selected || j.events || []).slice(0, 25).map(e => {
+    const p = (e.pages || [])[0] || {};
+    const link = p.content_urls?.desktop?.page || (p.titles?.canonical ? `https://${lang}.wikipedia.org/wiki/${encodeURIComponent(p.titles.canonical)}` : '');
+    return link ? {
+      title: `${e.year}: ${String(e.text || '').trim()}`,
+      summary: String(p.extract || '').slice(0, 600),
+      link, published: now.toISOString(), year: e.year,
+    } : null;
+  }).filter(Boolean);
+}
+async function onThisDay(f) {
+  const lang = f.lang || 'en', d = new Date();
+  const url = `https://api.wikimedia.org/feed/v1/wikipedia/${lang}/onthisday/selected/${String(d.getUTCMonth() + 1).padStart(2, '0')}/${String(d.getUTCDate()).padStart(2, '0')}`;
+  return parseOnThisDay(JSON.parse(await get(url)), lang, d);
+}
+
 // Google News: العنوان "عنوان - الناشر": بنفصل الناشر (بيتعرض كمصدر) وبنسيب الرابط
 function gnewsOutlet(i) {
   const m = i.title.match(/^(.*\S)\s+[-–—]\s+([^-–—]{2,60})$/);
@@ -168,6 +186,7 @@ async function pull(f, kind = 'official', limit = f.limit || MAX_PER_SOURCE) {
   try {
     let items;
     if (f.fmt === 'wikitop') items = await wikiTop(f);
+    else if (f.fmt === 'onthisday') items = await onThisDay(f);
     else {
       const body = await get(url);
       items = f.fmt === 'gtrends' ? parseGTrends(body) : parseFeed(body);

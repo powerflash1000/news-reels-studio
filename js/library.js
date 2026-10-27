@@ -1,5 +1,5 @@
 // مكتبة الريلز (نصوص وبيانات بس، الصوت بيتسترجع من الكاش) + نسخة احتياطية
-import { load, save, getSettings, setSettings } from './storage.js?v=mvpwpgmm';
+import { load, save, getSettings, setSettings } from './storage.js?v=mvqrfrk8';
 
 export function listReels() {
   return load('reels', []).sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
@@ -32,7 +32,7 @@ export function currentId() { return load('currentId', null); }
 export function setCurrentId(id) { save('currentId', id); }
 
 // الإعدادات في النسخة الاحتياطية من غير المفاتيح السرية
-const SECRETS = ['elevenKey', 'claudeKey', 'geminiKey', 'groqKey', 'orKey', 'freesoundKey', 'pixabayKey'];
+const SECRETS = ['elevenKey', 'claudeKey', 'geminiKey', 'groqKey', 'orKey', 'freesoundKey', 'pixabayKey', 'siKey'];
 
 export function buildBackup() {
   const settings = { ...getSettings() };
