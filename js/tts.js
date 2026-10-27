@@ -1,7 +1,7 @@
 // توليد الصوت من ElevenLabs مع توقيت كل كلمة، وكاش لكل سطر
-import { getSettings, addChars, cacheGet, cachePut, sha1, load, save } from './storage.js?v=mvqvfx2z';
-import { decode } from './audio.js?v=mvqvfx2z';
-import { estimateWords } from './reel.js?v=mvqvfx2z';
+import { getSettings, addChars, cacheGet, cachePut, sha1, load, save } from './storage.js?v=mvqvjl5m';
+import { decode } from './audio.js?v=mvqvjl5m';
+import { estimateWords } from './reel.js?v=mvqvjl5m';
 
 const API = 'https://api.elevenlabs.io';
 
@@ -39,11 +39,31 @@ function pcmToWav(pcm, rate = 24000) {
   return out.buffer;
 }
 
+// وسوم الأداء ([sad] [whispers] …) → توجيه بالإنجليزي لـ Gemini، والنص اللي يتقري من غيرها ([pause] = وقفة …)
+const GEM_DIR = {
+  happily: 'happily', sad: 'in a sad tone', angry: 'angrily', excited: 'excitedly', nervous: 'nervously', calm: 'calmly',
+  whispers: 'in a soft whisper', shouts: 'shouting', slowly: 'slowly', 'speaking quickly': 'quickly', laughs: 'with a short laugh',
+  sighs: 'with a sigh', 'clears throat': 'after clearing the throat', 'breathing heavily': 'breathing heavily', gasping: 'gasping',
+};
+export function gemDirections(text) {
+  const dirs = [];
+  const say = String(text).replace(/\[([^\]]*)\]/g, (m, t) => {
+    const k = t.trim().toLowerCase();
+    if (/^(short |long )?pause$/.test(k)) return ' … ';
+    if (/accent/.test(k)) return ' ';
+    const d = GEM_DIR[k] || (k && k.length < 40 ? `in a ${k} manner` : '');
+    if (d && !dirs.includes(d)) dirs.push(d);
+    return ' ';
+  }).replace(/\s+/g, ' ').trim();
+  return { say, dirs };
+}
+
 async function geminiSpeak(text, voice) {
   const s = getSettings();
   if (!s.geminiKey) throw new Error('ضبط مفتاح Gemini في الإعدادات الأول (نفس مفتاح المسودات).');
   const model = s.geminiTtsModel || GEMINI_TTS_MODELS[0].id;
-  const prompt = `${(s.geminiStyle || GEMINI_STYLE).trim()}: ${text}`;
+  const { say, dirs } = gemDirections(text);
+  const prompt = `${(s.geminiStyle || GEMINI_STYLE).trim()}${dirs.length ? `, and deliver this line ${dirs.join(', ')}` : ''}: ${say}`;
   let res;
   try {
     res = await fetch(`${GEM_API}${encodeURIComponent(model)}:generateContent`, {
@@ -69,7 +89,8 @@ async function geminiSpeak(text, voice) {
 
 export function prepareText(text, lang = 'ar', provider) {
   const s = getSettings();
-  if (isGem(provider)) return String(text).replace(/\[[^\]]*\]/g, ' ').replace(/\s+/g, ' ').trim();
+  // Gemini: الوسوم بتفضل وبتتحول لتوجيه أداء جوه geminiSpeak (مش بتتقري)
+  if (isGem(provider)) return String(text).replace(/\s+/g, ' ').trim();
   if (s.elevenModel !== 'eleven_v3') return String(text).replace(/\[[^\]]*\]/g, ' ').replace(/\s+/g, ' ').trim();
   return (s.dialectTag && lang === 'ar' && !/^\s*\[[^\]]*accent/i.test(text) ? DIALECT_TAG + ' ' : '') + text;
 }
