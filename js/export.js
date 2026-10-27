@@ -1,8 +1,8 @@
 // تصدير MP4 سريع بالـ WebCodecs (H.264 + AAC) — بيشتغل في Chrome و Edge
-import { Muxer, ArrayBufferTarget } from '../vendor/mp4-muxer/mp4-muxer.mjs?v=mvqsyrf8';
-import { SAMPLE_RATE, mixTimeline } from './audio.js?v=mvqsyrf8';
-import { W, H, drawFrame, setFormat } from './render.js?v=mvqsyrf8';
-import { seekBg } from './bg.js?v=mvqsyrf8';
+import { Muxer, ArrayBufferTarget } from '../vendor/mp4-muxer/mp4-muxer.mjs?v=mvquk8vm';
+import { SAMPLE_RATE, mixTimeline } from './audio.js?v=mvquk8vm';
+import { W, H, drawFrame, setFormat } from './render.js?v=mvquk8vm';
+import { seekBg } from './bg.js?v=mvquk8vm';
 
 export const FPS = 30;
 const AVC = ['avc1.640028', 'avc1.4d0028', 'avc1.640032', 'avc1.42e028'];

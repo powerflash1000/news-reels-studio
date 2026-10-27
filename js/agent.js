@@ -1,6 +1,6 @@
 // المحرر الذكي (اختياري): بياخد خبر واحد ويجهّز منه سكريبت بأسلوب القناة، قصة وخلفية تاريخية، اقتراحات إنفوجرافيك ومؤثرات.
 // كل حاجة اقتراحات بتراجعها وبتطبّقها بإيدك. الخبر نفسه من الملخص والعنوان بس، والخلفية التاريخية بتتعلّم "لازم تتراجع".
-import { aiJSON } from './draft.js?v=mvqsyrf8';
+import { aiJSON } from './draft.js?v=mvquk8vm';
 
 export const STYLES = {
   neutral: { label: 'إخباري محايد', note: 'Straight, neutral news: hook that states the news, 2-4 fact lines, source line.' },
@@ -9,7 +9,9 @@ export const STYLES = {
   analysis: { label: 'تحليلي حذر', note: 'Careful explainer: what happened, what is known vs not known (say so), who said what, source line. No predictions and no opinions.' },
 };
 
-const WORDS = { 30: 75, 45: 115, 60: 155, 90: 230 };
+const WORDS = { 30: 75, 45: 115, 60: 155, 90: 230, 180: 450, 300: 750, 480: 1200, 600: 1500 };
+// حلقة طويلة (3 دقايق أو أكتر): فصول بدل ريل قصير
+const LONG = 'Long-form episode (several minutes, for an online show): reach the target word count. Structure: a cold-open hook, then chapters in chronological order (setting the scene, the people involved, what happened step by step, turning points, investigations or theories as the source reports them, the aftermath, what is still unknown), each chapter opening with a short transition line, then a closing reflection and the source line. Keep it gripping like a documentary narrator, but every fact must come from <source_text>.';
 const clean = v => String(v ?? '').replace(/</g, '‹').replace(/>/g, '›');
 
 const SYSTEM = `You are the editorial agent of a news-reel studio. You help a human editor turn ONE news item into a short vertical video (TikTok / Reels). The editor reviews everything you return before use.
@@ -75,7 +77,8 @@ const SCHEMA = {
 // parts: { script, story, infographic, vfx } (booleans). بيرجّع نتيجة منظّفة وآمنة للعرض.
 export async function runAgent({ story, categoryLabel, style = 'neutral', seconds = 45, format = 'single', note = '', lang = 'ar', parts = { script: true } }) {
   const S = STYLES[style] || STYLES.neutral;
-  const system = SYSTEM.replace('{LANG}', lang === 'en' ? 'simple natural spoken American English' : 'simple, natural, spoken Egyptian Arabic (not heavy slang, not formal MSA)').replace('{STYLE}', S.note);
+  const long = seconds >= 180;
+  const system = SYSTEM.replace('{LANG}', lang === 'en' ? 'simple natural spoken American English' : 'simple, natural, spoken Egyptian Arabic (not heavy slang, not formal MSA)').replace('{STYLE}', S.note + (long ? '\n' + LONG : ''));
   const want = Object.entries(parts).filter(([, v]) => v).map(([k]) => k).join(', ') || 'script';
   const user = [
     `<headline>${clean(story.headline)}</headline>`,
@@ -89,7 +92,7 @@ export async function runAgent({ story, categoryLabel, style = 'neutral', second
     `<source_text>${clean(story.ref) || '(no summary: headline only)'}</source_text>`,
     note ? `<editor_note>${clean(note)}</editor_note>` : '',
   ].filter(Boolean).join('\n');
-  const out = await aiJSON({ system, user, schema: SCHEMA });
+  const out = await aiJSON({ system, user, schema: SCHEMA, maxTokens: long ? 16000 : 8000 });
   const arr = v => (Array.isArray(v) ? v : []);
   const s = v => String(v ?? '').trim();
   const lines = arr(out.lines).map(l => ({ speaker: format === 'dialogue' && l.speaker === 'B' ? 'B' : 'A', kind: s(l.kind) || 'news', text: s(l.text) })).filter(l => l.text);

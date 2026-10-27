@@ -1024,5 +1024,17 @@ export default {
  "رادارات لايف (طيارات وسفن وصواعق)": "Live radars (flights, ships, lightning)",
  "قنوات أخبار لايف (رادار بس — ممنوع تاخد منها لقطات)": "Live news channels (radar only — no footage)",
  "رادار — مش مصدر": "Radar — not a source",
+ "حلقة 3 دقايق": "3-minute episode",
+ "حلقة 5 دقايق": "5-minute episode",
+ "حلقة 8 دقايق": "8-minute episode",
+ "حلقة 10 دقايق": "10-minute episode",
+ "المقال العربي كامل": "Full Arabic article",
+ "المقال الإنجليزي كامل": "Full English article",
+ "📜 المقال العربي كامل ({} كلمة)": "📜 Full Arabic article ({} words)",
+ "📜 المقال الإنجليزي كامل ({} كلمة)": "📜 Full English article ({} words)",
+ "مقدرتش أجيب المقال كامل، هيتاخد الملخص بس.": "Couldn't fetch the full article; only the summary will be used.",
+ "«ابدأ حلقة منها» بتاخد المقال كامل كمرجع، وبعدين المحرر الذكي يكتبه حلقة طويلة بالعامية (3 لـ 10 دقايق).": "«Start an episode» takes the full article as reference, then the AI editor writes a long colloquial episode (3 to 10 minutes).",
+ "المقال كامل اتحط كمرجع ({} كلمة).": "The full article was set as reference ({} words).",
+ "اضغط «🧠 شغّل المحرر» يكتبه حلقة 5 دقايق، أو غيّر المدة.": "Press «🧠 Run the editor» to write a 5-minute episode, or change the length.",
  "ARABIC_SWITCH_LABEL": "عربي"
 };
