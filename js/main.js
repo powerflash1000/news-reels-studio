@@ -1,26 +1,26 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvqsyrf8';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvqsyrf8';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvqsyrf8';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvqsyrf8';
-import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvqsyrf8';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvqsyrf8';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvqsyrf8';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvqsyrf8';
-import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvqsyrf8';
-import { exportSupport, exportReel } from './export.js?v=mvqsyrf8';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvqsyrf8';
-import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvqsyrf8';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mvqsyrf8';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvqsyrf8';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvqsyrf8';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvqsyrf8';
-import { loadBg, playBg } from './bg.js?v=mvqsyrf8';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvqsyrf8';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvqsyrf8';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvqsyrf8';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvqsyrf8';
-import { initI18n, ui } from './i18n.js?v=mvqsyrf8';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor } from './archive.js?v=mvqsyrf8';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvquk8vm';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvquk8vm';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvquk8vm';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvquk8vm';
+import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvquk8vm';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvquk8vm';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvquk8vm';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvquk8vm';
+import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvquk8vm';
+import { exportSupport, exportReel } from './export.js?v=mvquk8vm';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvquk8vm';
+import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvquk8vm';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS } from './draft.js?v=mvquk8vm';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvquk8vm';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvquk8vm';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvquk8vm';
+import { loadBg, playBg } from './bg.js?v=mvquk8vm';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvquk8vm';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvquk8vm';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvquk8vm';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvquk8vm';
+import { initI18n, ui } from './i18n.js?v=mvquk8vm';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount } from './archive.js?v=mvquk8vm';
 
 initI18n();
 
@@ -1913,11 +1913,19 @@ $('arLiveList').addEventListener('click', async e => {
   } catch (err) { setStatus(String(err.message || err), true); }
 });
 
+function arFull(inf) {
+  const parts = [[inf.ar && ui !== 'en' ? inf.ar.full : '', 'المقال العربي كامل'], [inf.full, 'المقال الإنجليزي كامل']].filter(([t]) => t);
+  if (!parts.length) return '<p class="muted">مقدرتش أجيب المقال كامل، هيتاخد الملخص بس.</p>';
+  return parts.map(([t, l]) => `<details class="full"><summary>📜 ${l} (${wordCount(t)} ${ui === 'en' ? 'words' : 'كلمة'})</summary><div class="ex" dir="auto" translate="no">${esc(t)}</div></details>`).join('') +
+    '<p class="muted">«ابدأ حلقة منها» بتاخد المقال كامل كمرجع، وبعدين المحرر الذكي يكتبه حلقة طويلة بالعامية (3 لـ 10 دقايق).</p>';
+}
+
 function arCard(it, k) {
   const inf = arSt.open.get(it.t);
   const ft = arSt.ft.get(it.t);
   const body = !inf ? '' : inf.err ? `<p class="muted">❌ ${esc(inf.err)}</p>` : `
     <div class="ex" dir="auto" translate="no">${esc((inf.ar && ui !== 'en' ? inf.ar.extract : inf.extract) || '—')}</div>
+    ${arFull(inf)}
     <div class="row"><a class="btn ghost" href="${esc(inf.ar && ui !== 'en' ? inf.ar.url : inf.url)}" target="_blank" rel="noopener">ويكيبيديا ↗</a>${inf.ar && ui !== 'en' ? `<a class="btn ghost" href="${esc(inf.url)}" target="_blank" rel="noopener">النسخة الإنجليزية (أطول) ↗</a>` : ''}</div>
     <div class="row"><button class="btn pri" data-arnew="${k}">🎬 ابدأ حلقة منها</button><button class="btn" data-aradd="${k}">＋ للريل الحالي</button><button class="btn" data-arauto="${k}">⚡ أوتوماتيك (حكّاء)</button><button class="btn ghost" data-arft="${k}">🎞 لقطات أرشيفية</button></div>`;
   const filmsHtml = !ft ? '' : ft.busy ? '<p class="muted">بدوّر في الأرشيف…</p>' : ft.err ? `<p class="muted">❌ ${esc(ft.err)}</p>` : ft.items.length ? `<div class="films">${ft.items.map((m, j) => filmCard(m, `${k}:${j}`, true)).join('')}</div>` : '<p class="muted">مفيش لقطات ملك عام بالاسم ده. جرّب تبويب «أفلام وجرايد قديمة».</p>';
@@ -1950,9 +1958,13 @@ async function loadFilms(more = false) {
 function renderFilms() { $('arGrid').innerHTML = arSt.films.map((m, i) => filmCard(m, 'g:' + i)).join(''); }
 
 const arItemOf = async k => { const A = await loadArchive(); return A.themes.find(t => t.id === arSt.theme).items[Number(k)]; };
+// المرجع = المقال كامل (عربي، ولو قصير بنضيف الإنجليزي اللي غالبًا أطول) عشان المحرر يطلع حلقة دسمة
 function arStory(it, inf) {
   const useAr = inf.ar && ui !== 'en';
-  return { category: 'stories', headline: useAr ? inf.ar.title : inf.title, sourceName: useAr ? 'ويكيبيديا' : 'Wikipedia', sourceUrl: useAr ? inf.ar.url : inf.url, ref: ((useAr ? inf.ar.extract : inf.extract) || '') + `\n(${yearTxt(it.y)} — راجع التواريخ والأسماء قبل النشر)` };
+  const main = (useAr ? inf.ar.full || inf.ar.extract : inf.full || inf.extract) || '';
+  const extra = useAr && main.length < 12000 && inf.full ? `\n\n--- English Wikipedia article (more detail) ---\n${inf.full}` : '';
+  const ref = (main + extra).slice(0, 45000) + `\n(${yearTxt(it.y)} — راجع التواريخ والأسماء قبل النشر)`;
+  return { category: 'stories', headline: useAr ? inf.ar.title : inf.title, sourceName: useAr ? 'ويكيبيديا' : 'Wikipedia', sourceUrl: useAr ? inf.ar.url : inf.url, ref };
 }
 const filmStory = m => ({ category: 'stories', headline: m.title, sourceName: 'Internet Archive', sourceUrl: m.page, ref: [m.year ? 'سنة ' + m.year : '', m.desc].filter(Boolean).join(' — ') });
 
@@ -1997,15 +2009,24 @@ async function onArClick(e) {
   }
   if (!inf || inf.err) return;
   const st = arStory(it, inf);
-  if (d.arnew != null) startReel([st]);
+  if (d.arnew != null) {
+    startReel([st]);
+    // جهّز المحرر الذكي لحلقة طويلة بأسلوب الحكّاء
+    $('agStyle').value = 'storyteller';
+    $('agLen').value = '300';
+    $('agentBox').open = true;
+    $('agentBox').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setStatus(`المقال كامل اتحط كمرجع (${wordCount(st.ref)} كلمة). اضغط «🧠 شغّل المحرر» يكتبه حلقة 5 دقايق، أو غيّر المدة.`);
+  }
   else if (d.aradd != null) addStories([st]);
   else if (d.arauto != null) {
     // أسلوب «حكّاء» للقصة دي بس (autoMake بيقرا الأسلوب قبل أول await)
-    const prev = auCfg.style;
+    const prev = auCfg.style, prevLen = auCfg.len;
     auCfg.style = 'storyteller';
+    if (Number(auCfg.len) < 180) auCfg.len = '300';
     showTab('feed');
     autoMake([{ id: 'ar-' + it.t, title: st.headline, summary: st.ref, link: st.sourceUrl, source: st.sourceName, category: 'stories', lang: ui === 'en' || !inf.ar ? 'en' : 'ar' }]);
-    auCfg.style = prev;
+    auCfg.style = prev; auCfg.len = prevLen;
   }
 }
 $('arList').addEventListener('click', onArClick);
