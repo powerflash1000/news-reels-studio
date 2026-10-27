@@ -136,3 +136,14 @@ dialog label input { width: auto; margin-top: 6px; }
 .tag.op { background: #6b4fbb; }
 .tag.sp { background: #a35a00; }
 .xprompt { white-space: pre-wrap; background: rgba(255,255,255,.05); padding: 8px; border-radius: 8px; font-size: 13px; margin: 6px 0; }
+
+/* الأرشيف */
+.arlist { display: grid; align-items: start; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; margin-top: 10px; }
+.arcard { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 6px; }
+.arcard h3 { margin: 0; font-size: 1rem; }
+.arcard .yr { color: var(--muted, #9aa3b2); font-size: .85rem; }
+.arcard .ex { font-size: .9rem; line-height: 1.6; max-height: 14em; overflow: auto; }
+.arcard .row { margin: 0; flex-wrap: wrap; }
+.arcard .films { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 6px; }
+.arcard .films .mcard { grid-template-rows: 80px auto; font-size: .8rem; }
+.mcard .ds { font-size: .8rem; max-height: 4.5em; overflow: hidden; }

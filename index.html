@@ -1,17 +1,18 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mvqrfrk8">
+<html lang="ar" dir="rtl" data-v="mvqsk8e9">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mvqrfrk8">
+<link rel="stylesheet" href="assets/css/style.css?v=mvqsk8e9">
 </head>
 <body>
 <header class="top">
   <h1>📰 استوديو ريلز الأخبار</h1>
   <nav id="tabs">
     <button data-tab="feed" class="on">الأخبار</button>
+    <button data-tab="archive">الأرشيف</button>
     <button data-tab="analyze">تحليل مصادر</button>
     <button data-tab="studio">الاستوديو</button>
     <button data-tab="media">الوسائط</button>
@@ -74,6 +75,26 @@
     </div>
     <button id="mAdd" class="btn">ابدأ ريل من الخبر ده</button>
   </details>
+</section>
+
+<!-- الأرشيف: قصص تاريخية مختارة + أفلام وجرايد قديمة جاهزة -->
+<section id="tab-archive" hidden>
+  <div class="bar">
+    <div id="arMode" class="chips"><button class="chip on" data-am="stories">📖 قصص تاريخية مختارة</button><button class="chip" data-am="films">🎞 أفلام وجرايد قديمة</button></div>
+  </div>
+  <div id="arStories">
+    <p class="muted">قصص قديمة مختارة جاهزة، مش أخبار جديدة. افتح القصة تشوف ملخصها ورابطها، وبعدين ابدأ منها حلقة أو هات لها لقطات أرشيفية. المصدر بيتحط تلقائي (ويكيبيديا)، وراجع التواريخ والأسماء قبل النشر.</p>
+    <div id="arThemes" class="chips"></div>
+    <div id="arList" class="arlist"></div>
+  </div>
+  <div id="arFilms" hidden>
+    <p class="muted">أفلام وجرايد سينما قديمة ملك عام من Internet Archive، مترتبة بالأكتر مشاهدة. اختار مجموعة وعقد، من غير بحث. التحميل كخلفية محتاج الوسيط (الإعدادات) لو المتصفح منعه.</p>
+    <div id="arColl" class="chips"></div>
+    <div id="arDec" class="chips"></div>
+    <p id="arInfo" class="muted"></p>
+    <div id="arGrid" class="mgrid"></div>
+    <button id="arMore" class="btn ghost" hidden>المزيد</button>
+  </div>
 </section>
 
 <!-- الاستوديو -->
@@ -697,6 +718,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mvqrfrk8"></script>
+<script type="module" src="js/main.js?v=mvqsk8e9"></script>
 </body>
 </html>
