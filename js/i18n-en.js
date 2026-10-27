@@ -1060,5 +1060,18 @@ export default {
  "دوس على التأثير عشان يتحط عند المؤشر في السكريبت.": "Click an effect to insert it at the cursor in the script.",
  "بتشتغل مع Gemini (بتتحول لتوجيه أداء) ومع ElevenLabs v3 (على v2 بتتشال تلقائيًا ومبتتقراش).": "Works with Gemini (turned into delivery directions) and ElevenLabs v3 (on v2 they're removed automatically and not read).",
  "✅ = من قايمة ElevenLabs الرسمية، ٭ = تجريبي (جرّب وسمّع).": "✅ = from ElevenLabs' official list, ٭ = experimental (try and listen).",
+ "❓ سؤال Quiz لليوتيوب": "❓ YouTube Quiz question",
+ "سؤال اختيار من متعدد من مصدر الريل نفسه، تنسخه في YouTube Studio ← المحرر ← Quizzes.": "A multiple-choice question from the reel's own source, to copy into YouTube Studio → Editor → Quizzes.",
+ "السؤال في خانة «Quiz your audience»، والإجابات تحت، وحط ✅ على الإجابة الصح.": "The question goes in «Quiz your audience», the answers below, and mark ✅ on the correct one.",
+ "محتاج مفتاح ذكاء اصطناعي في الإعدادات.": "Needs an AI key in Settings.",
+ "🧠 طلّع سؤال": "🧠 Generate question",
+ "السؤال:": "Question:",
+ "إجابة {}:": "Answer {}:",
+ "الشرح:": "Explanation:",
+ "انسخ يدوي": "Copy manually",
+ "❌ الريل ده مفيهوش خبر ليه عنوان أو ملخص.": "❌ This reel has no story with a headline or summary.",
+ "بيطلّع السؤال…": "Generating the question…",
+ "جاهز ✅ راجعه قبل ما تنشره.": "Ready ✅ Review it before publishing.",
+ "الرد مكانش سؤال صالح، جرّب تاني.": "The reply wasn't a valid question, try again.",
  "ARABIC_SWITCH_LABEL": "عربي"
 };
