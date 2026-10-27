@@ -1,144 +1,955 @@
 {
-  "note": "قصص تاريخية مختارة (عناوين مقالات ويكيبيديا الإنجليزية؛ الملخص والرابط العربي بيتجابوا وقت الفتح). كل تاريخ واسم لازم يتراجع قبل النشر.",
-  "themes": [
+ "note": "قصص تاريخية مختارة (عناوين مقالات ويكيبيديا الإنجليزية؛ الملخص والرابط العربي بيتجابوا وقت الفتح). كل تاريخ واسم لازم يتراجع قبل النشر.",
+ "themes": [
+  {
+   "id": "mystery",
+   "label": "ألغاز وظواهر غريبة",
+   "en": "Mysteries & strange phenomena",
+   "icon": "🌀",
+   "items": [
     {
-      "id": "mystery", "label": "ألغاز وظواهر غريبة", "en": "Mysteries & strange phenomena", "icon": "🌀",
-      "items": [
-        { "t": "Dyatlov Pass incident", "ar": "لغز ممر دياتلوف", "y": 1959 },
-        { "t": "Mary Celeste", "ar": "سفينة ماري سيليست المهجورة", "y": 1872 },
-        { "t": "Roanoke Colony", "ar": "المستعمرة المفقودة (رونوك)", "y": 1590 },
-        { "t": "Voynich manuscript", "ar": "مخطوطة فوينيتش اللي محدش قدر يقراها", "y": 1404 },
-        { "t": "Tunguska event", "ar": "انفجار تونغوسكا", "y": 1908 },
-        { "t": "Wow! signal", "ar": "إشارة «واو!» من الفضاء", "y": 1977 },
-        { "t": "Dancing plague of 1518", "ar": "وباء الرقص 1518", "y": 1518 },
-        { "t": "Antikythera mechanism", "ar": "آلة أنتيكيثيرا (أقدم كمبيوتر)", "y": -100 },
-        { "t": "Oak Island mystery", "ar": "كنز جزيرة أوك", "y": 1795 },
-        { "t": "Flannan Isles Lighthouse", "ar": "اختفاء حراس منارة فلانان", "y": 1900 },
-        { "t": "Tamám Shud case", "ar": "قضية «تمام شد» الغامضة", "y": 1948 },
-        { "t": "Green children of Woolpit", "ar": "الأطفال الخضر في وولبيت", "y": 1150 },
-        { "t": "Kaspar Hauser", "ar": "كاسبار هاوزر: الولد اللي ظهر من العدم", "y": 1828 },
-        { "t": "Max Headroom signal hijacking", "ar": "اختطاف بث التلفزيون (ماكس هيدروم)", "y": 1987 },
-        { "t": "Hessdalen lights", "ar": "أضواء هسدالن", "y": 1981 },
-        { "t": "Bermuda Triangle", "ar": "مثلث برمودا (الحقيقة والأسطورة)", "y": 1964 },
-        { "t": "Taos Hum", "ar": "الطنين الغامض (تاوس)", "y": 1991 },
-        { "t": "Sodder children disappearance", "ar": "اختفاء أطفال عائلة سودر", "y": 1945 }
-      ]
+     "t": "Dyatlov Pass incident",
+     "ar": "لغز ممر دياتلوف",
+     "y": 1959
     },
     {
-      "id": "crime", "label": "جرائم وسرقات تاريخية", "en": "Historic crimes & heists", "icon": "🕵️",
-      "items": [
-        { "t": "Raya and Sakina", "ar": "ريا وسكينة", "y": 1920 },
-        { "t": "D. B. Cooper", "ar": "دي بي كوبر: خاطف الطيارة اللي اختفى", "y": 1971 },
-        { "t": "Great Train Robbery (1963)", "ar": "سرقة القطار الكبرى", "y": 1963 },
-        { "t": "Isabella Stewart Gardner Museum theft", "ar": "أكبر سرقة فنية في التاريخ", "y": 1990 },
-        { "t": "Vincenzo Peruggia", "ar": "سرقة الموناليزا من اللوفر", "y": 1911 },
-        { "t": "Jack the Ripper", "ar": "جاك السفاح", "y": 1888 },
-        { "t": "Zodiac Killer", "ar": "قاتل الزودياك والرسايل المشفرة", "y": 1969 },
-        { "t": "Lindbergh kidnapping", "ar": "خطف ابن ليندبرغ", "y": 1932 },
-        { "t": "Antwerp diamond heist", "ar": "سرقة الماس في أنتويرب", "y": 2003 },
-        { "t": "Banco Central burglary at Fortaleza", "ar": "النفق اللي سرق البنك المركزي البرازيلي", "y": 2005 },
-        { "t": "Lufthansa heist", "ar": "سرقة لوفتهانزا", "y": 1978 },
-        { "t": "Brink's-Mat robbery", "ar": "سرقة دهب برينكس مات", "y": 1983 },
-        { "t": "Frank Abagnale", "ar": "فرانك أباغنيل: المحتال الطيار", "y": 1960 },
-        { "t": "Victor Lustig", "ar": "الراجل اللي باع برج إيفل", "y": 1925 },
-        { "t": "Escape from Alcatraz (1962)", "ar": "الهروب من سجن ألكاتراز", "y": 1962 },
-        { "t": "Bonnie and Clyde", "ar": "بوني وكلايد", "y": 1934 },
-        { "t": "Charles Ponzi", "ar": "تشارلز بونزي: أصل النصب الهرمي", "y": 1920 }
-      ]
+     "t": "Mary Celeste",
+     "ar": "سفينة ماري سيليست المهجورة",
+     "y": 1872
     },
     {
-      "id": "egypt", "label": "مصر والمنطقة زمان", "en": "Egypt & the region, back then", "icon": "🏺",
-      "items": [
-        { "t": "KV62", "ar": "اكتشاف مقبرة توت عنخ آمون", "y": 1922 },
-        { "t": "Curse of the pharaohs", "ar": "لعنة الفراعنة", "y": 1923 },
-        { "t": "Rosetta Stone", "ar": "حجر رشيد وفك الهيروغليفي", "y": 1799 },
-        { "t": "Suez Crisis", "ar": "العدوان الثلاثي 1956", "y": 1956 },
-        { "t": "Cairo fire", "ar": "حريق القاهرة 1952", "y": 1952 },
-        { "t": "Denshawai incident", "ar": "حادثة دنشواي", "y": 1906 },
-        { "t": "Massacre of the Citadel", "ar": "مذبحة القلعة", "y": 1811 },
-        { "t": "Suez Canal", "ar": "حفر وافتتاح قناة السويس", "y": 1869 },
-        { "t": "Abu Simbel", "ar": "نقل معبد أبو سمبل", "y": 1968 },
-        { "t": "Aswan Dam", "ar": "السد العالي", "y": 1970 },
-        { "t": "Second Battle of El Alamein", "ar": "معركة العلمين", "y": 1942 },
-        { "t": "1992 Cairo earthquake", "ar": "زلزال 1992", "y": 1992 },
-        { "t": "MS al-Salam Boccaccio 98", "ar": "غرق العبارة السلام 98", "y": 2006 },
-        { "t": "Library of Alexandria", "ar": "مكتبة الإسكندرية القديمة واختفاؤها", "y": -48 },
-        { "t": "Lighthouse of Alexandria", "ar": "منارة الإسكندرية", "y": -280 },
-        { "t": "Dendera zodiac", "ar": "زودياك دندرة اللي اتنقل لباريس", "y": 1821 },
-        { "t": "Cairo Geniza", "ar": "جنيزة القاهرة: كنز ورق في معبد", "y": 1896 }
-      ]
+     "t": "Roanoke Colony",
+     "ar": "المستعمرة المفقودة (رونوك)",
+     "y": 1590
     },
     {
-      "id": "spies", "label": "حروب وجواسيس ومخابرات", "en": "Wars, spies & intelligence", "icon": "🎖️",
-      "items": [
-        { "t": "Refaat Al-Gammal", "ar": "رأفت الهجان (رفعت الجمال)", "y": 1956 },
-        { "t": "Ashraf Marwan", "ar": "أشرف مروان", "y": 1973 },
-        { "t": "Operation Mincemeat", "ar": "عملية اللحم المفروم: جثة خدعت هتلر", "y": 1943 },
-        { "t": "Ghost Army", "ar": "الجيش الشبح (دبابات منفوخة)", "y": 1944 },
-        { "t": "Bletchley Park", "ar": "كسر شفرة إنيجما", "y": 1941 },
-        { "t": "Cambridge Five", "ar": "جواسيس كامبريدج الخمسة", "y": 1951 },
-        { "t": "Lavon Affair", "ar": "فضيحة لافون في مصر", "y": 1954 },
-        { "t": "Operation Paperclip", "ar": "عملية مشبك الورق: علماء النازي في أمريكا", "y": 1945 },
-        { "t": "Cuban Missile Crisis", "ar": "أزمة الصواريخ الكوبية", "y": 1962 },
-        { "t": "Operation Entebbe", "ar": "عملية عنتيبي", "y": 1976 },
-        { "t": "The Great Seal bug", "ar": "الجاسوس الخشب: ميكروفون في هدية للسفير", "y": 1945 },
-        { "t": "Operation Gold", "ar": "نفق التجسس تحت برلين", "y": 1955 },
-        { "t": "Hiroo Onoda", "ar": "الجندي اللي فضل يحارب 29 سنة بعد الحرب", "y": 1974 },
-        { "t": "Bar Lev Line", "ar": "خط بارليف وخراطيم المية", "y": 1973 },
-        { "t": "Juan Pujol García", "ar": "غاربو: الجاسوس المزدوج اللي خدع النازي", "y": 1944 }
-      ]
+     "t": "Voynich manuscript",
+     "ar": "مخطوطة فوينيتش اللي محدش قدر يقراها",
+     "y": 1404
     },
     {
-      "id": "disaster", "label": "كوارث وحوادث غيّرت التاريخ", "en": "Disasters that changed history", "icon": "🔥",
-      "items": [
-        { "t": "Titanic", "ar": "غرق تيتانيك", "y": 1912 },
-        { "t": "Hindenburg disaster", "ar": "احتراق المنطاد هيندنبورغ", "y": 1937 },
-        { "t": "Chernobyl disaster", "ar": "كارثة تشيرنوبل", "y": 1986 },
-        { "t": "Eruption of Mount Vesuvius in 79 AD", "ar": "بومبي: المدينة اللي اتدفنت", "y": 79 },
-        { "t": "Great Molasses Flood", "ar": "فيضان العسل الأسود في بوسطن", "y": 1919 },
-        { "t": "Halifax Explosion", "ar": "انفجار هاليفاكس", "y": 1917 },
-        { "t": "1883 eruption of Krakatoa", "ar": "بركان كراكاتوا", "y": 1883 },
-        { "t": "Tenerife airport disaster", "ar": "أسوأ حادثة طيران في التاريخ", "y": 1977 },
-        { "t": "Apollo 13", "ar": "أبولو 13: «هيوستن، عندنا مشكلة»", "y": 1970 },
-        { "t": "Space Shuttle Challenger disaster", "ar": "انفجار المكوك تشالنجر", "y": 1986 },
-        { "t": "Great Smog of London", "ar": "ضباب لندن القاتل", "y": 1952 },
-        { "t": "Lake Nyos disaster", "ar": "البحيرة اللي خنقت قرية", "y": 1986 },
-        { "t": "Year Without a Summer", "ar": "السنة اللي مجاش فيها صيف", "y": 1816 },
-        { "t": "Beirut port explosion", "ar": "انفجار مرفأ بيروت", "y": 2020 },
-        { "t": "Spanish flu", "ar": "الإنفلونزا الإسبانية", "y": 1918 }
-      ]
+     "t": "Tunguska event",
+     "ar": "انفجار تونغوسكا",
+     "y": 1908
     },
     {
-      "id": "science", "label": "علم واكتشافات وخدع", "en": "Science, discoveries & hoaxes", "icon": "🔬",
-      "items": [
-        { "t": "Piltdown Man", "ar": "إنسان بلتداون: أكبر خدعة علمية", "y": 1912 },
-        { "t": "Phineas Gage", "ar": "فينياس جيج: الراجل اللي عاش بقضيب في دماغه", "y": 1848 },
-        { "t": "Discovery of penicillin", "ar": "اكتشاف البنسلين بالصدفة", "y": 1928 },
-        { "t": "Apollo 11", "ar": "أول نزول على القمر", "y": 1969 },
-        { "t": "Sputnik 1", "ar": "سبوتنيك: أول قمر صناعي", "y": 1957 },
-        { "t": "Radium Girls", "ar": "بنات الراديوم", "y": 1917 },
-        { "t": "Mary Mallon", "ar": "ماري التيفويد", "y": 1907 },
-        { "t": "Laika", "ar": "لايكا: أول كائن في المدار", "y": 1957 },
-        { "t": "Cottingley Fairies", "ar": "صور الجنيات اللي خدعت كونان دويل", "y": 1917 },
-        { "t": "The War of the Worlds (1938 radio drama)", "ar": "تمثيلية الراديو اللي رعبت أمريكا", "y": 1938 },
-        { "t": "Henrietta Lacks", "ar": "هنرييتا لاكس: الخلايا اللي مبتموتش", "y": 1951 },
-        { "t": "Cardiff Giant", "ar": "عملاق كارديف المزيف", "y": 1869 },
-        { "t": "Golden Record", "ar": "الأسطوانة الذهبية لفوياجر", "y": 1977 },
-        { "t": "Tsar Bomba", "ar": "قنبلة القيصر", "y": 1961 }
-      ]
+     "t": "Wow! signal",
+     "ar": "إشارة «واو!» من الفضاء",
+     "y": 1977
+    },
+    {
+     "t": "Dancing plague of 1518",
+     "ar": "وباء الرقص 1518",
+     "y": 1518
+    },
+    {
+     "t": "Antikythera mechanism",
+     "ar": "آلة أنتيكيثيرا (أقدم كمبيوتر)",
+     "y": -100
+    },
+    {
+     "t": "Oak Island mystery",
+     "ar": "كنز جزيرة أوك",
+     "y": 1795
+    },
+    {
+     "t": "Flannan Isles Lighthouse",
+     "ar": "اختفاء حراس منارة فلانان",
+     "y": 1900
+    },
+    {
+     "t": "Tamám Shud case",
+     "ar": "قضية «تمام شد» الغامضة",
+     "y": 1948
+    },
+    {
+     "t": "Green children of Woolpit",
+     "ar": "الأطفال الخضر في وولبيت",
+     "y": 1150
+    },
+    {
+     "t": "Kaspar Hauser",
+     "ar": "كاسبار هاوزر: الولد اللي ظهر من العدم",
+     "y": 1828
+    },
+    {
+     "t": "Max Headroom signal hijacking",
+     "ar": "اختطاف بث التلفزيون (ماكس هيدروم)",
+     "y": 1987
+    },
+    {
+     "t": "Hessdalen lights",
+     "ar": "أضواء هسدالن",
+     "y": 1981
+    },
+    {
+     "t": "Bermuda Triangle",
+     "ar": "مثلث برمودا (الحقيقة والأسطورة)",
+     "y": 1964
+    },
+    {
+     "t": "Taos Hum",
+     "ar": "الطنين الغامض (تاوس)",
+     "y": 1991
+    },
+    {
+     "t": "Sodder children disappearance",
+     "ar": "اختفاء أطفال عائلة سودر",
+     "y": 1945
     }
-  ],
-  "films": [
-    { "id": "newsreels", "label": "جرايد سينما قديمة (Universal Newsreels 1929–1967)", "en": "Universal Newsreels (1929–1967)", "q": "collection:universal_newsreels" },
-    { "id": "prelinger", "label": "أفلام Prelinger (تعليمية وإعلانية وصناعية قديمة)", "en": "Prelinger Archives films", "q": "collection:prelinger" },
-    { "id": "fedflix", "label": "أفلام الحكومة الأمريكية (FedFlix)", "en": "US government films (FedFlix)", "q": "collection:FedFlix" },
-    { "id": "nasa", "label": "أرشيف ناسا", "en": "NASA archive", "q": "collection:nasa AND mediatype:movies" },
-    { "id": "ww2", "label": "الحرب العالمية التانية", "en": "World War II", "q": "(collection:universal_newsreels OR collection:prelinger OR collection:FedFlix) AND (\"world war\" OR WWII OR Nazi OR Hitler OR Pearl Harbor)" },
-    { "id": "mideast", "label": "مصر والشرق الأوسط زمان", "en": "Egypt & Middle East", "q": "(collection:universal_newsreels OR collection:prelinger) AND (Egypt OR Cairo OR Suez OR Nile OR Arab OR Palestine OR Iraq OR Syria OR Lebanon)" },
-    { "id": "disasters", "label": "كوارث وحوادث", "en": "Disasters", "q": "(collection:universal_newsreels OR collection:prelinger) AND (disaster OR fire OR flood OR explosion OR wreck OR crash OR earthquake OR hurricane)" },
-    { "id": "crime", "label": "جريمة وبوليس", "en": "Crime & police", "q": "(collection:prelinger OR collection:universal_newsreels OR collection:FedFlix) AND (crime OR police OR gangster OR FBI OR prison OR criminal)" },
-    { "id": "space", "label": "سباق الفضاء", "en": "Space race", "q": "(collection:universal_newsreels OR collection:prelinger OR collection:nasa) AND mediatype:movies AND (rocket OR space OR satellite OR moon OR astronaut OR Sputnik)" },
-    { "id": "strange", "label": "غرائب وأطباق طائرة", "en": "Oddities & UFOs", "q": "(collection:prelinger OR collection:universal_newsreels OR collection:FedFlix) AND (UFO OR saucer OR strange OR mystery OR oddities OR freak)" }
-  ],
-  "decades": [1920, 1930, 1940, 1950, 1960, 1970]
+   ],
+   "src": [
+    "blackvault",
+    "reddit-unresolved",
+    "atlasobscura"
+   ],
+   "kw": [
+    "mystery",
+    "mysterious",
+    "unexplained",
+    "unsolved",
+    "ufo",
+    "uap",
+    "paranormal",
+    "ghost",
+    "haunted",
+    "strange",
+    "bizarre",
+    "weird",
+    "legend",
+    "curse",
+    "vanish",
+    "disappear",
+    "لغز",
+    "غامض",
+    "غموض",
+    "ظاهرة",
+    "أشباح",
+    "مسكون",
+    "اختفاء",
+    "أسطورة",
+    "لعنة",
+    "غريب"
+   ]
+  },
+  {
+   "id": "crime",
+   "label": "جرائم وسرقات تاريخية",
+   "en": "Historic crimes & heists",
+   "icon": "🕵️",
+   "items": [
+    {
+     "t": "Raya and Sakina",
+     "ar": "ريا وسكينة",
+     "y": 1920
+    },
+    {
+     "t": "D. B. Cooper",
+     "ar": "دي بي كوبر: خاطف الطيارة اللي اختفى",
+     "y": 1971
+    },
+    {
+     "t": "Great Train Robbery (1963)",
+     "ar": "سرقة القطار الكبرى",
+     "y": 1963
+    },
+    {
+     "t": "Isabella Stewart Gardner Museum theft",
+     "ar": "أكبر سرقة فنية في التاريخ",
+     "y": 1990
+    },
+    {
+     "t": "Vincenzo Peruggia",
+     "ar": "سرقة الموناليزا من اللوفر",
+     "y": 1911
+    },
+    {
+     "t": "Jack the Ripper",
+     "ar": "جاك السفاح",
+     "y": 1888
+    },
+    {
+     "t": "Zodiac Killer",
+     "ar": "قاتل الزودياك والرسايل المشفرة",
+     "y": 1969
+    },
+    {
+     "t": "Lindbergh kidnapping",
+     "ar": "خطف ابن ليندبرغ",
+     "y": 1932
+    },
+    {
+     "t": "Antwerp diamond heist",
+     "ar": "سرقة الماس في أنتويرب",
+     "y": 2003
+    },
+    {
+     "t": "Banco Central burglary at Fortaleza",
+     "ar": "النفق اللي سرق البنك المركزي البرازيلي",
+     "y": 2005
+    },
+    {
+     "t": "Lufthansa heist",
+     "ar": "سرقة لوفتهانزا",
+     "y": 1978
+    },
+    {
+     "t": "Brink's-Mat robbery",
+     "ar": "سرقة دهب برينكس مات",
+     "y": 1983
+    },
+    {
+     "t": "Frank Abagnale",
+     "ar": "فرانك أباغنيل: المحتال الطيار",
+     "y": 1960
+    },
+    {
+     "t": "Victor Lustig",
+     "ar": "الراجل اللي باع برج إيفل",
+     "y": 1925
+    },
+    {
+     "t": "Escape from Alcatraz (1962)",
+     "ar": "الهروب من سجن ألكاتراز",
+     "y": 1962
+    },
+    {
+     "t": "Bonnie and Clyde",
+     "ar": "بوني وكلايد",
+     "y": 1934
+    },
+    {
+     "t": "Charles Ponzi",
+     "ar": "تشارلز بونزي: أصل النصب الهرمي",
+     "y": 1920
+    }
+   ],
+   "src": [
+    "doj-press",
+    "fbi-stories"
+   ],
+   "kw": [
+    "crime",
+    "criminal",
+    "murder",
+    "killer",
+    "kidnap",
+    "heist",
+    "robbery",
+    "theft",
+    "stolen",
+    "fraud",
+    "scam",
+    "con man",
+    "gang",
+    "mafia",
+    "prison",
+    "trial",
+    "sentenced",
+    "convicted",
+    "police",
+    "detective",
+    "جريمة",
+    "قتل",
+    "سفاح",
+    "خطف",
+    "سرقة",
+    "سطو",
+    "نصب",
+    "احتيال",
+    "عصابة",
+    "سجن",
+    "محاكمة",
+    "شرطة",
+    "مباحث"
+   ]
+  },
+  {
+   "id": "egypt",
+   "label": "مصر والمنطقة زمان",
+   "en": "Egypt & the region, back then",
+   "icon": "🏺",
+   "items": [
+    {
+     "t": "KV62",
+     "ar": "اكتشاف مقبرة توت عنخ آمون",
+     "y": 1922
+    },
+    {
+     "t": "Curse of the pharaohs",
+     "ar": "لعنة الفراعنة",
+     "y": 1923
+    },
+    {
+     "t": "Rosetta Stone",
+     "ar": "حجر رشيد وفك الهيروغليفي",
+     "y": 1799
+    },
+    {
+     "t": "Suez Crisis",
+     "ar": "العدوان الثلاثي 1956",
+     "y": 1956
+    },
+    {
+     "t": "Cairo fire",
+     "ar": "حريق القاهرة 1952",
+     "y": 1952
+    },
+    {
+     "t": "Denshawai incident",
+     "ar": "حادثة دنشواي",
+     "y": 1906
+    },
+    {
+     "t": "Massacre of the Citadel",
+     "ar": "مذبحة القلعة",
+     "y": 1811
+    },
+    {
+     "t": "Suez Canal",
+     "ar": "حفر وافتتاح قناة السويس",
+     "y": 1869
+    },
+    {
+     "t": "Abu Simbel",
+     "ar": "نقل معبد أبو سمبل",
+     "y": 1968
+    },
+    {
+     "t": "Aswan Dam",
+     "ar": "السد العالي",
+     "y": 1970
+    },
+    {
+     "t": "Second Battle of El Alamein",
+     "ar": "معركة العلمين",
+     "y": 1942
+    },
+    {
+     "t": "1992 Cairo earthquake",
+     "ar": "زلزال 1992",
+     "y": 1992
+    },
+    {
+     "t": "MS al-Salam Boccaccio 98",
+     "ar": "غرق العبارة السلام 98",
+     "y": 2006
+    },
+    {
+     "t": "Library of Alexandria",
+     "ar": "مكتبة الإسكندرية القديمة واختفاؤها",
+     "y": -48
+    },
+    {
+     "t": "Lighthouse of Alexandria",
+     "ar": "منارة الإسكندرية",
+     "y": -280
+    },
+    {
+     "t": "Dendera zodiac",
+     "ar": "زودياك دندرة اللي اتنقل لباريس",
+     "y": 1821
+    },
+    {
+     "t": "Cairo Geniza",
+     "ar": "جنيزة القاهرة: كنز ورق في معبد",
+     "y": 1896
+    }
+   ],
+   "src": [],
+   "kw": [
+    "egypt",
+    "egyptian",
+    "cairo",
+    "alexandria",
+    "nile",
+    "pharaoh",
+    "pyramid",
+    "sphinx",
+    "suez",
+    "luxor",
+    "aswan",
+    "mamluk",
+    "ottoman",
+    "mecca",
+    "baghdad",
+    "damascus",
+    "levant",
+    "مصر",
+    "القاهرة",
+    "الإسكندرية",
+    "النيل",
+    "فرعون",
+    "الفراعنة",
+    "الأهرام",
+    "السويس",
+    "الأقصر",
+    "أسوان",
+    "المماليك",
+    "العثماني",
+    "بغداد",
+    "دمشق",
+    "العرب"
+   ]
+  },
+  {
+   "id": "spies",
+   "label": "حروب وجواسيس ومخابرات",
+   "en": "Wars, spies & intelligence",
+   "icon": "🎖️",
+   "items": [
+    {
+     "t": "Refaat Al-Gammal",
+     "ar": "رأفت الهجان (رفعت الجمال)",
+     "y": 1956
+    },
+    {
+     "t": "Ashraf Marwan",
+     "ar": "أشرف مروان",
+     "y": 1973
+    },
+    {
+     "t": "Operation Mincemeat",
+     "ar": "عملية اللحم المفروم: جثة خدعت هتلر",
+     "y": 1943
+    },
+    {
+     "t": "Ghost Army",
+     "ar": "الجيش الشبح (دبابات منفوخة)",
+     "y": 1944
+    },
+    {
+     "t": "Bletchley Park",
+     "ar": "كسر شفرة إنيجما",
+     "y": 1941
+    },
+    {
+     "t": "Cambridge Five",
+     "ar": "جواسيس كامبريدج الخمسة",
+     "y": 1951
+    },
+    {
+     "t": "Lavon Affair",
+     "ar": "فضيحة لافون في مصر",
+     "y": 1954
+    },
+    {
+     "t": "Operation Paperclip",
+     "ar": "عملية مشبك الورق: علماء النازي في أمريكا",
+     "y": 1945
+    },
+    {
+     "t": "Cuban Missile Crisis",
+     "ar": "أزمة الصواريخ الكوبية",
+     "y": 1962
+    },
+    {
+     "t": "Operation Entebbe",
+     "ar": "عملية عنتيبي",
+     "y": 1976
+    },
+    {
+     "t": "The Great Seal bug",
+     "ar": "الجاسوس الخشب: ميكروفون في هدية للسفير",
+     "y": 1945
+    },
+    {
+     "t": "Operation Gold",
+     "ar": "نفق التجسس تحت برلين",
+     "y": 1955
+    },
+    {
+     "t": "Hiroo Onoda",
+     "ar": "الجندي اللي فضل يحارب 29 سنة بعد الحرب",
+     "y": 1974
+    },
+    {
+     "t": "Bar Lev Line",
+     "ar": "خط بارليف وخراطيم المية",
+     "y": 1973
+    },
+    {
+     "t": "Juan Pujol García",
+     "ar": "غاربو: الجاسوس المزدوج اللي خدع النازي",
+     "y": 1944
+    }
+   ],
+   "src": [],
+   "kw": [
+    "spy",
+    "spies",
+    "espionage",
+    "intelligence",
+    "cia",
+    "kgb",
+    "mi6",
+    "mossad",
+    "secret agent",
+    "cold war",
+    "world war",
+    "wwii",
+    "ww2",
+    "nazi",
+    "soldier",
+    "battle",
+    "military",
+    "codebreak",
+    "declassified",
+    "جاسوس",
+    "تجسس",
+    "مخابرات",
+    "معركة",
+    "جيش",
+    "عملية سرية",
+    "النازي"
+   ]
+  },
+  {
+   "id": "disaster",
+   "label": "كوارث وحوادث غيّرت التاريخ",
+   "en": "Disasters that changed history",
+   "icon": "🔥",
+   "items": [
+    {
+     "t": "Titanic",
+     "ar": "غرق تيتانيك",
+     "y": 1912
+    },
+    {
+     "t": "Hindenburg disaster",
+     "ar": "احتراق المنطاد هيندنبورغ",
+     "y": 1937
+    },
+    {
+     "t": "Chernobyl disaster",
+     "ar": "كارثة تشيرنوبل",
+     "y": 1986
+    },
+    {
+     "t": "Eruption of Mount Vesuvius in 79 AD",
+     "ar": "بومبي: المدينة اللي اتدفنت",
+     "y": 79
+    },
+    {
+     "t": "Great Molasses Flood",
+     "ar": "فيضان العسل الأسود في بوسطن",
+     "y": 1919
+    },
+    {
+     "t": "Halifax Explosion",
+     "ar": "انفجار هاليفاكس",
+     "y": 1917
+    },
+    {
+     "t": "1883 eruption of Krakatoa",
+     "ar": "بركان كراكاتوا",
+     "y": 1883
+    },
+    {
+     "t": "Tenerife airport disaster",
+     "ar": "أسوأ حادثة طيران في التاريخ",
+     "y": 1977
+    },
+    {
+     "t": "Apollo 13",
+     "ar": "أبولو 13: «هيوستن، عندنا مشكلة»",
+     "y": 1970
+    },
+    {
+     "t": "Space Shuttle Challenger disaster",
+     "ar": "انفجار المكوك تشالنجر",
+     "y": 1986
+    },
+    {
+     "t": "Great Smog of London",
+     "ar": "ضباب لندن القاتل",
+     "y": 1952
+    },
+    {
+     "t": "Lake Nyos disaster",
+     "ar": "البحيرة اللي خنقت قرية",
+     "y": 1986
+    },
+    {
+     "t": "Year Without a Summer",
+     "ar": "السنة اللي مجاش فيها صيف",
+     "y": 1816
+    },
+    {
+     "t": "Beirut port explosion",
+     "ar": "انفجار مرفأ بيروت",
+     "y": 2020
+    },
+    {
+     "t": "Spanish flu",
+     "ar": "الإنفلونزا الإسبانية",
+     "y": 1918
+    }
+   ],
+   "src": [],
+   "kw": [
+    "disaster",
+    "catastrophe",
+    "shipwreck",
+    "sinking",
+    "sank",
+    "titanic",
+    "explosion",
+    "flood",
+    "earthquake",
+    "volcano",
+    "eruption",
+    "tsunami",
+    "hurricane",
+    "plague",
+    "pandemic",
+    "epidemic",
+    "crash",
+    "famine",
+    "كارثة",
+    "غرق",
+    "انفجار",
+    "حريق",
+    "فيضان",
+    "زلزال",
+    "بركان",
+    "إعصار",
+    "طاعون",
+    "وباء",
+    "تحطم",
+    "مجاعة"
+   ]
+  },
+  {
+   "id": "science",
+   "label": "علم واكتشافات وخدع",
+   "en": "Science, discoveries & hoaxes",
+   "icon": "🔬",
+   "items": [
+    {
+     "t": "Piltdown Man",
+     "ar": "إنسان بلتداون: أكبر خدعة علمية",
+     "y": 1912
+    },
+    {
+     "t": "Phineas Gage",
+     "ar": "فينياس جيج: الراجل اللي عاش بقضيب في دماغه",
+     "y": 1848
+    },
+    {
+     "t": "Discovery of penicillin",
+     "ar": "اكتشاف البنسلين بالصدفة",
+     "y": 1928
+    },
+    {
+     "t": "Apollo 11",
+     "ar": "أول نزول على القمر",
+     "y": 1969
+    },
+    {
+     "t": "Sputnik 1",
+     "ar": "سبوتنيك: أول قمر صناعي",
+     "y": 1957
+    },
+    {
+     "t": "Radium Girls",
+     "ar": "بنات الراديوم",
+     "y": 1917
+    },
+    {
+     "t": "Mary Mallon",
+     "ar": "ماري التيفويد",
+     "y": 1907
+    },
+    {
+     "t": "Laika",
+     "ar": "لايكا: أول كائن في المدار",
+     "y": 1957
+    },
+    {
+     "t": "Cottingley Fairies",
+     "ar": "صور الجنيات اللي خدعت كونان دويل",
+     "y": 1917
+    },
+    {
+     "t": "The War of the Worlds (1938 radio drama)",
+     "ar": "تمثيلية الراديو اللي رعبت أمريكا",
+     "y": 1938
+    },
+    {
+     "t": "Henrietta Lacks",
+     "ar": "هنرييتا لاكس: الخلايا اللي مبتموتش",
+     "y": 1951
+    },
+    {
+     "t": "Cardiff Giant",
+     "ar": "عملاق كارديف المزيف",
+     "y": 1869
+    },
+    {
+     "t": "Golden Record",
+     "ar": "الأسطوانة الذهبية لفوياجر",
+     "y": 1977
+    },
+    {
+     "t": "Tsar Bomba",
+     "ar": "قنبلة القيصر",
+     "y": 1961
+    }
+   ],
+   "src": [
+    "livescience",
+    "pd-review"
+   ],
+   "kw": [
+    "science",
+    "scientist",
+    "discovery",
+    "discovered",
+    "invention",
+    "hoax",
+    "experiment",
+    "fossil",
+    "archaeolog",
+    "space",
+    "astronaut",
+    "moon",
+    "medicine",
+    "اكتشاف",
+    "اختراع",
+    "خدعة",
+    "تجربة",
+    "حفريات",
+    "أثري",
+    "الفضاء",
+    "القمر"
+   ]
+  }
+ ],
+ "films": [
+  {
+   "id": "newsreels",
+   "label": "جرايد سينما قديمة (Universal Newsreels 1929–1967)",
+   "en": "Universal Newsreels (1929–1967)",
+   "q": "collection:universal_newsreels"
+  },
+  {
+   "id": "prelinger",
+   "label": "أفلام Prelinger (تعليمية وإعلانية وصناعية قديمة)",
+   "en": "Prelinger Archives films",
+   "q": "collection:prelinger"
+  },
+  {
+   "id": "fedflix",
+   "label": "أفلام الحكومة الأمريكية (FedFlix)",
+   "en": "US government films (FedFlix)",
+   "q": "collection:FedFlix"
+  },
+  {
+   "id": "nasa",
+   "label": "أرشيف ناسا",
+   "en": "NASA archive",
+   "q": "collection:nasa AND mediatype:movies"
+  },
+  {
+   "id": "ww2",
+   "label": "الحرب العالمية التانية",
+   "en": "World War II",
+   "q": "(collection:universal_newsreels OR collection:prelinger OR collection:FedFlix) AND (\"world war\" OR WWII OR Nazi OR Hitler OR Pearl Harbor)"
+  },
+  {
+   "id": "mideast",
+   "label": "مصر والشرق الأوسط زمان",
+   "en": "Egypt & Middle East",
+   "q": "(collection:universal_newsreels OR collection:prelinger) AND (Egypt OR Cairo OR Suez OR Nile OR Arab OR Palestine OR Iraq OR Syria OR Lebanon)"
+  },
+  {
+   "id": "disasters",
+   "label": "كوارث وحوادث",
+   "en": "Disasters",
+   "q": "(collection:universal_newsreels OR collection:prelinger) AND (disaster OR fire OR flood OR explosion OR wreck OR crash OR earthquake OR hurricane)"
+  },
+  {
+   "id": "crime",
+   "label": "جريمة وبوليس",
+   "en": "Crime & police",
+   "q": "(collection:prelinger OR collection:universal_newsreels OR collection:FedFlix) AND (crime OR police OR gangster OR FBI OR prison OR criminal)"
+  },
+  {
+   "id": "space",
+   "label": "سباق الفضاء",
+   "en": "Space race",
+   "q": "(collection:universal_newsreels OR collection:prelinger OR collection:nasa) AND mediatype:movies AND (rocket OR space OR satellite OR moon OR astronaut OR Sputnik)"
+  },
+  {
+   "id": "strange",
+   "label": "غرائب وأطباق طائرة",
+   "en": "Oddities & UFOs",
+   "q": "(collection:prelinger OR collection:universal_newsreels OR collection:FedFlix) AND (UFO OR saucer OR strange OR mystery OR oddities OR freak)"
+  }
+ ],
+ "decades": [
+  1920,
+  1930,
+  1940,
+  1950,
+  1960,
+  1970
+ ],
+ "live": [
+  {
+   "g": "مصادر حرة (حكومة أمريكية — ينفع تاخد منها لقطة مع ذكر المصدر)",
+   "use": "pd",
+   "items": [
+    {
+     "n": "ناسا — البث المباشر (إطلاقات وفضاء)",
+     "u": "https://plus.nasa.gov/",
+     "s": "NASA+"
+    },
+    {
+     "n": "محطة الفضاء الدولية — الأرض من الفضاء لايف",
+     "u": "https://eol.jsc.nasa.gov/ESRS/HDEV/",
+     "s": "NASA ISS"
+    },
+    {
+     "n": "صور الأقمار الصناعية لايف (أعاصير وسحب)",
+     "u": "https://www.star.nesdis.noaa.gov/GOES/",
+     "s": "NOAA GOES"
+    },
+    {
+     "n": "كاميرات بركان كيلاويا (هاواي)",
+     "u": "https://www.usgs.gov/volcanoes/kilauea/webcams",
+     "s": "USGS"
+    },
+    {
+     "n": "خريطة الزلازل لحظة بلحظة",
+     "u": "https://earthquake.usgs.gov/earthquakes/map/",
+     "s": "USGS"
+    }
+   ]
+  },
+  {
+   "g": "كاميرات العالم المفتوحة (للمتابعة والأفكار — اللقطات ليها حقوق)",
+   "use": "watch",
+   "items": [
+    {
+     "n": "EarthCam — ميادين ومدن حول العالم (تايمز سكوير وغيره)",
+     "u": "https://www.earthcam.com/",
+     "s": "EarthCam"
+    },
+    {
+     "n": "SkylineWebcams — كاميرات مدن وشواطئ وبراكين",
+     "u": "https://www.skylinewebcams.com/",
+     "s": "SkylineWebcams"
+    },
+    {
+     "n": "Windy — آلاف الكاميرات على الخريطة والطقس",
+     "u": "https://www.windy.com/webcams",
+     "s": "Windy"
+    },
+    {
+     "n": "explore.org — حيوانات وطبيعة لايف",
+     "u": "https://explore.org/livecams",
+     "s": "explore.org"
+    },
+    {
+     "n": "معبر آبي رود (لندن)",
+     "u": "https://www.abbeyroad.com/crossing",
+     "s": "Abbey Road"
+    }
+   ]
+  },
+  {
+   "g": "رادارات لايف (طيارات وسفن وصواعق)",
+   "use": "watch",
+   "items": [
+    {
+     "n": "Flightradar24 — كل الطيارات في الجو",
+     "u": "https://www.flightradar24.com/",
+     "s": "Flightradar24"
+    },
+    {
+     "n": "ADS-B Exchange — طيارات عسكرية كمان",
+     "u": "https://globe.adsbexchange.com/",
+     "s": "ADS-B Exchange"
+    },
+    {
+     "n": "MarineTraffic — السفن (قناة السويس وباب المندب)",
+     "u": "https://www.marinetraffic.com/",
+     "s": "MarineTraffic"
+    },
+    {
+     "n": "خريطة الصواعق لايف",
+     "u": "https://www.lightningmaps.org/",
+     "s": "LightningMaps"
+    }
+   ]
+  },
+  {
+   "g": "قنوات أخبار لايف (رادار بس — ممنوع تاخد منها لقطات)",
+   "use": "radar",
+   "items": [
+    {
+     "n": "الجزيرة",
+     "u": "https://www.youtube.com/@aljazeera/live",
+     "s": "Al Jazeera"
+    },
+    {
+     "n": "العربية",
+     "u": "https://www.youtube.com/@AlArabiya/live",
+     "s": "Al Arabiya"
+    },
+    {
+     "n": "سكاي نيوز عربية",
+     "u": "https://www.youtube.com/@skynewsarabia/live",
+     "s": "Sky News Arabia"
+    },
+    {
+     "n": "فرانس 24 عربي",
+     "u": "https://www.youtube.com/@France24_ar/live",
+     "s": "France 24"
+    },
+    {
+     "n": "DW عربية",
+     "u": "https://www.youtube.com/@dwarabic/live",
+     "s": "DW"
+    },
+    {
+     "n": "Al Jazeera English",
+     "u": "https://www.youtube.com/@aljazeeraenglish/live",
+     "s": "Al Jazeera English"
+    },
+    {
+     "n": "Sky News",
+     "u": "https://www.youtube.com/@SkyNews/live",
+     "s": "Sky News"
+    },
+    {
+     "n": "DW News",
+     "u": "https://www.youtube.com/@dwnews/live",
+     "s": "DW News"
+    },
+    {
+     "n": "France 24 English",
+     "u": "https://www.youtube.com/@France24_en/live",
+     "s": "France 24"
+    },
+    {
+     "n": "Euronews",
+     "u": "https://www.youtube.com/@euronews/live",
+     "s": "Euronews"
+    },
+    {
+     "n": "TRT World",
+     "u": "https://www.youtube.com/@trtworld/live",
+     "s": "TRT World"
+    },
+    {
+     "n": "ABC News (أمريكا)",
+     "u": "https://www.youtube.com/@ABCNews/live",
+     "s": "ABC News"
+    }
+   ]
+  }
+ ]
 }

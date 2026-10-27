@@ -147,3 +147,5 @@ dialog label input { width: auto; margin-top: 6px; }
 .arcard .films { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 6px; }
 .arcard .films .mcard { grid-template-rows: 80px auto; font-size: .8rem; }
 .mcard .ds { font-size: .8rem; max-height: 4.5em; overflow: hidden; }
+.subcats { margin: 4px 0 8px; padding: 8px; border: 1px dashed var(--line); border-radius: 12px; }
+#feedAr details summary, #arLiveList details summary { cursor: pointer; font-weight: 700; }
