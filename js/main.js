@@ -1,26 +1,26 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvr4yt9p';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvr4yt9p';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvr4yt9p';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvr4yt9p';
-import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvr4yt9p';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvr4yt9p';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvr4yt9p';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvr4yt9p';
-import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvr4yt9p';
-import { exportSupport, exportReel } from './export.js?v=mvr4yt9p';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvr4yt9p';
-import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvr4yt9p';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON } from './draft.js?v=mvr4yt9p';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvr4yt9p';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvr4yt9p';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvr4yt9p';
-import { loadBg, playBg } from './bg.js?v=mvr4yt9p';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvr4yt9p';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvr4yt9p';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvr4yt9p';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvr4yt9p';
-import { initI18n, ui } from './i18n.js?v=mvr4yt9p';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvr4yt9p';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvspy2fn';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvspy2fn';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvspy2fn';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvspy2fn';
+import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvspy2fn';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvspy2fn';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvspy2fn';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvspy2fn';
+import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvspy2fn';
+import { exportSupport, exportReel } from './export.js?v=mvspy2fn';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvspy2fn';
+import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvspy2fn';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON } from './draft.js?v=mvspy2fn';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvspy2fn';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvspy2fn';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvspy2fn';
+import { loadBg, playBg } from './bg.js?v=mvspy2fn';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvspy2fn';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvspy2fn';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvspy2fn';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvspy2fn';
+import { initI18n, ui } from './i18n.js?v=mvspy2fn';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvspy2fn';
 
 initI18n();
 
@@ -66,7 +66,7 @@ $('tabs').addEventListener('click', e => e.target.dataset.tab && showTab(e.targe
 
 /* ---------- الأخبار ---------- */
 const prefs = (() => { try { return JSON.parse(localStorage.getItem('nrs:feedPrefs') || '{}'); } catch { return {}; } })();
-const savePrefs = () => { try { localStorage.setItem('nrs:feedPrefs', JSON.stringify({ region: filterRegion, sort: $('sortBy').value, trend: $('trendOnly').checked, trAuto: $('trAuto').checked })); } catch { /* ممنوع التخزين */ } };
+const savePrefs = () => { try { localStorage.setItem('nrs:feedPrefs', JSON.stringify({ region: filterRegion, sort: $('sortBy').value, trend: $('trendOnly').checked, trAuto: $('trAuto').checked, op: $('opOnly').checked })); } catch { /* ممنوع التخزين */ } };
 let filterRegion = prefs.region || 'all';
 
 function renderChips() {
@@ -82,6 +82,7 @@ $('q').addEventListener('input', renderFeed);
 $('showYt').addEventListener('change', renderFeed);
 $('sortBy').addEventListener('change', () => { savePrefs(); renderFeed(); });
 $('trendOnly').addEventListener('change', () => { savePrefs(); renderFeed(); });
+$('opOnly').addEventListener('change', () => { savePrefs(); renderFeed(); });
 
 const TYPE_TXT = { agency: 'وكالة', public: 'إعلام عام', state: 'حكومي/موجّه', official: 'رسمي', specialist: 'متخصص', radar: 'رادار — مش مصدر أصلي', trend: 'ترند' };
 const regionLabel = id => (cfg.regions || []).find(r => r.id === id)?.label || '';
@@ -98,12 +99,15 @@ function renderFeed() {
   const q = $('q').value.trim().toLowerCase();
   const showYt = $('showYt').checked;
   const trendOnly = $('trendOnly').checked;
+  const opOnly = $('opOnly').checked;
   const byImp = $('sortBy').value === 'imp';
   let list = feeds.items.filter(i =>
     (filterCat === 'all' || i.category === filterCat || (filterCat === 'trending' && i.tk === 'trend')) &&
     // القصص والأرشيف عالمية ومش ترند: فلتر المنطقة والترند ميخفيهاش
-    (filterCat === 'stories' || inRegion(i)) &&
-    (filterCat === 'stories' || !trendOnly || i.tk === 'trend' || i.tk === 'top' || (i.cov || 1) >= 3) &&
+    // مقالات الرأي: فلتر خاص بيها، ومش بيتأثر بالمنطقة والترند
+    (!opOnly || i.op) &&
+    (filterCat === 'stories' || opOnly || inRegion(i)) &&
+    (filterCat === 'stories' || opOnly || !trendOnly || i.tk === 'trend' || i.tk === 'top' || (i.cov || 1) >= 3) &&
     (showYt || i.kind !== 'youtube') &&
     (filterCat !== 'stories' || inSubTheme(i)) &&
     (!q || (i.title + ' ' + i.summary + ' ' + i.source).toLowerCase().includes(q)));
@@ -129,7 +133,7 @@ function renderFeed() {
     return `<article class="item" style="--c:${c.color}">
       <h3 dir="auto" translate="no"${i.tr ? ` title="${esc(i.orig)}"` : ''}>${esc(i.title)}</h3>
       <div class="meta"><span translate="no">${esc(i.source)}</span><span>${c.label}</span>${regionLabel(i.region) ? `<span>${regionLabel(i.region)}</span>` : ''}<span>${timeAgo(i.published)}</span>
-        ${yt ? '<span class="tag">رادار — مش مصدر</span>' : ''}${TYPE_TXT[i.type] ? `<span class="tag">${TYPE_TXT[i.type]}</span>` : ''}${i.lang && i.lang !== 'ar' ? `<span>${i.lang.toUpperCase()}</span>` : ''}${i.tr ? '<span class="tag">🌐 مترجم</span>' : ''}${badges}</div>
+        ${yt ? '<span class="tag">رادار — مش مصدر</span>' : ''}${TYPE_TXT[i.type] ? `<span class="tag">${TYPE_TXT[i.type]}</span>` : ''}${i.lang && i.lang !== 'ar' ? `<span>${i.lang.toUpperCase()}</span>` : ''}${i.tr ? '<span class="tag">🌐 مترجم</span>' : ''}${i.op ? `<span class="tag op">✍️ مقال رأي</span>${i.author ? `<span translate="no">✍️ ${esc(i.author)}</span>` : ''}` : ''}${badges}</div>
       ${i.summary ? `<div class="sum" dir="auto" translate="no">${esc(i.summary.slice(0, 220))}</div>` : ''}
       <div class="row"><label class="pk"><input type="checkbox" data-chk="${esc(i.id)}" ${picked.has(i.id) ? 'checked' : ''}> حدّد</label>
         <button class="btn pri" data-pick="${esc(i.id)}">ريل جديد</button>
@@ -159,7 +163,10 @@ function renderHealth() {
 
 const storyFromItem = i => i.kind === 'youtube'
   ? { category: i.category, headline: i.title, fromYoutube: i.source, ytLink: i.link, ref: i.summary || '' }
-  : { category: i.category, headline: i.title, sourceName: i.source, sourceUrl: i.link, ref: i.summary || '' };
+  : i.op
+    // مقال رأي: بيتعلّم «رأي وتحليل» ومنسوب لكاتبه (الريل بيعرض الرأي، مش كأنه خبر)
+    ? { category: i.category, headline: i.title, sourceName: i.author ? `${i.author} — ${i.source.replace(/\s*\(.*\)$/, '')}` : i.source, sourceUrl: i.link, claimKind: 'opinion', ref: `مقال رأي${i.author ? ' بقلم ' + i.author : ''} في ${i.source.replace(/\s*\(.*\)$/, '')}. ${i.summary || ''}`.trim() }
+    : { category: i.category, headline: i.title, sourceName: i.source, sourceUrl: i.link, ref: i.summary || '' };
 
 function renderPickBar() {
   $('pickBar').hidden = !picked.size;
@@ -2605,7 +2612,7 @@ $('ver').textContent = `نسخة ${codeV}${codeV === pageV ? '' : ` ⚠️ ال�
   const opts = cfg.categories.map(c => `<option value="${c.id}">${c.label}</option>`).join('');
   $('fCat').innerHTML = opts;
   $('mCat').innerHTML = opts;
-  $('sortBy').value = prefs.sort || 'new'; $('trendOnly').checked = !!prefs.trend; $('trAuto').checked = !!prefs.trAuto;
+  $('sortBy').value = prefs.sort || 'new'; $('trendOnly').checked = !!prefs.trend; $('trAuto').checked = !!prefs.trAuto; $('opOnly').checked = !!prefs.op;
   renderChips();
   fillSettings();
   await loadLogo();

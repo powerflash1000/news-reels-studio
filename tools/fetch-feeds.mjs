@@ -32,6 +32,8 @@ export function parseFeed(xml) {
       summary: clean(tag(b, 'description') || tag(b, 'summary') || tag(b, 'media:description')).slice(0, 600),
       link: decode(link).trim(),
       published: Number.isNaN(t) ? null : new Date(t).toISOString(),
+      // اسم الكاتب (مهم لمقالات الرأي): dc:creator أو <author><name>
+      author: clean(tag(b, 'dc:creator') || tag(b, 'name') || tag(b, 'author')).replace(/^[^(]*\(([^)]+)\)$/, '$1').slice(0, 80),
     };
   }).filter(i => i.title && i.link);
 }
@@ -200,7 +202,7 @@ async function pull(f, kind = 'official', limit = f.limit || MAX_PER_SOURCE) {
     if (!items.length && h.status === 'ok') { h.status = 'empty'; h.error = 'مفيش بيانات'; }
     items.slice(0, limit).forEach((i, n) => fresh.push({
       ...i, kind, category, source: i.outlet ? `${i.outlet} (عبر Google News)` : name, lang, feed: id, type: f.type || '',
-      region: f.region || 'world', rank: n + 1, of: Math.min(items.length, limit), w: f.weight || 1, ...(f.kind ? { tk: f.kind } : {}),
+      region: f.region || 'world', rank: n + 1, of: Math.min(items.length, limit), w: f.weight || 1, ...(f.kind ? { tk: f.kind } : {}), ...(f.opinion ? { op: true } : {}),
     }));
     h.newest = items.map(i => i.published).filter(Boolean).sort().pop() || null;
   } catch (e) {

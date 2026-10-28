@@ -149,3 +149,5 @@ dialog label input { width: auto; margin-top: 6px; }
 .mcard .ds { font-size: .8rem; max-height: 4.5em; overflow: hidden; }
 .subcats { margin: 4px 0 8px; padding: 8px; border: 1px dashed var(--line); border-radius: 12px; }
 #feedAr details summary, #arLiveList details summary { cursor: pointer; font-weight: 700; }
+
+.tag.op { background: #4a2d6b; color: #e6d4ff; }

@@ -1073,5 +1073,8 @@ export default {
  "بيطلّع السؤال…": "Generating the question…",
  "جاهز ✅ راجعه قبل ما تنشره.": "Ready ✅ Review it before publishing.",
  "الرد مكانش سؤال صالح، جرّب تاني.": "The reply wasn't a valid question, try again.",
+ "✍️ مقالات رأي بس": "✍️ Opinion only",
+ "✍️ مقال رأي": "✍️ Opinion",
+ "مقالات كبار الكتّاب في نيويورك تايمز، واشنطن بوست، الجارديان، لوفيجارو، فايننشال تايمز…": "Columns by leading writers in the New York Times, Washington Post, Guardian, Le Figaro, Financial Times…",
  "ARABIC_SWITCH_LABEL": "عربي"
 };

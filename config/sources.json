@@ -2451,6 +2451,160 @@
    "region": "world",
    "weight": 0.6,
    "limit": 10
+  },
+  {
+   "id": "nyt-opinion",
+   "category": "politics",
+   "name": "New York Times — Opinion (مقالات رأي)",
+   "url": "https://rss.nytimes.com/services/xml/rss/nyt/Opinion.xml",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1.0,
+   "opinion": true
+  },
+  {
+   "id": "wapo-opinions",
+   "category": "politics",
+   "name": "Washington Post — Opinions (مقالات رأي)",
+   "url": "https://feeds.washingtonpost.com/rss/opinions",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1.0,
+   "opinion": true
+  },
+  {
+   "id": "wsj-opinion",
+   "category": "politics",
+   "name": "Wall Street Journal — Opinion (مقالات رأي)",
+   "url": "https://feeds.a.dj.com/rss/RSSOpinion.xml",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1.0,
+   "opinion": true
+  },
+  {
+   "id": "atlantic",
+   "category": "politics",
+   "name": "The Atlantic (مقالات وتحليلات)",
+   "url": "https://www.theatlantic.com/feed/all/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1.0,
+   "opinion": true
+  },
+  {
+   "id": "guardian-opinion",
+   "category": "politics",
+   "name": "The Guardian — Opinion (مقالات رأي)",
+   "url": "https://www.theguardian.com/commentisfree/rss",
+   "lang": "en",
+   "type": "specialist",
+   "region": "eu",
+   "weight": 1.0,
+   "opinion": true
+  },
+  {
+   "id": "telegraph-opinion",
+   "category": "politics",
+   "name": "The Telegraph — Opinion (مقالات رأي)",
+   "url": "https://www.telegraph.co.uk/opinion/rss.xml",
+   "lang": "en",
+   "type": "specialist",
+   "region": "eu",
+   "weight": 1.0,
+   "opinion": true
+  },
+  {
+   "id": "figaro-vox",
+   "category": "politics",
+   "name": "Le Figaro — FigaroVox (مقالات رأي)",
+   "url": "https://www.lefigaro.fr/rss/figaro_vox.xml",
+   "lang": "fr",
+   "type": "specialist",
+   "region": "eu",
+   "weight": 1.0,
+   "opinion": true
+  },
+  {
+   "id": "lemonde-idees",
+   "category": "politics",
+   "name": "Le Monde — Idées (مقالات رأي)",
+   "url": "https://www.lemonde.fr/idees/rss_full.xml",
+   "lang": "fr",
+   "type": "specialist",
+   "region": "eu",
+   "weight": 1.0,
+   "opinion": true
+  },
+  {
+   "id": "foreign-affairs",
+   "category": "politics",
+   "name": "Foreign Affairs (تحليلات كبار الخبراء)",
+   "url": "https://www.foreignaffairs.com/rss.xml",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1.0,
+   "opinion": true
+  },
+  {
+   "id": "foreign-policy",
+   "category": "politics",
+   "name": "Foreign Policy (مقالات رأي وتحليل)",
+   "url": "https://foreignpolicy.com/feed/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1.0,
+   "opinion": true
+  },
+  {
+   "id": "aawsat-opinion",
+   "category": "politics",
+   "name": "الشرق الأوسط — مقالات الرأي",
+   "url": "https://aawsat.com/feed/opinion",
+   "lang": "ar",
+   "type": "specialist",
+   "region": "gulf",
+   "weight": 1.0,
+   "opinion": true
+  },
+  {
+   "id": "ft-opinion",
+   "category": "economy",
+   "name": "Financial Times — Opinion (مقالات رأي)",
+   "url": "https://www.ft.com/opinion?format=rss",
+   "lang": "en",
+   "type": "specialist",
+   "region": "eu",
+   "weight": 1.0,
+   "opinion": true
+  },
+  {
+   "id": "economist-leaders",
+   "category": "economy",
+   "name": "The Economist — Leaders (افتتاحيات)",
+   "url": "https://www.economist.com/leaders/rss.xml",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1.0,
+   "opinion": true
+  },
+  {
+   "id": "project-syndicate",
+   "category": "economy",
+   "name": "Project Syndicate (مقالات كبار الاقتصاديين والقادة)",
+   "url": "https://www.project-syndicate.org/rss",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1.0,
+   "opinion": true
   }
  ],
  "youtube": [
