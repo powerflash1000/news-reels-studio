@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mvspy2fn">
+<html lang="ar" dir="rtl" data-v="mvtvs63n">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mvspy2fn">
+<link rel="stylesheet" href="assets/css/style.css?v=mvtvs63n">
 </head>
 <body>
 <header class="top">
@@ -57,6 +57,10 @@
     <label class="chk"><input id="auVfx" type="checkbox" checked> طبّق المؤثرات المقترحة (قالب، شريط أخبار، مقدمة وخاتمة)</label>
     <label class="chk"><input id="auAv" type="checkbox"> مذيعين في استوديو أخبار أول كام ثانية</label>
     <p class="muted">على كل خبر: اضغط «⚡ أوتوماتيك»، أو حدّد كذا خبر واضغط «⚡ ريلز أوتوماتيك للمحدد». الريل بيتحفظ في المكتبة بحالة «جاهز للمراجعة». التصدير والبث لسه بيعدّوا على قائمة التحقق، لأن لازم تراجع السكريبت والمصدر بنفسك قبل النشر. أخبار اليوتيوب (رادار) بتتخطى لأنها مش مصدر.</p>
+    <div class="row bulletin"><b>📰 نشرة أوتوماتيك:</b>
+      <label class="inl">عدد الأخبار <select id="buN"><option value="3">3</option><option value="5" selected>5</option><option value="7">7</option></select></label>
+      <button id="buGo" class="btn pri" type="button">📰 اعمل نشرة بأهم الأخبار دلوقتي</button></div>
+    <p class="muted">بياخد أهم الأخبار من آخر 24 ساعة (حسب المنطقة المختارة فوق)، من غير تكرار ومن أقسام مختلفة، ويعملهم حلقة واحدة: مقدمة، وكل خبر حوالي 30 ثانية بمصدره، وخاتمة. وبعدين يولّد الصوت ويحفظها «جاهز للمراجعة».</p>
     <div id="auLog" class="list"></div>
   </details>
   <div id="pickBar" class="pickbar" hidden>
@@ -395,6 +399,8 @@
         <textarea id="fScript" rows="9" placeholder="أ: أهلاً بيكم…&#10;ب: وفيه خبر مهم…"></textarea>
       </label>
       <p id="scriptInfo" class="muted"></p>
+      <div class="row hookrow"><button id="hkGo" class="btn" type="button" title="5 أول جمل مختلفة تشد المشاهد في أول 3 ثواني، من معلومات الخبر بس">🎣 اقترح هوكات</button><span id="hkMsg" class="muted"></span></div>
+      <div id="hkList" class="chips"></div>
       <div class="row">
         <button id="gen" class="btn pri">🎙 توليد الصوت (ElevenLabs)</button>
         <button id="genGem" class="btn pri">✨ توليد الصوت (Gemini)</button>
@@ -707,6 +713,7 @@
     <label class="aiK" data-p="claude">موديل Claude<select id="sClaudeModel"></select></label>
     <label class="aiK" data-p="gemini">مفتاح Gemini (مجاني من aistudio.google.com/apikey)<input id="sGemini" type="password" dir="ltr" autocomplete="off" placeholder="AIza…"></label>
     <label class="aiK" data-p="groq">مفتاح Groq (مجاني من console.groq.com/keys)<input id="sGroq" type="password" dir="ltr" autocomplete="off" placeholder="gsk_…"></label>
+    <label class="aiK" data-p="openai">مفتاح OpenAI (من platform.openai.com/api-keys — منفصل عن اشتراك ChatGPT Plus وبيتحاسب بالاستخدام)<input id="sOpenai" type="password" dir="ltr" autocomplete="off" placeholder="sk-…"></label>
     <label class="aiK" data-p="openrouter">مفتاح OpenRouter (مجاني من openrouter.ai/keys)<input id="sOr" type="password" dir="ltr" autocomplete="off" placeholder="sk-or-…"></label>
     <label class="aiK aiM" data-p="gemini groq openrouter">اسم الموديل (سيبه فاضي للافتراضي)<input id="sAiModel" dir="ltr" list="aiModels" autocomplete="off"><datalist id="aiModels"></datalist></label>
     <div class="row aiK" data-p="gemini groq openrouter"><button id="aiModelsLoad" class="btn" type="button">↻ هات الموديلات المتاحة لمفتاحي</button><span id="aiModelsMsg" class="muted"></span></div>
@@ -735,6 +742,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mvspy2fn"></script>
+<script type="module" src="js/main.js?v=mvtvs63n"></script>
 </body>
 </html>
