@@ -2466,24 +2466,28 @@
   {
    "id": "wapo-opinions",
    "category": "politics",
-   "name": "Washington Post — Opinions (مقالات رأي)",
-   "url": "https://feeds.washingtonpost.com/rss/opinions",
+   "name": "Washington Post — Opinions (عبر Google News)",
+   "url": "https://news.google.com/rss/search?q=site%3Awashingtonpost.com%2Fopinions+when%3A7d&hl=en-US&gl=US&ceid=US:en",
    "lang": "en",
-   "type": "specialist",
+   "type": "radar",
    "region": "us",
    "weight": 1.0,
-   "opinion": true
+   "opinion": true,
+   "fmt": "gnews",
+   "keepDays": 7
   },
   {
    "id": "wsj-opinion",
    "category": "politics",
-   "name": "Wall Street Journal — Opinion (مقالات رأي)",
-   "url": "https://feeds.a.dj.com/rss/RSSOpinion.xml",
+   "name": "Wall Street Journal — Opinion (عبر Google News)",
+   "url": "https://news.google.com/rss/search?q=site%3Awsj.com%2Fopinion+when%3A7d&hl=en-US&gl=US&ceid=US:en",
    "lang": "en",
-   "type": "specialist",
+   "type": "radar",
    "region": "us",
    "weight": 1.0,
-   "opinion": true
+   "opinion": true,
+   "fmt": "gnews",
+   "keepDays": 7
   },
   {
    "id": "atlantic",
@@ -2510,13 +2514,15 @@
   {
    "id": "telegraph-opinion",
    "category": "politics",
-   "name": "The Telegraph — Opinion (مقالات رأي)",
-   "url": "https://www.telegraph.co.uk/opinion/rss.xml",
+   "name": "The Telegraph — Opinion (عبر Google News)",
+   "url": "https://news.google.com/rss/search?q=site%3Atelegraph.co.uk%2Fopinion+when%3A7d&hl=en-GB&gl=GB&ceid=GB:en",
    "lang": "en",
-   "type": "specialist",
+   "type": "radar",
    "region": "eu",
    "weight": 1.0,
-   "opinion": true
+   "opinion": true,
+   "fmt": "gnews",
+   "keepDays": 7
   },
   {
    "id": "figaro-vox",
