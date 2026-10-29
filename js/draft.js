@@ -1,6 +1,6 @@
 // مسودة سكريبت بالذكاء الاصطناعي (اختيارية): Claude API من المتصفح بمفتاحك. بتستخدم الملخص والعنوان بس ومبتخترعش معلومات.
 // الموقع من غير build فمفيش SDK؛ بنكلّم الـAPI بـfetch مباشرة (الهيدر anthropic-dangerous-direct-browser-access ضروري لطلبات المتصفح).
-import { getSettings } from './storage.js?v=mvspy2fn';
+import { getSettings } from './storage.js?v=mvtvs63n';
 
 export const CLAUDE_MODELS = [
   { id: 'claude-opus-5-5', name: 'Claude Opus 5.5 (الأفضل، الافتراضي)' },
@@ -13,6 +13,7 @@ export const AI_PROVIDERS = {
   claude: { name: 'Claude (مدفوع)', keyField: 'claudeKey', ph: 'sk-ant-…' },
   gemini: { name: 'Google Gemini (فيه خطة مجانية)', keyField: 'geminiKey', ph: 'AIza…', url: 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions', model: 'gemini-3.8-flash', models: ['gemini-3.8-flash'], keyUrl: 'aistudio.google.com/apikey' },
   groq: { name: 'Groq (مجاني، سريع)', keyField: 'groqKey', ph: 'gsk_…', url: 'https://api.groq.com/openai/v1/chat/completions', model: 'llama-3.3-70b-versatile', models: ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant'], keyUrl: 'console.groq.com/keys' },
+  openai: { name: 'ChatGPT / OpenAI (مدفوع بالاستخدام)', keyField: 'openaiKey', ph: 'sk-…', url: 'https://api.openai.com/v1/chat/completions', model: 'gpt-5-mini', models: ['gpt-5-mini', 'gpt-5'], keyUrl: 'platform.openai.com/api-keys' },
   openrouter: { name: 'OpenRouter (موديلات :free)', keyField: 'orKey', ph: 'sk-or-…', url: 'https://openrouter.ai/api/v1/chat/completions', model: 'meta-llama/llama-3.3-70b-instruct:free', models: ['meta-llama/llama-3.3-70b-instruct:free', 'deepseek/deepseek-chat-v3-0324:free', 'google/gemini-2.0-flash-exp:free'], keyUrl: 'openrouter.ai/keys' },
 };
 
@@ -118,7 +119,7 @@ async function draftOpenAI(P, key, model, user, lang = 'ar') {
       method: 'POST',
       signal: AbortSignal.timeout(120000),
       headers: { 'content-type': 'application/json', authorization: 'Bearer ' + key },
-      body: JSON.stringify({ model, temperature: 0.4, messages: [{ role: 'system', content: sys }, { role: 'user', content: user }] }),
+      body: JSON.stringify({ model, ...(P.keyField === 'openaiKey' ? { response_format: { type: 'json_object' } } : { temperature: 0.4 }), messages: [{ role: 'system', content: sys }, { role: 'user', content: user }] }),
     });
   } catch (e) {
     throw new Error(`مقدرتش أوصل لـ ${P.name.split(' (')[0]} (إنترنت أو مانع من المتصفح): ` + (e.message || e));
@@ -152,6 +153,7 @@ export async function listModels(prov) {
   if (prov === 'openrouter') ids = ids.filter(i => i.endsWith(':free'));
   if (prov === 'gemini') ids = ids.filter(i => /^gemini/.test(i) && !/embed|image|tts|live|vision|aqa/.test(i));
   if (prov === 'groq') ids = ids.filter(i => !/whisper|guard|tts/.test(i));
+  if (prov === 'openai') ids = ids.filter(i => /^(gpt|o\d|chatgpt)/.test(i) && !/audio|realtime|tts|transcribe|image|search|embedding/.test(i));
   return ids.sort();
 }
 
@@ -186,7 +188,7 @@ export async function aiJSON({ system, user, schema, maxTokens = 8000 }) {
       const res = await fetch(P.url, {
         method: 'POST', signal: AbortSignal.timeout(180000),
         headers: { 'content-type': 'application/json', authorization: 'Bearer ' + key },
-        body: JSON.stringify({ model: st.aiModel || P.model, temperature: 0.4, messages: [{ role: 'system', content: sys }, { role: 'user', content: user }] }),
+        body: JSON.stringify({ model: st.aiModel || P.model, ...(prov === 'openai' ? { response_format: { type: 'json_object' } } : { temperature: 0.4 }), messages: [{ role: 'system', content: sys }, { role: 'user', content: user }] }),
       });
       if (!res.ok) await fail(res);
       text = String((await res.json()).choices?.[0]?.message?.content || '');
