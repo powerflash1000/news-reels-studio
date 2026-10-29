@@ -951,5 +951,199 @@
     }
    ]
   }
+ ],
+ "refs": [
+  {
+   "g": "🌍 طبيعة وعلوم وجغرافيا",
+   "items": [
+    {
+     "n": "ناشيونال جيوغرافيك",
+     "u": "https://www.nationalgeographic.com/",
+     "s": "National Geographic",
+     "use": "info",
+     "note": "قصص علمية وتاريخية ومغامرات وحيوانات. خد المعلومة وانسبها ليهم، الصور والفيديو محمية."
+    },
+    {
+     "n": "ناشيونال جيوغرافيك العربية",
+     "u": "https://www.natgeotv.com/me/arabic",
+     "s": "National Geographic Abu Dhabi",
+     "use": "info",
+     "note": "نسخة عربية من البرامج والمقالات."
+    },
+    {
+     "n": "سميثسونيان ماجازين",
+     "u": "https://www.smithsonianmag.com/",
+     "s": "Smithsonian Magazine",
+     "use": "info",
+     "note": "تاريخ وعلوم وغرائب بأسلوب حكائي."
+    },
+    {
+     "n": "BBC Future / BBC Earth",
+     "u": "https://www.bbc.com/future",
+     "s": "BBC",
+     "use": "info",
+     "note": "مواضيع علمية وإنسانية مشروحة ببساطة."
+    },
+    {
+     "n": "Live Science",
+     "u": "https://www.livescience.com/",
+     "s": "Live Science",
+     "use": "info",
+     "note": "ظواهر غريبة وعلوم بأسلوب بسيط."
+    },
+    {
+     "n": "NASA Earth Observatory",
+     "u": "https://earthobservatory.nasa.gov/",
+     "s": "NASA",
+     "use": "pd",
+     "note": "صور أقمار صناعية للأرض (أعاصير، حرائق، فيضانات) — ملك عام مع ذكر ناسا."
+    },
+    {
+     "n": "NASA Image and Video Library",
+     "u": "https://images.nasa.gov/",
+     "s": "NASA",
+     "use": "pd",
+     "note": "صور وفيديوهات الفضاء — ملك عام (موجودة كمان في تبويب الوسائط)."
+    },
+    {
+     "n": "USGS — زلازل وبراكين",
+     "u": "https://www.usgs.gov/programs/earthquake-hazards",
+     "s": "USGS",
+     "use": "pd",
+     "note": "بيانات وخرايط وصور رسمية — ملك عام."
+    }
+   ],
+   "cat": "science"
+  },
+  {
+   "g": "📊 أرقام وبيانات (رسومها ينفع تستخدمها بذكر المصدر)",
+   "items": [
+    {
+     "n": "Our World in Data",
+     "u": "https://ourworldindata.org/",
+     "s": "Our World in Data",
+     "use": "data",
+     "note": "رسوم بيانية لكل حاجة (اقتصاد، صحة، سكان، طاقة) برخصة CC BY: ينفع تعرض الرسم بذكر المصدر."
+    },
+    {
+     "n": "البنك الدولي — بيانات",
+     "u": "https://data.worldbank.org/",
+     "s": "World Bank",
+     "use": "data",
+     "note": "أرقام الدول (CC BY 4.0)."
+    },
+    {
+     "n": "منظمة الصحة العالمية — بيانات",
+     "u": "https://data.who.int/",
+     "s": "WHO",
+     "use": "info",
+     "note": "إحصائيات صحية رسمية."
+    },
+    {
+     "n": "الأمم المتحدة — بيانات",
+     "u": "https://data.un.org/",
+     "s": "UN Data",
+     "use": "info",
+     "note": "أرقام رسمية لكل الدول."
+    },
+    {
+     "n": "الجهاز المركزي للتعبئة والإحصاء (مصر)",
+     "u": "https://www.capmas.gov.eg/",
+     "s": "CAPMAS",
+     "use": "info",
+     "note": "أرقام مصر الرسمية."
+    }
+   ],
+   "cat": "economy"
+  },
+  {
+   "g": "📜 تاريخ وأرشيف",
+   "items": [
+    {
+     "n": "بريتانيكا",
+     "u": "https://www.britannica.com/",
+     "s": "Encyclopaedia Britannica",
+     "use": "info",
+     "note": "موسوعة موثوقة للتأكد من التواريخ والأسماء."
+    },
+    {
+     "n": "History.com — This Day in History",
+     "u": "https://www.history.com/this-day-in-history",
+     "s": "HISTORY",
+     "use": "info",
+     "note": "أحداث كل يوم في التاريخ بقصة قصيرة."
+    },
+    {
+     "n": "الأرشيف الوطني الأمريكي",
+     "u": "https://www.archives.gov/research",
+     "s": "National Archives",
+     "use": "pd",
+     "note": "وثائق وصور وأفلام حكومية — أغلبها ملك عام."
+    },
+    {
+     "n": "مكتبة الكونجرس — صور وجرايد قديمة",
+     "u": "https://www.loc.gov/free-to-use/",
+     "s": "Library of Congress",
+     "use": "pd",
+     "note": "مجموعات «Free to Use» جاهزة للاستخدام."
+    },
+    {
+     "n": "Wikimedia Commons",
+     "u": "https://commons.wikimedia.org/",
+     "s": "Wikimedia Commons",
+     "use": "pd",
+     "note": "ملايين الصور التاريخية بتراخيص حرة (راجع ترخيص كل صورة)."
+    },
+    {
+     "n": "Internet Archive",
+     "u": "https://archive.org/",
+     "s": "Internet Archive",
+     "use": "pd",
+     "note": "أفلام وكتب وجرايد قديمة (موجودة في تبويب الأرشيف)."
+    },
+    {
+     "n": "ذاكرة مصر المعاصرة",
+     "u": "http://modernegypt.bibalex.org/",
+     "s": "مكتبة الإسكندرية",
+     "use": "info",
+     "note": "وثائق وصور تاريخ مصر الحديث (راجع حقوق كل صورة)."
+    }
+   ],
+   "cat": "stories"
+  },
+  {
+   "g": "🎬 وثائقيات (للفكرة والمعلومة بس — الفيديو محمي)",
+   "items": [
+    {
+     "n": "الجزيرة الوثائقية",
+     "u": "https://doc.aljazeera.net/",
+     "s": "الجزيرة الوثائقية",
+     "use": "info",
+     "note": "أفلام وتحقيقات عربية."
+    },
+    {
+     "n": "DW وثائقية",
+     "u": "https://www.dw.com/ar/%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A%D8%A9/s-100971",
+     "s": "DW عربية",
+     "use": "info",
+     "note": "وثائقيات عربية متنوعة."
+    },
+    {
+     "n": "BBC عربي — وثائقيات",
+     "u": "https://www.bbc.com/arabic",
+     "s": "BBC Arabic",
+     "use": "info",
+     "note": "تحقيقات وقصص."
+    },
+    {
+     "n": "Kurzgesagt",
+     "u": "https://kurzgesagt.org/",
+     "s": "Kurzgesagt",
+     "use": "info",
+     "note": "علوم مبسطة بأنيميشن (مصادر كل فيديو منشورة على موقعهم)."
+    }
+   ],
+   "cat": "stories"
+  }
  ]
 }

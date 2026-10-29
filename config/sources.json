@@ -2611,6 +2611,52 @@
    "region": "world",
    "weight": 1.0,
    "opinion": true
+  },
+  {
+   "id": "natgeo",
+   "category": "science",
+   "name": "National Geographic (عبر Google News)",
+   "url": "https://news.google.com/rss/search?q=site%3Anationalgeographic.com+when%3A7d&hl=en-US&gl=US&ceid=US:en",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1.0,
+   "fmt": "gnews",
+   "keepDays": 14
+  },
+  {
+   "id": "natgeo-history",
+   "category": "stories",
+   "name": "National Geographic — تاريخ (عبر Google News)",
+   "url": "https://news.google.com/rss/search?q=site%3Anationalgeographic.com%2Fhistory+when%3A30d&hl=en-US&gl=US&ceid=US:en",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1.0,
+   "fmt": "gnews",
+   "keepDays": 30
+  },
+  {
+   "id": "natgeo-ar",
+   "category": "science",
+   "name": "ناشيونال جيوغرافيك العربية (عبر Google News)",
+   "url": "https://news.google.com/rss/search?q=%D9%86%D8%A7%D8%B4%D9%8A%D9%88%D9%86%D8%A7%D9%84+%D8%AC%D9%8A%D9%88%D8%BA%D8%B1%D8%A7%D9%81%D9%8A%D9%83+when%3A14d&hl=ar&gl=EG&ceid=EG:ar",
+   "lang": "ar",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1.0,
+   "fmt": "gnews",
+   "keepDays": 14
+  },
+  {
+   "id": "smithsonian-mag",
+   "category": "science",
+   "name": "Smithsonian Magazine — علوم",
+   "url": "https://www.smithsonianmag.com/rss/science-nature/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1.0
   }
  ],
  "youtube": [
