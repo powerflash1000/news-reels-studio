@@ -1,7 +1,7 @@
 // توليد الصوت من ElevenLabs مع توقيت كل كلمة، وكاش لكل سطر
-import { getSettings, addChars, cacheGet, cachePut, sha1, load, save } from './storage.js?v=mvtvs63n';
-import { decode } from './audio.js?v=mvtvs63n';
-import { estimateWords } from './reel.js?v=mvtvs63n';
+import { getSettings, addChars, cacheGet, cachePut, sha1, load, save } from './storage.js?v=mvtwoxjc';
+import { decode } from './audio.js?v=mvtwoxjc';
+import { estimateWords } from './reel.js?v=mvtwoxjc';
 
 const API = 'https://api.elevenlabs.io';
 
@@ -169,7 +169,19 @@ export async function peekLine(text, speaker, lang = 'ar', provider) {
   const voiceId = voiceFor(speaker, provider);
   if (!voiceId) return null;
   const hit = await cacheGet(await cacheKey(text, voiceId, voiceSettingsFor(speaker), provider));
-  return hit ? { buffer: await decode(hit.mp3), words: hit.words, cached: true, provider: isGem(provider) ? 'gemini' : 'elevenlabs' } : null;
+  return hit ? { buffer: await decode(hit.mp3), words: hit.words, cached: true, aligned: !!hit.aligned, provider: isGem(provider) ? 'gemini' : 'elevenlabs' } : null;
+}
+
+// حفظ توقيت كلمات متظبط (Whisper) على السطر المتخزّن، عشان ميتعملش تاني ويرجع مع فتح الريل
+export async function saveWords(text, speaker, lang = 'ar', provider, words) {
+  text = prepareText(text, lang, provider);
+  const voiceId = voiceFor(speaker, provider);
+  if (!voiceId) return false;
+  const key = await cacheKey(text, voiceId, voiceSettingsFor(speaker), provider);
+  const hit = await cacheGet(key);
+  if (!hit) return false;
+  await cachePut(key, { ...hit, words, aligned: true });
+  return true;
 }
 
 // بيرجع {buffer, words, cached}
@@ -182,7 +194,7 @@ export async function speakLine(text, speaker, lang = 'ar', provider) {
   const vs = voiceSettingsFor(speaker);
   const key = await cacheKey(text, voiceId, vs, provider);
   const hit = await cacheGet(key);
-  if (hit) return { buffer: await decode(hit.mp3), words: hit.words, cached: true, provider: pv };
+  if (hit) return { buffer: await decode(hit.mp3), words: hit.words, cached: true, aligned: !!hit.aligned, provider: pv };
   if (gem) {
     // Gemini مبيرجّعش توقيت للكلمات: بنوزّع الكلمات على مدة الصوت بالتقدير
     const wav = await geminiSpeak(text, voiceId);

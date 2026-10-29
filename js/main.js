@@ -1,26 +1,27 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvtvs63n';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvtvs63n';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvtvs63n';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvtvs63n';
-import { speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvtvs63n';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvtvs63n';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvtvs63n';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvtvs63n';
-import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvtvs63n';
-import { exportSupport, exportReel } from './export.js?v=mvtvs63n';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvtvs63n';
-import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvtvs63n';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON } from './draft.js?v=mvtvs63n';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvtvs63n';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvtvs63n';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvtvs63n';
-import { loadBg, playBg } from './bg.js?v=mvtvs63n';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvtvs63n';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvtvs63n';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvtvs63n';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvtvs63n';
-import { initI18n, ui } from './i18n.js?v=mvtvs63n';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvtvs63n';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvtwoxjc';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvtwoxjc';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvtwoxjc';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvtwoxjc';
+import { transcribeWords, alignWords } from './align.js?v=mvtwoxjc';
+import { saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvtwoxjc';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvtwoxjc';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvtwoxjc';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvtwoxjc';
+import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvtwoxjc';
+import { exportSupport, exportReel } from './export.js?v=mvtwoxjc';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvtwoxjc';
+import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvtwoxjc';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON } from './draft.js?v=mvtwoxjc';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvtwoxjc';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvtwoxjc';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvtwoxjc';
+import { loadBg, playBg } from './bg.js?v=mvtwoxjc';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvtwoxjc';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvtwoxjc';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvtwoxjc';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvtwoxjc';
+import { initI18n, ui } from './i18n.js?v=mvtwoxjc';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvtwoxjc';
 
 initI18n();
 
@@ -340,7 +341,7 @@ function openReel(id) {
   setCurrentId(reel.id);
   fillForm();
   showTab('studio');
-  restoreAudio();
+  return restoreAudio();
 }
 
 /* ---------- الاستوديو ---------- */
@@ -1332,7 +1333,7 @@ async function generateAudio(provider) {
       setStatus(`بولّد سطر ${++n}/${todo.length}…`);
       audioMap.set(lineKey(l), await speakLine(l.text, l.speaker, reel.lang, provider));
     }
-    setStatus(n ? `تم توليد الصوت بـ${gem ? 'Gemini' : 'ElevenLabs'} ✅` : 'الصوت كله جاهز من الكاش ✅');
+    setStatus(n ? (gem ? 'تم توليد الصوت بـGemini ✅ ولتوقيت كابشن أدق اضغط «🎯 ظبط توقيت الكابشن».' : 'تم توليد الصوت بـElevenLabs ✅') : 'الصوت كله جاهز من الكاش ✅');
     if (n && !gem && gs.elevenKey) fetchSubscription().then(fillUsage).catch(() => {});
   } catch (e) { setStatus(String(e.message || e), true); }
   $('gen').disabled = $('genGem').disabled = false;
@@ -1340,6 +1341,36 @@ async function generateAudio(provider) {
   updateInfo();
   redraw();
 }
+// 🎯 ظبط توقيت الكابشن لصوت Gemini بـ Whisper (في المتصفح، الموديل بيتنزّل أول مرة بس)
+let alignBusy = false;
+$('alignW').addEventListener('click', async () => {
+  if (alignBusy) return;
+  readForm();
+  const seen = new Set();
+  const todo = allLines(reel).map(l => ({ l, a: audioMap.get(lineKey(l)) }))
+    .filter(x => { const k = lineKey(x.l); if (!x.a?.buffer?.getChannelData || seen.has(k)) return false; seen.add(k); return x.a.provider === 'gemini' && !x.a.aligned; });
+  if (!todo.length) return setStatus(allLines(reel).every(l => audioMap.has(lineKey(l))) ? 'التوقيت مظبوط: الصوت ده ليه توقيت حقيقي (ElevenLabs) أو اتظبط قبل كده ✅' : 'ولّد الصوت بـ Gemini الأول.', !allLines(reel).every(l => audioMap.has(lineKey(l))));
+  let ok = false; try { ok = localStorage.getItem('nrs:whisperOk') === '1'; } catch { /* ممنوع التخزين */ }
+  if (!ok) {
+    if (!confirm('أول مرة هينزّل موديل Whisper (حوالي 80 ميجا) ويتحفظ في المتصفح. الصوت مش بيطلع من جهازك. تكمل؟')) return;
+    try { localStorage.setItem('nrs:whisperOk', '1'); } catch { /* ممنوع التخزين */ }
+  }
+  alignBusy = true; $('alignW').disabled = true;
+  let n = 0, words = 0, matched = 0;
+  try {
+    for (const { l, a } of todo) {
+      setStatus(`بيظبط التوقيت ${++n}/${todo.length}…`);
+      const asr = await transcribeWords(a.buffer, reel.lang, p => setStatus(`بينزّل موديل Whisper ${Math.round(p * 100)}%`));
+      const res = alignWords(a.words, asr, a.buffer.duration);
+      a.words = res.words; a.aligned = true;
+      words += a.words.length; matched += res.matched;
+      await saveWords(l.text, l.speaker, reel.lang, 'gemini', res.words);
+    }
+    setStatus(`التوقيت اتظبط ✅ (اتطابق ${Math.round((matched / (words || 1)) * 100)}% من الكلمات، والباقي اتوزّع بينهم)`);
+  } catch (e) { setStatus('ظبط التوقيت مشتغلش: ' + (e.message || e), true); }
+  alignBusy = false; $('alignW').disabled = false;
+  updateInfo(); redraw();
+});
 $('gen').addEventListener('click', () => generateAudio('elevenlabs'));
 $('genGem').addEventListener('click', () => generateAudio('gemini'));
 // أصوات Gemini المختارة من الاستوديو مباشرة (بتتحفظ في الإعدادات)
@@ -1481,23 +1512,26 @@ function askChecklist() {
   });
 }
 
-$('exp').addEventListener('click', async () => {
+// تصدير الريل المفتوح. بيرجّع 'ok' أو 'skip' (مشكلة، والسبب في الحالة) أو 'cancel' (قائمة التحقق اتقفلت)
+async function exportCurrent({ batch = '' } = {}) {
   readForm();
+  const fail = msg => { setStatus(msg, true); return 'skip'; };
   const probs = validateReel();
-  if (probs.length) return setStatus(probs.join(' '), true);
+  if (probs.length) return fail(probs.join(' '));
   if (reel.stories.some(x => x.template === 'map')) await loadWorld();
   await ensureBgs();
   const missing = reel.stories.map((st, i) => ({ st, n: i + 1 })).filter(x => x.st.media && hasContent(x.st) && !bgs.has(x.st.id));
-  if (missing.length) return setStatus(`خلفية الخبر ${missing.map(x => x.n).join('، ')} مش موجودة على الجهاز ده. اختارها تاني أو شيلها.`, true);
+  if (missing.length) return fail(`خلفية الخبر ${missing.map(x => x.n).join('، ')} مش موجودة على الجهاز ده. اختارها تاني أو شيلها.`);
   const info = currentTimeline();
-  if (!info.real) return setStatus('الصوت مش جاهز. ولّد الصوت أو سجّل/ارفع ملف الأول.', true);
+  if (!info.real) return fail('الصوت مش جاهز. ولّد الصوت أو سجّل/ارفع ملف الأول.');
   const support = await exportSupport(reel.format);
-  if (!support) return setStatus('المتصفح ده مبيدعمش التصدير السريع. استخدم Chrome أو Edge على الكمبيوتر.', true);
-  if (info.tl.duration > 90 && !confirm(`الحلقة ${Math.round(info.tl.duration)} ثانية، وإنستجرام ريلز بيفضّل لحد 90 ثانية. تكمل؟`)) return;
-  if (!(await askChecklist())) return;
+  if (!support) return fail('المتصفح ده مبيدعمش التصدير السريع. استخدم Chrome أو Edge على الكمبيوتر.');
+  if (!batch && info.tl.duration > 90 && !confirm(`الحلقة ${Math.round(info.tl.duration)} ثانية، وإنستجرام ريلز بيفضّل لحد 90 ثانية. تكمل؟`)) return 'cancel';
+  if (!(await askChecklist())) return 'cancel';
   stopPlay();
   $('exp').disabled = true;
   $('prog').hidden = false;
+  let res = 'skip';
   try {
     await loadFonts();
     setStatus('بصدّر الفيديو…');
@@ -1510,10 +1544,13 @@ $('exp').addEventListener('click', async () => {
     reel.status = 'exported';
     persist();
     setStatus(`تم ✅ (${(blob.size / 1e6).toFixed(1)} MB) — حالة الريل: متصدّر`);
-  } catch (e) { setStatus('فشل التصدير: ' + (e.message || e), true); }
+    res = 'ok';
+  } catch (e) { setStatus('فشل التصدير: ' + (e.message || e), true); res = 'skip'; }
   $('exp').disabled = false;
   $('prog').hidden = true;
-});
+  return res;
+}
+$('exp').addEventListener('click', () => exportCurrent());
 
 /* ---------- خلفيات الأخبار ---------- */
 async function ensureBgs() {
@@ -2355,6 +2392,28 @@ function renderLibrary() {
         <button class="btn ghost" data-del="${r.id}">حذف</button></div></article>`;
   }).join('') : '<p class="muted">مفيش ريلز لسه. ابدأ من تبويب الأخبار.</p>';
 }
+// 📦 تصدير كل الريلز «جاهز للمراجعة» ورا بعض: كل ريل بيتفتح، وقائمة التحقق بتظهر ليه (إجبارية)، وبعدين بيتصدّر
+let batchBusy = false;
+$('libBatch').addEventListener('click', async () => {
+  if (batchBusy) return;
+  const ids = listReels().map(normalizeReel).filter(r => r.status === 'review' && !r.stories.every(isEmptyStory)).map(r => r.id);
+  const log = $('libBatchLog');
+  if (!ids.length) { log.textContent = 'مفيش ريلز «جاهز للمراجعة». غيّر حالة الريل من القايمة أو استخدم الأتمتة.'; return; }
+  if (!confirm(`هيتفتح ${ids.length} ريل ورا بعض، ولكل واحد هتأكّد قائمة التحقق وبعدها يتصدّر وينزل لوحده. تبدأ؟`)) return;
+  batchBusy = true;
+  const done = [], skipped = [];
+  for (const [k, id] of ids.entries()) {
+    await openReel(id);
+    const label = `(${k + 1}/${ids.length})`;
+    setStatus(`بيجهّز ${label}…`);
+    const res = await exportCurrent({ batch: label });
+    (res === 'ok' ? done : skipped).push(reel.title || reel.stories[0].headline || id);
+    if (res === 'cancel' && k < ids.length - 1 && !confirm('قفلت قائمة التحقق للريل ده. تكمل للباقي؟')) break;
+  }
+  batchBusy = false;
+  log.innerHTML = `<span>اتصدّر: ${done.length}</span>${skipped.length ? ` • <span>اتخطّى: ${skipped.length}</span> <span translate="no">${esc(skipped.map(t => '«' + String(t).slice(0, 30) + '»').join('، '))}</span>` : ''}`;
+  setStatus(`التصدير الجماعي خلص: ${done.length}/${ids.length} ✅`);
+});
 $('libQ').addEventListener('input', renderLibrary);
 $('libStatus').addEventListener('click', e => { if (e.target.dataset.s) { libStatus = e.target.dataset.s; renderLibrary(); } });
 $('libList').addEventListener('click', e => {
