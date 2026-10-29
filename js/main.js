@@ -1,27 +1,27 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvtwoxjc';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvtwoxjc';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvtwoxjc';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvtwoxjc';
-import { transcribeWords, alignWords } from './align.js?v=mvtwoxjc';
-import { saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvtwoxjc';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvtwoxjc';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvtwoxjc';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvtwoxjc';
-import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvtwoxjc';
-import { exportSupport, exportReel } from './export.js?v=mvtwoxjc';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvtwoxjc';
-import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvtwoxjc';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON } from './draft.js?v=mvtwoxjc';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvtwoxjc';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvtwoxjc';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvtwoxjc';
-import { loadBg, playBg } from './bg.js?v=mvtwoxjc';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvtwoxjc';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvtwoxjc';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvtwoxjc';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvtwoxjc';
-import { initI18n, ui } from './i18n.js?v=mvtwoxjc';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvtwoxjc';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvu00eyu';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvu00eyu';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvu00eyu';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvu00eyu';
+import { transcribeWords, alignWords } from './align.js?v=mvu00eyu';
+import { saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvu00eyu';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvu00eyu';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvu00eyu';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvu00eyu';
+import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvu00eyu';
+import { exportSupport, exportReel } from './export.js?v=mvu00eyu';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvu00eyu';
+import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvu00eyu';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON } from './draft.js?v=mvu00eyu';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvu00eyu';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvu00eyu';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvu00eyu';
+import { loadBg, playBg } from './bg.js?v=mvu00eyu';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvu00eyu';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvu00eyu';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvu00eyu';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvu00eyu';
+import { initI18n, ui } from './i18n.js?v=mvu00eyu';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvu00eyu';
 
 initI18n();
 
@@ -2127,7 +2127,9 @@ async function renderArchive() {
   $('arStories').hidden = arSt.mode !== 'stories';
   $('arFilms').hidden = arSt.mode !== 'films';
   $('arLive').hidden = arSt.mode !== 'live';
+  $('arRefs').hidden = arSt.mode !== 'refs';
   if (arSt.mode === 'live') return renderLive2(A);
+  if (arSt.mode === 'refs') return renderRefs(A);
   if (arSt.mode === 'stories') {
     $('arThemes').innerHTML = `<button class="chip ${arSt.theme === 'today' ? 'on' : ''}" data-th="today">📅 حدث في مثل هذا اليوم</button>` + A.themes.map(t => `<button class="chip ${t.id === arSt.theme ? 'on' : ''}" data-th="${t.id}">${t.icon} ${esc(arName(t, t.label))} <span class="muted">${t.items.length}</span></button>`).join('');
     const th = A.themes.find(t => t.id === arSt.theme);
@@ -2141,6 +2143,25 @@ async function renderArchive() {
 }
 
 const LIVE_USE = { pd: ['حر (حكومة أمريكية)', 'free'], watch: ['للمتابعة بس', 'attr'], radar: ['رادار — مش مصدر', 'attr'] };
+// 📚 مكتبة المراجع: مواقع غنية بالمعلومات للتصفح اليدوي، ومنها خبر بلصق رابط المقال
+const REF_USE = { pd: ['ملك عام', 'free'], data: ['بيانات CC BY', 'free'], info: ['معلومات بس — الصور والفيديو محمية', 'attr'] };
+function renderRefs(A) {
+  $('arRefList').innerHTML = (A.refs || []).map((g, gi) => `<details class="card" open><summary>${esc(g.g)}</summary><div class="arlist">${g.items.map((x, xi) => `<article class="arcard"><h3 dir="auto" translate="no">${esc(ui === 'en' ? x.s : x.n)}</h3>
+    <span class="yr"><span class="lic ${REF_USE[x.use][1]}">${REF_USE[x.use][0]}</span></span>
+    <div class="ex" dir="auto" translate="no">${esc(x.note)}</div>
+    <div class="row"><a class="btn" href="${esc(x.u)}" target="_blank" rel="noopener">↗ افتح الموقع</a><button class="btn pri" data-refnew="${gi}:${xi}" type="button">📎 اعمل خبر من مقال فيه</button></div></article>`).join('')}</div></details>`).join('');
+}
+$('arRefList').addEventListener('click', e => {
+  const b = e.target.closest('[data-refnew]');
+  if (!b) return;
+  const [gi, xi] = b.dataset.refnew.split(':').map(Number);
+  const g = arData.refs[gi], x = g.items[xi];
+  const url = (prompt('الصق رابط المقال أو الصفحة اللي عجبتك:', x.u) || '').trim();
+  if (!/^https?:\/\//i.test(url)) return;
+  startReel([{ category: g.cat || 'stories', headline: '', sourceName: x.s, sourceUrl: url, ref: '' }]);
+  setStatus('المصدر اتحط ✅ اكتب العنوان، والصق المعلومات المهمة من المقال في خانة «الملخص/المرجع» (بكلامك أو مقتطفات قصيرة)، وبعدين المحرر الذكي يكتبها.');
+});
+
 function renderLive2(A) {
   $('arLiveList').innerHTML = A.live.map((g, gi) => `<details class="card" open><summary>${esc(g.g)}</summary><div class="arlist">${g.items.map((x, xi) => `<article class="arcard"><h3 dir="auto" translate="no">${esc(ui === 'en' ? x.s : x.n)}</h3>
     <span class="yr"><span class="lic ${LIVE_USE[g.use][1]}">${LIVE_USE[g.use][0]}</span> <span translate="no">${esc(x.s)}</span></span>
@@ -2346,7 +2367,7 @@ function renderStoryBar() {
   if (!on) return;
   const chips = [['all', 'كل القصص'], ['today', '📅 حدث في مثل هذا اليوم'], ...arData.themes.map(t => [t.id, `${t.icon} ${arName(t, t.label)}`])];
   $('subCats').innerHTML = chips.map(([id, l]) => `<button class="chip ${id === subTheme ? 'on' : ''}" data-sub="${id}" style="--c:#b0703a">${esc(l)}</button>`).join('') +
-    '<button class="chip" data-sub="films" style="--c:#6b7cff">🎞 أفلام وجرايد قديمة</button><button class="chip" data-sub="live" style="--c:#d6453d">📡 بث مباشر مفتوح</button>';
+    '<button class="chip" data-sub="films" style="--c:#6b7cff">🎞 أفلام وجرايد قديمة</button><button class="chip" data-sub="live" style="--c:#d6453d">📡 بث مباشر مفتوح</button><button class="chip" data-sub="refs" style="--c:#2f8f6b">📚 مكتبة المراجع</button>';
   renderFeedAr();
 }
 function renderFeedAr() {
@@ -2364,7 +2385,7 @@ $('subCats').addEventListener('click', e => {
   const b = e.target.closest('[data-sub]');
   if (!b) return;
   const id = b.dataset.sub;
-  if (id === 'films' || id === 'live') { arSt.mode = id; return showTab('archive'); }
+  if (id === 'films' || id === 'live' || id === 'refs') { arSt.mode = id; return showTab('archive'); }
   subTheme = id;
   renderStoryBar();
   renderFeed();
