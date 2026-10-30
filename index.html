@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mvu97mt3">
+<html lang="ar" dir="rtl" data-v="mvua09jo">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mvu97mt3">
+<link rel="stylesheet" href="assets/css/style.css?v=mvua09jo">
 </head>
 <body>
 <header class="top">
@@ -336,6 +336,18 @@
         </details>
         <p class="muted">بتنزل تلقائيًا وقت الكلام وبتتكرر لآخر الحلقة وبتخفت في الأول والآخر. الملف بيفضل على جهازك.</p>
       </div>
+      <details id="scBox" class="card scbox">
+        <summary>🎬 مونتاج أوتوماتيك: صورة أو فيديو لكل جملة</summary>
+        <p class="muted">بيقرا السكريبت، ويختار لكل مشهد كلمات بحث بالذكاء الاصطناعي، ويجيب صورة أو فيديو مفتوح الحقوق من مصادر تبويب «الوسائط»، ويركّبهم على الكلام بحركة وتلاشي. راجع كل مشهد وغيّره براحتك. الملفات بتفضل على جهازك.</p>
+        <div class="row">
+          <label class="inl">كل مشهد <select id="scPer"><option value="1">جملة واحدة</option><option value="2" selected>جملتين</option><option value="3">3 جمل</option></select></label>
+          <label class="chk"><input id="scVid" type="checkbox"> فيديو لما يكون متاح (أبطأ)</label>
+          <button id="scGo" class="btn pri" type="button">🎬 اعمل المشاهد أوتوماتيك</button>
+          <button id="scClear" class="btn ghost" type="button">🗑 امسح المشاهد</button>
+        </div>
+        <p id="scMsg" class="muted"></p>
+        <div id="scList" class="sclist"></div>
+      </details>
       <div class="card bgbox">
         <b>خلفية الخبر</b>
         <div id="bgInfo" class="muted">من غير خلفية (لون القسم بس).</div>
@@ -755,6 +767,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mvu97mt3"></script>
+<script type="module" src="js/main.js?v=mvua09jo"></script>
 </body>
 </html>
