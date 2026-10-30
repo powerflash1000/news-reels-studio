@@ -1155,5 +1155,14 @@ export default {
  "⚠️ مفيش مفتاح ذكاء اصطناعي.": "⚠️ No AI key.",
  "الإعدادات ← «مزوّد الذكاء الاصطناعي» (Gemini مجاني).": "Settings → «AI provider» (Gemini is free).",
  "🤖 الذكاء الاصطناعي اللي بيشتغل:": "🤖 Active AI:",
+ "📰 ريل قصير (30 ثانية لدقيقة ونص)": "📰 Short reel (30–90 seconds)",
+ "📖 حكاية طويلة (3 لـ 10 دقايق)": "📖 Long story (3–10 minutes)",
+ "📎 النص الأصلي محفوظ مخفي كمرجع للمحرر الذكي:": "📎 The original text is kept hidden as a reference for the AI editor:",
+ "👁 اعرضه": "👁 Show",
+ "🗑 امسحه": "🗑 Delete",
+ "تمسح النص الأصلي المحفوظ؟ الملخص العربي هيفضل.": "Delete the saved original text? The Arabic summary stays.",
+ "✅ اتلخّص بالعربي.": "✅ Summarised in Arabic.",
+ "دلوقتي «🧠 المحرر الذكي» يكتبه سكريبت أو حكاية.": "Now «🧠 AI editor» can write it as a script or a story.",
+ "كلمة": "words",
  "ARABIC_SWITCH_LABEL": "عربي"
 };

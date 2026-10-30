@@ -1,28 +1,28 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvu8svs1';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvu8svs1';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvu8svs1';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvu8svs1';
-import { transcribeWords, alignWords } from './align.js?v=mvu8svs1';
-import { saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvu8svs1';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvu8svs1';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvu8svs1';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvu8svs1';
-import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvu8svs1';
-import { exportSupport, exportReel } from './export.js?v=mvu8svs1';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvu8svs1';
-import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvu8svs1';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON } from './draft.js?v=mvu8svs1';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvu8svs1';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvu8svs1';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvu8svs1';
-import { loadBg, playBg } from './bg.js?v=mvu8svs1';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvu8svs1';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvu8svs1';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvu8svs1';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvu8svs1';
-import { readUrl } from './reader.js?v=mvu8svs1';
-import { initI18n, ui } from './i18n.js?v=mvu8svs1';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvu8svs1';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvu97mt3';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvu97mt3';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvu97mt3';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvu97mt3';
+import { transcribeWords, alignWords } from './align.js?v=mvu97mt3';
+import { saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvu97mt3';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvu97mt3';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvu97mt3';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvu97mt3';
+import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvu97mt3';
+import { exportSupport, exportReel } from './export.js?v=mvu97mt3';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvu97mt3';
+import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvu97mt3';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON } from './draft.js?v=mvu97mt3';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvu97mt3';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvu97mt3';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvu97mt3';
+import { loadBg, playBg } from './bg.js?v=mvu97mt3';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvu97mt3';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvu97mt3';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvu97mt3';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvu97mt3';
+import { readUrl } from './reader.js?v=mvu97mt3';
+import { initI18n, ui } from './i18n.js?v=mvu97mt3';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvu97mt3';
 
 initI18n();
 
@@ -454,6 +454,7 @@ function fillRef() {
   const news = st.kind === 'news';
   $('refBox').hidden = !news;
   $('fRef').value = st.ref || '';
+  renderRefOrig();
   $('refBox').open = (!!st.ref || /^https?:/.test(st.sourceUrl || '')) && !st.script.trim();
   const link = st.sourceUrl || st.ytLink || '';
   $('refLink').hidden = !link;
@@ -516,6 +517,32 @@ $('refInsert').addEventListener('click', () => {
   $('fScript').dispatchEvent(new Event('input', { bubbles: true }));
   $('refMsg').textContent = `اتضافت ${lines.length} جملة للسكريبت. عدّلها بأسلوبك.`;
 });
+// النص الأصلي بعد التلخيص: مخفي عن الخانة، والمحرر الذكي بيستخدمه كمرجع
+function renderRefOrig() {
+  const st = story(), n = wordCount(st.refOrig || '');
+  $('refOrigNote').hidden = !n;
+  if (n) $('refOrigNote').innerHTML = `<span>📎 النص الأصلي محفوظ مخفي كمرجع للمحرر الذكي:</span> <span translate="no">${n}</span> <span>كلمة</span> <button class="btn ghost" data-ro="show" type="button">👁 اعرضه</button> <button class="btn ghost" data-ro="del" type="button">🗑 امسحه</button>`;
+}
+$('refOrigNote').addEventListener('click', e => {
+  const b = e.target.closest('[data-ro]');
+  if (!b) return;
+  const st = story();
+  if (b.dataset.ro === 'show') alert(String(st.refOrig || '').slice(0, 4000) + (String(st.refOrig || '').length > 4000 ? '\n…' : ''));
+  else if (confirm('تمسح النص الأصلي المحفوظ؟ الملخص العربي هيفضل.')) { st.refOrig = ''; persist(); renderRefOrig(); }
+});
+// المحرر الذكي: نوعين بس عشان المدد متتلخبطش — ريل قصير أو حكاية طويلة
+function setAgMode(m, keepLen) {
+  m = m === 'long' ? 'long' : 'short';
+  try { localStorage.setItem('nrs:agMode', m); } catch { /* ممنوع التخزين */ }
+  for (const b of $('agMode').querySelectorAll('[data-agm]')) b.classList.toggle('on', b.dataset.agm === m);
+  const opts = [...$('agLen').options];
+  for (const o of opts) o.hidden = m === 'long' ? Number(o.value) < 180 : Number(o.value) > 90;
+  if (!keepLen || $('agLen').selectedOptions[0]?.hidden) $('agLen').value = m === 'long' ? '300' : '45';
+  if (m === 'long' && $('agStyle').value === 'neutral') $('agStyle').value = 'storyteller';
+}
+$('agMode').addEventListener('click', e => { const b = e.target.closest('[data-agm]'); if (b) setAgMode(b.dataset.agm); });
+setAgMode((() => { try { return localStorage.getItem('nrs:agMode'); } catch { return null; } })() || 'short', true);
+
 // 📥 نص المقال من رابط المصدر (بريتانيكا، ناشيونال جيوغرافيك…) → خانة الملخص كمرجع
 $('refFetch').addEventListener('click', async () => {
   readForm();
@@ -527,6 +554,8 @@ $('refFetch').addEventListener('click', async () => {
     const r = await readUrl(url);
     if (st.ref.trim() && !confirm('الخانة فيها نص. أستبدله بنص المقال؟')) { $('refFetch').disabled = false; $('refMsg').textContent = ''; return; }
     st.ref = r.text;
+    st.refOrig = '';
+    renderRefOrig();
     if (!st.headline && r.title) { st.headline = r.title.slice(0, 120); $('fHead').value = st.headline; }
     $('fRef').value = st.ref; persist();
     $('refMsg').textContent = `✅ اتجاب نص المقال: ${wordCount(st.ref)} كلمة. دلوقتي «✨ لخّصه بالعربي» أو شغّل المحرر الذكي على طول.`;
@@ -537,7 +566,7 @@ $('refFetch').addEventListener('click', async () => {
 const SUM_SCHEMA = { type: 'object', properties: { title: { type: 'string' }, summary: { type: 'string' }, facts: { type: 'array', items: { type: 'string' } } }, required: ['title', 'summary', 'facts'], additionalProperties: false };
 $('refSum').addEventListener('click', async () => {
   readForm();
-  const st = story(), src = String(st.ref || '').trim();
+  const st = story(), src = String(st.refOrig || st.ref || '').trim();
   if (src.length < 80) return ($('refMsg').textContent = 'مفيش نص كفاية في الخانة. هات نص المقال أو الصقه الأول.');
   const gs = getSettings(), AP = AI_PROVIDERS[gs.aiProvider] || AI_PROVIDERS.claude;
   if (!gs[AP.keyField]) return ($('refMsg').textContent = `❌ محتاج مفتاح ${AP.name.split(' (')[0]}: الإعدادات ← مزوّد الذكاء الاصطناعي.`);
@@ -551,11 +580,14 @@ Use ONLY what is in the article; never add outside facts or opinions; keep names
       schema: SUM_SCHEMA, maxTokens: 6000,
     });
     const facts = (out.facts || []).map(f => '• ' + String(f).trim()).filter(f => f.length > 2).join('\n');
-    st.ref = `${String(out.title || '').trim()}\n\n${String(out.summary || '').trim()}${facts ? '\n\nأهم المعلومات:\n' + facts : ''}\n\n--- النص الأصلي (مرجع) ---\n${src.slice(0, 30000)}`;
+    // الخانة فيها العربي بس، والأصل بيتحفظ مخفي (st.refOrig) والمحرر الذكي بيرجعله
+    st.refOrig = src.slice(0, 40000);
+    st.ref = `${String(out.title || '').trim()}\n\n${String(out.summary || '').trim()}${facts ? '\n\nأهم المعلومات:\n' + facts : ''}`;
+    renderRefOrig();
     if (!st.headline && out.title) { st.headline = String(out.title).slice(0, 120); $('fHead').value = st.headline; }
     $('fRef').value = st.ref; persist();
     $('agentBox').open = true;
-    $('refMsg').textContent = '✅ اتلخّص بالعربي، والنص الأصلي تحته كمرجع. دلوقتي «🧠 المحرر الذكي» يكتبه سكريبت أو قصة.';
+    $('refMsg').textContent = '✅ اتلخّص بالعربي. دلوقتي «🧠 المحرر الذكي» يكتبه سكريبت أو حكاية.';
   } catch (e) { $('refMsg').textContent = '❌ ' + (e.message || e); }
   $('refSum').disabled = false;
 });
@@ -2354,6 +2386,7 @@ async function onArClick(e) {
     startReel([st]);
     // جهّز المحرر الذكي لحلقة طويلة بأسلوب الحكّاء
     $('agStyle').value = 'storyteller';
+    setAgMode('long');
     $('agLen').value = '300';
     $('agentBox').open = true;
     $('agentBox').scrollIntoView({ behavior: 'smooth', block: 'start' });

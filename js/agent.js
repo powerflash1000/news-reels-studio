@@ -1,6 +1,6 @@
 // المحرر الذكي (اختياري): بياخد خبر واحد ويجهّز منه سكريبت بأسلوب القناة، قصة وخلفية تاريخية، اقتراحات إنفوجرافيك ومؤثرات.
 // كل حاجة اقتراحات بتراجعها وبتطبّقها بإيدك. الخبر نفسه من الملخص والعنوان بس، والخلفية التاريخية بتتعلّم "لازم تتراجع".
-import { aiJSON } from './draft.js?v=mvu8svs1';
+import { aiJSON } from './draft.js?v=mvu97mt3';
 
 export const STYLES = {
   neutral: { label: 'إخباري محايد', note: 'Straight, neutral news: hook that states the news, 2-4 fact lines, source line.' },
@@ -89,7 +89,7 @@ export async function runAgent({ story, categoryLabel, style = 'neutral', second
     `<style>${style}</style>`,
     `<target_words>${WORDS[seconds] || 115}</target_words>`,
     `<parts>${want}</parts>`,
-    `<source_text>${clean(story.ref) || '(no summary: headline only)'}</source_text>`,
+    `<source_text>${clean(story.ref) || '(no summary: headline only)'}${story.refOrig ? '\n\n[Original article text]\n' + clean(String(story.refOrig).slice(0, 30000)) : ''}</source_text>`,
     note ? `<editor_note>${clean(note)}</editor_note>` : '',
   ].filter(Boolean).join('\n');
   const out = await aiJSON({ system, user, schema: SCHEMA, maxTokens: long ? 16000 : 8000 });
@@ -118,10 +118,10 @@ export async function runAgent({ story, categoryLabel, style = 'neutral', second
 // يتأكد إن الرقم/الاقتباس المقترح موجود فعلًا في نص الخبر (حماية من اختراع الذكاء الاصطناعي)
 const flat = v => String(v || '').replace(/[ً-ٟـ]/g, '').replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[إأآ]/g, 'ا').replace(/\s+/g, ' ').toLowerCase();
 export function inSource(text, story) {
-  const hay = flat(`${story.headline} ${story.ref}`), t = flat(text).trim();
+  const hay = flat(`${story.headline} ${story.ref} ${story.refOrig || ''}`), t = flat(text).trim();
   return !!t && hay.includes(t);
 }
 export function numberInSource(value, story) {
-  const hay = flat(`${story.headline} ${story.ref}`).replace(/,/g, ''), v = flat(value).replace(/,/g, '').trim();
+  const hay = flat(`${story.headline} ${story.ref} ${story.refOrig || ''}`).replace(/,/g, ''), v = flat(value).replace(/,/g, '').trim();
   return !!v && hay.includes(v);
 }
