@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mvu8svs1">
+<html lang="ar" dir="rtl" data-v="mvu97mt3">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mvu8svs1">
+<link rel="stylesheet" href="assets/css/style.css?v=mvu97mt3">
 </head>
 <body>
 <header class="top">
@@ -357,6 +357,7 @@
       </div>
       <details id="refBox" class="card">
         <summary>📄 ملخص الخبر من المصدر (مرجع — مش بيظهر في الفيديو)</summary>
+        <p id="refOrigNote" class="muted" hidden></p>
         <textarea id="fRef" rows="5" dir="auto" placeholder="ملخص الخبر بيتجاب تلقائيًا من المصدر. ممكن كمان تلصق هنا نص الخبر من موقعه كمرجع."></textarea>
         <p class="muted">من رابط لقصة: (1) حط رابط المقال في خانة «رابط المصدر» فوق، (2) «📥 هات نص المقال»، (3) «✨ لخّصه بالعربي»، (4) افتح «🧠 المحرر الذكي» واختار «حكّاء» والمدة، واضغط «شغّل المحرر».</p>
         <p class="muted aiNow"></p>
@@ -382,6 +383,7 @@
       <details id="agentBox" class="card agentbox">
         <summary>🧠 المحرر الذكي (اختياري): يجهّز الخبر كقصة وإنفوجرافيك ومؤثرات</summary>
         <p class="muted aiNow"></p>
+        <div id="agMode" class="chips"><button class="chip" data-agm="short" type="button">📰 ريل قصير (30 ثانية لدقيقة ونص)</button><button class="chip" data-agm="long" type="button">📖 حكاية طويلة (3 لـ 10 دقايق)</button></div>
         <div class="grid">
           <label>أسلوب القناة<select id="agStyle"></select></label>
           <label>مدة السكريبت اللي هيكتبه<select id="agLen"><option value="30">حوالي 30 ثانية</option><option value="45" selected>حوالي 45 ثانية</option><option value="60">حوالي 60 ثانية</option><option value="90">حوالي 90 ثانية</option><option value="180">حلقة 3 دقايق</option><option value="300">حلقة 5 دقايق</option><option value="480">حلقة 8 دقايق</option><option value="600">حلقة 10 دقايق</option></select></label>
@@ -753,6 +755,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mvu8svs1"></script>
+<script type="module" src="js/main.js?v=mvu97mt3"></script>
 </body>
 </html>

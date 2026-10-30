@@ -23,6 +23,7 @@ export function newStory(over = {}) {
     fromYoutube: '',
     ytLink: '',
     ref: '', // ملخص/نص مرجعي من المصدر (مش بيظهر في الفيديو)
+    refOrig: '', // نص المقال الأصلي بعد التلخيص (مخفي، مرجع للمحرر الذكي بس)
     media: null, // { id, kind, provider, title, credit, license, licenseUrl, page, tier, dim }
     template: 'standard', // standard | breaking | stat | map
     stat: { value: '', unit: '', label: '', trend: 'none' },
