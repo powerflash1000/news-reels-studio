@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mvu7v07e">
+<html lang="ar" dir="rtl" data-v="mvu8svs1">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mvu7v07e">
+<link rel="stylesheet" href="assets/css/style.css?v=mvu8svs1">
 </head>
 <body>
 <header class="top">
@@ -359,6 +359,7 @@
         <summary>📄 ملخص الخبر من المصدر (مرجع — مش بيظهر في الفيديو)</summary>
         <textarea id="fRef" rows="5" dir="auto" placeholder="ملخص الخبر بيتجاب تلقائيًا من المصدر. ممكن كمان تلصق هنا نص الخبر من موقعه كمرجع."></textarea>
         <p class="muted">من رابط لقصة: (1) حط رابط المقال في خانة «رابط المصدر» فوق، (2) «📥 هات نص المقال»، (3) «✨ لخّصه بالعربي»، (4) افتح «🧠 المحرر الذكي» واختار «حكّاء» والمدة، واضغط «شغّل المحرر».</p>
+        <p class="muted aiNow"></p>
         <div class="row">
           <button id="refFetch" class="btn pri" type="button">📥 هات نص المقال من الرابط</button>
           <button id="refSum" class="btn pri" type="button">✨ لخّصه بالعربي</button>
@@ -380,9 +381,10 @@
       </details>
       <details id="agentBox" class="card agentbox">
         <summary>🧠 المحرر الذكي (اختياري): يجهّز الخبر كقصة وإنفوجرافيك ومؤثرات</summary>
+        <p class="muted aiNow"></p>
         <div class="grid">
           <label>أسلوب القناة<select id="agStyle"></select></label>
-          <label>المدة<select id="agLen"><option value="30">حوالي 30 ثانية</option><option value="45" selected>حوالي 45 ثانية</option><option value="60">حوالي 60 ثانية</option><option value="90">حوالي 90 ثانية</option><option value="180">حلقة 3 دقايق</option><option value="300">حلقة 5 دقايق</option><option value="480">حلقة 8 دقايق</option><option value="600">حلقة 10 دقايق</option></select></label>
+          <label>مدة السكريبت اللي هيكتبه<select id="agLen"><option value="30">حوالي 30 ثانية</option><option value="45" selected>حوالي 45 ثانية</option><option value="60">حوالي 60 ثانية</option><option value="90">حوالي 90 ثانية</option><option value="180">حلقة 3 دقايق</option><option value="300">حلقة 5 دقايق</option><option value="480">حلقة 8 دقايق</option><option value="600">حلقة 10 دقايق</option></select></label>
           <label>الشكل<select id="agFmt"><option value="single">مذيع واحد</option><option value="dialogue">حوار أ / ب</option></select></label>
         </div>
         <label>ملاحظات للمحرر (اختياري)<input id="agNote" dir="auto" placeholder="مثال: ابدأ بسؤال، أو ركّز على الأثر على المواطن"></label>
@@ -751,6 +753,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mvu7v07e"></script>
+<script type="module" src="js/main.js?v=mvu8svs1"></script>
 </body>
 </html>

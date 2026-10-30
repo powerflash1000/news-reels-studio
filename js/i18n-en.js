@@ -1148,5 +1148,12 @@ export default {
  "دلوقتي «🧠 المحرر الذكي» يكتبه سكريبت أو قصة.": "Now «🧠 AI editor» can write it as a script or story.",
  "المتصفح ده مفيهوش الترجمة المدمجة (محتاج Chrome حديث).": "This browser has no built-in translation (needs a recent Chrome).",
  "استخدم «✨ لخّصه بالعربي».": "Use «✨ Summarise in Arabic».",
+ "مدة السكريبت اللي هيكتبه": "Length of the script it writes",
+ "🤖 الذكاء الاصطناعي اللي بيشتغل: {}": "🤖 Active AI: {}",
+ "هو اللي بيلخّص ويترجم ويكتب الهوكات والسكريبت.": "It summarises, translates, writes hooks and scripts.",
+ "تغيّره من الإعدادات.": "Change it in Settings.",
+ "⚠️ مفيش مفتاح ذكاء اصطناعي.": "⚠️ No AI key.",
+ "الإعدادات ← «مزوّد الذكاء الاصطناعي» (Gemini مجاني).": "Settings → «AI provider» (Gemini is free).",
+ "🤖 الذكاء الاصطناعي اللي بيشتغل:": "🤖 Active AI:",
  "ARABIC_SWITCH_LABEL": "عربي"
 };
