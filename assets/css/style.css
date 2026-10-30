@@ -151,3 +151,12 @@ dialog label input { width: auto; margin-top: 6px; }
 #feedAr details summary, #arLiveList details summary { cursor: pointer; font-weight: 700; }
 
 .tag.op { background: #4a2d6b; color: #e6d4ff; }
+
+/* مونتاج أوتوماتيك */
+.sclist { display: grid; gap: 8px; margin-top: 8px; max-height: 60vh; overflow: auto; }
+.scrow { display: grid; grid-template-columns: 96px 1fr; gap: 10px; align-items: start; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 6px; }
+.scrow .th { position: relative; width: 96px; height: 96px; background: #000; border-radius: 8px; overflow: hidden; display: grid; place-items: center; }
+.scrow .th img { width: 100%; height: 100%; object-fit: cover; }
+.scrow .th .vb { position: absolute; bottom: 2px; left: 4px; font-size: .8rem; }
+.scrow .tx { font-size: .85rem; margin-bottom: 4px; }
+.scrow input[data-scq] { flex: 1; min-width: 140px; }

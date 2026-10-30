@@ -1,9 +1,9 @@
 // رسم إطار الريل على canvas (عمودي 1080×1920 أو 4:5 أو مربع أو أفقي). نفس الدالة للمعاينة والتصدير.
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mvu97mt3';
-import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mvu97mt3';
-import { hostOf } from './feeds.js?v=mvu97mt3';
-import QR from '../vendor/qrcode/qrcode.mjs?v=mvu97mt3';
-import { drawBg } from './bg.js?v=mvu97mt3';
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mvua09jo';
+import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mvua09jo';
+import { hostOf } from './feeds.js?v=mvua09jo';
+import QR from '../vendor/qrcode/qrcode.mjs?v=mvua09jo';
+import { drawBg } from './bg.js?v=mvua09jo';
 
 // مقاسات الإخراج. W/H متغيّرين (live binding) والتصدير بيقراهم وقت التصدير
 export const FORMATS = {
@@ -942,6 +942,28 @@ export function drawCover(ctx, st, idx, fmt) {
   drawLogo(U, st);
 }
 
+// 🎬 مشاهد الخبر (مونتاج): story.scenes = [{li, media}] صورة/فيديو بيبدأ من سطر li لحد المشهد اللي بعده.
+// بترجع المشهد الحالي واللي قبله (للتلاشي) ووقت البداية والنهاية
+export function sceneAt(st, t, idx) {
+  const story = st.reel.stories[idx];
+  const list = (story?.scenes || []).filter(x => x.media && st.bgs?.has(x.media.id)).sort((a, b) => a.li - b.li);
+  if (!list.length) return null;
+  const segs = st.tl.segs.filter(s => s.storyIdx === idx);
+  if (!segs.length) return null;
+  const li = segs.reduce((a, s, i) => (t >= s.start ? i : a), 0);
+  let k = 0;
+  list.forEach((x, i) => { if (x.li <= li) k = i; });
+  const at = n => segs[Math.min(Math.max(0, n), segs.length - 1)].start;
+  const cur = list[k], next = list[k + 1];
+  const start = k === 0 ? Math.min(at(cur.li), segs[0].start) : at(cur.li);
+  return { cur, prev: k > 0 ? list[k - 1] : null, start, end: next ? at(next.li) : segs[segs.length - 1].end + 0.8, k };
+}
+// حركة «كن بيرنز»: تكبير بطيء وإزاحة، واتجاهها بيتبدّل من مشهد للتاني
+function drawScene(ctx, bg, m, p, k, dim) {
+  const dir = k % 2 ? -1 : 1;
+  drawBg(ctx, bg, W, H, dim, { ...m, fit: m.fit || 'cover', zoom: (m.zoom || 1) * (1.04 + 0.1 * p), fx: (m.fx ?? 0.5) + dir * 0.12 * (p - 0.5), fy: (m.fy ?? 0.5) - 0.06 * (p - 0.5) });
+}
+
 const PANEL_TPLS = new Set(['stat', 'map', 'proof', 'quote', 'timeline']);
 
 // opts.settled: المعاينة الثابتة بترسم القالب بعد انتهاء حركته (الخريطة متقرّبة، الرقم نهائي)
@@ -976,7 +998,16 @@ export function drawFrame(ctx, st, t, opts = {}) {
   if (opts.settled) c.local = Math.max(c.local, 3.5);
   background(ctx, lerpHex(prev.color, cat.color, fade));
   const bg = st.bgs?.get(story.id);
-  if (bg) drawBg(ctx, bg, W, H, story.media?.dim ?? 0.5, story.media);
+  const sc = sceneAt(st, t, idx);
+  const dimS = story.media?.dim ?? 0.5;
+  if (sc) {
+    const p = Math.min(1, Math.max(0, (t - sc.start) / Math.max(1, sc.end - sc.start)));
+    const fin = opts.settled ? 1 : Math.min(1, Math.max(0, (t - sc.start) / 0.45));
+    if (sc.prev && fin < 1) drawScene(ctx, st.bgs.get(sc.prev.media.id), sc.prev.media, 1, sc.k - 1, dimS);
+    ctx.globalAlpha = sc.prev ? fin : 1;
+    drawScene(ctx, st.bgs.get(sc.cur.media.id), sc.cur.media, p, sc.k, dimS);
+    ctx.globalAlpha = 1;
+  } else if (bg) drawBg(ctx, bg, W, H, dimS, story.media);
   ctx.globalAlpha = fade;
   if (story.template === 'breaking') {
     const g = ctx.createRadialGradient(W / 2, H / 2, H * 0.35, W / 2, H / 2, H * 0.75);
@@ -1017,7 +1048,7 @@ export function drawFrame(ctx, st, t, opts = {}) {
     ctx.restore();
     W = fullW; H = fullH; L = layoutFor(W, H);
   }
-  if (bg && story.media?.credit) mediaCredit(U, story.media.credit);
+  if (sc ? sc.cur.media.credit : bg && story.media?.credit) mediaCredit(U, sc ? sc.cur.media.credit : story.media.credit);
   ctx.globalAlpha = 1;
   progress(U, c, t);
   studioScene(ctx, c, t, kr);
