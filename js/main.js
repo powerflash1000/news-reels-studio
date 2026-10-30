@@ -1,28 +1,28 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvu7v07e';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvu7v07e';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvu7v07e';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvu7v07e';
-import { transcribeWords, alignWords } from './align.js?v=mvu7v07e';
-import { saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvu7v07e';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvu7v07e';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvu7v07e';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvu7v07e';
-import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvu7v07e';
-import { exportSupport, exportReel } from './export.js?v=mvu7v07e';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvu7v07e';
-import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvu7v07e';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON } from './draft.js?v=mvu7v07e';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvu7v07e';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvu7v07e';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvu7v07e';
-import { loadBg, playBg } from './bg.js?v=mvu7v07e';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvu7v07e';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvu7v07e';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvu7v07e';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvu7v07e';
-import { readUrl } from './reader.js?v=mvu7v07e';
-import { initI18n, ui } from './i18n.js?v=mvu7v07e';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvu7v07e';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvu8svs1';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvu8svs1';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvu8svs1';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvu8svs1';
+import { transcribeWords, alignWords } from './align.js?v=mvu8svs1';
+import { saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvu8svs1';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvu8svs1';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvu8svs1';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvu8svs1';
+import { drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvu8svs1';
+import { exportSupport, exportReel } from './export.js?v=mvu8svs1';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvu8svs1';
+import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvu8svs1';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON } from './draft.js?v=mvu8svs1';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvu8svs1';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvu8svs1';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvu8svs1';
+import { loadBg, playBg } from './bg.js?v=mvu8svs1';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvu8svs1';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvu8svs1';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvu8svs1';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvu8svs1';
+import { readUrl } from './reader.js?v=mvu8svs1';
+import { initI18n, ui } from './i18n.js?v=mvu8svs1';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvu8svs1';
 
 initI18n();
 
@@ -56,7 +56,7 @@ function setStatus(msg, bad = false) {
 function showTab(name) {
   for (const b of document.querySelectorAll('#tabs button')) b.classList.toggle('on', b.dataset.tab === name);
   for (const id of ['feed', 'archive', 'analyze', 'studio', 'media', 'library', 'publish', 'live', 'settings']) $('tab-' + id).hidden = id !== name;
-  if (name === 'studio') redraw();
+  if (name === 'studio') { redraw(); showAiNow(); }
   if (name === 'library') renderLibrary();
   if (name === 'publish') renderPublish();
   if (name === 'media') renderMediaTarget();
@@ -2739,7 +2739,17 @@ function collectSettings() {
   return o;
 }
 
-function saveSettings() { setSettings(collectSettings()); }
+function saveSettings() { setSettings(collectSettings()); showAiNow(); }
+// سطر واضح بيقول مين الذكاء الاصطناعي اللي بيلخّص ويترجم ويكتب الهوكات والسكريبت دلوقتي
+function showAiNow() {
+  const gs = getSettings(), id = AI_PROVIDERS[gs.aiProvider] ? gs.aiProvider : 'claude', AP = AI_PROVIDERS[id];
+  const model = id === 'claude' ? (gs.claudeModel || 'claude-opus-5-5') : (gs.aiModel || AP.model);
+  const ok = !!gs[AP.keyField];
+  document.querySelectorAll('.aiNow').forEach(el => {
+    el.innerHTML = ok ? `🤖 الذكاء الاصطناعي اللي بيشتغل: <b translate="no">${esc(AP.name.split(' (')[0])}</b> <span translate="no">(${esc(model)})</span>. هو اللي بيلخّص ويترجم ويكتب الهوكات والسكريبت. تغيّره من الإعدادات.`
+      : `⚠️ مفيش مفتاح ذكاء اصطناعي. الإعدادات ← «مزوّد الذكاء الاصطناعي» (Gemini مجاني).`;
+  });
+}
 
 $('sSave').addEventListener('click', () => {
   saveSettings();

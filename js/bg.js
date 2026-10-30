@@ -1,5 +1,5 @@
 // خلفية الخبر: تحميل من التخزين، الرسم بقصّ cover مع تعتيم، والتزامن مع الفيديو
-import { getBlob } from './mediastore.js?v=mvu7v07e';
+import { getBlob } from './mediastore.js?v=mvu8svs1';
 
 const cache = new Map(); // mediaId → Promise<{kind, el, url}|null>
 

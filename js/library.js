@@ -1,5 +1,5 @@
 // مكتبة الريلز (نصوص وبيانات بس، الصوت بيتسترجع من الكاش) + نسخة احتياطية
-import { load, save, getSettings, setSettings } from './storage.js?v=mvu7v07e';
+import { load, save, getSettings, setSettings } from './storage.js?v=mvu8svs1';
 
 export function listReels() {
   return load('reels', []).sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
