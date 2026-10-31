@@ -1153,6 +1153,7 @@ export default {
  "افتح المقال، اعمل Ctrl+A ثم Ctrl+C، وارجع دوس «📋 الصق».": "Open the article, press Ctrl+A then Ctrl+C, and come back to press «📋 Paste».",
  "الخانة فيها نص. أستبدله بالنص اللي نسخته؟": "The box already has text. Replace it with the copied text?",
  "اتلصق {} كلمة.": "Pasted {} words.",
+ "اتلصق {} كلمة (شلت {} سطر إعلانات وقوايم).": "Pasted {} words (removed {} lines of ads and menus).",
  "دلوقتي «✨ لخّصه بالعربي».": "Now «✨ Summarise in Arabic».",
  "بجرّب {} طرق مع بعض…": "Trying {} ways at once…",
  "الطرق السريعة مجابتش حاجة، بجرّب Gemini يقرا الصفحة (لحد دقيقة ونص)…": "The fast ways got nothing, trying Gemini to read the page (up to a minute and a half)…",
