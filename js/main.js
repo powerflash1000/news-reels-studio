@@ -1,28 +1,28 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvw3rstr';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvw3rstr';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvw3rstr';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvw3rstr';
-import { transcribeWords, alignWords } from './align.js?v=mvw3rstr';
-import { saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvw3rstr';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvw3rstr';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvw3rstr';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvw3rstr';
-import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvw3rstr';
-import { exportSupport, exportReel } from './export.js?v=mvw3rstr';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvw3rstr';
-import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvw3rstr';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON } from './draft.js?v=mvw3rstr';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvw3rstr';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvw3rstr';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvw3rstr';
-import { loadBg, playBg } from './bg.js?v=mvw3rstr';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvw3rstr';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvw3rstr';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvw3rstr';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvw3rstr';
-import { readUrl } from './reader.js?v=mvw3rstr';
-import { initI18n, ui } from './i18n.js?v=mvw3rstr';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvw3rstr';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvwmdpci';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvwmdpci';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvwmdpci';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvwmdpci';
+import { transcribeWords, alignWords } from './align.js?v=mvwmdpci';
+import { saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvwmdpci';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvwmdpci';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvwmdpci';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvwmdpci';
+import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvwmdpci';
+import { exportSupport, exportReel } from './export.js?v=mvwmdpci';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvwmdpci';
+import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvwmdpci';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON } from './draft.js?v=mvwmdpci';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvwmdpci';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvwmdpci';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvwmdpci';
+import { loadBg, playBg } from './bg.js?v=mvwmdpci';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvwmdpci';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvwmdpci';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvwmdpci';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvwmdpci';
+import { readUrl } from './reader.js?v=mvwmdpci';
+import { initI18n, ui } from './i18n.js?v=mvwmdpci';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvwmdpci';
 
 initI18n();
 
@@ -580,6 +580,21 @@ $('refFetch').addEventListener('click', async () => {
   } catch (e) { tk.stop(); $('refMsg').textContent = '❌ ' + (e.message || e); }
   $('refFetch').disabled = false;
 });
+// 📋 لما الموقع يقفل الصفحة على البرامج: المستخدم يفتح المقال وينسخه، والزرار ده يلصقه في الخانة
+$('refPaste').addEventListener('click', async () => {
+  readForm();
+  const st = story();
+  let t = '';
+  try { t = (await navigator.clipboard.readText()).trim(); } catch { return ($('refMsg').textContent = '❌ المتصفح مسمحش بقراية الحافظة. دوس في الخانة واعمل Ctrl+V.'); }
+  if (t.length < 80) return ($('refMsg').textContent = '❌ الحافظة فاضية أو فيها نص قصير. افتح المقال، اعمل Ctrl+A ثم Ctrl+C، وارجع دوس «📋 الصق».');
+  if (st.ref.trim() && !confirm('الخانة فيها نص. أستبدله بالنص اللي نسخته؟')) return;
+  st.ref = t.slice(0, 40000);
+  st.refOrig = '';
+  renderRefOrig();
+  $('fRef').value = st.ref; persist();
+  $('refMsg').textContent = `✅ اتلصق ${wordCount(st.ref)} كلمة. دلوقتي «✨ لخّصه بالعربي».`;
+});
+$('fUrl').addEventListener('input', () => { const u = $('fUrl').value.trim(); $('refLink').hidden = !/^https?:\/\//.test(u); $('refLink').href = u; });
 // ✨ تلخيص وترجمة النص للعربي بالذكاء الاصطناعي (من غير ما يزوّد معلومات)، والأصل بيفضل تحت كمرجع
 const SUM_SCHEMA = { type: 'object', properties: { title: { type: 'string' }, summary: { type: 'string' }, facts: { type: 'array', items: { type: 'string' } } }, required: ['title', 'summary', 'facts'], additionalProperties: false };
 $('refSum').addEventListener('click', async () => {
