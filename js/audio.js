@@ -208,6 +208,9 @@ export class Recorder {
     this.rec.ondataavailable = e => e.data.size && this.chunks.push(e.data);
     this.rec.start();
   }
+  pause() { if (this.rec?.state === 'recording') this.rec.pause(); }
+  resume() { if (this.rec?.state === 'paused') this.rec.resume(); }
+  cancel() { try { this.rec.onstop = null; this.rec.stop(); } catch { /* خلص */ } this.stream?.getTracks().forEach(t => t.stop()); }
   stop() {
     return new Promise(resolve => {
       this.rec.onstop = async () => {
@@ -218,4 +221,40 @@ export class Recorder {
       this.rec.stop();
     });
   }
+}
+
+// قص السكتات: أي سكتة أطول من maxGap بتتقصّر لـ maxGap، وسكتة الأول والآخر بتتقصّر لـ edge.
+// بيرجّع {buffer, removed} (removed = الثواني اللي اتشالت)
+export function trimSilence(buffer, { thrDb = -42, maxGap = 0.35, edge = 0.12 } = {}) {
+  const fs = buffer.sampleRate, win = Math.round(fs * 0.01), n = buffer.length;
+  const chans = [...Array(buffer.numberOfChannels)].map((_, c) => buffer.getChannelData(c));
+  // مستوى السكتة: أعلى من أهدى 10% من الصوت بشوية، ومش أقل من thrDb
+  const frames = Math.ceil(n / win), lv = new Float32Array(frames);
+  for (let f = 0; f < frames; f++) {
+    let sum = 0;
+    for (let i = f * win; i < Math.min(n, (f + 1) * win); i++) sum += chans[0][i] * chans[0][i];
+    lv[f] = Math.sqrt(sum / win);
+  }
+  const sorted = [...lv].sort((a, b) => a - b), floor = sorted[Math.floor(frames * 0.1)] || 0;
+  const thr = Math.max(10 ** (thrDb / 20), floor * 2.5);
+  const keep = [];
+  let f = 0;
+  while (f < frames) {
+    if (lv[f] >= thr) { keep.push([f, f + 1]); f++; continue; }
+    let g = f;
+    while (g < frames && lv[g] < thr) g++;
+    const len = (g - f) * 0.01, lim = f === 0 || g >= frames ? edge : maxGap;
+    if (len <= lim) keep.push([f, g]);
+    else { const half = Math.round(lim / 0.01 / 2); if (f > 0) keep.push([f, f + half]); if (g < frames) keep.push([g - half, g]); }
+    f = g;
+  }
+  let total = 0;
+  for (const [a, b] of keep) total += (Math.min(n, b * win) - a * win);
+  const out = audioCtx().createBuffer(buffer.numberOfChannels, Math.max(1, total), fs);
+  for (let c = 0; c < chans.length; c++) {
+    const dst = out.getChannelData(c);
+    let o = 0;
+    for (const [a, b] of keep) { const seg = chans[c].subarray(a * win, Math.min(n, b * win)); dst.set(seg, o); o += seg.length; }
+  }
+  return { buffer: out, removed: Math.max(0, (n - total) / fs) };
 }
