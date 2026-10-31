@@ -1,28 +1,28 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mvwufhn0';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvwufhn0';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvwufhn0';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvwufhn0';
-import { transcribeWords, alignWords } from './align.js?v=mvwufhn0';
-import { adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvwufhn0';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvwufhn0';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvwufhn0';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvwufhn0';
-import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvwufhn0';
-import { exportSupport, exportReel } from './export.js?v=mvwufhn0';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvwufhn0';
-import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvwufhn0';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON } from './draft.js?v=mvwufhn0';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvwufhn0';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvwufhn0';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvwufhn0';
-import { loadBg, playBg } from './bg.js?v=mvwufhn0';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvwufhn0';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvwufhn0';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvwufhn0';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvwufhn0';
-import { readUrl, cleanPasted } from './reader.js?v=mvwufhn0';
-import { initI18n, ui } from './i18n.js?v=mvwufhn0';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvwufhn0';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mvwxqfp9';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvwxqfp9';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvwxqfp9';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvwxqfp9';
+import { transcribeWords, alignWords } from './align.js?v=mvwxqfp9';
+import { adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvwxqfp9';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence } from './audio.js?v=mvwxqfp9';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvwxqfp9';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvwxqfp9';
+import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvwxqfp9';
+import { exportSupport, exportReel } from './export.js?v=mvwxqfp9';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvwxqfp9';
+import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvwxqfp9';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON } from './draft.js?v=mvwxqfp9';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvwxqfp9';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvwxqfp9';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvwxqfp9';
+import { loadBg, playBg } from './bg.js?v=mvwxqfp9';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvwxqfp9';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvwxqfp9';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvwxqfp9';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvwxqfp9';
+import { readUrl, cleanPasted } from './reader.js?v=mvwxqfp9';
+import { initI18n, ui } from './i18n.js?v=mvwxqfp9';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvwxqfp9';
 
 initI18n();
 
@@ -1520,22 +1520,104 @@ $('genGemA').addEventListener('change', () => { setSettings({ gemVoiceA: $('genG
 $('genGemB').addEventListener('change', () => { setSettings({ gemVoiceB: $('genGemB').value }); $('sGemB').value = $('genGemB').value; });
 fillGemVoices();
 
-$('rec').addEventListener('click', async () => {
-  try {
-    if (!recorder) {
-      recorder = new Recorder();
-      await recorder.start();
-      $('rec').textContent = '⏹ إيقاف التسجيل';
-      setStatus('بسجّل… اقرا سكريبت الحلقة كله بالترتيب.');
-    } else {
-      const r = recorder; recorder = null;
-      $('rec').textContent = '⏺ تسجيل بصوتي';
-      manualAudio = await r.stop();
-      setStatus('اتسجل ✅');
-      updateInfo(); redraw();
-    }
-  } catch (e) { recorder = null; $('rec').textContent = '⏺ تسجيل بصوتي'; setStatus('المايك مش متاح: ' + (e.message || e), true); }
+// 🎙 التسجيل بصوتك: شاشة فيها السكريبت بخط كبير (تليبرومبتر) + عدّ تنازلي 3-2-1 + وقفة/كمّل + قص السكتات
+const tp = { rec: null, t0: 0, acc: 0, timer: 0, raf: 0, buf: null, an: null, src: null, scroll: 0 };
+function tpScript() {
+  const lines = allLines(reel);
+  $('tpText').innerHTML = lines.length ? lines.map(l => `<p class="${l.speaker === 'B' ? 'b' : ''}">${l.speaker === 'B' ? 'ب: ' : ''}${esc(stripTagsLocal(l.text))}</p>`).join('') : '<p>اكتب السكريبت الأول في الاستوديو.</p>';
+  $('tpText').scrollTop = 0;
+}
+const tpElapsed = () => tp.acc + (tp.t0 ? (performance.now() - tp.t0) / 1000 : 0);
+function tpTick() {
+  const e = tpElapsed();
+  $('tpTime').textContent = `${Math.floor(e / 60)}:${String(Math.floor(e % 60)).padStart(2, '0')}`;
+}
+function tpLoop(last) {
+  const now = performance.now(), dt = (now - last) / 1000;
+  // التمرير: النص كله يخلص في الوقت المتوقع للقراءة (2.6 كلمة/ثانية) × السرعة
+  if (tp.t0) {
+    const box = $('tpText'), words = box.textContent.split(/\s+/).length, secs = Math.max(5, words / 2.6);
+    tp.scroll += ((box.scrollHeight - box.clientHeight) / secs) * Number($('tpSpeed').value) * dt;
+    if (Math.abs(tp.scroll - box.scrollTop) > 40) tp.scroll = box.scrollTop; // المستخدم سحب بإيده
+    box.scrollTop = tp.scroll;
+  }
+  if (tp.an) {
+    const d = new Uint8Array(tp.an.fftSize);
+    tp.an.getByteTimeDomainData(d);
+    let pk = 0; for (const v of d) pk = Math.max(pk, Math.abs(v - 128));
+    $('tpLevel').style.width = Math.min(100, (pk / 128) * 160) + '%';
+  }
+  tp.raf = requestAnimationFrame(() => tpLoop(now));
+}
+function tpReset() {
+  cancelAnimationFrame(tp.raf); clearInterval(tp.timer); stopAu();
+  try { tp.src?.disconnect(); } catch { /* خلص */ }
+  Object.assign(tp, { rec: null, t0: 0, acc: 0, buf: null, an: null, src: null, scroll: 0 });
+  $('tpStart').hidden = false; $('tpPause').hidden = $('tpStop').hidden = true;
+  $('tpRec').hidden = false; $('tpDone').hidden = true; $('tpCount').hidden = true;
+  $('tpTime').textContent = '0:00'; $('tpLevel').style.width = '0';
+}
+$('rec').addEventListener('click', () => {
+  readForm();
+  tpReset(); tpScript();
+  $('tpText').style.fontSize = $('tpSize').value + 'px';
+  $('recDlg').showModal();
 });
+$('tpSize').addEventListener('input', () => { $('tpText').style.fontSize = $('tpSize').value + 'px'; });
+$('tpStart').addEventListener('click', async () => {
+  $('tpStart').hidden = true;
+  const rec = new Recorder();
+  try { await rec.start(); } catch (e) { $('tpStart').hidden = false; return setStatus('المايك مش متاح: ' + (e.message || e), true); }
+  rec.pause();
+  tp.rec = rec;
+  try { const ac = audioCtx(); tp.src = ac.createMediaStreamSource(rec.stream); tp.an = ac.createAnalyser(); tp.an.fftSize = 1024; tp.src.connect(tp.an); } catch { /* المؤشر اختياري */ }
+  tpLoop(performance.now());
+  // عدّ تنازلي 3-2-1 والمايك شغال بس متوقف، عشان التسجيل يبدأ بالظبط مع «ابدأ»
+  $('tpCount').hidden = false;
+  for (const n of ['3', '2', '1']) { $('tpCount').textContent = n; await new Promise(r => setTimeout(r, 800)); if (tp.rec !== rec) return; }
+  $('tpCount').textContent = 'ابدأ'; setTimeout(() => { $('tpCount').hidden = true; }, 400);
+  rec.resume();
+  tp.t0 = performance.now();
+  tp.timer = setInterval(tpTick, 250);
+  $('tpPause').hidden = $('tpStop').hidden = false;
+  $('tpPause').textContent = '⏸ وقفة';
+});
+$('tpPause').addEventListener('click', () => {
+  if (!tp.rec) return;
+  if (tp.t0) { tp.acc = tpElapsed(); tp.t0 = 0; tp.rec.pause(); $('tpPause').textContent = '▶ كمّل التسجيل'; }
+  else { tp.rec.resume(); tp.t0 = performance.now(); $('tpPause').textContent = '⏸ وقفة'; }
+  tpTick();
+});
+function tpInfo() {
+  const raw = tp.buf;
+  if (!raw) return;
+  const t = $('tpTrim').checked ? trimSilence(raw) : { buffer: raw, removed: 0 };
+  tp.out = t.buffer;
+  $('tpInfo').textContent = `✅ اتسجّل ${raw.duration.toFixed(1)} ث${t.removed > 0.05 ? ` — بعد قص السكتات ${t.buffer.duration.toFixed(1)} ث (اتشال ${t.removed.toFixed(1)} ث)` : ''}.`;
+}
+$('tpStop').addEventListener('click', async () => {
+  const rec = tp.rec;
+  if (!rec) return;
+  tp.acc = tpElapsed(); tp.t0 = 0; clearInterval(tp.timer); tpTick();
+  if (rec.rec.state === 'paused') rec.resume();
+  tp.buf = await rec.stop();
+  tp.rec = null; tp.an = null;
+  $('tpRec').hidden = true; $('tpDone').hidden = false;
+  tpInfo();
+});
+$('tpTrim').addEventListener('change', tpInfo);
+$('tpPlay').addEventListener('click', () => { if (tp.out) playAu(tp.out); });
+$('tpAgain').addEventListener('click', () => { tpReset(); tpScript(); });
+$('tpUse').addEventListener('click', () => {
+  if (!tp.out) return;
+  manualAudio = tp.out;
+  $('recDlg').close();
+  setStatus(`✅ التسجيل بقى صوت الحلقة (${tp.out.duration.toFixed(1)} ث).`);
+  updateInfo(); redraw();
+});
+const tpQuit = () => { tp.rec?.cancel(); tpReset(); };
+$('tpClose').addEventListener('click', () => { tpQuit(); $('recDlg').close(); });
+$('recDlg').addEventListener('cancel', tpQuit);
 
 $('upl').addEventListener('change', async e => {
   const f = e.target.files[0];
