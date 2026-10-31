@@ -1,6 +1,6 @@
 // مسودة سكريبت بالذكاء الاصطناعي (اختيارية): Claude API من المتصفح بمفتاحك. بتستخدم الملخص والعنوان بس ومبتخترعش معلومات.
 // الموقع من غير build فمفيش SDK؛ بنكلّم الـAPI بـfetch مباشرة (الهيدر anthropic-dangerous-direct-browser-access ضروري لطلبات المتصفح).
-import { getSettings } from './storage.js?v=mvua09jo';
+import { getSettings } from './storage.js?v=mvw30go2';
 
 export const CLAUDE_MODELS = [
   { id: 'claude-opus-5-5', name: 'Claude Opus 5.5 (الأفضل، الافتراضي)' },
@@ -185,11 +185,15 @@ export async function aiJSON({ system, user, schema, maxTokens = 8000 }) {
       text = (j.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
     } else {
       const sys = system + '\nReturn ONLY one JSON object (no markdown fences) that matches this JSON schema:\n' + JSON.stringify(schema);
-      const res = await fetch(P.url, {
+      // تفكير قليل في Gemini/OpenAI = رد أسرع بكتير وأرخص في الحصة (الشغل هنا تلخيص وكتابة، مش مسائل)
+      const effort = prov === 'gemini' || prov === 'openai';
+      const call = withEffort => fetch(P.url, {
         method: 'POST', signal: AbortSignal.timeout(180000),
         headers: { 'content-type': 'application/json', authorization: 'Bearer ' + key },
-        body: JSON.stringify({ model: st.aiModel || P.model, ...(prov === 'openai' ? { response_format: { type: 'json_object' } } : { temperature: 0.4 }), messages: [{ role: 'system', content: sys }, { role: 'user', content: user }] }),
+        body: JSON.stringify({ model: st.aiModel || P.model, ...(prov === 'openai' ? { response_format: { type: 'json_object' } } : { temperature: 0.4 }), ...(withEffort ? { reasoning_effort: 'low' } : {}), messages: [{ role: 'system', content: sys }, { role: 'user', content: user }] }),
       });
+      let res = await call(effort);
+      if (effort && res.status === 400) res = await call(false); // موديل مش بيقبل reasoning_effort
       if (!res.ok) await fail(res);
       text = String((await res.json()).choices?.[0]?.message?.content || '');
     }
