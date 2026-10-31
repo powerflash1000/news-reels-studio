@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mvw30go2">
+<html lang="ar" dir="rtl" data-v="mvw3rstr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mvw30go2">
+<link rel="stylesheet" href="assets/css/style.css?v=mvw3rstr">
 </head>
 <body>
 <header class="top">
@@ -159,6 +159,20 @@
         <button id="play" class="btn">▶ معاينة</button>
         <span id="time" class="muted">0:00</span>
       </div>
+      <div class="row">
+        <button id="exp" class="btn pri big">⬇ تصدير MP4</button>
+        <button id="newReel" class="btn ghost">ريل جديد</button>
+      </div>
+      <div class="row">
+        <button id="toLive" class="btn pri" type="button">📡 للايف (بعد الحالي)</button>
+        <button id="toLiveNow" class="btn" type="button">⚡ للايف دلوقتي</button>
+        <button id="exSrt" class="btn">⬇ ترجمة SRT</button>
+        <button id="exWav" class="btn">⬇ صوت الحلقة WAV</button>
+        <button id="exVoice" class="btn ghost">⬇ صوت الكلام بس WAV</button>
+      </div>
+      <p class="muted">للمونتاج في Filmora أو أي برنامج: الترجمة SRT بتتوقّت على الكلام، والصوت WAV هو نفس صوت الفيديو (بالتأثيرات والموسيقى). محتاج صوت جاهز (متولّد أو مسجّل).</p>
+      <div id="prog" class="prog" hidden><i></i></div>
+      <p id="status" class="muted"></p>
     </div>
     <div class="form">
       <label>اسم الحلقة (للمكتبة بس)<input id="rTitle" placeholder="مثال: نشرة الخميس"></label>
@@ -180,6 +194,96 @@
           <button id="stDel" class="btn ghost">حذف</button>
         </div>
       </div>
+      <div id="newsFields1" class="grid">
+        <label>القسم<select id="fCat"></select></label>
+        <label>نوع المحتوى
+          <select id="fKind">
+            <option value="fact">خبر موثّق بمصدر أصلي</option>
+            <option value="opinion">رأي / تحليل (منسوب)</option>
+          </select>
+        </label>
+      </div>
+      <label>العنوان على الشاشة<input id="fHead"></label>
+      <div id="newsFields2">
+        <div class="grid">
+          <label>اسم المصدر الأصلي (إجباري)<input id="fSrc"></label>
+          <label>رابط المصدر الأصلي (إجباري)<input id="fUrl" dir="ltr" placeholder="https://"></label>
+        </div>
+        <label>ترخيص / حقوق (اختياري)<input id="fCredit" placeholder="مثال: بيانات منظمة الصحة العالمية"></label>
+        <div id="ytNote" class="warn" hidden></div>
+      </div>
+      <details id="refBox" class="card">
+        <summary>📄 ملخص الخبر من المصدر (مرجع — مش بيظهر في الفيديو)</summary>
+        <p id="refOrigNote" class="muted" hidden></p>
+        <textarea id="fRef" rows="5" dir="auto" placeholder="ملخص الخبر بيتجاب تلقائيًا من المصدر. ممكن كمان تلصق هنا نص الخبر من موقعه كمرجع."></textarea>
+        <p class="muted">من رابط لقصة: (1) حط رابط المقال في خانة «رابط المصدر» فوق، (2) «📥 هات نص المقال»، (3) «✨ لخّصه بالعربي»، (4) افتح «🧠 المحرر الذكي» واختار «حكّاء» والمدة، واضغط «شغّل المحرر».</p>
+        <p class="muted aiNow"></p>
+        <div class="row">
+          <button id="refFetch" class="btn pri" type="button">📥 هات نص المقال من الرابط</button>
+          <button id="refSum" class="btn pri" type="button">✨ لخّصه بالعربي</button>
+          <button id="refInsert" class="btn">⬇ أدرجه في السكريبت (مقسّم لجُمل)</button>
+          <button id="refTr" class="btn ghost">ترجم للعربي</button>
+          <a id="refLink" class="btn ghost" target="_blank" rel="noopener" hidden>فتح الخبر الأصلي</a>
+        </div>
+        <div class="draftbox">
+          <b>✨ مسودة بالذكاء الاصطناعي (اختياري)</b>
+          <div class="grid">
+            <label>المدة<select id="draftLen"><option value="30">حوالي 30 ثانية</option><option value="45" selected>حوالي 45 ثانية</option><option value="60">حوالي 60 ثانية</option></select></label>
+            <label>الشكل<select id="draftFmt"><option value="single">مذيع واحد</option><option value="dialogue">حوار أ / ب</option></select></label>
+          </div>
+          <label>ملاحظات للمسودة (اختياري)<input id="draftNote" dir="auto" placeholder="مثال: ركّز على الأرقام، أو ابدأ بالسؤال"></label>
+          <button id="draftGo" class="btn pri">✨ اكتب مسودة من الملخص</button>
+          <p class="muted">بيبعت العنوان والملخص للمزوّد اللي اخترته في الإعدادات (مفتاحك أنت). المسودة بتستخدم معلومات الملخص بس، وراجعها وعدّلها بأسلوبك قبل التصدير.</p>
+        </div>
+        <p id="refMsg" class="muted">أعد صياغته بأسلوبك قبل التصدير. الأداة بتسحب الملخص بس، مش نص الخبر الكامل (حقوق النشر).</p>
+      </details>
+      <details id="agentBox" class="card agentbox">
+        <summary>🧠 المحرر الذكي (اختياري): يجهّز الخبر كقصة وإنفوجرافيك ومؤثرات</summary>
+        <p class="muted aiNow"></p>
+        <div id="agMode" class="chips"><button class="chip" data-agm="short" type="button">📰 ريل قصير (30 ثانية لدقيقة ونص)</button><button class="chip" data-agm="long" type="button">📖 حكاية طويلة (3 لـ 10 دقايق)</button></div>
+        <div class="grid">
+          <label>أسلوب القناة<select id="agStyle"></select></label>
+          <label>مدة السكريبت اللي هيكتبه<select id="agLen"><option value="30">حوالي 30 ثانية</option><option value="45" selected>حوالي 45 ثانية</option><option value="60">حوالي 60 ثانية</option><option value="90">حوالي 90 ثانية</option><option value="180">حلقة 3 دقايق</option><option value="300">حلقة 5 دقايق</option><option value="480">حلقة 8 دقايق</option><option value="600">حلقة 10 دقايق</option></select></label>
+          <label>الشكل<select id="agFmt"><option value="single">مذيع واحد</option><option value="dialogue">حوار أ / ب</option></select></label>
+        </div>
+        <label>ملاحظات للمحرر (اختياري)<input id="agNote" dir="auto" placeholder="مثال: ابدأ بسؤال، أو ركّز على الأثر على المواطن"></label>
+        <div class="chips">
+          <label class="chk"><input id="agPScript" type="checkbox" checked> سكريبت</label>
+          <label class="chk"><input id="agPStory" type="checkbox"> خلفية تاريخية وخط زمني</label>
+          <label class="chk"><input id="agPInfo" type="checkbox" checked> اقتراحات إنفوجرافيك</label>
+          <label class="chk"><input id="agPVfx" type="checkbox" checked> مؤثرات وبحث وسائط وموسيقى</label>
+        </div>
+        <div class="row"><button id="agGo" class="btn pri" type="button">🧠 شغّل المحرر</button><span id="agMsg" class="muted"></span></div>
+        <div id="agOut"></div>
+        <p class="muted">بيبعت العنوان والملخص للمزوّد اللي اخترته في الإعدادات (مفتاحك أنت). الخبر نفسه بيتكتب من الملخص بس. الخلفية التاريخية من معلومات الموديل العامة وممكن تغلط، فكل تاريخ أو اسم فيها بيتعلّم «لازم يتراجع»، وفي قائمة التحقق قبل التصدير سطر بيطلب تراجعها. كل حاجة اقتراح: مفيش حاجة بتتطبّق من غير ضغطتك.</p>
+      </details>
+      <div class="card fxbox">
+        <b>تأثيرات الصوت قبل التوليد</b>
+        <div class="muted">دوس على التأثير عشان يتحط عند المؤشر في السكريبت. بتشتغل مع Gemini (بتتحول لتوجيه أداء) ومع ElevenLabs v3 (على v2 بتتشال تلقائيًا ومبتتقراش). ✅ = من قايمة ElevenLabs الرسمية، ٭ = تجريبي (جرّب وسمّع).</div>
+        <div id="fxTags" class="chips"></div>
+        <div id="fxWarn" class="warn" hidden></div>
+      </div>
+      <label>السكريبت — كل سطر جملة. للحوار ابدأ السطر بـ «أ:» أو «ب:»
+        <textarea id="fScript" rows="9" placeholder="أ: أهلاً بيكم…&#10;ب: وفيه خبر مهم…"></textarea>
+      </label>
+      <p id="scriptInfo" class="muted"></p>
+      <div class="row hookrow"><button id="hkGo" class="btn" type="button" title="5 أول جمل مختلفة تشد المشاهد في أول 3 ثواني، من معلومات الخبر بس">🎣 اقترح هوكات</button><span id="hkMsg" class="muted"></span></div>
+      <div id="hkList" class="chips"></div>
+      <div class="row">
+        <button id="gen" class="btn pri">🎙 توليد الصوت (ElevenLabs)</button>
+        <button id="genGem" class="btn pri">✨ توليد الصوت (Gemini)</button>
+        <button id="alignW" class="btn" title="صوت Gemini مالوش توقيت للكلمات، فالكابشن بيتقدّر. ده بيسمع الصوت بـ Whisper جوه المتصفح ويظبط كل كلمة على وقتها">🎯 ظبط توقيت الكابشن</button>
+        <button id="rec" class="btn">⏺ تسجيل بصوتي</button>
+        <label class="btn file">⬆ رفع ملف صوت<input id="upl" type="file" accept="audio/*" hidden></label>
+        <button id="clearAudio" class="btn ghost">مسح الصوت</button>
+      </div>
+      <div class="grid gemvoices">
+        <label>صوت Gemini للمذيع أ<select id="genGemA"></select></label>
+        <label>صوت Gemini للمذيع ب (لو حوار)<select id="genGemB"></select></label>
+      </div>
+      <p id="audioInfo" class="muted">مفيش صوت لسه.</p>
+    </div>
+    <div class="tools">
       <div class="card tplbox">
         <b>قالب الخبر</b>
         <select id="fTpl"></select>
@@ -232,30 +336,36 @@
           <button id="pfAdd" class="btn">＋ مصدر</button>
         </div>
       </div>
-      <div id="newsFields1" class="grid">
-        <label>القسم<select id="fCat"></select></label>
-        <label>نوع المحتوى
-          <select id="fKind">
-            <option value="fact">خبر موثّق بمصدر أصلي</option>
-            <option value="opinion">رأي / تحليل (منسوب)</option>
-          </select>
-        </label>
-      </div>
-      <label>العنوان على الشاشة<input id="fHead"></label>
-      <div id="newsFields2">
-        <div class="grid">
-          <label>اسم المصدر الأصلي (إجباري)<input id="fSrc"></label>
-          <label>رابط المصدر الأصلي (إجباري)<input id="fUrl" dir="ltr" placeholder="https://"></label>
+      <div class="card bgbox">
+        <b>خلفية الخبر</b>
+        <div id="bgInfo" class="muted">من غير خلفية (لون القسم بس).</div>
+        <div class="row">
+          <button id="bgPick" class="btn">🖼 من مكتبة الوسائط</button>
+          <label class="btn file">⬆ من جهازي<input id="bgFile" type="file" accept="image/*,video/*" hidden></label>
+          <button id="bgCapture" class="btn">📸 التقط من شاشتي</button>
+          <button id="bgOpenSrc" class="btn ghost" type="button">↗ افتح صفحة المصدر</button>
+          <button id="bgClear" class="btn ghost">إزالة</button>
         </div>
-        <label>ترخيص / حقوق (اختياري)<input id="fCredit" placeholder="مثال: بيانات منظمة الصحة العالمية"></label>
-        <div id="ytNote" class="warn" hidden></div>
+        <p class="muted">افتح صفحة الخبر في تبويب، وبعدين «التقط من شاشتي» واختار التبويب أو النافذة. أو انسخ صورة (لقطة أو أي صورة) واضغط Ctrl+V هنا. بنحط على الشاشة اسم المصدر. حقوق الصور والمقاطع على مصدرها، فاستخدم لقطات قصيرة للتعليق على الخبر أو صور المصادر الرسمية والمفتوحة.</p>
+        <label>التعتيم (عشان النص يتقري)<input id="bgDim" type="range" min="0" max="0.85" step="0.05" value="0.5"></label>
+        <div class="grid">
+          <label>ملاءمة الصورة للمقاس<select id="bgFit"><option value="auto">تلقائي (احتواء بغباش لو المقاس بعيد)</option><option value="cover">تغطية الشاشة (قصّ)</option><option value="contain">احتواء كامل + غباش</option></select></label>
+          <label>تكبير<input id="bgZoom" type="range" min="1" max="2.5" step="0.05" value="1"></label>
+          <label>إزاحة أفقية (في التغطية)<input id="bgFx" type="range" min="0" max="1" step="0.05" value="0.5"></label>
+          <label>إزاحة رأسية (في التغطية)<input id="bgFy" type="range" min="0" max="1" step="0.05" value="0.5"></label>
+        </div>
       </div>
-      <details class="card verifybox">
-        <summary>🔍 تحقق من ادعاء (قارنه بالمصادر)</summary>
-        <label>الادعاء (من يوتيوبر أو أي مكان)<textarea id="vcText" rows="2" dir="auto" placeholder="الصق الادعاء أو الخبر اللي عايز تتأكد منه…"></textarea></label>
-        <div class="row"><button id="vcFill" class="btn ghost" type="button">خد من العنوان</button><button id="vcGo" class="btn pri" type="button">قارن بالأخبار المتجمّعة</button></div>
-        <div id="vcOut"></div>
-        <p class="muted">ده كاشف تطابق بالنص والأرقام مع آخر الأخبار المتجمّعة من المصادر، مش حكم نهائي. بيقارن بنفس لغة الادعاء. اليوتيوبر مش مصدر: لازم تفتح المصدر وتتأكد بنفسك قبل ما تستخدمه.</p>
+      <details id="scBox" class="card scbox">
+        <summary>🎬 مونتاج أوتوماتيك: صورة أو فيديو لكل جملة</summary>
+        <p class="muted">بيقرا السكريبت، ويختار لكل مشهد كلمات بحث بالذكاء الاصطناعي، ويجيب صورة أو فيديو مفتوح الحقوق من مصادر تبويب «الوسائط»، ويركّبهم على الكلام بحركة وتلاشي. راجع كل مشهد وغيّره براحتك. الملفات بتفضل على جهازك.</p>
+        <div class="row">
+          <label class="inl">كل مشهد <select id="scPer"><option value="1">جملة واحدة</option><option value="2" selected>جملتين</option><option value="3">3 جمل</option></select></label>
+          <label class="chk"><input id="scVid" type="checkbox"> فيديو لما يكون متاح (أبطأ)</label>
+          <button id="scGo" class="btn pri" type="button">🎬 اعمل المشاهد أوتوماتيك</button>
+          <button id="scClear" class="btn ghost" type="button">🗑 امسح المشاهد</button>
+        </div>
+        <p id="scMsg" class="muted"></p>
+        <div id="scList" class="sclist"></div>
       </details>
       <div class="card ltbox">
         <label class="chk"><input id="ltOn" type="checkbox"> شريط اسم (Lower third): اسم المتحدث أو الجهة بيظهر أول 6 ثواني (للقالب العادي والعاجل)</label>
@@ -336,119 +446,13 @@
         </details>
         <p class="muted">بتنزل تلقائيًا وقت الكلام وبتتكرر لآخر الحلقة وبتخفت في الأول والآخر. الملف بيفضل على جهازك.</p>
       </div>
-      <details id="scBox" class="card scbox">
-        <summary>🎬 مونتاج أوتوماتيك: صورة أو فيديو لكل جملة</summary>
-        <p class="muted">بيقرا السكريبت، ويختار لكل مشهد كلمات بحث بالذكاء الاصطناعي، ويجيب صورة أو فيديو مفتوح الحقوق من مصادر تبويب «الوسائط»، ويركّبهم على الكلام بحركة وتلاشي. راجع كل مشهد وغيّره براحتك. الملفات بتفضل على جهازك.</p>
-        <div class="row">
-          <label class="inl">كل مشهد <select id="scPer"><option value="1">جملة واحدة</option><option value="2" selected>جملتين</option><option value="3">3 جمل</option></select></label>
-          <label class="chk"><input id="scVid" type="checkbox"> فيديو لما يكون متاح (أبطأ)</label>
-          <button id="scGo" class="btn pri" type="button">🎬 اعمل المشاهد أوتوماتيك</button>
-          <button id="scClear" class="btn ghost" type="button">🗑 امسح المشاهد</button>
-        </div>
-        <p id="scMsg" class="muted"></p>
-        <div id="scList" class="sclist"></div>
+      <details class="card verifybox">
+        <summary>🔍 تحقق من ادعاء (قارنه بالمصادر)</summary>
+        <label>الادعاء (من يوتيوبر أو أي مكان)<textarea id="vcText" rows="2" dir="auto" placeholder="الصق الادعاء أو الخبر اللي عايز تتأكد منه…"></textarea></label>
+        <div class="row"><button id="vcFill" class="btn ghost" type="button">خد من العنوان</button><button id="vcGo" class="btn pri" type="button">قارن بالأخبار المتجمّعة</button></div>
+        <div id="vcOut"></div>
+        <p class="muted">ده كاشف تطابق بالنص والأرقام مع آخر الأخبار المتجمّعة من المصادر، مش حكم نهائي. بيقارن بنفس لغة الادعاء. اليوتيوبر مش مصدر: لازم تفتح المصدر وتتأكد بنفسك قبل ما تستخدمه.</p>
       </details>
-      <div class="card bgbox">
-        <b>خلفية الخبر</b>
-        <div id="bgInfo" class="muted">من غير خلفية (لون القسم بس).</div>
-        <div class="row">
-          <button id="bgPick" class="btn">🖼 من مكتبة الوسائط</button>
-          <label class="btn file">⬆ من جهازي<input id="bgFile" type="file" accept="image/*,video/*" hidden></label>
-          <button id="bgCapture" class="btn">📸 التقط من شاشتي</button>
-          <button id="bgOpenSrc" class="btn ghost" type="button">↗ افتح صفحة المصدر</button>
-          <button id="bgClear" class="btn ghost">إزالة</button>
-        </div>
-        <p class="muted">افتح صفحة الخبر في تبويب، وبعدين «التقط من شاشتي» واختار التبويب أو النافذة. أو انسخ صورة (لقطة أو أي صورة) واضغط Ctrl+V هنا. بنحط على الشاشة اسم المصدر. حقوق الصور والمقاطع على مصدرها، فاستخدم لقطات قصيرة للتعليق على الخبر أو صور المصادر الرسمية والمفتوحة.</p>
-        <label>التعتيم (عشان النص يتقري)<input id="bgDim" type="range" min="0" max="0.85" step="0.05" value="0.5"></label>
-        <div class="grid">
-          <label>ملاءمة الصورة للمقاس<select id="bgFit"><option value="auto">تلقائي (احتواء بغباش لو المقاس بعيد)</option><option value="cover">تغطية الشاشة (قصّ)</option><option value="contain">احتواء كامل + غباش</option></select></label>
-          <label>تكبير<input id="bgZoom" type="range" min="1" max="2.5" step="0.05" value="1"></label>
-          <label>إزاحة أفقية (في التغطية)<input id="bgFx" type="range" min="0" max="1" step="0.05" value="0.5"></label>
-          <label>إزاحة رأسية (في التغطية)<input id="bgFy" type="range" min="0" max="1" step="0.05" value="0.5"></label>
-        </div>
-      </div>
-      <details id="refBox" class="card">
-        <summary>📄 ملخص الخبر من المصدر (مرجع — مش بيظهر في الفيديو)</summary>
-        <p id="refOrigNote" class="muted" hidden></p>
-        <textarea id="fRef" rows="5" dir="auto" placeholder="ملخص الخبر بيتجاب تلقائيًا من المصدر. ممكن كمان تلصق هنا نص الخبر من موقعه كمرجع."></textarea>
-        <p class="muted">من رابط لقصة: (1) حط رابط المقال في خانة «رابط المصدر» فوق، (2) «📥 هات نص المقال»، (3) «✨ لخّصه بالعربي»، (4) افتح «🧠 المحرر الذكي» واختار «حكّاء» والمدة، واضغط «شغّل المحرر».</p>
-        <p class="muted aiNow"></p>
-        <div class="row">
-          <button id="refFetch" class="btn pri" type="button">📥 هات نص المقال من الرابط</button>
-          <button id="refSum" class="btn pri" type="button">✨ لخّصه بالعربي</button>
-          <button id="refInsert" class="btn">⬇ أدرجه في السكريبت (مقسّم لجُمل)</button>
-          <button id="refTr" class="btn ghost">ترجم للعربي</button>
-          <a id="refLink" class="btn ghost" target="_blank" rel="noopener" hidden>فتح الخبر الأصلي</a>
-        </div>
-        <div class="draftbox">
-          <b>✨ مسودة بالذكاء الاصطناعي (اختياري)</b>
-          <div class="grid">
-            <label>المدة<select id="draftLen"><option value="30">حوالي 30 ثانية</option><option value="45" selected>حوالي 45 ثانية</option><option value="60">حوالي 60 ثانية</option></select></label>
-            <label>الشكل<select id="draftFmt"><option value="single">مذيع واحد</option><option value="dialogue">حوار أ / ب</option></select></label>
-          </div>
-          <label>ملاحظات للمسودة (اختياري)<input id="draftNote" dir="auto" placeholder="مثال: ركّز على الأرقام، أو ابدأ بالسؤال"></label>
-          <button id="draftGo" class="btn pri">✨ اكتب مسودة من الملخص</button>
-          <p class="muted">بيبعت العنوان والملخص للمزوّد اللي اخترته في الإعدادات (مفتاحك أنت). المسودة بتستخدم معلومات الملخص بس، وراجعها وعدّلها بأسلوبك قبل التصدير.</p>
-        </div>
-        <p id="refMsg" class="muted">أعد صياغته بأسلوبك قبل التصدير. الأداة بتسحب الملخص بس، مش نص الخبر الكامل (حقوق النشر).</p>
-      </details>
-      <details id="agentBox" class="card agentbox">
-        <summary>🧠 المحرر الذكي (اختياري): يجهّز الخبر كقصة وإنفوجرافيك ومؤثرات</summary>
-        <p class="muted aiNow"></p>
-        <div id="agMode" class="chips"><button class="chip" data-agm="short" type="button">📰 ريل قصير (30 ثانية لدقيقة ونص)</button><button class="chip" data-agm="long" type="button">📖 حكاية طويلة (3 لـ 10 دقايق)</button></div>
-        <div class="grid">
-          <label>أسلوب القناة<select id="agStyle"></select></label>
-          <label>مدة السكريبت اللي هيكتبه<select id="agLen"><option value="30">حوالي 30 ثانية</option><option value="45" selected>حوالي 45 ثانية</option><option value="60">حوالي 60 ثانية</option><option value="90">حوالي 90 ثانية</option><option value="180">حلقة 3 دقايق</option><option value="300">حلقة 5 دقايق</option><option value="480">حلقة 8 دقايق</option><option value="600">حلقة 10 دقايق</option></select></label>
-          <label>الشكل<select id="agFmt"><option value="single">مذيع واحد</option><option value="dialogue">حوار أ / ب</option></select></label>
-        </div>
-        <label>ملاحظات للمحرر (اختياري)<input id="agNote" dir="auto" placeholder="مثال: ابدأ بسؤال، أو ركّز على الأثر على المواطن"></label>
-        <div class="chips">
-          <label class="chk"><input id="agPScript" type="checkbox" checked> سكريبت</label>
-          <label class="chk"><input id="agPStory" type="checkbox"> خلفية تاريخية وخط زمني</label>
-          <label class="chk"><input id="agPInfo" type="checkbox" checked> اقتراحات إنفوجرافيك</label>
-          <label class="chk"><input id="agPVfx" type="checkbox" checked> مؤثرات وبحث وسائط وموسيقى</label>
-        </div>
-        <div class="row"><button id="agGo" class="btn pri" type="button">🧠 شغّل المحرر</button><span id="agMsg" class="muted"></span></div>
-        <div id="agOut"></div>
-        <p class="muted">بيبعت العنوان والملخص للمزوّد اللي اخترته في الإعدادات (مفتاحك أنت). الخبر نفسه بيتكتب من الملخص بس. الخلفية التاريخية من معلومات الموديل العامة وممكن تغلط، فكل تاريخ أو اسم فيها بيتعلّم «لازم يتراجع»، وفي قائمة التحقق قبل التصدير سطر بيطلب تراجعها. كل حاجة اقتراح: مفيش حاجة بتتطبّق من غير ضغطتك.</p>
-      </details>
-      <div class="card fxbox">
-        <b>تأثيرات الصوت قبل التوليد</b>
-        <div class="muted">دوس على التأثير عشان يتحط عند المؤشر في السكريبت. بتشتغل مع Gemini (بتتحول لتوجيه أداء) ومع ElevenLabs v3 (على v2 بتتشال تلقائيًا ومبتتقراش). ✅ = من قايمة ElevenLabs الرسمية، ٭ = تجريبي (جرّب وسمّع).</div>
-        <div id="fxTags" class="chips"></div>
-        <div id="fxWarn" class="warn" hidden></div>
-      </div>
-      <label>السكريبت — كل سطر جملة. للحوار ابدأ السطر بـ «أ:» أو «ب:»
-        <textarea id="fScript" rows="9" placeholder="أ: أهلاً بيكم…&#10;ب: وفيه خبر مهم…"></textarea>
-      </label>
-      <p id="scriptInfo" class="muted"></p>
-      <div class="row hookrow"><button id="hkGo" class="btn" type="button" title="5 أول جمل مختلفة تشد المشاهد في أول 3 ثواني، من معلومات الخبر بس">🎣 اقترح هوكات</button><span id="hkMsg" class="muted"></span></div>
-      <div id="hkList" class="chips"></div>
-      <div class="row">
-        <button id="gen" class="btn pri">🎙 توليد الصوت (ElevenLabs)</button>
-        <button id="genGem" class="btn pri">✨ توليد الصوت (Gemini)</button>
-        <button id="alignW" class="btn" title="صوت Gemini مالوش توقيت للكلمات، فالكابشن بيتقدّر. ده بيسمع الصوت بـ Whisper جوه المتصفح ويظبط كل كلمة على وقتها">🎯 ظبط توقيت الكابشن</button>
-        <button id="rec" class="btn">⏺ تسجيل بصوتي</button>
-        <label class="btn file">⬆ رفع ملف صوت<input id="upl" type="file" accept="audio/*" hidden></label>
-        <button id="clearAudio" class="btn ghost">مسح الصوت</button>
-      </div>
-      <div class="grid gemvoices">
-        <label>صوت Gemini للمذيع أ<select id="genGemA"></select></label>
-        <label>صوت Gemini للمذيع ب (لو حوار)<select id="genGemB"></select></label>
-      </div>
-      <p id="audioInfo" class="muted">مفيش صوت لسه.</p>
-      <div class="row">
-        <button id="exp" class="btn pri big">⬇ تصدير MP4</button>
-        <button id="newReel" class="btn ghost">ريل جديد</button>
-      </div>
-      <div class="row">
-        <button id="toLive" class="btn pri" type="button">📡 للايف (بعد الحالي)</button>
-        <button id="toLiveNow" class="btn" type="button">⚡ للايف دلوقتي</button>
-        <button id="exSrt" class="btn">⬇ ترجمة SRT</button>
-        <button id="exWav" class="btn">⬇ صوت الحلقة WAV</button>
-        <button id="exVoice" class="btn ghost">⬇ صوت الكلام بس WAV</button>
-      </div>
-      <p class="muted">للمونتاج في Filmora أو أي برنامج: الترجمة SRT بتتوقّت على الكلام، والصوت WAV هو نفس صوت الفيديو (بالتأثيرات والموسيقى). محتاج صوت جاهز (متولّد أو مسجّل).</p>
       <div class="card coverbox">
         <b>غلاف / ثمبنيل للخبر</b>
         <div class="grid">
@@ -460,8 +464,6 @@
         <div class="row"><button id="cvDl" class="btn pri">⬇ تحميل الغلاف</button></div>
         <p class="muted">بيستخدم عنوان الخبر وقسمه ومصدره وخلفيته واللوجو، بنفس لغة الريل.</p>
       </div>
-      <div id="prog" class="prog" hidden><i></i></div>
-      <p id="status" class="muted"></p>
     </div>
   </div>
 </section>
@@ -767,6 +769,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mvw30go2"></script>
+<script type="module" src="js/main.js?v=mvw3rstr"></script>
 </body>
 </html>

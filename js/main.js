@@ -1,28 +1,28 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvw30go2';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvw30go2';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvw30go2';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvw30go2';
-import { transcribeWords, alignWords } from './align.js?v=mvw30go2';
-import { saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvw30go2';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvw30go2';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvw30go2';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvw30go2';
-import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvw30go2';
-import { exportSupport, exportReel } from './export.js?v=mvw30go2';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvw30go2';
-import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvw30go2';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON } from './draft.js?v=mvw30go2';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvw30go2';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvw30go2';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvw30go2';
-import { loadBg, playBg } from './bg.js?v=mvw30go2';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvw30go2';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvw30go2';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvw30go2';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvw30go2';
-import { readUrl } from './reader.js?v=mvw30go2';
-import { initI18n, ui } from './i18n.js?v=mvw30go2';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvw30go2';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvw3rstr';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvw3rstr';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvw3rstr';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvw3rstr';
+import { transcribeWords, alignWords } from './align.js?v=mvw3rstr';
+import { saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvw3rstr';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvw3rstr';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvw3rstr';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvw3rstr';
+import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvw3rstr';
+import { exportSupport, exportReel } from './export.js?v=mvw3rstr';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvw3rstr';
+import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvw3rstr';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON } from './draft.js?v=mvw3rstr';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvw3rstr';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvw3rstr';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvw3rstr';
+import { loadBg, playBg } from './bg.js?v=mvw3rstr';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvw3rstr';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvw3rstr';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvw3rstr';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvw3rstr';
+import { readUrl } from './reader.js?v=mvw3rstr';
+import { initI18n, ui } from './i18n.js?v=mvw3rstr';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvw3rstr';
 
 initI18n();
 
@@ -3182,3 +3182,74 @@ $('lgAdd').addEventListener('click', () => {
   for (const id of ['lgUrl', 'lgViews', 'lgLikes', 'lgComments', 'lgShares', 'lgSaves']) $(id).value = '';
   renderPublish();
 });
+
+// ===== شكل مضغوط =====
+// كروت الأدوات (اللي عنوانها <b>) بتتقفل وتتفتح بالضغط على العنوان، والحالة بتتحفظ
+{
+  const KEY = 'nrs:folds', SHUT = ['ltbox', 'tickbox', 'avbox', 'bumpbox', 'musicbox', 'coverbox', 'fxbox'];
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch { /* أول مرة */ }
+  for (const c of document.querySelectorAll('.tools > div.card, .form > div.card')) {
+    const b = c.firstElementChild, k = [...c.classList].find(x => x !== 'card');
+    if (b?.tagName !== 'B' || !k) continue;
+    c.classList.add('fold');
+    c.classList.toggle('shut', saved[k] ?? SHUT.includes(k));
+    b.addEventListener('click', () => {
+      saved[k] = c.classList.toggle('shut');
+      try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch { /* مش مهم */ }
+    });
+  }
+}
+// الرسايل (✅ ❌ ⏳ ⚠️) اللي بتتكتب في مكان مش ظاهر قدامك بتطلع في ركن تحت، وزرار «وريني» بيوديك لمكانها
+{
+  const dock = document.createElement('div');
+  dock.id = 'msgDock';
+  document.body.append(dock);
+  const items = new Map(), timers = new Map();
+  const WATCH = /(Msg|Log)$|^status$/;
+  const shown = el => {
+    if (!el.offsetParent) return false;
+    const r = el.getBoundingClientRect();
+    return r.bottom > 0 && r.top < innerHeight && r.width > 0;
+  };
+  const reveal = el => {
+    const sec = el.closest('section[id^="tab-"]');
+    if (sec?.hidden) document.querySelector(`#tabs [data-tab="${sec.id.slice(4)}"]`)?.click();
+    for (let p = el.parentElement; p; p = p.parentElement) {
+      if (p.tagName === 'DETAILS') p.open = true;
+      if (p.classList.contains('shut')) p.classList.remove('shut');
+    }
+    el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  };
+  const drop = id => { items.get(id)?.remove(); items.delete(id); clearTimeout(timers.get(id)); };
+  const update = el => {
+    const id = el.id, t = el.textContent.trim();
+    if (!/^(❌|✅|⏳|⚠)/u.test(t) || shown(el)) return drop(id);
+    let m = items.get(id);
+    if (!m) {
+      m = document.createElement('div');
+      m.className = 'm';
+      m.innerHTML = '<span></span><button type="button" data-go>وريني</button><button type="button" data-x>✕</button>';
+      m.querySelector('[data-go]').onclick = () => { reveal(el); drop(id); };
+      m.querySelector('[data-x]').onclick = () => drop(id);
+      dock.append(m);
+      items.set(id, m);
+    }
+    m.querySelector('span').textContent = t;
+    m.classList.toggle('err', t.startsWith('❌'));
+    m.classList.toggle('ok', t.startsWith('✅'));
+    clearTimeout(timers.get(id));
+    if (t.startsWith('✅')) timers.set(id, setTimeout(() => drop(id), 7000));
+  };
+  const pending = new Set();
+  new MutationObserver(ms => {
+    for (const mu of ms) {
+      const n = mu.target.nodeType === 3 ? mu.target.parentElement : mu.target;
+      const el = n?.closest?.('[id]');
+      if (el && WATCH.test(el.id) && !dock.contains(el)) pending.add(el);
+    }
+    if (pending.size) requestAnimationFrame(() => { for (const el of pending) update(el); pending.clear(); });
+  }).observe(document.body, { subtree: true, childList: true, characterData: true });
+  // لو نزلت لحد الرسالة بنفسك، تختفي من الركن
+  addEventListener('scroll', () => { for (const id of items.keys()) { const el = document.getElementById(id); if (el && shown(el)) drop(id); } }, { passive: true, capture: true });
+}

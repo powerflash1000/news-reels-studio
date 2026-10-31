@@ -1144,6 +1144,7 @@ export default {
  "دلوقتي «✨ لخّصه بالعربي» أو شغّل المحرر الذكي على طول.": "Now «✨ Summarise in Arabic» or run the AI editor directly.",
  "مفيش نص كفاية في الخانة. هات نص المقال أو الصقه الأول.": "Not enough text in the box. Fetch or paste the article first.",
  "بيلخّص ويترجم…": "Summarising and translating…",
+ "وريني": "Show me",
  "{} ({} ث)": "{} ({} s)",
  "بجرّب Jina والوسيط مع بعض…": "Trying Jina and the proxy together…",
  "Jina والوسيط مجابوش حاجة، بجرّب Gemini يقرا الصفحة (لحد دقيقة)…": "Jina and the proxy got nothing, trying Gemini to read the page (up to a minute)…",
