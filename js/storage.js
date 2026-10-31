@@ -81,8 +81,12 @@ function db() {
   if (!dbp) {
     dbp = new Promise((resolve, reject) => {
       try {
-        const r = indexedDB.open('nrs-audio', 1);
-        r.onupgradeneeded = () => r.result.createObjectStore('lines');
+        const r = indexedDB.open('nrs-audio', 2);
+        r.onupgradeneeded = () => {
+          if (!r.result.objectStoreNames.contains('lines')) r.result.createObjectStore('lines');
+          // كل توليد بيتحفظ هنا كنسخة (حتى لو اتولّد نفس السطر تاني) عشان تقدر ترجعله
+          if (!r.result.objectStoreNames.contains('takes')) r.result.createObjectStore('takes', { keyPath: 'id', autoIncrement: true });
+        };
         r.onsuccess = () => resolve(r.result);
         r.onerror = () => reject(r.error);
       } catch (e) { reject(e); }
@@ -137,4 +141,48 @@ export async function cacheClear() {
       tx.onerror = () => rej(tx.error);
     });
   } catch { /* الكاش اختياري */ }
+}
+
+// مكتبة الأصوات المتولّدة: {id, text, speaker, provider, voiceId, voiceName, model, at, mp3, words}
+const TAKES_MAX = 300;
+function takesTx(mode, fn) {
+  return db().then(d => new Promise((res, rej) => {
+    const tx = d.transaction('takes', mode), st = tx.objectStore('takes');
+    let out;
+    Promise.resolve(fn(st, v => { out = v; })).catch(rej);
+    tx.oncomplete = () => res(out);
+    tx.onerror = () => rej(tx.error);
+  }));
+}
+export async function takePut(take) {
+  try {
+    await takesTx('readwrite', st => { st.add(take); });
+    // نسيب آخر 300 نسخة بس
+    await takesTx('readwrite', st => {
+      const q = st.getAllKeys();
+      q.onsuccess = () => { const keys = q.result; for (const k of keys.slice(0, Math.max(0, keys.length - TAKES_MAX))) st.delete(k); };
+    });
+  } catch { /* المكتبة اختيارية */ }
+}
+// الأحدث الأول، من غير ملف الصوت (عشان القايمة تبقى خفيفة)
+export async function takeList(limit = 100) {
+  try {
+    return await takesTx('readonly', (st, done) => {
+      const out = [];
+      const q = st.openCursor(null, 'prev');
+      q.onsuccess = () => {
+        const c = q.result;
+        if (!c || out.length >= limit) return done(out);
+        const { mp3, ...meta } = c.value;
+        out.push({ ...meta, size: mp3?.byteLength || 0 });
+        c.continue();
+      };
+    });
+  } catch { return []; }
+}
+export async function takeGet(id) {
+  try { return await takesTx('readonly', (st, done) => { const q = st.get(id); q.onsuccess = () => done(q.result || null); }); } catch { return null; }
+}
+export async function takeDel(id) {
+  try { await takesTx('readwrite', st => { st.delete(id); }); } catch { /* مش مهم */ }
 }

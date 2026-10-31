@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mvwo9jfd">
+<html lang="ar" dir="rtl" data-v="mvwufhn0">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mvwo9jfd">
+<link rel="stylesheet" href="assets/css/style.css?v=mvwufhn0">
 </head>
 <body>
 <header class="top">
@@ -285,6 +285,18 @@
         <label>صوت Gemini للمذيع ب (لو حوار)<select id="genGemB"></select></label>
       </div>
       <p id="audioInfo" class="muted">مفيش صوت لسه.</p>
+      <details id="auBox" class="card" open>
+        <summary>🎧 الصوت المتولّد + التحسين والمؤثرات + مكتبة الأصوات</summary>
+        <div class="grid">
+          <label>تحسين الصوت والمؤثرات<select id="fxQ"></select></label>
+          <label>صدى المكان<input id="fxRoom" type="range" min="0" max="0.4" step="0.02"></label>
+          <label>صدى متكرر (Echo)<input id="fxEcho" type="range" min="0" max="0.6" step="0.02"></label>
+        </div>
+        <p class="muted">التأثير بيتطبّق على المعاينة والتصدير وملف WAV، ومن غير رصيد. الصوت الأصلي مبيتغيرش، فجرّب براحتك. ▶ بتسمّعك السطر بالتأثير.</p>
+        <div id="auLines" class="aulist"></div>
+        <div class="row"><button id="auHist" class="btn" type="button">📚 كل الأصوات اللي اتولّدت قبل كده</button><span id="auMsg" class="muted"></span></div>
+        <div id="auHistList" class="aulist"></div>
+      </details>
     </div>
     <div class="tools">
       <div class="card tplbox">
@@ -772,6 +784,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mvwo9jfd"></script>
+<script type="module" src="js/main.js?v=mvwufhn0"></script>
 </body>
 </html>

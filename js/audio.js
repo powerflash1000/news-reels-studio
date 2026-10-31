@@ -56,6 +56,9 @@ export const FX_PRESETS = {
   clear: { name: 'واضح على الموبايل', bass: -2, presence: 4, air: 3, comp: 0.7, deess: 0.5, room: 0, norm: true },
   radio: { name: 'راديو / تقرير ميداني', bass: -4, presence: 5, air: -4, comp: 0.8, deess: 0.3, room: 0, norm: true },
   cinematic: { name: 'سينمائي (مساحة وعمق)', bass: 4, presence: 0, air: 1, comp: 0.4, deess: 0.3, room: 0.22, norm: true },
+  podcast: { name: 'بودكاست نضيف (قريب ودافي)', bass: 2, presence: 2, air: 1, comp: 0.7, deess: 0.5, room: 0, norm: true },
+  hall: { name: 'قاعة كبيرة (صدى واسع)', bass: 2, presence: 1, air: 0, comp: 0.4, deess: 0.3, room: 0.38, norm: true },
+  echo: { name: 'صدى متكرر (Echo) — للحظات الدرامية', bass: 1, presence: 2, air: 0, comp: 0.5, deess: 0.4, room: 0.08, echo: 0.35, norm: true },
 };
 
 // معادلات الـbiquad (RBJ cookbook)
@@ -135,6 +138,15 @@ function room(x, amount, fs) {
   return out;
 }
 
+// صدى متكرر (Echo): نسخة متأخرة 280 ملي ثانية بتتكرر وبتخفت. بيرجّع نسخة أطول عشان الذيل
+function echo(x, amount, fs) {
+  const d = Math.round(0.28 * fs), tail = Math.round(1.4 * fs);
+  const n = x.length + tail, out = new Float32Array(n);
+  out.set(x);
+  for (let i = d; i < n; i++) out[i] += out[i - d] * 0.42 * (i - d < x.length ? amount * 1.6 : 1);
+  return out;
+}
+
 // رفع/خفض الصوت لمستوى ثابت (RMS على الأجزاء المسموعة) مع limiter ناعم
 function normalize(x, targetDb) {
   let sum = 0, cnt = 0;
@@ -150,7 +162,7 @@ function normalize(x, targetDb) {
 }
 
 export function fxActive(fx) {
-  return !!fx && (fx.bass || fx.presence || fx.air || fx.comp || fx.deess || fx.room || fx.norm) ? true : false;
+  return !!fx && (fx.bass || fx.presence || fx.air || fx.comp || fx.deess || fx.room || fx.echo || fx.norm) ? true : false;
 }
 
 export function processChannel(x, fx, fs = SAMPLE_RATE) {
@@ -161,6 +173,7 @@ export function processChannel(x, fx, fs = SAMPLE_RATE) {
   if (fx.deess) y = deess(y, fx.deess, fs);
   if (fx.comp) y = compress(y, fx.comp, fs);
   if (fx.room) y = room(y, fx.room, fs);
+  if (fx.echo) y = echo(y, fx.echo, fs);
   if (fx.norm) y = normalize(y, fx.target ?? -16);
   return y;
 }
@@ -170,7 +183,7 @@ const fxCache = new WeakMap();
 function voiceChannels(buffer, fx) {
   const l = buffer.getChannelData(0), r = buffer.numberOfChannels > 1 ? buffer.getChannelData(1) : l;
   if (!fxActive(fx)) return [l, r];
-  const key = JSON.stringify([fx.bass, fx.presence, fx.air, fx.comp, fx.deess, fx.room, fx.norm, fx.target]);
+  const key = JSON.stringify([fx.bass, fx.presence, fx.air, fx.comp, fx.deess, fx.room, fx.echo, fx.norm, fx.target]);
   const hit = fxCache.get(buffer);
   if (hit?.key === key) return hit.ch;
   const pl = processChannel(l, fx, buffer.sampleRate || SAMPLE_RATE);
