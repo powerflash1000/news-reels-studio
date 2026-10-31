@@ -1,7 +1,7 @@
 // توليد الصوت من ElevenLabs مع توقيت كل كلمة، وكاش لكل سطر
-import { getSettings, addChars, cacheGet, cachePut, sha1, load, save } from './storage.js?v=mvwo9jfd';
-import { decode } from './audio.js?v=mvwo9jfd';
-import { estimateWords } from './reel.js?v=mvwo9jfd';
+import { getSettings, addChars, cacheGet, cachePut, sha1, load, save, takePut } from './storage.js?v=mvwufhn0';
+import { decode } from './audio.js?v=mvwufhn0';
+import { estimateWords, stripTags } from './reel.js?v=mvwufhn0';
 
 const API = 'https://api.elevenlabs.io';
 
@@ -185,7 +185,7 @@ export async function saveWords(text, speaker, lang = 'ar', provider, words) {
 }
 
 // بيرجع {buffer, words, cached}
-export async function speakLine(text, speaker, lang = 'ar', provider) {
+export async function speakLine(text, speaker, lang = 'ar', provider, opts = {}) {
   const s = getSettings();
   const gem = isGem(provider), pv = gem ? 'gemini' : 'elevenlabs';
   text = prepareText(text, lang, provider);
@@ -193,14 +193,17 @@ export async function speakLine(text, speaker, lang = 'ar', provider) {
   if (!gem && (!s.elevenKey || !voiceId)) throw new Error('ضبط مفتاح ElevenLabs وصوت المذيع في الإعدادات الأول.');
   const vs = voiceSettingsFor(speaker);
   const key = await cacheKey(text, voiceId, vs, provider);
-  const hit = await cacheGet(key);
+  // opts.fresh = نسخة جديدة (من غير الكاش) — النسخة القديمة بتفضل في مكتبة الأصوات
+  const hit = opts.fresh ? null : await cacheGet(key);
   if (hit) return { buffer: await decode(hit.mp3), words: hit.words, cached: true, aligned: !!hit.aligned, provider: pv };
+  const take = (mp3, words) => takePut({ text, speaker, provider: pv, voiceId, voiceName: gem ? voiceId : (speaker === 'B' && s.voiceB ? s.voiceNameB : s.voiceNameA) || voiceId, model: gem ? s.geminiTtsModel : s.elevenModel, at: Date.now(), mp3, words });
   if (gem) {
     // Gemini مبيرجّعش توقيت للكلمات: بنوزّع الكلمات على مدة الصوت بالتقدير
     const wav = await geminiSpeak(text, voiceId);
     const buffer = await decode(wav);
     const words = estimateWords(text, buffer.duration);
     await cachePut(key, { mp3: wav, words });
+    take(wav, words);
     return { buffer, words, cached: false, provider: pv };
   }
 
@@ -214,6 +217,7 @@ export async function speakLine(text, speaker, lang = 'ar', provider) {
   const words = wordsFromAlignment(j.alignment || j.normalized_alignment);
   addChars(text.length);
   await cachePut(key, { mp3, words });
+  take(mp3, words);
   return { buffer: await decode(mp3), words, cached: false, provider: pv };
 }
 
@@ -267,4 +271,15 @@ export async function fetchVoices() {
   }
   const j = await getJson('/v1/voices');
   return (j.voices || []).map(map);
+}
+
+// استخدام نسخة من مكتبة الأصوات لسطر في الريل: بتتحط في الكاش بمفتاح السطر ده، فبترجع لوحدها لما تفتح الريل
+export async function adoptTake(take, lineText, speaker, lang = 'ar') {
+  const provider = take.provider;
+  const text = prepareText(lineText, lang, provider);
+  const voiceId = voiceFor(speaker, provider);
+  const buffer = await decode(take.mp3.slice(0));
+  const words = take.text === text ? take.words : estimateWords(stripTags(lineText), buffer.duration);
+  if (voiceId) await cachePut(await cacheKey(text, voiceId, voiceSettingsFor(speaker), provider), { mp3: take.mp3, words });
+  return { buffer, words, cached: true, provider };
 }

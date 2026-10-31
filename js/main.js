@@ -1,28 +1,28 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvwo9jfd';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvwo9jfd';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvwo9jfd';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvwo9jfd';
-import { transcribeWords, alignWords } from './align.js?v=mvwo9jfd';
-import { saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvwo9jfd';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvwo9jfd';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvwo9jfd';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvwo9jfd';
-import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvwo9jfd';
-import { exportSupport, exportReel } from './export.js?v=mvwo9jfd';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvwo9jfd';
-import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvwo9jfd';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON } from './draft.js?v=mvwo9jfd';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvwo9jfd';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvwo9jfd';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvwo9jfd';
-import { loadBg, playBg } from './bg.js?v=mvwo9jfd';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvwo9jfd';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvwo9jfd';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvwo9jfd';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvwo9jfd';
-import { readUrl, cleanPasted } from './reader.js?v=mvwo9jfd';
-import { initI18n, ui } from './i18n.js?v=mvwo9jfd';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvwo9jfd';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mvwufhn0';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvwufhn0';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvwufhn0';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvwufhn0';
+import { transcribeWords, alignWords } from './align.js?v=mvwufhn0';
+import { adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvwufhn0';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvwufhn0';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvwufhn0';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvwufhn0';
+import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvwufhn0';
+import { exportSupport, exportReel } from './export.js?v=mvwufhn0';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvwufhn0';
+import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvwufhn0';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON } from './draft.js?v=mvwufhn0';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvwufhn0';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvwufhn0';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvwufhn0';
+import { loadBg, playBg } from './bg.js?v=mvwufhn0';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvwufhn0';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvwufhn0';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvwufhn0';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvwufhn0';
+import { readUrl, cleanPasted } from './reader.js?v=mvwufhn0';
+import { initI18n, ui } from './i18n.js?v=mvwufhn0';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvwufhn0';
 
 initI18n();
 
@@ -1439,6 +1439,7 @@ function updateInfo() {
     (reel.stories.length > 1 ? `الحلقة كلها: ${reel.stories.length} أخبار • حوالي ${Math.round(info.tl.duration)} ثانية.` : '');
   const real = all.length && (manualAudio || all.every(l => audioMap.has(lineKey(l))));
   const done = all.filter(l => audioMap.has(lineKey(l))).length;
+  renderAuLines();
   $('audioInfo').textContent = manualAudio ? `صوت مسجل/مرفوع (${manualAudio.duration.toFixed(1)} ث) للحلقة كلها` : real ? 'الصوت جاهز لكل السطور ✅' : `صوت ${done}/${all.length} سطر في الحلقة.`;
 }
 
@@ -2728,7 +2729,7 @@ $('bkImport').addEventListener('change', async e => {
 
 /* ---------- الإعدادات ---------- */
 const TEXT_FIELDS = { sChannel: 'channelName', sHandle: 'handle', sReelLang: 'reelLang', sTts: 'ttsProvider', sGemModel: 'geminiTtsModel', sGemStyle: 'geminiStyle', sGemA: 'gemVoiceA', sGemB: 'gemVoiceB', sKey: 'elevenKey', sModel: 'elevenModel', sProxy: 'proxyUrl', sPixabay: 'pixabayKey', sSi: 'siKey', sFreesound: 'freesoundKey', sClaude: 'claudeKey', sClaudeModel: 'claudeModel', sAiProv: 'aiProvider', sGemini: 'geminiKey', sGroq: 'groqKey', sOr: 'orKey', sOpenai: 'openaiKey', sAiModel: 'aiModel' };
-const FX_SLIDERS = [['bass', 'جهارة الطبقات (Bass)', -6, 6, 0.5], ['presence', 'وضوح الكلام (Presence)', -6, 6, 0.5], ['air', 'لمعة (Air)', -6, 6, 0.5], ['comp', 'ضغط ديناميكي', 0, 1, 0.05], ['deess', 'تخفيف السين والشين', 0, 1, 0.05], ['room', 'صدى / مساحة', 0, 0.4, 0.02]];
+const FX_SLIDERS = [['bass', 'جهارة الطبقات (Bass)', -6, 6, 0.5], ['presence', 'وضوح الكلام (Presence)', -6, 6, 0.5], ['air', 'لمعة (Air)', -6, 6, 0.5], ['comp', 'ضغط ديناميكي', 0, 1, 0.05], ['deess', 'تخفيف السين والشين', 0, 1, 0.05], ['room', 'صدى / مساحة', 0, 0.4, 0.02], ['echo', 'صدى متكرر (Echo)', 0, 0.6, 0.02]];
 const STYLE_PRESETS = {
   '': { name: '— اختار —' },
   formal: { name: 'نشرة رسمية هادية', stability: 0.65, similarity: 0.8, style: 0, speed: 1 },
@@ -3336,3 +3337,114 @@ addEventListener('nrs:ai-fallback', e => { $('status').textContent = `⚠️ ${e
 // أول ما البرنامج يفتح: لو فيه مفتاح ElevenLabs ومفيش صوت مختار، نحمّل الأصوات ونختار صوتك المستنسخ
 fillElVoices();
 if (getSettings().elevenKey && (!getSettings().voiceA || !voices.length)) ensureElVoice().then(n => { if (n) setStatus('✅ ' + n); }).catch(() => {});
+
+// ===== 🎧 الصوت المتولّد جنب السكريبت + مكتبة الأصوات + تحسين ومؤثرات سريعة =====
+// var عشان updateInfo بيتنادى قبل السطر ده وقت التشغيل
+var auSrc = null;
+function stopAu() { try { auSrc?.stop(); } catch { /* خلص */ } auSrc = null; }
+function playAu(buf) {
+  stopAu();
+  const ac = audioCtx(), src = ac.createBufferSource();
+  src.buffer = applyFxToBuffer(buf, getSettings().fx);
+  src.connect(ac.destination);
+  src.start();
+  auSrc = src;
+}
+const auName = l => (l.text.length > 60 ? l.text.slice(0, 60) + '…' : l.text);
+var auSig = '';
+function renderAuLines() {
+  if (!$('auLines')) return;
+  const lines = allLines(reel);
+  const sig = lines.map(l => { const a = audioMap.get(lineKey(l)); return lineKey(l) + (a ? a.provider + (a.buffer?.duration || 0) : ''); }).join('\n') + (manualAudio ? 'M' : '');
+  if (sig === auSig) return;
+  auSig = sig;
+  if (manualAudio) { $('auLines').innerHTML = `<div class="aurow"><span class="tx">🎙 صوت مسجّل/مرفوع للحلقة كلها (${manualAudio.duration.toFixed(1)} ث)</span><button class="btn" type="button" data-au-play="M">▶</button></div>`; return; }
+  const multi = reel.stories.length > 1;
+  $('auLines').innerHTML = lines.map((l, i) => {
+    const a = audioMap.get(lineKey(l));
+    const who = { gemini: 'Gemini', elevenlabs: 'ElevenLabs' }[a?.provider] || 'مسجّل';
+    return `<div class="aurow${a ? '' : ' miss'}"><b>${multi ? l.storyIdx + 1 + '.' : ''}${i + 1}</b><span class="tx" translate="no" title="${esc(l.text)}">${l.speaker === 'B' ? 'ب: ' : ''}${esc(auName(l))}</span>`
+      + (a ? `<span class="muted">${a.buffer?.duration ? a.buffer.duration.toFixed(1) + ' ث • ' : ''}${who}</span><button class="btn" type="button" data-au-play="${i}" title="اسمع">▶</button><button class="btn" type="button" data-au-new="${i}" title="نسخة جديدة من نفس السطر (النسخة الحالية بتفضل في المكتبة)">🔄</button><button class="btn" type="button" data-au-dl="${i}" title="نزّل السطر WAV">⬇</button>`
+        : '<span class="muted">لسه مالوش صوت</span>')
+      + `<button class="btn ghost" type="button" data-au-takes="${i}" title="نسخ تانية اتولّدت قبل كده للسطر ده">📚</button></div>`;
+  }).join('') || '<p class="muted">اكتب السكريبت وولّد الصوت، والسطور هتظهر هنا.</p>';
+}
+$('auLines').addEventListener('click', async e => {
+  const b = e.target.closest('button');
+  if (!b) return;
+  const lines = allLines(reel);
+  if (b.dataset.auPlay === 'M') return playAu(manualAudio);
+  const i = Number(b.dataset.auPlay ?? b.dataset.auNew ?? b.dataset.auDl ?? b.dataset.auTakes);
+  const l = lines[i], a = l && audioMap.get(lineKey(l));
+  if (!l) return;
+  if (b.dataset.auPlay !== undefined && a?.buffer) return playAu(a.buffer);
+  if (b.dataset.auDl !== undefined && a?.buffer) {
+    const buf = applyFxToBuffer(a.buffer, getSettings().fx);
+    const L = buf.getChannelData(0), R = buf.numberOfChannels > 1 ? buf.getChannelData(1) : L;
+    return download(wavBlob(L, R, buf.sampleRate), `line-${i + 1}.wav`);
+  }
+  if (b.dataset.auNew !== undefined) {
+    const provider = a?.provider === 'gemini' ? 'gemini' : 'elevenlabs';
+    if (provider === 'elevenlabs' && !confirm(`نسخة جديدة من السطر ده هتصرف حوالي ${l.text.length} حرف من رصيد ElevenLabs. النسخة الحالية بتفضل في المكتبة. تكمل؟`)) return;
+    b.disabled = true; $('auMsg').textContent = '⏳ بولّد نسخة جديدة…';
+    try {
+      audioMap.set(lineKey(l), await speakLine(l.text, l.speaker, reel.lang, provider, { fresh: true }));
+      $('auMsg').textContent = '✅ نسخة جديدة اتعملت. لو القديمة أحسن: 📚 واختارها.';
+      updateInfo(); redraw();
+    } catch (err) { $('auMsg').textContent = '❌ ' + (err.message || err); }
+    b.disabled = false;
+    return;
+  }
+  if (b.dataset.auTakes !== undefined) return showTakes(i);
+});
+
+// مكتبة الأصوات: كل نسخة اتولّدت قبل كده، اسمعها، نزّلها، أو استخدمها لأي سطر في الريل
+async function showTakes(lineIdx = null) {
+  const lines = allLines(reel);
+  let list = await takeList(lineIdx == null ? 120 : 300);
+  const norm = t => stripTagsLocal(t).replace(/\s+/g, ' ').trim();
+  if (lineIdx != null) list = list.filter(t => norm(t.text) === norm(lines[lineIdx].text));
+  const opts = sel => lines.map((l, i) => `<option value="${i}" ${i === sel ? 'selected' : ''}>${i + 1}. ${esc(l.text.slice(0, 30))}</option>`).join('');
+  $('auHistList').innerHTML = (lineIdx != null ? `<p class="muted">نسخ السطر ${lineIdx + 1}:</p>` : '') + (list.map(t => {
+    const match = lines.findIndex(l => norm(l.text) === norm(t.text));
+    const sel = lineIdx ?? (match >= 0 ? match : 0);
+    return `<div class="aurow" data-take="${t.id}"><span class="muted">${new Date(t.at).toLocaleString('ar-EG', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</span><span class="muted" translate="no">${esc(t.voiceName || t.provider)}</span><span class="tx" translate="no" title="${esc(t.text)}">${esc(norm(t.text).slice(0, 70))}</span>`
+      + `<button class="btn" type="button" data-tk-play title="اسمع">▶</button><button class="btn" type="button" data-tk-dl title="نزّل">⬇</button>`
+      + (lines.length ? `<select data-tk-line>${opts(sel)}</select><button class="btn pri" type="button" data-tk-use>استخدمه</button>` : '')
+      + `<button class="btn ghost" type="button" data-tk-del title="امسح النسخة دي">✕</button></div>`;
+  }).join('') || '<p class="muted">مفيش نسخ متسجّلة لسه. كل صوت هتولّده من دلوقتي هيتحفظ هنا (الأصوات اللي اتولّدت قبل التحديث ده مش متسجّلة).</p>');
+}
+const stripTagsLocal = t => String(t || '').replace(/\[[^\]]*\]/g, ' ');
+$('auHist').addEventListener('click', () => showTakes());
+$('auHistList').addEventListener('click', async e => {
+  const b = e.target.closest('button'), row = e.target.closest('[data-take]');
+  if (!b || !row) return;
+  const id = Number(row.dataset.take);
+  if (b.hasAttribute('data-tk-del')) { await takeDel(id); row.remove(); return; }
+  const t = await takeGet(id);
+  if (!t) return;
+  if (b.hasAttribute('data-tk-play')) return playAu(await decode(t.mp3));
+  if (b.hasAttribute('data-tk-dl')) return download(new Blob([t.mp3], { type: t.provider === 'gemini' ? 'audio/wav' : 'audio/mpeg' }), `voice-${id}.${t.provider === 'gemini' ? 'wav' : 'mp3'}`);
+  if (b.hasAttribute('data-tk-use')) {
+    const l = allLines(reel)[Number(row.querySelector('[data-tk-line]').value)];
+    if (!l) return;
+    manualAudio = null;
+    audioMap.set(lineKey(l), await adoptTake(t, l.text, l.speaker, reel.lang));
+    $('auMsg').textContent = `✅ النسخة دي بقت صوت السطر «${auName(l)}».`;
+    updateInfo(); redraw();
+  }
+});
+
+// تحسين سريع من الاستوديو (نفس إعدادات «تحسين الصوت» في الإعدادات)
+function fillFxQ() {
+  const fx = getSettings().fx || {};
+  $('fxQ').innerHTML = Object.entries(FX_PRESETS).map(([k, v]) => `<option value="${k}">${v.name}</option>`).join('') + '<option value="custom">مخصص</option>';
+  $('fxQ').value = FX_PRESETS[fx.preset] ? fx.preset : (fx.preset ? 'custom' : 'none');
+  $('fxRoom').value = fx.room || 0;
+  $('fxEcho').value = fx.echo || 0;
+}
+function setFx(fx) { setSettings({ fx }); fillFxQ(); renderFxControls(); redraw(); }
+$('fxQ').addEventListener('change', () => { const p = FX_PRESETS[$('fxQ').value]; if (p) { const { name, ...v } = p; setFx({ ...v, preset: $('fxQ').value, target: -16 }); } });
+for (const id of ['fxRoom', 'fxEcho']) $(id).addEventListener('change', () => setFx({ ...getSettings().fx, [id === 'fxRoom' ? 'room' : 'echo']: Number($(id).value), preset: 'custom' }));
+fillFxQ();
+renderAuLines();

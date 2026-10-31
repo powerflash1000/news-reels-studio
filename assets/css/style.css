@@ -202,3 +202,9 @@ main:has(#tab-studio:not([hidden])) { max-width: 1720px; padding: 10px 14px; }
 #msgDock .m button { background: none; border: 1px solid var(--line); color: var(--text); border-radius: 8px; padding: 2px 8px; cursor: pointer; font: inherit; white-space: nowrap; }
 .preview .row { display: grid; grid-template-columns: 1fr 1fr; }
 .preview .row .btn { width: 100%; }
+.aulist { display: grid; gap: 4px; margin: 6px 0; }
+.aurow { display: flex; gap: 6px; align-items: center; background: #0f1630; border: 1px solid var(--line); border-radius: 8px; padding: 4px 8px; font-size: 13px; }
+.aurow .tx { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.aurow .btn { padding: 2px 8px; font-size: 13px; }
+.aurow select { width: auto; max-width: 160px; padding: 2px 6px; font-size: 12px; }
+.aurow.miss { opacity: .6; }
