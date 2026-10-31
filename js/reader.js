@@ -1,9 +1,9 @@
 // جيب نص مقال من رابطه (بريتانيكا، ناشيونال جيوغرافيك، أي صفحة) كمرجع للخبر — بضغطة من المستخدم بس.
 // 1) Jina Reader (مجاني من غير مفتاح، بيرجّع نص الصفحة نضيف)  2) الوسيط بتاعك + استخراج الفقرات  3) Gemini بأداة url_context.
 // النص بيتحط في خانة الملخص كمرجع للكتابة بس (مش بيظهر في الفيديو)، والمصدر بيتنسب للموقع.
-import { getSettings } from './storage.js?v=mvwmdpci';
-import { viaProxy } from './media.js?v=mvwmdpci';
-import { AI_PROVIDERS } from './draft.js?v=mvwmdpci';
+import { getSettings } from './storage.js?v=mvwmizlr';
+import { viaProxy } from './media.js?v=mvwmizlr';
+import { AI_PROVIDERS } from './draft.js?v=mvwmizlr';
 
 const MAX = 40000;
 const tidy = t => String(t || '').replace(/\r/g, '').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim().slice(0, MAX);
@@ -19,6 +19,27 @@ export function cleanJina(raw) {
     .replace(/^\s*[-*_]{3,}\s*$/gm, '')
     .split('\n').filter(l => l.trim().length > 2 || !l.trim()).join('\n');
   return { title: title.trim(), text: tidy(text) };
+}
+
+// نص منسوخ من صفحة (Ctrl+A): بنشيل الإعلانات والقوايم و«اشترك/شارك/اقرا كمان» والسطور المكررة، ونسيب الفقرات والعناوين.
+// بيرجّع { text, removed } (removed = عدد السطور اللي اتشالت)
+const JUNK = /\b(advertisement|sponsored|subscribe|sign up|sign in|log in|newsletter|cookie|privacy policy|terms of (use|service)|all rights reserved|share (this|on)|read more|related (articles|stories)|recommended|most (read|popular)|follow us|download (the|our) app|skip to (main )?content|accept all|watch:|listen to this|comments?)\b|إعلان|اشترك|سجّل الدخول|تسجيل الدخول|النشرة البريدية|ملفات تعريف الارتباط|الكوكيز|شارك(ها| على)?\b|اقرأ (أيضا|أيضًا|المزيد)|اقرا كمان|الأكثر (قراءة|مشاهدة)|تابعنا|حمّل التطبيق|جميع الحقوق محفوظة|سياسة الخصوصية|أخبار ذات صلة|مواضيع ذات صلة/i;
+export function cleanPasted(raw) {
+  const lines = String(raw || '').replace(/\r/g, '').split('\n').map(l => l.replace(/[ \t\u00a0]+/g, ' ').trim());
+  const seen = new Set(), out = [];
+  let removed = 0;
+  for (let i = 0; i < lines.length; i++) {
+    const l = lines[i];
+    if (!l) { if (out.length && out[out.length - 1] !== '') out.push(''); continue; }
+    const key = l.toLowerCase();
+    // عنوان قصير (3 كلمات أو أكتر) بيبقى مقبول لو بعده فقرة طويلة في أول 4 سطور
+    const heading = l.length <= 110 && l.split(' ').length >= 3 && !/[.؟?!:]$/.test(l) && lines.slice(i + 1, i + 5).some(x => x.length >= 120);
+    const drop = seen.has(key) || (l.length < 140 && JUNK.test(l)) || (l.length < 45 && !heading) || /^(https?:\/\/|www\.)\S+$/.test(l) || /^[\d\s:/.,-]+$/.test(l);
+    if (drop) { removed++; continue; }
+    seen.add(key);
+    out.push(l);
+  }
+  return { text: tidy(out.join('\n')), removed };
 }
 
 // صفحة HTML (عن طريق الوسيط) → الفقرات بس
