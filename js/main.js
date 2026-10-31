@@ -1,28 +1,28 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvwmizlr';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvwmizlr';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvwmizlr';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvwmizlr';
-import { transcribeWords, alignWords } from './align.js?v=mvwmizlr';
-import { saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvwmizlr';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvwmizlr';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvwmizlr';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvwmizlr';
-import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvwmizlr';
-import { exportSupport, exportReel } from './export.js?v=mvwmizlr';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvwmizlr';
-import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvwmizlr';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON } from './draft.js?v=mvwmizlr';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvwmizlr';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvwmizlr';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvwmizlr';
-import { loadBg, playBg } from './bg.js?v=mvwmizlr';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvwmizlr';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvwmizlr';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvwmizlr';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvwmizlr';
-import { readUrl, cleanPasted } from './reader.js?v=mvwmizlr';
-import { initI18n, ui } from './i18n.js?v=mvwmizlr';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvwmizlr';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear } from './storage.js?v=mvwn41wt';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvwn41wt';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvwn41wt';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvwn41wt';
+import { transcribeWords, alignWords } from './align.js?v=mvwn41wt';
+import { saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvwn41wt';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer } from './audio.js?v=mvwn41wt';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvwn41wt';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvwn41wt';
+import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvwn41wt';
+import { exportSupport, exportReel } from './export.js?v=mvwn41wt';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvwn41wt';
+import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvwn41wt';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON } from './draft.js?v=mvwn41wt';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvwn41wt';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvwn41wt';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvwn41wt';
+import { loadBg, playBg } from './bg.js?v=mvwn41wt';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvwn41wt';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvwn41wt';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvwn41wt';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvwn41wt';
+import { readUrl, cleanPasted } from './reader.js?v=mvwn41wt';
+import { initI18n, ui } from './i18n.js?v=mvwn41wt';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvwn41wt';
 
 initI18n();
 
@@ -598,6 +598,8 @@ $('refPaste').addEventListener('click', async () => {
 // لصق مباشر في الخانة (Ctrl+V): لو نص صفحة كبير بننضّفه بنفس الطريقة
 $('fRef').addEventListener('paste', e => {
   const t = e.clipboardData?.getData('text/plain') || '';
+  // نص مقال جديد: الأصل المخفي بتاع المقال القديم مبقاش ليه لازمة (وإلا التلخيص هيلخّص القديم)
+  if (t.length >= 300 && story().refOrig) { story().refOrig = ''; renderRefOrig(); persist(); }
   if (t.length < 1500) return;
   const c = cleanPasted(t);
   if (!c.removed) return;
@@ -3281,3 +3283,6 @@ $('lgAdd').addEventListener('click', () => {
   // لو نزلت لحد الرسالة بنفسك، تختفي من الركن
   addEventListener('scroll', () => { for (const id of items.keys()) { const el = document.getElementById(id); if (el && shown(el)) drop(id); } }, { passive: true, capture: true });
 }
+
+// المزوّد الأساسي كان مشغول والبرنامج كمّل بمزوّد تاني
+addEventListener('nrs:ai-fallback', e => { $('status').textContent = `⚠️ ${e.detail.from} كان مشغول، فكمّلت بـ ${e.detail.to}.`; });

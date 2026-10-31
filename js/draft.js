@@ -1,6 +1,6 @@
 // مسودة سكريبت بالذكاء الاصطناعي (اختيارية): Claude API من المتصفح بمفتاحك. بتستخدم الملخص والعنوان بس ومبتخترعش معلومات.
 // الموقع من غير build فمفيش SDK؛ بنكلّم الـAPI بـfetch مباشرة (الهيدر anthropic-dangerous-direct-browser-access ضروري لطلبات المتصفح).
-import { getSettings } from './storage.js?v=mvwmizlr';
+import { getSettings } from './storage.js?v=mvwn41wt';
 
 export const CLAUDE_MODELS = [
   { id: 'claude-opus-5-5', name: 'Claude Opus 5.5 (الأفضل، الافتراضي)' },
@@ -158,18 +158,45 @@ export async function listModels(prov) {
 }
 
 // استدعاء عام بيرجّع JSON حسب schema (للمحرر الذكي): Claude بـjson_schema، والمجانيين بطلب JSON في النص
+// الموديل مشغول أو السيرفر واقع مؤقتًا: نستنى ونعيد، وبعدين نجرّب مزوّد تاني عنده مفتاح
+const BUSY = [429, 500, 502, 503, 504, 529];
+const ORDER = ['gemini', 'groq', 'openrouter', 'openai', 'claude'];
 export async function aiJSON({ system, user, schema, maxTokens = 8000 }) {
   const st = getSettings();
-  const prov = AI_PROVIDERS[st.aiProvider] ? st.aiProvider : 'claude';
+  const main = AI_PROVIDERS[st.aiProvider] ? st.aiProvider : 'claude';
+  if (!st[AI_PROVIDERS[main].keyField]) throw new Error(`محتاج مفتاح ${AI_PROVIDERS[main].name.split(' (')[0]} في الإعدادات.`);
+  const provs = [main, ...ORDER.filter(p => p !== main && st[AI_PROVIDERS[p].keyField])];
+  let lastErr;
+  for (const prov of provs) {
+    for (let attempt = 0; attempt < (prov === main ? 3 : 1); attempt++) {
+      if (attempt) await new Promise(r => setTimeout(r, attempt === 1 ? 3000 : 8000));
+      try {
+        const out = await aiOnce(prov, { system, user, schema, maxTokens }, prov === main);
+        if (prov !== main) dispatchEvent(new CustomEvent('nrs:ai-fallback', { detail: { from: AI_PROVIDERS[main].name.split(' (')[0], to: AI_PROVIDERS[prov].name.split(' (')[0] } }));
+        return out;
+      } catch (e) {
+        lastErr = e;
+        if (!BUSY.includes(e.status)) { if (prov === main) throw e; break; }
+      }
+    }
+  }
+  throw new Error(lastErr.message + (provs.length < 2 ? ' — الموديل مشغول دلوقتي. جرّب كمان دقيقة، أو حط مفتاح مزوّد تاني ببلاش (Groq أو OpenRouter) في الإعدادات عشان البرنامج يكمّل بيه لوحده.' : ''));
+}
+
+async function aiOnce(prov, { system, user, schema, maxTokens }, isMain) {
+  const st = getSettings();
   const P = AI_PROVIDERS[prov];
   const key = st[P.keyField];
-  if (!key) throw new Error(`محتاج مفتاح ${P.name.split(' (')[0]} في الإعدادات.`);
   const name = P.name.split(' (')[0];
+  // الموديل المختار في الإعدادات بيتبعت للمزوّد الأساسي بس؛ الاحتياطي بياخد الافتراضي بتاعه
+  const model = isMain ? st.aiModel || P.model : P.model;
   const fail = async res => {
     let detail = '';
     try { const j = await res.json(); detail = (Array.isArray(j) ? j[0] : j)?.error?.message || JSON.stringify(j).slice(0, 200); } catch { /* مفيش تفاصيل */ }
-    const hint = res.status === 401 || res.status === 403 ? ' (المفتاح غلط)' : res.status === 429 ? ' (تجاوز الحد أو خلصت الحصة، جرّب بعد شوية)' : res.status === 404 ? ' (اسم الموديل غلط أو اتشال)' : '';
-    throw new Error(`${name} رد بخطأ ${res.status}${hint}: ${detail}`);
+    const hint = res.status === 401 || res.status === 403 ? ' (المفتاح غلط)' : res.status === 429 ? ' (تجاوز الحد أو خلصت الحصة، جرّب بعد شوية)' : res.status === 404 ? ' (اسم الموديل غلط أو اتشال)' : res.status === 503 || res.status === 529 ? ' (الموديل مشغول)' : '';
+    const err = new Error(`${name} رد بخطأ ${res.status}${hint}: ${detail}`);
+    err.status = res.status;
+    throw err;
   };
   let text;
   try {
@@ -190,7 +217,7 @@ export async function aiJSON({ system, user, schema, maxTokens = 8000 }) {
       const call = withEffort => fetch(P.url, {
         method: 'POST', signal: AbortSignal.timeout(180000),
         headers: { 'content-type': 'application/json', authorization: 'Bearer ' + key },
-        body: JSON.stringify({ model: st.aiModel || P.model, ...(prov === 'openai' ? { response_format: { type: 'json_object' } } : { temperature: 0.4 }), ...(withEffort ? { reasoning_effort: 'low' } : {}), messages: [{ role: 'system', content: sys }, { role: 'user', content: user }] }),
+        body: JSON.stringify({ model, ...(prov === 'openai' ? { response_format: { type: 'json_object' } } : { temperature: 0.4 }), ...(withEffort ? { reasoning_effort: 'low' } : {}), messages: [{ role: 'system', content: sys }, { role: 'user', content: user }] }),
       });
       let res = await call(effort);
       if (effort && res.status === 400) res = await call(false); // موديل مش بيقبل reasoning_effort
@@ -198,8 +225,10 @@ export async function aiJSON({ system, user, schema, maxTokens = 8000 }) {
       text = String((await res.json()).choices?.[0]?.message?.content || '');
     }
   } catch (e) {
-    if (/^(محتاج|الموديل|.* رد بخطأ)/.test(e.message)) throw e;
-    throw new Error(`مقدرتش أوصل لـ ${name} (إنترنت أو مانع من المتصفح): ` + (e.message || e));
+    if (e.status || /^(محتاج|الموديل|.* رد بخطأ)/.test(e.message)) throw e;
+    const err = new Error(`مقدرتش أوصل لـ ${name} (إنترنت أو مانع من المتصفح): ` + (e.message || e));
+    err.status = 0;
+    throw err;
   }
   const a = text.indexOf('{'), b = text.lastIndexOf('}');
   try { return JSON.parse(text.slice(a, b + 1)); } catch { throw new Error('الرد مش بالشكل المتوقع (جرّب تاني، أو غيّر الموديل لو مجاني).'); }
