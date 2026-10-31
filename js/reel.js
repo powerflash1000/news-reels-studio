@@ -83,7 +83,8 @@ export function parseScript(text) {
   const out = [];
   for (const raw of String(text || '').split(/\n+/)) {
     const line = raw.trim();
-    if (!line) continue;
+    // سطر «المصدر: …» مبيتقراش ومبيظهرش ككابشن: اسم المصدر ظاهر على الشاشة أصلًا
+    if (!line || /^(المصدر|المصادر|source|sources)\s*[:：]/i.test(line)) continue;
     const m = line.match(/^\s*(أ|ا|a|ب|b)\s*[:：]\s*(.*)$/i);
     if (m) {
       const sp = /^(ب|b)$/i.test(m[1]) ? 'B' : 'A';
