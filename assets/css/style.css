@@ -220,3 +220,5 @@ main:has(#tab-studio:not([hidden])) { max-width: 1720px; padding: 10px 14px; }
 .tpctl { padding: 10px 14px; border-top: 1px solid var(--line); }
 .tpcount[hidden], .tpctl[hidden] { display: none; }
 .tpctl [hidden] { display: none !important; }
+.tpsegs { padding: 0 14px; max-height: 22vh; overflow-y: auto; margin: 0; } .tpsegs:empty { display: none; } .aurow.redo { border-color: #ff6b6b; }
+.tptext.lines p { opacity: .35; transition: opacity .2s; } .tptext.lines p.cur { opacity: 1; } .tptext.lines p.done { opacity: .55; } .aurow.ok { border-color: #30a46c; }

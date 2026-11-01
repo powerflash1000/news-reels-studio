@@ -258,3 +258,46 @@ export function trimSilence(buffer, { thrDb = -42, maxGap = 0.35, edge = 0.12 } 
   }
   return { buffer: out, removed: Math.max(0, (n - total) / fs) };
 }
+
+// تسجيل بمقاطع: المايك بيفضل مفتوح، وكل مقطع MediaRecorder لوحده (وقفة = المقطع خلص)
+export class SegRecorder {
+  async open() {
+    if (!this.stream) this.stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } });
+    return this.stream;
+  }
+  begin() {
+    this.chunks = [];
+    this.rec = new MediaRecorder(this.stream);
+    this.rec.ondataavailable = e => e.data.size && this.chunks.push(e.data);
+    this.rec.start();
+  }
+  get active() { return this.rec?.state === 'recording'; }
+  end() {
+    return new Promise(resolve => {
+      const rec = this.rec;
+      this.rec = null;
+      if (!rec || rec.state === 'inactive') return resolve(null);
+      rec.onstop = async () => {
+        const blob = new Blob(this.chunks, { type: rec.mimeType });
+        try { resolve(await decode(await blob.arrayBuffer())); } catch { resolve(null); }
+      };
+      rec.stop();
+    });
+  }
+  close() { try { if (this.rec) { this.rec.onstop = null; this.rec.stop(); } } catch { /* خلص */ } this.stream?.getTracks().forEach(t => t.stop()); this.stream = null; this.rec = null; }
+}
+
+// لزق مقاطع ورا بعض بفاصل صغير
+export function concatBuffers(list, gap = 0.15) {
+  const bufs = list.filter(Boolean);
+  if (!bufs.length) return null;
+  const fs = bufs[0].sampleRate, ch = Math.max(...bufs.map(b => b.numberOfChannels)), g = Math.round(gap * fs);
+  const total = bufs.reduce((n, b) => n + b.length, 0) + g * (bufs.length - 1);
+  const out = audioCtx().createBuffer(ch, total, fs);
+  for (let c = 0; c < ch; c++) {
+    const dst = out.getChannelData(c);
+    let o = 0;
+    for (const b of bufs) { dst.set(b.getChannelData(Math.min(c, b.numberOfChannels - 1)), o); o += b.length + g; }
+  }
+  return out;
+}

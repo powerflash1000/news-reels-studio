@@ -1,28 +1,28 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mvwxqfp9';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvwxqfp9';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvwxqfp9';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvwxqfp9';
-import { transcribeWords, alignWords } from './align.js?v=mvwxqfp9';
-import { adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvwxqfp9';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence } from './audio.js?v=mvwxqfp9';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvwxqfp9';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvwxqfp9';
-import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvwxqfp9';
-import { exportSupport, exportReel } from './export.js?v=mvwxqfp9';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvwxqfp9';
-import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvwxqfp9';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON } from './draft.js?v=mvwxqfp9';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvwxqfp9';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvwxqfp9';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvwxqfp9';
-import { loadBg, playBg } from './bg.js?v=mvwxqfp9';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvwxqfp9';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvwxqfp9';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvwxqfp9';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvwxqfp9';
-import { readUrl, cleanPasted } from './reader.js?v=mvwxqfp9';
-import { initI18n, ui } from './i18n.js?v=mvwxqfp9';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvwxqfp9';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mvxpbdrh';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvxpbdrh';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvxpbdrh';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvxpbdrh';
+import { transcribeWords, alignWords } from './align.js?v=mvxpbdrh';
+import { adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvxpbdrh';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers } from './audio.js?v=mvxpbdrh';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvxpbdrh';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvxpbdrh';
+import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvxpbdrh';
+import { exportSupport, exportReel } from './export.js?v=mvxpbdrh';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvxpbdrh';
+import { runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvxpbdrh';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON } from './draft.js?v=mvxpbdrh';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvxpbdrh';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvxpbdrh';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvxpbdrh';
+import { loadBg, playBg } from './bg.js?v=mvxpbdrh';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvxpbdrh';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvxpbdrh';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvxpbdrh';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvxpbdrh';
+import { readUrl, cleanPasted } from './reader.js?v=mvxpbdrh';
+import { initI18n, ui } from './i18n.js?v=mvxpbdrh';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvxpbdrh';
 
 initI18n();
 
@@ -1520,22 +1520,33 @@ $('genGemA').addEventListener('change', () => { setSettings({ gemVoiceA: $('genG
 $('genGemB').addEventListener('change', () => { setSettings({ gemVoiceB: $('genGemB').value }); $('sGemB').value = $('genGemB').value; });
 fillGemVoices();
 
-// 🎙 التسجيل بصوتك: شاشة فيها السكريبت بخط كبير (تليبرومبتر) + عدّ تنازلي 3-2-1 + وقفة/كمّل + قص السكتات
-const tp = { rec: null, t0: 0, acc: 0, timer: 0, raf: 0, buf: null, an: null, src: null, scroll: 0 };
+// 🎙 التسجيل بصوتك: تليبرومبتر + عدّ تنازلي + تسجيل بمقاطع (كل وقفة = مقطع) تقدر تعيد أي مقطع لوحده + قص السكتات
+const tp = { sr: null, segs: [], ok: [], scrolls: [], redo: null, t0: 0, raf: 0, an: null, src: null, scroll: 0, out: null, busy: false };
 function tpScript() {
   const lines = allLines(reel);
-  $('tpText').innerHTML = lines.length ? lines.map(l => `<p class="${l.speaker === 'B' ? 'b' : ''}">${l.speaker === 'B' ? 'ب: ' : ''}${esc(stripTagsLocal(l.text))}</p>`).join('') : '<p>اكتب السكريبت الأول في الاستوديو.</p>';
-  $('tpText').scrollTop = 0;
+  $('tpText').innerHTML = lines.length ? lines.map((l, i) => `<p data-i="${i}" class="${l.speaker === 'B' ? 'b' : ''}">${l.speaker === 'B' ? 'ب: ' : ''}${esc(stripTagsLocal(l.text))}</p>`).join('') : '<p>اكتب السكريبت الأول في الاستوديو.</p>';
+  $('tpText').scrollTop = 0; tp.scroll = 0;
+  tpMark();
 }
-const tpElapsed = () => tp.acc + (tp.t0 ? (performance.now() - tp.t0) / 1000 : 0);
-function tpTick() {
-  const e = tpElapsed();
-  $('tpTime').textContent = `${Math.floor(e / 60)}:${String(Math.floor(e % 60)).padStart(2, '0')}`;
+// وضع «جملة جملة»: كل مقطع = سطر من السكريبت، والسطر الحالي بينوّر
+const tpLineMode = () => $('tpLine').checked;
+const tpCur = () => (tp.redo != null ? tp.redo : tp.segs.length);
+function tpMark(scroll) {
+  const box = $('tpText'), on = tpLineMode();
+  box.classList.toggle('lines', on);
+  if (!on) return;
+  const cur = tpCur();
+  box.querySelectorAll('p[data-i]').forEach(p => { const i = Number(p.dataset.i); p.classList.toggle('cur', i === cur); p.classList.toggle('done', i < tp.segs.length && i !== cur); });
+  const el = box.querySelector(`p[data-i="${cur}"]`);
+  if (el && scroll !== false) { box.scrollTop = tp.scroll = el.offsetTop - box.clientHeight / 2 + el.offsetHeight / 2; }
 }
+const tpDur = () => tp.segs.reduce((n, b) => n + (b?.duration || 0), 0) + (tp.t0 ? (performance.now() - tp.t0) / 1000 : 0);
+const fmtT = e => `${Math.floor(e / 60)}:${String(Math.floor(e % 60)).padStart(2, '0')}`;
 function tpLoop(last) {
   const now = performance.now(), dt = (now - last) / 1000;
-  // التمرير: النص كله يخلص في الوقت المتوقع للقراءة (2.6 كلمة/ثانية) × السرعة
-  if (tp.t0) {
+  if (tp.t0) $('tpTime').textContent = fmtT(tpDur());
+  if (tp.t0 && !tpLineMode()) {
+    // التمرير: النص كله يخلص في الوقت المتوقع للقراءة (2.6 كلمة/ثانية) × السرعة
     const box = $('tpText'), words = box.textContent.split(/\s+/).length, secs = Math.max(5, words / 2.6);
     tp.scroll += ((box.scrollHeight - box.clientHeight) / secs) * Number($('tpSpeed').value) * dt;
     if (Math.abs(tp.scroll - box.scrollTop) > 40) tp.scroll = box.scrollTop; // المستخدم سحب بإيده
@@ -1545,79 +1556,128 @@ function tpLoop(last) {
     const d = new Uint8Array(tp.an.fftSize);
     tp.an.getByteTimeDomainData(d);
     let pk = 0; for (const v of d) pk = Math.max(pk, Math.abs(v - 128));
-    $('tpLevel').style.width = Math.min(100, (pk / 128) * 160) + '%';
+    $('tpLevel').style.width = (tp.t0 ? Math.min(100, (pk / 128) * 160) : 0) + '%';
   }
   tp.raf = requestAnimationFrame(() => tpLoop(now));
 }
+// شكل الأزرار حسب الحالة: فاضي / بيسجّل / واقف
+function tpUi() {
+  const rec = !!tp.t0, has = tp.segs.length > 0, lm = tpLineMode(), total = allLines(reel).length;
+  const allDone = lm && tp.segs.length >= total;
+  $('tpRec').hidden = false; $('tpDone').hidden = true;
+  $('tpStart').hidden = rec || tp.busy || allDone;
+  $('tpStart').textContent = lm ? (has ? `▶ سجّل الجملة ${tp.segs.length + 1}` : '⏺ ابدأ (الجملة 1)') : (has ? '▶ كمّل (مقطع جديد)' : '⏺ ابدأ التسجيل');
+  $('tpPause').hidden = !rec;
+  $('tpPause').textContent = tp.redo != null ? `⏸ احفظ المقطع ${tp.redo + 1} الجديد` : lm ? '✅ الجملة خلصت (مسافة)' : '⏸ وقفة (احفظ المقطع)';
+  $('tpRedoLast').hidden = rec || !has || tp.busy || !!tp.ok[tp.segs.length - 1];
+  $('tpStop').hidden = !has && !rec;
+  $('tpTime').textContent = fmtT(tpDur());
+  tpSegList();
+  tpMark(rec ? false : undefined);
+}
+function tpSegList() {
+  const lines = allLines(reel), lm = tpLineMode();
+  $('tpSegs').innerHTML = tp.segs.map((b, i) => `<div class="aurow${tp.redo === i ? ' redo' : ''}${tp.ok[i] ? ' ok' : ''}"><b>${lm ? 'جملة' : 'مقطع'} ${i + 1}</b><span class="tx muted" translate="no">${b ? b.duration.toFixed(1) + ' ث' : ''}${lm && lines[i] ? ' • ' + esc(stripTagsLocal(lines[i].text).slice(0, 50)) : ''}${tp.redo === i ? ' — بيتسجّل من جديد…' : ''}</span>`
+    + `<button class="btn" type="button" data-sg-play="${i}" title="اسمع">▶</button>`
+    + (tp.ok[i] ? `<button class="btn" type="button" data-sg-ok="${i}" title="اضغط تاني لو عايز تعيده">✅ تمام</button>`
+      : `<button class="btn" type="button" data-sg-ok="${i}" title="عجبني: اقفله عشان ميتعادش بالغلط">👍 تمام</button><button class="btn" type="button" data-sg-redo="${i}" title="أعد تسجيل المقطع ده بس">🔁 أعده</button><button class="btn ghost" type="button" data-sg-del="${i}" title="امسح المقطع">✕</button>`) + '</div>').join('');
+}
+async function tpBegin(redo = null) {
+  if (tp.busy || tp.t0) return;
+  tp.busy = true; tp.redo = redo; stopAu();
+  try {
+    if (!tp.sr) {
+      tp.sr = new SegRecorder();
+      await tp.sr.open();
+      try { const ac = audioCtx(); tp.src = ac.createMediaStreamSource(tp.sr.stream); tp.an = ac.createAnalyser(); tp.an.fftSize = 1024; tp.src.connect(tp.an); } catch { /* المؤشر اختياري */ }
+    }
+  } catch (e) { tp.busy = false; tp.sr = null; tpUi(); return setStatus('المايك مش متاح: ' + (e.message || e), true); }
+  // إعادة مقطع: النص بيرجع لمكانه وقت المقطع ده
+  if (redo != null && tp.scrolls[redo] != null) { $('tpText').scrollTop = tp.scroll = tp.scrolls[redo]; }
+  const startScroll = $('tpText').scrollTop;
+  tpUi();
+  $('tpCount').hidden = false;
+  const quick = tpLineMode() && tp.segs.length > 0;
+  for (const n of quick ? ['2', '1'] : ['3', '2', '1']) { $('tpCount').textContent = n; await new Promise(r => setTimeout(r, quick ? 450 : 750)); if (!tp.sr) return; }
+  $('tpCount').textContent = 'ابدأ'; setTimeout(() => { $('tpCount').hidden = true; }, 350);
+  tp.sr.begin();
+  tp.segStart = startScroll;
+  tp.t0 = performance.now(); tp.busy = false;
+  tpUi();
+}
+async function tpEnd() {
+  if (!tp.t0 || !tp.sr) return;
+  tp.t0 = 0; tp.busy = true; tpUi();
+  const buf = await tp.sr.end();
+  if (buf) {
+    if (tp.redo != null) { tp.segs[tp.redo] = buf; tp.scrolls[tp.redo] = tp.segStart; tp.ok[tp.redo] = false; }
+    else { tp.segs.push(buf); tp.scrolls.push(tp.segStart); tp.ok.push(false); }
+  }
+  // بعد إعادة مقطع في النص: النص يرجع لآخر مكان وقفت عنده
+  if (tp.redo != null && tp.redo < tp.segs.length - 1) { $('tpText').scrollTop = tp.scroll = tp.lastScroll ?? $('tpText').scrollTop; }
+  else tp.lastScroll = $('tpText').scrollTop;
+  tp.redo = null; tp.busy = false;
+  tpUi();
+}
 function tpReset() {
-  cancelAnimationFrame(tp.raf); clearInterval(tp.timer); stopAu();
+  cancelAnimationFrame(tp.raf); stopAu();
   try { tp.src?.disconnect(); } catch { /* خلص */ }
-  Object.assign(tp, { rec: null, t0: 0, acc: 0, buf: null, an: null, src: null, scroll: 0 });
-  $('tpStart').hidden = false; $('tpPause').hidden = $('tpStop').hidden = true;
-  $('tpRec').hidden = false; $('tpDone').hidden = true; $('tpCount').hidden = true;
-  $('tpTime').textContent = '0:00'; $('tpLevel').style.width = '0';
+  tp.sr?.close();
+  Object.assign(tp, { sr: null, segs: [], ok: [], scrolls: [], redo: null, t0: 0, an: null, src: null, scroll: 0, out: null, busy: false, lastScroll: null });
+  $('tpCount').hidden = true; $('tpLevel').style.width = '0';
+  tpUi();
 }
 $('rec').addEventListener('click', () => {
   readForm();
   tpReset(); tpScript();
   $('tpText').style.fontSize = $('tpSize').value + 'px';
   $('recDlg').showModal();
+  tpLoop(performance.now());
 });
 $('tpSize').addEventListener('input', () => { $('tpText').style.fontSize = $('tpSize').value + 'px'; });
-$('tpStart').addEventListener('click', async () => {
-  $('tpStart').hidden = true;
-  const rec = new Recorder();
-  try { await rec.start(); } catch (e) { $('tpStart').hidden = false; return setStatus('المايك مش متاح: ' + (e.message || e), true); }
-  rec.pause();
-  tp.rec = rec;
-  try { const ac = audioCtx(); tp.src = ac.createMediaStreamSource(rec.stream); tp.an = ac.createAnalyser(); tp.an.fftSize = 1024; tp.src.connect(tp.an); } catch { /* المؤشر اختياري */ }
-  tpLoop(performance.now());
-  // عدّ تنازلي 3-2-1 والمايك شغال بس متوقف، عشان التسجيل يبدأ بالظبط مع «ابدأ»
-  $('tpCount').hidden = false;
-  for (const n of ['3', '2', '1']) { $('tpCount').textContent = n; await new Promise(r => setTimeout(r, 800)); if (tp.rec !== rec) return; }
-  $('tpCount').textContent = 'ابدأ'; setTimeout(() => { $('tpCount').hidden = true; }, 400);
-  rec.resume();
-  tp.t0 = performance.now();
-  tp.timer = setInterval(tpTick, 250);
-  $('tpPause').hidden = $('tpStop').hidden = false;
-  $('tpPause').textContent = '⏸ وقفة';
+$('tpLine').addEventListener('change', () => { if (!tp.t0) tpUi(); });
+// مسافة = ابدأ/احفظ المقطع (في وضع الجمل: احفظ الجملة واللي بعدها يبدأ بضغطة تانية)
+$('recDlg').addEventListener('keydown', e => {
+  if (e.code !== 'Space' || /INPUT|TEXTAREA|SELECT|BUTTON/.test(e.target.tagName)) return;
+  e.preventDefault();
+  if (tp.t0) tpEnd(); else if (!$('tpStart').hidden) tpBegin();
 });
-$('tpPause').addEventListener('click', () => {
-  if (!tp.rec) return;
-  if (tp.t0) { tp.acc = tpElapsed(); tp.t0 = 0; tp.rec.pause(); $('tpPause').textContent = '▶ كمّل التسجيل'; }
-  else { tp.rec.resume(); tp.t0 = performance.now(); $('tpPause').textContent = '⏸ وقفة'; }
-  tpTick();
+$('tpStart').addEventListener('click', () => tpBegin());
+$('tpPause').addEventListener('click', tpEnd);
+$('tpRedoLast').addEventListener('click', () => tp.segs.length && tpBegin(tp.segs.length - 1));
+$('tpSegs').addEventListener('click', async e => {
+  const b = e.target.closest('button');
+  if (!b || tp.t0 || tp.busy) return;
+  const i = Number(b.dataset.sgPlay ?? b.dataset.sgRedo ?? b.dataset.sgDel ?? b.dataset.sgOk);
+  if (b.dataset.sgPlay !== undefined && tp.segs[i]) return playAu(tp.segs[i]);
+  if (b.dataset.sgOk !== undefined) { tp.ok[i] = !tp.ok[i]; $('tpDone').hidden ? tpUi() : tpSegList(); return; }
+  if (b.dataset.sgRedo !== undefined) { $('tpRec').hidden = false; $('tpDone').hidden = true; return tpBegin(i); }
+  if (b.dataset.sgDel !== undefined) { tp.segs.splice(i, 1); tp.scrolls.splice(i, 1); tp.ok.splice(i, 1); tp.out = null; $('tpDone').hidden ? tpUi() : tpShowDone(); }
 });
 function tpInfo() {
-  const raw = tp.buf;
-  if (!raw) return;
-  const t = $('tpTrim').checked ? trimSilence(raw) : { buffer: raw, removed: 0 };
-  tp.out = t.buffer;
-  $('tpInfo').textContent = `✅ اتسجّل ${raw.duration.toFixed(1)} ث${t.removed > 0.05 ? ` — بعد قص السكتات ${t.buffer.duration.toFixed(1)} ث (اتشال ${t.removed.toFixed(1)} ث)` : ''}.`;
+  const raw = concatBuffers(tp.segs.map(b => ($('tpTrim').checked ? trimSilence(b).buffer : b)));
+  const orig = tp.segs.reduce((n, b) => n + b.duration, 0);
+  tp.out = raw;
+  $('tpInfo').textContent = raw ? `✅ ${tp.segs.length} مقطع: ${orig.toFixed(1)} ث${$('tpTrim').checked ? ` — بعد قص السكتات ${raw.duration.toFixed(1)} ث` : ''}.` : 'مفيش مقاطع.';
 }
-$('tpStop').addEventListener('click', async () => {
-  const rec = tp.rec;
-  if (!rec) return;
-  tp.acc = tpElapsed(); tp.t0 = 0; clearInterval(tp.timer); tpTick();
-  if (rec.rec.state === 'paused') rec.resume();
-  tp.buf = await rec.stop();
-  tp.rec = null; tp.an = null;
-  $('tpRec').hidden = true; $('tpDone').hidden = false;
-  tpInfo();
-});
+function tpShowDone() { $('tpRec').hidden = true; $('tpDone').hidden = false; tpSegList(); tpInfo(); }
+$('tpStop').addEventListener('click', async () => { await tpEnd(); if (tp.segs.length) tpShowDone(); });
 $('tpTrim').addEventListener('change', tpInfo);
 $('tpPlay').addEventListener('click', () => { if (tp.out) playAu(tp.out); });
-$('tpAgain').addEventListener('click', () => { tpReset(); tpScript(); });
+$('tpMore').addEventListener('click', () => { tpUi(); });
+$('tpAgain').addEventListener('click', () => { if (tp.segs.length && !confirm('تمسح كل المقاطع وتبدأ من الأول؟')) return; tpReset(); tpScript(); tpLoop(performance.now()); });
 $('tpUse').addEventListener('click', () => {
   if (!tp.out) return;
   manualAudio = tp.out;
+  const d = tp.out.duration;
+  tpReset();
   $('recDlg').close();
-  setStatus(`✅ التسجيل بقى صوت الحلقة (${tp.out.duration.toFixed(1)} ث).`);
+  setStatus(`✅ التسجيل بقى صوت الحلقة (${d.toFixed(1)} ث).`);
   updateInfo(); redraw();
 });
-const tpQuit = () => { tp.rec?.cancel(); tpReset(); };
-$('tpClose').addEventListener('click', () => { tpQuit(); $('recDlg').close(); });
-$('recDlg').addEventListener('cancel', tpQuit);
+const tpQuit = () => tpReset();
+$('tpClose').addEventListener('click', () => { if (tp.segs.length && !confirm('تقفل من غير ما تستخدم التسجيل؟ المقاطع هتتمسح.')) return; tpQuit(); $('recDlg').close(); });
+$('recDlg').addEventListener('cancel', e => { if (tp.segs.length && !confirm('تقفل من غير ما تستخدم التسجيل؟ المقاطع هتتمسح.')) { e.preventDefault(); return; } tpQuit(); });
 
 $('upl').addEventListener('change', async e => {
   const f = e.target.files[0];
