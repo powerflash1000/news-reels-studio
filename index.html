@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mvxpbdrh">
+<html lang="ar" dir="rtl" data-v="mvyamusd">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mvxpbdrh">
+<link rel="stylesheet" href="assets/css/style.css?v=mvyamusd">
 </head>
 <body>
 <header class="top">
@@ -380,6 +380,33 @@
           <button id="scClear" class="btn ghost" type="button">🗑 امسح المشاهد</button>
         </div>
         <p id="scMsg" class="muted"></p>
+        <div class="genbox">
+          <b>🎨 ولّد المشاهد بأدواتك (Flow / Higgsfield / Gemini / ChatGPT)</b>
+          <p class="muted">بدل صور البحث: البرنامج بيكتب برومبت جاهز لكل مشهد، تنسخه وتولّد بيه في الأداة من اشتراكك، وبعدين ترجّع الملفات هنا مرة واحدة وتتركّب على المشاهد بالترتيب.</p>
+          <div class="row">
+            <label class="inl">الأسلوب <select id="genStyle">
+              <option value="cinematic">واقعي سينمائي</option>
+              <option value="anim2d">أنيميشن 2D</option>
+              <option value="anim3d">أنيميشن 3D كرتون</option>
+              <option value="archive">أرشيفي أبيض وأسود (قديم)</option>
+              <option value="motion">موشن جرافيك / إنفوجرافيك</option>
+              <option value="painting">لوحة مرسومة</option>
+            </select></label>
+            <label class="inl">الأداة <select id="genTool">
+              <option value="flow">Google Flow (فيديو Veo)</option>
+              <option value="higgsfield">Higgsfield (فيديو)</option>
+              <option value="gemini">Gemini (صورة)</option>
+              <option value="chatgpt">ChatGPT (صورة)</option>
+            </select></label>
+            <button id="genGo" class="btn pri" type="button">✍️ اكتب برومبت لكل مشهد</button>
+          </div>
+          <div class="row">
+            <button id="genCopyAll" class="btn" type="button">📋 انسخ كل البرومبتات</button>
+            <button id="genOpen" class="btn" type="button">↗ افتح الأداة</button>
+            <label class="btn file">📥 استورد اللي ولّدته (كذا ملف)<input id="genImport" type="file" accept="image/*,video/*" multiple hidden></label>
+          </div>
+          <p id="genMsg" class="muted"></p>
+        </div>
         <div id="scList" class="sclist"></div>
       </details>
       <div class="card ltbox">
@@ -816,6 +843,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mvxpbdrh"></script>
+<script type="module" src="js/main.js?v=mvyamusd"></script>
 </body>
 </html>
