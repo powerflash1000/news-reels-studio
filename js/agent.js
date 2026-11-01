@@ -1,6 +1,6 @@
 // المحرر الذكي (اختياري): بياخد خبر واحد ويجهّز منه سكريبت بأسلوب القناة، قصة وخلفية تاريخية، اقتراحات إنفوجرافيك ومؤثرات.
 // كل حاجة اقتراحات بتراجعها وبتطبّقها بإيدك. الخبر نفسه من الملخص والعنوان بس، والخلفية التاريخية بتتعلّم "لازم تتراجع".
-import { aiJSON } from './draft.js?v=mvyamusd';
+import { aiJSON, voiceNote } from './draft.js?v=mvyazfgo';
 
 export const STYLES = {
   neutral: { label: 'إخباري محايد', note: 'Straight, neutral news: hook that states the news, 2-4 fact lines, short closing line.' },
@@ -78,7 +78,7 @@ const SCHEMA = {
 export async function runAgent({ story, categoryLabel, style = 'neutral', seconds = 45, format = 'single', note = '', lang = 'ar', parts = { script: true } }) {
   const S = STYLES[style] || STYLES.neutral;
   const long = seconds >= 180;
-  const system = SYSTEM.replace('{LANG}', lang === 'en' ? 'simple natural spoken American English' : 'simple, natural, spoken Egyptian Arabic (not heavy slang, not formal MSA)').replace('{STYLE}', S.note + (long ? '\n' + LONG : ''));
+  const system = SYSTEM.replace('{LANG}', lang === 'en' ? 'simple natural spoken American English' : 'simple, natural, spoken Egyptian Arabic (not heavy slang, not formal MSA)').replace('{STYLE}', S.note + (long ? '\n' + LONG : '')) + voiceNote(lang);
   const want = Object.entries(parts).filter(([, v]) => v).map(([k]) => k).join(', ') || 'script';
   const user = [
     `<headline>${clean(story.headline)}</headline>`,

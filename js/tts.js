@@ -1,7 +1,7 @@
 // توليد الصوت من ElevenLabs مع توقيت كل كلمة، وكاش لكل سطر
-import { getSettings, addChars, cacheGet, cachePut, sha1, load, save, takePut } from './storage.js?v=mvyamusd';
-import { decode } from './audio.js?v=mvyamusd';
-import { estimateWords, stripTags } from './reel.js?v=mvyamusd';
+import { getSettings, addChars, cacheGet, cachePut, sha1, load, save, takePut } from './storage.js?v=mvyazfgo';
+import { decode } from './audio.js?v=mvyazfgo';
+import { estimateWords, stripTags } from './reel.js?v=mvyazfgo';
 
 const API = 'https://api.elevenlabs.io';
 
@@ -124,7 +124,7 @@ export function voiceSettingsFor(speaker) {
 async function call(path, init) {
   const { elevenKey, proxyUrl } = getSettings();
   // Content-Type بس مع الطلبات اللي ليها body (طلبات GET مبتحتاجوش)
-  const headers = { 'xi-api-key': elevenKey, ...(init.body ? { 'Content-Type': 'application/json' } : {}), ...(init.headers || {}) };
+  const headers = { 'xi-api-key': elevenKey, ...(typeof init.body === 'string' ? { 'Content-Type': 'application/json' } : {}), ...(init.headers || {}) };
   try {
     return await fetch(API + path, { ...init, headers });
   } catch (e) {
@@ -282,4 +282,14 @@ export async function adoptTake(take, lineText, speaker, lang = 'ar') {
   const words = take.text === text ? take.words : estimateWords(stripTags(lineText), buffer.duration);
   if (voiceId) await cachePut(await cacheKey(text, voiceId, voiceSettingsFor(speaker), provider), { mp3: take.mp3, words });
   return { buffer, words, cached: true, provider };
+}
+
+// ✨ ElevenLabs Voice Isolator: بيشيل الدوشة والصدى ويسيب الصوت بس (بيخصم من رصيد ElevenLabs، تقريبًا 1000 حرف للدقيقة)
+export async function isolateVoice(wav) {
+  if (!getSettings().elevenKey) throw new Error('محتاج مفتاح ElevenLabs في الإعدادات.');
+  const fd = new FormData();
+  fd.append('audio', wav, 'voice.wav');
+  const res = await call('/v1/audio-isolation', { method: 'POST', body: fd });
+  if (!res.ok) throw new Error(`ElevenLabs رفض التنضيف (${res.status}): ${await errDetail(res)}`);
+  return decode(await res.arrayBuffer());
 }
