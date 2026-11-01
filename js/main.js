@@ -1,28 +1,28 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mvye37od';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvye37od';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvye37od';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvye37od';
-import { transcribeWords, alignWords } from './align.js?v=mvye37od';
-import { isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvye37od';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mvye37od';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvye37od';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvye37od';
-import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvye37od';
-import { exportSupport, exportReel } from './export.js?v=mvye37od';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvye37od';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvye37od';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mvye37od';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvye37od';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvye37od';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvye37od';
-import { loadBg, playBg } from './bg.js?v=mvye37od';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvye37od';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvye37od';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvye37od';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvye37od';
-import { readUrl, cleanPasted } from './reader.js?v=mvye37od';
-import { initI18n, ui } from './i18n.js?v=mvye37od';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvye37od';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mvyewalt';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvyewalt';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvyewalt';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvyewalt';
+import { transcribeWords, alignWords } from './align.js?v=mvyewalt';
+import { isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvyewalt';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mvyewalt';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvyewalt';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvyewalt';
+import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvyewalt';
+import { exportSupport, exportReel } from './export.js?v=mvyewalt';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvyewalt';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvyewalt';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mvyewalt';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvyewalt';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvyewalt';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvyewalt';
+import { loadBg, playBg } from './bg.js?v=mvyewalt';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvyewalt';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvyewalt';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvyewalt';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvyewalt';
+import { readUrl, cleanPasted } from './reader.js?v=mvyewalt';
+import { initI18n, ui } from './i18n.js?v=mvyewalt';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvyewalt';
 
 initI18n();
 
@@ -1881,8 +1881,12 @@ function syncPlayback(st, t) {
   const k = st.tl.stories.findIndex(x => t >= x.start && t < x.end);
   const ent = k >= 0 ? st.tl.stories[k] : null;
   const activeId = ent ? st.reel.stories[ent.idx]?.id : null;
-  const scId = ent && ent.idx >= 0 ? sceneAt(st, t, ent.idx)?.cur.media.id : null;
+  const sc = ent && ent.idx >= 0 ? sceneAt(st, t, ent.idx) : null;
+  const scId = sc && !sc.cur.media.none ? sc.cur.media.id : null;
   for (const [id, b] of bgs) playBg(b, id === (scId || activeId));
+  // فيديو الظهور لازم يبقى على نفس توقيت الصوت بالظبط
+  const pb = scId && sc.cur.media.presenter && bgs.get(scId);
+  if (pb?.el && Math.abs(pb.el.currentTime - (t - sc.start)) > 0.25) try { pb.el.currentTime = Math.max(0, t - sc.start); } catch { /* لسه بيحمّل */ }
 }
 
 // 🎬 مونتاج أوتوماتيك: المشاهد بتتقسم على جمل السكريبت، والذكاء الاصطناعي بيكتب كلمات بحث، والصور/الفيديو من مصادر الوسائط
@@ -1929,7 +1933,7 @@ function renderScenes() {
 async function ensureSceneBgs() {
   let changed = false;
   for (const st of reel.stories) for (const sc of st.scenes || []) {
-    if (!sc.media || bgs.has(sc.media.id)) continue;
+    if (!sc.media || sc.media.none || bgs.has(sc.media.id)) continue;
     const b = await loadBg(sc.media);
     if (b) { bgs.set(sc.media.id, b); changed = true; }
   }
@@ -3724,3 +3728,52 @@ function agSections() { return [...document.querySelectorAll('#agSecs input:chec
     try { localStorage.setItem('nrs:agSecs', JSON.stringify(agSections())); } catch { /* مش مهم */ }
   });
 }
+
+// 🎥 مقطع ظهورك: صوت أول N جمل → Higgsfield lip-sync بصورتك → الفيديو يرجع كمشهد أول (presenter) والريل يكمّل بعده
+function psLines() {
+  const st = story(), n = Number($('psN').value) || 2;
+  return { st, n, lines: parseScript(st.script).slice(0, n) };
+}
+$('psAudio').addEventListener('click', () => {
+  readForm();
+  const { lines } = psLines();
+  if (!lines.length) return ($('psMsg').textContent = 'اكتب السكريبت الأول.');
+  const bufs = lines.map(l => audioMap.get(lineKey(l))?.buffer).filter(b => b?.getChannelData);
+  if (bufs.length < lines.length) return ($('psMsg').textContent = '❌ ولّد صوت الجمل دي الأول («🎙 توليد الصوت»).');
+  const all = applyFxToBuffer(concatBuffers(bufs, 0.3), getSettings().fx);
+  const L = all.getChannelData(0), R = all.numberOfChannels > 1 ? all.getChannelData(1) : L;
+  download(wavBlob(L, R, all.sampleRate), 'my-intro-voice.wav');
+  $('psMsg').textContent = `✅ اتنزّل صوت أول ${lines.length} جملة (${all.duration.toFixed(1)} ث). ارفعه في Higgsfield مع صورتك (أداة Lipsync).`;
+});
+$('psText').addEventListener('click', async () => {
+  readForm();
+  const { lines } = psLines();
+  $('psMsg').textContent = (await copyText(lines.map(l => stripTagsLocal(l.text)).join('\n'))) ? '✅ الكلام اتنسخ.' : '❌ المتصفح مسمحش بالنسخ.';
+});
+$('psOpen').addEventListener('click', () => window.open('https://higgsfield.ai', '_blank', 'noopener'));
+$('psVideo').addEventListener('change', async e => {
+  const f = e.target.files[0];
+  e.target.value = '';
+  if (!f) return;
+  readForm();
+  const { st, n } = psLines();
+  const id = 'm' + Date.now().toString(36) + 'p';
+  await putBlob(id, f);
+  const media = { id, kind: 'video', provider: 'ai', presenter: true, title: f.name, thumb: '', credit: 'فيديو مولّد بالذكاء الاصطناعي', license: 'مولّد بالذكاء الاصطناعي', tier: 'attr', fit: 'cover' };
+  const b = await loadBg(media);
+  if (!b) return ($('psMsg').textContent = '❌ مقدرتش أفتح الفيديو ده (صيغة غير مدعومة؟ جرّب MP4).');
+  bgs.set(id, b);
+  // المشهد الأول = فيديوك، وأي مشهد قبل الجملة n بيتشال، وبعده لو مفيش مشهد → رجوع لخلفية الخبر
+  const rest = (st.scenes || []).filter(sc => sc.li >= n && !sc.media?.presenter);
+  if (!rest.some(sc => sc.li === n)) rest.push({ li: n, q: '', media: { id: '__bg', none: true } });
+  st.scenes = [{ li: 0, q: '', media }, ...rest].sort((a, c) => a.li - c.li);
+  persist(); renderScenes(); redraw();
+  $('psMsg').textContent = `✅ فيديو ظهورك بقى أول ${n} جملة، وبعدها الريل بيكمّل عادي. شغّل المعاينة وشوف التزامن. لما تنشر علّم على «محتوى مولّد بالذكاء الاصطناعي» في المنصة.`;
+});
+$('psDel').addEventListener('click', () => {
+  const st = story();
+  if (!st.scenes?.some(sc => sc.media?.presenter)) return ($('psMsg').textContent = 'مفيش فيديو ظهور في الخبر ده.');
+  st.scenes = st.scenes.filter(sc => !sc.media?.presenter && !sc.media?.none);
+  persist(); renderScenes(); redraw();
+  $('psMsg').textContent = 'اتشال فيديو الظهور.';
+});

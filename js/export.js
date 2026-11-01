@@ -1,8 +1,8 @@
 // تصدير MP4 سريع بالـ WebCodecs (H.264 + AAC) — بيشتغل في Chrome و Edge
-import { Muxer, ArrayBufferTarget } from '../vendor/mp4-muxer/mp4-muxer.mjs?v=mvye37od';
-import { SAMPLE_RATE, mixTimeline } from './audio.js?v=mvye37od';
-import { W, H, drawFrame, setFormat, sceneAt } from './render.js?v=mvye37od';
-import { seekBg } from './bg.js?v=mvye37od';
+import { Muxer, ArrayBufferTarget } from '../vendor/mp4-muxer/mp4-muxer.mjs?v=mvyewalt';
+import { SAMPLE_RATE, mixTimeline } from './audio.js?v=mvyewalt';
+import { W, H, drawFrame, setFormat, sceneAt } from './render.js?v=mvyewalt';
+import { seekBg } from './bg.js?v=mvyewalt';
 
 export const FPS = 30;
 const AVC = ['avc1.640028', 'avc1.4d0028', 'avc1.640032', 'avc1.42e028'];
@@ -79,7 +79,7 @@ export async function exportReel(st, cfg, onProgress) {
     if (cur && st.bgs?.get(cur.id)?.kind === 'video') await seekBg(st.bgs.get(cur.id), t - sr.start);
     // فيديو المشهد الحالي (المونتاج)
     const sc = sr && sr.idx >= 0 ? sceneAt(st, t, sr.idx) : null;
-    if (sc && st.bgs.get(sc.cur.media.id)?.kind === 'video') await seekBg(st.bgs.get(sc.cur.media.id), t - sc.start);
+    if (sc && !sc.cur.media.none && st.bgs.get(sc.cur.media.id)?.kind === 'video') await seekBg(st.bgs.get(sc.cur.media.id), t - sc.start);
     drawFrame(ctx, st, t);
     const vf = new VideoFrame(canvas, { timestamp: Math.round(i * dur), duration: Math.round(dur) });
     venc.encode(vf, { keyFrame: i % (FPS * 2) === 0 });

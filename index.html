@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mvye37od">
+<html lang="ar" dir="rtl" data-v="mvyewalt">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mvye37od">
+<link rel="stylesheet" href="assets/css/style.css?v=mvyewalt">
 </head>
 <body>
 <header class="top">
@@ -301,6 +301,19 @@
         </div>
         <p class="muted">التأثير بيتطبّق على المعاينة والتصدير وملف WAV، ومن غير رصيد. الصوت الأصلي مبيتغيرش، فجرّب براحتك. ▶ بتسمّعك السطر بالتأثير.</p>
         <div id="auLines" class="aulist"></div>
+        <div class="genbox">
+          <b>🎥 مقطع ظهورك (صورتك بتتكلم في الأول بس)</b>
+          <p class="muted">1) ولّد الصوت الأول. 2) نزّل صوت أول جملة أو جملتين. 3) في Higgsfield (Lipsync) ارفع صورتك والصوت ده. 4) نزّل الفيديو وارفعه هنا: هيظهر في أول الخبر بالظبط على الصوت، وبعده الريل يكمّل عادي بصوتك.</p>
+          <div class="row">
+            <label class="inl">أول <select id="psN"><option value="1">جملة</option><option value="2" selected>جملتين</option><option value="3">3 جمل</option></select></label>
+            <button id="psAudio" class="btn" type="button">⬇ نزّل صوتهم (WAV)</button>
+            <button id="psText" class="btn ghost" type="button">📋 انسخ الكلام</button>
+            <button id="psOpen" class="btn ghost" type="button">↗ افتح Higgsfield</button>
+            <label class="btn pri file">📥 ارفع فيديو الظهور<input id="psVideo" type="file" accept="video/*" hidden></label>
+            <button id="psDel" class="btn ghost" type="button">✕ شيله</button>
+          </div>
+          <p id="psMsg" class="muted"></p>
+        </div>
         <div class="row"><button id="auHist" class="btn" type="button">📚 كل الأصوات اللي اتولّدت قبل كده</button><span id="auMsg" class="muted"></span></div>
         <div id="auHistList" class="aulist"></div>
       </details>
@@ -853,6 +866,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mvye37od"></script>
+<script type="module" src="js/main.js?v=mvyewalt"></script>
 </body>
 </html>
