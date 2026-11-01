@@ -301,3 +301,63 @@ export function concatBuffers(list, gap = 0.15) {
   }
   return out;
 }
+
+// FFT مركّب in-place (الطول لازم يبقى 2^n)
+function fft(re, im, inv = false) {
+  const n = re.length;
+  for (let i = 1, j = 0; i < n; i++) {
+    let bit = n >> 1;
+    for (; j & bit; bit >>= 1) j ^= bit;
+    j ^= bit;
+    if (i < j) { [re[i], re[j]] = [re[j], re[i]]; [im[i], im[j]] = [im[j], im[i]]; }
+  }
+  for (let len = 2; len <= n; len <<= 1) {
+    const ang = (inv ? 2 : -2) * Math.PI / len, wr = Math.cos(ang), wi = Math.sin(ang);
+    for (let i = 0; i < n; i += len) {
+      let cr = 1, ci = 0;
+      for (let k = 0; k < len / 2; k++) {
+        const a = i + k, b = a + len / 2;
+        const tr = re[b] * cr - im[b] * ci, ti = re[b] * ci + im[b] * cr;
+        re[b] = re[a] - tr; im[b] = im[a] - ti; re[a] += tr; im[a] += ti;
+        const t = cr * wr - ci * wi; ci = cr * wi + ci * wr; cr = t;
+      }
+    }
+  }
+  if (inv) for (let i = 0; i < n; i++) { re[i] /= n; im[i] /= n; }
+}
+
+// 🧽 تنضيف الدوشة الثابتة (مروحة، تكييف، زنّة الأوضة): بيقيس «بصمة» الدوشة من أهدى أجزاء التسجيل
+// ويطرحها من كل حتة (spectral subtraction) مع تنعيم عشان ميطلعش صوت معدني. محلي وببلاش.
+export function denoise(buffer, { strength = 1 } = {}) {
+  const fs = buffer.sampleRate, N = 1024, H = 256, K = N / 2 + 1;
+  const x0 = filt(buffer.getChannelData(0), biquad('hp', 80, 0, 0.707, fs)); // بنشيل الزنّة الواطية الأول
+  const len = x0.length, frames = Math.max(1, Math.ceil(len / H));
+  const w = new Float32Array(N).map((_, i) => 0.5 - 0.5 * Math.cos((2 * Math.PI * i) / N));
+  const re = new Float64Array(N), im = new Float64Array(N);
+  const frameAt = f => { for (let i = 0; i < N; i++) { const j = f * H + i - N / 2; re[i] = j >= 0 && j < len ? x0[j] * w[i] : 0; im[i] = 0; } };
+  // 1) بصمة الدوشة = متوسط طيف أهدى 10% من الإطارات
+  const energy = new Float32Array(frames);
+  for (let f = 0; f < frames; f++) { let e = 0; for (let i = 0; i < N; i += 4) { const j = f * H + i - N / 2; if (j >= 0 && j < len) e += x0[j] * x0[j]; } energy[f] = e; }
+  const quiet = [...energy.keys()].sort((a, b) => energy[a] - energy[b]).slice(0, Math.max(4, Math.floor(frames * 0.1)));
+  const noise = new Float64Array(K);
+  for (const f of quiet) { frameAt(f); fft(re, im); for (let k = 0; k < K; k++) noise[k] += Math.hypot(re[k], im[k]) / quiet.length; }
+  // 2) الطرح + تنعيم الكسب مع الوقت + إعادة التركيب
+  const out = new Float32Array(len), norm = new Float32Array(len);
+  const alpha = 1.6 * strength, floor = 0.06, prev = new Float64Array(K).fill(1);
+  for (let f = 0; f < frames; f++) {
+    frameAt(f); fft(re, im);
+    for (let k = 0; k < K; k++) {
+      const mag = Math.hypot(re[k], im[k]) || 1e-12;
+      let g = Math.max(floor, 1 - (alpha * noise[k]) / mag);
+      g = 0.55 * prev[k] + 0.45 * g; prev[k] = g;
+      re[k] *= g; im[k] *= g;
+      if (k > 0 && k < N / 2) { re[N - k] = re[k]; im[N - k] = -im[k]; }
+    }
+    fft(re, im, true);
+    for (let i = 0; i < N; i++) { const j = f * H + i - N / 2; if (j >= 0 && j < len) { out[j] += re[i] * w[i]; norm[j] += w[i] * w[i]; } }
+  }
+  for (let j = 0; j < len; j++) out[j] = norm[j] > 1e-6 ? out[j] / norm[j] : 0;
+  const res = audioCtx().createBuffer(buffer.numberOfChannels, len, fs);
+  for (let c = 0; c < buffer.numberOfChannels; c++) res.copyToChannel(out, c);
+  return res;
+}

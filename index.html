@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mvyamusd">
+<html lang="ar" dir="rtl" data-v="mvyazfgo">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mvyamusd">
+<link rel="stylesheet" href="assets/css/style.css?v=mvyazfgo">
 </head>
 <body>
 <header class="top">
@@ -241,6 +241,12 @@
       <details id="agentBox" class="card agentbox">
         <summary>🧠 المحرر الذكي (اختياري): يجهّز الخبر كقصة وإنفوجرافيك ومؤثرات</summary>
         <p class="muted aiNow"></p>
+        <details class="mystyle">
+          <summary>🗣 أسلوبي في الكلام (السكريبت يطلع بطريقتي)</summary>
+          <label>مستوى العامية<select id="myLvl"><option value="light">مصري بسيط (عادي)</option><option value="friendly">ودود وبكلّم المشاهد</option><option value="street">شعبي زي القعدة</option></select></label>
+          <label>الصق 3 أو 4 فقرات بطريقتك إنت في الكلام (من فيديو قديم ليك أو اكتبها زي ما بتتكلم)<textarea id="mySamples" rows="4" dir="auto" placeholder="مثال: بص يا سيدي، الحكاية دي غريبة شوية…"></textarea></label>
+          <p class="muted">المحرر الذكي والمسودة والهوكات بيقلّدوا طريقتك وكلماتك. المعلومات نفسها بتفضل من المصدر بس (الأمثلة دي للأسلوب، مش للمعلومات).</p>
+        </details>
         <div id="agMode" class="chips"><button class="chip" data-agm="short" type="button">📰 ريل قصير (30 ثانية لدقيقة ونص)</button><button class="chip" data-agm="long" type="button">📖 حكاية طويلة (3 لـ 10 دقايق)</button></div>
         <div class="grid">
           <label>أسلوب القناة<select id="agStyle"></select></label>
@@ -823,6 +829,8 @@
   <div id="tpDone" class="tpctl" hidden>
     <p id="tpInfo"></p>
     <label class="chk"><input id="tpTrim" type="checkbox" checked> ✂️ قص السكتات الطويلة (أي سكتة أطول من ثلث ثانية بتتقصّر)</label>
+    <label class="chk"><input id="tpClean" type="checkbox" checked> 🧽 نضّف الدوشة (مروحة، تكييف، زنّة الأوضة) — محلي وببلاش</label>
+    <div class="row"><button id="tpIso" class="btn" type="button">✨ نضّف بـ ElevenLabs</button><span class="muted">أنضف بكتير (بيشيل الدوشة وصدى الأوضة)، وبيخصم من رصيد ElevenLabs.</span></div>
     <div class="row">
       <button id="tpPlay" class="btn big" type="button">▶ اسمع الكل</button>
       <button id="tpUse" class="btn pri big" type="button">✅ استخدم التسجيل</button>
@@ -843,6 +851,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mvyamusd"></script>
+<script type="module" src="js/main.js?v=mvyazfgo"></script>
 </body>
 </html>
