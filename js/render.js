@@ -1,9 +1,9 @@
 // رسم إطار الريل على canvas (عمودي 1080×1920 أو 4:5 أو مربع أو أفقي). نفس الدالة للمعاينة والتصدير.
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mvye37od';
-import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mvye37od';
-import { hostOf } from './feeds.js?v=mvye37od';
-import QR from '../vendor/qrcode/qrcode.mjs?v=mvye37od';
-import { drawBg } from './bg.js?v=mvye37od';
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mvyewalt';
+import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mvyewalt';
+import { hostOf } from './feeds.js?v=mvyewalt';
+import QR from '../vendor/qrcode/qrcode.mjs?v=mvyewalt';
+import { drawBg } from './bg.js?v=mvyewalt';
 
 // مقاسات الإخراج. W/H متغيّرين (live binding) والتصدير بيقراهم وقت التصدير
 export const FORMATS = {
@@ -946,7 +946,7 @@ export function drawCover(ctx, st, idx, fmt) {
 // بترجع المشهد الحالي واللي قبله (للتلاشي) ووقت البداية والنهاية
 export function sceneAt(st, t, idx) {
   const story = st.reel.stories[idx];
-  const list = (story?.scenes || []).filter(x => x.media && st.bgs?.has(x.media.id)).sort((a, b) => a.li - b.li);
+  const list = (story?.scenes || []).filter(x => x.media && (x.media.none || st.bgs?.has(x.media.id))).sort((a, b) => a.li - b.li);
   if (!list.length) return null;
   const segs = st.tl.segs.filter(s => s.storyIdx === idx);
   if (!segs.length) return null;
@@ -959,7 +959,10 @@ export function sceneAt(st, t, idx) {
   return { cur, prev: k > 0 ? list[k - 1] : null, start, end: next ? at(next.li) : segs[segs.length - 1].end + 0.8, k };
 }
 // حركة «كن بيرنز»: تكبير بطيء وإزاحة، واتجاهها بيتبدّل من مشهد للتاني
-function drawScene(ctx, bg, m, p, k, dim) {
+// media.presenter = فيديو ظهورك (lip-sync): من غير تعتيم ولا حركة. media.none = رجوع لخلفية الخبر العادية
+function drawScene(ctx, bg, m, p, k, dim, storyBg, storyMedia) {
+  if (m.none) { if (storyBg) drawBg(ctx, storyBg, W, H, dim, storyMedia); return; }
+  if (m.presenter) return drawBg(ctx, bg, W, H, 0, { ...m, fit: 'cover' });
   const dir = k % 2 ? -1 : 1;
   drawBg(ctx, bg, W, H, dim, { ...m, fit: m.fit || 'cover', zoom: (m.zoom || 1) * (1.04 + 0.1 * p), fx: (m.fx ?? 0.5) + dir * 0.12 * (p - 0.5), fy: (m.fy ?? 0.5) - 0.06 * (p - 0.5) });
 }
@@ -1003,9 +1006,9 @@ export function drawFrame(ctx, st, t, opts = {}) {
   if (sc) {
     const p = Math.min(1, Math.max(0, (t - sc.start) / Math.max(1, sc.end - sc.start)));
     const fin = opts.settled ? 1 : Math.min(1, Math.max(0, (t - sc.start) / 0.45));
-    if (sc.prev && fin < 1) drawScene(ctx, st.bgs.get(sc.prev.media.id), sc.prev.media, 1, sc.k - 1, dimS);
+    if (sc.prev && fin < 1) drawScene(ctx, st.bgs.get(sc.prev.media.id), sc.prev.media, 1, sc.k - 1, dimS, bg, story.media);
     ctx.globalAlpha = sc.prev ? fin : 1;
-    drawScene(ctx, st.bgs.get(sc.cur.media.id), sc.cur.media, p, sc.k, dimS);
+    drawScene(ctx, st.bgs.get(sc.cur.media.id), sc.cur.media, p, sc.k, dimS, bg, story.media);
     ctx.globalAlpha = 1;
   } else if (bg) drawBg(ctx, bg, W, H, dimS, story.media);
   ctx.globalAlpha = fade;
