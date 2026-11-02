@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mvztt6cd">
+<html lang="ar" dir="rtl" data-v="mvzvvoxo">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mvztt6cd">
+<link rel="stylesheet" href="assets/css/style.css?v=mvzvvoxo">
 </head>
 <body>
 <header class="top">
@@ -347,8 +347,12 @@
               <select id="mapZoom"><option value="auto">تلقائي</option><option value="world">العالم كله</option><option value="wide">منطقة واسعة (قارة)</option><option value="region">منطقة (دول مجاورة)</option><option value="close">قريب</option></select>
             </label>
             <label>عنوان صغير على الخريطة (اختياري)<input id="mapLabel" dir="auto" placeholder="مثال: شمال كندا"></label>
+            <label>خريطة تفصيلية (شوارع ومدن)
+              <select id="mapDetail"><option value="off">لأ — حدود الدول بس</option><option value="dark">أيوه — غامقة</option><option value="light">أيوه — فاتحة</option></select>
+            </label>
           </div>
-          <p class="muted">الخريطة بحدود الدول بس (دقة منخفضة)، فالمدن الصغيرة بتظهر كدبوس على الخريطة من غير تفاصيل شوارع أو ولايات.</p>
+          <p class="muted" id="mapDetailMsg"></p>
+          <p class="muted">التفصيلية بتقرّب على أول دبوس (أو الدول المختارة) وبتبيّن الشوارع وأسامي الأماكن من OpenStreetMap (محتاجة نت). تقدر تكتب رمز بريدي في البحث (مثلاً «10001 USA» أو «11511 مصر») أو أي عنوان وتدوس «بحث أوسع». من غيرها الخريطة بحدود الدول بس.</p>
         </div>
         <div id="tplQuote" hidden>
           <label>نص الاقتباس (بنصه من المصدر الأصلي)<textarea id="quText" rows="3" dir="auto" placeholder="الاقتباس زي ما اتقال بالظبط"></textarea></label>
@@ -866,6 +870,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mvztt6cd"></script>
+<script type="module" src="js/main.js?v=mvzvvoxo"></script>
 </body>
 </html>

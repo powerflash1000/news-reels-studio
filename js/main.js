@@ -1,28 +1,29 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mvztt6cd';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvztt6cd';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvztt6cd';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvztt6cd';
-import { transcribeWords, alignWords } from './align.js?v=mvztt6cd';
-import { speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvztt6cd';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mvztt6cd';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvztt6cd';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvztt6cd';
-import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvztt6cd';
-import { exportSupport, exportReel } from './export.js?v=mvztt6cd';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvztt6cd';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvztt6cd';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mvztt6cd';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvztt6cd';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvztt6cd';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvztt6cd';
-import { loadBg, playBg } from './bg.js?v=mvztt6cd';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvztt6cd';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvztt6cd';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvztt6cd';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvztt6cd';
-import { readUrl, cleanPasted } from './reader.js?v=mvztt6cd';
-import { initI18n, ui } from './i18n.js?v=mvztt6cd';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvztt6cd';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mvzvvoxo';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvzvvoxo';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvzvvoxo';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvzvvoxo';
+import { transcribeWords, alignWords } from './align.js?v=mvzvvoxo';
+import { speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvzvvoxo';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mvzvvoxo';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvzvvoxo';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvzvvoxo';
+import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvzvvoxo';
+import { exportSupport, exportReel } from './export.js?v=mvzvvoxo';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvzvvoxo';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvzvvoxo';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mvzvvoxo';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mvzvvoxo';
+import { detailTarget, loadTileMap } from './tiles.js?v=mvzvvoxo';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvzvvoxo';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvzvvoxo';
+import { loadBg, playBg } from './bg.js?v=mvzvvoxo';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvzvvoxo';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvzvvoxo';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvzvvoxo';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvzvvoxo';
+import { readUrl, cleanPasted } from './reader.js?v=mvzvvoxo';
+import { initI18n, ui } from './i18n.js?v=mvzvvoxo';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvzvvoxo';
 
 initI18n();
 
@@ -418,7 +419,7 @@ function readForm() {
   if (st.kind === 'news') {
     st.template = $('fTpl').value;
     st.stat = { value: $('stValue').value.trim(), unit: $('stUnit').value.trim(), label: $('stLabel').value.trim(), trend: $('stTrend').value };
-    st.map = { countries: st.map?.countries || [], pins: st.map?.pins || [], label: $('mapLabel').value.trim(), zoom: st.map?.zoom || 'auto' };
+    st.map = { countries: st.map?.countries || [], pins: st.map?.pins || [], label: $('mapLabel').value.trim(), zoom: st.map?.zoom || 'auto', ...(st.map?.detail ? { detail: st.map.detail } : {}) };
     st.quote = { text: $('quText').value.trim(), who: $('quWho').value.trim(), role: $('quRole').value.trim() };
     st.timeline = { events: [...document.querySelectorAll('#tlRows .tlrow')].map(r => ({ year: r.querySelector('[data-k=year]').value.trim(), text: r.querySelector('[data-k=text]').value.trim() })).filter(e => e.year || e.text) };
     st.lower = { on: $('ltOn').checked, name: $('ltName').value.trim(), role: $('ltRole').value.trim() };
@@ -934,6 +935,17 @@ $('agOut').addEventListener('click', async e => {
 /* ---------- قوالب الخبر (عاجل / رقم / خريطة) وشريط الأخبار ---------- */
 let world = null;
 
+// الخريطة التفصيلية: بنحمّل البلاطات قبل الرسم (الرسم نفسه متزامن وبيقرا من الكاش)
+var tileErr = '';
+async function ensureTiles(r = reel, wait = false) {
+  const jobs = (r?.stories || []).filter(s => s.template === 'map' && s.map?.detail && s.map.detail !== 'off').map(s => {
+    const t = detailTarget(s.map, world);
+    return t && loadTileMap(t, s.map.detail).then(() => { tileErr = ''; if (!wait) redraw(); }, e => { tileErr = e.message || String(e); if ($('mapDetailMsg')) $('mapDetailMsg').textContent = '⚠️ ' + tileErr + ' هتظهر الخريطة البسيطة.'; });
+  }).filter(Boolean);
+  if ($('mapDetailMsg') && jobs.length) $('mapDetailMsg').textContent = '';
+  if (wait) await Promise.all(jobs);
+}
+
 async function loadWorld() {
   if (world) return world;
   try {
@@ -942,6 +954,7 @@ async function loadWorld() {
     try { cities = await (await fetch('assets/data/cities.json')).json(); } catch { /* من غير مدن */ }
     renderMapChips();
     redraw();
+    ensureTiles();
   } catch { /* الخريطة مش هتظهر */ }
   return world;
 }
@@ -994,6 +1007,8 @@ function fillTemplateFields() {
   syncMusic();
   document.querySelector('.tplbox').hidden = st.kind !== 'news';
   $('mapZoom').value = st.map?.zoom || 'auto';
+  $('mapDetail').value = st.map?.detail || 'off';
+  if (world) ensureTiles();
   if (!$('pfStatus').options.length) $('pfStatus').innerHTML = Object.entries(PROOF_STATUS).map(([k, v]) => `<option value="${k}">${v}</option>`).join('');
   $('pfStatus').value = st.proof?.status || 'none';
   toggleTemplateFields();
@@ -1085,7 +1100,7 @@ async function runPlaceSearch(wide = false) {
   const local = localMatches(q, world, cities);
   showPlaceResults(local, 'بدوّر…');
   try {
-    const online = wide ? await searchWide(q) : await searchPlaces(q);
+    const online = wide || postalOf(q) ? await searchWide(q) : await searchPlaces(q);
     if (my !== placeSeq) return;
     const rows = [...local.filter(r => r.type === 'country'), ...online, ...local.filter(r => r.type !== 'country')];
     showPlaceResults(rows, rows.length ? '' : 'مفيش نتايج. جرّب كتابة الاسم بالإنجليزي أو «بحث أوسع».');
@@ -1102,16 +1117,16 @@ $('placeRes').addEventListener('click', e => {
   const m = mapOf();
   if (r.type === 'country') { if (!m.countries.includes(r.id)) m.countries.push(r.id); }
   else {
-    (m.pins ||= []).push({ name: r.name, lat: r.lat, lon: r.lon, label: '', detail: r.detail || '' });
+    (m.pins ||= []).push({ name: r.name, lat: r.lat, lon: r.lon, label: '', detail: r.detail || '', ...(r.span ? { span: r.span } : {}) });
     if ($('placeCountry').checked && r.cc && world?.countries.some(c => c.id === r.cc) && !m.countries.includes(r.cc)) m.countries.push(r.cc);
   }
-  persist(); renderMapChips(); redraw();
+  persist(); renderMapChips(); redraw(); ensureTiles();
 });
 $('pinRows').addEventListener('click', e => {
   const b = e.target.closest('[data-rmpin]');
   if (!b) return;
   story().map.pins.splice(Number(b.dataset.rmpin), 1);
-  persist(); renderPinChips(); redraw();
+  persist(); renderPinChips(); redraw(); ensureTiles();
 });
 $('pinRows').addEventListener('input', e => {
   const i = e.target.dataset.pl;
@@ -1119,7 +1134,8 @@ $('pinRows').addEventListener('input', e => {
   story().map.pins[Number(i)].label = e.target.value.trim();
   persist(); redraw();
 });
-$('mapZoom').addEventListener('input', () => { mapOf().zoom = $('mapZoom').value; persist(); redraw(); });
+$('mapZoom').addEventListener('input', () => { mapOf().zoom = $('mapZoom').value; persist(); redraw(); ensureTiles(); });
+$('mapDetail').addEventListener('input', () => { mapOf().detail = $('mapDetail').value; persist(); redraw(); ensureTiles(); });
 $('mapChips').addEventListener('click', e => {
   const btn = e.target.closest('[data-rm]');
   if (!btn) return;
@@ -1841,7 +1857,7 @@ async function exportCurrent({ batch = '' } = {}) {
   const fail = msg => { setStatus(msg, true); return 'skip'; };
   const probs = validateReel();
   if (probs.length) return fail(probs.join(' '));
-  if (reel.stories.some(x => x.template === 'map')) await loadWorld();
+  if (reel.stories.some(x => x.template === 'map')) { await loadWorld(); await ensureTiles(reel, true); }
   await ensureBgs();
   const missing = reel.stories.map((st, i) => ({ st, n: i + 1 })).filter(x => x.st.media && hasContent(x.st) && !bgs.has(x.st.id));
   if (missing.length) return fail(`خلفية الخبر ${missing.map(x => x.n).join('، ')} مش موجودة على الجهاز ده. اختارها تاني أو شيلها.`);
@@ -2433,7 +2449,7 @@ async function lvPrepareAll() {
   for (const id of ids) {
     $('lvPrepMsg').textContent = `بجهّز ${out.length + 1}/${ids.length}…`;
     const raw = getReel(id);
-    if (raw.stories?.some(s => s.template === 'map')) await loadWorld();
+    if (raw.stories?.some(s => s.template === 'map')) { await loadWorld(); await ensureTiles(raw, true); }
     const p = await livePrepare(raw).catch(err => ({ id, title: raw.title || 'ريل', ready: false, why: String(err.message || err) }));
     lvPrepared.set(id, p); out.push(p);
   }
@@ -2465,7 +2481,7 @@ async function sendToLive(now) {
   setStatus('بجهّز للايف…');
   try {
     await loadFonts();
-    if (reel.stories.some(x => x.template === 'map')) await loadWorld();
+    if (reel.stories.some(x => x.template === 'map')) { await loadWorld(); await ensureTiles(reel, true); }
     const p = await livePrepare(reel, { audioMap, manual: manualAudio });
     if (!p.ready) return setStatus('مقدرتش أجهّز الريل: ' + p.why, true);
     lvEnqueue(p, !!now);

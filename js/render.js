@@ -1,9 +1,10 @@
 // رسم إطار الريل على canvas (عمودي 1080×1920 أو 4:5 أو مربع أو أفقي). نفس الدالة للمعاينة والتصدير.
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mvztt6cd';
-import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mvztt6cd';
-import { hostOf } from './feeds.js?v=mvztt6cd';
-import QR from '../vendor/qrcode/qrcode.mjs?v=mvztt6cd';
-import { drawBg } from './bg.js?v=mvztt6cd';
+import { detailTarget, tileKey, getTileMap } from './tiles.js?v=mvzvvoxo';
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mvzvvoxo';
+import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mvzvvoxo';
+import { hostOf } from './feeds.js?v=mvzvvoxo';
+import QR from '../vendor/qrcode/qrcode.mjs?v=mvzvvoxo';
+import { drawBg } from './bg.js?v=mvzvvoxo';
 
 // مقاسات الإخراج. W/H متغيّرين (live binding) والتصدير بيقراهم وقت التصدير
 export const FORMATS = {
@@ -247,6 +248,7 @@ function captions(ctx, st, t, hb = 0) {
     const disc = st.story.category === 'health' || st.story.category === 'healthtech';
     const top = hb + 24 + ltReserve(st), bot = (st.reel.ticker?.on ? L.tickY : disc ? L.srcY - 96 : L.srcY) - 24;
     cy = (top + bot) / 2;
+    if (CAP_CY) cy = CAP_CY;
   }
   const y0 = cy - (rows.length * lh) / 2;
   if (st.hasB) {
@@ -572,6 +574,31 @@ function mapPanel(ctx, st, y0) {
   }
   ctx.globalAlpha = 1;
   ctx.restore();
+  // خريطة تفصيلية (شوارع/مدن): بعد ما التقريب البسيط يخلص، بتظهر بالتدريج وبتكمّل تقريب بطيء
+  const dt = m.detail && m.detail !== 'off' ? detailTarget(m, world) : null;
+  const tm = dt && getTileMap(tileKey(dt, m.detail));
+  const da = tm ? (st.settledMap ? 1 : clamp01((st.local - 1.3) / 0.6)) : 0;
+  let proj = null;
+  if (tm && da > 0) {
+    const push = 1 + 0.12 * clamp01((st.local - 1.3) / 8);
+    const s0 = Math.max(w / tm.canvas.width, h / tm.canvas.height) * 1.02 * push;
+    const ox = x + w / 2 - (tm.canvas.width / 2) * s0, oy = y0 + h / 2 - (tm.canvas.height / 2) * s0;
+    ctx.save();
+    rrect(ctx, x, y0, w, h, 36);
+    ctx.clip();
+    ctx.globalAlpha = da;
+    ctx.drawImage(tm.canvas, ox, oy, tm.canvas.width * s0, tm.canvas.height * s0);
+    ctx.globalAlpha = da * 0.85;
+    ctx.font = font(20, 600);
+    ctx.fillStyle = m.detail === 'light' ? 'rgba(0,0,0,.75)' : 'rgba(255,255,255,.8)';
+    ctx.textAlign = 'left';
+    ctx.direction = 'ltr';
+    ctx.textBaseline = 'bottom';
+    ctx.fillText('© OpenStreetMap contributors © CARTO', x + 22, y0 + h - 14);
+    ctx.restore();
+    ctx.globalAlpha = 1;
+    if (da >= 0.5) proj = (la, lo) => { const [px, py] = tm.project(la, lo); return [ox + px * s0, oy + py * s0]; };
+  }
   // اسم الدول المختارة (بالعربي) فوق الخريطة
   ctx.direction = 'rtl';
   ctx.textAlign = 'center';
@@ -579,7 +606,7 @@ function mapPanel(ctx, st, y0) {
   ctx.save();
   rrect(ctx, x, y0, w, h, 36);
   ctx.clip();
-  if (hl.length && hl.length <= 4) {
+  if (hl.length && hl.length <= 4 && !proj) {
     ctx.font = font(42, 800);
     for (const c of hl) {
       const X = x + (c.c[0] - v.vx) * sc, Y = y0 + (c.c[1] - v.vy) * sc + (pins.length ? 70 : 0);
@@ -594,7 +621,7 @@ function mapPanel(ctx, st, y0) {
   }
   // دبابيس المدن: دايرة بتنبض + اسم أو نص الدبوس
   for (const [i, p] of pins.entries()) {
-    const X = x + (p.x - v.vx) * sc, Y = y0 + (p.y - v.vy) * sc;
+    const [X, Y] = proj ? proj(p.lat, p.lon) : [x + (p.x - v.vx) * sc, y0 + (p.y - v.vy) * sc];
     const pa = clamp01((st.local - 1.3 - i * 0.15) / 0.4);
     if (pa <= 0) continue;
     ctx.globalAlpha = pa;
@@ -1019,15 +1046,13 @@ export function drawFrame(ctx, st, t, opts = {}) {
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, W, H);
   }
-  // قوالب الرقم/الخريطة/التوثيق مصمّمة للعمودي: في باقي المقاسات بنرسمها عمودي مصغّر في النص (من غير ما تتكسر)
-  const fullW = W, fullH = H;
-  const fallback = !L.vert && PANEL_TPLS.has(story.template);
-  if (fallback) {
-    const s = Math.min(fullW / 1080, fullH / 1920);
-    ctx.save();
-    ctx.translate((fullW - 1080 * s) / 2, (fullH - 1920 * s) / 2);
-    ctx.scale(s, s);
-    W = 1080; H = 1920; L = layoutFor(W, H);
+  // قوالب الكروت (رقم/خريطة/توثيق/اقتباس/خط زمني) في المقاسات غير العمودية: الكارت كبير في جنب والعنوان والكلام في الجنب التاني
+  if (!L.vert && PANEL_TPLS.has(story.template)) {
+    panelWide(ctx, c, t, kr);
+    if (sc ? sc.cur.media.credit : bg && story.media?.credit) mediaCredit(RTL ? ctx : wrapCtx(ctx, true), sc ? sc.cur.media.credit : story.media.credit);
+    ctx.globalAlpha = 1;
+    progress(RTL ? ctx : wrapCtx(ctx, true), c, t);
+    return;
   }
   // الإنجليزي: U = كانفس معكوس أفقيًا (نفس التصميم بالاتجاه المعاكس)، D = اتجاه نص ltr من غير عكس (الخريطة والتيكر)
   const U = RTL ? ctx : wrapCtx(ctx, true);
@@ -1047,14 +1072,73 @@ export function drawFrame(ctx, st, t, opts = {}) {
   if (!avatarsLayer(D, c, t, hb, kr)) captions(U, c, t, hb);
   ticker(D, c, t);
   sourceBar(U, c);
-  if (fallback) {
-    ctx.restore();
-    W = fullW; H = fullH; L = layoutFor(W, H);
-  }
   if (sc ? sc.cur.media.credit : bg && story.media?.credit) mediaCredit(U, sc ? sc.cur.media.credit : story.media.credit);
   ctx.globalAlpha = 1;
   progress(U, c, t);
   studioScene(ctx, c, t, kr);
+}
+
+// ارتفاع الكارت في التصميم العمودي (عرض 1080)
+function panelH(st) {
+  const tpl = st.story.template;
+  if (tpl === 'proof') { const n = Math.max(1, proofSources(st.story).length); return (PROOF_COLOR[st.story.proof?.status] ? 90 : 0) + n * 290 - 20 + 10; }
+  return { stat: 580, quote: 540, timeline: 600, map: 620 }[tpl] || 600;
+}
+// الكارت بيترسم بتصميمه العمودي (1080 عرض) جوّه مستطيل r ومتكبّر على قده
+function panelInto(ctx, st, r) {
+  const fw = W, fh = H, fl = L, vh = panelH(st);
+  const s = Math.min(r.w / 1080, r.h / vh);
+  ctx.save();
+  ctx.translate(r.x + (r.w - 1080 * s) / 2, r.y + (r.h - vh * s) / 2);
+  ctx.scale(s, s);
+  W = 1080; H = 1920; L = layoutFor(W, H);
+  const U = RTL ? ctx : wrapCtx(ctx, true), D = RTL ? ctx : wrapCtx(ctx, false);
+  const tpl = st.story.template;
+  if (tpl === 'stat') statPanel(U, st, 0);
+  else if (tpl === 'map') mapPanel(D, st, 0);
+  else if (tpl === 'proof') proofPanel(U, st, 0);
+  else if (tpl === 'quote') quotePanel(U, st, 0);
+  else if (tpl === 'timeline') timelinePanel(U, st, 0);
+  ctx.restore();
+  W = fw; H = fh; L = fl;
+}
+// العريض والمربع: عمودين (الكلام ناحية بداية القراءة، الكارت في الناحية التانية). الطولي 4:5: الكارت بين العنوان والكابشن
+var CAP_CY = 0;
+function panelWide(ctx, c, t) {
+  const fw = W, fh = H, fl = L;
+  const U0 = RTL ? ctx : wrapCtx(ctx, true), D0 = RTL ? ctx : wrapCtx(ctx, false);
+  ctx.save();
+  ctx.translate(0, L.topDy);
+  topBar(U0, c);
+  ctx.restore();
+  drawLogo(U0, c);
+  const tk = !!c.reel.ticker?.on;
+  if (W >= H) {
+    const colW = Math.round(W * (W > H ? 0.42 : 0.46));
+    const colX = RTL ? W - colW : 0;
+    const bot = (tk ? L.tickY : H - 70) - 20, top = L.headY + L.topDy;
+    panelInto(ctx, c, { x: RTL ? 30 : colW, y: top, w: W - colW - 30, h: bot - top });
+    ctx.save();
+    ctx.translate(colX, 0);
+    W = colW; L = layoutFor(colW, fh);
+    const U = RTL ? ctx : wrapCtx(ctx, true);
+    const hb = headline(U, c);
+    captions(U, c, t, hb);
+    sourceBar(U, c);
+    ctx.restore();
+    W = fw; H = fh; L = fl;
+  } else {
+    const hb = headline(U0, c);
+    const disc = c.story.category === 'health' || c.story.category === 'healthtech';
+    const bot = (tk ? L.tickY : disc ? L.srcY - 96 : L.srcY) - 20;
+    const capH = Math.round(190 * L.capScale) + (c.hasB ? 50 : 0);
+    panelInto(ctx, c, { x: 40, y: hb + 16, w: W - 80, h: bot - capH - hb - 16 });
+    CAP_CY = bot - capH / 2;
+    captions(U0, c, t, hb);
+    CAP_CY = 0;
+    sourceBar(U0, c);
+  }
+  ticker(D0, c, t);
 }
 
 // مشهد الاستوديو: بيغطي الإطار كله أول كام ثانية (ديكور + إضاءة + كاميرا)، وبعدين زووم خاطف للخبر
