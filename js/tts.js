@@ -1,7 +1,7 @@
 // توليد الصوت من ElevenLabs مع توقيت كل كلمة، وكاش لكل سطر
-import { getSettings, addChars, cacheGet, cachePut, sha1, load, save, takePut } from './storage.js?v=mvzt8qn5';
-import { decode } from './audio.js?v=mvzt8qn5';
-import { estimateWords, stripTags } from './reel.js?v=mvzt8qn5';
+import { getSettings, addChars, cacheGet, cachePut, sha1, load, save, takePut } from './storage.js?v=mvztgy09';
+import { decode } from './audio.js?v=mvztgy09';
+import { estimateWords, stripTags } from './reel.js?v=mvztgy09';
 
 const API = 'https://api.elevenlabs.io';
 
@@ -20,6 +20,7 @@ export const GEMINI_VOICES = [
   ['Laomedeia', 'مرح'], ['Achernar', 'ناعم'], ['Alnilam', 'حازم'], ['Schedar', 'متوازن'], ['Gacrux', 'ناضج'], ['Pulcherrima', 'صريح'],
   ['Achird', 'ودود'], ['Zubenelgenubi', 'عادي'], ['Vindemiatrix', 'لطيف'], ['Sadachbia', 'حيوي'], ['Sadaltager', 'مثقف'], ['Sulafat', 'دافئ'],
 ];
+export const GEMINI_FEMALE = new Set(['Zephyr', 'Kore', 'Leda', 'Aoede', 'Callirrhoe', 'Autonoe', 'Despina', 'Erinome', 'Laomedeia', 'Achernar', 'Gacrux', 'Pulcherrima', 'Vindemiatrix', 'Sulafat']);
 export const GEMINI_TTS_MODELS = [
   { id: 'gemini-2.5-flash-preview-tts', name: 'Gemini 2.5 Flash TTS (أسرع، له حصة مجانية)' },
   { id: 'gemini-2.5-pro-preview-tts', name: 'Gemini 2.5 Pro TTS (جودة أعلى)' },
@@ -164,9 +165,9 @@ function cacheKey(text, voiceId, vs, provider) {
 }
 
 // بيدوّر في الكاش بس (من غير أي استهلاك رصيد). بيرجع null لو السطر مش متولّد قبل كده بنفس الإعدادات
-export async function peekLine(text, speaker, lang = 'ar', provider) {
+export async function peekLine(text, speaker, lang = 'ar', provider, voice) {
   text = prepareText(text, lang, provider);
-  const voiceId = voiceFor(speaker, provider);
+  const voiceId = voice || voiceFor(speaker, provider);
   if (!voiceId) return null;
   const hit = await cacheGet(await cacheKey(text, voiceId, voiceSettingsFor(speaker), provider));
   return hit ? { buffer: await decode(hit.mp3), words: hit.words, cached: true, aligned: !!hit.aligned, provider: isGem(provider) ? 'gemini' : 'elevenlabs' } : null;
@@ -189,14 +190,14 @@ export async function speakLine(text, speaker, lang = 'ar', provider, opts = {})
   const s = getSettings();
   const gem = isGem(provider), pv = gem ? 'gemini' : 'elevenlabs';
   text = prepareText(text, lang, provider);
-  const voiceId = voiceFor(speaker, provider);
+  const voiceId = opts.voice || voiceFor(speaker, provider);
   if (!gem && (!s.elevenKey || !voiceId)) throw new Error('ضبط مفتاح ElevenLabs وصوت المذيع في الإعدادات الأول.');
   const vs = voiceSettingsFor(speaker);
   const key = await cacheKey(text, voiceId, vs, provider);
   // opts.fresh = نسخة جديدة (من غير الكاش) — النسخة القديمة بتفضل في مكتبة الأصوات
   const hit = opts.fresh ? null : await cacheGet(key);
   if (hit) return { buffer: await decode(hit.mp3), words: hit.words, cached: true, aligned: !!hit.aligned, provider: pv };
-  const take = (mp3, words) => takePut({ text, speaker, provider: pv, voiceId, voiceName: gem ? voiceId : (speaker === 'B' && s.voiceB ? s.voiceNameB : s.voiceNameA) || voiceId, model: gem ? s.geminiTtsModel : s.elevenModel, at: Date.now(), mp3, words });
+  const take = (mp3, words) => takePut({ text, speaker, provider: pv, voiceId, voiceName: opts.voiceName || (gem ? voiceId : (speaker === 'B' && s.voiceB ? s.voiceNameB : s.voiceNameA) || voiceId), model: gem ? s.geminiTtsModel : s.elevenModel, at: Date.now(), mp3, words });
   if (gem) {
     // Gemini مبيرجّعش توقيت للكلمات: بنوزّع الكلمات على مدة الصوت بالتقدير
     const wav = await geminiSpeak(text, voiceId);
@@ -274,10 +275,10 @@ export async function fetchVoices() {
 }
 
 // استخدام نسخة من مكتبة الأصوات لسطر في الريل: بتتحط في الكاش بمفتاح السطر ده، فبترجع لوحدها لما تفتح الريل
-export async function adoptTake(take, lineText, speaker, lang = 'ar') {
+export async function adoptTake(take, lineText, speaker, lang = 'ar', voice) {
   const provider = take.provider;
   const text = prepareText(lineText, lang, provider);
-  const voiceId = voiceFor(speaker, provider);
+  const voiceId = voice || voiceFor(speaker, provider);
   const buffer = await decode(take.mp3.slice(0));
   const words = take.text === text ? take.words : estimateWords(stripTags(lineText), buffer.duration);
   if (voiceId) await cachePut(await cacheKey(text, voiceId, voiceSettingsFor(speaker), provider), { mp3: take.mp3, words });
