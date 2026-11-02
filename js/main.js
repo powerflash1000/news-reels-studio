@@ -1,28 +1,28 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mvyewalt';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvyewalt';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvyewalt';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvyewalt';
-import { transcribeWords, alignWords } from './align.js?v=mvyewalt';
-import { isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvyewalt';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mvyewalt';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvyewalt';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvyewalt';
-import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvyewalt';
-import { exportSupport, exportReel } from './export.js?v=mvyewalt';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvyewalt';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvyewalt';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mvyewalt';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvyewalt';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvyewalt';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvyewalt';
-import { loadBg, playBg } from './bg.js?v=mvyewalt';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvyewalt';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvyewalt';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvyewalt';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvyewalt';
-import { readUrl, cleanPasted } from './reader.js?v=mvyewalt';
-import { initI18n, ui } from './i18n.js?v=mvyewalt';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvyewalt';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mvzt8qn5';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvzt8qn5';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvzt8qn5';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvzt8qn5';
+import { transcribeWords, alignWords } from './align.js?v=mvzt8qn5';
+import { isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvzt8qn5';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mvzt8qn5';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvzt8qn5';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvzt8qn5';
+import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvzt8qn5';
+import { exportSupport, exportReel } from './export.js?v=mvzt8qn5';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvzt8qn5';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvzt8qn5';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mvzt8qn5';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvzt8qn5';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvzt8qn5';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvzt8qn5';
+import { loadBg, playBg } from './bg.js?v=mvzt8qn5';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvzt8qn5';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvzt8qn5';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvzt8qn5';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvzt8qn5';
+import { readUrl, cleanPasted } from './reader.js?v=mvzt8qn5';
+import { initI18n, ui } from './i18n.js?v=mvzt8qn5';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvzt8qn5';
 
 initI18n();
 
@@ -3608,10 +3608,12 @@ function playAu(buf) {
 }
 const auName = l => (l.text.length > 60 ? l.text.slice(0, 60) + '…' : l.text);
 var auSig = '';
+var AU_PROVS = [['elevenlabs', 'ElevenLabs'], ['gemini', 'Gemini']];
+function auProv() { try { return localStorage.getItem('nrs:auProv') || (getSettings().ttsProvider === 'gemini' ? 'gemini' : 'elevenlabs'); } catch { return 'elevenlabs'; } }
 function renderAuLines() {
   if (!$('auLines')) return;
   const lines = allLines(reel);
-  const sig = lines.map(l => { const a = audioMap.get(lineKey(l)); return lineKey(l) + (a ? a.provider + (a.buffer?.duration || 0) : ''); }).join('\n') + (manualAudio ? 'M' : '');
+  const sig = lines.map(l => { const a = audioMap.get(lineKey(l)); return lineKey(l) + (a ? a.provider + (a.buffer?.duration || 0) + (a.ok ? 'ok' : '') : ''); }).join('\n') + (manualAudio ? 'M' : '') + auProv();
   if (sig === auSig) return;
   auSig = sig;
   if (manualAudio) { $('auLines').innerHTML = `<div class="aurow"><span class="tx">🎙 صوت مسجّل/مرفوع للحلقة كلها (${manualAudio.duration.toFixed(1)} ث)</span><button class="btn" type="button" data-au-play="M">▶</button></div>`; return; }
@@ -3619,9 +3621,14 @@ function renderAuLines() {
   $('auLines').innerHTML = lines.map((l, i) => {
     const a = audioMap.get(lineKey(l));
     const who = { gemini: 'Gemini', elevenlabs: 'ElevenLabs' }[a?.provider] || 'مسجّل';
-    return `<div class="aurow${a ? '' : ' miss'}"><b>${multi ? l.storyIdx + 1 + '.' : ''}${i + 1}</b><span class="tx" translate="no" title="${esc(l.text)}">${l.speaker === 'B' ? 'ب: ' : ''}${esc(auName(l))}</span>`
-      + (a ? `<span class="muted">${a.buffer?.duration ? a.buffer.duration.toFixed(1) + ' ث • ' : ''}${who}</span><button class="btn" type="button" data-au-play="${i}" title="اسمع">▶</button><button class="btn" type="button" data-au-new="${i}" title="نسخة جديدة من نفس السطر (النسخة الحالية بتفضل في المكتبة)">🔄</button><button class="btn" type="button" data-au-dl="${i}" title="نزّل السطر WAV">⬇</button>`
-        : '<span class="muted">لسه مالوش صوت</span>')
+    // مصدر الصوت لكل سطر: ElevenLabs / Gemini (الاختيار الافتراضي بيتحفظ)
+    const sel = `<select data-au-prov="${i}" title="مصدر الصوت">${AU_PROVS.map(([v, n]) => `<option value="${v}" ${v === (a?.provider || auProv()) ? 'selected' : ''}>${n}</option>`).join('')}</select>`;
+    return `<div class="aurow${a ? (a.ok ? ' ok' : '') : ' miss'}"><b>${multi ? l.storyIdx + 1 + '.' : ''}${i + 1}</b><span class="tx" translate="no" title="${esc(l.text)}">${l.speaker === 'B' ? 'ب: ' : ''}${esc(auName(l))}</span>`
+      + (a ? `<span class="muted">${a.buffer?.duration ? a.buffer.duration.toFixed(1) + ' ث • ' : ''}${who}</span><button class="btn" type="button" data-au-play="${i}" title="اسمع">▶</button>`
+          + (a.ok ? `<button class="btn" type="button" data-au-ok="${i}" title="اضغط تاني لو عايز تعيده">✅ تمام</button>`
+            : `<button class="btn" type="button" data-au-ok="${i}" title="عجبني: اقفله عشان ميتعادش بالغلط">👍 تمام</button>${sel}<button class="btn" type="button" data-au-new="${i}" title="نسخة جديدة من نفس السطر (النسخة الحالية بتفضل في المكتبة)">🔄 ولّد تاني</button>`)
+          + `<button class="btn" type="button" data-au-dl="${i}" title="نزّل السطر WAV">⬇</button>`
+        : `${sel}<button class="btn pri" type="button" data-au-gen="${i}">🎙 ولّد</button>`)
       + `<button class="btn ghost" type="button" data-au-takes="${i}" title="نسخ تانية اتولّدت قبل كده للسطر ده">📚</button></div>`;
   }).join('') || '<p class="muted">اكتب السكريبت وولّد الصوت، والسطور هتظهر هنا.</p>';
 }
@@ -3630,7 +3637,7 @@ $('auLines').addEventListener('click', async e => {
   if (!b) return;
   const lines = allLines(reel);
   if (b.dataset.auPlay === 'M') return playAu(manualAudio);
-  const i = Number(b.dataset.auPlay ?? b.dataset.auNew ?? b.dataset.auDl ?? b.dataset.auTakes);
+  const i = Number(b.dataset.auPlay ?? b.dataset.auNew ?? b.dataset.auDl ?? b.dataset.auTakes ?? b.dataset.auGen ?? b.dataset.auOk);
   const l = lines[i], a = l && audioMap.get(lineKey(l));
   if (!l) return;
   if (b.dataset.auPlay !== undefined && a?.buffer) return playAu(a.buffer);
@@ -3639,8 +3646,29 @@ $('auLines').addEventListener('click', async e => {
     const L = buf.getChannelData(0), R = buf.numberOfChannels > 1 ? buf.getChannelData(1) : L;
     return download(wavBlob(L, R, buf.sampleRate), `line-${i + 1}.wav`);
   }
+  if (b.dataset.auOk !== undefined && a) { a.ok = !a.ok; auSig = ''; return renderAuLines(); }
+  if (b.dataset.auGen !== undefined || b.dataset.auNew !== undefined) {
+    const provider = $('auLines').querySelector(`[data-au-prov="${i}"]`)?.value || auProv();
+    if (provider === 'gemini' && !getSettings().geminiKey) return ($('auMsg').textContent = '❌ محتاج مفتاح Gemini: الإعدادات ← مزوّد الذكاء الاصطناعي.');
+    if (provider === 'elevenlabs') {
+      if (!getSettings().elevenKey) return ($('auMsg').textContent = '❌ محتاج مفتاح ElevenLabs في الإعدادات.');
+      await ensureElVoice();
+      if (!getSettings().voiceA) return ($('auMsg').textContent = '❌ اختار صوت ElevenLabs للمذيع أ من القايمة اللي تحت زرار التوليد.');
+    }
+  }
+  if (b.dataset.auGen !== undefined) {
+    const provider = $('auLines').querySelector(`[data-au-prov="${i}"]`)?.value || auProv();
+    b.disabled = true; $('auMsg').textContent = `⏳ بولّد السطر ${i + 1}…`;
+    try {
+      manualAudio = null;
+      audioMap.set(lineKey(l), await speakLine(l.text, l.speaker, reel.lang, provider));
+      $('auMsg').textContent = `✅ السطر ${i + 1} اتولّد. اسمعه ▶: لو تمام دوس 👍، ولو لأ «🔄 ولّد تاني».`;
+      updateInfo(); redraw();
+    } catch (err) { $('auMsg').textContent = '❌ ' + (err.message || err); b.disabled = false; }
+    return;
+  }
   if (b.dataset.auNew !== undefined) {
-    const provider = a?.provider === 'gemini' ? 'gemini' : 'elevenlabs';
+    const provider = $('auLines').querySelector(`[data-au-prov="${i}"]`)?.value || (a?.provider === 'gemini' ? 'gemini' : 'elevenlabs');
     if (provider === 'elevenlabs' && !confirm(`نسخة جديدة من السطر ده هتصرف حوالي ${l.text.length} حرف من رصيد ElevenLabs. النسخة الحالية بتفضل في المكتبة. تكمل؟`)) return;
     b.disabled = true; $('auMsg').textContent = '⏳ بولّد نسخة جديدة…';
     try {
@@ -3776,4 +3804,11 @@ $('psDel').addEventListener('click', () => {
   st.scenes = st.scenes.filter(sc => !sc.media?.presenter && !sc.media?.none);
   persist(); renderScenes(); redraw();
   $('psMsg').textContent = 'اتشال فيديو الظهور.';
+});
+
+// اختيار المصدر في أي سطر بيبقى الافتراضي للسطور اللي لسه مالهاش صوت
+$('auLines').addEventListener('change', e => {
+  if (e.target.dataset?.auProv == null) return;
+  try { localStorage.setItem('nrs:auProv', e.target.value); } catch { /* مش مهم */ }
+  if (!audioMap.get(lineKey(allLines(reel)[Number(e.target.dataset.auProv)] || {}))) { auSig = ''; renderAuLines(); }
 });
