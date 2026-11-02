@@ -1,28 +1,28 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mvztgy09';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvztgy09';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvztgy09';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvztgy09';
-import { transcribeWords, alignWords } from './align.js?v=mvztgy09';
-import { isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvztgy09';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mvztgy09';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvztgy09';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvztgy09';
-import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvztgy09';
-import { exportSupport, exportReel } from './export.js?v=mvztgy09';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvztgy09';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvztgy09';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mvztgy09';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvztgy09';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvztgy09';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvztgy09';
-import { loadBg, playBg } from './bg.js?v=mvztgy09';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvztgy09';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvztgy09';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvztgy09';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvztgy09';
-import { readUrl, cleanPasted } from './reader.js?v=mvztgy09';
-import { initI18n, ui } from './i18n.js?v=mvztgy09';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvztgy09';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mvztt6cd';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvztt6cd';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvztt6cd';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvztt6cd';
+import { transcribeWords, alignWords } from './align.js?v=mvztt6cd';
+import { speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvztt6cd';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mvztt6cd';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvztt6cd';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvztt6cd';
+import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvztt6cd';
+import { exportSupport, exportReel } from './export.js?v=mvztt6cd';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvztt6cd';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvztt6cd';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mvztt6cd';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvztt6cd';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvztt6cd';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvztt6cd';
+import { loadBg, playBg } from './bg.js?v=mvztt6cd';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvztt6cd';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvztt6cd';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvztt6cd';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvztt6cd';
+import { readUrl, cleanPasted } from './reader.js?v=mvztt6cd';
+import { initI18n, ui } from './i18n.js?v=mvztt6cd';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvztt6cd';
 
 initI18n();
 
@@ -1470,13 +1470,29 @@ async function generateAudio(provider) {
   $('gen').disabled = $('genGem').disabled = true;
   manualAudio = null;
   try {
-    let n = 0;
+    let n = 0, reqs = 0;
+    // Gemini: الجمل اللي ورا بعض بنفس المذيع والصوت بتتولّد في طلب واحد (لحد 6 جمل) عشان الحصة اليومية متخلصش بسرعة
+    const groups = [];
     for (const l of todo) {
-      setStatus(`بولّد سطر ${++n}/${todo.length}…`);
-      const ov = lineVoice(l);
-      audioMap.set(lineKey(l), await speakLine(l.text, l.speaker, reel.lang, ov?.v ? ov.p : provider, ov?.v ? { voice: ov.v, voiceName: ov.n } : {}));
+      const ov = lineVoice(l), p = ov?.v ? ov.p : provider, v = ov?.v || '';
+      const g = groups[groups.length - 1];
+      if (g && p === 'gemini' && g.p === p && g.v === v && g.sp === l.speaker && g.lines.length < 6 && g.chars + l.text.length < 700 && !/\[/.test(l.text)) { g.lines.push(l); g.chars += l.text.length; }
+      else groups.push({ p, v, n: ov?.n, sp: l.speaker, lines: [l], chars: l.text.length });
     }
-    setStatus(n ? (gem ? 'تم توليد الصوت بـGemini ✅ ولتوقيت كابشن أدق اضغط «🎯 ظبط توقيت الكابشن».' : 'تم توليد الصوت بـElevenLabs ✅') : 'الصوت كله جاهز من الكاش ✅');
+    for (const g of groups) {
+      if (g.p === 'gemini' && g.lines.length > 1) {
+        setStatus(`بولّد ${g.lines.length} جمل في طلب واحد (${n + 1}–${n + g.lines.length} من ${todo.length})…`);
+        const res = await speakGroupGemini(g.lines, reel.lang, g.v || undefined);
+        reqs++;
+        if (res) { g.lines.forEach((l, i) => audioMap.set(lineKey(l), res[i])); n += g.lines.length; continue; }
+      }
+      for (const l of g.lines) {
+        setStatus(`بولّد سطر ${++n}/${todo.length}…`);
+        audioMap.set(lineKey(l), await speakLine(l.text, l.speaker, reel.lang, g.p, g.v ? { voice: g.v, voiceName: g.n } : {}));
+        reqs++;
+      }
+    }
+    setStatus(n ? (gem ? `تم توليد الصوت بـGemini ✅ (${n} جملة في ${reqs} طلب). ولتوقيت كابشن أدق اضغط «🎯 ظبط توقيت الكابشن».` : 'تم توليد الصوت بـElevenLabs ✅') : 'الصوت كله جاهز من الكاش ✅');
     if (n && !gem && gs.elevenKey) fetchSubscription().then(fillUsage).catch(() => {});
   } catch (e) { setStatus(String(e.message || e), true); }
   $('gen').disabled = $('genGem').disabled = false;
