@@ -1,28 +1,28 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mvzt8qn5';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvzt8qn5';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvzt8qn5';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvzt8qn5';
-import { transcribeWords, alignWords } from './align.js?v=mvzt8qn5';
-import { isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvzt8qn5';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mvzt8qn5';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvzt8qn5';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvzt8qn5';
-import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvzt8qn5';
-import { exportSupport, exportReel } from './export.js?v=mvzt8qn5';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvzt8qn5';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvzt8qn5';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mvzt8qn5';
-import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvzt8qn5';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvzt8qn5';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvzt8qn5';
-import { loadBg, playBg } from './bg.js?v=mvzt8qn5';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvzt8qn5';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvzt8qn5';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvzt8qn5';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvzt8qn5';
-import { readUrl, cleanPasted } from './reader.js?v=mvzt8qn5';
-import { initI18n, ui } from './i18n.js?v=mvzt8qn5';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvzt8qn5';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mvztgy09';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvztgy09';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvztgy09';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvztgy09';
+import { transcribeWords, alignWords } from './align.js?v=mvztgy09';
+import { isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvztgy09';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mvztgy09';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvztgy09';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvztgy09';
+import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvztgy09';
+import { exportSupport, exportReel } from './export.js?v=mvztgy09';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvztgy09';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvztgy09';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mvztgy09';
+import { localMatches, searchPlaces, searchWide } from './geo.js?v=mvztgy09';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvztgy09';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvztgy09';
+import { loadBg, playBg } from './bg.js?v=mvztgy09';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvztgy09';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvztgy09';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvztgy09';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvztgy09';
+import { readUrl, cleanPasted } from './reader.js?v=mvztgy09';
+import { initI18n, ui } from './i18n.js?v=mvztgy09';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvztgy09';
 
 initI18n();
 
@@ -325,7 +325,8 @@ async function restoreAudio() {
     try {
       // بنجرّب مزوّد الإعدادات الأول وبعدين التاني (الصوت المتولّد قبل كده من أي واحد فيهم)
       const first = getSettings().ttsProvider === 'gemini' ? 'gemini' : 'elevenlabs';
-      const hit = (await peekLine(l.text, l.speaker, reel.lang, first)) || (await peekLine(l.text, l.speaker, reel.lang, first === 'gemini' ? 'elevenlabs' : 'gemini'));
+      const ov = lineVoice(l);
+      const hit = (ov?.v && await peekLine(l.text, l.speaker, reel.lang, ov.p, ov.v)) || (await peekLine(l.text, l.speaker, reel.lang, first)) || (await peekLine(l.text, l.speaker, reel.lang, first === 'gemini' ? 'elevenlabs' : 'gemini'));
       if (hit && reel.id === mine) audioMap.set(lineKey(l), hit);
     } catch { /* الكاش اختياري */ }
   }
@@ -1460,7 +1461,7 @@ async function generateAudio(provider) {
   const gs = getSettings();
   if (gem && !gs.geminiKey) return setStatus('محتاج مفتاح Gemini: الإعدادات ← مزوّد الذكاء الاصطناعي ← مفتاح Gemini (مجاني من aistudio.google.com/apikey).', true);
   const seen = new Set();
-  const todo = lines.filter(l => { const k = lineKey(l); const have = audioMap.get(k); if ((have && have.provider === provider) || seen.has(k)) return false; seen.add(k); return true; });
+  const todo = lines.filter(l => { const k = lineKey(l); const have = audioMap.get(k); if ((have && (have.provider === provider || lineVoice(l)?.v)) || seen.has(k)) return false; seen.add(k); return true; });
   const chars = todo.reduce((n, l) => n + l.text.length, 0);
   const sub = lastSubscription();
   if (!gem && sub && sub.limit && chars > sub.limit - sub.used && !confirm(`المتبقي في رصيدك حوالي ${Math.max(0, sub.limit - sub.used)} حرف والتوليد محتاج ${chars}. تكمل؟`)) return;
@@ -1472,7 +1473,8 @@ async function generateAudio(provider) {
     let n = 0;
     for (const l of todo) {
       setStatus(`بولّد سطر ${++n}/${todo.length}…`);
-      audioMap.set(lineKey(l), await speakLine(l.text, l.speaker, reel.lang, provider));
+      const ov = lineVoice(l);
+      audioMap.set(lineKey(l), await speakLine(l.text, l.speaker, reel.lang, ov?.v ? ov.p : provider, ov?.v ? { voice: ov.v, voiceName: ov.n } : {}));
     }
     setStatus(n ? (gem ? 'تم توليد الصوت بـGemini ✅ ولتوقيت كابشن أدق اضغط «🎯 ظبط توقيت الكابشن».' : 'تم توليد الصوت بـElevenLabs ✅') : 'الصوت كله جاهز من الكاش ✅');
     if (n && !gem && gs.elevenKey) fetchSubscription().then(fillUsage).catch(() => {});
@@ -3092,11 +3094,12 @@ $('aiModelsLoad').addEventListener('click', async () => {
   } catch (e) { $('aiModelsMsg').textContent = '❌ ' + (e.message || e); }
 });
 const SLIDERS = [['stability', 'الثبات', 0, 1, 0.05], ['similarity', 'التشابه', 0, 1, 0.05], ['style', 'التعبير', 0, 1, 0.05], ['speed', 'السرعة', 0.7, 1.2, 0.05]];
-let voices = (() => { try { return JSON.parse(localStorage.getItem('nrs:elVoices') || '[]'); } catch { return []; } })();
-const OWN = v => v.category === 'cloned' || v.category === 'professional';
+var voices = (() => { try { return JSON.parse(localStorage.getItem('nrs:elVoices') || '[]'); } catch { return []; } })();
+var OWN = v => v.category === 'cloned' || v.category === 'professional';
 function keepVoices(list) {
   voices = list;
-  try { localStorage.setItem('nrs:elVoices', JSON.stringify(list.map(({ id, name, category }) => ({ id, name, category })))); } catch { /* مش مهم */ }
+  voices = list.map(v => ({ ...v, gender: v.gender || v.labels?.gender || '' }));
+  try { localStorage.setItem('nrs:elVoices', JSON.stringify(voices.map(({ id, name, category, gender }) => ({ id, name, category, gender })))); } catch { /* مش مهم */ }
   fillElVoices();
 }
 // اختيار صوت ElevenLabs من الاستوديو على طول: صوتك المستنسخ الأول في القايمة
@@ -3613,7 +3616,7 @@ function auProv() { try { return localStorage.getItem('nrs:auProv') || (getSetti
 function renderAuLines() {
   if (!$('auLines')) return;
   const lines = allLines(reel);
-  const sig = lines.map(l => { const a = audioMap.get(lineKey(l)); return lineKey(l) + (a ? a.provider + (a.buffer?.duration || 0) + (a.ok ? 'ok' : '') : ''); }).join('\n') + (manualAudio ? 'M' : '') + auProv();
+  const sig = lines.map(l => { const a = audioMap.get(lineKey(l)); return lineKey(l) + JSON.stringify(lineVoice(l) || '') + (a ? a.provider + (a.buffer?.duration || 0) + (a.ok ? 'ok' : '') : ''); }).join('\n') + (manualAudio ? 'M' : '') + auProv() + (voices || []).length;
   if (sig === auSig) return;
   auSig = sig;
   if (manualAudio) { $('auLines').innerHTML = `<div class="aurow"><span class="tx">🎙 صوت مسجّل/مرفوع للحلقة كلها (${manualAudio.duration.toFixed(1)} ث)</span><button class="btn" type="button" data-au-play="M">▶</button></div>`; return; }
@@ -3622,7 +3625,9 @@ function renderAuLines() {
     const a = audioMap.get(lineKey(l));
     const who = { gemini: 'Gemini', elevenlabs: 'ElevenLabs' }[a?.provider] || 'مسجّل';
     // مصدر الصوت لكل سطر: ElevenLabs / Gemini (الاختيار الافتراضي بيتحفظ)
-    const sel = `<select data-au-prov="${i}" title="مصدر الصوت">${AU_PROVS.map(([v, n]) => `<option value="${v}" ${v === (a?.provider || auProv()) ? 'selected' : ''}>${n}</option>`).join('')}</select>`;
+    const ov = lineVoice(l), prov = ov?.p || a?.provider || auProv();
+    const sel = `<select data-au-prov="${i}" title="مصدر الصوت">${AU_PROVS.map(([v, n]) => `<option value="${v}" ${v === prov ? 'selected' : ''}>${n}</option>`).join('')}</select>`
+      + `<select data-au-voice="${i}" title="اسم الصوت" translate="no">${auVoiceOpts(prov, l, ov?.v || '')}</select>`;
     return `<div class="aurow${a ? (a.ok ? ' ok' : '') : ' miss'}"><b>${multi ? l.storyIdx + 1 + '.' : ''}${i + 1}</b><span class="tx" translate="no" title="${esc(l.text)}">${l.speaker === 'B' ? 'ب: ' : ''}${esc(auName(l))}</span>`
       + (a ? `<span class="muted">${a.buffer?.duration ? a.buffer.duration.toFixed(1) + ' ث • ' : ''}${who}</span><button class="btn" type="button" data-au-play="${i}" title="اسمع">▶</button>`
           + (a.ok ? `<button class="btn" type="button" data-au-ok="${i}" title="اضغط تاني لو عايز تعيده">✅ تمام</button>`
@@ -3661,7 +3666,7 @@ $('auLines').addEventListener('click', async e => {
     b.disabled = true; $('auMsg').textContent = `⏳ بولّد السطر ${i + 1}…`;
     try {
       manualAudio = null;
-      audioMap.set(lineKey(l), await speakLine(l.text, l.speaker, reel.lang, provider));
+      audioMap.set(lineKey(l), await speakLine(l.text, l.speaker, reel.lang, provider, auVoiceOf(i, l)));
       $('auMsg').textContent = `✅ السطر ${i + 1} اتولّد. اسمعه ▶: لو تمام دوس 👍، ولو لأ «🔄 ولّد تاني».`;
       updateInfo(); redraw();
     } catch (err) { $('auMsg').textContent = '❌ ' + (err.message || err); b.disabled = false; }
@@ -3672,7 +3677,7 @@ $('auLines').addEventListener('click', async e => {
     if (provider === 'elevenlabs' && !confirm(`نسخة جديدة من السطر ده هتصرف حوالي ${l.text.length} حرف من رصيد ElevenLabs. النسخة الحالية بتفضل في المكتبة. تكمل؟`)) return;
     b.disabled = true; $('auMsg').textContent = '⏳ بولّد نسخة جديدة…';
     try {
-      audioMap.set(lineKey(l), await speakLine(l.text, l.speaker, reel.lang, provider, { fresh: true }));
+      audioMap.set(lineKey(l), await speakLine(l.text, l.speaker, reel.lang, provider, { fresh: true, ...auVoiceOf(i, l) }));
       $('auMsg').textContent = '✅ نسخة جديدة اتعملت. لو القديمة أحسن: 📚 واختارها.';
       updateInfo(); redraw();
     } catch (err) { $('auMsg').textContent = '❌ ' + (err.message || err); }
@@ -3808,7 +3813,43 @@ $('psDel').addEventListener('click', () => {
 
 // اختيار المصدر في أي سطر بيبقى الافتراضي للسطور اللي لسه مالهاش صوت
 $('auLines').addEventListener('change', e => {
-  if (e.target.dataset?.auProv == null) return;
-  try { localStorage.setItem('nrs:auProv', e.target.value); } catch { /* مش مهم */ }
-  if (!audioMap.get(lineKey(allLines(reel)[Number(e.target.dataset.auProv)] || {}))) { auSig = ''; renderAuLines(); }
+  const d = e.target.dataset || {};
+  if (d.auProv == null && d.auVoice == null) return;
+  const l = allLines(reel)[Number(d.auProv ?? d.auVoice)];
+  if (!l) return;
+  if (d.auProv != null) {
+    try { localStorage.setItem('nrs:auProv', e.target.value); } catch { /* مش مهم */ }
+    setLineVoice(l, { p: e.target.value, v: '' });
+  } else {
+    const o = e.target.selectedOptions[0];
+    setLineVoice(l, { p: $('auLines').querySelector(`[data-au-prov="${d.auVoice}"]`)?.value || auProv(), v: e.target.value, n: e.target.value ? o.dataset.n || o.textContent : '' });
+  }
+  auSig = ''; renderAuLines();
 });
+// صوت مخصّص لكل سطر: story.lineVoice[lineKey] = {p: مزوّد, v: رقم/اسم الصوت, n: اسمه للعرض}
+function lineVoice(l) { return reel.stories[l.storyIdx]?.lineVoice?.[lineKey(l)] || null; }
+function setLineVoice(l, ov) {
+  const st = reel.stories[l.storyIdx];
+  if (!st) return;
+  st.lineVoice = { ...(st.lineVoice || {}) };
+  st.lineVoice[lineKey(l)] = ov;
+  persist();
+}
+function auVoiceOf(i, l) {
+  const v = $('auLines').querySelector(`[data-au-voice="${i}"]`)?.value || lineVoice(l)?.v || '';
+  return v ? { voice: v, voiceName: lineVoice(l)?.n || v } : {};
+}
+function auVoiceOpts(prov, l, cur) {
+  const s = getSettings(), GEN_AR = { male: 'ذكر', female: 'أنثى', neutral: 'محايد' };
+  if (prov === 'gemini') {
+    const def = l.speaker === 'B' ? (s.gemVoiceB || 'Puck') : (s.gemVoiceA || 'Kore');
+    return `<option value="">الافتراضي (${esc(def)})</option>` + GEMINI_VOICES.map(([id, d]) => `<option value="${id}" data-n="${id}" ${id === cur ? 'selected' : ''}>${id} • ${GEMINI_FEMALE.has(id) ? 'أنثى' : 'ذكر'} • ${esc(d)}</option>`).join('');
+  }
+  const def = l.speaker === 'B' ? (s.voiceNameB || s.voiceNameA) : s.voiceNameA;
+  const vs = voices || [], list = [...vs.filter(OWN), ...vs.filter(v => !OWN(v))];
+  const opts = list.map(v => `<option value="${esc(v.id)}" data-n="${esc(v.name)}" ${v.id === cur ? 'selected' : ''}>${OWN(v) ? '⭐ ' : ''}${esc(v.name)}${GEN_AR[v.gender] ? ' • ' + GEN_AR[v.gender] : ''}</option>`).join('');
+  return `<option value="">الافتراضي (${esc(def || 'صوت المذيع')})</option>` + opts + (cur && !list.some(v => v.id === cur) ? `<option value="${esc(cur)}" selected>${esc(lineVoice(l)?.n || cur)}</option>` : '');
+}
+
+// قايمة أصوات ElevenLabs القديمة مكانش فيها النوع (ذكر/أنثى): نحدّثها مرة في الخلفية
+if (getSettings().elevenKey && voices.length && voices.every(v => v.gender === undefined)) fetchVoices().then(keepVoices).catch(() => {});

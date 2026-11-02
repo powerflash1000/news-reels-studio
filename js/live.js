@@ -1,11 +1,11 @@
 // وضع اللايف: شاشة بث مستمرة (طابور + دورة خلفية + شاشة انتظار) وبث لعدة منصات عن طريق وسيط محلي (tools/live-relay.mjs)
-import { normalizeReel, buildReelTimeline, allLines, lineKey } from './reel.js?v=mvzt8qn5';
-import { peekLine } from './tts.js?v=mvzt8qn5';
-import { audioCtx, mixTimeline, decode, SAMPLE_RATE } from './audio.js?v=mvzt8qn5';
-import { drawFrame, drawSlate } from './render.js?v=mvzt8qn5';
-import { loadBg, playBg } from './bg.js?v=mvzt8qn5';
-import { getBlob } from './mediastore.js?v=mvzt8qn5';
-import { getSettings } from './storage.js?v=mvzt8qn5';
+import { normalizeReel, buildReelTimeline, allLines, lineKey } from './reel.js?v=mvztgy09';
+import { peekLine } from './tts.js?v=mvztgy09';
+import { audioCtx, mixTimeline, decode, SAMPLE_RATE } from './audio.js?v=mvztgy09';
+import { drawFrame, drawSlate } from './render.js?v=mvztgy09';
+import { loadBg, playBg } from './bg.js?v=mvztgy09';
+import { getBlob } from './mediastore.js?v=mvztgy09';
+import { getSettings } from './storage.js?v=mvztgy09';
 
 // بيجهّز ريل للتشغيل. من غير opts: الصوت من الكاش (من غير رصيد). مع opts.audioMap/manual: من الاستوديو مباشرة (من غير حفظ)
 export async function prepare(raw, opts = {}) {
@@ -19,7 +19,8 @@ export async function prepare(raw, opts = {}) {
     let missing = 0;
     for (const l of lines) {
       const first = getSettings().ttsProvider === 'gemini' ? 'gemini' : 'elevenlabs';
-      const hit = (await peekLine(l.text, l.speaker, reel.lang, first).catch(() => null)) || (await peekLine(l.text, l.speaker, reel.lang, first === 'gemini' ? 'elevenlabs' : 'gemini').catch(() => null));
+      const ov = reel.stories[l.storyIdx]?.lineVoice?.[lineKey(l)];
+      const hit = (ov?.v ? await peekLine(l.text, l.speaker, reel.lang, ov.p, ov.v).catch(() => null) : null) || (await peekLine(l.text, l.speaker, reel.lang, first).catch(() => null)) || (await peekLine(l.text, l.speaker, reel.lang, first === 'gemini' ? 'elevenlabs' : 'gemini').catch(() => null));
       if (hit) audioMap.set(lineKey(l), hit); else missing++;
     }
     if (missing) return { id: reel.id, title, ready: false, why: `${missing} سطر من غير صوت في الكاش (ولّده من الاستوديو الأول بنفس الصوت)` };
