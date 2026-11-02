@@ -1,7 +1,7 @@
 // توليد الصوت من ElevenLabs مع توقيت كل كلمة، وكاش لكل سطر
-import { getSettings, addChars, cacheGet, cachePut, sha1, load, save, takePut } from './storage.js?v=mvztgy09';
-import { decode } from './audio.js?v=mvztgy09';
-import { estimateWords, stripTags } from './reel.js?v=mvztgy09';
+import { getSettings, addChars, cacheGet, cachePut, sha1, load, save, takePut } from './storage.js?v=mvztt6cd';
+import { decode } from './audio.js?v=mvztt6cd';
+import { estimateWords, stripTags } from './reel.js?v=mvztt6cd';
 
 const API = 'https://api.elevenlabs.io';
 
@@ -59,12 +59,22 @@ export function gemDirections(text) {
   return { say, dirs };
 }
 
-async function geminiSpeak(text, voice) {
+// كل موديل صوت في Gemini ليه حصة يومية لوحده: لو الأول قال «وصلت للحد» بنجرّب اللي بعده
+async function geminiSpeak(text, voice, extra = '') {
+  const s = getSettings();
+  const first = s.geminiTtsModel || GEMINI_TTS_MODELS[0].id;
+  const models = [first, ...GEMINI_TTS_MODELS.map(m => m.id).filter(id => id !== first)];
+  let last;
+  for (const model of models) {
+    try { return await geminiSpeakWith(model, text, voice, extra); } catch (e) { last = e; if (e.status !== 429) throw e; }
+  }
+  throw last;
+}
+async function geminiSpeakWith(model, text, voice, extra) {
   const s = getSettings();
   if (!s.geminiKey) throw new Error('ضبط مفتاح Gemini في الإعدادات الأول (نفس مفتاح المسودات).');
-  const model = s.geminiTtsModel || GEMINI_TTS_MODELS[0].id;
   const { say, dirs } = gemDirections(text);
-  const prompt = `${(s.geminiStyle || GEMINI_STYLE).trim()}${dirs.length ? `, and deliver this line ${dirs.join(', ')}` : ''}: ${say}`;
+  const prompt = `${(s.geminiStyle || GEMINI_STYLE).trim()}${extra}${dirs.length ? `, and deliver this line ${dirs.join(', ')}` : ''}: ${say}`;
   let res;
   try {
     res = await fetch(`${GEM_API}${encodeURIComponent(model)}:generateContent`, {
@@ -77,7 +87,7 @@ async function geminiSpeak(text, voice) {
   if (!res.ok) {
     let d = ''; try { d = (await res.json())?.error?.message || ''; } catch { /* ignore */ }
     if (res.status === 404) throw new Error(`موديل الصوت «${model}» مش متاح. غيّره من الإعدادات (اسمه ممكن يتغير). ${d.slice(0, 120)}`);
-    if (res.status === 429) throw new Error('وصلت للحد المجاني في Gemini (طلبات في الدقيقة/اليوم). استنى شوية أو غيّر الموديل. ' + d.slice(0, 100));
+    if (res.status === 429) { const e = new Error('وصلت للحد المجاني في Gemini لكل موديلات الصوت (كل موديل ليه حصة في الدقيقة وفي اليوم). استنى شوية، أو كمّل بـ ElevenLabs أو بصوتك. ' + d.slice(0, 100)); e.status = 429; throw e; }
     if (res.status === 400 || res.status === 403) throw new Error(`Gemini رفض الطلب (${res.status}): ${d.slice(0, 200) || 'اتأكد من المفتاح'}`);
     throw new Error(`Gemini رد بخطأ ${res.status}: ${d.slice(0, 200)}`);
   }
@@ -293,4 +303,57 @@ export async function isolateVoice(wav) {
   const res = await call('/v1/audio-isolation', { method: 'POST', body: fd });
   if (!res.ok) throw new Error(`ElevenLabs رفض التنضيف (${res.status}): ${await errDetail(res)}`);
   return decode(await res.arrayBuffer());
+}
+
+// 📦 Gemini: كذا جملة (نفس المذيع ونفس الصوت) في طلب واحد بدل طلب لكل جملة، وبعدين بنقسم الصوت على أطول السكتات.
+// بيرجّع نتايج زي speakLine لكل جملة، أو null لو التقسيم مش مضمون (والمتصل يرجع يولّد جملة جملة)
+export async function speakGroupGemini(items, lang = 'ar', voice) {
+  if (items.length < 2) return null;
+  const texts = items.map(it => prepareText(it.text, lang, 'gemini'));
+  if (texts.some(t => /\[/.test(t))) return null; // الجمل اللي فيها توجيه أداء بتتولّد لوحدها
+  const voiceId = voice || voiceFor(items[0].speaker, 'gemini');
+  const wav = await geminiSpeak(texts.join('\n\n'), voiceId, '. The text has several separate sentences: read them in order and pause clearly (about one second of silence) between sentences');
+  const buf = await decode(wav);
+  const cuts = splitByPauses(buf, texts.map(t => t.length));
+  if (!cuts) return null;
+  const out = [];
+  for (let i = 0; i < items.length; i++) {
+    const piece = sliceWav(buf, cuts[i], cuts[i + 1]);
+    const b = await decode(piece);
+    const words = estimateWords(texts[i], b.duration);
+    const key = await cacheKey(texts[i], voiceId, voiceSettingsFor(items[i].speaker), 'gemini');
+    await cachePut(key, { mp3: piece, words });
+    takePut({ text: texts[i], speaker: items[i].speaker, provider: 'gemini', voiceId, voiceName: voiceId, model: getSettings().geminiTtsModel, at: Date.now(), mp3: piece, words });
+    out.push({ buffer: b, words, cached: false, provider: 'gemini' });
+  }
+  return out;
+}
+// نقط القطع (بالعينات): بداية الصوت، منتصف أطول n-1 سكتة، النهاية. بنتأكد إن كل حتة طولها مناسب لطول جملتها
+function splitByPauses(buf, lens) {
+  const x = buf.getChannelData(0), fs = buf.sampleRate, win = Math.round(fs * 0.01), frames = Math.floor(x.length / win);
+  const lv = new Float32Array(frames);
+  for (let f = 0; f < frames; f++) { let q = 0; for (let i = f * win; i < (f + 1) * win; i++) q += x[i] * x[i]; lv[f] = Math.sqrt(q / win); }
+  const sorted = [...lv].sort((a, b) => a - b), thr = Math.max(0.006, (sorted[Math.floor(frames * 0.15)] || 0) * 3);
+  const gaps = [];
+  for (let f = 0; f < frames;) {
+    if (lv[f] >= thr) { f++; continue; }
+    let g = f; while (g < frames && lv[g] < thr) g++;
+    if (f > 0 && g < frames && g - f >= 25) gaps.push({ len: g - f, mid: Math.round((f + g) / 2) * win });
+    f = g;
+  }
+  const need = lens.length - 1;
+  if (gaps.length < need) return null;
+  const pick = gaps.sort((a, b) => b.len - a.len).slice(0, need).map(g => g.mid).sort((a, b) => a - b);
+  const cuts = [0, ...pick, x.length];
+  const total = lens.reduce((a, b) => a + b, 0);
+  for (let i = 0; i < lens.length; i++) {
+    const share = (cuts[i + 1] - cuts[i]) / x.length, want = lens[i] / total;
+    if (share < want * 0.4 || share > want * 2.5) return null;
+  }
+  return cuts;
+}
+function sliceWav(buf, a, b) {
+  const x = buf.getChannelData(0).subarray(a, b), pcm = new Int16Array(x.length);
+  for (let i = 0; i < x.length; i++) pcm[i] = Math.max(-1, Math.min(1, x[i])) * 0x7fff;
+  return pcmToWav(pcm.buffer, buf.sampleRate);
 }
