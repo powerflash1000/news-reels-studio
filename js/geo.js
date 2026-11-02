@@ -38,10 +38,18 @@ export async function searchPlaces(q) {
 }
 
 // OpenStreetMap: مطارات ومعالم وأي مكان
+// رمز بريدي: «10001» أو «10001 USA» أو «11511 مصر» (أرقام/حروف قليلة في الأول + اسم دولة اختياري)
+export const postalOf = q => { const m = String(q).trim().match(/^([A-Za-z]{0,2}\d[\dA-Za-z-]*(?: \d[\dA-Za-z]{1,3})?)(?:[,،\s]+(\D.*))?$/); return m && /\d{3}|\d[A-Za-z]{2}$/.test(m[1]) ? { code: m[1].trim(), country: (m[2] || '').trim() } : null; };
+
 export async function searchWide(q) {
-  const j = await getJson(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=jsonv2&accept-language=ar&limit=8&addressdetails=1`);
+  const base = 'https://nominatim.openstreetmap.org/search?format=jsonv2&accept-language=ar&limit=8&addressdetails=1';
+  const pc = postalOf(q);
+  let j = pc ? await getJson(`${base}&postalcode=${encodeURIComponent(pc.code)}${pc.country ? '&country=' + encodeURIComponent(pc.country) : ''}`).catch(() => []) : [];
+  if (!j.length) j = await getJson(`${base}&q=${encodeURIComponent(q)}`);
   return j.map(r => ({
     type: 'place', name: r.name || r.display_name.split(',')[0], lat: Number(r.lat), lon: Number(r.lon), cc: (r.address?.country_code || '').toUpperCase(),
+    // حجم المكان (درجات عرض) من boundingbox [جنوب، شمال، غرب، شرق] عشان التقريب على الخريطة التفصيلية
+    span: r.boundingbox ? Math.max(Math.abs(r.boundingbox[3] - r.boundingbox[2]), Math.abs(r.boundingbox[1] - r.boundingbox[0]) * 1.4) * 1.3 : undefined,
     detail: [r.display_name.split(',').slice(1, 3).join('،').trim(), OSM_KINDS[r.type] || OSM_KINDS[r.addresstype] || ''].filter(Boolean).join(' • '),
   }));
 }
