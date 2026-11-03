@@ -237,3 +237,6 @@ main:has(#tab-studio:not([hidden])) { max-width: 1720px; padding: 10px 14px; }
 .pvstage:fullscreen .transport { justify-content: center; gap: 14px; }
 .pvstage:fullscreen .transport .btn { font-size: 18px; padding: 8px 18px; }
 .pvstage:fullscreen #time { color: #fff; font-size: 18px; }
+
+.feedrefresh{align-items:center;gap:10px;flex-wrap:wrap;margin:4px 0}
+.feedrefresh #feedInfo{margin:0}

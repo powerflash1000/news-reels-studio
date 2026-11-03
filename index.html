@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mw0wq9tn">
+<html lang="ar" dir="rtl" data-v="mw11psxc">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mw0wq9tn">
+<link rel="stylesheet" href="assets/css/style.css?v=mw11psxc">
 </head>
 <body>
 <header class="top">
@@ -44,7 +44,7 @@
     <div id="subCats" class="chips subcats"></div>
     <div id="feedAr"></div>
   </div>
-  <p id="feedInfo" class="muted"></p>
+  <div class="row feedrefresh"><p id="feedInfo" class="muted"></p><button id="feedRefresh" class="btn" type="button" title="بيجيب آخر نسخة من الأخبار، ولو حاطط توكن GitHub في الإعدادات بيشغّل تحديث جديد دلوقتي">🔄 هات أحدث أخبار</button><span id="feedRefreshMsg" class="muted"></span></div>
   <details id="autoBox" class="card autobox">
     <summary>⚡ الأتمتة: تختار الخبر، والبرنامج يكتبه ويولّد صوته ويحفظه جاهز للمراجعة</summary>
     <div class="grid">
@@ -160,6 +160,7 @@
         <button id="play" class="btn">▶ معاينة</button>
         <span id="time" class="muted">0:00</span>
         <button id="pvBig" class="btn" type="button" title="المعاينة بملء الشاشة (Esc للخروج، Space للتشغيل)">⛶ شاشة كبيرة</button>
+        <select id="pvGuide" title="نموذج شاشة المنصة فوق المعاينة (مش بيظهر في التصدير)"><option value="">📱 من غير نموذج</option><option value="tiktok">📱 TikTok</option><option value="reels">📱 Reels</option><option value="shorts">📱 Shorts</option></select>
       </div>
       </div>
       <div class="row">
@@ -304,6 +305,7 @@
           <label>تحسين الصوت والمؤثرات<select id="fxQ"></select></label>
           <label>صدى المكان<input id="fxRoom" type="range" min="0" max="0.4" step="0.02"></label>
           <label>صدى متكرر (Echo)<input id="fxEcho" type="range" min="0" max="0.6" step="0.02"></label>
+          <label class="chk"><input id="fxWhoosh" type="checkbox" checked> صوت انتقال «ووش» بين الأخبار</label>
         </div>
         <p class="muted">التأثير بيتطبّق على المعاينة والتصدير وملف WAV، ومن غير رصيد. الصوت الأصلي مبيتغيرش، فجرّب براحتك. ▶ بتسمّعك السطر بالتأثير.</p>
         <div class="row aupick"><button id="auPickMiss" class="btn" type="button">☑ اللي مالهاش صوت</button><button id="auPickAll" class="btn" type="button">☑ الكل</button><button id="auPickNone" class="btn ghost" type="button">✕ إلغاء التحديد</button><select id="auPickProv" title="مصدر الصوت للسطور المتعلّمة"><option value="gemini">Gemini</option><option value="elevenlabs">ElevenLabs</option><option value="openai">OpenAI</option><option value="azure">Azure</option></select><button id="auPickGen" class="btn pri" type="button">🎙 ولّد المحدد</button><span id="auPickN" class="muted"></span></div>
@@ -832,6 +834,7 @@
     <label>حجم الخط <input id="sCapSize" type="range" min="44" max="110" step="2"></label>
     <label class="chk"><input id="sCapPlate" type="checkbox"> خلفية غامقة خلف الكلام (أوضح فوق أي خلفية)</label>
     <label class="chk"><input id="sCapStroke" type="checkbox"> إطار غامق حول الحروف</label>
+    <label class="chk"><input id="sSafe" type="checkbox" checked> مناطق آمنة للفيديو العمودي (تيك توك / ريلز / شورتس): المصدر وشريط الأخبار والكابشن بعيد عن زراير المنصة</label>
     <label class="chk"><input id="sCredits" type="checkbox"> اكتب حقوق الصور والفيديو على الشاشة (Pixabay / Wikimedia / مولّد بالذكاء الاصطناعي…)</label>
     <p class="muted">مقفولة: مصدر الخبر بس اللي بيظهر على الشاشة، وحقوق الصور والموسيقى بتتكتب أوتوماتيك في وصف البوست (حزمة النشر). صور CC BY لازم حقوقها تكون في الوصف على الأقل. والصور المولّدة بالذكاء الاصطناعي علّم عليها علامة «AI-generated» في المنصة وانت بتنشر.</p>
     <p class="muted">الكلمات الإنجليزية والأرقام وسط الجملة العربي بتترسم دلوقتي بالاتجاه الصح.</p>
@@ -852,6 +855,8 @@
     <label>مفتاح Freesound للموسيقى (مجاني من freesound.org/apiv2/apply)<input id="sFreesound" type="password" dir="ltr" autocomplete="off"></label>
     <label>مفتاح Smithsonian / api.data.gov (اختياري، مجاني من api.data.gov/signup — من غيره بيستخدم DEMO_KEY بحد 30 طلب في الساعة)<input id="sSi" type="password" dir="ltr" autocomplete="off"></label>
     <label>مفتاح Pixabay (مجاني من pixabay.com/api/docs)<input id="sPixabay" type="password" dir="ltr" autocomplete="off"></label>
+    <label>توكن GitHub لتحديث الأخبار فورًا (اختياري)<input id="sGhToken" type="password" dir="ltr" autocomplete="off" placeholder="github_pat_…"></label>
+    <p class="muted">الأخبار بتتحدّث لوحدها كل ساعة، بس GitHub ساعات بيأخّرها لحد كام ساعة. بالتوكن ده زرار «🔄 هات أحدث أخبار» بيشغّل التحديث دلوقتي (حوالي دقيقة). إزاي تعمله: github.com/settings/personal-access-tokens ← Generate new token (Fine-grained) ← Repository access: Only select repositories ← news-reels-studio ← Permissions ← Actions: Read and write ← Generate. التوكن بيفضل على جهازك بس ومش بيدخل في النسخة الاحتياطية.</p>
     <label>رابط الوسيط (Cloudflare Worker) — لازم لتحميل ملفات NASA و Internet Archive و Pixabay، واختياري لباقي المصادر<input id="sProxy" dir="ltr" placeholder="https://….workers.dev"></label>
     <p class="muted">الوسيط بيتعمل في دقيقتين من الملف <code>tools/cors-proxy-worker.js</code> في الريبو (الشرح في أول الملف). لو متحدّث قديم، ألصق النسخة الجديدة لأن فيها مواقع الوسائط.</p>
   </div>
@@ -907,6 +912,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mw0wq9tn"></script>
+<script type="module" src="js/main.js?v=mw11psxc"></script>
 </body>
 </html>
