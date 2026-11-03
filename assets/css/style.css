@@ -259,3 +259,8 @@ main:has(#tab-studio:not([hidden])) { max-width: 1720px; padding: 10px 14px; }
 .tklist label.off span { opacity: .45; text-decoration: line-through; }
 .tklist .tkc { font-weight: 700; white-space: nowrap; }
 #tkFeedBox[hidden], #tkTextBox[hidden] { display: none; }
+/* سطور الصوت: الأزرار بتنزل سطر تاني بدل ما تخرج من العمود وتستخبى ورا عمود الأدوات */
+.aurow { flex-wrap: wrap; row-gap: 4px; }
+.aurow .tx { flex: 1 1 220px; }
+.aurow select { max-width: 140px; }
+.studio > .form { overflow-x: clip; }
