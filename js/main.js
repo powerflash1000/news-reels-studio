@@ -1,29 +1,29 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw128t5z';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw128t5z';
-import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw128t5z';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw128t5z';
-import { transcribeWords, alignWords } from './align.js?v=mw128t5z';
-import { gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw128t5z';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw128t5z';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mw128t5z';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw128t5z';
-import { drawGuide, sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw128t5z';
-import { exportSupport, exportReel } from './export.js?v=mw128t5z';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw128t5z';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw128t5z';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw128t5z';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw128t5z';
-import { detailTarget, loadTileMap } from './tiles.js?v=mw128t5z';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mw128t5z';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw128t5z';
-import { loadBg, playBg } from './bg.js?v=mw128t5z';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw128t5z';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw128t5z';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw128t5z';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw128t5z';
-import { readUrl, cleanPasted } from './reader.js?v=mw128t5z';
-import { initI18n, ui } from './i18n.js?v=mw128t5z';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw128t5z';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw12ngtu';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw12ngtu';
+import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw12ngtu';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw12ngtu';
+import { transcribeWords, alignWords } from './align.js?v=mw12ngtu';
+import { gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw12ngtu';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw12ngtu';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mw12ngtu';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw12ngtu';
+import { drawGuide, sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw12ngtu';
+import { exportSupport, exportReel } from './export.js?v=mw12ngtu';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw12ngtu';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw12ngtu';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw12ngtu';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw12ngtu';
+import { detailTarget, loadTileMap } from './tiles.js?v=mw12ngtu';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mw12ngtu';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw12ngtu';
+import { loadBg, playBg } from './bg.js?v=mw12ngtu';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw12ngtu';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw12ngtu';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw12ngtu';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw12ngtu';
+import { readUrl, cleanPasted } from './reader.js?v=mw12ngtu';
+import { initI18n, ui } from './i18n.js?v=mw12ngtu';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw12ngtu';
 
 initI18n();
 
@@ -2176,6 +2176,29 @@ $('genCopyAll').addEventListener('click', async () => {
 });
 $('genOpen').addEventListener('click', () => window.open(GEN_TOOLS[$('genTool').value].url, '_blank', 'noopener'));
 // استيراد كذا ملف: بيترتّبوا بالاسم (1، 2، 3…) ويتركّبوا على المشاهد بالترتيب
+// 📁 رفع كذا صورة/فيديو من جهازك على المشاهد بالترتيب (مش مولّدة: من غير علامة ذكاء اصطناعي)
+$('scBulk').addEventListener('change', async e => {
+  const files = [...e.target.files].sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
+  e.target.value = '';
+  if (!files.length) return;
+  readForm();
+  const st = story();
+  const groups = sceneGroups(st);
+  if (!groups.length) return ($('scMsg').textContent = 'اكتب السكريبت الأول عشان المشاهد تتقسم على الكلام.');
+  if (!st.scenes?.length) st.scenes = groups.map(g => ({ li: g.li, q: '', media: null }));
+  // لو الصور أكتر من المشاهد: نقسّم المشاهد أصغر (لحد سطر لكل صورة)
+  if (files.length > st.scenes.length && groups.length < parseScript(st.script).length) st.scenes = parseScript(st.script).map((l, i) => st.scenes.find(x => x.li === i) || { li: i, q: '', media: null });
+  const list = st.scenes.slice().sort((a, b) => a.li - b.li);
+  let n = 0;
+  for (let i = 0; i < Math.min(files.length, list.length); i++) {
+    const f = files[i], sc = list[i], id = 'm' + Date.now().toString(36) + i;
+    await putBlob(id, f);
+    sc.media = { id, kind: f.type.startsWith('video') ? 'video' : 'image', provider: 'upload', title: f.name, thumb: f.type.startsWith('image') ? URL.createObjectURL(f) : '', credit: '', license: 'ملكي / من جهازي', tier: 'free', fit: 'cover' };
+    const b = await loadBg(sc.media); if (b) { bgs.set(id, b); n++; }
+  }
+  persist(); renderScenes(); redraw();
+  $('scMsg').textContent = `✅ اتحطت ${n} صورة على ${list.length} مشهد${files.length > list.length ? ` (فيه ${files.length - list.length} صورة زيادة عن عدد السطور اتسابت)` : ''}. تقدر تغيّر أي واحدة من 📁 جنب المشهد.`;
+});
 $('genImport').addEventListener('change', async e => {
   const files = [...e.target.files].sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
   e.target.value = '';
