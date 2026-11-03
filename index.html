@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mw18jmy8">
+<html lang="ar" dir="rtl" data-v="mw1azadd">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mw18jmy8">
+<link rel="stylesheet" href="assets/css/style.css?v=mw1azadd">
 </head>
 <body>
 <header class="top">
@@ -472,9 +472,24 @@
       <div class="card tickbox">
         <label class="chk"><input id="tkOn" type="checkbox"> شريط الأخبار أسفل الشاشة (بيمشي في كل أخبار الحلقة)</label>
         <div id="tkFields" hidden>
+          <label>الشريط بيعرض إيه؟<select id="tkSrc">
+            <option value="feed">أخبار تانية من الأقسام اللي أختارها (فن، عسكري، اقتصاد…)</option>
+            <option value="reel">عناوين باقي أخبار الحلقة</option>
+            <option value="custom">نص بكتبه بإيدي</option>
+          </select></label>
           <div class="grid">
             <label>عنوان الشريط<input id="tkLabel" placeholder="آخر الأخبار"></label>
-            <label>النص (فاضي = عناوين باقي الأخبار تلقائيًا)<input id="tkText" dir="auto"></label>
+            <label id="tkTextBox">النص (فاضي = عناوين باقي الأخبار تلقائيًا)<input id="tkText" dir="auto"></label>
+          </div>
+          <div id="tkFeedBox">
+            <p class="muted">علّم على الأقسام، والشريط هياخد آخر عناوينها ويفضل شغال طول الفيديو حتى لو الفيديو عن خبر واحد.</p>
+            <div id="tkCats" class="chips"></div>
+            <div class="grid">
+              <label>عدد العناوين<select id="tkN"><option value="6">6</option><option value="10" selected>10</option><option value="15">15</option><option value="20">20</option></select></label>
+              <label class="chk"><input id="tkTag" type="checkbox" checked> اكتب اسم القسم قبل كل خبر (فن • عسكري…)</label>
+            </div>
+            <div class="row"><button id="tkFill" class="btn pri" type="button">🔄 هات آخر الأخبار</button><button id="tkTr" class="btn" type="button" hidden>🌐 ترجم العناوين الإنجليزي</button><span id="tkMsg" class="muted"></span></div>
+            <div id="tkList" class="tklist"></div>
           </div>
         </div>
       </div>
@@ -922,6 +937,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mw18jmy8"></script>
+<script type="module" src="js/main.js?v=mw1azadd"></script>
 </body>
 </html>

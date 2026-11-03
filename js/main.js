@@ -1,29 +1,29 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw18jmy8';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw18jmy8';
-import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw18jmy8';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw18jmy8';
-import { transcribeWords, alignWords } from './align.js?v=mw18jmy8';
-import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw18jmy8';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw18jmy8';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mw18jmy8';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw18jmy8';
-import { drawGuide, sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw18jmy8';
-import { exportSupport, exportReel } from './export.js?v=mw18jmy8';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw18jmy8';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw18jmy8';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw18jmy8';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw18jmy8';
-import { detailTarget, loadTileMap } from './tiles.js?v=mw18jmy8';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mw18jmy8';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw18jmy8';
-import { loadBg, playBg } from './bg.js?v=mw18jmy8';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw18jmy8';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw18jmy8';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw18jmy8';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw18jmy8';
-import { readUrl, cleanPasted } from './reader.js?v=mw18jmy8';
-import { initI18n, ui } from './i18n.js?v=mw18jmy8';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw18jmy8';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw1azadd';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw1azadd';
+import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw1azadd';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw1azadd';
+import { transcribeWords, alignWords } from './align.js?v=mw1azadd';
+import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw1azadd';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw1azadd';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mw1azadd';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw1azadd';
+import { drawGuide, sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw1azadd';
+import { exportSupport, exportReel } from './export.js?v=mw1azadd';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw1azadd';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw1azadd';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw1azadd';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw1azadd';
+import { detailTarget, loadTileMap } from './tiles.js?v=mw1azadd';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mw1azadd';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw1azadd';
+import { loadBg, playBg } from './bg.js?v=mw1azadd';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw1azadd';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw1azadd';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw1azadd';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw1azadd';
+import { readUrl, cleanPasted } from './reader.js?v=mw1azadd';
+import { initI18n, ui } from './i18n.js?v=mw1azadd';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw1azadd';
 
 initI18n();
 
@@ -430,7 +430,7 @@ function readForm() {
       if (first && !st.sourceUrl) st.sourceUrl = first.url;
     }
   }
-  reel.ticker = { on: $('tkOn').checked, label: $('tkLabel').value.trim(), text: $('tkText').value.trim() };
+  reel.ticker = { ...(reel.ticker || {}), on: $('tkOn').checked, label: $('tkLabel').value.trim(), text: $('tkText').value.trim(), src: $('tkSrc').value };
 }
 
 function persist() {
@@ -440,11 +440,12 @@ function persist() {
   setCurrentId(reel.id);
 }
 
-for (const id of ['rTitle', 'fCat', 'fKind', 'fHead', 'fSrc', 'fUrl', 'fCredit', 'fScript', 'fTpl', 'stValue', 'stUnit', 'stTrend', 'stLabel', 'mapLabel', 'quText', 'quWho', 'quRole', 'ltOn', 'ltName', 'ltRole', 'tkOn', 'tkLabel', 'tkText']) {
+for (const id of ['rTitle', 'fCat', 'fKind', 'fHead', 'fSrc', 'fUrl', 'fCredit', 'fScript', 'fTpl', 'stValue', 'stUnit', 'stTrend', 'stLabel', 'mapLabel', 'quText', 'quWho', 'quRole', 'ltOn', 'ltName', 'ltRole', 'tkOn', 'tkLabel', 'tkText', 'tkSrc']) {
   $(id).addEventListener('input', () => {
     readForm(); persist(); updateInfo(); redraw();
     if (id === 'fHead' || id === 'fCat') renderStrip();
-    if (id === 'fTpl' || id === 'tkOn' || id === 'ltOn') toggleTemplateFields();
+    if (id === 'fTpl' || id === 'tkOn' || id === 'ltOn' || id === 'tkSrc') toggleTemplateFields();
+    if ((id === 'tkOn' || id === 'tkSrc') && $('tkOn').checked && $('tkSrc').value === 'feed' && !reel.ticker?.items?.length) tkFill();
     if (id === 'fScript') { clearTimeout(restoreTimer); restoreTimer = setTimeout(restoreAudio, 600); }
   });
 }
@@ -990,6 +991,8 @@ function toggleTemplateFields() {
   $('tplTimeline').hidden = tpl !== 'timeline';
   $('ltFields').hidden = !$('ltOn').checked;
   $('tkFields').hidden = !$('tkOn').checked;
+  $('tkFeedBox').hidden = $('tkSrc').value !== 'feed';
+  $('tkTextBox').hidden = $('tkSrc').value !== 'custom';
   if (tpl === 'map') loadWorld();
 }
 
@@ -1018,6 +1021,8 @@ function fillTemplateFields() {
   $('tkOn').checked = !!reel.ticker?.on;
   $('tkLabel').value = reel.ticker?.label || '';
   $('tkText').value = reel.ticker?.text || '';
+  $('tkSrc').value = tkSrcOf(reel.ticker);
+  renderTicker();
   syncMusic();
   document.querySelector('.tplbox').hidden = st.kind !== 'news';
   $('mapZoom').value = st.map?.zoom || 'auto';
@@ -3353,6 +3358,89 @@ for (const sp of ['A', 'B']) $('genEl' + sp).addEventListener('change', () => {
   setSettings({ ['voice' + sp]: sel.value, ['voiceName' + sp]: sel.value ? sel.selectedOptions[0].textContent.replace(/^⭐ | \(صوتك\)$/g, '') : '' });
   renderVoiceSelect(sp);
 });
+
+// ===== شريط الأخبار من الأقسام: عناوين تانية شغالة طول الفيديو =====
+// reel.ticker = {on, label, text, src: feed|reel|custom, cats[], n, tag, items[{id, cat, t, off}]}
+// العناوين بتتحفظ في الريل نفسه (لقطة) عشان المعاينة والتصدير يطلعوا نفس الحاجة
+function tkSrcOf(tk) { return tk?.src || (tk?.text ? 'custom' : tk?.on ? 'reel' : 'feed'); }
+var TK_DEF = ['politics', 'defense', 'economy', 'sports', 'entertainment'];
+function tkCats() { return reel.ticker?.cats?.length ? reel.ticker.cats : TK_DEF; }
+function renderTicker() {
+  const tk = reel.ticker || {}, on = new Set(tkCats());
+  $('tkCats').innerHTML = cfg.categories.filter(c => c.id !== 'trending').map(c => `<button type="button" class="chip${on.has(c.id) ? ' on' : ''}" data-tkcat="${c.id}" style="color:${c.color}">${esc(c.label)}</button>`).join('');
+  $('tkN').value = String(tk.n || 10);
+  $('tkTag').checked = tk.tag !== false;
+  const items = tk.items || [];
+  $('tkList').innerHTML = items.map((x, i) => `<label class="${x.off ? 'off' : ''}"><input type="checkbox" data-tki="${i}" ${x.off ? '' : 'checked'}><span><b class="tkc" style="color:${cat(x.cat).color}">${esc(cat(x.cat).label)}</b> <span dir="auto" translate="no">${esc(x.t)}</span></span></label>`).join('')
+    || '<p class="muted">لسه مفيش عناوين: اختار الأقسام ودوس «🔄 هات آخر الأخبار».</p>';
+  const lang = reel.lang || 'ar';
+  $('tkTr').hidden = !(lang === 'ar' && items.some(x => x.lang && x.lang !== 'ar'));
+}
+async function tkFill() {
+  if (!feeds.items.length) { try { feeds = await loadFeeds(); applyTr(); } catch { $('tkMsg').textContent = '❌ مقدرتش أحمّل الأخبار.'; return; } }
+  const tk = reel.ticker = { ...(reel.ticker || {}) };
+  const cats = tkCats(), n = Number($('tkN').value) || 10, lang = reel.lang || 'ar';
+  const mine = new Set(reel.stories.map(s => (s.headline || '').trim()));
+  const ok = i => i.kind !== 'youtube' && i.tk !== 'trend' && i.title && !mine.has(i.title.trim());
+  const ts = i => Date.parse(i.published || 0) || 0;
+  const per = Math.max(1, Math.ceil(n / cats.length));
+  const out = [];
+  for (const c of cats) {
+    const pool = feeds.items.filter(i => i.category === c && ok(i)).sort((a, b) => ts(b) - ts(a));
+    // لغة الريل الأول (أو المترجم)، ولو مش كفاية نكمّل بالباقي
+    const pref = pool.filter(i => (i.lang || 'ar') === lang), rest = pool.filter(i => (i.lang || 'ar') !== lang);
+    const seen = new Set();
+    for (const i of [...pref, ...rest]) {
+      const key = i.title.replace(/\s+/g, ' ').slice(0, 40);
+      if (seen.has(key)) continue;
+      seen.add(key);
+      out.push({ id: i.id, cat: c, t: i.title.replace(/\s+/g, ' ').trim(), lang: i.lang || 'ar' });
+      if (seen.size >= per) break;
+    }
+  }
+  // نلفّ على الأقسام بالتبادل: فن، عسكري، اقتصاد، فن…
+  const byCat = cats.map(c => out.filter(x => x.cat === c)), mixed = [];
+  for (let k = 0; mixed.length < out.length; k++) for (const g of byCat) if (g[k]) mixed.push(g[k]);
+  tk.items = mixed.slice(0, n);
+  tk.cats = cats; tk.n = n; tk.src = 'feed';
+  persist(); renderTicker(); redraw();
+  const other = tk.items.filter(x => x.lang !== lang).length;
+  $('tkMsg').textContent = tk.items.length ? `✅ ${tk.items.length} عنوان في الشريط${other && lang === 'ar' ? ` (منهم ${other} إنجليزي: دوس «🌐 ترجم»)` : ''}.` : '❌ مفيش أخبار في الأقسام دي دلوقتي.';
+}
+$('tkCats').addEventListener('click', e => {
+  const b = e.target.closest('[data-tkcat]'); if (!b) return;
+  const set = new Set(tkCats()), id = b.dataset.tkcat;
+  if (set.has(id)) set.delete(id); else set.add(id);
+  if (!set.size) return;
+  reel.ticker = { ...(reel.ticker || {}), cats: [...set] };
+  tkFill();
+});
+$('tkN').addEventListener('change', tkFill);
+$('tkFill').addEventListener('click', tkFill);
+$('tkTag').addEventListener('change', () => { reel.ticker = { ...(reel.ticker || {}), tag: $('tkTag').checked }; persist(); redraw(); });
+$('tkList').addEventListener('change', e => {
+  const i = e.target.dataset.tki; if (i === undefined) return;
+  const x = reel.ticker?.items?.[i]; if (!x) return;
+  x.off = !e.target.checked;
+  persist(); renderTicker(); redraw();
+});
+$('tkTr').addEventListener('click', async () => {
+  const items = reel.ticker?.items || [], ids = new Set(items.filter(x => x.lang !== 'ar').map(x => x.id));
+  const src = feeds.items.filter(i => ids.has(i.id));
+  if (!src.length) return;
+  $('tkTr').disabled = true; $('tkMsg').textContent = '⏳ بترجم…';
+  try {
+    const r = await translateItems(src, { gesture: true, ai: true, onProgress: (d, t) => { $('tkMsg').textContent = `⏳ بترجم ${d}/${t}…`; } });
+    if (r.noEngine) $('tkMsg').textContent = '❌ الترجمة محتاجة Chrome حديث أو مفتاح ذكاء اصطناعي في الإعدادات.';
+    else {
+      for (const x of items) { const f = src.find(i => i.id === x.id); if (f && f.orig) { x.t = f.title; x.lang = 'ar'; } }
+      persist(); renderTicker(); redraw();
+      $('tkMsg').textContent = '✅ اتترجموا.';
+    }
+  } catch (err) { $('tkMsg').textContent = '❌ ' + (err.message || err); }
+  $('tkTr').disabled = false;
+});
+
 // إعدادات ElevenLabs السريعة جنب زرار التوليد (نفس إعدادات صفحة الإعدادات)
 var STAB_OPTS = {
   v3: [[0, 'Creative — معبّر بس بيتقلب'], [0.5, 'Natural — طبيعي'], [1, 'Robust — ثابت (موصى بيه للهجة)']],
