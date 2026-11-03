@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mw0nl59b">
+<html lang="ar" dir="rtl" data-v="mw0o5i3p">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mw0nl59b">
+<link rel="stylesheet" href="assets/css/style.css?v=mw0o5i3p">
 </head>
 <body>
 <header class="top">
@@ -51,7 +51,7 @@
       <label>أسلوب الكتابة<select id="auStyle"></select></label>
       <label>المدة<select id="auLen"><option value="30">حوالي 30 ثانية</option><option value="45" selected>حوالي 45 ثانية</option><option value="60">حوالي 60 ثانية</option><option value="90">حوالي 90 ثانية</option><option value="180">حلقة 3 دقايق</option><option value="300">حلقة 5 دقايق</option><option value="480">حلقة 8 دقايق</option><option value="600">حلقة 10 دقايق</option></select></label>
       <label>الشكل<select id="auFmt"><option value="single">مذيع واحد</option><option value="dialogue">حوار أ / ب</option></select></label>
-      <label>الصوت<select id="auVoice"><option value="gemini">Gemini</option><option value="elevenlabs">ElevenLabs</option><option value="none">من غير صوت (أولّده بعدين)</option></select></label>
+      <label>الصوت<select id="auVoice"><option value="gemini">Gemini</option><option value="elevenlabs">ElevenLabs</option><option value="azure">Azure</option><option value="openai">OpenAI</option><option value="none">من غير صوت (أولّده بعدين)</option></select></label>
     </div>
     <label class="chk"><input id="auInfo" type="checkbox" checked> طبّق أول إنفوجرافيك موثّق من نص الخبر (رقم / خريطة / شريط اسم)</label>
     <label class="chk"><input id="auVfx" type="checkbox" checked> طبّق المؤثرات المقترحة (قالب، شريط أخبار، مقدمة وخاتمة)</label>
@@ -280,6 +280,8 @@
       <div class="row">
         <button id="gen" class="btn pri">🎙 توليد الصوت (ElevenLabs)</button>
         <button id="genGem" class="btn pri">✨ توليد الصوت (Gemini)</button>
+        <button id="genAz" class="btn pri" title="Microsoft Azure: أصوات مصري، 500 ألف حرف ببلاش في الشهر">🟦 توليد الصوت (Azure)</button>
+        <button id="genOa" class="btn pri" title="OpenAI: بيتحاسب بالاستخدام">⚪ توليد الصوت (OpenAI)</button>
         <button id="alignW" class="btn" title="صوت Gemini مالوش توقيت للكلمات، فالكابشن بيتقدّر. ده بيسمع الصوت بـ Whisper جوه المتصفح ويظبط كل كلمة على وقتها">🎯 ظبط توقيت الكابشن</button>
         <button id="rec" class="btn">⏺ تسجيل بصوتي</button>
         <label class="btn file">⬆ رفع ملف صوت<input id="upl" type="file" accept="audio/*" hidden></label>
@@ -716,7 +718,28 @@
 
   <div class="card">
     <h3>مزوّد الصوت (قراءة الأخبار)</h3>
-    <label>المزوّد<select id="sTts"><option value="elevenlabs">ElevenLabs (صوتك المستنسخ)</option><option value="gemini">Google Gemini (أصوات جاهزة، له حصة مجانية)</option></select></label>
+    <label>المزوّد<select id="sTts"><option value="elevenlabs">ElevenLabs (صوتك المستنسخ)</option><option value="gemini">Google Gemini (أصوات جاهزة، له حصة مجانية)</option><option value="azure">Microsoft Azure (أصوات مصري، 500 ألف حرف ببلاش في الشهر)</option><option value="openai">OpenAI (رخيص، بيتحاسب بالاستخدام)</option></select></label>
+    <div id="azBox" hidden>
+      <div class="grid">
+        <label>مفتاح Azure Speech (Key 1)<input id="sAzKey" type="password" dir="ltr" autocomplete="off"></label>
+        <label>المنطقة (Region)<input id="sAzRegion" dir="ltr" placeholder="مثلاً westeurope أو eastus أو uaenorth"></label>
+        <label>صوت المذيع أ<select id="sAzA"></select></label>
+        <label>صوت المذيع ب<select id="sAzB"></select></label>
+        <label>السرعة<select id="sAzRate"><option value="-10">أبطأ شوية</option><option value="0">عادي</option><option value="8">أسرع شوية</option><option value="15">أسرع</option></select></label>
+      </div>
+      <div class="row"><button id="azTest" class="btn pri" type="button">🔊 جرّب الصوت</button><button id="azVoices" class="btn" type="button">🎙 حمّل كل الأصوات</button><span id="azMsg" class="muted"></span></div>
+      <p class="muted">إزاي تجيب المفتاح ببلاش: ادخل portal.azure.com ← «Create a resource» ← دوّر على «Speech» ← اختار الخطة «Free F0» والمنطقة ← بعد ما يتعمل افتح «Keys and Endpoint» وانسخ KEY 1 واسم المنطقة (Location/Region) هنا. Azure بيطلب كارت للتأكيد بس، والخطة المجانية مش بتخصم (500 ألف حرف في الشهر). أصوات «مصري — شاكر/سلمى» لهجة مصرية. Azure مبيرجّعش توقيت كلمات، فاستخدم «🎯 ظبط توقيت الكابشن».</p>
+    </div>
+    <div id="oaBox" hidden>
+      <div class="grid">
+        <label>صوت المذيع أ<select id="sOaA"></select></label>
+        <label>صوت المذيع ب<select id="sOaB"></select></label>
+        <label>الموديل<select id="sOaModel"></select></label>
+      </div>
+      <label>أسلوب الإلقاء (بالإنجليزي، فاضي = عامية مصرية بأسلوب مذيع)<textarea id="sOaStyle" rows="2" dir="ltr"></textarea></label>
+      <div class="row"><button id="oaTest" class="btn pri" type="button">🔊 جرّب الصوت</button><span id="oaMsg" class="muted"></span></div>
+      <p class="muted">بيستخدم نفس «مفتاح OpenAI» اللي تحت في «مزوّد الذكاء الاصطناعي» (من platform.openai.com/api-keys، منفصل عن اشتراك ChatGPT Plus ومحتاج رصيد مشحون). التكلفة تقريبًا سنت أو اتنين للدقيقة. الوسوم زي [sad] بتتحول لتوجيه أداء. مبيرجّعش توقيت كلمات، فاستخدم «🎯 ظبط توقيت الكابشن».</p>
+    </div>
     <div id="gemBox" hidden>
       <div class="grid">
         <label>صوت المذيع أ<select id="sGemA"></select></label>
@@ -876,6 +899,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mw0nl59b"></script>
+<script type="module" src="js/main.js?v=mw0o5i3p"></script>
 </body>
 </html>
