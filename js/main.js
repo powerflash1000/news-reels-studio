@@ -1,29 +1,29 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw0qgo6p';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw0qgo6p';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw0qgo6p';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw0qgo6p';
-import { transcribeWords, alignWords } from './align.js?v=mw0qgo6p';
-import { azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw0qgo6p';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw0qgo6p';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mw0qgo6p';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw0qgo6p';
-import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw0qgo6p';
-import { exportSupport, exportReel } from './export.js?v=mw0qgo6p';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw0qgo6p';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw0qgo6p';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw0qgo6p';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw0qgo6p';
-import { detailTarget, loadTileMap } from './tiles.js?v=mw0qgo6p';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mw0qgo6p';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw0qgo6p';
-import { loadBg, playBg } from './bg.js?v=mw0qgo6p';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw0qgo6p';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw0qgo6p';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw0qgo6p';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw0qgo6p';
-import { readUrl, cleanPasted } from './reader.js?v=mw0qgo6p';
-import { initI18n, ui } from './i18n.js?v=mw0qgo6p';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw0qgo6p';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw0r37lm';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw0r37lm';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw0r37lm';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw0r37lm';
+import { transcribeWords, alignWords } from './align.js?v=mw0r37lm';
+import { gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw0r37lm';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw0r37lm';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mw0r37lm';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw0r37lm';
+import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw0r37lm';
+import { exportSupport, exportReel } from './export.js?v=mw0r37lm';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw0r37lm';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw0r37lm';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw0r37lm';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw0r37lm';
+import { detailTarget, loadTileMap } from './tiles.js?v=mw0r37lm';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mw0r37lm';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw0r37lm';
+import { loadBg, playBg } from './bg.js?v=mw0r37lm';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw0r37lm';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw0r37lm';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw0r37lm';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw0r37lm';
+import { readUrl, cleanPasted } from './reader.js?v=mw0r37lm';
+import { initI18n, ui } from './i18n.js?v=mw0r37lm';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw0r37lm';
 
 initI18n();
 
@@ -1464,6 +1464,7 @@ function updateInfo() {
 
 /* ---------- الصوت ---------- */
 // توليد الصوت بمزوّد محدد: كل زرار بيستخدم مزوّده بغض النظر عن اللي في الإعدادات، وبيعيد توليد السطور اللي صوتها من مزوّد تاني
+const gemUsed = () => { const u = gemUsage().n; return u[getSettings().geminiTtsModel || 'gemini-2.5-flash-preview-tts'] || 0; };
 // المفتاح اللي محتاجه كل مزوّد صوت (null = تمام)
 function ttsKeyProblem(p) {
   const s = getSettings();
@@ -1521,7 +1522,7 @@ async function generateAudio(provider) {
         reqs++;
       }
     }
-    setStatus(n ? (gem ? `تم توليد الصوت بـGemini ✅ (${n} جملة في ${reqs} طلب). ولتوقيت كابشن أدق اضغط «🎯 ظبط توقيت الكابشن».` : el ? 'تم توليد الصوت بـElevenLabs ✅' : `تم توليد الصوت بـ${TTS_NAMES[provider]} ✅ (${n} جملة). ولتوقيت كابشن أدق اضغط «🎯 ظبط توقيت الكابشن».`) : 'الصوت كله جاهز من الكاش ✅');
+    setStatus(n ? (gem ? `تم توليد الصوت بـGemini ✅ (${n} جملة في ${reqs} طلب، والنهارده استخدمت ${gemUsed()} من حوالي ${GEM_FREE_RPD} طلب للموديل). ولتوقيت كابشن أدق اضغط «🎯 ظبط توقيت الكابشن».` : el ? 'تم توليد الصوت بـElevenLabs ✅' : `تم توليد الصوت بـ${TTS_NAMES[provider]} ✅ (${n} جملة). ولتوقيت كابشن أدق اضغط «🎯 ظبط توقيت الكابشن».`) : 'الصوت كله جاهز من الكاش ✅');
     if (n) { reel.ttsLast = provider; persist(); }
     if (n && el && gs.elevenKey) fetchSubscription().then(fillUsage).catch(() => {});
   } catch (e) { setStatus(String(e.message || e), true); }
@@ -1562,6 +1563,13 @@ $('alignW').addEventListener('click', async () => {
 });
 $('gen').addEventListener('click', () => generateAudio('elevenlabs'));
 $('genGem').addEventListener('click', () => generateAudio('gemini'));
+// Gemini بيقول «استنى» (حد الدقيقة في الخطة المجانية): بنعرض العد ونكمّل لوحدنا
+addEventListener('nrs:tts-wait', e => {
+  let n = Math.round(e.detail?.seconds || 20);
+  const msg = () => `⏳ Gemini بيسمح بـ 3 جمل في الدقيقة بس في الخطة المجانية. هكمّل لوحدي بعد ${n} ثانية…`;
+  setStatus(msg()); if ($('auMsg')) $('auMsg').textContent = msg();
+  const t = setInterval(() => { if (--n <= 0) return clearInterval(t); setStatus(msg()); if ($('auMsg')?.textContent.startsWith('⏳ Gemini')) $('auMsg').textContent = msg(); }, 1000);
+});
 $('genAz').addEventListener('click', () => generateAudio('azure'));
 $('genOa').addEventListener('click', () => generateAudio('openai'));
 // أصوات Gemini المختارة من الاستوديو مباشرة (بتتحفظ في الإعدادات)
