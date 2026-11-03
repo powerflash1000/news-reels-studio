@@ -1506,4 +1506,11 @@ export default {
   "متعدد اللغات (أحدث، بيقرا عربي) — إيما": "Multilingual (newer, reads Arabic) — Emma",
   "متعدد اللغات (أحدث، بيقرا عربي) — ريمي": "Multilingual (newer, reads Arabic) — Remy",
   "متعدد اللغات (أحدث، بيقرا عربي) — سيرافينا": "Multilingual (newer, reads Arabic) — Seraphina",
+  "كل طلب بيتحسب من حصة Gemini اليومية (حوالي 15)، فكل ما الجمل في الطلب تزيد بتوفّر أكتر": "Each request counts against Gemini's daily quota (about 15), so more lines per request saves more",
+  "جمل Gemini في الطلب الواحد": "Gemini lines per request",
+  "1 (كل جملة لوحدها)": "1 (each line alone)",
+  "8 (موصى بيه)": "8 (recommended)",
+  "10 (توفير أكتر)": "10 (save more)",
+  "⏳ {} جملة ← حوالي {} طلب Gemini أو أكتر شوية (فاضلك حوالي {} من {} النهارده، و3 في الدقيقة، فهيستنى لوحده بين الطلبات).": "⏳ {} lines → about {} Gemini requests or a few more ({} of {} left today, 3 per minute, so it waits by itself between requests).",
+  "التوليد محتاج حوالي {} طلب وفاضلك حوالي {} النهارده. هيولّد اللي يقدر عليه والباقي بكرة (أو كمّل بمزوّد تاني). تكمل؟": "This needs about {} requests and about {} are left today. It will generate what it can and the rest tomorrow (or continue with another provider). Continue?",
 };

@@ -1,7 +1,7 @@
 // توليد الصوت من ElevenLabs مع توقيت كل كلمة، وكاش لكل سطر
-import { getSettings, addChars, cacheGet, cachePut, sha1, load, save, takePut } from './storage.js?v=mw0r37lm';
-import { decode } from './audio.js?v=mw0r37lm';
-import { estimateWords, stripTags } from './reel.js?v=mw0r37lm';
+import { getSettings, addChars, cacheGet, cachePut, sha1, load, save, takePut } from './storage.js?v=mw0rfy5z';
+import { decode } from './audio.js?v=mw0rfy5z';
+import { estimateWords, stripTags } from './reel.js?v=mw0rfy5z';
 
 const API = 'https://api.elevenlabs.io';
 
@@ -191,6 +191,10 @@ async function geminiSpeak(text, voice, extra = '') {
 }
 async function geminiSpeakWith(model, text, voice, extra) {
   const s = getSettings();
+  // voice ممكن يبقى {A: 'Kore', B: 'Puck'} = حوار بصوتين في طلب واحد (Gemini بيدعم متحدثين اتنين)
+  const speech = typeof voice === 'object' && voice
+    ? { multiSpeakerVoiceConfig: { speakerVoiceConfigs: Object.entries(voice).map(([speaker, v]) => ({ speaker, voiceConfig: { prebuiltVoiceConfig: { voiceName: v } } })) } }
+    : { voiceConfig: { prebuiltVoiceConfig: { voiceName: voice } } };
   if (!s.geminiKey) throw new Error('ضبط مفتاح Gemini في الإعدادات الأول (نفس مفتاح المسودات).');
   const { say, dirs } = gemDirections(text);
   const prompt = `${(s.geminiStyle || GEMINI_STYLE).trim()}${extra}${dirs.length ? `, and deliver this line ${dirs.join(', ')}` : ''}: ${say}`;
@@ -199,7 +203,7 @@ async function geminiSpeakWith(model, text, voice, extra) {
     res = await fetch(`${GEM_API}${encodeURIComponent(model)}:generateContent`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-goog-api-key': s.geminiKey },
-      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseModalities: ['AUDIO'], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: voice } } } } }),
+      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseModalities: ['AUDIO'], speechConfig: speech } }),
       signal: AbortSignal.timeout(120000),
     });
   } catch { throw new Error('تعذر الاتصال بـ Gemini (النت أو المتصفح منع الطلب).'); }
@@ -454,13 +458,23 @@ export async function speakGroupGemini(items, lang = 'ar', voice) {
   if (items.length < 2) return null;
   const texts = items.map(it => prepareText(it.text, lang, 'gemini'));
   if (texts.some(t => /\[/.test(t))) return null; // الجمل اللي فيها توجيه أداء بتتولّد لوحدها
-  const voiceId = voice || voiceFor(items[0].speaker, 'gemini');
-  const wav = await geminiSpeak(texts.join('\n\n'), voiceId, '. The text has several separate sentences: read them in order and pause clearly (about one second of silence) between sentences');
+  const two = !voice && new Set(items.map(it => it.speaker)).size > 1 && voiceFor('A', 'gemini') !== voiceFor('B', 'gemini');
+  const ids = items.map(it => voice || voiceFor(it.speaker, 'gemini'));
+  let wav;
+  if (two) {
+    // حوار: «Host:» و«Guest:» قبل كل جملة، وكل واحد بصوته
+    const name = sp => (sp === 'B' ? 'Guest' : 'Host');
+    wav = await geminiSpeak(items.map((it, i) => `${name(it.speaker)}: ${texts[i]}`).join('\n'), { Host: voiceFor('A', 'gemini'), Guest: voiceFor('B', 'gemini') },
+      '. This is a conversation between Host and Guest: read each turn in order, never read the names aloud, and leave about one second of silence between turns');
+  } else {
+    wav = await geminiSpeak(texts.join('\n\n'), ids[0], '. The text has several separate sentences: read them in order and pause clearly (about one second of silence) between sentences');
+  }
   const buf = await decode(wav);
-  const cuts = splitByPauses(buf, texts.map(t => t.length));
-  if (!cuts) return null;
+  // القطع على السكتات، ولو السكتات مش واضحة بنقطع بنسبة طول كل جملة على أقرب سكتة (من غير ما نعيد التوليد ونصرف حصة)
+  const cuts = splitByPauses(buf, texts.map(t => t.length)) || splitSnap(buf, texts.map(t => t.length));
   const out = [];
   for (let i = 0; i < items.length; i++) {
+    const voiceId = ids[i];
     const piece = sliceWav(buf, cuts[i], cuts[i + 1]);
     const b = await decode(piece);
     const words = estimateWords(texts[i], b.duration);
@@ -493,6 +507,26 @@ function splitByPauses(buf, lens) {
     const share = (cuts[i + 1] - cuts[i]) / x.length, want = lens[i] / total;
     if (share < want * 0.4 || share > want * 2.5) return null;
   }
+  return cuts;
+}
+// قطع احتياطي: مكان كل نهاية جملة بالنسبة لطول النص، متزحزح لأقرب سكتة قصيرة (≥120 ms) لو فيه واحدة قريبة
+function splitSnap(buf, lens) {
+  const x = buf.getChannelData(0), fs = buf.sampleRate, win = Math.round(fs * 0.01), frames = Math.floor(x.length / win);
+  const lv = new Float32Array(frames);
+  for (let f = 0; f < frames; f++) { let q = 0; for (let i = f * win; i < (f + 1) * win; i++) q += x[i] * x[i]; lv[f] = Math.sqrt(q / win); }
+  const sorted = [...lv].sort((a, b) => a - b), thr = Math.max(0.006, (sorted[Math.floor(frames * 0.15)] || 0) * 3);
+  const gaps = [];
+  for (let f = 0; f < frames;) { if (lv[f] >= thr) { f++; continue; } let g = f; while (g < frames && lv[g] < thr) g++; if (f > 0 && g < frames && g - f >= 12) gaps.push(Math.round((f + g) / 2) * win); f = g; }
+  const total = lens.reduce((a, b) => a + b, 0), avg = x.length / lens.length;
+  const cuts = [0];
+  let acc = 0;
+  for (let i = 0; i < lens.length - 1; i++) {
+    acc += lens[i];
+    const target = Math.round((acc / total) * x.length);
+    const near = gaps.filter(g => g > cuts[cuts.length - 1] + avg * 0.25 && Math.abs(g - target) < avg * 0.35).sort((a, b) => Math.abs(a - target) - Math.abs(b - target))[0];
+    cuts.push(near ?? target);
+  }
+  cuts.push(x.length);
   return cuts;
 }
 function sliceWav(buf, a, b) {
