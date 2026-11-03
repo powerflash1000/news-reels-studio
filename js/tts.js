@@ -1,7 +1,7 @@
 // توليد الصوت من ElevenLabs مع توقيت كل كلمة، وكاش لكل سطر
-import { getSettings, addChars, cacheGet, cachePut, sha1, load, save, takePut } from './storage.js?v=mw0t990f';
-import { decode } from './audio.js?v=mw0t990f';
-import { estimateWords, stripTags } from './reel.js?v=mw0t990f';
+import { getSettings, addChars, cacheGet, cachePut, sha1, load, save, takePut } from './storage.js?v=mw0ucjew';
+import { decode } from './audio.js?v=mw0ucjew';
+import { estimateWords, stripTags } from './reel.js?v=mw0ucjew';
 
 const API = 'https://api.elevenlabs.io';
 
@@ -185,6 +185,10 @@ async function geminiSpeak(text, voice, extra = '') {
     }
   }
   const used = Object.values(gemUsage().n).reduce((a, b) => a + b, 0);
+  if (last?.free) {
+    const e = new Error(`المفتاح اللي في البرنامج تبع مشروع مجاني (Free tier)، فحصته ${GEM_FREE_RPD} طلب في اليوم حتى لو دفعت في مشروع تاني. الدفع بيتحسب لكل مشروع لوحده: افتح aistudio.google.com/apikey، وانسخ المفتاح اللي جنبه «Paid tier / Tier 1» (مشروعك المدفوع)، وحطه في الإعدادات ← مفتاح Gemini ← حفظ.`);
+    e.status = 429; e.cause = last; throw e;
+  }
   const e = new Error(`خلصت حصة Gemini المجانية للنهارده (حوالي ${GEM_FREE_RPD} طلب في اليوم لكل موديل صوت، واستخدمت ${used} من الجهاز ده). بتتجدد حوالي الساعة 10 الصبح بتوقيت القاهرة. كمّل بـ OpenAI أو ElevenLabs أو Azure دلوقتي.`);
   e.status = 429; e.cause = last;
   throw e;
@@ -215,6 +219,7 @@ async function geminiSpeakWith(model, text, voice, extra) {
       const retry = Number(/([\d.]+)s/.exec(det.find(x => x.retryDelay)?.retryDelay || '')?.[1]) || Number(/retry in ([\d.]+)s/i.exec(d)?.[1]) || 0;
       const e = new Error('Gemini: وصلت للحد. ' + d.slice(0, 100)); e.status = 429;
       e.perDay = /PerDay/i.test(ids) || (!/PerMinute/i.test(ids) && /per day|daily/i.test(d));
+      e.free = /free.?tier/i.test(ids + ' ' + d); // Google بيقول صراحة لو المفتاح على الخطة المجانية
       e.retry = retry;
       throw e;
     }
