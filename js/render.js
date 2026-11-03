@@ -1,10 +1,10 @@
 // رسم إطار الريل على canvas (عمودي 1080×1920 أو 4:5 أو مربع أو أفقي). نفس الدالة للمعاينة والتصدير.
-import { detailTarget, tileKey, getTileMap } from './tiles.js?v=mw0vkk0f';
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mw0vkk0f';
-import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mw0vkk0f';
-import { hostOf } from './feeds.js?v=mw0vkk0f';
-import QR from '../vendor/qrcode/qrcode.mjs?v=mw0vkk0f';
-import { drawBg } from './bg.js?v=mw0vkk0f';
+import { detailTarget, tileKey, getTileMap } from './tiles.js?v=mw0wq9tn';
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mw0wq9tn';
+import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mw0wq9tn';
+import { hostOf } from './feeds.js?v=mw0wq9tn';
+import QR from '../vendor/qrcode/qrcode.mjs?v=mw0wq9tn';
+import { drawBg } from './bg.js?v=mw0wq9tn';
 
 // مقاسات الإخراج. W/H متغيّرين (live binding) والتصدير بيقراهم وقت التصدير
 export const FORMATS = {
@@ -1049,7 +1049,7 @@ export function drawFrame(ctx, st, t, opts = {}) {
   // قوالب الكروت (رقم/خريطة/توثيق/اقتباس/خط زمني) في المقاسات غير العمودية: الكارت كبير في جنب والعنوان والكلام في الجنب التاني
   if (!L.vert && PANEL_TPLS.has(story.template)) {
     panelWide(ctx, c, t, kr);
-    if (sc ? sc.cur.media.credit : bg && story.media?.credit) mediaCredit(RTL ? ctx : wrapCtx(ctx, true), sc ? sc.cur.media.credit : story.media.credit);
+    if (st.settings?.showCredits && (sc ? sc.cur.media.credit : bg && story.media?.credit)) mediaCredit(RTL ? ctx : wrapCtx(ctx, true), sc ? sc.cur.media.credit : story.media.credit);
     ctx.globalAlpha = 1;
     progress(RTL ? ctx : wrapCtx(ctx, true), c, t);
     return;
@@ -1072,7 +1072,8 @@ export function drawFrame(ctx, st, t, opts = {}) {
   if (!avatarsLayer(D, c, t, hb, kr)) captions(U, c, t, hb);
   ticker(D, c, t);
   sourceBar(U, c);
-  if (sc ? sc.cur.media.credit : bg && story.media?.credit) mediaCredit(U, sc ? sc.cur.media.credit : story.media.credit);
+  // حقوق الصور على الشاشة اختيارية (مقفولة افتراضيًا): بتتكتب في وصف البوست من حزمة النشر
+  if (st.settings?.showCredits && (sc ? sc.cur.media.credit : bg && story.media?.credit)) mediaCredit(U, sc ? sc.cur.media.credit : story.media.credit);
   ctx.globalAlpha = 1;
   progress(U, c, t);
   studioScene(ctx, c, t, kr);

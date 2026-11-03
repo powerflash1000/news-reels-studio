@@ -1538,4 +1538,6 @@ export default {
   "⛶ شاشة كبيرة": "⛶ Big screen",
   "✕ خروج من الشاشة الكبيرة": "✕ Exit big screen",
   "المتصفح مسمحش بملء الشاشة.": "The browser didn't allow full screen.",
+  "اكتب حقوق الصور والفيديو على الشاشة (Pixabay / Wikimedia / مولّد بالذكاء الاصطناعي…)": "Show image/video credits on screen (Pixabay / Wikimedia / AI-generated…)",
+  "مقفولة: مصدر الخبر بس اللي بيظهر على الشاشة، وحقوق الصور والموسيقى بتتكتب أوتوماتيك في وصف البوست (حزمة النشر). صور CC BY لازم حقوقها تكون في الوصف على الأقل. والصور المولّدة بالذكاء الاصطناعي علّم عليها علامة «AI-generated» في المنصة وانت بتنشر.": "Off: only the news source shows on screen; image and music credits go into the post description automatically (publish pack). CC BY images need their credit at least in the description. For AI-generated images, tick the platform's «AI-generated» label when posting.",
 };
