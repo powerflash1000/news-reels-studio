@@ -1628,4 +1628,10 @@ export default {
   "المتصفح منع النسخ، انسخ يدوي.": "The browser blocked copying, copy manually.",
   "الفصول:": "Chapters:",
   " — ده الوصف بس، والعنوان انسخه من «📋 انسخ العنوان» فوق.": " — this is the description only; copy the title with «📋 Copy title» above.",
+  "#️⃣ اكتب هاشتاجات للمنصة": "#️⃣ Write hashtags for the platform",
+  "هاشتاجات بس (# قبل كل كلمة) مظبوطة على المنصة المختارة فوق": "Hashtags only (# before each word) tuned for the platform chosen above",
+  "⏳ بيكتب الهاشتاجات…": "⏳ Writing hashtags…",
+  "الرد مكانش فيه هاشتاجات صالحة، جرّب تاني.": "The reply had no valid hashtags, try again.",
+  "✅ {} هاشتاج.": "✅ {} hashtags.",
+  "{} بياخد أول {} وإنت بتنسخ، فرتّبهم أو امسح اللي مش عاجبك.": "{} takes the first {} when you copy, so reorder or delete the ones you don't like.",
 };

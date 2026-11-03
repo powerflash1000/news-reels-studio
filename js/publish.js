@@ -1,5 +1,5 @@
 // M4: حزمة النشر (عناوين/وصف/هاشتاجات/مصادر/حقوق وسائط) + سجل التجارب. دوال خالصة من غير DOM.
-import { MED_DISCLAIMER } from './reel.js?v=mw1cchne';
+import { MED_DISCLAIMER } from './reel.js?v=mw1cljlf';
 
 export const PLATFORMS = { tiktok: 'تيك توك', instagram: 'إنستجرام', facebook: 'فيسبوك', shorts: 'يوتيوب شورتس', youtube: 'يوتيوب (فيديو عريض)' };
 export const ENGAGE = ['likes', 'comments', 'shares', 'saves'];
@@ -56,6 +56,24 @@ export function compose(pack, platform) {
   if (platform === 'shorts' || platform === 'youtube') return [desc, '', tags].join('\n').replace(/\n{3,}/g, '\n\n').trim();
   return [pack.title, '', desc, '', tags].join('\n').replace(/\n{3,}/g, '\n\n').trim();
 }
+
+// هاشتاجات نضيفة: كل واحد كلمة أو كلمتين/تلاتة متوصّلين بـ _ وقبلهم #، والجمل الطويلة بتتشال
+export function cleanTags(input, max = 15) {
+  const raw = Array.isArray(input) ? input : String(input || '').split(/[\n,،]+|\s(?=#)/);
+  const out = [];
+  for (let t of raw) {
+    t = String(t || '').trim().replace(/^#+/, '').replace(/[.،,:;!?؟"'«»()\[\]{}]/g, ' ').trim();
+    if (!t) continue;
+    const words = t.split(/[\s_]+/).filter(Boolean);
+    if (words.length > 3) continue; // ده كلام سردي مش هاشتاج
+    const tag = '#' + words.join('_');
+    if (tag.length < 3 || tag.length > 31 || out.some(x => x.toLowerCase() === tag.toLowerCase())) continue;
+    out.push(tag);
+    if (out.length >= max) break;
+  }
+  return out;
+}
+export const TAG_COUNT = { tiktok: 5, instagram: 12, facebook: 4, shorts: 3, youtube: 3 };
 
 // عنوان يوتيوب: 100 حرف بالكتير، والشورتس بياخد #Shorts
 export function ytTitle(title, platform) {
