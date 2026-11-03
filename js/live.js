@@ -1,11 +1,11 @@
 // وضع اللايف: شاشة بث مستمرة (طابور + دورة خلفية + شاشة انتظار) وبث لعدة منصات عن طريق وسيط محلي (tools/live-relay.mjs)
-import { normalizeReel, buildReelTimeline, allLines, lineKey } from './reel.js?v=mw0nl59b';
-import { peekLine } from './tts.js?v=mw0nl59b';
-import { audioCtx, mixTimeline, decode, SAMPLE_RATE } from './audio.js?v=mw0nl59b';
-import { drawFrame, drawSlate } from './render.js?v=mw0nl59b';
-import { loadBg, playBg } from './bg.js?v=mw0nl59b';
-import { getBlob } from './mediastore.js?v=mw0nl59b';
-import { getSettings } from './storage.js?v=mw0nl59b';
+import { normalizeReel, buildReelTimeline, allLines, lineKey } from './reel.js?v=mw0o5i3p';
+import { peekLine, pvOf, TTS_PROVIDERS } from './tts.js?v=mw0o5i3p';
+import { audioCtx, mixTimeline, decode, SAMPLE_RATE } from './audio.js?v=mw0o5i3p';
+import { drawFrame, drawSlate } from './render.js?v=mw0o5i3p';
+import { loadBg, playBg } from './bg.js?v=mw0o5i3p';
+import { getBlob } from './mediastore.js?v=mw0o5i3p';
+import { getSettings } from './storage.js?v=mw0o5i3p';
 
 // بيجهّز ريل للتشغيل. من غير opts: الصوت من الكاش (من غير رصيد). مع opts.audioMap/manual: من الاستوديو مباشرة (من غير حفظ)
 export async function prepare(raw, opts = {}) {
@@ -18,9 +18,10 @@ export async function prepare(raw, opts = {}) {
     audioMap = new Map();
     let missing = 0;
     for (const l of lines) {
-      const first = getSettings().ttsProvider === 'gemini' ? 'gemini' : 'elevenlabs';
       const ov = reel.stories[l.storyIdx]?.lineVoice?.[lineKey(l)];
-      const hit = (ov?.v ? await peekLine(l.text, l.speaker, reel.lang, ov.p, ov.v).catch(() => null) : null) || (await peekLine(l.text, l.speaker, reel.lang, first).catch(() => null)) || (await peekLine(l.text, l.speaker, reel.lang, first === 'gemini' ? 'elevenlabs' : 'gemini').catch(() => null));
+      const order = [...new Set([reel.ttsLast, pvOf(), ...TTS_PROVIDERS].filter(Boolean))];
+      let hit = ov?.v ? await peekLine(l.text, l.speaker, reel.lang, ov.p, ov.v).catch(() => null) : null;
+      for (const p of order) { if (hit) break; hit = await peekLine(l.text, l.speaker, reel.lang, p).catch(() => null); }
       if (hit) audioMap.set(lineKey(l), hit); else missing++;
     }
     if (missing) return { id: reel.id, title, ready: false, why: `${missing} سطر من غير صوت في الكاش (ولّده من الاستوديو الأول بنفس الصوت)` };

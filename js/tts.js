@@ -1,7 +1,7 @@
 // توليد الصوت من ElevenLabs مع توقيت كل كلمة، وكاش لكل سطر
-import { getSettings, addChars, cacheGet, cachePut, sha1, load, save, takePut } from './storage.js?v=mw0nl59b';
-import { decode } from './audio.js?v=mw0nl59b';
-import { estimateWords, stripTags } from './reel.js?v=mw0nl59b';
+import { getSettings, addChars, cacheGet, cachePut, sha1, load, save, takePut } from './storage.js?v=mw0o5i3p';
+import { decode } from './audio.js?v=mw0o5i3p';
+import { estimateWords, stripTags } from './reel.js?v=mw0o5i3p';
 
 const API = 'https://api.elevenlabs.io';
 
@@ -28,8 +28,78 @@ export const GEMINI_TTS_MODELS = [
 export const GEMINI_STYLE = 'Read the following in a clear, confident Egyptian Arabic (colloquial Egyptian dialect) news-anchor voice, at a steady natural pace';
 const GEM_API = 'https://generativelanguage.googleapis.com/v1beta/models/';
 export const usingGemini = () => getSettings().ttsProvider === 'gemini';
-// provider اختياري: 'gemini' | 'elevenlabs' (لو مش متحدد بنستخدم اللي في الإعدادات)
-const isGem = p => (p || getSettings().ttsProvider) === 'gemini';
+// provider اختياري: 'gemini' | 'elevenlabs' | 'azure' | 'openai' (لو مش متحدد بنستخدم اللي في الإعدادات)
+export const TTS_PROVIDERS = ['elevenlabs', 'gemini', 'azure', 'openai'];
+export const TTS_NAMES = { elevenlabs: 'ElevenLabs', gemini: 'Gemini', azure: 'Azure', openai: 'OpenAI' };
+export const pvOf = p => { const x = p || getSettings().ttsProvider; return TTS_PROVIDERS.includes(x) ? x : 'elevenlabs'; };
+const isGem = p => pvOf(p) === 'gemini';
+// المزوّدين اللي بيرجّعوا ملف صوت من غير توقيت كلمات (الكابشن بيتقدّر، و«🎯 ظبط التوقيت» بيظبطه)
+export const estimatedTiming = p => p === 'gemini' || p === 'azure' || p === 'openai';
+
+/* ---------- Microsoft Azure Speech (فيه أصوات مصري، 500 ألف حرف ببلاش في الشهر) ---------- */
+// [id, وصف, نوع]
+export const AZURE_VOICES = [
+  ['ar-EG-ShakirNeural', 'مصري — شاكر', 'm'], ['ar-EG-SalmaNeural', 'مصري — سلمى', 'f'],
+  ['ar-SA-HamedNeural', 'سعودي — حامد', 'm'], ['ar-SA-ZariyahNeural', 'سعودي — زارية', 'f'],
+  ['ar-AE-HamdanNeural', 'إماراتي — حمدان', 'm'], ['ar-AE-FatimaNeural', 'إماراتي — فاطمة', 'f'],
+  ['ar-JO-TaimNeural', 'أردني — تيم', 'm'], ['ar-LB-RamiNeural', 'لبناني — رامي', 'm'], ['ar-MA-JamalNeural', 'مغربي — جمال', 'm'],
+  ['en-US-AndrewMultilingualNeural', 'English — Andrew (multilingual)', 'm'], ['en-US-AvaMultilingualNeural', 'English — Ava (multilingual)', 'f'],
+  ['en-US-GuyNeural', 'English — Guy', 'm'], ['en-US-JennyNeural', 'English — Jenny', 'f'], ['en-GB-RyanNeural', 'English UK — Ryan', 'm'], ['en-GB-SoniaNeural', 'English UK — Sonia', 'f'],
+];
+const xmlEsc = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+async function azureSpeak(text, voice, lang) {
+  const s = getSettings();
+  if (!s.azureKey || !s.azureRegion) throw new Error('محتاج مفتاح Azure Speech والمنطقة (Region): الإعدادات ← مزوّد الصوت ← Azure.');
+  // ريل إنجليزي بصوت عربي = لكنة: بنحوّله لصوت إنجليزي متعدد اللغات من نفس النوع
+  if (lang === 'en' && /^ar-/.test(voice)) voice = AZURE_VOICES.find(v => v[0] === voice)?.[2] === 'f' ? 'en-US-AvaMultilingualNeural' : 'en-US-AndrewMultilingualNeural';
+  const loc = voice.split('-').slice(0, 2).join('-');
+  const rate = Number(s.azRate) || 0;
+  const body = `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="${loc}"><voice name="${xmlEsc(voice)}">${rate ? `<prosody rate="${rate > 0 ? '+' : ''}${rate}%">` : ''}${xmlEsc(text)}${rate ? '</prosody>' : ''}</voice></speak>`;
+  const res = await fetch(`https://${encodeURIComponent(s.azureRegion.trim())}.tts.speech.microsoft.com/cognitiveservices/v1`, {
+    method: 'POST', signal: AbortSignal.timeout(60000),
+    headers: { 'Ocp-Apim-Subscription-Key': s.azureKey.trim(), 'Content-Type': 'application/ssml+xml', 'X-Microsoft-OutputFormat': 'audio-24khz-96kbitrate-mono-mp3' },
+    body,
+  }).catch(e => { throw new Error('Azure مردّش (النت أو المنطقة غلط): ' + (e.message || e)); });
+  if (!res.ok) {
+    const why = res.status === 401 ? 'المفتاح غلط أو مش لنفس المنطقة (Region)' : res.status === 429 ? 'وصلت لحد الطلبات أو الحد المجاني للشهر (الخطة المجانية F0 = 500 ألف حرف)' : res.status === 400 ? 'اسم الصوت مش موجود في المنطقة دي' : (await res.text().catch(() => '')).slice(0, 160);
+    const e = new Error(`Azure رفض التوليد (${res.status}): ${why}`); e.status = res.status; throw e;
+  }
+  return await res.arrayBuffer();
+}
+export async function azureVoicesList() {
+  const s = getSettings();
+  const res = await fetch(`https://${encodeURIComponent(s.azureRegion.trim())}.tts.speech.microsoft.com/cognitiveservices/voices/list`, { headers: { 'Ocp-Apim-Subscription-Key': s.azureKey.trim() } });
+  if (!res.ok) throw new Error(`Azure (${res.status}): ${res.status === 401 ? 'المفتاح غلط أو المنطقة غلط' : 'مقدرتش أجيب الأصوات'}`);
+  return (await res.json()).filter(v => /^(ar|en)-/.test(v.Locale)).map(v => [v.ShortName, `${v.LocaleName || v.Locale} — ${v.DisplayName}`, v.Gender === 'Female' ? 'f' : 'm']);
+}
+
+/* ---------- OpenAI TTS (مفتاح OpenAI بتاع الإعدادات، بيتحاسب بالاستخدام) ---------- */
+export const OPENAI_VOICES = [
+  ['onyx', 'عميق', 'm'], ['ash', 'هادي', 'm'], ['echo', 'دافي', 'm'], ['verse', 'معبّر', 'm'], ['ballad', 'ناعم', 'm'], ['cedar', 'طبيعي', 'm'],
+  ['coral', 'ودود', 'f'], ['nova', 'حيوي', 'f'], ['shimmer', 'صافي', 'f'], ['sage', 'رزين', 'f'], ['marin', 'طبيعي', 'f'], ['alloy', 'محايد', 'f'], ['fable', 'حكّاء', 'm'],
+];
+export const OPENAI_TTS_MODELS = [{ id: 'gpt-4o-mini-tts', name: 'gpt-4o-mini-tts (بيفهم أسلوب الإلقاء)' }, { id: 'tts-1-hd', name: 'tts-1-hd (جودة أعلى، من غير أسلوب)' }, { id: 'tts-1', name: 'tts-1 (أرخص)' }];
+export const OPENAI_STYLE = 'Speak in colloquial Egyptian Arabic (Cairene accent), like a clear, confident news presenter, at a steady natural pace.';
+async function openaiSpeak(text, voice, lang) {
+  const s = getSettings();
+  if (!s.openaiKey) throw new Error('محتاج مفتاح OpenAI: الإعدادات ← مزوّد الصوت ← OpenAI (من platform.openai.com/api-keys).');
+  const model = s.oaTtsModel || OPENAI_TTS_MODELS[0].id;
+  const { say, dirs } = gemDirections(text);
+  const style = (s.oaStyle || '').trim() || (lang === 'en' ? 'Speak like a clear, confident news presenter, at a steady natural pace.' : OPENAI_STYLE);
+  const body = { model, voice, input: say, response_format: 'mp3' };
+  if (/gpt-4o/.test(model)) body.instructions = style + (dirs.length ? ` Deliver this line ${dirs.join(', ')}.` : '');
+  const res = await fetch('https://api.openai.com/v1/audio/speech', {
+    method: 'POST', signal: AbortSignal.timeout(90000),
+    headers: { Authorization: `Bearer ${s.openaiKey.trim()}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  }).catch(e => { throw new Error('OpenAI مردّش: ' + (e.message || e)); });
+  if (!res.ok) {
+    let msg = ''; try { msg = (await res.json()).error?.message || ''; } catch { /* مش JSON */ }
+    const why = res.status === 401 ? 'المفتاح غلط' : res.status === 429 ? 'الرصيد خلص أو وصلت لحد الطلبات (اشحن رصيد من platform.openai.com/settings/organization/billing)' : msg.slice(0, 160);
+    const e = new Error(`OpenAI رفض التوليد (${res.status}): ${why}`); e.status = res.status; throw e;
+  }
+  return await res.arrayBuffer();
+}
 
 function pcmToWav(pcm, rate = 24000) {
   const n = pcm.byteLength, h = new DataView(new ArrayBuffer(44));
@@ -101,14 +171,19 @@ async function geminiSpeakWith(model, text, voice, extra) {
 export function prepareText(text, lang = 'ar', provider) {
   const s = getSettings();
   // Gemini: الوسوم بتفضل وبتتحول لتوجيه أداء جوه geminiSpeak (مش بتتقري)
-  if (isGem(provider)) return String(text).replace(/\s+/g, ' ').trim();
+  const pv = pvOf(provider);
+  if (pv === 'gemini' || pv === 'openai') return String(text).replace(/\s+/g, ' ').trim();
+  if (pv === 'azure') return String(text).replace(/\[[^\]]*\]/g, ' ').replace(/\s+/g, ' ').trim();
   if (s.elevenModel !== 'eleven_v3') return String(text).replace(/\[[^\]]*\]/g, ' ').replace(/\s+/g, ' ').trim();
   return (s.dialectTag && lang === 'ar' && !/^\s*\[[^\]]*accent/i.test(text) ? DIALECT_TAG + ' ' : '') + text;
 }
 
 export function voiceFor(speaker, provider) {
   const s = getSettings();
-  if (isGem(provider)) return speaker === 'B' ? (s.gemVoiceB || s.gemVoiceA) : s.gemVoiceA;
+  const pv = pvOf(provider);
+  if (pv === 'gemini') return speaker === 'B' ? (s.gemVoiceB || s.gemVoiceA) : s.gemVoiceA;
+  if (pv === 'azure') return speaker === 'B' ? (s.azVoiceB || 'ar-EG-SalmaNeural') : (s.azVoiceA || 'ar-EG-ShakirNeural');
+  if (pv === 'openai') return speaker === 'B' ? (s.oaVoiceB || 'coral') : (s.oaVoiceA || 'onyx');
   return speaker === 'B' ? (s.voiceB || s.voiceA) : s.voiceA;
 }
 
@@ -170,7 +245,10 @@ function b64ToBuf(b64) {
 }
 
 function cacheKey(text, voiceId, vs, provider) {
-  if (isGem(provider)) { const s = getSettings(); return sha1(['gemini', s.geminiTtsModel, s.geminiStyle, voiceId, text].join('|')); }
+  const pv = pvOf(provider), s = getSettings();
+  if (pv === 'gemini') return sha1(['gemini', s.geminiTtsModel, s.geminiStyle, voiceId, text].join('|'));
+  if (pv === 'azure') return sha1(['azure', voiceId, Number(s.azRate) || 0, text].join('|'));
+  if (pv === 'openai') return sha1(['openai', s.oaTtsModel || OPENAI_TTS_MODELS[0].id, s.oaStyle || '', voiceId, text].join('|'));
   return sha1([voiceId, getSettings().elevenModel, JSON.stringify(vs), getSettings().langCode ? 'ar' : '', text].join('|'));
 }
 
@@ -180,7 +258,7 @@ export async function peekLine(text, speaker, lang = 'ar', provider, voice) {
   const voiceId = voice || voiceFor(speaker, provider);
   if (!voiceId) return null;
   const hit = await cacheGet(await cacheKey(text, voiceId, voiceSettingsFor(speaker), provider));
-  return hit ? { buffer: await decode(hit.mp3), words: hit.words, cached: true, aligned: !!hit.aligned, provider: isGem(provider) ? 'gemini' : 'elevenlabs' } : null;
+  return hit ? { buffer: await decode(hit.mp3), words: hit.words, cached: true, aligned: !!hit.aligned, provider: pvOf(provider) } : null;
 }
 
 // حفظ توقيت كلمات متظبط (Whisper) على السطر المتخزّن، عشان ميتعملش تاني ويرجع مع فتح الريل
@@ -198,16 +276,24 @@ export async function saveWords(text, speaker, lang = 'ar', provider, words) {
 // بيرجع {buffer, words, cached}
 export async function speakLine(text, speaker, lang = 'ar', provider, opts = {}) {
   const s = getSettings();
-  const gem = isGem(provider), pv = gem ? 'gemini' : 'elevenlabs';
+  const pv = pvOf(provider), gem = pv === 'gemini', other = pv === 'azure' || pv === 'openai';
   text = prepareText(text, lang, provider);
   const voiceId = opts.voice || voiceFor(speaker, provider);
-  if (!gem && (!s.elevenKey || !voiceId)) throw new Error('ضبط مفتاح ElevenLabs وصوت المذيع في الإعدادات الأول.');
+  if (pv === 'elevenlabs' && (!s.elevenKey || !voiceId)) throw new Error('ضبط مفتاح ElevenLabs وصوت المذيع في الإعدادات الأول.');
   const vs = voiceSettingsFor(speaker);
   const key = await cacheKey(text, voiceId, vs, provider);
   // opts.fresh = نسخة جديدة (من غير الكاش) — النسخة القديمة بتفضل في مكتبة الأصوات
   const hit = opts.fresh ? null : await cacheGet(key);
   if (hit) return { buffer: await decode(hit.mp3), words: hit.words, cached: true, aligned: !!hit.aligned, provider: pv };
-  const take = (mp3, words) => takePut({ text, speaker, provider: pv, voiceId, voiceName: opts.voiceName || (gem ? voiceId : (speaker === 'B' && s.voiceB ? s.voiceNameB : s.voiceNameA) || voiceId), model: gem ? s.geminiTtsModel : s.elevenModel, at: Date.now(), mp3, words });
+  const take = (mp3, words) => takePut({ text, speaker, provider: pv, voiceId, voiceName: opts.voiceName || (pv !== 'elevenlabs' ? voiceId : (speaker === 'B' && s.voiceB ? s.voiceNameB : s.voiceNameA) || voiceId), model: gem ? s.geminiTtsModel : pv === 'openai' ? (s.oaTtsModel || OPENAI_TTS_MODELS[0].id) : pv === 'azure' ? 'azure-neural' : s.elevenModel, at: Date.now(), mp3, words });
+  if (other) {
+    const mp3 = pv === 'azure' ? await azureSpeak(text, voiceId, lang) : await openaiSpeak(text, voiceId, lang);
+    const buffer = await decode(mp3.slice(0));
+    const words = estimateWords(pv === 'openai' ? gemDirections(text).say : text, buffer.duration);
+    await cachePut(key, { mp3, words });
+    take(mp3, words);
+    return { buffer, words, cached: false, provider: pv };
+  }
   if (gem) {
     // Gemini مبيرجّعش توقيت للكلمات: بنوزّع الكلمات على مدة الصوت بالتقدير
     const wav = await geminiSpeak(text, voiceId);
