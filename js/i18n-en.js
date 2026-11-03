@@ -1577,4 +1577,10 @@ export default {
   "على v3: اختار Robust وعلّم «ثبّت اللهجة المصرية».": "On v3: choose Robust and tick «Lock Egyptian dialect».",
   "على Multilingual v2: الثبات 0.7 بيخلّي اللهجة ثابتة، والتطبيق بيبعت مع كل سطر السطور اللي حواليه كسياق مصري.": "On Multilingual v2: stability 0.7 keeps the dialect steady, and the app sends the surrounding lines with each line as Egyptian context.",
   "السطور اللي اتولّدت قبل كده محفوظة، فعلّم عليها في كارت الصوت وولّدها تاني.": "Lines generated earlier are cached, so tick them in the audio card and regenerate them.",
+  "Eleven v3 (معبّر بالوسوم)": "Eleven v3 (expressive with tags)",
+  "Eleven v4 (الأحدث — بيدعم العربي والوسوم)": "Eleven v4 (latest — supports Arabic and tags)",
+  "Eleven v4 Turbo (أسرع، جودة أقل شوية)": "Eleven v4 Turbo (faster, slightly lower quality)",
+  "على v4: الثبات 0.7 وعلّم «ثبّت اللهجة المصرية».": "On v4: stability 0.7 and tick «Lock Egyptian dialect».",
+  "v4 بياخد الثبات والتشابه بس (السرعة والتعبير مش بيتبعتوا).": "v4 takes stability and similarity only (speed and style are not sent).",
+  "السكريبت فيه وسوم صوتية: مع زرار Gemini هتشتغل عادي، بس مع ElevenLabs الموديل الحالي مش v3 ولا v4 فهتتشال ومش هتأثر.": "The script has voice tags: they work with Gemini, but the current ElevenLabs model is not v3 or v4, so they will be removed.",
 };

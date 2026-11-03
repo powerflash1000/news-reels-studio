@@ -1,16 +1,21 @@
 // توليد الصوت من ElevenLabs مع توقيت كل كلمة، وكاش لكل سطر
-import { getSettings, addChars, cacheGet, cachePut, sha1, load, save, takePut } from './storage.js?v=mw142vcb';
-import { decode } from './audio.js?v=mw142vcb';
-import { estimateWords, stripTags } from './reel.js?v=mw142vcb';
+import { getSettings, addChars, cacheGet, cachePut, sha1, load, save, takePut } from './storage.js?v=mw18jmy8';
+import { decode } from './audio.js?v=mw18jmy8';
+import { estimateWords, stripTags } from './reel.js?v=mw18jmy8';
 
 const API = 'https://api.elevenlabs.io';
 
 export const MODELS = [
   { id: 'eleven_multilingual_v2', name: 'Multilingual v2 (ثابت ومجرّب مع العربي)' },
-  { id: 'eleven_v3', name: 'Eleven v3 (أحدث وأكثر تعبيرًا)' },
+  { id: 'eleven_v3', name: 'Eleven v3 (معبّر بالوسوم)' },
+  { id: 'eleven_v4', name: 'Eleven v4 (الأحدث — بيدعم العربي والوسوم)' },
+  { id: 'eleven_v4_turbo', name: 'Eleven v4 Turbo (أسرع، جودة أقل شوية)' },
 ];
 
 // الوسوم الصوتية (v3 بس) والتلميح باللهجة: على موديل v2 الوسوم بتتشال عشان متتقراش بصوت عالي
+// الموديلات اللي بتفهم الوسوم الصوتية زي [sad] و[Egyptian Arabic accent]
+export const tagModel = m => m === 'eleven_v3' || /^eleven_v4/.test(m || '');
+export const isV4 = m => /^eleven_v4/.test(m || '');
 export const DIALECT_TAG = '[Egyptian Arabic accent]';
 /* ---------- Gemini TTS (بديل ElevenLabs) ---------- */
 export const GEMINI_VOICES = [
@@ -240,7 +245,7 @@ export function prepareText(text, lang = 'ar', provider) {
   const pv = pvOf(provider);
   if (pv === 'gemini' || pv === 'openai') return String(text).replace(/\s+/g, ' ').trim();
   if (pv === 'azure') return String(text).replace(/\[[^\]]*\]/g, ' ').replace(/\s+/g, ' ').trim();
-  if (s.elevenModel !== 'eleven_v3') return String(text).replace(/\[[^\]]*\]/g, ' ').replace(/\s+/g, ' ').trim();
+  if (!tagModel(s.elevenModel)) return String(text).replace(/\[[^\]]*\]/g, ' ').replace(/\s+/g, ' ').trim();
   return (s.dialectTag && lang === 'ar' && !/^\s*\[[^\]]*accent/i.test(text) ? DIALECT_TAG + ' ' : '') + text;
 }
 
@@ -260,6 +265,8 @@ export function voiceSettingsFor(speaker) {
   const v = (useB ? s.vsB : s.vsA) || {};
   const model = s.elevenModel;
   // Eleven v3 بياخد الثبات بس (قيم 0 / 0.5 / 1)، فبنبعته لأقرب قيمة ونسيب الباقي
+  // Eleven v4 بياخد الثبات والتشابه بس (السرعة والتعبير مش متاحين فيه)
+  if (isV4(model)) return { stability: v.stability ?? 0.5, similarity_boost: v.similarity ?? 0.75 };
   if (model === 'eleven_v3') {
     const st = v.stability ?? 0.5;
     return { stability: [0, 0.5, 1].reduce((a, b) => (Math.abs(b - st) < Math.abs(a - st) ? b : a)) };
@@ -387,10 +394,17 @@ export async function speakLine(text, speaker, lang = 'ar', provider, opts = {})
     return { buffer, words, cached: false, provider: pv };
   }
 
-  const res = await call(`/v1/text-to-speech/${voiceId}/with-timestamps?output_format=mp3_44100_128`, {
+  let res = await call(`/v1/text-to-speech/${voiceId}/with-timestamps?output_format=mp3_44100_128`, {
     method: 'POST',
     body: JSON.stringify({ text, model_id: s.elevenModel, voice_settings: vs, ...(s.langCode ? { language_code: 'ar' } : {}), ...elContext(text, lang, opts, voiceId) }),
   });
+  // لو الموديل رفض السياق/الـ seed (موديل جديد زي v4)، نجرّب تاني من غيرهم
+  if (!res.ok && (res.status === 400 || res.status === 422) && Object.keys(elContext(text, lang, opts, voiceId)).length) {
+    res = await call(`/v1/text-to-speech/${voiceId}/with-timestamps?output_format=mp3_44100_128`, {
+      method: 'POST',
+      body: JSON.stringify({ text, model_id: s.elevenModel, voice_settings: vs, ...(s.langCode ? { language_code: 'ar' } : {}) }),
+    });
+  }
   if (!res.ok) throw new Error(`ElevenLabs رفض التوليد (${res.status}): ${await errDetail(res)}`);
   const j = await res.json();
   const mp3 = b64ToBuf(j.audio_base64);
