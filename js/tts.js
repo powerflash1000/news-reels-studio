@@ -1,7 +1,7 @@
 // توليد الصوت من ElevenLabs مع توقيت كل كلمة، وكاش لكل سطر
-import { getSettings, addChars, cacheGet, cachePut, sha1, load, save, takePut } from './storage.js?v=mw12ngtu';
-import { decode } from './audio.js?v=mw12ngtu';
-import { estimateWords, stripTags } from './reel.js?v=mw12ngtu';
+import { getSettings, addChars, cacheGet, cachePut, sha1, load, save, takePut } from './storage.js?v=mw13hsz8';
+import { decode } from './audio.js?v=mw13hsz8';
+import { estimateWords, stripTags } from './reel.js?v=mw13hsz8';
 
 const API = 'https://api.elevenlabs.io';
 
@@ -340,6 +340,23 @@ export async function saveWords(text, speaker, lang = 'ar', provider, words) {
 }
 
 // بيرجع {buffer, words, cached}
+// ثبات اللهجة على ElevenLabs: كل سطر بيتولّد لوحده فالموديل بيخمّن اللهجة من النص (سطر قصير أو فصيح = لهجة تانية).
+// previous_text/next_text = السطور اللي حواليه (مش بتتقري) + جملة مصرية ثابتة قبلهم في العربي، و seed ثابت لكل صوت
+// عشان الأداء ميتقلبش من سطر للتاني. v3 مبيدعمش السياق ده فبياخد الـ seed بس (واللهجة من وسم [Egyptian Arabic accent]).
+export const EG_ANCHOR = 'أهلاً بيكم يا جماعة، النهارده عندنا حكاية جامدة أوي وهنحكيهالكم بالمصري كده على رواقة.';
+function seedOf(str) { let h = 2166136261; for (const c of str) { h ^= c.codePointAt(0); h = Math.imul(h, 16777619) >>> 0; } return h % 4294967295; }
+function elContext(text, lang, opts, voiceId) {
+  const s = getSettings(), out = {};
+  if (s.elSeed !== false) out.seed = opts.fresh ? Math.floor(Math.random() * 4294967295) : seedOf(voiceId + '|' + (s.elevenModel || ''));
+  if (s.elevenModel === 'eleven_v3' || s.elContext === false) return out;
+  const clean = t => String(t || '').replace(/\[[^\]]*\]/g, ' ').replace(/\s+/g, ' ').trim().slice(-600);
+  const prev = [lang === 'ar' ? EG_ANCHOR : '', clean(opts.prev)].filter(Boolean).join(' ');
+  if (prev) out.previous_text = prev;
+  const next = clean(opts.next).slice(0, 600);
+  if (next) out.next_text = next;
+  return out;
+}
+
 export async function speakLine(text, speaker, lang = 'ar', provider, opts = {}) {
   const s = getSettings();
   const pv = pvOf(provider), gem = pv === 'gemini', other = pv === 'azure' || pv === 'openai';
@@ -372,7 +389,7 @@ export async function speakLine(text, speaker, lang = 'ar', provider, opts = {})
 
   const res = await call(`/v1/text-to-speech/${voiceId}/with-timestamps?output_format=mp3_44100_128`, {
     method: 'POST',
-    body: JSON.stringify({ text, model_id: s.elevenModel, voice_settings: vs, ...(s.langCode ? { language_code: 'ar' } : {}) }),
+    body: JSON.stringify({ text, model_id: s.elevenModel, voice_settings: vs, ...(s.langCode ? { language_code: 'ar' } : {}), ...elContext(text, lang, opts, voiceId) }),
   });
   if (!res.ok) throw new Error(`ElevenLabs رفض التوليد (${res.status}): ${await errDetail(res)}`);
   const j = await res.json();

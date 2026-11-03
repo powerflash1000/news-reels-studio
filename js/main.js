@@ -1,29 +1,29 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw12ngtu';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw12ngtu';
-import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw12ngtu';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw12ngtu';
-import { transcribeWords, alignWords } from './align.js?v=mw12ngtu';
-import { gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw12ngtu';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw12ngtu';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mw12ngtu';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw12ngtu';
-import { drawGuide, sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw12ngtu';
-import { exportSupport, exportReel } from './export.js?v=mw12ngtu';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw12ngtu';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw12ngtu';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw12ngtu';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw12ngtu';
-import { detailTarget, loadTileMap } from './tiles.js?v=mw12ngtu';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mw12ngtu';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw12ngtu';
-import { loadBg, playBg } from './bg.js?v=mw12ngtu';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw12ngtu';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw12ngtu';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw12ngtu';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw12ngtu';
-import { readUrl, cleanPasted } from './reader.js?v=mw12ngtu';
-import { initI18n, ui } from './i18n.js?v=mw12ngtu';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw12ngtu';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw13hsz8';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw13hsz8';
+import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw13hsz8';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw13hsz8';
+import { transcribeWords, alignWords } from './align.js?v=mw13hsz8';
+import { gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw13hsz8';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw13hsz8';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mw13hsz8';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw13hsz8';
+import { drawGuide, sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw13hsz8';
+import { exportSupport, exportReel } from './export.js?v=mw13hsz8';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw13hsz8';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw13hsz8';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw13hsz8';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw13hsz8';
+import { detailTarget, loadTileMap } from './tiles.js?v=mw13hsz8';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mw13hsz8';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw13hsz8';
+import { loadBg, playBg } from './bg.js?v=mw13hsz8';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw13hsz8';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw13hsz8';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw13hsz8';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw13hsz8';
+import { readUrl, cleanPasted } from './reader.js?v=mw13hsz8';
+import { initI18n, ui } from './i18n.js?v=mw13hsz8';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw13hsz8';
 
 initI18n();
 
@@ -1548,7 +1548,7 @@ async function generateAudio(provider, picked) {
       for (const l of g.lines) {
         setStatus(`بولّد السطر ${num.get(lineKey(l))} (${++n}/${todo.length})…`);
         const again = picked && audioMap.get(lineKey(l))?.provider === g.p; // متعلّم وعنده صوت من نفس المزوّد = نسخة جديدة
-        audioMap.set(lineKey(l), await speakLine(l.text, l.speaker, reel.lang, g.p, { ...(g.v ? { voice: g.v, voiceName: g.n } : {}), ...(again ? { fresh: true } : {}) }));
+        audioMap.set(lineKey(l), await speakLine(l.text, l.speaker, reel.lang, g.p, { ...lineCtx(l), ...(g.v ? { voice: g.v, voiceName: g.n } : {}), ...(again ? { fresh: true } : {}) }));
         reqs++;
       }
     }
@@ -3975,7 +3975,7 @@ $('auLines').addEventListener('click', async e => {
     b.disabled = true; $('auMsg').textContent = `⏳ بولّد السطر ${i + 1}…`;
     try {
       manualAudio = null;
-      audioMap.set(lineKey(l), await speakLine(l.text, l.speaker, reel.lang, provider, auVoiceOf(i, l)));
+      audioMap.set(lineKey(l), await speakLine(l.text, l.speaker, reel.lang, provider, { ...lineCtx(l), ...auVoiceOf(i, l) }));
       $('auMsg').textContent = `✅ السطر ${i + 1} اتولّد. اسمعه ▶: لو تمام دوس 👍، ولو لأ «🔄 ولّد تاني».`;
       updateInfo(); redraw();
     } catch (err) { $('auMsg').textContent = '❌ ' + (err.message || err); b.disabled = false; }
@@ -3986,7 +3986,7 @@ $('auLines').addEventListener('click', async e => {
     if (provider === 'elevenlabs' && !confirm(`نسخة جديدة من السطر ده هتصرف حوالي ${l.text.length} حرف من رصيد ElevenLabs. النسخة الحالية بتفضل في المكتبة. تكمل؟`)) return;
     b.disabled = true; $('auMsg').textContent = '⏳ بولّد نسخة جديدة…';
     try {
-      audioMap.set(lineKey(l), await speakLine(l.text, l.speaker, reel.lang, provider, { fresh: true, ...auVoiceOf(i, l) }));
+      audioMap.set(lineKey(l), await speakLine(l.text, l.speaker, reel.lang, provider, { fresh: true, ...lineCtx(l), ...auVoiceOf(i, l) }));
       $('auMsg').textContent = '✅ نسخة جديدة اتعملت. لو القديمة أحسن: 📚 واختارها.';
       updateInfo(); redraw();
     } catch (err) { $('auMsg').textContent = '❌ ' + (err.message || err); }
@@ -4011,6 +4011,11 @@ async function showTakes(lineIdx = null) {
       + (lines.length ? `<select data-tk-line>${opts(sel)}</select><button class="btn pri" type="button" data-tk-use>استخدمه</button>` : '')
       + `<button class="btn ghost" type="button" data-tk-del title="امسح النسخة دي">✕</button></div>`;
   }).join('') || '<p class="muted">مفيش نسخ متسجّلة لسه. كل صوت هتولّده من دلوقتي هيتحفظ هنا (الأصوات اللي اتولّدت قبل التحديث ده مش متسجّلة).</p>');
+}
+// السطر اللي قبل واللي بعد (سياق لـ ElevenLabs عشان اللهجة والنبرة متتقلبش)
+function lineCtx(l) {
+  const all = allLines(reel), i = all.findIndex(x => lineKey(x) === lineKey(l));
+  return i < 0 ? {} : { prev: all.slice(Math.max(0, i - 2), i).map(x => x.text).join(' '), next: all[i + 1]?.text || '' };
 }
 const stripTagsLocal = t => String(t || '').replace(/\[[^\]]*\]/g, ' ');
 $('auHist').addEventListener('click', () => showTakes());
