@@ -1,29 +1,29 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw142vcb';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw142vcb';
-import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw142vcb';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw142vcb';
-import { transcribeWords, alignWords } from './align.js?v=mw142vcb';
-import { gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw142vcb';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw142vcb';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mw142vcb';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw142vcb';
-import { drawGuide, sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw142vcb';
-import { exportSupport, exportReel } from './export.js?v=mw142vcb';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw142vcb';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw142vcb';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw142vcb';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw142vcb';
-import { detailTarget, loadTileMap } from './tiles.js?v=mw142vcb';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mw142vcb';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw142vcb';
-import { loadBg, playBg } from './bg.js?v=mw142vcb';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw142vcb';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw142vcb';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw142vcb';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw142vcb';
-import { readUrl, cleanPasted } from './reader.js?v=mw142vcb';
-import { initI18n, ui } from './i18n.js?v=mw142vcb';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw142vcb';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw18jmy8';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw18jmy8';
+import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw18jmy8';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw18jmy8';
+import { transcribeWords, alignWords } from './align.js?v=mw18jmy8';
+import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw18jmy8';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw18jmy8';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mw18jmy8';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw18jmy8';
+import { drawGuide, sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw18jmy8';
+import { exportSupport, exportReel } from './export.js?v=mw18jmy8';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw18jmy8';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw18jmy8';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw18jmy8';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw18jmy8';
+import { detailTarget, loadTileMap } from './tiles.js?v=mw18jmy8';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mw18jmy8';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw18jmy8';
+import { loadBg, playBg } from './bg.js?v=mw18jmy8';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw18jmy8';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw18jmy8';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw18jmy8';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw18jmy8';
+import { readUrl, cleanPasted } from './reader.js?v=mw18jmy8';
+import { initI18n, ui } from './i18n.js?v=mw18jmy8';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw18jmy8';
 
 initI18n();
 
@@ -3266,10 +3266,10 @@ $('sStylePreset').addEventListener('change', () => {
 // وسوم الصوت في الاستوديو
 function renderVoiceTags() {
   $('fxTags').innerHTML = VTAGS.map(([ar, tag, ok]) => `<button class="chip" data-vtag="${tag}">${ar} ${ok ? '✅' : '٭'}</button>`).join('');
-  const v2 = getSettings().elevenModel !== 'eleven_v3';
+  const v2 = !tagModel(getSettings().elevenModel);
   const has = /\[[^\]]*\]/.test($('fScript').value);
   $('fxWarn').hidden = !(v2 && has);
-  $('fxWarn').innerHTML = '<span>السكريبت فيه وسوم صوتية: مع زرار Gemini هتشتغل عادي، بس مع ElevenLabs الموديل الحالي مش v3 فهتتشال ومش هتأثر.</span> <button class="btn pri" id="toV3" type="button">🔁 حوّل ElevenLabs لـ v3</button> <span class="muted">(أو من الإعدادات ← ElevenLabs ← الموديل)</span>';
+  $('fxWarn').innerHTML = '<span>السكريبت فيه وسوم صوتية: مع زرار Gemini هتشتغل عادي، بس مع ElevenLabs الموديل الحالي مش v3 ولا v4 فهتتشال ومش هتأثر.</span> <button class="btn pri" id="toV3" type="button">🔁 حوّل ElevenLabs لـ v3</button> <span class="muted">(أو من الإعدادات ← ElevenLabs ← الموديل)</span>';
 }
 // زرار سريع: يحوّل موديل ElevenLabs لـ v3 من غير ما تروح الإعدادات
 $('fxWarn').addEventListener('click', e => {
@@ -3288,7 +3288,7 @@ $('fxTags').addEventListener('click', e => {
   ta.focus(); ta.selectionStart = ta.selectionEnd = p + ins.length;
   ta.dispatchEvent(new Event('input', { bubbles: true }));
 });
-$('fScript').addEventListener('input', () => { $('fxWarn').hidden = !(getSettings().elevenModel !== 'eleven_v3' && /\[[^\]]*\]/.test($('fScript').value)); });
+$('fScript').addEventListener('input', () => { $('fxWarn').hidden = !(!tagModel(getSettings().elevenModel) && /\[[^\]]*\]/.test($('fScript').value)); });
 
 // تجربة قبل/بعد تأثير الصوت
 document.querySelector('#tab-settings').addEventListener('click', async e => {
@@ -3359,14 +3359,16 @@ var STAB_OPTS = {
   v2: [[0.3, '0.3 — معبّر بس بيتقلب'], [0.5, '0.5 — متوسط'], [0.7, '0.7 — ثابت (موصى بيه للهجة)'], [0.85, '0.85 — ثابت جدًا (ممكن يبقى رتيب)']],
 };
 function fillElQuick() {
-  const s = getSettings(), v3 = s.elevenModel === 'eleven_v3', opts = STAB_OPTS[v3 ? 'v3' : 'v2'];
+  const s = getSettings(), v3 = s.elevenModel === 'eleven_v3', tg = tagModel(s.elevenModel), opts = STAB_OPTS[v3 ? 'v3' : 'v2'];
   $('qElModel').innerHTML = MODELS.map(m => `<option value="${m.id}" ${m.id === s.elevenModel ? 'selected' : ''}>${m.name}</option>`).join('');
   const cur = Number(s.vsA?.stability ?? 0.5);
   const near = opts.reduce((a, o) => Math.abs(o[0] - cur) < Math.abs(a[0] - cur) ? o : a)[0];
   $('qElStab').innerHTML = opts.map(([v, n]) => `<option value="${v}" ${v === near ? 'selected' : ''}>${n}</option>`).join('');
   $('qElDialect').checked = !!s.dialectTag;
-  $('qElDialectBox').hidden = !v3;
-  $('qElHint').textContent = v3
+  $('qElDialectBox').hidden = !tg;
+  $('qElHint').textContent = isV4(s.elevenModel)
+    ? 'على v4: الثبات 0.7 وعلّم «ثبّت اللهجة المصرية». v4 بياخد الثبات والتشابه بس (السرعة والتعبير مش بيتبعتوا). السطور اللي اتولّدت قبل كده محفوظة، فعلّم عليها في كارت الصوت وولّدها تاني.'
+    : v3
     ? 'على v3: اختار Robust وعلّم «ثبّت اللهجة المصرية». السطور اللي اتولّدت قبل كده محفوظة، فعلّم عليها في كارت الصوت وولّدها تاني.'
     : 'على Multilingual v2: الثبات 0.7 بيخلّي اللهجة ثابتة، والتطبيق بيبعت مع كل سطر السطور اللي حواليه كسياق مصري. السطور اللي اتولّدت قبل كده محفوظة، فعلّم عليها في كارت الصوت وولّدها تاني.';
 }
