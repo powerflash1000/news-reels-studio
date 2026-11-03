@@ -1,29 +1,29 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw0o5i3p';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw0o5i3p';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw0o5i3p';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw0o5i3p';
-import { transcribeWords, alignWords } from './align.js?v=mw0o5i3p';
-import { pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw0o5i3p';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw0o5i3p';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mw0o5i3p';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw0o5i3p';
-import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw0o5i3p';
-import { exportSupport, exportReel } from './export.js?v=mw0o5i3p';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw0o5i3p';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw0o5i3p';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw0o5i3p';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw0o5i3p';
-import { detailTarget, loadTileMap } from './tiles.js?v=mw0o5i3p';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mw0o5i3p';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw0o5i3p';
-import { loadBg, playBg } from './bg.js?v=mw0o5i3p';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw0o5i3p';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw0o5i3p';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw0o5i3p';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw0o5i3p';
-import { readUrl, cleanPasted } from './reader.js?v=mw0o5i3p';
-import { initI18n, ui } from './i18n.js?v=mw0o5i3p';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw0o5i3p';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw0qgo6p';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw0qgo6p';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw0qgo6p';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw0qgo6p';
+import { transcribeWords, alignWords } from './align.js?v=mw0qgo6p';
+import { azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw0qgo6p';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw0qgo6p';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mw0qgo6p';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw0qgo6p';
+import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw0qgo6p';
+import { exportSupport, exportReel } from './export.js?v=mw0qgo6p';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw0qgo6p';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw0qgo6p';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw0qgo6p';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw0qgo6p';
+import { detailTarget, loadTileMap } from './tiles.js?v=mw0qgo6p';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mw0qgo6p';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw0qgo6p';
+import { loadBg, playBg } from './bg.js?v=mw0qgo6p';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw0qgo6p';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw0qgo6p';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw0qgo6p';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw0qgo6p';
+import { readUrl, cleanPasted } from './reader.js?v=mw0qgo6p';
+import { initI18n, ui } from './i18n.js?v=mw0qgo6p';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw0qgo6p';
 
 initI18n();
 
@@ -3419,6 +3419,7 @@ function fillSettings() {
 function collectSettings() {
   const o = {};
   for (const [id, k] of Object.entries(TEXT_FIELDS)) o[k] = $(id).value.trim();
+  if (o.azureRegion) { o.azureRegion = azRegion(o.azureRegion); $('sAzRegion').value = o.azureRegion; }
   for (const sp of ['A', 'B']) {
     const manual = $('sVoice' + sp + 'Id').value.trim();
     const sel = $('sVoice' + sp);
