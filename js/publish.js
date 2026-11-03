@@ -1,7 +1,7 @@
 // M4: حزمة النشر (عناوين/وصف/هاشتاجات/مصادر/حقوق وسائط) + سجل التجارب. دوال خالصة من غير DOM.
-import { MED_DISCLAIMER } from './reel.js?v=mw1bc1qs';
+import { MED_DISCLAIMER } from './reel.js?v=mw1cchne';
 
-export const PLATFORMS = { tiktok: 'تيك توك', instagram: 'إنستجرام', facebook: 'فيسبوك' };
+export const PLATFORMS = { tiktok: 'تيك توك', instagram: 'إنستجرام', facebook: 'فيسبوك', shorts: 'يوتيوب شورتس', youtube: 'يوتيوب (فيديو عريض)' };
 export const ENGAGE = ['likes', 'comments', 'shares', 'saves'];
 
 const TAGS = {
@@ -19,7 +19,7 @@ const TAGS_EN = {
 const GENERAL = ['#أخبار', '#ريلز', '#news'];
 const GENERAL_EN = ['#news', '#reels', '#breakingnews'];
 const EN_DISC = 'General information, not medical advice — consult your doctor';
-const LIMIT = { tiktok: 5, instagram: 12, facebook: 4 };
+const LIMIT = { tiktok: 5, instagram: 12, facebook: 4, shorts: 3, youtube: 3 };
 
 const clip = (s, n) => (s.length > n ? s.slice(0, n - 1).trimEnd() + '…' : s);
 const news = reel => reel.stories.filter(s => s.kind === 'news' && (s.headline || s.script));
@@ -52,7 +52,26 @@ export function buildPack(reel, { handle = '' } = {}) {
 export function compose(pack, platform) {
   const tags = (pack.tags || '').split(/\s+/).filter(Boolean).slice(0, LIMIT[platform] ?? 5).join(' ');
   const desc = platform === 'tiktok' ? clip(pack.desc || '', 300) : pack.desc || '';
+  // يوتيوب: العنوان والوصف في خانتين منفصلين، فبنرجّع الوصف بس (العنوان بيتنسخ لوحده)
+  if (platform === 'shorts' || platform === 'youtube') return [desc, '', tags].join('\n').replace(/\n{3,}/g, '\n\n').trim();
   return [pack.title, '', desc, '', tags].join('\n').replace(/\n{3,}/g, '\n\n').trim();
+}
+
+// عنوان يوتيوب: 100 حرف بالكتير، والشورتس بياخد #Shorts
+export function ytTitle(title, platform) {
+  let t = String(title || '').trim();
+  if (platform === 'shorts' && !/#shorts/i.test(t)) t = clip(t, 91) + ' #Shorts';
+  return clip(t, 100);
+}
+
+// فصول يوتيوب: أول فصل 0:00، 3 فصول على الأقل، وكل فصل 10 ثواني أو أكتر (غير كده يوتيوب بيتجاهلها)
+const ts = s => { s = Math.max(0, Math.floor(s)); const m = Math.floor(s / 60), h = Math.floor(m / 60); return h ? `${h}:${String(m % 60).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}` : `${m}:${String(s % 60).padStart(2, '0')}`; };
+export function chaptersText(list) {
+  const ch = list.filter(c => c.title).map(c => ({ ...c }));
+  if (!ch.length) return '';
+  ch[0].start = 0;
+  const ok = ch.length >= 3 && ch.every((c, i) => (ch[i + 1] ? ch[i + 1].start : c.end ?? c.start + 10) - c.start >= 10);
+  return ok ? ch.map(c => `${ts(c.start)} ${clip(c.title, 80)}`).join('\n') : '';
 }
 
 const num = v => (Number.isFinite(Number(v)) ? Number(v) : 0);

@@ -1,9 +1,9 @@
 // جيب نص مقال من رابطه (بريتانيكا، ناشيونال جيوغرافيك، أي صفحة) كمرجع للخبر — بضغطة من المستخدم بس.
 // 1) Jina Reader (مجاني من غير مفتاح، بيرجّع نص الصفحة نضيف)  2) الوسيط بتاعك + استخراج الفقرات  3) Gemini بأداة url_context.
 // النص بيتحط في خانة الملخص كمرجع للكتابة بس (مش بيظهر في الفيديو)، والمصدر بيتنسب للموقع.
-import { getSettings } from './storage.js?v=mw1bc1qs';
-import { viaProxy } from './media.js?v=mw1bc1qs';
-import { AI_PROVIDERS } from './draft.js?v=mw1bc1qs';
+import { getSettings } from './storage.js?v=mw1cchne';
+import { viaProxy } from './media.js?v=mw1cchne';
+import { AI_PROVIDERS } from './draft.js?v=mw1cchne';
 
 const MAX = 40000;
 const tidy = t => String(t || '').replace(/\r/g, '').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim().slice(0, MAX);
