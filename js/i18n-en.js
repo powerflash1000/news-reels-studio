@@ -1528,4 +1528,8 @@ export default {
   "🎙 ولّد المحدد": "🎙 Generate selected",
   "علّم ✔ جنب السطور اللي عايزها، ودوس «🎙 ولّد المحدد». مع Gemini السطور المتعلّمة اللي ورا بعض بتتجمع في طلب واحد (عددها من «جمل Gemini في الطلب الواحد»)، وقبل ما يبدأ بيكتبلك أرقام السطور في كل طلب. السطر المتعلّم اللي عنده صوت بيتولّد نسخة جديدة، والقديمة بتفضل في 📚.": "Tick the lines you want and press «🎙 Generate selected». With Gemini, consecutive ticked lines are grouped into one request (size from «Gemini lines per request»), and before starting it shows the line numbers in each request. A ticked line that already has audio gets a new take; the old one stays in 📚.",
   "كل طلب بيولّد العدد ده من السطور اللي ورا بعض (من أول سطر مالهوش صوت، أو من السطور المتعلّمة ✔ في كارت الصوت). كل طلب بيتحسب من حصة Gemini اليومية (حوالي 15)": "Each request generates this many consecutive lines (from the first line without audio, or from the ticked ✔ lines in the voice card). Each request counts against Gemini's daily quota (about 15)",
+  "اعرض / اخفي المفتاح": "Show / hide the key",
+  "👁 اعرض": "👁 Show",
+  "🙈 اخفي": "🙈 Hide",
+  "آخره …{} ({} حرف)": "ends …{} ({} chars)",
 };
