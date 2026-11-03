@@ -1,29 +1,29 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mvzvwj0e';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mvzvwj0e';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mvzvwj0e';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mvzvwj0e';
-import { transcribeWords, alignWords } from './align.js?v=mvzvwj0e';
-import { speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mvzvwj0e';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mvzvwj0e';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mvzvwj0e';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mvzvwj0e';
-import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mvzvwj0e';
-import { exportSupport, exportReel } from './export.js?v=mvzvwj0e';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mvzvwj0e';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mvzvwj0e';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mvzvwj0e';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mvzvwj0e';
-import { detailTarget, loadTileMap } from './tiles.js?v=mvzvwj0e';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mvzvwj0e';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mvzvwj0e';
-import { loadBg, playBg } from './bg.js?v=mvzvwj0e';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mvzvwj0e';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mvzvwj0e';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mvzvwj0e';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mvzvwj0e';
-import { readUrl, cleanPasted } from './reader.js?v=mvzvwj0e';
-import { initI18n, ui } from './i18n.js?v=mvzvwj0e';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mvzvwj0e';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw0irdbl';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw0irdbl';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw0irdbl';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw0irdbl';
+import { transcribeWords, alignWords } from './align.js?v=mw0irdbl';
+import { speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw0irdbl';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw0irdbl';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mw0irdbl';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw0irdbl';
+import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw0irdbl';
+import { exportSupport, exportReel } from './export.js?v=mw0irdbl';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw0irdbl';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw0irdbl';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw0irdbl';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw0irdbl';
+import { detailTarget, loadTileMap } from './tiles.js?v=mw0irdbl';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mw0irdbl';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw0irdbl';
+import { loadBg, playBg } from './bg.js?v=mw0irdbl';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw0irdbl';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw0irdbl';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw0irdbl';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw0irdbl';
+import { readUrl, cleanPasted } from './reader.js?v=mw0irdbl';
+import { initI18n, ui } from './i18n.js?v=mw0irdbl';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw0irdbl';
 
 initI18n();
 
@@ -1834,6 +1834,7 @@ function checklistFor() {
   if (news.some(s => s.category === 'stories')) base.push('القصة من وثائق أو قضايا منتهية ومعلنة: راجعت التواريخ والأسماء، ومفيش اتهام لشخص من غير حكم، وأي ادعاء غير مثبت (UFO وغيره) متقدّم على إنه «غير مؤكد».');
   if (news.some(s => s.category === 'defense')) base.push('مفيش معلومة عن تحركات حالية أو مواقع حساسة غير معلنة رسميًا، والأرقام منسوبة لمصدرها.');
   if (news.some(s => s.category === 'politics')) base.push('نقل خبري محايد من غير رأي شخصي.');
+  if (news.some(s => s.category === 'lifestyle')) base.push('مفيش صور من مواقع الموضة أو عروض الأزياء (حقوقها محمية)، مفيش ادعاء علاجي لمنتج تجميل، ولو فيه براند مدفوع مكتوب إنه إعلان.');
   return base;
 }
 

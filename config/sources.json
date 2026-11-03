@@ -72,6 +72,12 @@
    "label": "تقنية",
    "color": "#0090ff",
    "en": "Tech"
+  },
+  {
+   "id": "lifestyle",
+   "label": "موضة ولايف ستايل",
+   "color": "#c9a227",
+   "en": "Fashion & Lifestyle"
   }
  ],
  "feeds": [
@@ -2657,6 +2663,296 @@
    "type": "specialist",
    "region": "world",
    "weight": 1.0
+  },
+  {
+   "id": "vogue",
+   "category": "lifestyle",
+   "name": "Vogue",
+   "url": "https://www.vogue.com/feed/rss",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1.2
+  },
+  {
+   "id": "bazaar",
+   "category": "lifestyle",
+   "name": "Harper's Bazaar",
+   "url": "https://www.harpersbazaar.com/rss/all.xml/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1.0
+  },
+  {
+   "id": "elle",
+   "category": "lifestyle",
+   "name": "ELLE",
+   "url": "https://www.elle.com/rss/all.xml/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1.0
+  },
+  {
+   "id": "wwd",
+   "category": "lifestyle",
+   "name": "WWD (صناعة الموضة)",
+   "url": "https://wwd.com/feed/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1.2
+  },
+  {
+   "id": "fashionista",
+   "category": "lifestyle",
+   "name": "Fashionista",
+   "url": "https://fashionista.com/.rss/full/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1.0
+  },
+  {
+   "id": "bof",
+   "category": "lifestyle",
+   "name": "Business of Fashion",
+   "url": "https://www.businessoffashion.com/arc/outboundfeeds/rss/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1.2
+  },
+  {
+   "id": "hypebeast",
+   "category": "lifestyle",
+   "name": "Hypebeast (ستريت وير وسنيكرز)",
+   "url": "https://hypebeast.com/feed",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 1.0
+  },
+  {
+   "id": "gq",
+   "category": "lifestyle",
+   "name": "GQ",
+   "url": "https://www.gq.com/feed/rss",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1.0
+  },
+  {
+   "id": "guardian-fashion",
+   "category": "lifestyle",
+   "name": "The Guardian — Fashion",
+   "url": "https://www.theguardian.com/fashion/rss",
+   "lang": "en",
+   "type": "public",
+   "region": "eu",
+   "weight": 1.0
+  },
+  {
+   "id": "nyt-style",
+   "category": "lifestyle",
+   "name": "NYT — Style",
+   "url": "https://rss.nytimes.com/services/xml/rss/nyt/FashionandStyle.xml",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1.0
+  },
+  {
+   "id": "vogue-arabia",
+   "category": "lifestyle",
+   "name": "Vogue Arabia",
+   "url": "https://en.vogue.me/feed/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "gulf",
+   "weight": 1.0
+  },
+  {
+   "id": "allure",
+   "category": "lifestyle",
+   "name": "Allure (جمال)",
+   "url": "https://www.allure.com/feed/rss",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1.0
+  },
+  {
+   "id": "cosmo",
+   "category": "lifestyle",
+   "name": "Cosmopolitan",
+   "url": "https://www.cosmopolitan.com/rss/all.xml/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1.0
+  },
+  {
+   "id": "guardian-life",
+   "category": "lifestyle",
+   "name": "The Guardian — Life & style",
+   "url": "https://www.theguardian.com/lifeandstyle/rss",
+   "lang": "en",
+   "type": "public",
+   "region": "eu",
+   "weight": 1.0
+  },
+  {
+   "id": "jck",
+   "category": "lifestyle",
+   "name": "JCK (مجوهرات)",
+   "url": "https://www.jckonline.com/feed/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1.0
+  },
+  {
+   "id": "natjeweler",
+   "category": "lifestyle",
+   "name": "National Jeweler",
+   "url": "https://nationaljeweler.com/rss",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1.0
+  },
+  {
+   "id": "gn-fashion-en",
+   "category": "lifestyle",
+   "name": "Google News — Fashion",
+   "url": "https://news.google.com/rss/search?q=fashion%20OR%20%22fashion%20week%22%20OR%20runway%20when%3A2d&hl=en-US&gl=US&ceid=US:en",
+   "lang": "en",
+   "type": "radar",
+   "region": "world",
+   "weight": 1.0,
+   "fmt": "gnews",
+   "keepDays": 4,
+   "limit": 15
+  },
+  {
+   "id": "gn-beauty-en",
+   "category": "lifestyle",
+   "name": "Google News — Beauty & skincare",
+   "url": "https://news.google.com/rss/search?q=beauty%20OR%20skincare%20OR%20makeup%20OR%20fragrance%20when%3A2d&hl=en-US&gl=US&ceid=US:en",
+   "lang": "en",
+   "type": "radar",
+   "region": "world",
+   "weight": 1.0,
+   "fmt": "gnews",
+   "keepDays": 4,
+   "limit": 15
+  },
+  {
+   "id": "gn-jewelry-en",
+   "category": "lifestyle",
+   "name": "Google News — Jewelry & watches",
+   "url": "https://news.google.com/rss/search?q=jewelry%20OR%20jewellery%20OR%20diamonds%20OR%20%22luxury%20watches%22%20when%3A3d&hl=en-US&gl=US&ceid=US:en",
+   "lang": "en",
+   "type": "radar",
+   "region": "world",
+   "weight": 1.0,
+   "fmt": "gnews",
+   "keepDays": 4,
+   "limit": 15
+  },
+  {
+   "id": "gn-luxury-en",
+   "category": "lifestyle",
+   "name": "Google News — Luxury brands",
+   "url": "https://news.google.com/rss/search?q=Chanel%20OR%20Dior%20OR%20%22Louis%20Vuitton%22%20OR%20Gucci%20OR%20Herm%C3%A8s%20OR%20LVMH%20when%3A2d&hl=en-US&gl=US&ceid=US:en",
+   "lang": "en",
+   "type": "radar",
+   "region": "world",
+   "weight": 1.0,
+   "fmt": "gnews",
+   "keepDays": 4,
+   "limit": 15
+  },
+  {
+   "id": "gn-fashion-ar",
+   "category": "lifestyle",
+   "name": "Google News — موضة وأزياء",
+   "url": "https://news.google.com/rss/search?q=%D9%85%D9%88%D8%B6%D8%A9%20OR%20%D8%A3%D8%B2%D9%8A%D8%A7%D8%A1%20OR%20%22%D8%A3%D8%B3%D8%A8%D9%88%D8%B9%20%D8%A7%D9%84%D9%85%D9%88%D8%B6%D8%A9%22%20OR%20%D9%85%D8%B5%D9%85%D9%85%20when%3A3d&hl=ar&gl=EG&ceid=EG:ar",
+   "lang": "ar",
+   "type": "radar",
+   "region": "arab",
+   "weight": 1.3,
+   "fmt": "gnews",
+   "keepDays": 4,
+   "limit": 15
+  },
+  {
+   "id": "gn-beauty-ar",
+   "category": "lifestyle",
+   "name": "Google News — جمال وتجميل",
+   "url": "https://news.google.com/rss/search?q=%D8%AA%D8%AC%D9%85%D9%8A%D9%84%20OR%20%D9%85%D9%83%D9%8A%D8%A7%D8%AC%20OR%20%22%D8%A7%D9%84%D8%B9%D9%86%D8%A7%D9%8A%D8%A9%20%D8%A8%D8%A7%D9%84%D8%A8%D8%B4%D8%B1%D8%A9%22%20OR%20%D8%B9%D8%B7%D9%88%D8%B1%20when%3A3d&hl=ar&gl=EG&ceid=EG:ar",
+   "lang": "ar",
+   "type": "radar",
+   "region": "arab",
+   "weight": 1.3,
+   "fmt": "gnews",
+   "keepDays": 4,
+   "limit": 15
+  },
+  {
+   "id": "gn-jewelry-ar",
+   "category": "lifestyle",
+   "name": "Google News — مجوهرات وإكسسوارات",
+   "url": "https://news.google.com/rss/search?q=%D9%85%D8%AC%D9%88%D9%87%D8%B1%D8%A7%D8%AA%20OR%20%D8%A5%D9%83%D8%B3%D8%B3%D9%88%D8%A7%D8%B1%D8%A7%D8%AA%20OR%20%D8%B3%D8%A7%D8%B9%D8%A7%D8%AA%20%D9%81%D8%A7%D8%AE%D8%B1%D8%A9%20when%3A7d&hl=ar&gl=EG&ceid=EG:ar",
+   "lang": "ar",
+   "type": "radar",
+   "region": "arab",
+   "weight": 1.3,
+   "fmt": "gnews",
+   "keepDays": 4,
+   "limit": 15
+  },
+  {
+   "id": "gn-sayidaty",
+   "category": "lifestyle",
+   "name": "سيدتي (عبر Google News)",
+   "url": "https://news.google.com/rss/search?q=site%3Asayidaty.net%20when%3A3d&hl=ar&gl=EG&ceid=EG:ar",
+   "lang": "ar",
+   "type": "radar",
+   "region": "gulf",
+   "weight": 1.3,
+   "fmt": "gnews",
+   "keepDays": 4,
+   "limit": 15
+  },
+  {
+   "id": "gn-lahamag",
+   "category": "lifestyle",
+   "name": "لها (عبر Google News)",
+   "url": "https://news.google.com/rss/search?q=site%3Alahamag.com%20when%3A7d&hl=ar&gl=EG&ceid=EG:ar",
+   "lang": "ar",
+   "type": "radar",
+   "region": "arab",
+   "weight": 1.3,
+   "fmt": "gnews",
+   "keepDays": 4,
+   "limit": 15
+  },
+  {
+   "id": "gn-bazaar-ar",
+   "category": "lifestyle",
+   "name": "هاربر بازار العربية (عبر Google News)",
+   "url": "https://news.google.com/rss/search?q=site%3Aharpersbazaararabia.com%20when%3A7d&hl=ar&gl=EG&ceid=EG:ar",
+   "lang": "ar",
+   "type": "radar",
+   "region": "gulf",
+   "weight": 1.3,
+   "fmt": "gnews",
+   "keepDays": 4,
+   "limit": 15
   }
  ],
  "youtube": [
