@@ -251,3 +251,11 @@ main:has(#tab-studio:not([hidden])) { max-width: 1720px; padding: 10px 14px; }
   .studio { grid-template-columns: minmax(230px, 280px) minmax(0, 1fr) minmax(290px, 340px); }
 }
 #qElDialectBox[hidden] { display: none; }
+
+/* شريط الأخبار: اختيار الأقسام والعناوين */
+#tkCats .chip.on { outline: 2px solid currentColor; font-weight: 700; }
+.tklist { display: grid; gap: 3px; max-height: 260px; overflow-y: auto; margin-top: 6px; }
+.tklist label { display: flex; gap: 6px; align-items: flex-start; font-size: 12.5px; }
+.tklist label.off span { opacity: .45; text-decoration: line-through; }
+.tklist .tkc { font-weight: 700; white-space: nowrap; }
+#tkFeedBox[hidden], #tkTextBox[hidden] { display: none; }

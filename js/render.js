@@ -1,10 +1,10 @@
 // رسم إطار الريل على canvas (عمودي 1080×1920 أو 4:5 أو مربع أو أفقي). نفس الدالة للمعاينة والتصدير.
-import { detailTarget, tileKey, getTileMap } from './tiles.js?v=mw18jmy8';
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mw18jmy8';
-import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mw18jmy8';
-import { hostOf } from './feeds.js?v=mw18jmy8';
-import QR from '../vendor/qrcode/qrcode.mjs?v=mw18jmy8';
-import { drawBg } from './bg.js?v=mw18jmy8';
+import { detailTarget, tileKey, getTileMap } from './tiles.js?v=mw1azadd';
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mw1azadd';
+import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mw1azadd';
+import { hostOf } from './feeds.js?v=mw1azadd';
+import QR from '../vendor/qrcode/qrcode.mjs?v=mw1azadd';
+import { drawBg } from './bg.js?v=mw1azadd';
 
 // مقاسات الإخراج. W/H متغيّرين (live binding) والتصدير بيقراهم وقت التصدير
 export const FORMATS = {
@@ -784,36 +784,75 @@ function proofPanel(ctx, st, y0) {
 function ticker(ctx, st, t) {
   const tk = st.reel.ticker;
   if (!tk?.on) return;
-  const others = st.reel.stories.filter(s => s !== st.story && s.headline).map(s => s.headline);
-  const text = (tk.text || others.join('   •   ') || st.story.headline || '').trim();
-  if (!text) return;
+  const en = (st.reel.lang || 'ar') === 'en';
+  const src = tk.src || (tk.text ? 'custom' : 'reel');
+  const catOf = id => (st.cats || []).find(c => c.id === id);
+  // المقاطع بترتيب القراية: [اسم القسم] العنوان  •  [القسم] العنوان …
+  let parts = [];
+  if (src === 'feed' && tk.items?.length) {
+    for (const x of tk.items.filter(x => !x.off)) {
+      const c = catOf(x.cat);
+      if (tk.tag !== false && c) parts.push({ tag: true, txt: (en ? c.en || c.label : c.label).replace(/^\p{Extended_Pictographic}\s*/u, ''), color: c.color || '#e5484d' });
+      parts.push({ txt: x.t });
+      parts.push({ sep: true, txt: '•' });
+    }
+  } else {
+    const others = st.reel.stories.filter(s => s !== st.story && s.headline).map(s => s.headline);
+    const text = ((src === 'custom' ? tk.text : '') || others.join('   •   ') || st.story.headline || '').trim();
+    if (text) parts = [{ txt: text }, { sep: true, txt: '•' }];
+  }
+  if (!parts.length) return;
   const y = L.tickY, h = 60, x = L.safe ? L.mL : 60, w = L.safe ? W - L.mL - L.mR : W - 120;
   ctx.fillStyle = 'rgba(0,0,0,.62)';
   rrect(ctx, x, y, w, h, 20);
   ctx.fill();
   const label = tk.label || S.ticker;
   ctx.font = font(30, 800);
-  ctx.direction = 'rtl';
+  ctx.direction = en ? 'ltr' : 'rtl';
   ctx.textBaseline = 'middle';
   const lw = ctx.measureText(label).width + 56;
+  const lx = en ? x : x + w - lw;
   ctx.fillStyle = '#e5484d';
-  rrect(ctx, x + w - lw, y, lw, h, 20);
+  rrect(ctx, lx, y, lw, h, 20);
   ctx.fill();
   ctx.fillStyle = '#fff';
   ctx.textAlign = 'center';
-  ctx.fillText(label, x + w - lw / 2, y + h / 2 + 2);
-  const areaR = x + w - lw - 18, areaL = x + 18, aw = areaR - areaL;
+  ctx.fillText(label, lx + lw / 2, y + h / 2 + 2);
+  const areaL = en ? x + lw + 18 : x + 18, areaR = en ? x + w - 18 : x + w - lw - 18, aw = areaR - areaL;
   ctx.save();
   ctx.beginPath();
   ctx.rect(areaL, y, aw, h);
   ctx.clip();
-  ctx.font = font(32, 600);
-  ctx.textAlign = 'left';
-  ctx.fillStyle = '#fff';
-  const tw = ctx.measureText(text).width;
-  const cycle = Math.max(tw, aw) + 160;
-  const off = (t * 150) % cycle;
-  for (let n = 0; n < 2; n++) ctx.fillText(text, areaR - off + n * cycle, y + h / 2 + 2);
+  const PAD = 14, GAP = 22;
+  for (const p of parts) { ctx.font = p.tag ? font(26, 800) : font(32, 600); p.w = ctx.measureText(p.txt).width + (p.tag ? PAD * 2 : 0); }
+  const total = parts.reduce((a, p) => a + p.w + GAP, 0);
+  const cycle = Math.max(total, aw) + 120;
+  const off = (t * 140 + aw) % cycle; // من أول ثانية الشريط مليان
+  const cy = y + h / 2 + 2;
+  const draw = (p, px) => { // px = الحافة اللي بيبدأ منها المقطع في اتجاه القراية
+    const left = en ? px : px - p.w;
+    if (left > areaR || left + p.w < areaL) return;
+    if (p.tag) {
+      ctx.fillStyle = p.color;
+      rrect(ctx, left, y + 11, p.w, h - 22, 12);
+      ctx.fill();
+      ctx.font = font(26, 800); ctx.fillStyle = '#fff'; ctx.textAlign = 'center';
+      ctx.fillText(p.txt, left + p.w / 2, cy);
+      return;
+    }
+    ctx.font = font(32, 600);
+    ctx.fillStyle = p.sep ? '#e5484d' : '#fff';
+    ctx.textAlign = 'left';
+    ctx.fillText(p.txt, left, cy);
+  };
+  for (let n = 0; n < 2; n++) {
+    // عربي: الشريط بيمشي يمين (زي القنوات العربي) وأول خبر في أوله؛ إنجليزي: بيمشي شمال
+    let cur = en ? areaR - off + n * cycle : areaL + off - n * cycle;
+    for (const p of parts) {
+      draw(p, cur);
+      cur += en ? p.w + GAP : -(p.w + GAP);
+    }
+  }
   ctx.restore();
 }
 
