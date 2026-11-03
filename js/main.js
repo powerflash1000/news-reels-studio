@@ -1,29 +1,29 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw0rvval';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw0rvval';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw0rvval';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw0rvval';
-import { transcribeWords, alignWords } from './align.js?v=mw0rvval';
-import { gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw0rvval';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw0rvval';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mw0rvval';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw0rvval';
-import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw0rvval';
-import { exportSupport, exportReel } from './export.js?v=mw0rvval';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw0rvval';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw0rvval';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw0rvval';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw0rvval';
-import { detailTarget, loadTileMap } from './tiles.js?v=mw0rvval';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mw0rvval';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw0rvval';
-import { loadBg, playBg } from './bg.js?v=mw0rvval';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw0rvval';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw0rvval';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw0rvval';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw0rvval';
-import { readUrl, cleanPasted } from './reader.js?v=mw0rvval';
-import { initI18n, ui } from './i18n.js?v=mw0rvval';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw0rvval';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw0t990f';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw0t990f';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw0t990f';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw0t990f';
+import { transcribeWords, alignWords } from './align.js?v=mw0t990f';
+import { gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw0t990f';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw0t990f';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mw0t990f';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw0t990f';
+import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw0t990f';
+import { exportSupport, exportReel } from './export.js?v=mw0t990f';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw0t990f';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw0t990f';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw0t990f';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw0t990f';
+import { detailTarget, loadTileMap } from './tiles.js?v=mw0t990f';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mw0t990f';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw0t990f';
+import { loadBg, playBg } from './bg.js?v=mw0t990f';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw0t990f';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw0t990f';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw0t990f';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw0t990f';
+import { readUrl, cleanPasted } from './reader.js?v=mw0t990f';
+import { initI18n, ui } from './i18n.js?v=mw0t990f';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw0t990f';
 
 initI18n();
 
@@ -3429,6 +3429,7 @@ fillCapQ();
 
 function fillSettings() {
   const s = getSettings();
+  setTimeout(() => document.querySelectorAll('.keyeye').forEach(b => b.previousElementSibling?._keyUpd?.()), 0);
   for (const [id, k] of Object.entries(TEXT_FIELDS)) $(id).value = s[k] ?? '';
   renderVoiceSelect('A'); renderVoiceSelect('B');
   renderSliders('A'); renderSliders('B');
@@ -4098,3 +4099,18 @@ function auVoiceOpts(prov, l, cur) {
 
 // قايمة أصوات ElevenLabs القديمة مكانش فيها النوع (ذكر/أنثى): نحدّثها مرة في الخلفية
 if (getSettings().elevenKey && voices.length && voices.every(v => v.gender === undefined)) fetchVoices().then(keepVoices).catch(() => {});
+
+/* ---------- 👁 إظهار المفاتيح: زرار جنب كل خانة مفتاح + آخر 4 حروف عشان تقارنه بصفحة المفاتيح (AI Studio وغيرها) ---------- */
+for (const inp of document.querySelectorAll('input[type="password"]')) {
+  const bar = document.createElement('span');
+  bar.className = 'keyeye';
+  bar.innerHTML = '<button type="button" class="btn ghost" title="اعرض / اخفي المفتاح">👁 اعرض</button><span class="muted" translate="no"></span>';
+  inp.after(bar);
+  const [btn, tail] = bar.children;
+  const upd = () => { const v = inp.value.trim(); tail.textContent = v.length > 8 ? `آخره …${v.slice(-4)} (${v.length} حرف)` : ''; };
+  btn.addEventListener('click', () => { const show = inp.type === 'password'; inp.type = show ? 'text' : 'password'; btn.textContent = show ? '🙈 اخفي' : '👁 اعرض'; });
+  inp.addEventListener('input', upd);
+  inp._keyUpd = upd;
+  upd(); setTimeout(upd, 800); // بعد ما الإعدادات تتملا
+}
+

@@ -227,3 +227,6 @@ main:has(#tab-studio:not([hidden])) { max-width: 1720px; padding: 10px 14px; }
 
 .aupick{flex-wrap:wrap;gap:6px;margin:4px 0}
 .aurow input[type=checkbox]{width:18px;height:18px;flex:none;margin:0}
+
+.keyeye{display:flex;gap:8px;align-items:center;margin-top:4px;font-size:.85em}
+.keyeye .btn{padding:2px 10px}
