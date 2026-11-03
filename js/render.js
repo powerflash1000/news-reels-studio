@@ -1,10 +1,10 @@
 // رسم إطار الريل على canvas (عمودي 1080×1920 أو 4:5 أو مربع أو أفقي). نفس الدالة للمعاينة والتصدير.
-import { detailTarget, tileKey, getTileMap } from './tiles.js?v=mw0wq9tn';
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mw0wq9tn';
-import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mw0wq9tn';
-import { hostOf } from './feeds.js?v=mw0wq9tn';
-import QR from '../vendor/qrcode/qrcode.mjs?v=mw0wq9tn';
-import { drawBg } from './bg.js?v=mw0wq9tn';
+import { detailTarget, tileKey, getTileMap } from './tiles.js?v=mw11o31c';
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mw11o31c';
+import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mw11o31c';
+import { hostOf } from './feeds.js?v=mw11o31c';
+import QR from '../vendor/qrcode/qrcode.mjs?v=mw11o31c';
+import { drawBg } from './bg.js?v=mw11o31c';
 
 // مقاسات الإخراج. W/H متغيّرين (live binding) والتصدير بيقراهم وقت التصدير
 export const FORMATS = {
@@ -15,6 +15,8 @@ export const FORMATS = {
 };
 export let W = 1080, H = 1920;
 // أماكن العناصر حسب المقاس (العمودي = القيم الأصلية بالظبط)
+// مناطق آمنة للعمودي (تيك توك/ريلز/شورتس): زراير المنصة على اليمين وتحت والوصف تحت. SAFE_RTL = اتجاه الرسم (الإنجليزي معكوس)
+var SAFE = true, SAFE_RTL = true, SAFE_KEY = '';
 let L = layoutFor(1080, 1920);
 
 // لغة الريل: نصوص الواجهة على الشاشة + اتجاه الكتابة (الإنجليزي = تخطيط معكوس أفقيًا بنفس العناصر)
@@ -52,17 +54,20 @@ function wrapCtx(ctx, mirror) {
   });
 }
 function layoutFor(w, h) {
-  const vert = h >= 1900;
-  const srcH = h >= 1900 ? 260 : h >= 1300 ? 230 : 200;
-  const srcY = h - srcH - 100;
+  const vert = h >= 1900, safe = vert && SAFE;
+  // الهوامش «المنطقية» قبل العكس: في الإنجليزي اليمين الحقيقي (الزراير) بيبقى شمال الرسم
+  const mL = safe ? (SAFE_RTL ? 50 : 150) : 60, mR = safe ? (SAFE_RTL ? 150 : 50) : 60;
+  const srcH = safe ? 170 : h >= 1900 ? 260 : h >= 1300 ? 230 : 200;
+  const srcY = safe ? h - 430 - srcH : h - srcH - 100;
   return {
-    vert, srcH, srcY, tickY: srcY - 148,
-    topDy: vert ? 0 : -40,
-    headY: vert ? 250 : 170,
+    vert, safe, mL, mR, srcH, srcY, tickY: safe ? srcY - 76 : srcY - 148,
+    capCX: safe ? (mL + w - mR) / 2 : w / 2,
+    topDy: vert ? (safe ? 75 : 0) : -40,
+    headY: vert ? (safe ? 285 : 250) : 170,
     headMax: vert ? 4 : h >= 1300 ? 3 : 2,
     headSize: vert ? 76 : h >= 1300 ? 66 : 58,
     capScale: vert ? 1 : h >= 1300 ? 0.9 : 0.8,
-    capMaxW: Math.min(Math.round(w * 0.8), 1400),
+    capMaxW: safe ? Math.round((w - mL - mR) * 0.9) : Math.min(Math.round(w * 0.8), 1400),
   };
 }
 export function setFormat(id) {
@@ -218,7 +223,7 @@ function bidiRow(row) {
 function captions(ctx, st, t, hb = 0) {
   const seg = st.tl.segs.find(s => t >= s.start - 0.05 && t <= s.end + 0.25) || null;
   if (!seg) return;
-  const groups = phrases(seg.words, L.vert ? 4 : st.reel.ticker?.on ? 3 : 4);
+  const groups = phrases(seg.words, L.vert ? 3 : st.reel.ticker?.on ? 3 : 4);
   let gi = groups.findIndex(g => t <= g[g.length - 1].e + 0.05);
   if (gi < 0) gi = groups.length - 1;
   const g = groups[gi];
@@ -248,39 +253,48 @@ function captions(ctx, st, t, hb = 0) {
     const disc = st.story.category === 'health' || st.story.category === 'healthtech';
     const top = hb + 24 + ltReserve(st), bot = (st.reel.ticker?.on ? L.tickY : disc ? L.srcY - 96 : L.srcY) - 24;
     cy = (top + bot) / 2;
-    if (CAP_CY) cy = CAP_CY;
   }
+  if (L.safe && !CAP_CY) cy = Math.min(cy, (st.reel.ticker?.on ? L.tickY : L.srcY) - (rows.length * lh) / 2 - 30);
+  if (CAP_CY) cy = CAP_CY;
+  const CX = L.capCX;
   const y0 = cy - (rows.length * lh) / 2;
   if (st.hasB) {
     ctx.font = font(34, 700);
     ctx.fillStyle = seg.speaker === 'B' ? '#ffb86b' : hexA(st.cat.color, 1);
     ctx.textAlign = 'center';
-    ctx.fillText(seg.speaker === 'B' ? S.hostB : S.hostA, W / 2, y0 - 60);
+    ctx.fillText(seg.speaker === 'B' ? S.hostB : S.hostA, CX, y0 - 60);
     ctx.font = font(size, 800);
   }
   if (cs.plate !== false) {
     const pw = Math.max(...rows.map(r => r.reduce((n, w, i) => n + w.ww + (i ? space : 0), 0))) + 80;
     ctx.fillStyle = 'rgba(5,8,18,.42)';
-    rrect(ctx, (W - pw) / 2, y0 - 8, pw, rows.length * lh + 16, 28);
+    rrect(ctx, CX - pw / 2, y0 - 8, pw, rows.length * lh + 16, 28);
     ctx.fill();
   }
   rows.forEach((row, ri) => {
     const total = row.reduce((n, w, i) => n + w.ww + (i ? space : 0), 0);
-    let x = W / 2 + total / 2; // RTL: أول كلمة على اليمين
+    let x = CX + total / 2; // RTL: أول كلمة على اليمين
     for (const w of RTL ? bidiRow(row) : row) {
       const active = t >= w.s && t < w.e + 0.02;
       const past = t >= w.e;
+      const yy = y0 + ri * lh + lh / 2;
       ctx.textAlign = 'right';
+      // الكلمة اللي بتتقال «بتنط»: بتكبر شوية أول ما تبدأ وترجع (حول نصها، ومعكوس في الإنجليزي)
+      const pop = active ? 1.04 + 0.12 * Math.max(0, 1 - (t - w.s) / 0.16) : 1;
+      if (pop !== 1) { const cxw = ctx.__mirror ? W - (x - w.ww / 2) : x - w.ww / 2; ctx.save(); ctx.translate(cxw, yy); ctx.scale(pop, pop); ctx.translate(-cxw, -yy); }
       if (active) {
         ctx.fillStyle = hexA(st.cat.color, 0.9);
-        rrect(ctx, x - w.ww - 14, y0 + ri * lh + lh / 2 - size * 0.62, w.ww + 28, size * 1.24, 18);
+        rrect(ctx, x - w.ww - 14, yy - size * 0.62, w.ww + 28, size * 1.24, 18);
         ctx.fill();
       }
-      ctx.fillStyle = active ? '#fff' : past ? '#fff' : 'rgba(255,255,255,.5)';
+      // الأرقام بلون القسم عشان تبان
+      const num = /[0-9٠-٩]/.test(w.w);
+      ctx.fillStyle = active ? '#fff' : num ? hexA(st.cat.color, past ? 1 : 0.75) : past ? '#fff' : 'rgba(255,255,255,.5)';
       // الكلمة الإنجليزية/الأرقام بتترسم LTR عشان حروفها متتعكسش
       ctx.direction = isLtr(w.w) ? 'ltr' : 'rtl';
-      if (cs.stroke !== false && !active) { ctx.lineJoin = 'round'; ctx.lineWidth = size * 0.1; ctx.strokeStyle = 'rgba(0,0,0,.8)'; ctx.strokeText(w.w, x, y0 + ri * lh + lh / 2); }
-      ctx.fillText(w.w, x, y0 + ri * lh + lh / 2);
+      if (cs.stroke !== false && !active) { ctx.lineJoin = 'round'; ctx.lineWidth = size * 0.1; ctx.strokeStyle = 'rgba(0,0,0,.8)'; ctx.strokeText(w.w, x, yy); }
+      ctx.fillText(w.w, x, yy);
+      if (pop !== 1) ctx.restore();
       ctx.direction = 'rtl';
       x -= w.ww + space;
     }
@@ -291,7 +305,7 @@ function sourceBar(ctx, st) {
   const r = st.story;
   if (r.kind !== 'news') return; // الافتتاحية والخاتمة من غير مصدر
   const y = L.srcY, h = L.srcH;
-  const bw = Math.min(W - 120, 1100), bx = W - 60 - bw, rx = bx + bw - 40; // الأفقي: الشريط أضيق ومحاذي لليمين
+  const bw = L.safe ? W - L.mL - L.mR : Math.min(W - 120, 1100), bx = L.safe ? L.mL : W - 60 - bw, rx = bx + bw - 40; // الأفقي: الشريط أضيق ومحاذي لليمين
   if (r.category === 'health' || r.category === 'healthtech') {
     ctx.font = font(32, 700);
     ctx.direction = 'rtl';
@@ -299,10 +313,10 @@ function sourceBar(ctx, st) {
     ctx.textBaseline = 'middle';
     const w = ctx.measureText(S.med).width + 56;
     ctx.fillStyle = 'rgba(18,165,148,.25)';
-    rrect(ctx, (W - w) / 2, y - 86, w, 62, 31);
+    rrect(ctx, L.capCX - w / 2, y - 86, w, 62, 31);
     ctx.fill();
     ctx.fillStyle = '#d9fff7';
-    ctx.fillText(S.med, W / 2, y - 55);
+    ctx.fillText(S.med, L.capCX, y - 55);
   }
   if (r.template === 'proof' && proofSources(r).length) return; // بطاقات التوثيق بتحل محل شريط المصدر
   ctx.fillStyle = 'rgba(255,255,255,.10)';
@@ -319,12 +333,12 @@ function sourceBar(ctx, st) {
   const name = r.sourceName || S.src;
   let nm = name;
   while (ctx.measureText(nm).width > bw - 120 && nm.length > 8) nm = nm.slice(0, -2);
-  ctx.fillText(nm === name ? nm : nm + '…', rx, y + (L.vert ? 112 : 100));
+  ctx.fillText(nm === name ? nm : nm + '…', rx, y + (L.safe ? 98 : L.vert ? 112 : 100));
   ctx.direction = 'ltr';
   ctx.textAlign = 'right';
   ctx.font = font(34, 600);
   ctx.fillStyle = 'rgba(255,255,255,.75)';
-  ctx.fillText(hostOf(r.sourceUrl) || '', rx, y + (L.vert ? 174 : 148));
+  ctx.fillText(hostOf(r.sourceUrl) || '', rx, y + (L.safe ? 144 : L.vert ? 174 : 148));
   if (r.credit && h >= 230) {
     ctx.direction = 'rtl';
     ctx.font = font(28, 600);
@@ -773,7 +787,7 @@ function ticker(ctx, st, t) {
   const others = st.reel.stories.filter(s => s !== st.story && s.headline).map(s => s.headline);
   const text = (tk.text || others.join('   •   ') || st.story.headline || '').trim();
   if (!text) return;
-  const y = L.tickY, h = 60, x = 60, w = W - 120;
+  const y = L.tickY, h = 60, x = L.safe ? L.mL : 60, w = L.safe ? W - L.mL - L.mR : W - 120;
   ctx.fillStyle = 'rgba(0,0,0,.62)';
   rrect(ctx, x, y, w, h, 20);
   ctx.fill();
@@ -998,6 +1012,7 @@ const PANEL_TPLS = new Set(['stat', 'map', 'proof', 'quote', 'timeline']);
 
 // opts.settled: المعاينة الثابتة بترسم القالب بعد انتهاء حركته (الخريطة متقرّبة، الرقم نهائي)
 export function drawFrame(ctx, st, t, opts = {}) {
+  SAFE = st.settings?.safeZones !== false; SAFE_RTL = st.reel.lang !== 'en';
   setFormat(st.reel.format);
   setLang(st.reel.lang);
   if (ctx.canvas && (ctx.canvas.width !== W || ctx.canvas.height !== H)) { ctx.canvas.width = W; ctx.canvas.height = H; }
@@ -1047,11 +1062,12 @@ export function drawFrame(ctx, st, t, opts = {}) {
     ctx.fillRect(0, 0, W, H);
   }
   // قوالب الكروت (رقم/خريطة/توثيق/اقتباس/خط زمني) في المقاسات غير العمودية: الكارت كبير في جنب والعنوان والكلام في الجنب التاني
-  if (!L.vert && PANEL_TPLS.has(story.template)) {
+  if ((!L.vert || L.safe) && PANEL_TPLS.has(story.template)) {
     panelWide(ctx, c, t, kr);
     if (st.settings?.showCredits && (sc ? sc.cur.media.credit : bg && story.media?.credit)) mediaCredit(RTL ? ctx : wrapCtx(ctx, true), sc ? sc.cur.media.credit : story.media.credit);
     ctx.globalAlpha = 1;
     progress(RTL ? ctx : wrapCtx(ctx, true), c, t);
+    storyWipe(ctx, c, kr, opts);
     return;
   }
   // الإنجليزي: U = كانفس معكوس أفقيًا (نفس التصميم بالاتجاه المعاكس)، D = اتجاه نص ltr من غير عكس (الخريطة والتيكر)
@@ -1077,6 +1093,68 @@ export function drawFrame(ctx, st, t, opts = {}) {
   ctx.globalAlpha = 1;
   progress(U, c, t);
   studioScene(ctx, c, t, kr);
+  storyWipe(ctx, c, kr, opts);
+}
+
+// انتقال بين الأخبار: مسحة مايلة بلون القسم بتعدّي على الشاشة أول نص ثانية من الخبر الجديد
+function storyWipe(ctx, c, kr, opts) {
+  if (kr <= 0 || opts.settled || c.local > 0.5) return;
+  const p = c.local / 0.5, e = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+  const bw = W * 0.55, sk = H * 0.18;
+  const x0 = RTL ? W * 1.15 - e * (W * 1.9) : -W * 0.15 - bw + e * (W * 1.9);
+  ctx.save();
+  // شريط رئيسي بلون القسم + خط أبيض رفيع وراه
+  const bars = [[x0, bw, c.cat.color, 0.92], [RTL ? x0 + bw + 22 : x0 - 48, 26, '#ffffff', 0.55]];
+  for (const [xs, wd, col, a] of bars) {
+    ctx.globalAlpha = a * Math.sin(Math.PI * p);
+    ctx.fillStyle = col;
+    ctx.beginPath();
+    ctx.moveTo(xs + sk, 0); ctx.lineTo(xs + sk + wd, 0); ctx.lineTo(xs + wd, H); ctx.lineTo(xs, H);
+    ctx.closePath(); ctx.fill();
+  }
+  ctx.restore();
+}
+
+// 📱 نموذج شاشة المنصة فوق المعاينة (مش بيتصدّر): بيوضّح الحتت اللي زراير تيك توك/ريلز/شورتس بتغطيها
+export function drawGuide(ctx, kind) {
+  if (!kind) return;
+  ctx.save();
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.direction = 'ltr'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+  if (H >= 1900) {
+    // مناطق غير آمنة (أحمر خفيف)
+    ctx.fillStyle = 'rgba(255,40,40,.14)';
+    ctx.fillRect(0, 0, W, 150); ctx.fillRect(0, H - 430, W, 430); ctx.fillRect(W - 150, 860, 150, H - 430 - 860);
+    ctx.setLineDash([18, 12]); ctx.lineWidth = 4; ctx.strokeStyle = 'rgba(255,90,90,.85)';
+    ctx.strokeRect(50, 150, W - 200, H - 580); ctx.setLineDash([]);
+    // الزراير على اليمين
+    const icons = kind === 'shorts' ? ['👍', '👎', '💬', '↗', '🔁'] : kind === 'reels' ? ['♥', '💬', '➤', '⋯'] : ['●', '♥', '💬', '🔖', '↗'];
+    icons.forEach((ic, i) => {
+      const y = 980 + i * 135;
+      ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.beginPath(); ctx.arc(W - 75, y, 44, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#fff'; ctx.font = '700 40px sans-serif'; ctx.textAlign = 'center'; ctx.fillText(ic, W - 75, y + 2);
+      if (kind !== 'shorts' || i < 3) { ctx.font = '600 24px sans-serif'; ctx.fillText(['12.3K', '845', '1.2K', '320', '99'][i] || '', W - 75, y + 62); }
+    });
+    // الاسم والوصف تحت
+    const g = ctx.createLinearGradient(0, H - 520, 0, H); g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(0,0,0,.6)');
+    ctx.fillStyle = g; ctx.fillRect(0, H - 520, W, 520);
+    ctx.textAlign = 'left'; ctx.fillStyle = '#fff'; ctx.font = '800 38px sans-serif';
+    ctx.fillText(kind === 'shorts' ? '@yourchannel   [Subscribe]' : '@yourchannel', 40, H - (kind === 'tiktok' ? 330 : 280));
+    ctx.font = '500 30px sans-serif'; ctx.fillStyle = 'rgba(255,255,255,.92)';
+    ctx.fillText('Caption text of the post goes here… #news', 40, H - (kind === 'tiktok' ? 275 : 225));
+    ctx.fillText('♪ original sound', 40, H - (kind === 'tiktok' ? 222 : 172));
+    if (kind === 'tiktok') { ctx.fillStyle = 'rgba(0,0,0,.85)'; ctx.fillRect(0, H - 130, W, 130); ctx.fillStyle = '#fff'; ctx.font = '600 28px sans-serif'; ['Home', 'Friends', '＋', 'Inbox', 'Profile'].forEach((x, i) => { ctx.textAlign = 'center'; ctx.fillText(x, W * (0.1 + i * 0.2), H - 65); }); }
+    // فوق
+    ctx.textAlign = 'center'; ctx.fillStyle = '#fff'; ctx.font = '700 36px sans-serif';
+    ctx.fillText(kind === 'tiktok' ? 'Following   |   For You' : kind === 'reels' ? 'Reels' : 'Shorts', kind === 'tiktok' ? W / 2 : 140, 95);
+  } else {
+    // باقي المقاسات: هامش آمن بسيط + شريط تقدّم المشغّل تحت
+    ctx.setLineDash([18, 12]); ctx.lineWidth = 4; ctx.strokeStyle = 'rgba(255,90,90,.85)';
+    ctx.strokeRect(W * 0.04, H * 0.05, W * 0.92, H * 0.88); ctx.setLineDash([]);
+    ctx.fillStyle = 'rgba(255,40,40,.14)'; ctx.fillRect(0, H * 0.93, W, H * 0.07);
+    ctx.fillStyle = '#fff'; ctx.font = '600 28px sans-serif'; ctx.fillText('▶  0:12 / 1:05', 30, H - 30);
+  }
+  ctx.restore();
 }
 
 // ارتفاع الكارت في التصميم العمودي (عرض 1080)
@@ -1092,7 +1170,8 @@ function panelInto(ctx, st, r) {
   ctx.save();
   ctx.translate(r.x + (r.w - 1080 * s) / 2, r.y + (r.h - vh * s) / 2);
   ctx.scale(s, s);
-  W = 1080; H = 1920; L = layoutFor(W, H);
+  W = 1080; H = 1920;
+  { const sv = SAFE; SAFE = false; L = layoutFor(W, H); SAFE = sv; } // الكارت نفسه بتصميمه العمودي العادي
   const U = RTL ? ctx : wrapCtx(ctx, true), D = RTL ? ctx : wrapCtx(ctx, false);
   const tpl = st.story.template;
   if (tpl === 'stat') statPanel(U, st, 0);
@@ -1133,7 +1212,7 @@ function panelWide(ctx, c, t) {
     const disc = c.story.category === 'health' || c.story.category === 'healthtech';
     const bot = (tk ? L.tickY : disc ? L.srcY - 96 : L.srcY) - 20;
     const capH = Math.round(190 * L.capScale) + (c.hasB ? 50 : 0);
-    panelInto(ctx, c, { x: 40, y: hb + 16, w: W - 80, h: bot - capH - hb - 16 });
+    panelInto(ctx, c, L.safe ? { x: L.mL, y: hb + 16, w: W - L.mL - L.mR, h: bot - capH - hb - 16 } : { x: 40, y: hb + 16, w: W - 80, h: bot - capH - hb - 16 });
     CAP_CY = bot - capH / 2;
     captions(U0, c, t, hb);
     CAP_CY = 0;

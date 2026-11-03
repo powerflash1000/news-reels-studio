@@ -22,7 +22,37 @@ export function mixTimeline(segs, duration, music = null, fx = null) {
     for (let i = 0; i < l.length && off + i < n; i++) { left[off + i] += l[i]; right[off + i] += r[i]; }
   }
   if (music?.buffer?.getChannelData) addMusic(left, right, segs, duration, music);
+  if (!(fx && fx.whoosh === false)) addWhooshes(left, right, segs);
   return { left, right, duration };
+}
+
+// «ووش» خفيف عند بداية كل خبر جديد (مع مسحة الانتقال اللي على الشاشة). ضوضاء مفلترة بتعلى وتهدى في نص ثانية
+let WHOOSH = null;
+function whoosh() {
+  if (WHOOSH) return WHOOSH;
+  const n = Math.round(0.55 * SAMPLE_RATE), out = new Float32Array(n);
+  let seed = 12345, lp = 0, lp2 = 0;
+  for (let i = 0; i < n; i++) {
+    seed = (seed * 1103515245 + 12345) & 0x7fffffff;
+    const x = seed / 0x3fffffff - 1, p = i / n;
+    const cut = 0.02 + 0.25 * Math.sin(Math.PI * p); // الفلتر بيفتح في النص (إحساس حركة)
+    lp += cut * (x - lp); lp2 += cut * (lp - lp2);
+    out[i] = (lp - lp2 * 0.6) * Math.pow(Math.sin(Math.PI * Math.min(1, p * 1.25)), 2);
+  }
+  let peak = 0; for (const v of out) peak = Math.max(peak, Math.abs(v));
+  for (let i = 0; i < n; i++) out[i] *= 0.22 / (peak || 1);
+  return (WHOOSH = out);
+}
+function addWhooshes(left, right, segs) {
+  const firsts = new Map();
+  for (const s of segs) if (s.storyIdx != null && (!firsts.has(s.storyIdx) || s.at < firsts.get(s.storyIdx))) firsts.set(s.storyIdx, s.at);
+  const starts = [...firsts.values()].sort((a, b) => a - b).slice(1);
+  if (!starts.length) return;
+  const w = whoosh(), n = left.length;
+  for (const t of starts) {
+    const off = Math.max(0, Math.round((t - 0.45) * SAMPLE_RATE));
+    for (let i = 0; i < w.length && off + i < n; i++) { left[off + i] += w[i] * (0.8 + 0.2 * (i / w.length)); right[off + i] += w[i] * (1 - 0.2 * (i / w.length)); }
+  }
 }
 
 // موسيقى خلفية: تتكرر لحد آخر الحلقة، fade in/out، وتنزل لـ35% وقت الكلام (ducking) بانتقال ناعم

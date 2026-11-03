@@ -1,5 +1,5 @@
 // M4: حزمة النشر (عناوين/وصف/هاشتاجات/مصادر/حقوق وسائط) + سجل التجارب. دوال خالصة من غير DOM.
-import { MED_DISCLAIMER } from './reel.js?v=mw0wq9tn';
+import { MED_DISCLAIMER } from './reel.js?v=mw11o31c';
 
 export const PLATFORMS = { tiktok: 'تيك توك', instagram: 'إنستجرام', facebook: 'فيسبوك' };
 export const ENGAGE = ['likes', 'comments', 'shares', 'saves'];

@@ -1,29 +1,29 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw0wq9tn';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw0wq9tn';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw0wq9tn';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw0wq9tn';
-import { transcribeWords, alignWords } from './align.js?v=mw0wq9tn';
-import { gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw0wq9tn';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw0wq9tn';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mw0wq9tn';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw0wq9tn';
-import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw0wq9tn';
-import { exportSupport, exportReel } from './export.js?v=mw0wq9tn';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw0wq9tn';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw0wq9tn';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw0wq9tn';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw0wq9tn';
-import { detailTarget, loadTileMap } from './tiles.js?v=mw0wq9tn';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mw0wq9tn';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw0wq9tn';
-import { loadBg, playBg } from './bg.js?v=mw0wq9tn';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw0wq9tn';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw0wq9tn';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw0wq9tn';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw0wq9tn';
-import { readUrl, cleanPasted } from './reader.js?v=mw0wq9tn';
-import { initI18n, ui } from './i18n.js?v=mw0wq9tn';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw0wq9tn';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw11o31c';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw11o31c';
+import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw11o31c';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw11o31c';
+import { transcribeWords, alignWords } from './align.js?v=mw11o31c';
+import { gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw11o31c';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw11o31c';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mw11o31c';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw11o31c';
+import { drawGuide, sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw11o31c';
+import { exportSupport, exportReel } from './export.js?v=mw11o31c';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw11o31c';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw11o31c';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw11o31c';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw11o31c';
+import { detailTarget, loadTileMap } from './tiles.js?v=mw11o31c';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mw11o31c';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw11o31c';
+import { loadBg, playBg } from './bg.js?v=mw11o31c';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw11o31c';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw11o31c';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw11o31c';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw11o31c';
+import { readUrl, cleanPasted } from './reader.js?v=mw11o31c';
+import { initI18n, ui } from './i18n.js?v=mw11o31c';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw11o31c';
 
 initI18n();
 
@@ -1446,6 +1446,7 @@ function redraw(t) {
   const seg = info.tl.segs.find(x => x.storyIdx === cur);
   clearTimeout(coverTimer); coverTimer = setTimeout(refreshCover, 400);
   drawFrame(ctx, stateFor(info), t ?? (r ? (seg ? seg.start + 0.3 : r.start) : 0), { settled: true });
+  drawGuide(ctx, $('pvGuide')?.value);
 }
 
 function updateInfo() {
@@ -1800,6 +1801,8 @@ function pvFull() {
   (st.requestFullscreen || st.webkitRequestFullscreen)?.call(st)?.catch?.(() => setStatus('المتصفح مسمحش بملء الشاشة.', true));
 }
 $('pvBig').addEventListener('click', pvFull);
+try { $('pvGuide').value = localStorage.getItem('nrs:pvGuide') || ''; } catch { /* ممنوع التخزين */ }
+$('pvGuide').addEventListener('change', () => { try { localStorage.setItem('nrs:pvGuide', $('pvGuide').value); } catch { /* ممنوع التخزين */ } redraw(); });
 $('cv').addEventListener('dblclick', pvFull);
 document.addEventListener('fullscreenchange', () => { $('pvBig').textContent = document.fullscreenElement === $('pvStage') ? '✕ خروج من الشاشة الكبيرة' : '⛶ شاشة كبيرة'; redraw(); });
 document.addEventListener('keydown', e => { if (document.fullscreenElement === $('pvStage') && e.code === 'Space') { e.preventDefault(); $('play').click(); } });
@@ -1824,6 +1827,7 @@ $('play').addEventListener('click', () => {
     if (t > st.tl.duration) return stopPlay();
     syncPlayback(st, t);
     drawFrame(ctx, st, Math.max(0, t));
+    drawGuide(ctx, $('pvGuide').value);
     $('time').textContent = `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
     playing.raf = requestAnimationFrame(tick);
   };
@@ -3179,7 +3183,7 @@ $('bkImport').addEventListener('change', async e => {
 });
 
 /* ---------- الإعدادات ---------- */
-const TEXT_FIELDS = { sChannel: 'channelName', sHandle: 'handle', sReelLang: 'reelLang', sTts: 'ttsProvider', sGemModel: 'geminiTtsModel', sGemStyle: 'geminiStyle', sGemA: 'gemVoiceA', sGemB: 'gemVoiceB', sAzKey: 'azureKey', sAzRegion: 'azureRegion', sAzA: 'azVoiceA', sAzB: 'azVoiceB', sAzRate: 'azRate', sOaA: 'oaVoiceA', sOaB: 'oaVoiceB', sOaModel: 'oaTtsModel', sOaStyle: 'oaStyle', sKey: 'elevenKey', sModel: 'elevenModel', sProxy: 'proxyUrl', sPixabay: 'pixabayKey', sSi: 'siKey', sFreesound: 'freesoundKey', sClaude: 'claudeKey', sClaudeModel: 'claudeModel', sAiProv: 'aiProvider', sGemini: 'geminiKey', sGroq: 'groqKey', sOr: 'orKey', sOpenai: 'openaiKey', sAiModel: 'aiModel' };
+const TEXT_FIELDS = { sChannel: 'channelName', sHandle: 'handle', sReelLang: 'reelLang', sTts: 'ttsProvider', sGemModel: 'geminiTtsModel', sGemStyle: 'geminiStyle', sGemA: 'gemVoiceA', sGemB: 'gemVoiceB', sAzKey: 'azureKey', sAzRegion: 'azureRegion', sAzA: 'azVoiceA', sAzB: 'azVoiceB', sAzRate: 'azRate', sOaA: 'oaVoiceA', sOaB: 'oaVoiceB', sOaModel: 'oaTtsModel', sOaStyle: 'oaStyle', sKey: 'elevenKey', sModel: 'elevenModel', sProxy: 'proxyUrl', sPixabay: 'pixabayKey', sGhToken: 'ghToken', sSi: 'siKey', sFreesound: 'freesoundKey', sClaude: 'claudeKey', sClaudeModel: 'claudeModel', sAiProv: 'aiProvider', sGemini: 'geminiKey', sGroq: 'groqKey', sOr: 'orKey', sOpenai: 'openaiKey', sAiModel: 'aiModel' };
 const FX_SLIDERS = [['bass', 'جهارة الطبقات (Bass)', -6, 6, 0.5], ['presence', 'وضوح الكلام (Presence)', -6, 6, 0.5], ['air', 'لمعة (Air)', -6, 6, 0.5], ['comp', 'ضغط ديناميكي', 0, 1, 0.05], ['deess', 'تخفيف السين والشين', 0, 1, 0.05], ['room', 'صدى / مساحة', 0, 0.4, 0.02], ['echo', 'صدى متكرر (Echo)', 0, 0.6, 0.02]];
 const STYLE_PRESETS = {
   '': { name: '— اختار —' },
@@ -3203,7 +3207,7 @@ function renderFxControls() {
   const s = getSettings();
   $('sDialect').checked = !!s.dialectTag; $('sLang').checked = !!s.langCode;
   $('logoOn').checked = !!s.logo?.on; $('logoPos').value = s.logo?.pos || 'tl'; $('logoSize').value = s.logo?.size || 110;
-  $('sCapSize').value = s.caps.size; $('sCapPlate').checked = s.caps.plate !== false; $('sCapStroke').checked = s.caps.stroke !== false; $('sCredits').checked = !!s.showCredits;
+  $('sCapSize').value = s.caps.size; $('sCapPlate').checked = s.caps.plate !== false; $('sCapStroke').checked = s.caps.stroke !== false; $('sCredits').checked = !!s.showCredits; $('sSafe').checked = s.safeZones !== false;
 }
 function collectFx() {
   const fx = { preset: $('sFxPreset').value, norm: $('sFxNorm').checked, target: -16 };
@@ -3472,6 +3476,7 @@ function collectSettings() {
   o.logo = { on: $('logoOn').checked, pos: $('logoPos').value, size: Number($('logoSize').value) || 110 };
   o.caps = { size: Number($('sCapSize').value) || 64, plate: $('sCapPlate').checked, stroke: $('sCapStroke').checked };
   o.showCredits = $('sCredits').checked;
+  o.safeZones = $('sSafe').checked;
   return o;
 }
 
@@ -3604,10 +3609,26 @@ $('ver').textContent = `نسخة ${codeV}${codeV === pageV ? '' : ` ⚠️ ال�
   restoreAudio();
   if (reel.stories.some(x => x.template === 'map')) loadWorld();
   try { feeds = await loadFeeds(); applyTr(); } catch { $('feedInfo').textContent = 'تعذر تحميل data/feeds.json.'; }
+  // لو النسخة اللي على GitHub Pages قديمة، بنجيب الأحدث من GitHub مباشرة في الخلفية
+  if (!feeds.generatedAt || Date.now() - Date.parse(feeds.generatedAt) > 45 * 60000) reloadFeeds().then(f => { if (f.generatedAt && (!feeds.generatedAt || Date.parse(f.generatedAt) > Date.parse(feeds.generatedAt))) { feeds = f; applyTr(); renderFeed(); } }).catch(() => {});
   renderFeed();
   loadFonts().then(() => redraw());
   window.__nrs = { bgs, stateNow: () => stateFor(currentTimeline()), avatar: { mouthAt }, live: { engine, bcast, prepare: livePrepare, enqueue: lvEnqueue }, redraw, get reel() { return reel; }, get cur() { return cur; }, audioMap, setManual: b => { manualAudio = b; updateInfo(); redraw(); } };
 })();
+
+// 🔄 هات أحدث أخبار: من غير توكن = آخر نسخة محفوظة على GitHub، وبالتوكن = تشغيل تحديث جديد دلوقتي
+$('feedRefresh').addEventListener('click', async () => {
+  const b = $('feedRefresh'), msg = $('feedRefreshMsg'), tok = getSettings().ghToken;
+  b.disabled = true;
+  try {
+    let f;
+    if (tok) { msg.textContent = '⏳ بشغّل تحديث الأخبار على GitHub…'; f = await runFeedsNow(tok, s => (msg.textContent = `⏳ بيجيب الأخبار من المصادر… ${s} ث`)); }
+    else { msg.textContent = '⏳ بجيب آخر نسخة…'; f = await reloadFeeds(); }
+    feeds = f; applyTr(); renderFeed();
+    msg.textContent = tok ? '✅ الأخبار اتحدّثت دلوقتي.' : `✅ دي آخر نسخة (${timeAgo(f.generatedAt)}). لتحديث فوري حط «توكن GitHub» في الإعدادات.`;
+  } catch (e) { msg.textContent = '❌ ' + (e.message || e); }
+  b.disabled = false;
+});
 
 /* ---------- النشر: حزمة + طابور + سجل تجارب (M4) ---------- */
 let pbId = null;
@@ -3983,9 +4004,11 @@ function fillFxQ() {
   $('fxQ').value = FX_PRESETS[fx.preset] ? fx.preset : (fx.preset ? 'custom' : 'none');
   $('fxRoom').value = fx.room || 0;
   $('fxEcho').value = fx.echo || 0;
+  $('fxWhoosh').checked = fx.whoosh !== false;
 }
 function setFx(fx) { setSettings({ fx }); fillFxQ(); renderFxControls(); redraw(); }
-$('fxQ').addEventListener('change', () => { const p = FX_PRESETS[$('fxQ').value]; if (p) { const { name, ...v } = p; setFx({ ...v, preset: $('fxQ').value, target: -16 }); } });
+$('fxQ').addEventListener('change', () => { const p = FX_PRESETS[$('fxQ').value]; if (p) { const { name, ...v } = p; setFx({ ...v, preset: $('fxQ').value, target: -16, whoosh: getSettings().fx?.whoosh }); } });
+$('fxWhoosh').addEventListener('change', () => setFx({ ...(getSettings().fx || {}), whoosh: $('fxWhoosh').checked }));
 for (const id of ['fxRoom', 'fxEcho']) $(id).addEventListener('change', () => setFx({ ...getSettings().fx, [id === 'fxRoom' ? 'room' : 'echo']: Number($(id).value), preset: 'custom' }));
 fillFxQ();
 renderAuLines();
