@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mw0irdbl">
+<html lang="ar" dir="rtl" data-v="mw0nl59b">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mw0irdbl">
+<link rel="stylesheet" href="assets/css/style.css?v=mw0nl59b">
 </head>
 <body>
 <header class="top">
@@ -381,10 +381,16 @@
         <div class="row">
           <button id="bgPick" class="btn">🖼 من مكتبة الوسائط</button>
           <label class="btn file">⬆ من جهازي<input id="bgFile" type="file" accept="image/*,video/*" hidden></label>
+          <button id="bgLink" class="btn" type="button">🔗 من رابط</button>
+          <button id="bgAi" class="btn" type="button">🎨 ولّدها بالذكاء الاصطناعي</button>
           <button id="bgCapture" class="btn">📸 التقط من شاشتي</button>
           <button id="bgOpenSrc" class="btn ghost" type="button">↗ افتح صفحة المصدر</button>
           <button id="bgClear" class="btn ghost">إزالة</button>
         </div>
+        <div id="bgLinkBox" class="row" hidden><input id="bgUrl" dir="ltr" placeholder="https://… رابط الصورة أو الفيديو المباشر (jpg / png / webp / mp4)"><input id="bgCredit" dir="auto" placeholder="الحقوق: اسم الموقع أو الشركة" style="max-width:200px"><button id="bgLinkGo" class="btn pri" type="button">حمّل</button></div>
+        <div id="bgAiBox" hidden><textarea id="bgGp" class="gp" dir="ltr" rows="3" placeholder="البرومبت بيتكتب هنا…"></textarea><div class="row"><button id="bgGpCopy" class="btn" type="button">↗ انسخ وافتح الأداة</button><label class="btn file">📥 حط الملف المولّد<input id="bgAiFile" type="file" accept="image/*,video/*" hidden></label></div></div>
+        <p id="bgMsg" class="muted"></p>
+        <p class="muted">🔗 الرابط لازم يكون للصورة نفسها: كليك يمين على الصورة ← «نسخ عنوان الصورة». صور المنتجات خدها من موقع الشركة الرسمي واكتب اسمها في الحقوق. صور مواقع الأخبار مرفوضة (حقوقها محمية).</p>
         <p class="muted">افتح صفحة الخبر في تبويب، وبعدين «التقط من شاشتي» واختار التبويب أو النافذة. أو انسخ صورة (لقطة أو أي صورة) واضغط Ctrl+V هنا. بنحط على الشاشة اسم المصدر. حقوق الصور والمقاطع على مصدرها، فاستخدم لقطات قصيرة للتعليق على الخبر أو صور المصادر الرسمية والمفتوحة.</p>
         <label>التعتيم (عشان النص يتقري)<input id="bgDim" type="range" min="0" max="0.85" step="0.05" value="0.5"></label>
         <div class="grid">
@@ -870,6 +876,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mw0irdbl"></script>
+<script type="module" src="js/main.js?v=mw0nl59b"></script>
 </body>
 </html>
