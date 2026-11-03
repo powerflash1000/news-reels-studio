@@ -1,29 +1,29 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw0vkk0f';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw0vkk0f';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw0vkk0f';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw0vkk0f';
-import { transcribeWords, alignWords } from './align.js?v=mw0vkk0f';
-import { gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw0vkk0f';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw0vkk0f';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mw0vkk0f';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw0vkk0f';
-import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw0vkk0f';
-import { exportSupport, exportReel } from './export.js?v=mw0vkk0f';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw0vkk0f';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw0vkk0f';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw0vkk0f';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw0vkk0f';
-import { detailTarget, loadTileMap } from './tiles.js?v=mw0vkk0f';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mw0vkk0f';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw0vkk0f';
-import { loadBg, playBg } from './bg.js?v=mw0vkk0f';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw0vkk0f';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw0vkk0f';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw0vkk0f';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw0vkk0f';
-import { readUrl, cleanPasted } from './reader.js?v=mw0vkk0f';
-import { initI18n, ui } from './i18n.js?v=mw0vkk0f';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw0vkk0f';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw0wq9tn';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw0wq9tn';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw0wq9tn';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw0wq9tn';
+import { transcribeWords, alignWords } from './align.js?v=mw0wq9tn';
+import { gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw0wq9tn';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw0wq9tn';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mw0wq9tn';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw0wq9tn';
+import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw0wq9tn';
+import { exportSupport, exportReel } from './export.js?v=mw0wq9tn';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw0wq9tn';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw0wq9tn';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw0wq9tn';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw0wq9tn';
+import { detailTarget, loadTileMap } from './tiles.js?v=mw0wq9tn';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mw0wq9tn';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw0wq9tn';
+import { loadBg, playBg } from './bg.js?v=mw0wq9tn';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw0wq9tn';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw0wq9tn';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw0wq9tn';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw0wq9tn';
+import { readUrl, cleanPasted } from './reader.js?v=mw0wq9tn';
+import { initI18n, ui } from './i18n.js?v=mw0wq9tn';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw0wq9tn';
 
 initI18n();
 
@@ -3203,7 +3203,7 @@ function renderFxControls() {
   const s = getSettings();
   $('sDialect').checked = !!s.dialectTag; $('sLang').checked = !!s.langCode;
   $('logoOn').checked = !!s.logo?.on; $('logoPos').value = s.logo?.pos || 'tl'; $('logoSize').value = s.logo?.size || 110;
-  $('sCapSize').value = s.caps.size; $('sCapPlate').checked = s.caps.plate !== false; $('sCapStroke').checked = s.caps.stroke !== false;
+  $('sCapSize').value = s.caps.size; $('sCapPlate').checked = s.caps.plate !== false; $('sCapStroke').checked = s.caps.stroke !== false; $('sCredits').checked = !!s.showCredits;
 }
 function collectFx() {
   const fx = { preset: $('sFxPreset').value, norm: $('sFxNorm').checked, target: -16 };
@@ -3471,6 +3471,7 @@ function collectSettings() {
   o.langCode = $('sLang').checked;
   o.logo = { on: $('logoOn').checked, pos: $('logoPos').value, size: Number($('logoSize').value) || 110 };
   o.caps = { size: Number($('sCapSize').value) || 64, plate: $('sCapPlate').checked, stroke: $('sCapStroke').checked };
+  o.showCredits = $('sCredits').checked;
   return o;
 }
 
