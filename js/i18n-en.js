@@ -1406,4 +1406,6 @@ export default {
   "التفصيلية بتقرّب على أول دبوس (أو الدول المختارة) وبتبيّن الشوارع وأسامي الأماكن من OpenStreetMap (محتاجة نت). تقدر تكتب رمز بريدي في البحث (مثلاً «10001 USA» أو «11511 مصر») أو أي عنوان وتدوس «بحث أوسع». من غيرها الخريطة بحدود الدول بس.": "The detailed map zooms to the first pin (or the selected countries) and shows streets and place names from OpenStreetMap (needs internet). You can type a postal code in the search (e.g. «10001 USA» or «11511 Egypt») or any address and press «wider search». Without it the map shows country borders only.",
   "⚠️ {} هتظهر الخريطة البسيطة.": "⚠️ {} The simple map will be shown.",
   "مقدرتش أحمّل الخريطة التفصيلية (النت أو الموقع منع التحميل).": "Couldn't load the detailed map (no internet or the site blocked it).",
+  "موضة ولايف ستايل": "Fashion & Lifestyle",
+  "مفيش صور من مواقع الموضة أو عروض الأزياء (حقوقها محمية)، مفيش ادعاء علاجي لمنتج تجميل، ولو فيه براند مدفوع مكتوب إنه إعلان.": "No photos from fashion sites or runway shows (copyrighted), no medical claims for beauty products, and any paid brand is labelled as an ad.",
 };
