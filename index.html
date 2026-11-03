@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mw0rfy5z">
+<html lang="ar" dir="rtl" data-v="mw0rvval">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mw0rfy5z">
+<link rel="stylesheet" href="assets/css/style.css?v=mw0rvval">
 </head>
 <body>
 <header class="top">
@@ -292,7 +292,7 @@
         <label>صوت ElevenLabs للمذيع ب (لو حوار)<select id="genElB"></select></label>
         <label>صوت Gemini للمذيع أ<select id="genGemA"></select></label>
         <label>صوت Gemini للمذيع ب (لو حوار)<select id="genGemB"></select></label>
-        <label title="كل طلب بيتحسب من حصة Gemini اليومية (حوالي 15)، فكل ما الجمل في الطلب تزيد بتوفّر أكتر">جمل Gemini في الطلب الواحد<select id="gemPer"><option value="1">1 (كل جملة لوحدها)</option><option value="4">4</option><option value="6">6</option><option value="8" selected>8 (موصى بيه)</option><option value="10">10 (توفير أكتر)</option></select></label>
+        <label title="كل طلب بيولّد العدد ده من السطور اللي ورا بعض (من أول سطر مالهوش صوت، أو من السطور المتعلّمة ✔ في كارت الصوت). كل طلب بيتحسب من حصة Gemini اليومية (حوالي 15)">جمل Gemini في الطلب الواحد<select id="gemPer"><option value="1">1 (كل جملة لوحدها)</option><option value="4">4</option><option value="6">6</option><option value="8" selected>8 (موصى بيه)</option><option value="10">10 (توفير أكتر)</option></select></label>
       </div>
       <p id="audioInfo" class="muted">مفيش صوت لسه.</p>
       <details id="auBox" class="card" open>
@@ -303,6 +303,8 @@
           <label>صدى متكرر (Echo)<input id="fxEcho" type="range" min="0" max="0.6" step="0.02"></label>
         </div>
         <p class="muted">التأثير بيتطبّق على المعاينة والتصدير وملف WAV، ومن غير رصيد. الصوت الأصلي مبيتغيرش، فجرّب براحتك. ▶ بتسمّعك السطر بالتأثير.</p>
+        <div class="row aupick"><button id="auPickMiss" class="btn" type="button">☑ اللي مالهاش صوت</button><button id="auPickAll" class="btn" type="button">☑ الكل</button><button id="auPickNone" class="btn ghost" type="button">✕ إلغاء التحديد</button><select id="auPickProv" title="مصدر الصوت للسطور المتعلّمة"><option value="gemini">Gemini</option><option value="elevenlabs">ElevenLabs</option><option value="openai">OpenAI</option><option value="azure">Azure</option></select><button id="auPickGen" class="btn pri" type="button">🎙 ولّد المحدد</button><span id="auPickN" class="muted"></span></div>
+        <p class="muted">علّم ✔ جنب السطور اللي عايزها، ودوس «🎙 ولّد المحدد». مع Gemini السطور المتعلّمة اللي ورا بعض بتتجمع في طلب واحد (عددها من «جمل Gemini في الطلب الواحد»)، وقبل ما يبدأ بيكتبلك أرقام السطور في كل طلب. السطر المتعلّم اللي عنده صوت بيتولّد نسخة جديدة، والقديمة بتفضل في 📚.</p>
         <div id="auLines" class="aulist"></div>
         <div class="genbox">
           <b>🎥 مقطع ظهورك (صورتك بتتكلم في الأول بس)</b>
@@ -900,6 +902,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mw0rfy5z"></script>
+<script type="module" src="js/main.js?v=mw0rvval"></script>
 </body>
 </html>
