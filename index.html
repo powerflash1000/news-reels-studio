@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mw1bc1qs">
+<html lang="ar" dir="rtl" data-v="mw1cchne">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mw1bc1qs">
+<link rel="stylesheet" href="assets/css/style.css?v=mw1cchne">
 </head>
 <body>
 <header class="top">
@@ -688,6 +688,20 @@
   <div class="card">
     <h3>حزمة النشر</h3>
     <label>الريل<select id="pbReel"></select></label>
+    <div class="card pbai">
+      <b>✨ وصف مكتوب من الفيديو نفسه</b>
+      <p class="muted">بيقرا عناوين الحلقة والسكريبت والمصدر، ويكتب عنوان ووصف وهاشتاجات مظبوطين على المنصة. المصادر والحقوق والتنبيهات بتتضاف تحت لوحدها (مش من الذكاء الاصطناعي). محتاج مفتاح ذكاء اصطناعي في الإعدادات.</p>
+      <div class="row">
+        <label>المنصة<select id="pbAiPlat"></select></label>
+        <button id="pbAiGo" class="btn pri" type="button">✨ اكتب الوصف</button>
+        <span id="pbAiMsg" class="muted"></span>
+      </div>
+      <p id="pbFmtNote" class="muted"></p>
+      <div id="pbKwBox" hidden>
+        <label>كلمات مفتاحية لخانة Tags في YouTube Studio<input id="pbKw" dir="auto"></label>
+        <div class="row"><button class="btn" data-cpx="title" type="button">📋 انسخ العنوان</button><button class="btn" data-cpx="kw" type="button">📋 انسخ الكلمات المفتاحية</button></div>
+      </div>
+    </div>
     <div id="pbTitles" class="chips"></div>
     <label>العنوان<input id="pbTitle" dir="auto"></label>
     <label>الوصف (المصادر وحقوق الوسائط والتنبيهات جاهزة)<textarea id="pbDesc" rows="8" dir="auto"></textarea></label>
@@ -696,6 +710,8 @@
       <button class="btn" data-cp="tiktok">📋 تيك توك</button>
       <button class="btn" data-cp="instagram">📋 إنستجرام</button>
       <button class="btn" data-cp="facebook">📋 فيسبوك</button>
+      <button class="btn" data-cp="shorts">📋 يوتيوب شورتس</button>
+      <button class="btn" data-cp="youtube">📋 يوتيوب عريض</button>
       <button id="pbRegen" class="btn ghost">↻ أعد توليد الحزمة</button>
     </div>
     <p id="pbMsg" class="muted"></p>
@@ -710,7 +726,7 @@
     <h3>الجدولة</h3>
     <div class="grid">
       <label>تاريخ النشر المخطط<input id="pbDate" type="date"></label>
-      <div><label class="chk"><input type="checkbox" data-plat="tiktok"> تيك توك</label><label class="chk"><input type="checkbox" data-plat="instagram"> إنستجرام</label><label class="chk"><input type="checkbox" data-plat="facebook"> فيسبوك</label></div>
+      <div><label class="chk"><input type="checkbox" data-plat="tiktok"> تيك توك</label><label class="chk"><input type="checkbox" data-plat="instagram"> إنستجرام</label><label class="chk"><input type="checkbox" data-plat="facebook"> فيسبوك</label><label class="chk"><input type="checkbox" data-plat="shorts"> يوتيوب شورتس</label><label class="chk"><input type="checkbox" data-plat="youtube"> يوتيوب عريض</label></div>
     </div>
     <button id="pbPlan" class="btn">حفظ في الطابور</button>
     <div id="pbQueue" class="list"></div>
@@ -937,6 +953,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mw1bc1qs"></script>
+<script type="module" src="js/main.js?v=mw1cchne"></script>
 </body>
 </html>
