@@ -1,7 +1,7 @@
 // توليد الصوت من ElevenLabs مع توقيت كل كلمة، وكاش لكل سطر
-import { getSettings, addChars, cacheGet, cachePut, sha1, load, save, takePut } from './storage.js?v=mw0qgo6p';
-import { decode } from './audio.js?v=mw0qgo6p';
-import { estimateWords, stripTags } from './reel.js?v=mw0qgo6p';
+import { getSettings, addChars, cacheGet, cachePut, sha1, load, save, takePut } from './storage.js?v=mw0r37lm';
+import { decode } from './audio.js?v=mw0r37lm';
+import { estimateWords, stripTags } from './reel.js?v=mw0r37lm';
 
 const API = 'https://api.elevenlabs.io';
 
@@ -43,7 +43,9 @@ export const AZURE_VOICES = [
   ['ar-SA-HamedNeural', 'سعودي — حامد', 'm'], ['ar-SA-ZariyahNeural', 'سعودي — زارية', 'f'],
   ['ar-AE-HamdanNeural', 'إماراتي — حمدان', 'm'], ['ar-AE-FatimaNeural', 'إماراتي — فاطمة', 'f'],
   ['ar-JO-TaimNeural', 'أردني — تيم', 'm'], ['ar-LB-RamiNeural', 'لبناني — رامي', 'm'], ['ar-MA-JamalNeural', 'مغربي — جمال', 'm'],
-  ['en-US-AndrewMultilingualNeural', 'English — Andrew (multilingual)', 'm'], ['en-US-AvaMultilingualNeural', 'English — Ava (multilingual)', 'f'],
+  ['en-US-AndrewMultilingualNeural', 'متعدد اللغات (أحدث، بيقرا عربي) — أندرو', 'm'], ['en-US-AvaMultilingualNeural', 'متعدد اللغات (أحدث، بيقرا عربي) — آفا', 'f'],
+  ['en-US-BrianMultilingualNeural', 'متعدد اللغات (أحدث، بيقرا عربي) — براين', 'm'], ['en-US-EmmaMultilingualNeural', 'متعدد اللغات (أحدث، بيقرا عربي) — إيما', 'f'],
+  ['fr-FR-RemyMultilingualNeural', 'متعدد اللغات (أحدث، بيقرا عربي) — ريمي', 'm'], ['de-DE-SeraphinaMultilingualNeural', 'متعدد اللغات (أحدث، بيقرا عربي) — سيرافينا', 'f'],
   ['en-US-GuyNeural', 'English — Guy', 'm'], ['en-US-JennyNeural', 'English — Jenny', 'f'], ['en-GB-RyanNeural', 'English UK — Ryan', 'm'], ['en-GB-SoniaNeural', 'English UK — Sonia', 'f'],
 ];
 // المنطقة زي ما Azure بيكتبها: «Sweden Central» أو «(Europe) Sweden Central» أو رابط الـ Endpoint → swedencentral
@@ -77,13 +79,17 @@ async function azureSpeak(text, voice, lang) {
   if (lang === 'en' && /^ar-/.test(voice)) voice = AZURE_VOICES.find(v => v[0] === voice)?.[2] === 'f' ? 'en-US-AvaMultilingualNeural' : 'en-US-AndrewMultilingualNeural';
   const loc = voice.split('-').slice(0, 2).join('-');
   const rate = Number(s.azRate) || 0;
-  const body = `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="${loc}"><voice name="${xmlEsc(voice)}">${rate ? `<prosody rate="${rate > 0 ? '+' : ''}${rate}%">` : ''}${xmlEsc(text)}${rate ? '</prosody>' : ''}</voice></speak>`;
+  // الأصوات متعددة اللغات: بنقولها صراحة إن النص عربي مصري (من غير كده بتقراه بلكنة إنجليزي)
+  const multi = /Multilingual/i.test(voice) && lang !== 'en';
+  const inner = `${rate ? `<prosody rate="${rate > 0 ? '+' : ''}${rate}%">` : ''}${xmlEsc(text)}${rate ? '</prosody>' : ''}`;
+  const body = `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="${loc}"><voice name="${xmlEsc(voice)}">${multi ? `<lang xml:lang="ar-EG">${inner}</lang>` : inner}</voice></speak>`;
   const res = await azFetch(`https://${region}.tts.speech.microsoft.com/cognitiveservices/v1`, {
     method: 'POST', signal: AbortSignal.timeout(60000),
     headers: { 'Ocp-Apim-Subscription-Key': s.azureKey.trim(), 'Content-Type': 'application/ssml+xml', 'X-Microsoft-OutputFormat': 'audio-24khz-96kbitrate-mono-mp3' },
     body,
   });
   if (!res.ok) {
+    if (res.status === 400 && /Multilingual/i.test(voice)) { const e = new Error('Azure: الصوت متعدد اللغات ده مقبلش العربي في المنطقة دي. جرّب أندرو أو آفا، أو صوت مصري.'); e.status = 400; throw e; }
     const why = res.status === 401 ? `المفتاح غلط أو مش لنفس المنطقة (جرّبت «${region}»: لازم تبقى نفس Location/Region اللي جنب المفتاح في Azure)` : res.status === 429 ? 'وصلت لحد الطلبات أو الحد المجاني للشهر (الخطة المجانية F0 = 500 ألف حرف)' : res.status === 400 ? 'اسم الصوت مش موجود في المنطقة دي' : (await res.text().catch(() => '')).slice(0, 160);
     const e = new Error(`Azure رفض التوليد (${res.status}): ${why}`); e.status = res.status; throw e;
   }
@@ -153,15 +159,35 @@ export function gemDirections(text) {
 }
 
 // كل موديل صوت في Gemini ليه حصة يومية لوحده: لو الأول قال «وصلت للحد» بنجرّب اللي بعده
+// الخطة المجانية: حوالي 3 طلبات في الدقيقة و15 في اليوم لكل موديل صوت (اليوم بيتجدد 12 بالليل بتوقيت كاليفورنيا ≈ 10 الصبح القاهرة)
+export const GEM_FREE_RPD = 15;
+const pacificDay = () => new Date().toLocaleDateString('en-CA', { timeZone: 'America/Los_Angeles' });
+export function gemUsage() { const u = load('gemUse', null); return u && u.day === pacificDay() ? u : { day: pacificDay(), n: {} }; }
+function gemCount(model) { const u = gemUsage(); u.n[model] = (u.n[model] || 0) + 1; save('gemUse', u); }
+const sleep = ms => new Promise(r => setTimeout(r, ms));
 async function geminiSpeak(text, voice, extra = '') {
   const s = getSettings();
   const first = s.geminiTtsModel || GEMINI_TTS_MODELS[0].id;
   const models = [first, ...GEMINI_TTS_MODELS.map(m => m.id).filter(id => id !== first)];
   let last;
   for (const model of models) {
-    try { return await geminiSpeakWith(model, text, voice, extra); } catch (e) { last = e; if (e.status !== 429) throw e; }
+    for (let tries = 0; tries < 4; tries++) {
+      try { const out = await geminiSpeakWith(model, text, voice, extra); gemCount(model); return out; }
+      catch (e) {
+        last = e;
+        if (e.status !== 429) throw e;
+        if (e.perDay) break; // حصة اليوم للموديل ده خلصت → الموديل اللي بعده
+        // حد الدقيقة: بنستنى المدة اللي Gemini قالها ونكمّل لوحدنا
+        const wait = Math.min(65, Math.max(8, e.retry || 22));
+        try { dispatchEvent(new CustomEvent('nrs:tts-wait', { detail: { provider: 'gemini', seconds: wait } })); } catch { /* مش في متصفح */ }
+        await sleep(wait * 1000);
+      }
+    }
   }
-  throw last;
+  const used = Object.values(gemUsage().n).reduce((a, b) => a + b, 0);
+  const e = new Error(`خلصت حصة Gemini المجانية للنهارده (حوالي ${GEM_FREE_RPD} طلب في اليوم لكل موديل صوت، واستخدمت ${used} من الجهاز ده). بتتجدد حوالي الساعة 10 الصبح بتوقيت القاهرة. كمّل بـ OpenAI أو ElevenLabs أو Azure دلوقتي.`);
+  e.status = 429; e.cause = last;
+  throw e;
 }
 async function geminiSpeakWith(model, text, voice, extra) {
   const s = getSettings();
@@ -178,9 +204,17 @@ async function geminiSpeakWith(model, text, voice, extra) {
     });
   } catch { throw new Error('تعذر الاتصال بـ Gemini (النت أو المتصفح منع الطلب).'); }
   if (!res.ok) {
-    let d = ''; try { d = (await res.json())?.error?.message || ''; } catch { /* ignore */ }
+    let d = '', err = null; try { err = (await res.json())?.error; d = err?.message || ''; } catch { /* ignore */ }
+    if (res.status === 429) {
+      const det = err?.details || [];
+      const ids = det.flatMap(x => (x.violations || []).map(v => v.quotaId || v.quotaMetric || '')).join(' ');
+      const retry = Number(/([\d.]+)s/.exec(det.find(x => x.retryDelay)?.retryDelay || '')?.[1]) || Number(/retry in ([\d.]+)s/i.exec(d)?.[1]) || 0;
+      const e = new Error('Gemini: وصلت للحد. ' + d.slice(0, 100)); e.status = 429;
+      e.perDay = /PerDay/i.test(ids) || (!/PerMinute/i.test(ids) && /per day|daily/i.test(d));
+      e.retry = retry;
+      throw e;
+    }
     if (res.status === 404) throw new Error(`موديل الصوت «${model}» مش متاح. غيّره من الإعدادات (اسمه ممكن يتغير). ${d.slice(0, 120)}`);
-    if (res.status === 429) { const e = new Error('وصلت للحد المجاني في Gemini لكل موديلات الصوت (كل موديل ليه حصة في الدقيقة وفي اليوم). استنى شوية، أو كمّل بـ ElevenLabs أو بصوتك. ' + d.slice(0, 100)); e.status = 429; throw e; }
     if (res.status === 400 || res.status === 403) throw new Error(`Gemini رفض الطلب (${res.status}): ${d.slice(0, 200) || 'اتأكد من المفتاح'}`);
     throw new Error(`Gemini رد بخطأ ${res.status}: ${d.slice(0, 200)}`);
   }
