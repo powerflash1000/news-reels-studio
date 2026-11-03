@@ -1,5 +1,6 @@
 // بيسحب الـ RSS من config/sources.json ويكتب data/feeds.json (بيشتغل في GitHub Actions، Node 20+ من غير مكتبات)
 import { readFile, writeFile } from 'node:fs/promises';
+import { isGnews, gnewsId, decodeGnews } from './gnews-decode.mjs';
 
 const MAX_PER_SOURCE = 20;
 const MAX_KEPT_PER_FEED = 20;
@@ -254,6 +255,23 @@ for (const h of health) {
 }
 health.sort((a, b) => a.id.localeCompare(b.id));
 const errors = health.filter(h => h.status !== 'ok').map(h => ({ feed: h.id, status: h.status, error: h.error }));
+
+// روابط Google News → الرابط الحقيقي للمقال (عشان «هات نص المقال» يشتغل والمصدر على الشاشة يبقى موقع الجريدة)
+// كاش في data/gnews-urls.json، وحد أقصى للجديد في كل تشغيلة عشان جوجل ميزعلش
+let gmap = {};
+try { gmap = JSON.parse(await readFile('data/gnews-urls.json', 'utf8')); } catch { /* أول مرة */ }
+const needG = items.filter(i => isGnews(i.link) && !gmap[gnewsId(i.link)]).slice(0, 120);
+let gOk = 0, gFail = 0;
+for (let k = 0; k < needG.length; k += 4) {
+  await Promise.all(needG.slice(k, k + 4).map(async i => {
+    try { const u = await decodeGnews(i.link); if (u) { gmap[gnewsId(i.link)] = u; gOk++; } else gFail++; } catch { gFail++; }
+  }));
+  await new Promise(r => setTimeout(r, 400));
+}
+for (const i of items) if (isGnews(i.link) && gmap[gnewsId(i.link)]) i.url = gmap[gnewsId(i.link)];
+{ const live = new Set(items.filter(i => isGnews(i.link)).map(i => gnewsId(i.link))); for (const k of Object.keys(gmap)) if (!live.has(k)) delete gmap[k]; }
+await writeFile('data/gnews-urls.json', JSON.stringify(gmap));
+console.log(`gnews links: +${gOk} decoded, ${gFail} failed, ${Object.keys(gmap).length} cached`);
 
 await writeFile('data/feeds.json', JSON.stringify({ generatedAt: new Date().toISOString(), errors, health, items }, null, 1));
 await writeFile('data/channel-ids.json', JSON.stringify(prevIds, null, 1));

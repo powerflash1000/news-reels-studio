@@ -1557,4 +1557,6 @@ export default {
   "نموذج شاشة المنصة فوق المعاينة (مش بيظهر في التصدير)": "Platform screen mockup over the preview (not exported)",
   "📱 من غير نموذج": "📱 No mockup",
   "صوت انتقال «ووش» بين الأخبار": "«Whoosh» transition sound between stories",
+  "ده رابط تحويل من Google News، مش رابط المقال نفسه (جوجل بيفتحه بجافاسكريبت، فمحدش يقدر يقراه). دوس «🔗 افتح المقال»، وبعد ما صفحة الجريدة تفتح انسخ الرابط من شريط العنوان وحطه في «رابط المصدر»، أو انسخ نص المقال ودوس «📋 الصق». الأخبار الجديدة بتيجي بالرابط الحقيقي أوتوماتيك.": "That's a Google News redirect link, not the article itself (Google opens it with JavaScript, so it can't be read). Press «🔗 Open article», and once the newspaper page opens copy its address into «Source link», or copy the article text and press «📋 Paste». New items now come with the real link automatically.",
+  "🔗 بدّلت رابط Google News برابط المقال الحقيقي.": "🔗 Replaced the Google News link with the real article link.",
 };
