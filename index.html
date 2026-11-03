@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mw13hsz8">
+<html lang="ar" dir="rtl" data-v="mw142vcb">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mw13hsz8">
+<link rel="stylesheet" href="assets/css/style.css?v=mw142vcb">
 </head>
 <body>
 <header class="top">
@@ -281,7 +281,7 @@
       <p id="scriptInfo" class="muted"></p>
       <div class="row hookrow"><button id="hkGo" class="btn" type="button" title="5 أول جمل مختلفة تشد المشاهد في أول 3 ثواني، من معلومات الخبر بس">🎣 اقترح هوكات</button><span id="hkMsg" class="muted"></span></div>
       <div id="hkList" class="chips"></div>
-      <div class="row">
+      <div class="row genrow">
         <button id="gen" class="btn pri">🎙 توليد الصوت (ElevenLabs)</button>
         <button id="genGem" class="btn pri">✨ توليد الصوت (Gemini)</button>
         <button id="genAz" class="btn pri" title="Microsoft Azure: أصوات مصري، 500 ألف حرف ببلاش في الشهر">🟦 توليد الصوت (Azure)</button>
@@ -297,6 +297,15 @@
         <label>صوت Gemini للمذيع أ<select id="genGemA"></select></label>
         <label>صوت Gemini للمذيع ب (لو حوار)<select id="genGemB"></select></label>
         <label title="كل طلب بيولّد العدد ده من السطور اللي ورا بعض (من أول سطر مالهوش صوت، أو من السطور المتعلّمة ✔ في كارت الصوت). كل طلب بيتحسب من حصة Gemini اليومية (حوالي 15)">جمل Gemini في الطلب الواحد<select id="gemPer"><option value="1">1 (كل جملة لوحدها)</option><option value="4">4</option><option value="6">6</option><option value="8" selected>8 (موصى بيه)</option><option value="10">10 (توفير أكتر)</option></select></label>
+      </div>
+      <div class="card elquick">
+        <b>⚙ إعدادات صوت ElevenLabs (اللهجة والثبات)</b>
+        <div class="grid">
+          <label>الموديل<select id="qElModel"></select></label>
+          <label>ثبات الصوت (Stability)<select id="qElStab"></select></label>
+          <label class="chk" id="qElDialectBox"><input id="qElDialect" type="checkbox"> ثبّت اللهجة المصرية ([Egyptian Arabic accent])</label>
+        </div>
+        <p id="qElHint" class="muted"></p>
       </div>
       <p id="audioInfo" class="muted">مفيش صوت لسه.</p>
       <details id="auBox" class="card" open>
@@ -913,6 +922,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mw13hsz8"></script>
+<script type="module" src="js/main.js?v=mw142vcb"></script>
 </body>
 </html>

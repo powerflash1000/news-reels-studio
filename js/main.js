@@ -1,29 +1,29 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw13hsz8';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw13hsz8';
-import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw13hsz8';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw13hsz8';
-import { transcribeWords, alignWords } from './align.js?v=mw13hsz8';
-import { gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw13hsz8';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw13hsz8';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mw13hsz8';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw13hsz8';
-import { drawGuide, sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw13hsz8';
-import { exportSupport, exportReel } from './export.js?v=mw13hsz8';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw13hsz8';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw13hsz8';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw13hsz8';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw13hsz8';
-import { detailTarget, loadTileMap } from './tiles.js?v=mw13hsz8';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mw13hsz8';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw13hsz8';
-import { loadBg, playBg } from './bg.js?v=mw13hsz8';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw13hsz8';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw13hsz8';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw13hsz8';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw13hsz8';
-import { readUrl, cleanPasted } from './reader.js?v=mw13hsz8';
-import { initI18n, ui } from './i18n.js?v=mw13hsz8';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw13hsz8';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw142vcb';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw142vcb';
+import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw142vcb';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw142vcb';
+import { transcribeWords, alignWords } from './align.js?v=mw142vcb';
+import { gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw142vcb';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw142vcb';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mw142vcb';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw142vcb';
+import { drawGuide, sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw142vcb';
+import { exportSupport, exportReel } from './export.js?v=mw142vcb';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw142vcb';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw142vcb';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw142vcb';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw142vcb';
+import { detailTarget, loadTileMap } from './tiles.js?v=mw142vcb';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mw142vcb';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw142vcb';
+import { loadBg, playBg } from './bg.js?v=mw142vcb';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw142vcb';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw142vcb';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw142vcb';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw142vcb';
+import { readUrl, cleanPasted } from './reader.js?v=mw142vcb';
+import { initI18n, ui } from './i18n.js?v=mw142vcb';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw142vcb';
 
 initI18n();
 
@@ -3346,12 +3346,46 @@ function fillElVoices() {
     if (cur && !opts.some(o => o.id === cur)) opts.push({ id: cur, name: s['voiceName' + sp] || cur });
     $('genEl' + sp).innerHTML = opts.map(o => `<option value="${esc(o.id)}" ${o.id === cur ? 'selected' : ''}>${esc(o.name)}</option>`).join('');
   }
+  fillElQuick();
 }
 for (const sp of ['A', 'B']) $('genEl' + sp).addEventListener('change', () => {
   const sel = $('genEl' + sp);
   setSettings({ ['voice' + sp]: sel.value, ['voiceName' + sp]: sel.value ? sel.selectedOptions[0].textContent.replace(/^⭐ | \(صوتك\)$/g, '') : '' });
   renderVoiceSelect(sp);
 });
+// إعدادات ElevenLabs السريعة جنب زرار التوليد (نفس إعدادات صفحة الإعدادات)
+var STAB_OPTS = {
+  v3: [[0, 'Creative — معبّر بس بيتقلب'], [0.5, 'Natural — طبيعي'], [1, 'Robust — ثابت (موصى بيه للهجة)']],
+  v2: [[0.3, '0.3 — معبّر بس بيتقلب'], [0.5, '0.5 — متوسط'], [0.7, '0.7 — ثابت (موصى بيه للهجة)'], [0.85, '0.85 — ثابت جدًا (ممكن يبقى رتيب)']],
+};
+function fillElQuick() {
+  const s = getSettings(), v3 = s.elevenModel === 'eleven_v3', opts = STAB_OPTS[v3 ? 'v3' : 'v2'];
+  $('qElModel').innerHTML = MODELS.map(m => `<option value="${m.id}" ${m.id === s.elevenModel ? 'selected' : ''}>${m.name}</option>`).join('');
+  const cur = Number(s.vsA?.stability ?? 0.5);
+  const near = opts.reduce((a, o) => Math.abs(o[0] - cur) < Math.abs(a[0] - cur) ? o : a)[0];
+  $('qElStab').innerHTML = opts.map(([v, n]) => `<option value="${v}" ${v === near ? 'selected' : ''}>${n}</option>`).join('');
+  $('qElDialect').checked = !!s.dialectTag;
+  $('qElDialectBox').hidden = !v3;
+  $('qElHint').textContent = v3
+    ? 'على v3: اختار Robust وعلّم «ثبّت اللهجة المصرية». السطور اللي اتولّدت قبل كده محفوظة، فعلّم عليها في كارت الصوت وولّدها تاني.'
+    : 'على Multilingual v2: الثبات 0.7 بيخلّي اللهجة ثابتة، والتطبيق بيبعت مع كل سطر السطور اللي حواليه كسياق مصري. السطور اللي اتولّدت قبل كده محفوظة، فعلّم عليها في كارت الصوت وولّدها تاني.';
+}
+function saveElQuick() {
+  const s = getSettings(), st = Number($('qElStab').value);
+  setSettings({ vsA: { ...s.vsA, stability: st }, vsB: { ...s.vsB, stability: st }, dialectTag: $('qElDialect').checked });
+  renderSliders('A'); renderSliders('B');
+  $('sDialect').checked = $('qElDialect').checked;
+}
+$('qElModel').addEventListener('change', () => {
+  const m = $('qElModel').value, s = getSettings();
+  // الثبات بيتظبط على أقرب قيمة مسموحة للموديل الجديد (v3 بياخد 0 / 0.5 / 1 بس)
+  const st = m === 'eleven_v3' ? (Number(s.vsA?.stability) >= 0.6 ? 1 : 0.5) : (Number(s.vsA?.stability) >= 0.6 ? 0.7 : 0.5);
+  setSettings({ elevenModel: m, vsA: { ...s.vsA, stability: st }, vsB: { ...s.vsB, stability: st } });
+  $('sModel').value = m; renderSliders('A'); renderSliders('B');
+  fillElQuick();
+});
+$('qElStab').addEventListener('change', saveElQuick);
+$('qElDialect').addEventListener('change', saveElQuick);
 // قبل التوليد: نحمّل أصوات الحساب لو مش محمّلة، ولو مفيش صوت مختار ناخد صوتك المستنسخ تلقائيًا
 async function ensureElVoice() {
   const s = getSettings();
