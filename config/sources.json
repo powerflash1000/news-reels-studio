@@ -2717,12 +2717,15 @@
   {
    "id": "bof",
    "category": "lifestyle",
-   "name": "Business of Fashion",
-   "url": "https://www.businessoffashion.com/arc/outboundfeeds/rss/",
+   "name": "Business of Fashion (عبر Google News)",
+   "url": "https://news.google.com/rss/search?q=site%3Abusinessoffashion.com%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
    "lang": "en",
-   "type": "specialist",
+   "type": "radar",
    "region": "world",
-   "weight": 1.2
+   "weight": 1.2,
+   "fmt": "gnews",
+   "keepDays": 7,
+   "limit": 15
   },
   {
    "id": "hypebeast",
@@ -2767,12 +2770,15 @@
   {
    "id": "vogue-arabia",
    "category": "lifestyle",
-   "name": "Vogue Arabia",
-   "url": "https://en.vogue.me/feed/",
+   "name": "Vogue Arabia (عبر Google News)",
+   "url": "https://news.google.com/rss/search?q=site%3Avogue.me%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
    "lang": "en",
-   "type": "specialist",
+   "type": "radar",
    "region": "gulf",
-   "weight": 1.0
+   "weight": 1.0,
+   "fmt": "gnews",
+   "keepDays": 7,
+   "limit": 15
   },
   {
    "id": "allure",
@@ -2807,22 +2813,28 @@
   {
    "id": "jck",
    "category": "lifestyle",
-   "name": "JCK (مجوهرات)",
-   "url": "https://www.jckonline.com/feed/",
+   "name": "JCK مجوهرات (عبر Google News)",
+   "url": "https://news.google.com/rss/search?q=site%3Ajckonline.com%20when%3A14d&hl=en-US&gl=US&ceid=US:en",
    "lang": "en",
-   "type": "specialist",
+   "type": "radar",
    "region": "us",
-   "weight": 1.0
+   "weight": 1.0,
+   "fmt": "gnews",
+   "keepDays": 7,
+   "limit": 15
   },
   {
    "id": "natjeweler",
    "category": "lifestyle",
-   "name": "National Jeweler",
-   "url": "https://nationaljeweler.com/rss",
+   "name": "National Jeweler (عبر Google News)",
+   "url": "https://news.google.com/rss/search?q=site%3Anationaljeweler.com%20when%3A14d&hl=en-US&gl=US&ceid=US:en",
    "lang": "en",
-   "type": "specialist",
+   "type": "radar",
    "region": "us",
-   "weight": 1.0
+   "weight": 1.0,
+   "fmt": "gnews",
+   "keepDays": 7,
+   "limit": 15
   },
   {
    "id": "gn-fashion-en",
