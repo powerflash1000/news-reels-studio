@@ -1,7 +1,7 @@
 // توليد الصوت من ElevenLabs مع توقيت كل كلمة، وكاش لكل سطر
-import { getSettings, addChars, cacheGet, cachePut, sha1, load, save, takePut } from './storage.js?v=mw0o5i3p';
-import { decode } from './audio.js?v=mw0o5i3p';
-import { estimateWords, stripTags } from './reel.js?v=mw0o5i3p';
+import { getSettings, addChars, cacheGet, cachePut, sha1, load, save, takePut } from './storage.js?v=mw0qgo6p';
+import { decode } from './audio.js?v=mw0qgo6p';
+import { estimateWords, stripTags } from './reel.js?v=mw0qgo6p';
 
 const API = 'https://api.elevenlabs.io';
 
@@ -46,29 +46,52 @@ export const AZURE_VOICES = [
   ['en-US-AndrewMultilingualNeural', 'English — Andrew (multilingual)', 'm'], ['en-US-AvaMultilingualNeural', 'English — Ava (multilingual)', 'f'],
   ['en-US-GuyNeural', 'English — Guy', 'm'], ['en-US-JennyNeural', 'English — Jenny', 'f'], ['en-GB-RyanNeural', 'English UK — Ryan', 'm'], ['en-GB-SoniaNeural', 'English UK — Sonia', 'f'],
 ];
+// المنطقة زي ما Azure بيكتبها: «Sweden Central» أو «(Europe) Sweden Central» أو رابط الـ Endpoint → swedencentral
+export function azRegion(r) {
+  let x = String(r || '').trim().toLowerCase();
+  const m = x.match(/https?:\/\/([a-z0-9-]+)\.(?:api\.cognitive\.microsoft\.com|tts\.speech\.microsoft\.com|stt\.speech\.microsoft\.com)/);
+  if (m) return m[1];
+  return x.replace(/\([^)]*\)/g, '').replace(/[^a-z0-9]/g, '');
+}
+// طلب Azure: مباشرة، ولو المتصفح منعه (CORS) عن طريق وسيط Cloudflare بتاعك لو متظبط
+async function azFetch(url, init) {
+  try { return await fetch(url, init); }
+  catch (e) {
+    const { proxyUrl } = getSettings();
+    if (proxyUrl) {
+      const r = await fetch(`${proxyUrl.replace(/\/+$/, '')}/?url=${encodeURIComponent(url)}`, { ...init, signal: AbortSignal.timeout(60000) }).catch(() => null);
+      if (r && r.status !== 403) return r;
+      if (r?.status === 403) throw new Error('الوسيط رفض عنوان Azure: حدّث كود الوسيط على Cloudflare من tools/cors-proxy-worker.js (فيه speech.microsoft.com دلوقتي) واعمل Deploy.');
+    }
+    const host = new URL(url).hostname;
+    throw new Error(`Azure مردّش على ${host}. اتأكد إن المنطقة مكتوبة زي ما هي في «Keys and Endpoint» ← Location/Region (مثلًا swedencentral). لو صح، يبقى المتصفح منع الاتصال: ظبط «رابط الوسيط» في الإعدادات (وسيط Cloudflare، الشرح في README). (${e.message || e})`);
+  }
+}
 const xmlEsc = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 async function azureSpeak(text, voice, lang) {
   const s = getSettings();
-  if (!s.azureKey || !s.azureRegion) throw new Error('محتاج مفتاح Azure Speech والمنطقة (Region): الإعدادات ← مزوّد الصوت ← Azure.');
+  if (/cognitiveservices\.azure\.com/i.test(s.azureRegion || '')) throw new Error('اللي في خانة المنطقة ده رابط الـ Endpoint. حط بداله Location/Region (كلمة زي swedencentral)، موجودة في نفس صفحة «Keys and Endpoint».');
+  const region = azRegion(s.azureRegion);
+  if (!s.azureKey || !region) throw new Error('محتاج مفتاح Azure Speech والمنطقة (Region): الإعدادات ← مزوّد الصوت ← Azure.');
   // ريل إنجليزي بصوت عربي = لكنة: بنحوّله لصوت إنجليزي متعدد اللغات من نفس النوع
   if (lang === 'en' && /^ar-/.test(voice)) voice = AZURE_VOICES.find(v => v[0] === voice)?.[2] === 'f' ? 'en-US-AvaMultilingualNeural' : 'en-US-AndrewMultilingualNeural';
   const loc = voice.split('-').slice(0, 2).join('-');
   const rate = Number(s.azRate) || 0;
   const body = `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="${loc}"><voice name="${xmlEsc(voice)}">${rate ? `<prosody rate="${rate > 0 ? '+' : ''}${rate}%">` : ''}${xmlEsc(text)}${rate ? '</prosody>' : ''}</voice></speak>`;
-  const res = await fetch(`https://${encodeURIComponent(s.azureRegion.trim())}.tts.speech.microsoft.com/cognitiveservices/v1`, {
+  const res = await azFetch(`https://${region}.tts.speech.microsoft.com/cognitiveservices/v1`, {
     method: 'POST', signal: AbortSignal.timeout(60000),
     headers: { 'Ocp-Apim-Subscription-Key': s.azureKey.trim(), 'Content-Type': 'application/ssml+xml', 'X-Microsoft-OutputFormat': 'audio-24khz-96kbitrate-mono-mp3' },
     body,
-  }).catch(e => { throw new Error('Azure مردّش (النت أو المنطقة غلط): ' + (e.message || e)); });
+  });
   if (!res.ok) {
-    const why = res.status === 401 ? 'المفتاح غلط أو مش لنفس المنطقة (Region)' : res.status === 429 ? 'وصلت لحد الطلبات أو الحد المجاني للشهر (الخطة المجانية F0 = 500 ألف حرف)' : res.status === 400 ? 'اسم الصوت مش موجود في المنطقة دي' : (await res.text().catch(() => '')).slice(0, 160);
+    const why = res.status === 401 ? `المفتاح غلط أو مش لنفس المنطقة (جرّبت «${region}»: لازم تبقى نفس Location/Region اللي جنب المفتاح في Azure)` : res.status === 429 ? 'وصلت لحد الطلبات أو الحد المجاني للشهر (الخطة المجانية F0 = 500 ألف حرف)' : res.status === 400 ? 'اسم الصوت مش موجود في المنطقة دي' : (await res.text().catch(() => '')).slice(0, 160);
     const e = new Error(`Azure رفض التوليد (${res.status}): ${why}`); e.status = res.status; throw e;
   }
   return await res.arrayBuffer();
 }
 export async function azureVoicesList() {
   const s = getSettings();
-  const res = await fetch(`https://${encodeURIComponent(s.azureRegion.trim())}.tts.speech.microsoft.com/cognitiveservices/voices/list`, { headers: { 'Ocp-Apim-Subscription-Key': s.azureKey.trim() } });
+  const res = await azFetch(`https://${azRegion(s.azureRegion)}.tts.speech.microsoft.com/cognitiveservices/voices/list`, { headers: { 'Ocp-Apim-Subscription-Key': s.azureKey.trim() } });
   if (!res.ok) throw new Error(`Azure (${res.status}): ${res.status === 401 ? 'المفتاح غلط أو المنطقة غلط' : 'مقدرتش أجيب الأصوات'}`);
   return (await res.json()).filter(v => /^(ar|en)-/.test(v.Locale)).map(v => [v.ShortName, `${v.LocaleName || v.Locale} — ${v.DisplayName}`, v.Gender === 'Female' ? 'f' : 'm']);
 }

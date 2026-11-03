@@ -1491,4 +1491,8 @@ export default {
   "gpt-4o-mini-tts (بيفهم أسلوب الإلقاء)": "gpt-4o-mini-tts (follows delivery style)",
   "tts-1-hd (جودة أعلى، من غير أسلوب)": "tts-1-hd (higher quality, no style)",
   "tts-1 (أرخص)": "tts-1 (cheapest)",
+  "الوسيط رفض عنوان Azure: حدّث كود الوسيط على Cloudflare من tools/cors-proxy-worker.js (فيه speech.microsoft.com دلوقتي) واعمل Deploy.": "The proxy refused the Azure address: update your Cloudflare worker code from tools/cors-proxy-worker.js (it now includes speech.microsoft.com) and Deploy.",
+  "Azure مردّش على {}. اتأكد إن المنطقة مكتوبة زي ما هي في «Keys and Endpoint» ← Location/Region (مثلًا swedencentral). لو صح، يبقى المتصفح منع الاتصال: ظبط «رابط الوسيط» في الإعدادات (وسيط Cloudflare، الشرح في README). ({})": "Azure didn't answer at {}. Check the region matches «Keys and Endpoint» → Location/Region (e.g. swedencentral). If it does, the browser blocked the call: set «Proxy URL» in Settings (Cloudflare worker, see README). ({})",
+  "المفتاح غلط أو مش لنفس المنطقة (جرّبت «{}»: لازم تبقى نفس Location/Region اللي جنب المفتاح في Azure)": "wrong key or not for this region (tried «{}»: it must match the Location/Region next to the key in Azure)",
+  "اللي في خانة المنطقة ده رابط الـ Endpoint. حط بداله Location/Region (كلمة زي swedencentral)، موجودة في نفس صفحة «Keys and Endpoint».": "That is the Endpoint URL in the region field. Enter the Location/Region instead (a word like swedencentral), shown on the same \u00abKeys and Endpoint\u00bb page.",
 };

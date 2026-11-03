@@ -11,10 +11,11 @@ const ALLOWED_HOSTS = [
   'cdn.pixabay.com',
   'youtube.com',
   'si.edu',                 // صور Smithsonian Open Access (ids.si.edu)            // صفحة القناة وRSS آخر الفيديوهات (لتبويب «تحليل»)
+  'speech.microsoft.com',   // أصوات Azure Speech (المنطقة.tts.speech.microsoft.com)
 ];
 const hostAllowed = h => ALLOWED_HOSTS.some(a => h === a || h.endsWith('.' + a));
 // الهيدرز اللي بتتبعت للخدمة الأصلية (مفتاح ElevenLabs ونوع المحتوى)
-const FORWARD_HEADERS = ['xi-api-key', 'content-type', 'accept'];
+const FORWARD_HEADERS = ['xi-api-key', 'content-type', 'accept', 'ocp-apim-subscription-key', 'x-microsoft-outputformat'];
 
 export default {
   async fetch(request) {
@@ -37,7 +38,7 @@ export default {
       const fwd = new Headers();
       for (const h of FORWARD_HEADERS) if (request.headers.get(h)) fwd.set(h, request.headers.get(h));
       upstream = await fetch(url.toString(), { method: 'POST', headers: fwd, body: request.body });
-    } else if (url.hostname === 'api.elevenlabs.io') {
+    } else if (url.hostname === 'api.elevenlabs.io' || url.hostname.endsWith('.speech.microsoft.com')) {
       const fwd = new Headers();
       for (const h of FORWARD_HEADERS) if (request.headers.get(h)) fwd.set(h, request.headers.get(h));
       upstream = await fetch(url.toString(), { headers: fwd });
