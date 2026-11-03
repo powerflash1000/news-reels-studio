@@ -1,29 +1,29 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw0ucjew';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw0ucjew';
-import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw0ucjew';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw0ucjew';
-import { transcribeWords, alignWords } from './align.js?v=mw0ucjew';
-import { gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw0ucjew';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw0ucjew';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mw0ucjew';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw0ucjew';
-import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw0ucjew';
-import { exportSupport, exportReel } from './export.js?v=mw0ucjew';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw0ucjew';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw0ucjew';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw0ucjew';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw0ucjew';
-import { detailTarget, loadTileMap } from './tiles.js?v=mw0ucjew';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mw0ucjew';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw0ucjew';
-import { loadBg, playBg } from './bg.js?v=mw0ucjew';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw0ucjew';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw0ucjew';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw0ucjew';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw0ucjew';
-import { readUrl, cleanPasted } from './reader.js?v=mw0ucjew';
-import { initI18n, ui } from './i18n.js?v=mw0ucjew';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw0ucjew';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw0vkk0f';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw0vkk0f';
+import { loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw0vkk0f';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw0vkk0f';
+import { transcribeWords, alignWords } from './align.js?v=mw0vkk0f';
+import { gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw0vkk0f';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw0vkk0f';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mw0vkk0f';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw0vkk0f';
+import { sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw0vkk0f';
+import { exportSupport, exportReel } from './export.js?v=mw0vkk0f';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw0vkk0f';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw0vkk0f';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw0vkk0f';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw0vkk0f';
+import { detailTarget, loadTileMap } from './tiles.js?v=mw0vkk0f';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mw0vkk0f';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw0vkk0f';
+import { loadBg, playBg } from './bg.js?v=mw0vkk0f';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw0vkk0f';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw0vkk0f';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw0vkk0f';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw0vkk0f';
+import { readUrl, cleanPasted } from './reader.js?v=mw0vkk0f';
+import { initI18n, ui } from './i18n.js?v=mw0vkk0f';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw0vkk0f';
 
 initI18n();
 
@@ -1793,6 +1793,16 @@ async function loadFonts() {
 }
 
 /* ---------- المعاينة ---------- */
+// ⛶ المعاينة بملء الشاشة (عرض الشغل على شاشة كبيرة): Esc للخروج، Space تشغيل/إيقاف، دبل كليك على الكانفس
+function pvFull() {
+  const st = $('pvStage');
+  if (document.fullscreenElement) return document.exitFullscreen?.();
+  (st.requestFullscreen || st.webkitRequestFullscreen)?.call(st)?.catch?.(() => setStatus('المتصفح مسمحش بملء الشاشة.', true));
+}
+$('pvBig').addEventListener('click', pvFull);
+$('cv').addEventListener('dblclick', pvFull);
+document.addEventListener('fullscreenchange', () => { $('pvBig').textContent = document.fullscreenElement === $('pvStage') ? '✕ خروج من الشاشة الكبيرة' : '⛶ شاشة كبيرة'; redraw(); });
+document.addEventListener('keydown', e => { if (document.fullscreenElement === $('pvStage') && e.code === 'Space') { e.preventDefault(); $('play').click(); } });
 $('play').addEventListener('click', () => {
   if (playing) return stopPlay();
   const info = currentTimeline();

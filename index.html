@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mw0ucjew">
+<html lang="ar" dir="rtl" data-v="mw0vkk0f">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mw0ucjew">
+<link rel="stylesheet" href="assets/css/style.css?v=mw0vkk0f">
 </head>
 <body>
 <header class="top">
@@ -154,10 +154,13 @@
 <section id="tab-studio" hidden>
   <div class="studio">
     <div class="preview">
-      <canvas id="cv" width="1080" height="1920"></canvas>
+      <div id="pvStage" class="pvstage">
+      <canvas id="cv" width="1080" height="1920" title="دبل كليك = شاشة كبيرة"></canvas>
       <div class="transport">
         <button id="play" class="btn">▶ معاينة</button>
         <span id="time" class="muted">0:00</span>
+        <button id="pvBig" class="btn" type="button" title="المعاينة بملء الشاشة (Esc للخروج، Space للتشغيل)">⛶ شاشة كبيرة</button>
+      </div>
       </div>
       <div class="row">
         <button id="exp" class="btn pri big">⬇ تصدير MP4</button>
@@ -902,6 +905,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mw0ucjew"></script>
+<script type="module" src="js/main.js?v=mw0vkk0f"></script>
 </body>
 </html>

@@ -1533,4 +1533,9 @@ export default {
   "🙈 اخفي": "🙈 Hide",
   "آخره …{} ({} حرف)": "ends …{} ({} chars)",
   "المفتاح اللي في البرنامج تبع مشروع مجاني (Free tier)، فحصته {} طلب في اليوم حتى لو دفعت في مشروع تاني. الدفع بيتحسب لكل مشروع لوحده: افتح aistudio.google.com/apikey، وانسخ المفتاح اللي جنبه «Paid tier / Tier 1» (مشروعك المدفوع)، وحطه في الإعدادات ← مفتاح Gemini ← حفظ.": "The key in the app belongs to a free project (Free tier), so it is limited to {} requests per day even if you paid on another project. Billing is per project: open aistudio.google.com/apikey, copy the key marked «Paid tier / Tier 1» (your paid project) and put it in Settings → Gemini key → Save.",
+  "دبل كليك = شاشة كبيرة": "Double-click = big screen",
+  "المعاينة بملء الشاشة (Esc للخروج، Space للتشغيل)": "Full-screen preview (Esc to exit, Space to play)",
+  "⛶ شاشة كبيرة": "⛶ Big screen",
+  "✕ خروج من الشاشة الكبيرة": "✕ Exit big screen",
+  "المتصفح مسمحش بملء الشاشة.": "The browser didn't allow full screen.",
 };
