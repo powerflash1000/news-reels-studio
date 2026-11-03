@@ -1,29 +1,29 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw11psxc';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw11psxc';
-import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw11psxc';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw11psxc';
-import { transcribeWords, alignWords } from './align.js?v=mw11psxc';
-import { gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw11psxc';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw11psxc';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mw11psxc';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw11psxc';
-import { drawGuide, sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw11psxc';
-import { exportSupport, exportReel } from './export.js?v=mw11psxc';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw11psxc';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw11psxc';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw11psxc';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw11psxc';
-import { detailTarget, loadTileMap } from './tiles.js?v=mw11psxc';
-import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mw11psxc';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw11psxc';
-import { loadBg, playBg } from './bg.js?v=mw11psxc';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw11psxc';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw11psxc';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw11psxc';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw11psxc';
-import { readUrl, cleanPasted } from './reader.js?v=mw11psxc';
-import { initI18n, ui } from './i18n.js?v=mw11psxc';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw11psxc';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw128t5z';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw128t5z';
+import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw128t5z';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw128t5z';
+import { transcribeWords, alignWords } from './align.js?v=mw128t5z';
+import { gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw128t5z';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw128t5z';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mw128t5z';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw128t5z';
+import { drawGuide, sceneAt, drawCover, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw128t5z';
+import { exportSupport, exportReel } from './export.js?v=mw128t5z';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw128t5z';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw128t5z';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw128t5z';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw128t5z';
+import { detailTarget, loadTileMap } from './tiles.js?v=mw128t5z';
+import { buildPack, compose, summarize, engagement, PLATFORMS } from './publish.js?v=mw128t5z';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw128t5z';
+import { loadBg, playBg } from './bg.js?v=mw128t5z';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw128t5z';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw128t5z';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw128t5z';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw128t5z';
+import { readUrl, cleanPasted } from './reader.js?v=mw128t5z';
+import { initI18n, ui } from './i18n.js?v=mw128t5z';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw128t5z';
 
 initI18n();
 
@@ -141,7 +141,7 @@ function renderFeed() {
       <div class="row"><label class="pk"><input type="checkbox" data-chk="${esc(i.id)}" ${picked.has(i.id) ? 'checked' : ''}> حدّد</label>
         <button class="btn pri" data-pick="${esc(i.id)}">ريل جديد</button>
         <button class="btn" data-add="${esc(i.id)}">＋ للريل الحالي</button>
-        <a class="btn ghost" href="${esc(i.link)}" target="_blank" rel="noopener">فتح</a>
+        <a class="btn ghost" href="${esc(i.url || i.link)}" target="_blank" rel="noopener">فتح</a>
         ${yt ? '' : `<button class="btn" data-auto="${esc(i.id)}" type="button">⚡ أوتوماتيك</button>`}
         ${yt ? `<button class="btn" data-vc="${esc(i.id)}" type="button">🔍 قارنه بالمصادر</button><button class="btn" data-xfeed="${esc(i.link)}" type="button">🎬 حلّل الفيديو</button>` : ''}
         ${i.lang && i.lang !== 'ar' ? `<button class="btn ghost" data-tr="${esc(i.id)}">ترجم العنوان</button>` : ''}</div>
@@ -168,8 +168,8 @@ const storyFromItem = i => i.kind === 'youtube'
   ? { category: i.category, headline: i.title, fromYoutube: i.source, ytLink: i.link, ref: i.summary || '' }
   : i.op
     // مقال رأي: بيتعلّم «رأي وتحليل» ومنسوب لكاتبه (الريل بيعرض الرأي، مش كأنه خبر)
-    ? { category: i.category, headline: i.title, sourceName: i.author ? `${i.author} — ${i.source.replace(/\s*\(.*\)$/, '')}` : i.source, sourceUrl: i.link, claimKind: 'opinion', ref: `مقال رأي${i.author ? ' بقلم ' + i.author : ''} في ${i.source.replace(/\s*\(.*\)$/, '')}. ${i.summary || ''}`.trim() }
-    : { category: i.category, headline: i.title, sourceName: i.source, sourceUrl: i.link, ref: i.summary || '' };
+    ? { category: i.category, headline: i.title, sourceName: i.author ? `${i.author} — ${i.source.replace(/\s*\(.*\)$/, '')}` : i.source, sourceUrl: i.url || i.link, claimKind: 'opinion', ref: `مقال رأي${i.author ? ' بقلم ' + i.author : ''} في ${i.source.replace(/\s*\(.*\)$/, '')}. ${i.summary || ''}`.trim() }
+    : { category: i.category, headline: i.title, sourceName: i.source, sourceUrl: i.url || i.link, ref: i.summary || '' };
 
 function renderPickBar() {
   $('pickBar').hidden = !picked.size;
@@ -556,6 +556,7 @@ function refTicker() {
 }
 // 📥 نص المقال من رابط المصدر (بريتانيكا، ناشيونال جيوغرافيك…) → خانة الملخص كمرجع
 async function fetchRefText(st, tk) {
+  fixGnews(st);
   const r = await readUrl(st.sourceUrl, m => tk.set(m));
   st.ref = r.text;
   st.refOrig = '';
@@ -564,15 +565,27 @@ async function fetchRefText(st, tk) {
   $('fRef').value = st.ref; persist();
   return r;
 }
+// رابط Google News (تحويل) → الرابط الحقيقي من نسخة الأخبار لو اتفك، وإلا رسالة واضحة
+const isGnewsUrl = u => /^https?:\/\/news\.google\.com\/(rss\/)?articles\//.test(u || '');
+function fixGnews(st) {
+  if (!isGnewsUrl(st.sourceUrl)) return false;
+  const it = (feeds.items || []).find(i => i.link === st.sourceUrl && i.url);
+  if (!it) return false;
+  st.sourceUrl = it.url; $('fUrl').value = it.url; persist();
+  return true;
+}
 function refUrlProblem(url) {
+  if (isGnewsUrl(url)) return 'ده رابط تحويل من Google News، مش رابط المقال نفسه (جوجل بيفتحه بجافاسكريبت، فمحدش يقدر يقراه). دوس «🔗 افتح المقال»، وبعد ما صفحة الجريدة تفتح انسخ الرابط من شريط العنوان وحطه في «رابط المصدر»، أو انسخ نص المقال ودوس «📋 الصق». الأخبار الجديدة بتيجي بالرابط الحقيقي أوتوماتيك.';
   if (!/^https?:\/\//.test(url || '')) return 'حط رابط المقال في خانة «رابط المصدر» فوق الأول.';
   if (/(^|\.)(youtube\.com|youtu\.be)\//.test(url)) return 'ده رابط يوتيوب: استخدم تبويب «تحليل مصادر».';
   return '';
 }
 $('refFetch').addEventListener('click', async () => {
   readForm();
-  const st = story(), bad = refUrlProblem(st.sourceUrl);
-  if (bad) return ($('refMsg').textContent = bad);
+  const st = story();
+  if (fixGnews(st)) $('refMsg').textContent = '🔗 بدّلت رابط Google News برابط المقال الحقيقي.';
+  const bad = refUrlProblem(st.sourceUrl);
+  if (bad) return ($('refMsg').textContent = '⚠️ ' + bad);
   if (st.ref.trim() && !confirm('الخانة فيها نص. أستبدله بنص المقال؟')) return;
   $('refFetch').disabled = true;
   const tk = refTicker();
@@ -2504,13 +2517,13 @@ $('vcOut').addEventListener('click', e => {
   if (!m) return;
   const st = story();
   if (use != null) {
-    st.sourceName = m.item.source; st.sourceUrl = m.item.link;
+    st.sourceName = m.item.source; st.sourceUrl = m.item.url || m.item.link;
     persist(); fillForm();
     setStatus('اتحط المصدر ✅ راجع الصفحة بنفسك قبل ما تعتمد على الخبر.');
   } else {
     const p = proofOf();
     if (p.sources.length >= 3) return setStatus('شاشة الإثبات فيها 3 مصادر بالفعل.', true);
-    p.sources.push({ outlet: m.item.source, title: m.item.title.slice(0, 90), date: (m.item.published || '').slice(0, 10), url: m.item.link, shot: null });
+    p.sources.push({ outlet: m.item.source, title: m.item.title.slice(0, 90), date: (m.item.published || '').slice(0, 10), url: m.item.url || m.item.link, shot: null });
     if (p.status === 'none') p.status = vLast.verdict === 'confirmed' ? 'official' : 'reported';
     persist(); renderProofRows(); setStatus('اتضاف لشاشة الإثبات ✅ (فعّل قالب «التوثيق» عشان يظهر).');
   }
