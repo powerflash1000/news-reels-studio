@@ -22,6 +22,7 @@ function envelope(buf) {
 export function mouthAt(tl, t) {
   let open = 0, real = false;
   for (const s of tl.segs) {
+    if (s.clip) continue; // صوت مقطع القناة مش صوت المذيع
     const b = s.buffer;
     if (typeof b?.getChannelData !== 'function') continue;
     const rel = t - s.at;
@@ -33,7 +34,7 @@ export function mouthAt(tl, t) {
     for (let k = Math.max(0, i - 2); k <= Math.min(env.length - 1, i + 2); k++) m = Math.max(m, env[k]);
     open = Math.max(open, Math.min(1, Math.pow(m / ref, 0.7)));
   }
-  const seg = tl.segs.find(s => t >= s.start - 0.05 && t <= s.end + 0.2) || null;
+  const seg = tl.segs.find(s => !s.clip && t >= s.start - 0.05 && t <= s.end + 0.2) || null;
   if (!real && seg) {
     // من غير صوت حقيقي (معاينة صامتة): تحريك تقديري على توقيت الكلمات
     const w = seg.words?.find(x => t >= x.s && t < x.e);
@@ -47,7 +48,7 @@ export function avatarWindow(tl, seconds) {
   tl._avw ||= {};
   const key = String(seconds);
   if (tl._avw[key]) return tl._avw[key];
-  const segs = [...tl.segs].sort((a, b) => a.start - b.start);
+  const segs = tl.segs.filter(s => !s.clip).sort((a, b) => a.start - b.start);
   let w = null;
   if (segs.length) {
     const t0 = Math.max(0, segs[0].start - 0.3), target = segs[0].start + seconds;
@@ -282,7 +283,7 @@ function hexA(hex, a) {
 
 // الكاميرا بتروح ناحية اللي بيتكلم: -1 = المذيع أ، 1 = المذيع ب، 0 = لقطة واسعة
 function focusAt(tl, t) {
-  const segs = [...tl.segs].sort((a, b) => a.start - b.start);
+  const segs = tl.segs.filter(s => !s.clip).sort((a, b) => a.start - b.start);
   let i = -1;
   for (let k = 0; k < segs.length; k++) if (segs[k].start <= t) i = k;
   if (i < 0) return 0;

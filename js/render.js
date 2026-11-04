@@ -1,10 +1,10 @@
 // رسم إطار الريل على canvas (عمودي 1080×1920 أو 4:5 أو مربع أو أفقي). نفس الدالة للمعاينة والتصدير.
-import { detailTarget, tileKey, getTileMap } from './tiles.js?v=mw1czzk3';
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mw1czzk3';
-import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mw1czzk3';
-import { hostOf } from './feeds.js?v=mw1czzk3';
-import QR from '../vendor/qrcode/qrcode.mjs?v=mw1czzk3';
-import { drawBg } from './bg.js?v=mw1czzk3';
+import { detailTarget, tileKey, getTileMap } from './tiles.js?v=mw2njiql';
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mw2njiql';
+import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mw2njiql';
+import { hostOf } from './feeds.js?v=mw2njiql';
+import QR from '../vendor/qrcode/qrcode.mjs?v=mw2njiql';
+import { drawBg } from './bg.js?v=mw2njiql';
 
 // مقاسات الإخراج. W/H متغيّرين (live binding) والتصدير بيقراهم وقت التصدير
 export const FORMATS = {
@@ -221,8 +221,8 @@ function bidiRow(row) {
 
 // الكابشن: العبارة الحالية بكلماتها، والكلمة الجارية مضيئة
 function captions(ctx, st, t, hb = 0) {
-  const seg = st.tl.segs.find(s => t >= s.start - 0.05 && t <= s.end + 0.25) || null;
-  if (!seg) return;
+  const seg = st.tl.segs.find(s => !s.clip && t >= s.start - 0.05 && t <= s.end + 0.25) || null;
+  if (!seg || st.tl.segs.some(s => s.clip && t >= s.start && t < s.end)) return;
   const groups = phrases(seg.words, L.vert ? 3 : st.reel.ticker?.on ? 3 : 4);
   let gi = groups.findIndex(g => t <= g[g.length - 1].e + 0.05);
   if (gi < 0) gi = groups.length - 1;
@@ -1117,7 +1117,7 @@ export function sceneAt(st, t, idx) {
   const story = st.reel.stories[idx];
   const list = (story?.scenes || []).filter(x => x.media && (x.media.none || st.bgs?.has(x.media.id))).sort((a, b) => a.li - b.li);
   if (!list.length) return null;
-  const segs = st.tl.segs.filter(s => s.storyIdx === idx);
+  const segs = st.tl.segs.filter(s => s.storyIdx === idx && !s.clip);
   if (!segs.length) return null;
   const li = segs.reduce((a, s, i) => (t >= s.start ? i : a), 0);
   let k = 0;
@@ -1195,6 +1195,7 @@ export function drawFrame(ctx, st, t, opts = {}) {
     if (st.settings?.showCredits && (sc ? sc.cur.media.credit : bg && story.media?.credit)) mediaCredit(RTL ? ctx : wrapCtx(ctx, true), sc ? sc.cur.media.credit : story.media.credit);
     ctx.globalAlpha = 1;
     progress(RTL ? ctx : wrapCtx(ctx, true), c, t);
+    clipLayer(ctx, c, t);
     storyWipe(ctx, c, kr, opts);
     return;
   }
@@ -1221,7 +1222,53 @@ export function drawFrame(ctx, st, t, opts = {}) {
   ctx.globalAlpha = 1;
   progress(U, c, t);
   studioScene(ctx, c, t, kr);
+  clipLayer(ctx, c, t);
   storyWipe(ctx, c, kr, opts);
+}
+
+// 📺 مقطع القناة اللي بتعلّق عليه: بيتعرض في إطار (مش الشاشة كلها) فوق خلفية الخبر المعتمة،
+// ومعاه اسم القناة وتاريخ البث، والشريط والمصدر بيفضلوا تحت. الفيديو نفسه في st.bgs بنفس id المقطع
+export function clipSegAt(st, t) { return st.tl.segs.find(s => s.clip && t >= s.start && t < s.end) || null; }
+function clipLayer(ctx, c, t) {
+  const seg = clipSegAt(c, t);
+  if (!seg) return;
+  const cl = seg.clip, v = c.bgs?.get(cl.id);
+  const U = RTL ? ctx : wrapCtx(ctx, true), D = RTL ? ctx : wrapCtx(ctx, false);
+  const fin = Math.min(1, (t - seg.start) / 0.25);
+  ctx.save(); ctx.globalAlpha = 0.82 * fin; ctx.fillStyle = '#05070f'; ctx.fillRect(0, 0, W, H); ctx.restore();
+  // الإطار: 16:9 بعرض الشاشة تقريبًا في العمودي، و72% في العريض
+  const vert = H > W;
+  const scale = cl.size || 1;
+  const bw = Math.round((vert ? W - 80 : W * 0.72) * scale), bh = Math.round(bw * 9 / 16);
+  const bx = Math.round((W - bw) / 2), by = Math.round(vert ? H * 0.3 : (H - bh) / 2 - 20);
+  ctx.save();
+  ctx.globalAlpha = fin;
+  ctx.fillStyle = '#000'; rrect(ctx, bx - 6, by - 6, bw + 12, bh + 12, 22); ctx.fill();
+  ctx.beginPath(); rrect(ctx, bx, by, bw, bh, 16); ctx.clip();
+  if (v) { ctx.translate(bx, by); drawBg(ctx, v, bw, bh, 0, { fit: 'contain' }); }
+  else { ctx.fillStyle = '#111'; ctx.fillRect(bx, by, bw, bh); }
+  ctx.restore();
+  // شارة القناة فوق الإطار + «مقطع للتعليق»
+  ctx.globalAlpha = fin;
+  const ch = [cl.channel || (RTL ? 'القناة' : 'Channel'), cl.date].filter(Boolean).join(' • ');
+  U.font = font(vert ? 40 : 34, 800); U.direction = RTL ? 'rtl' : 'ltr'; U.textBaseline = 'middle'; U.textAlign = 'center';
+  const lw = U.measureText('📺 ' + ch).width + 50, lh = vert ? 70 : 60, ly = by - lh - 22;
+  U.fillStyle = '#e5484d'; rrect(U, bx + bw - lw, ly, lw, lh, lh / 2); U.fill();
+  U.fillStyle = '#fff'; U.fillText('📺 ' + ch, bx + bw - lw / 2, ly + lh / 2 + 2);
+  const note = RTL ? 'مقطع للتعليق' : 'Clip for commentary';
+  U.font = font(vert ? 30 : 26, 700);
+  const nw = U.measureText(note).width + 36;
+  U.fillStyle = 'rgba(255,255,255,.14)'; rrect(U, bx, ly + 8, nw, lh - 16, (lh - 16) / 2); U.fill();
+  U.fillStyle = '#fff'; U.fillText(note, bx + nw / 2, ly + lh / 2 + 2);
+  // سطر تحت الإطار: كلام المتحدث لو مكتوب (ترجمة/تفريغ)، أو تلميح
+  if (cl.say) {
+    U.font = font(vert ? 44 : 36, 700); U.textAlign = 'center';
+    const ls = wrap(U, cl.say, bw - 40).slice(0, 3), lh2 = (vert ? 44 : 36) * 1.35;
+    U.fillStyle = 'rgba(0,0,0,.6)'; rrect(U, bx, by + bh + 24, bw, ls.length * lh2 + 36, 20); U.fill();
+    U.fillStyle = '#fff'; ls.forEach((l, i) => U.fillText(l, W / 2, by + bh + 24 + 18 + lh2 * (i + 0.5)));
+  }
+  ctx.globalAlpha = 1;
+  ticker(D, c, t);
 }
 
 // انتقال بين الأخبار: مسحة مايلة بلون القسم بتعدّي على الشاشة أول نص ثانية من الخبر الجديد
