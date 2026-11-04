@@ -9,11 +9,15 @@ export function loadAsr(onProgress) {
   if (!asrP) {
     asrP = (async () => {
       const tf = await import(TF_URL);
-      const device = navigator.gpu ? 'webgpu' : 'wasm';
-      return tf.pipeline('automatic-speech-recognition', MODEL, {
-        device, dtype: device === 'webgpu' ? 'fp32' : 'q8',
-        progress_callback: p => { if (p.status === 'progress' && p.total) onProgress?.(p.loaded / p.total, p.file); },
-      });
+      const progress_callback = p => { if (p.status === 'progress' && p.total) onProgress?.(p.loaded / p.total, p.file); };
+      // navigator.gpu ممكن يبقى موجود والكارت مش متاح (Failed to get GPU adapter) → نتأكد الأول، ولو WebGPU فشل نكمّل بـ wasm (أبطأ شوية بس شغال في أي جهاز)
+      let gpu = false;
+      try { gpu = !!(navigator.gpu && await navigator.gpu.requestAdapter()); } catch { gpu = false; }
+      if (gpu) {
+        try { return await tf.pipeline('automatic-speech-recognition', MODEL, { device: 'webgpu', dtype: 'fp32', progress_callback }); }
+        catch (e) { console.warn('WebGPU failed, falling back to wasm', e); }
+      }
+      return tf.pipeline('automatic-speech-recognition', MODEL, { device: 'wasm', dtype: 'q8', progress_callback });
     })().catch(e => { asrP = null; throw e; });
   }
   return asrP;
