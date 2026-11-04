@@ -1,29 +1,29 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw1czzk3';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw1czzk3';
-import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw1czzk3';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw1czzk3';
-import { transcribeWords, alignWords } from './align.js?v=mw1czzk3';
-import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw1czzk3';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw1czzk3';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mw1czzk3';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw1czzk3';
-import { drawGuide, sceneAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw1czzk3';
-import { exportSupport, exportReel } from './export.js?v=mw1czzk3';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw1czzk3';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw1czzk3';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw1czzk3';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw1czzk3';
-import { detailTarget, loadTileMap } from './tiles.js?v=mw1czzk3';
-import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw1czzk3';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw1czzk3';
-import { loadBg, playBg } from './bg.js?v=mw1czzk3';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw1czzk3';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw1czzk3';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw1czzk3';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw1czzk3';
-import { readUrl, cleanPasted } from './reader.js?v=mw1czzk3';
-import { initI18n, ui } from './i18n.js?v=mw1czzk3';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw1czzk3';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw2njiql';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw2njiql';
+import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw2njiql';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw2njiql';
+import { transcribeWords, alignWords } from './align.js?v=mw2njiql';
+import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw2njiql';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw2njiql';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mw2njiql';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw2njiql';
+import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw2njiql';
+import { exportSupport, exportReel } from './export.js?v=mw2njiql';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw2njiql';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw2njiql';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw2njiql';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw2njiql';
+import { detailTarget, loadTileMap } from './tiles.js?v=mw2njiql';
+import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw2njiql';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw2njiql';
+import { loadBg, playBg } from './bg.js?v=mw2njiql';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw2njiql';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw2njiql';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw2njiql';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw2njiql';
+import { readUrl, cleanPasted } from './reader.js?v=mw2njiql';
+import { initI18n, ui } from './i18n.js?v=mw2njiql';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw2njiql';
 
 initI18n();
 
@@ -401,6 +401,7 @@ function fillForm() {
   renderBgInfo();
   $('bgGp').value = story().bgGen?.prompt || ''; $('bgAiBox').hidden = !$('bgGp').value; $('bgLinkBox').hidden = true; $('bgMsg').textContent = '';
   renderScenes();
+  renderClips();
   updateInfo();
   redraw();
   ensureBgs();
@@ -1499,7 +1500,7 @@ $('cvDl').addEventListener('click', async () => {
 
 // الخط الزمني: صوت حقيقي لو متاح، وإلا تقدير صامت للمعاينة
 function currentTimeline() {
-  const info = buildReelTimeline(reel, audioMap, manualAudio);
+  const info = buildReelTimeline(reel, audioMap, manualAudio, clipAudio);
   info.tl.fx = getSettings().fx;
   info.tl.music = musicBuf && reel.music ? { buffer: musicBuf, gain: reel.music.vol ?? 0.15 } : null;
   return info;
@@ -2009,6 +2010,7 @@ function validateReel() {
       if (proofSources(st).some(x => /(^|\.)(youtube\.com|youtu\.be)$/.test((() => { try { return new URL(x.url).hostname; } catch { return ''; } })()))) probs.push(pre + 'رابط يوتيوب مش مصدر أصلي.');
     }
     if (st.template === 'map' && !(st.map?.countries || []).length && !(st.map?.pins || []).length) probs.push(pre + 'قالب الخريطة محتاج دولة أو دبوس مدينة.');
+    for (const cl of st.clips || []) if (cl.id && !String(cl.channel || '').trim()) probs.push(pre + 'مقطع القناة محتاج اسم القناة (بيظهر على الشاشة).');
     if (!st.sourceName) probs.push(pre + 'اسم المصدر الأصلي إجباري.');
     let u = null;
     try { u = new URL(st.sourceUrl); } catch { /* ناقص */ }
@@ -2030,6 +2032,7 @@ function checklistFor() {
   if (news.some(s => s.category === 'stories')) base.push('القصة من وثائق أو قضايا منتهية ومعلنة: راجعت التواريخ والأسماء، ومفيش اتهام لشخص من غير حكم، وأي ادعاء غير مثبت (UFO وغيره) متقدّم على إنه «غير مؤكد».');
   if (news.some(s => s.category === 'defense')) base.push('مفيش معلومة عن تحركات حالية أو مواقع حساسة غير معلنة رسميًا، والأرقام منسوبة لمصدرها.');
   if (news.some(s => s.category === 'politics')) base.push('نقل خبري محايد من غير رأي شخصي.');
+  if (reel.stories.some(s => (s.clips || []).length)) base.push('مقاطع القنوات قصيرة (حوالي 15 ثانية أو أقل لكل مقطع)، وتعليقي وتحليلي هو أغلب الفيديو، واسم القناة وتاريخ البث ظاهرين، ومفيش مقطع حصري أو مدفوع (ماتشات/أفلام). عارف إن المنصة ممكن تعمل claim.');
   if (news.some(s => s.category === 'lifestyle')) base.push('مفيش صور من مواقع الموضة أو عروض الأزياء (حقوقها محمية)، مفيش ادعاء علاجي لمنتج تجميل، ولو فيه براند مدفوع مكتوب إنه إعلان.');
   return base;
 }
@@ -2106,6 +2109,7 @@ async function ensureBgs() {
   if (changed) redraw();
   renderBgInfo();
   ensureSceneBgs();
+  ensureClips();
 }
 
 function syncPlayback(st, t) {
@@ -2114,11 +2118,86 @@ function syncPlayback(st, t) {
   const activeId = ent ? st.reel.stories[ent.idx]?.id : null;
   const sc = ent && ent.idx >= 0 ? sceneAt(st, t, ent.idx) : null;
   const scId = sc && !sc.cur.media.none ? sc.cur.media.id : null;
-  for (const [id, b] of bgs) playBg(b, id === (scId || activeId));
+  const cs = clipSegAt(st, t), clipId = cs?.clip.id;
+  for (const [id, b] of bgs) playBg(b, clipId ? id === clipId : id === (scId || activeId));
+  const cb = clipId && bgs.get(clipId), want = (cs?.clip.in || 0) + (t - (cs?.start || 0));
+  if (cb?.el && Math.abs(cb.el.currentTime - want) > 0.25) try { cb.el.currentTime = Math.max(0, want); } catch { /* لسه بيحمّل */ }
   // فيديو الظهور لازم يبقى على نفس توقيت الصوت بالظبط
   const pb = scId && sc.cur.media.presenter && bgs.get(scId);
   if (pb?.el && Math.abs(pb.el.currentTime - (t - sc.start)) > 0.25) try { pb.el.currentTime = Math.max(0, t - sc.start); } catch { /* لسه بيحمّل */ }
 }
+
+// ===== 📺 مقاطع القنوات للتعليق: story.clips = [{id, title, channel, date, in, out, at, say}] =====
+// الفيديو في nrs-media (id)، والصوت بيتفك مرة واحدة ويتقص على in/out في clipAudio (key id:in:out)
+var clipAudio = new Map(), clipFull = new Map();
+async function ensureClips() {
+  let changed = false;
+  for (const st of reel.stories) for (const cl of st.clips || []) {
+    if (!cl.id) continue;
+    if (!bgs.has(cl.id)) { const b = await loadBg({ id: cl.id, kind: 'video' }).catch(() => null); if (b) { bgs.set(cl.id, b); changed = true; } }
+    if (!clipFull.has(cl.id)) {
+      clipFull.set(cl.id, null);
+      try { const blob = await getBlob(cl.id); if (blob) clipFull.set(cl.id, await decode(await blob.arrayBuffer())); } catch { /* فيديو من غير صوت */ }
+    }
+    const key = cl.id + ':' + (cl.in ?? 0) + ':' + (cl.out ?? 0), full = clipFull.get(cl.id);
+    if (full && !clipAudio.has(key) && cl.out > cl.in) {
+      const sr = full.sampleRate, a = Math.floor(cl.in * sr), b = Math.min(full.length, Math.floor(cl.out * sr));
+      const out = new AudioBuffer({ length: Math.max(1, b - a), sampleRate: sr, numberOfChannels: full.numberOfChannels });
+      for (let ch = 0; ch < full.numberOfChannels; ch++) out.copyToChannel(full.getChannelData(ch).subarray(a, b), ch);
+      clipAudio.set(key, out); changed = true;
+    }
+  }
+  if (changed) { updateInfo(); redraw(); }
+}
+function renderClips() {
+  const st = reel.stories[cur]; if (!st) return;
+  const ls = parseScript(st.script || '');
+  const atOpts = (sel) => ls.map((l, i) => `<option value="${i}" ${sel === i ? 'selected' : ''}>قبل السطر ${i + 1}: ${esc(stripTagsLocal(l.text).slice(0, 30))}</option>`).join('') + `<option value="-1" ${!(sel >= 0 && sel < ls.length) ? 'selected' : ''}>في آخر الخبر</option>`;
+  $('clList').innerHTML = (st.clips || []).map((cl, i) => {
+    const d = Math.max(0, (cl.out || 0) - (cl.in || 0));
+    return `<div class="clrow" data-cl="${i}">
+      <video data-clv="${i}" controls muted playsinline preload="metadata"></video>
+      <div class="row"><button class="btn" type="button" data-clin="${i}">⏮ البداية من هنا</button><button class="btn" type="button" data-clout="${i}">⏭ النهاية هنا</button><span class="muted">${(cl.in || 0).toFixed(1)} → ${(cl.out || 0).toFixed(1)} ث (${d.toFixed(1)} ث)</span>${d > 15 ? '<span class="warn">⚠️ أطول من 15 ثانية: قصّره عشان يبقى أأمن</span>' : ''}</div>
+      <div class="grid">
+        <label>اسم القناة (إجباري)<input data-clf="channel" dir="auto" value="${esc(cl.channel || '')}" placeholder="مثلًا: الجزيرة"></label>
+        <label>تاريخ البث<input data-clf="date" dir="auto" value="${esc(cl.date || '')}" placeholder="مثلًا: 3 نوفمبر 2026"></label>
+        <label>مكانه في الفيديو<select data-clf="at">${atOpts(cl.at)}</select></label>
+      </div>
+      <label>ترجمة/تفريغ كلام المتحدث (اختياري، بيظهر تحت المقطع)<input data-clf="say" dir="auto" value="${esc(cl.say || '')}"></label>
+      <div class="row"><button class="btn ghost" type="button" data-cldel="${i}">✕ شيل المقطع</button></div>
+    </div>`;
+  }).join('');
+  (st.clips || []).forEach(async (cl, i) => {
+    const v = $('clList').querySelector(`[data-clv="${i}"]`); if (!v) return;
+    try { const blob = await getBlob(cl.id); if (blob) { v.src = URL.createObjectURL(blob); v.currentTime = cl.in || 0; } } catch { /* */ }
+  });
+}
+$('clUp').addEventListener('change', async e => {
+  const f = e.target.files[0]; e.target.value = ''; if (!f) return;
+  const st = reel.stories[cur]; if (!st) return;
+  const id = 'cl' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+  await putBlob(id, f);
+  const dur = await new Promise(res => { const v = document.createElement('video'); v.preload = 'metadata'; v.onloadedmetadata = () => res(v.duration || 10); v.onerror = () => res(10); v.src = URL.createObjectURL(f); });
+  st.clips = [...(st.clips || []), { id, title: f.name, channel: '', date: '', in: 0, out: Math.min(dur, 12), at: 0, say: '' }];
+  persist(); renderClips(); await ensureClips();
+  $('clMsg').textContent = `✅ المقطع اتضاف (${dur.toFixed(0)} ث). حدّد البداية والنهاية من المشغّل، واكتب اسم القناة.`;
+});
+$('clList').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  const st = reel.stories[cur], d = b.dataset;
+  const i = Number(d.clin ?? d.clout ?? d.cldel); const cl = st?.clips?.[i]; if (!cl) return;
+  const v = $('clList').querySelector(`[data-clv="${i}"]`);
+  if (d.cldel !== undefined) { st.clips.splice(i, 1); }
+  else if (d.clin !== undefined) { cl.in = Math.round((v?.currentTime || 0) * 10) / 10; if (cl.out <= cl.in) cl.out = cl.in + 8; }
+  else { cl.out = Math.round((v?.currentTime || 0) * 10) / 10; if (cl.out <= cl.in) cl.in = Math.max(0, cl.out - 8); }
+  persist(); renderClips(); ensureClips(); updateInfo(); redraw();
+});
+$('clList').addEventListener('change', e => {
+  const f = e.target.dataset.clf; if (!f) return;
+  const i = Number(e.target.closest('[data-cl]').dataset.cl), cl = reel.stories[cur]?.clips?.[i]; if (!cl) return;
+  cl[f] = f === 'at' ? Number(e.target.value) : e.target.value.trim();
+  persist(); updateInfo(); redraw();
+});
 
 // 🎬 مونتاج أوتوماتيك: المشاهد بتتقسم على جمل السكريبت، والذكاء الاصطناعي بيكتب كلمات بحث، والصور/الفيديو من مصادر الوسائط
 const SC_SCHEMA = { type: 'object', properties: { scenes: { type: 'array', items: { type: 'object', properties: { i: { type: 'integer' }, query: { type: 'string' } }, required: ['i', 'query'], additionalProperties: false } } }, required: ['scenes'], additionalProperties: false };

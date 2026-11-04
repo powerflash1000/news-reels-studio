@@ -1,11 +1,11 @@
 // وضع اللايف: شاشة بث مستمرة (طابور + دورة خلفية + شاشة انتظار) وبث لعدة منصات عن طريق وسيط محلي (tools/live-relay.mjs)
-import { normalizeReel, buildReelTimeline, allLines, lineKey } from './reel.js?v=mw1czzk3';
-import { peekLine, pvOf, TTS_PROVIDERS } from './tts.js?v=mw1czzk3';
-import { audioCtx, mixTimeline, decode, SAMPLE_RATE } from './audio.js?v=mw1czzk3';
-import { drawFrame, drawSlate } from './render.js?v=mw1czzk3';
-import { loadBg, playBg } from './bg.js?v=mw1czzk3';
-import { getBlob } from './mediastore.js?v=mw1czzk3';
-import { getSettings } from './storage.js?v=mw1czzk3';
+import { normalizeReel, buildReelTimeline, allLines, lineKey } from './reel.js?v=mw2njiql';
+import { peekLine, pvOf, TTS_PROVIDERS } from './tts.js?v=mw2njiql';
+import { audioCtx, mixTimeline, decode, SAMPLE_RATE } from './audio.js?v=mw2njiql';
+import { drawFrame, drawSlate } from './render.js?v=mw2njiql';
+import { loadBg, playBg } from './bg.js?v=mw2njiql';
+import { getBlob } from './mediastore.js?v=mw2njiql';
+import { getSettings } from './storage.js?v=mw2njiql';
 
 // بيجهّز ريل للتشغيل. من غير opts: الصوت من الكاش (من غير رصيد). مع opts.audioMap/manual: من الاستوديو مباشرة (من غير حفظ)
 export async function prepare(raw, opts = {}) {
@@ -26,12 +26,25 @@ export async function prepare(raw, opts = {}) {
     }
     if (missing) return { id: reel.id, title, ready: false, why: `${missing} سطر من غير صوت في الكاش (ولّده من الاستوديو الأول بنفس الصوت)` };
   }
-  const info = buildReelTimeline(reel, audioMap, manual);
+  // 📺 مقاطع القنوات: صوتها متقصوص على البداية/النهاية
+  const clipAudio = new Map();
+  for (const st of reel.stories) for (const cl of st.clips || []) {
+    try {
+      const blob = await getBlob(cl.id); if (!blob) continue;
+      const full = await decode(await blob.arrayBuffer());
+      const sr = full.sampleRate, a = Math.floor((cl.in || 0) * sr), e = Math.min(full.length, Math.floor((cl.out || 0) * sr));
+      const out = new AudioBuffer({ length: Math.max(1, e - a), sampleRate: sr, numberOfChannels: full.numberOfChannels });
+      for (let ch = 0; ch < full.numberOfChannels; ch++) out.copyToChannel(full.getChannelData(ch).subarray(a, e), ch);
+      clipAudio.set(cl.id + ':' + (cl.in ?? 0) + ':' + (cl.out ?? 0), out);
+    } catch { /* مقطع من غير صوت */ }
+  }
+  const info = buildReelTimeline(reel, audioMap, manual, clipAudio);
   if (!info.real) return { id: reel.id, title, ready: false, why: 'الصوت لسه مش متولّد' };
   const bgs = new Map(), shots = new Map();
   for (const st of reel.stories) {
     if (st.media) { const b = await loadBg(st.media).catch(() => null); if (b) bgs.set(st.id, b); }
     for (const sc of st.scenes || []) { if (!sc.media) continue; const b = await loadBg(sc.media).catch(() => null); if (b) bgs.set(sc.media.id, b); }
+    for (const cl of st.clips || []) { const b = await loadBg({ id: cl.id, kind: 'video' }).catch(() => null); if (b) bgs.set(cl.id, b); }
     for (const src of st.proof?.sources || []) {
       if (src.shot && !shots.has(src.shot.id)) { const b = await loadBg({ id: src.shot.id, kind: 'image' }).catch(() => null); if (b) shots.set(src.shot.id, b); }
     }

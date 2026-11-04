@@ -155,7 +155,7 @@ function withBumpers(reel, segs, duration0) {
 // الخط الزمني للريل كله.
 // audioMap: Map(lineKey → {buffer, words}); manual: AudioBuffer لتسجيل/ملف بيغطي الريل كله
 // بيرجع { tl:{segs, stories, duration}, real, lines, hasB }
-export function buildReelTimeline(reel, audioMap, manual = null) {
+export function buildReelTimeline(reel, audioMap, manual = null, clipAudio = null) {
   const lines = allLines(reel);
   const hasB = lines.some(l => l.speaker === 'B');
   if (!lines.length) return { tl: { segs: [], stories: [], duration: 3 }, real: false, lines, hasB };
@@ -177,9 +177,20 @@ export function buildReelTimeline(reel, audioMap, manual = null) {
   }
 
   let t = LEAD + (reel.bumpers?.intro?.on ? BUMPER : 0), real = true;
+  // 📺 مقاطع القنوات للتعليق: كل مقطع بيتحط قبل السطر رقم c.at (أو آخر الخبر) بصوته الأصلي
+  const clipSeg = (c, si) => {
+    const d = Math.max(0.5, (c.out ?? 0) - (c.in ?? 0));
+    const buf = clipAudio?.get(c.id + ':' + (c.in ?? 0) + ':' + (c.out ?? 0)) || { duration: d };
+    segs.push({ speaker: 'C', clip: c, text: '', storyIdx: si, start: t, end: t + d, at: t, buffer: buf, words: [] });
+    t += d + GAP;
+  };
   reel.stories.forEach((st, si) => {
     const ls = parseScript(st.script);
+    const clips = (st.clips || []).filter(c => c.id && (c.out ?? 0) > (c.in ?? 0));
+    const tail = clips.filter(c => !(c.at >= 0 && c.at < ls.length));
+    if (!ls.length && clips.length) { clips.forEach(c => clipSeg(c, si)); t += STORY_GAP - GAP; return; }
     ls.forEach((l, li) => {
+      clips.filter(c => c.at === li).forEach(c => clipSeg(c, si));
       let a = audioMap.get(lineKey(l));
       if (!a) {
         real = false;
@@ -188,8 +199,9 @@ export function buildReelTimeline(reel, audioMap, manual = null) {
       }
       const dur = a.buffer.duration;
       segs.push({ speaker: l.speaker, text: l.text, storyIdx: si, start: t, end: t + dur, at: t, buffer: a.buffer, words: a.words.map(w => ({ w: w.w, s: t + w.s, e: t + w.e })) });
-      t += dur + (li === ls.length - 1 ? STORY_GAP : GAP);
+      t += dur + (li === ls.length - 1 && !tail.length ? STORY_GAP : GAP);
     });
+    if (ls.length && tail.length) { tail.forEach(c => clipSeg(c, si)); t += STORY_GAP - GAP; }
   });
   const duration = Math.max(1, t - STORY_GAP + 0.6);
   return { tl: withBumpers(reel, segs, duration), real, lines, hasB };

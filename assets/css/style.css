@@ -274,3 +274,9 @@ main:has(#tab-studio:not([hidden])) { max-width: 1720px; padding: 10px 14px; }
 .cvgrid canvas { width: 100%; height: auto; border-radius: 8px; border: 2px solid var(--line); }
 .cvgrid figure.on canvas { border-color: var(--accent); }
 #cvGpBox[hidden], #cvTextBox[hidden] { display: none; }
+
+/* 📺 مقاطع القنوات */
+.clrow { border: 1px solid var(--line); border-radius: 10px; padding: 8px; margin: 8px 0; background: var(--panel); }
+.clrow video { width: 100%; max-height: 220px; background: #000; border-radius: 8px; }
+.clrow .grid { grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }
+.clrow .warn { color: #ffb224; }
