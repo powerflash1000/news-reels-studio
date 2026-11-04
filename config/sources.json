@@ -2249,6 +2249,17 @@
    "weight": 0.9
   },
   {
+   "id": "tactical-report-gn",
+   "category": "defense",
+   "name": "Tactical Report (عبر Google News)",
+   "url": "https://news.google.com/rss/search?q=site:tacticalreport.com+when:7d&hl=en-US&gl=US&ceid=US:en",
+   "lang": "en",
+   "type": "radar",
+   "region": "world",
+   "weight": 0.9,
+   "keepDays": 7
+  },
+  {
    "id": "isw",
    "category": "defense",
    "name": "ISW — معهد دراسة الحرب",
