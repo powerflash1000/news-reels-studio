@@ -1,10 +1,10 @@
 // رسم إطار الريل على canvas (عمودي 1080×1920 أو 4:5 أو مربع أو أفقي). نفس الدالة للمعاينة والتصدير.
-import { detailTarget, tileKey, getTileMap } from './tiles.js?v=mw1cljlf';
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mw1cljlf';
-import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mw1cljlf';
-import { hostOf } from './feeds.js?v=mw1cljlf';
-import QR from '../vendor/qrcode/qrcode.mjs?v=mw1cljlf';
-import { drawBg } from './bg.js?v=mw1cljlf';
+import { detailTarget, tileKey, getTileMap } from './tiles.js?v=mw1cvd9c';
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mw1cvd9c';
+import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mw1cvd9c';
+import { hostOf } from './feeds.js?v=mw1cvd9c';
+import QR from '../vendor/qrcode/qrcode.mjs?v=mw1cvd9c';
+import { drawBg } from './bg.js?v=mw1cvd9c';
 
 // مقاسات الإخراج. W/H متغيّرين (live binding) والتصدير بيقراهم وقت التصدير
 export const FORMATS = {
@@ -997,8 +997,14 @@ export function drawCover(ctx, st, idx, fmt) {
   const cat = catFor(st, story);
   const c = { ...st, story, cat, k: 0, n: 1, t: 0, local: 99, tl: { duration: 1, stories: [] } };
   background(ctx, cat.color);
-  const bg = st.bgs?.get(story.id);
-  if (bg) drawBg(ctx, bg, W, H, Math.max(0.25, story.media?.dim ?? 0.5), story.media);
+  const th = st.reel.thumb || {};
+  // خلفية الثمبنيل: صورة مخصوصة / مشهد من الخبر / خلفية الخبر
+  const sc = /^scene:/.test(th.bg || '') ? (story.scenes || [])[Number(th.bg.slice(6))]?.media : null;
+  const pick = th.bg === 'own' && th.own && st.bgs?.get(th.own.id) ? [st.bgs.get(th.own.id), th.own]
+    : sc && st.bgs?.get(sc.id) ? [st.bgs.get(sc.id), sc] : [st.bgs?.get(story.id), story.media];
+  const [bg, bm] = pick;
+  if ((th.style || 'news') !== 'news') return thumbStyle(ctx, c, th, bg, bm);
+  if (bg) drawBg(ctx, bg, W, H, Math.max(0.25, story.media?.dim ?? 0.5), bm);
   const shade = ctx.createLinearGradient(0, 0, 0, H);
   shade.addColorStop(0, 'rgba(0,0,0,.35)'); shade.addColorStop(0.5, 'rgba(0,0,0,.15)'); shade.addColorStop(1, 'rgba(0,0,0,.55)');
   ctx.fillStyle = shade; ctx.fillRect(0, 0, W, H);
@@ -1020,6 +1026,89 @@ export function drawCover(ctx, st, idx, fmt) {
   lines.forEach((l, i) => U.fillText(l, W - 60 - pad - 20, y + pad + lh * (i + 0.5)));
   sourceBar(U, c);
   drawLogo(U, st);
+}
+
+// 🖼 أشكال الثمبنيل: bold (نص ضخم بإطار + كلمة ملوّنة) / split (صورة + لوح لون) / breaking (عاجل) / minimal
+// th = reel.thumb {style, text, hi, sub, tag}. النص القصير (2-5 كلمات) غير عنوان الخبر الطويل
+export const THUMB_STYLES = { news: 'كارت خبر (العنوان كامل)', bold: 'نص ضخم وكلمة ملوّنة (يوتيوب)', split: 'نص ولوح لون جنب الصورة', breaking: 'عاجل أحمر', minimal: 'هادي وأنيق' };
+function thumbStyle(ctx, c, th, bg, bm) {
+  const { story, cat } = c;
+  const U = RTL ? ctx : wrapCtx(ctx, true);
+  const accent = th.style === 'breaking' ? '#e5484d' : cat.color;
+  const text = (th.text || story.headline || S.head).trim();
+  const vert = H > W;
+  // المساحة اللي فيها الصورة
+  let ix = 0, iy = 0, iw = W, ih = H;
+  if (th.style === 'split') { if (vert) ih = Math.round(H * 0.52); else { iw = Math.round(W * 0.5); ix = RTL ? 0 : W - iw; } }
+  if (bg) {
+    ctx.save(); ctx.beginPath(); ctx.rect(ix, iy, iw, ih); ctx.clip(); ctx.translate(ix, iy);
+    drawBg(ctx, bg, iw, ih, th.style === 'minimal' ? 0.55 : 0.15, { ...(bm || {}), fit: 'cover' });
+    ctx.restore();
+  }
+  // تظليل عشان النص يبان
+  if (th.style === 'split') {
+    U.fillStyle = '#0b1020';
+    if (vert) U.fillRect(0, ih, W, H - ih); else U.fillRect(iw, 0, W - iw, H);
+    U.fillStyle = accent;
+    if (vert) U.fillRect(0, ih - 10, W, 14); else U.fillRect(iw - 7, 0, 14, H);
+  } else {
+    const g = ctx.createLinearGradient(0, 0, 0, H);
+    g.addColorStop(0, 'rgba(0,0,0,.15)'); g.addColorStop(0.45, 'rgba(0,0,0,.25)'); g.addColorStop(1, th.style === 'minimal' ? 'rgba(0,0,0,.85)' : 'rgba(0,0,0,.78)');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  }
+  // منطقة النص
+  let tx, ty, tw, th2;
+  if (th.style === 'split') { if (vert) { tx = 70; ty = ih + 150; tw = W - 140; th2 = H - ih - 150 - 230; } else { tx = iw + 60; ty = 120; tw = W - iw - 120; th2 = H - 300; } }
+  else { tx = 70; tw = W - 140; th2 = vert ? H * 0.42 : H * 0.55; ty = vert ? H * 0.38 : H * 0.3; }
+  if (th.style === 'minimal') { ty = vert ? H * 0.5 : H * 0.42; th2 = vert ? H * 0.3 : H * 0.42; }
+  // تاج صغير فوق النص: القسم أو «عاجل»
+  const tag = th.style === 'breaking' ? (th.tag || S.breaking) : (th.tag || cat.label.replace(/^\p{Extended_Pictographic}\s*/u, ''));
+  U.font = font(vert ? 54 : 46, 800); U.direction = 'rtl'; U.textBaseline = 'middle'; U.textAlign = 'center';
+  const tgw = U.measureText(tag).width + 64, tgh = vert ? 86 : 74, tgx = tx + tw - tgw, tgy = ty - tgh - 26;
+  U.fillStyle = accent; rrect(U, tgx, tgy, tgw, tgh, th.style === 'breaking' ? 10 : tgh / 2); U.fill();
+  U.fillStyle = '#fff'; U.fillText(tag, tgx + tgw / 2, tgy + tgh / 2 + 2);
+  if (th.style === 'breaking') { U.beginPath(); U.arc(tgx - 30, tgy + tgh / 2, 14, 0, Math.PI * 2); U.fillStyle = '#e5484d'; U.fill(); }
+  // النص الكبير: بيصغر لحد ما يدخل في 3 سطور
+  const hiWords = new Set(String(th.hi || '').split(/\s+/).filter(Boolean));
+  let size = th.style === 'minimal' ? (vert ? 120 : 104) : vert ? 170 : 150, lines;
+  const subH = th.sub ? (vert ? 150 : 120) : 0; // مكان السطر الصغير عشان ميركبش على المصدر
+  for (; size >= 56; size -= 6) {
+    U.font = font(size, 900);
+    lines = wrap(U, text, tw);
+    if (lines.length <= 3 && lines.length * size * 1.18 + subH <= th2) break;
+  }
+  const lh = size * 1.18;
+  U.textAlign = 'right'; U.lineJoin = 'round';
+  lines.forEach((ln, i) => {
+    const y = ty + lh * (i + 0.5);
+    // كلمة بكلمة عشان نلوّن الكلمة المهمة
+    let x = tx + tw;
+    for (const w of ln.split(/\s+/)) {
+      U.font = font(size, 900);
+      const ww = U.measureText(w + ' ').width, hot = hiWords.has(w) || hiWords.has(w.replace(/[؟?!.,،]/g, ''));
+      if (hot && th.style !== 'minimal') { U.fillStyle = th.style === 'bold' ? '#ffd60a' : accent; const sp = U.measureText(' ').width; rrect(U, x - ww + sp - 18, y - size * 0.6, ww - sp + 36, size * 1.16, 16); U.fill(); }
+      // lineWidth = 0 بيتجاهله الكانفس، فبنقرر نرسم الإطار ولا لأ بمتغيّر
+      const sw = th.style === 'minimal' || (hot && th.style === 'bold') ? 0 : size * 0.12;
+      if (sw) { U.strokeStyle = 'rgba(0,0,0,.85)'; U.lineWidth = sw; U.strokeText(w, x, y); }
+      U.fillStyle = hot && th.style !== 'minimal' ? (th.style === 'bold' ? '#111' : '#fff') : hot ? accent : '#fff';
+      U.fillText(w, x, y);
+      x -= ww;
+    }
+  });
+  // سطر صغير تحت + المصدر
+  let by = ty + lh * lines.length + 30;
+  if (th.sub) {
+    U.font = font(vert ? 52 : 42, 700); U.fillStyle = 'rgba(255,255,255,.92)'; U.textAlign = 'right';
+    for (const l of wrap(U, th.sub, tw).slice(0, 2)) { U.fillText(l, tx + tw, by + 30); by += vert ? 66 : 54; }
+  }
+  if (story.kind === 'news' && story.sourceName) {
+    const st = `${S.source}: ${story.sourceName}`;
+    U.font = font(vert ? 34 : 30, 700); U.textAlign = 'right';
+    const sw = U.measureText(st).width + 40, sy = H - (vert ? 150 : 90);
+    U.fillStyle = 'rgba(0,0,0,.55)'; rrect(U, tx + tw - sw, sy, sw, vert ? 60 : 52, 26); U.fill();
+    U.fillStyle = '#fff'; U.fillText(st, tx + tw - 20, sy + (vert ? 31 : 27));
+  }
+  drawLogo(U, c);
 }
 
 // 🎬 مشاهد الخبر (مونتاج): story.scenes = [{li, media}] صورة/فيديو بيبدأ من سطر li لحد المشهد اللي بعده.

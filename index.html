@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mw1cljlf">
+<html lang="ar" dir="rtl" data-v="mw1cvd9c">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mw1cljlf">
+<link rel="stylesheet" href="assets/css/style.css?v=mw1cvd9c">
 </head>
 <body>
 <header class="top">
@@ -568,9 +568,34 @@
           <label>الخبر<select id="cvStory"></select></label>
           <label>الصيغة<select id="cvType"><option value="png">PNG</option><option value="jpg">JPG (حجم أصغر)</option></select></label>
         </div>
+        <label>الشكل<select id="cvStyle"></select></label>
+        <div id="cvTextBox">
+          <label>الكلام الكبير (2–5 كلمات، فاضي = عنوان الخبر)<input id="cvText" dir="auto" placeholder="مثلًا: لاعب مات في الملعب!"></label>
+          <div class="grid">
+            <label>الكلمة اللي تتلوّن<input id="cvHi" dir="auto" placeholder="مثلًا: مات"></label>
+            <label>سطر صغير تحت (اختياري)<input id="cvSub" dir="auto"></label>
+          </div>
+          <div class="row"><button id="cvAi" class="btn" type="button">✨ اقترح كلام للثمبنيل</button><span id="cvAiMsg" class="muted"></span></div>
+          <div id="cvIdeas" class="chips"></div>
+        </div>
+        <label>الصورة<select id="cvBg"></select></label>
+        <div class="row">
+          <label class="btn file">📁 صورة من جهازي<input id="cvUp" type="file" accept="image/*" hidden></label>
+          <label class="btn file">🤖 صورة مولّدة بالذكاء الاصطناعي<input id="cvUpAi" type="file" accept="image/*" hidden></label>
+          <button id="cvGp" class="btn" type="button">🎨 اكتبلي برومبت للصورة</button>
+        </div>
+        <div id="cvGpBox" hidden>
+          <textarea id="cvPrompt" rows="4" dir="ltr"></textarea>
+          <div class="row"><select id="cvTool"><option value="gemini">Gemini</option><option value="chatgpt">ChatGPT</option><option value="higgsfield">Higgsfield</option><option value="flow">Flow</option></select><button id="cvGpCopy" class="btn" type="button">📋 انسخ وافتح الأداة</button></div>
+          <p class="muted">ولّد الصورة في الأداة، نزّلها، وارفعها من «🤖 صورة مولّدة بالذكاء الاصطناعي».</p>
+        </div>
+        <div class="row"><input id="cvQ" type="search" dir="auto" placeholder="دوّر على صورة (stadium, football…)"><button id="cvSearch" class="btn" type="button">🔎 دوّر</button></div>
+        <div id="cvRes" class="cvres"></div>
+        <p id="cvMsg" class="muted"></p>
         <canvas id="coverCv" class="coverprev"></canvas>
-        <div class="row"><button id="cvDl" class="btn pri">⬇ تحميل الغلاف</button></div>
-        <p class="muted">بيستخدم عنوان الخبر وقسمه ومصدره وخلفيته واللوجو، بنفس لغة الريل.</p>
+        <div class="row"><button id="cvDl" class="btn pri">⬇ تحميل الغلاف</button><button id="cvAll" class="btn" type="button">🎲 شوف كل الأشكال</button></div>
+        <div id="cvGrid" class="cvgrid"></div>
+        <p class="muted">بيستخدم قسم الخبر ومصدره واللوجو، بنفس لغة الريل. للثمبنيل: يوتيوب عريض 16:9 (1280×720 أو أكبر)، الشورتس والريلز والتيك توك عمودي 9:16. اسم المصدر بيفضل ظاهر صغير تحت.</p>
       </div>
     </div>
   </div>
@@ -954,6 +979,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mw1cljlf"></script>
+<script type="module" src="js/main.js?v=mw1cvd9c"></script>
 </body>
 </html>

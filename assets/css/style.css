@@ -264,3 +264,13 @@ main:has(#tab-studio:not([hidden])) { max-width: 1720px; padding: 10px 14px; }
 .aurow .tx { flex: 1 1 220px; }
 .aurow select { max-width: 140px; }
 .studio > .form { overflow-x: clip; }
+
+/* 🖼 الثمبنيل */
+.cvres { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 6px; margin: 6px 0; }
+.cvres img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent; }
+.cvres img:hover { border-color: var(--accent); }
+.cvgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; margin-top: 8px; }
+.cvgrid figure { margin: 0; cursor: pointer; text-align: center; font-size: 12px; }
+.cvgrid canvas { width: 100%; height: auto; border-radius: 8px; border: 2px solid var(--line); }
+.cvgrid figure.on canvas { border-color: var(--accent); }
+#cvGpBox[hidden], #cvTextBox[hidden] { display: none; }
