@@ -1,5 +1,5 @@
 // تبويب الأرشيف: قصص تاريخية مختارة (ويكيبيديا) + أفلام وجرايد قديمة جاهزة للتصفح (Internet Archive) من غير بحث
-import { archiveBrowse } from './media.js?v=mw2njiql';
+import { archiveBrowse } from './media.js?v=mw3i4dz8';
 
 let data = null;
 export async function loadArchive() {
