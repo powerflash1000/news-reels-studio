@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mw2njiql">
+<html lang="ar" dir="rtl" data-v="mw3i4dz8">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mw2njiql">
+<link rel="stylesheet" href="assets/css/style.css?v=mw3i4dz8">
 </head>
 <body>
 <header class="top">
@@ -496,7 +496,14 @@
       <div class="card clipbox">
         <b>📺 تعليق على مقطع من قناة</b>
         <p class="muted">ارفع مقطع قصير إنت نزّلته بنفسك (التطبيق مش بيجيب فيديو من القنوات). بيظهر في إطار باسم القناة وتاريخ البث، وبصوته الأصلي، وبعده كلامك. خليه قصير (5–15 ثانية) وتعليقك هو الأساس: ده اللي بيقرّبك من «الاستخدام العادل»، ومع ذلك المنصات ممكن تعمل claim.</p>
-        <label class="btn file">📁 ارفع مقطع فيديو<input id="clUp" type="file" accept="video/*" hidden></label>
+        <div class="row">
+          <button id="clRec" class="btn pri" type="button">⏺ سجّل من الشاشة (فيديو + صوت)</button>
+          <label>أقصى مدة<select id="clMax"><option value="15" selected>15 ثانية</option><option value="30">30 ثانية</option><option value="60">دقيقة</option></select></label>
+          <label class="btn file">📁 ارفع مقطع فيديو<input id="clUp" type="file" accept="video/*" hidden></label>
+          <button id="clShot" class="btn" type="button">📸 لقطة شاشة كخلفية</button>
+        </div>
+        <div id="clRecBar" class="row" hidden><b id="clRecT" class="rec">⏺ 0 ث</b><button id="clStop" class="btn" type="button">⏹ وقّف التسجيل</button></div>
+        <p class="muted">اختار التاب اللي فيه البث أو الفيديو (يوتيوب، فيسبوك، موقع القناة) وعلّم <b>«شارك صوت التاب / Share tab audio»</b> عشان الصوت يتسجّل. شغّل الفيديو قبل الجملة اللي عايزها بثانيتين، ووقّف بعدها، وبعدين قص البداية والنهاية بالظبط.</p>
         <div id="clList"></div>
         <p id="clMsg" class="muted"></p>
       </div>
@@ -986,6 +993,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mw2njiql"></script>
+<script type="module" src="js/main.js?v=mw3i4dz8"></script>
 </body>
 </html>

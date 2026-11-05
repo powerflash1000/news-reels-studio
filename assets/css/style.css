@@ -280,3 +280,6 @@ main:has(#tab-studio:not([hidden])) { max-width: 1720px; padding: 10px 14px; }
 .clrow video { width: 100%; max-height: 220px; background: #000; border-radius: 8px; }
 .clrow .grid { grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }
 .clrow .warn { color: #ffb224; }
+
+#clRecBar[hidden] { display: none; }
+#clRecT.rec { color: #ff6369; }
