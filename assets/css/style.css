@@ -283,3 +283,11 @@ main:has(#tab-studio:not([hidden])) { max-width: 1720px; padding: 10px 14px; }
 
 #clRecBar[hidden] { display: none; }
 #clRecT.rec { color: #ff6369; }
+
+/* ✂️ تسجيل جزء من الشاشة */
+dialog.crdlg { max-width: min(1100px, 96vw); width: 96vw; }
+.crstage { position: relative; width: 100%; background: #000; border-radius: 10px; overflow: hidden; }
+.crstage video { width: 100%; max-height: 70vh; object-fit: contain; display: block; }
+.crstage canvas { position: absolute; inset: 0; width: 100%; height: 100%; cursor: crosshair; touch-action: none; }
+#crT[hidden], #crStop[hidden], #crGo[hidden], #crAll[hidden] { display: none; }
+#crAsp { width: auto; }

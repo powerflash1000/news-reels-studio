@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mw3k21un">
+<html lang="ar" dir="rtl" data-v="mw3k83mc">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mw3k21un">
+<link rel="stylesheet" href="assets/css/style.css?v=mw3k83mc">
 </head>
 <body>
 <header class="top">
@@ -500,6 +500,7 @@
           <button id="clRec" class="btn pri" type="button">⏺ سجّل من الشاشة (فيديو + صوت)</button>
           <label>أقصى مدة<select id="clMax"><option value="15" selected>15 ثانية</option><option value="30">30 ثانية</option><option value="60">دقيقة</option></select></label>
           <label class="btn file">📁 ارفع مقطع فيديو<input id="clUp" type="file" accept="video/*" hidden></label>
+          <button id="clArea" class="btn pri" type="button">✂️ سجّل جزء من الشاشة</button>
           <button id="clShot" class="btn" type="button">📸 لقطة شاشة كخلفية</button>
         </div>
         <div id="clRecBar" class="row" hidden><b id="clRecT" class="rec">⏺ 0 ث</b><button id="clStop" class="btn" type="button">⏹ وقّف التسجيل</button></div>
@@ -948,6 +949,20 @@
 </main>
 <footer id="ver" class="muted" style="text-align:center;padding:12px"></footer>
 
+<dialog id="crDlg" class="crdlg">
+  <div class="row"><b>✂️ حدّد الجزء اللي عايز تسجّله</b><span class="muted">اسحب بالماوس مربع على الصورة. شكل المربع:</span>
+    <select id="crAsp"><option value="free">حر</option><option value="16:9">16:9 عريض</option><option value="9:16">9:16 طولي</option><option value="1:1">مربع</option></select>
+    <span id="crInfo" class="muted"></span></div>
+  <div class="crstage"><video id="crVid" muted playsinline autoplay></video><canvas id="crSel"></canvas></div>
+  <div class="row">
+    <button id="crGo" class="btn pri" type="button">⏺ ابدأ التسجيل</button>
+    <button id="crAll" class="btn" type="button">الصورة كلها</button>
+    <b id="crT" class="rec" hidden></b>
+    <button id="crStop" class="btn" type="button" hidden>⏹ وقّف</button>
+    <button id="crCancel" class="btn ghost" type="button">إلغاء</button>
+  </div>
+  <p class="muted">سيب الصفحة دي ظاهرة على الشاشة وإنت بتسجّل (لو اتصغّرت التسجيل ممكن يقطّع). ولو الصورة سودا: البرنامج عليه حماية ومينفعش يتسجّل.</p>
+</dialog>
 <dialog id="recDlg" class="recdlg">
   <div class="tpbar">
     <b>🎙 التسجيل بصوتك</b>
@@ -993,6 +1008,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mw3k21un"></script>
+<script type="module" src="js/main.js?v=mw3k83mc"></script>
 </body>
 </html>

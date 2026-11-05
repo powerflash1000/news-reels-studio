@@ -1,29 +1,29 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw3k21un';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw3k21un';
-import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw3k21un';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw3k21un';
-import { transcribeWords, alignWords } from './align.js?v=mw3k21un';
-import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw3k21un';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw3k21un';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mw3k21un';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw3k21un';
-import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw3k21un';
-import { exportSupport, exportReel } from './export.js?v=mw3k21un';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw3k21un';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw3k21un';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw3k21un';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw3k21un';
-import { detailTarget, loadTileMap } from './tiles.js?v=mw3k21un';
-import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw3k21un';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw3k21un';
-import { loadBg, playBg } from './bg.js?v=mw3k21un';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw3k21un';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw3k21un';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw3k21un';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw3k21un';
-import { readUrl, cleanPasted } from './reader.js?v=mw3k21un';
-import { initI18n, ui } from './i18n.js?v=mw3k21un';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw3k21un';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw3k83mc';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw3k83mc';
+import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw3k83mc';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw3k83mc';
+import { transcribeWords, alignWords } from './align.js?v=mw3k83mc';
+import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw3k83mc';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw3k83mc';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mw3k83mc';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw3k83mc';
+import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw3k83mc';
+import { exportSupport, exportReel } from './export.js?v=mw3k83mc';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw3k83mc';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw3k83mc';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw3k83mc';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw3k83mc';
+import { detailTarget, loadTileMap } from './tiles.js?v=mw3k83mc';
+import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw3k83mc';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw3k83mc';
+import { loadBg, playBg } from './bg.js?v=mw3k83mc';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw3k83mc';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw3k83mc';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw3k83mc';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw3k83mc';
+import { readUrl, cleanPasted } from './reader.js?v=mw3k83mc';
+import { initI18n, ui } from './i18n.js?v=mw3k83mc';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw3k83mc';
 
 initI18n();
 
@@ -2222,6 +2222,115 @@ $('clRec').addEventListener('click', async () => {
 });
 $('clStop').addEventListener('click', () => { if (clRecState?.rec.state !== 'inactive') clRecState?.rec.stop(); });
 $('clShot').addEventListener('click', () => $('bgCapture').click());
+// ✂️ تسجيل جزء من الشاشة: المستخدم بيختار شاشة/نافذة/تاب، وبعدين بيرسم مربع على المعاينة،
+// والتسجيل بيقص الإطارات على المربع ده بس (MediaStreamTrackProcessor/Generator، ومن غير مؤقتات فمبيتقطعش لو الصفحة ورا)،
+// ولو المتصفح مالوش الميزة دي بنقص على canvas
+var cr = null;
+function crVideoRect() { // مكان الفيديو الفعلي جوه العنصر (object-fit: contain)
+  const v = $('crVid'), bw = v.clientWidth, bh = v.clientHeight, vw = v.videoWidth || 1, vh = v.videoHeight || 1;
+  const s = Math.min(bw / vw, bh / vh), w = vw * s, h = vh * s;
+  return { x: (bw - w) / 2, y: (bh - h) / 2, w, h, s };
+}
+function crDraw() {
+  const c = $('crSel'), v = $('crVid');
+  c.width = c.clientWidth; c.height = c.clientHeight;
+  const x = c.getContext('2d'); x.clearRect(0, 0, c.width, c.height);
+  if (!cr?.sel) return;
+  const r = crVideoRect(), s = cr.sel;
+  const bx = r.x + s.x * r.s, by = r.y + s.y * r.s, bw = s.w * r.s, bh = s.h * r.s;
+  x.fillStyle = 'rgba(0,0,0,.55)'; x.fillRect(0, 0, c.width, c.height); x.clearRect(bx, by, bw, bh);
+  x.strokeStyle = '#ff6369'; x.lineWidth = 3; x.setLineDash([10, 6]); x.strokeRect(bx, by, bw, bh);
+  $('crInfo').textContent = `${Math.round(s.w)}×${Math.round(s.h)}`;
+  void v;
+}
+function crFix(sel) { // نخلي المقاس زوجي وجوه حدود الفيديو (شرط قص الإطارات)
+  const v = $('crVid'), vw = v.videoWidth, vh = v.videoHeight;
+  let { x, y, w, h } = sel;
+  x = Math.max(0, Math.min(vw - 16, x)); y = Math.max(0, Math.min(vh - 16, y));
+  w = Math.max(16, Math.min(vw - x, w)); h = Math.max(16, Math.min(vh - y, h));
+  const ev = n => Math.floor(n / 2) * 2;
+  return { x: ev(x), y: ev(y), w: ev(w), h: ev(h) };
+}
+$('clArea').addEventListener('click', async () => {
+  if (cr || clRecState) return;
+  if (!navigator.mediaDevices?.getDisplayMedia || typeof MediaRecorder === 'undefined') return ($('clMsg').textContent = '❌ المتصفح ده مبيدعمش تسجيل الشاشة. استخدم Chrome أو Edge على الكمبيوتر.');
+  let stream;
+  try { stream = await navigator.mediaDevices.getDisplayMedia({ video: { frameRate: 30 }, audio: true, selfBrowserSurface: 'exclude', systemAudio: 'include' }); }
+  catch { return ($('clMsg').textContent = 'اتلغى التسجيل.'); }
+  cr = { stream, sel: null, drag: null, label: stream.getVideoTracks()[0]?.label || 'تسجيل جزء من الشاشة' };
+  const v = $('crVid'); v.srcObject = stream;
+  await v.play().catch(() => {});
+  await new Promise(r => (v.videoWidth ? r() : v.addEventListener('loadedmetadata', r, { once: true })));
+  $('crGo').hidden = $('crAll').hidden = false; $('crStop').hidden = $('crT').hidden = true;
+  $('crInfo').textContent = `${v.videoWidth}×${v.videoHeight} — اسحب مربع`;
+  stream.getVideoTracks()[0].addEventListener('ended', () => { if (cr?.rec) cr.rec.state !== 'inactive' && cr.rec.stop(); else crClose(); });
+  $('crDlg').showModal(); setTimeout(crDraw, 50);
+});
+function crPoint(e) { const c = $('crSel').getBoundingClientRect(), r = crVideoRect(); return { x: (e.clientX - c.left - r.x) / r.s, y: (e.clientY - c.top - r.y) / r.s }; }
+$('crSel').addEventListener('pointerdown', e => { if (!cr || cr.rec) return; cr.drag = crPoint(e); $('crSel').setPointerCapture(e.pointerId); });
+$('crSel').addEventListener('pointermove', e => {
+  if (!cr?.drag) return;
+  const p = crPoint(e), a = cr.drag, asp = $('crAsp').value;
+  let w = Math.abs(p.x - a.x), h = Math.abs(p.y - a.y);
+  if (asp !== 'free') { const [aw, ah] = asp.split(':').map(Number); h = w * ah / aw; }
+  cr.sel = { x: p.x < a.x ? a.x - w : a.x, y: asp === 'free' ? Math.min(p.y, a.y) : (p.y < a.y ? a.y - h : a.y), w, h };
+  crDraw();
+});
+$('crSel').addEventListener('pointerup', () => { if (cr) cr.drag = null; if (cr?.sel) { cr.sel = crFix(cr.sel); crDraw(); } });
+$('crAll').addEventListener('click', () => { const v = $('crVid'); cr.sel = crFix({ x: 0, y: 0, w: v.videoWidth, h: v.videoHeight }); crDraw(); });
+function crClose() {
+  if (!cr) return;
+  cr.stream.getTracks().forEach(t => t.stop()); cr.out?.getTracks().forEach(t => t.stop());
+  clearInterval(cr.timer); if (cr.raf) clearInterval(cr.raf);
+  cr = null; $('crVid').srcObject = null;
+  if ($('crDlg').open) $('crDlg').close();
+}
+$('crCancel').addEventListener('click', () => { if (cr?.rec && cr.rec.state !== 'inactive') { cr.cancel = true; cr.rec.stop(); } else crClose(); });
+$('crDlg').addEventListener('cancel', e => { e.preventDefault(); $('crCancel').click(); });
+$('crStop').addEventListener('click', () => { if (cr?.rec && cr.rec.state !== 'inactive') cr.rec.stop(); });
+$('crGo').addEventListener('click', () => {
+  if (!cr) return;
+  const v = $('crVid');
+  const s = cr.sel || crFix({ x: 0, y: 0, w: v.videoWidth, h: v.videoHeight });
+  cr.sel = s; crDraw();
+  const vt = cr.stream.getVideoTracks()[0];
+  let outTrack;
+  if (window.MediaStreamTrackProcessor && window.MediaStreamTrackGenerator) {
+    const proc = new MediaStreamTrackProcessor({ track: vt }), gen = new MediaStreamTrackGenerator({ kind: 'video' });
+    proc.readable.pipeThrough(new TransformStream({
+      transform(frame, ctl) {
+        try {
+          const r = crFix({ x: s.x, y: s.y, w: Math.min(s.w, frame.codedWidth - s.x), h: Math.min(s.h, frame.codedHeight - s.y) });
+          ctl.enqueue(new VideoFrame(frame, { visibleRect: { x: r.x, y: r.y, width: r.w, height: r.h }, displayWidth: r.w, displayHeight: r.h }));
+        } catch { /* نسيب الإطار ده */ } finally { frame.close(); }
+      },
+    })).pipeTo(gen.writable).catch(() => {});
+    outTrack = gen;
+  } else {
+    const c = document.createElement('canvas'); c.width = s.w; c.height = s.h;
+    const x = c.getContext('2d');
+    cr.raf = setInterval(() => x.drawImage(v, s.x, s.y, s.w, s.h, 0, 0, s.w, s.h), 33);
+    outTrack = c.captureStream(30).getVideoTracks()[0];
+  }
+  const audio = cr.stream.getAudioTracks(), hasAudio = audio.length > 0;
+  cr.out = new MediaStream([outTrack, ...audio]);
+  const mime = ['video/webm;codecs=vp9,opus', 'video/webm;codecs=vp8,opus', 'video/webm'].find(m => MediaRecorder.isTypeSupported(m)) || '';
+  const rec = cr.rec = new MediaRecorder(cr.out, mime ? { mimeType: mime, videoBitsPerSecond: 6e6 } : {});
+  const chunks = [], max = Number($('clMax').value) || 15, t0 = performance.now(), label = cr.label;
+  rec.ondataavailable = e => { if (e.data.size) chunks.push(e.data); };
+  rec.onstop = async () => {
+    const cancel = cr?.cancel, secs = (performance.now() - t0) / 1000;
+    crClose();
+    if (cancel) return ($('clMsg').textContent = 'اتلغى التسجيل.');
+    if (!chunks.length) return ($('clMsg').textContent = '❌ مفيش حاجة اتسجّلت.');
+    await addClipBlob(new Blob(chunks, { type: rec.mimeType || 'video/webm' }), label, secs);
+    if (!hasAudio) $('clMsg').textContent += ' ⚠️ الصوت متسجّلش: لو برنامج اختار «الشاشة كلها» وعلّم «شارك صوت النظام» (وبعدين حدّد المربع)، ولو تاب علّم «شارك صوت التاب».';
+  };
+  cr.timer = setInterval(() => { const t = (performance.now() - t0) / 1000; $('crT').textContent = `⏺ ${Math.floor(t)} / ${max} ث`; if (t >= max && rec.state !== 'inactive') rec.stop(); }, 250);
+  rec.start(500);
+  $('crGo').hidden = $('crAll').hidden = true; $('crStop').hidden = $('crT').hidden = false;
+});
+window.addEventListener('resize', () => { if (cr) crDraw(); });
 $('clList').addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
   const st = reel.stories[cur], d = b.dataset;
