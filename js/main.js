@@ -1,29 +1,29 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw3i4dz8';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw3i4dz8';
-import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw3i4dz8';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw3i4dz8';
-import { transcribeWords, alignWords } from './align.js?v=mw3i4dz8';
-import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw3i4dz8';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw3i4dz8';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mw3i4dz8';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw3i4dz8';
-import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw3i4dz8';
-import { exportSupport, exportReel } from './export.js?v=mw3i4dz8';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw3i4dz8';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw3i4dz8';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw3i4dz8';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw3i4dz8';
-import { detailTarget, loadTileMap } from './tiles.js?v=mw3i4dz8';
-import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw3i4dz8';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw3i4dz8';
-import { loadBg, playBg } from './bg.js?v=mw3i4dz8';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw3i4dz8';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw3i4dz8';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw3i4dz8';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw3i4dz8';
-import { readUrl, cleanPasted } from './reader.js?v=mw3i4dz8';
-import { initI18n, ui } from './i18n.js?v=mw3i4dz8';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw3i4dz8';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw3k21un';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw3k21un';
+import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw3k21un';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw3k21un';
+import { transcribeWords, alignWords } from './align.js?v=mw3k21un';
+import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw3k21un';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw3k21un';
+import { buildSrt, wavBlob, download } from './exportfiles.js?v=mw3k21un';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw3k21un';
+import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw3k21un';
+import { exportSupport, exportReel } from './export.js?v=mw3k21un';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw3k21un';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw3k21un';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw3k21un';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw3k21un';
+import { detailTarget, loadTileMap } from './tiles.js?v=mw3k21un';
+import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw3k21un';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw3k21un';
+import { loadBg, playBg } from './bg.js?v=mw3k21un';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw3k21un';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw3k21un';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw3k21un';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw3k21un';
+import { readUrl, cleanPasted } from './reader.js?v=mw3k21un';
+import { initI18n, ui } from './i18n.js?v=mw3k21un';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw3k21un';
 
 initI18n();
 
@@ -2208,7 +2208,7 @@ $('clRec').addEventListener('click', async () => {
     const secs = (performance.now() - t0) / 1000;
     if (!chunks.length) return ($('clMsg').textContent = '❌ مفيش حاجة اتسجّلت.');
     await addClipBlob(new Blob(chunks, { type: rec.mimeType || 'video/webm' }), label, secs);
-    if (!hasAudio) $('clMsg').textContent += ' ⚠️ الصوت متسجّلش: المرة الجاية علّم «شارك صوت التاب».';
+    if (!hasAudio) $('clMsg').textContent += ' ⚠️ الصوت متسجّلش: لو تاب علّم «شارك صوت التاب»، ولو برنامج اختار «الشاشة كلها» وعلّم «شارك صوت النظام» (النافذة لوحدها مبتسجّلش صوت).';
   };
   stream.getVideoTracks()[0].addEventListener('ended', stop); // لو وقفت المشاركة من شريط Chrome
   const timer = setInterval(() => {
