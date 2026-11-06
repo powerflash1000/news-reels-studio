@@ -1,10 +1,10 @@
 // رسم إطار الريل على canvas (عمودي 1080×1920 أو 4:5 أو مربع أو أفقي). نفس الدالة للمعاينة والتصدير.
-import { detailTarget, tileKey, getTileMap } from './tiles.js?v=mw3k83mc';
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mw3k83mc';
-import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mw3k83mc';
-import { hostOf } from './feeds.js?v=mw3k83mc';
-import QR from '../vendor/qrcode/qrcode.mjs?v=mw3k83mc';
-import { drawBg } from './bg.js?v=mw3k83mc';
+import { detailTarget, tileKey, getTileMap } from './tiles.js?v=mw5cov80';
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mw5cov80';
+import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mw5cov80';
+import { hostOf } from './feeds.js?v=mw5cov80';
+import QR from '../vendor/qrcode/qrcode.mjs?v=mw5cov80';
+import { drawBg } from './bg.js?v=mw5cov80';
 
 // مقاسات الإخراج. W/H متغيّرين (live binding) والتصدير بيقراهم وقت التصدير
 export const FORMATS = {
@@ -221,6 +221,7 @@ function bidiRow(row) {
 
 // الكابشن: العبارة الحالية بكلماتها، والكلمة الجارية مضيئة
 function captions(ctx, st, t, hb = 0) {
+  if (st.noCaps) return; // حزمة فيلمورا: فيديو من غير كابشن (الترجمة في ملف SRT لوحدها)
   const seg = st.tl.segs.find(s => !s.clip && t >= s.start - 0.05 && t <= s.end + 0.25) || null;
   if (!seg || st.tl.segs.some(s => s.clip && t >= s.start && t < s.end)) return;
   const groups = phrases(seg.words, L.vert ? 3 : st.reel.ticker?.on ? 3 : 4);

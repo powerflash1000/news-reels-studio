@@ -1,7 +1,7 @@
 // تحليل مصادر خارجية (فيديو يوتيوب / ملف فيديو أو صوت / نص): بيطلع ملخص وأجزاء بتوقيتها وأهم الأخبار والاقتباسات.
 // ده مرجع للمحرر بس: أي خبر طالع منه لازم يتربط بمصدر أصلي قبل التصدير (اليوتيوبر والبوستات مش مصدر).
-import { getSettings } from './storage.js?v=mw3k83mc';
-import { AI_PROVIDERS, aiJSON } from './draft.js?v=mw3k83mc';
+import { getSettings } from './storage.js?v=mw5cov80';
+import { AI_PROVIDERS, aiJSON } from './draft.js?v=mw5cov80';
 
 const GEM = 'https://generativelanguage.googleapis.com/v1beta/models/';
 export const MAX_INLINE = 18 * 1024 * 1024;

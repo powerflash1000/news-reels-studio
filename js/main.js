@@ -1,29 +1,29 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw3k83mc';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw3k83mc';
-import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw3k83mc';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw3k83mc';
-import { transcribeWords, alignWords } from './align.js?v=mw3k83mc';
-import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw3k83mc';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw3k83mc';
-import { buildSrt, wavBlob, download } from './exportfiles.js?v=mw3k83mc';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw3k83mc';
-import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw3k83mc';
-import { exportSupport, exportReel } from './export.js?v=mw3k83mc';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw3k83mc';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw3k83mc';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw3k83mc';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw3k83mc';
-import { detailTarget, loadTileMap } from './tiles.js?v=mw3k83mc';
-import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw3k83mc';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw3k83mc';
-import { loadBg, playBg } from './bg.js?v=mw3k83mc';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw3k83mc';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw3k83mc';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw3k83mc';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw3k83mc';
-import { readUrl, cleanPasted } from './reader.js?v=mw3k83mc';
-import { initI18n, ui } from './i18n.js?v=mw3k83mc';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw3k83mc';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw5cov80';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw5cov80';
+import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw5cov80';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw5cov80';
+import { transcribeWords, alignWords } from './align.js?v=mw5cov80';
+import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw5cov80';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw5cov80';
+import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mw5cov80';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw5cov80';
+import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw5cov80';
+import { exportSupport, exportReel } from './export.js?v=mw5cov80';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw5cov80';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw5cov80';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw5cov80';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw5cov80';
+import { detailTarget, loadTileMap } from './tiles.js?v=mw5cov80';
+import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw5cov80';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw5cov80';
+import { loadBg, playBg } from './bg.js?v=mw5cov80';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw5cov80';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw5cov80';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw5cov80';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw5cov80';
+import { readUrl, cleanPasted } from './reader.js?v=mw5cov80';
+import { initI18n, ui } from './i18n.js?v=mw5cov80';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw5cov80';
 
 initI18n();
 
@@ -1601,6 +1601,7 @@ function updateInfo() {
   const real = all.length && (manualAudio || all.every(l => audioMap.has(lineKey(l))));
   const done = all.filter(l => audioMap.has(lineKey(l))).length;
   renderAuLines();
+  renderTimeline(info);
   $('audioInfo').textContent = manualAudio ? `صوت مسجل/مرفوع (${manualAudio.duration.toFixed(1)} ث) للحلقة كلها` : real ? 'الصوت جاهز لكل السطور ✅' : `صوت ${done}/${all.length} سطر في الحلقة.`;
 }
 
@@ -1960,11 +1961,13 @@ $('play').addEventListener('click', () => {
     buf.copyToChannel(mix.left, 0); buf.copyToChannel(mix.right, 1);
     src = ac.createBufferSource(); src.buffer = buf; src.connect(ac.destination);
   }
+  const off = tlSeek > 0 && tlSeek < info.tl.duration - 0.3 ? tlSeek : 0; // بيبدأ من المكان اللي اخترته في التايم لاين
   const t0 = ac.currentTime + 0.05;
-  src?.start(t0);
+  src?.start(t0, off);
   $('play').textContent = '⏹ إيقاف';
   const tick = () => {
-    const t = ac.currentTime - t0;
+    const t = ac.currentTime - t0 + off;
+    tlHead(t);
     if (t > st.tl.duration) return stopPlay();
     syncPlayback(st, t);
     drawFrame(ctx, st, Math.max(0, t));
@@ -1974,6 +1977,89 @@ $('play').addEventListener('click', () => {
   };
   playing = { src, raf: 0 };
   tick();
+});
+
+// ===== ⏱ التايم لاين: نظرة على الحلقة كلها (أخبار / صوت / صورة)، دوسة = تروح هناك، والمحدد يتحرك سطر قبل أو بعد =====
+var tlSeek = 0, tlPick = null, tlDurV = 1;
+const tlTime = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
+function tlHead(t) { const h = $('tlHead'); if (h) h.style.left = `${Math.min(100, Math.max(0, (t / tlDurV) * 100))}%`; }
+function renderTimeline(info) {
+  const bar = $('tlBar'); if (!bar) return;
+  const tl = info.tl, D = tlDurV = Math.max(0.5, tl.duration), pc = v => `${(v / D) * 100}%`;
+  const blk = (s, e, color, label, key, extra = '') => `<div class="tlb${tlPick === key ? ' sel' : ''}" data-tk="${key}" style="left:${pc(s)};width:calc(${pc(Math.max(0.15, e - s))} - 1px);background:${color}" title="${esc(label)} (${tlTime(s)}–${tlTime(e)})">${extra}${esc(label)}</div>`;
+  const rows = { st: '', au: '', vi: '' };
+  for (const ent of tl.stories) {
+    if (ent.idx < 0) { rows.st += blk(ent.start, ent.end, '#3b4263', ent.bumper === 'intro' ? 'مقدمة' : 'خاتمة', 'bump:' + ent.bumper); continue; }
+    const st = reel.stories[ent.idx], c = st.kind === 'news' ? cat(st.category).color : '#6b7cff';
+    rows.st += blk(ent.start, ent.end, c, `${ent.idx + 1}. ${st.headline || KINDS[st.kind] || ''}`, 'story:' + ent.idx);
+    const segs = tl.segs.filter(s => s.storyIdx === ent.idx), lines = segs.filter(s => !s.clip);
+    if (st.media) rows.vi += blk(ent.start, ent.end, '#26304f', '🖼 خلفية', 'bg:' + ent.idx);
+    const scs = (st.scenes || []).map((x, i) => ({ x, i })).filter(o => o.x.media).sort((a, b) => a.x.li - b.x.li);
+    scs.forEach((o, n) => {
+      const s0 = lines[Math.min(o.x.li, lines.length - 1)]?.start ?? ent.start, nx = scs[n + 1] ? lines[Math.min(scs[n + 1].x.li, lines.length - 1)]?.start : ent.end;
+      const m = o.x.media, th = m.thumb && m.kind !== 'video' ? `<img src="${esc(m.thumb)}" alt="" referrerpolicy="no-referrer">` : '';
+      rows.vi += blk(n === 0 ? Math.min(s0, ent.start) : s0, nx ?? ent.end, m.none ? '#26304f' : m.presenter ? '#7c3aed' : '#0e7490', m.none ? 'خلفية' : m.presenter ? '🎥 ظهورك' : `مشهد ${n + 1}`, `scene:${ent.idx}:${o.i}`, th);
+    });
+    let li = 0;
+    for (const s of segs) {
+      if (s.clip) { const ci = (st.clips || []).indexOf(s.clip); rows.au += blk(s.start, s.end, '#e5484d', `📺 ${s.clip.channel || 'مقطع'}`, `clip:${ent.idx}:${ci}`); rows.vi += blk(s.start, s.end, '#b91c1c', '📺', `clip:${ent.idx}:${ci}`); }
+      else { rows.au += blk(s.start, s.end, s.speaker === 'B' ? '#a16207' : '#3e63dd', `${li + 1}`, `line:${ent.idx}:${li}`); li++; }
+    }
+  }
+  if (tl.music) rows.mu = blk(0, D, '#166534', '🎵 موسيقى', 'music');
+  bar.innerHTML = `<div class="tlrow tlst">${rows.st}</div><div class="tlrow">${rows.vi}</div><div class="tlrow">${rows.au}</div>${rows.mu ? `<div class="tlrow tlst">${rows.mu}</div>` : ''}<div id="tlHead"></div>`;
+  $('tlDur').textContent = `${tlTime(D)}${info.real ? '' : ' (تقديري)'} — أخبار / صورة / صوت`;
+  tlHead(tlSeek);
+  renderTlSel();
+}
+function renderTlSel() {
+  const box = $('tlSel'); if (!box) return;
+  if (!tlPick) return void (box.innerHTML = '<span class="muted">دوس على أي حتة تروح لها، أو على مشهد/مقطع عشان تحرّكه.</span>');
+  const [k, a, b] = tlPick.split(':'), si = Number(a), st = reel.stories[si];
+  const mv = `<button class="btn" data-tla="prev" type="button">◀ سطر قبل</button><button class="btn" data-tla="next" type="button">سطر بعد ▶</button>`;
+  if (k === 'scene' && st?.scenes?.[b]) box.innerHTML = `<b>🎬 مشهد</b><span class="muted">بيبدأ من السطر ${st.scenes[b].li + 1}</span>${mv}<button class="btn" data-tla="open" type="button">افتح في المونتاج</button><button class="btn ghost" data-tla="del" type="button">✕ شيله</button>`;
+  else if (k === 'clip' && st?.clips?.[b]) { const c = st.clips[b]; box.innerHTML = `<b>📺 مقطع: ${esc(c.channel || 'من غير اسم')}</b><span class="muted">${c.at >= 0 && c.at < parseScript(st.script).length ? 'قبل السطر ' + (c.at + 1) : 'في آخر الخبر'} • ${((c.out || 0) - (c.in || 0)).toFixed(1)} ث</span>${mv}<button class="btn" data-tla="open" type="button">افتح المقطع</button><button class="btn ghost" data-tla="del" type="button">✕ شيله</button>`; }
+  else if (k === 'line' && st) { const l = parseScript(st.script)[b]; box.innerHTML = `<b>🎙 سطر ${Number(b) + 1}</b><span class="muted" translate="no">${esc(stripTagsLocal(l?.text || '').slice(0, 70))}</span><button class="btn" data-tla="open" type="button">افتحه في كارت الصوت</button>`; }
+  else if (k === 'story' && st) box.innerHTML = `<b>📰 خبر ${si + 1}</b><span class="muted" translate="no">${esc(st.headline || '')}</span>`;
+  else box.innerHTML = '';
+}
+function tlOpen(sel) {
+  const el = document.querySelector(sel); if (!el) return;
+  el.closest('.card')?.classList.remove('shut'); el.classList.remove('shut');
+  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+$('tlBar').addEventListener('click', e => {
+  const r = $('tlBar').getBoundingClientRect(), t = Math.max(0, Math.min(tlDurV, ((e.clientX - r.left) / r.width) * tlDurV));
+  const blk = e.target.closest('[data-tk]');
+  tlPick = blk ? blk.dataset.tk : null;
+  if (playing) stopPlay();
+  tlSeek = t;
+  const info = currentTimeline(), ent = info.tl.stories.find(x => t >= x.start && t < x.end);
+  if (ent && ent.idx >= 0 && ent.idx !== cur) { readForm(); cur = ent.idx; fillForm(); }
+  redraw(t); tlHead(t);
+  $('time').textContent = tlTime(t);
+  renderTimeline(info);
+});
+$('tlSel').addEventListener('click', e => {
+  const act = e.target.closest('[data-tla]')?.dataset.tla; if (!act || !tlPick) return;
+  const [k, a, b] = tlPick.split(':'), si = Number(a), st = reel.stories[si], n = parseScript(st?.script || '').length;
+  if (k === 'scene') {
+    const sc = st.scenes[b]; if (!sc) return;
+    if (act === 'prev') sc.li = Math.max(0, sc.li - 1);
+    if (act === 'next') sc.li = Math.min(Math.max(0, n - 1), sc.li + 1);
+    if (act === 'del') { st.scenes.splice(b, 1); tlPick = null; }
+    if (act === 'open') { if (cur !== si) { readForm(); cur = si; fillForm(); } return tlOpen('#scList'); }
+    persist(); renderScenes();
+  } else if (k === 'clip') {
+    const c = st.clips[b]; if (!c) return;
+    const at = c.at >= 0 && c.at < n ? c.at : n;
+    if (act === 'prev') c.at = Math.max(0, at - 1);
+    if (act === 'next') c.at = at + 1 >= n ? -1 : at + 1;
+    if (act === 'del') { st.clips.splice(b, 1); tlPick = null; }
+    if (act === 'open') { if (cur !== si) { readForm(); cur = si; fillForm(); } return tlOpen(`#clList [data-cl="${b}"]`); }
+    persist(); renderClips();
+  } else if (k === 'line' && act === 'open') { if (cur !== si) { readForm(); cur = si; fillForm(); } return tlOpen('#auLines'); }
+  updateInfo(); redraw(tlSeek);
 });
 
 function stopPlay() {
@@ -2090,6 +2176,85 @@ async function exportCurrent({ batch = '' } = {}) {
   return res;
 }
 $('exp').addEventListener('click', () => exportCurrent());
+
+// 📦 حزمة فيلمورا: كل حاجة متقسّمة عشان تكمّل المونتاج في برنامج تاني
+const EXT = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'image/gif': 'gif', 'video/mp4': 'mp4', 'video/webm': 'webm', 'video/quicktime': 'mov', 'audio/mpeg': 'mp3', 'audio/mp4': 'm4a', 'audio/ogg': 'ogg', 'audio/wav': 'wav', 'audio/x-wav': 'wav', 'audio/webm': 'webm' };
+const extOf = (b, fb = 'bin') => EXT[(b?.type || '').split(';')[0]] || fb;
+$('exPack').addEventListener('click', async () => {
+  readForm();
+  await ensureBgs(); await ensureClips();
+  const info = exportInfo(); if (!info) return;
+  if (!(await askChecklist())) return;
+  stopPlay();
+  const btn = $('exPack'); btn.disabled = true; $('prog').hidden = false;
+  const prog = p => { $('prog').firstElementChild.style.width = (p * 100).toFixed(0) + '%'; };
+  try {
+    const files = [], rows = [], tl = info.tl, base = fileBase();
+    // 1) الفيديو من غير كابشن
+    const support = await exportSupport(reel.format);
+    if (support) {
+      setStatus('📦 بصدّر الفيديو من غير كابشن… (أطول خطوة)');
+      await loadFonts();
+      files.push({ name: '01-video-no-captions.mp4', data: await exportReel({ ...stateFor(info), noCaps: true }, support, prog) });
+    }
+    setStatus('📦 بجهّز الصوت والترجمة والوسائط…');
+    // 2) الصوت والترجمة
+    const full = mixTimeline(tl.segs, tl.duration, tl.music, tl.fx), voice = mixTimeline(tl.segs, tl.duration, null, tl.fx);
+    files.push({ name: '02-audio-full.wav', data: wavBlob(full.left, full.right, SAMPLE_RATE) });
+    files.push({ name: '03-voice-only.wav', data: wavBlob(voice.left, voice.right, SAMPLE_RATE) });
+    if (reel.music?.id) { const mb = await getBlob(reel.music.id).catch(() => null); if (mb) files.push({ name: `04-music.${extOf(mb, 'mp3')}`, data: mb }); }
+    const srt = buildSrt(tl.segs);
+    if (srt.trim()) files.push({ name: '05-subtitles.srt', data: '\ufeff' + srt });
+    // 3) الغلاف
+    const cv = document.createElement('canvas');
+    drawCover(cv.getContext('2d'), stateFor(info), Number($('cvStory').value) || 0, reel.format);
+    const cover = await new Promise(r => cv.toBlob(r, 'image/png'));
+    if (cover) files.push({ name: '06-cover.png', data: cover });
+    // 4) الوسائط بترتيب ظهورها + جدول التوقيت
+    let k = 0;
+    const addMedia = async (id, start, end, type, note) => {
+      const b = id && await getBlob(id).catch(() => null);
+      const name = b ? `media/${String(++k).padStart(2, '0')}-${type}.${extOf(b)}` : '';
+      if (b) files.push({ name, data: b });
+      rows.push([tcShort(start), tcShort(end), type, name || '—', note]);
+    };
+    for (const ent of tl.stories) {
+      if (ent.idx < 0) { rows.push([tcShort(ent.start), tcShort(ent.end), ent.bumper === 'intro' ? 'intro' : 'outro', '—', 'مقدمة/خاتمة التطبيق (موجودة في الفيديو)']); continue; }
+      const st = reel.stories[ent.idx], segs = tl.segs.filter(s => s.storyIdx === ent.idx);
+      const lineSegs = segs.filter(s => !s.clip);
+      const title = (st.headline || '').replace(/[\n,]/g, ' ').slice(0, 60);
+      if (st.media?.id) await addMedia(st.media.id, ent.start, ent.end, 'background', `خلفية: ${title}`);
+      const scs = (st.scenes || []).filter(x => x.media && !x.media.none).sort((a, b) => a.li - b.li);
+      for (let i = 0; i < scs.length; i++) {
+        const s0 = lineSegs[Math.min(scs[i].li, lineSegs.length - 1)]?.start ?? ent.start;
+        const nx = scs[i + 1] ? lineSegs[Math.min(scs[i + 1].li, lineSegs.length - 1)]?.start : ent.end;
+        await addMedia(scs[i].media.id, s0, nx ?? ent.end, scs[i].media.presenter ? 'presenter' : 'scene', `${scs[i].media.credit || scs[i].media.title || ''}`.replace(/[\n,]/g, ' '));
+      }
+      for (const cs of segs.filter(s => s.clip)) await addMedia(cs.clip.id, cs.start, cs.end, 'clip', `${cs.clip.channel || ''} ${cs.clip.date || ''} (من ${cs.clip.in}s لـ ${cs.clip.out}s في الملف)`.trim());
+      rows.push([tcShort(ent.start), tcShort(ent.end), 'story', '—', `خبر ${ent.idx + 1}: ${title} — المصدر: ${st.sourceName || ''}`]);
+    }
+    rows.sort((a, b) => a[0].localeCompare(b[0]));
+    files.push({ name: '07-timeline.csv', data: '\ufeffstart,end,type,file,note\n' + rows.map(r => r.map(x => `"${String(x).replace(/"/g, '""')}"`).join(',')).join('\n') });
+    files.push({ name: 'اقراني.txt', data: [
+      'حزمة المونتاج — ' + (reel.title || base),
+      '',
+      '01-video-no-captions.mp4 = الفيديو كامل (قوالب + خلفيات + شريط الأخبار) من غير كابشن.',
+      '02-audio-full.wav = الصوت كامل بالموسيقى والمؤثرات. 03-voice-only.wav = الكلام بس.',
+      '05-subtitles.srt = الكابشن: في Filmora اسحبه على التايم لاين أو File > Import > Import Subtitle Files.',
+      'media/ = الصور والمقاطع مترقمة بترتيب ظهورها، و07-timeline.csv فيه وقت بداية ونهاية كل واحدة.',
+      '',
+      'الطريقة الأسرع: حط 01 على التايم لاين، وفوقه 05 للترجمة، وزوّد انتقالات ومؤثرات براحتك.',
+      'الطريقة الكاملة: حط 03 (الكلام) على تراك صوت، والوسائط من media/ بالتوقيت اللي في الجدول، والموسيقى 04 تحت.',
+      '',
+      'مهم: اسم المصدر لازم يفضل ظاهر على الشاشة، ومقاطع القنوات قصيرة وعليها اسم القناة.',
+    ].join('\r\n') });
+    setStatus('📦 بعمل ملف الـ ZIP…');
+    const zip = await zipBlob(files);
+    download(zip, `${base}-filmora.zip`);
+    setStatus(`📦 الحزمة نزلت ✅ (${(zip.size / 1e6).toFixed(1)} MB، ${files.length} ملف)${support ? '' : ' — من غير فيديو: المتصفح مبيدعمش التصدير'}`);
+  } catch (e) { setStatus('❌ فشل تجهيز الحزمة: ' + (e.message || e), true); }
+  btn.disabled = false; $('prog').hidden = true;
+});
 
 /* ---------- خلفيات الأخبار ---------- */
 async function ensureBgs() {
