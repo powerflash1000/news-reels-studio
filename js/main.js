@@ -1,29 +1,29 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw5df48n';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw5df48n';
-import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw5df48n';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw5df48n';
-import { transcribeWords, alignWords } from './align.js?v=mw5df48n';
-import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw5df48n';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw5df48n';
-import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mw5df48n';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw5df48n';
-import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw5df48n';
-import { exportSupport, exportReel } from './export.js?v=mw5df48n';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw5df48n';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw5df48n';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw5df48n';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw5df48n';
-import { detailTarget, loadTileMap } from './tiles.js?v=mw5df48n';
-import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw5df48n';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw5df48n';
-import { loadBg, playBg } from './bg.js?v=mw5df48n';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw5df48n';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw5df48n';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw5df48n';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw5df48n';
-import { readUrl, cleanPasted } from './reader.js?v=mw5df48n';
-import { initI18n, ui } from './i18n.js?v=mw5df48n';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw5df48n';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw5eqofj';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw5eqofj';
+import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw5eqofj';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw5eqofj';
+import { transcribeWords, alignWords } from './align.js?v=mw5eqofj';
+import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw5eqofj';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw5eqofj';
+import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mw5eqofj';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw5eqofj';
+import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw5eqofj';
+import { exportSupport, exportReel } from './export.js?v=mw5eqofj';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw5eqofj';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw5eqofj';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw5eqofj';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw5eqofj';
+import { detailTarget, loadTileMap } from './tiles.js?v=mw5eqofj';
+import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw5eqofj';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw5eqofj';
+import { loadBg, playBg } from './bg.js?v=mw5eqofj';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw5eqofj';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw5eqofj';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw5eqofj';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw5eqofj';
+import { readUrl, cleanPasted } from './reader.js?v=mw5eqofj';
+import { initI18n, ui } from './i18n.js?v=mw5eqofj';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw5eqofj';
 
 initI18n();
 
@@ -2670,8 +2670,18 @@ function isNewsHost(url) {
 async function mediaFromLink(url) {
   if (!/^https?:\/\//i.test(url)) throw new Error('اكتب رابط صحيح (بيبدأ بـ https://).');
   if (isNewsHost(url)) throw new Error('ده رابط من موقع أخبار، وصوره حقوقها محمية. استخدم صورة مفتوحة الحقوق، أو صورة المنتج من موقع الشركة نفسها، أو ولّدها بالذكاء الاصطناعي.');
+  // روابط المشاركة من أدوات التوليد (Flow / Gemini / Higgsfield / ChatGPT…) صفحات محمية بتسجيل دخولك، مش ملفات:
+  // المتصفح مش هيقدر يحمّلها من موقع تاني، فلازم الملف ينزل على جهازك الأول
+  let host = ''; try { host = new URL(url).hostname.replace(/^www\./, ''); } catch { /* */ }
+  if (/(^|\.)(labs\.google|gemini\.google\.com|aistudio\.google\.com|g\.co|higgsfield\.ai|chatgpt\.com|chat\.openai\.com|sora\.com|sora\.chatgpt\.com|klingai\.com|runwayml\.com|app\.runwayml\.com|midjourney\.com|leonardo\.ai|pika\.art|hailuoai\.video|capcut\.com)$/.test(host))
+    throw new Error(`ده رابط مشاركة من ${host}: صفحة محمية بحسابك، مش ملف، فالموقع بيرفض يدّيه لأي برنامج تاني. الحل: افتح الرابط ← دوس زرار التنزيل (⬇ Download) ← وبعدين هنا دوس «📥 حط الملف المولّد» واختار الملف اللي نزل.`);
+  // Google Drive: رابط المشاركة بيتحوّل لرابط تنزيل مباشر
+  const dm = /drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=download&)?id=)([\w-]{20,})/.exec(url);
+  if (dm) url = `https://drive.google.com/uc?export=download&id=${dm[1]}`;
   const guess = /\.(mp4|webm|mov|ogv|m4v)(\?|$)/i.test(url) ? 'video' : 'image';
-  const blob = await fetchBlob({ provider: 'manual', url, type: guess, thumb: '' });
+  let blob;
+  try { blob = await fetchBlob({ provider: 'manual', url, type: guess, thumb: '' }); }
+  catch (e) { throw new Error(`الموقع (${host || 'ده'}) رفض يدّي الملف للتطبيق (حماية من التحميل من مواقع تانية). نزّل الملف على جهازك من الموقع نفسه، وبعدين ارفعه من «📥 حط الملف المولّد» أو «📁 من جهازي».${dm ? ' (Google Drive: خلّي الملف «أي حد معاه الرابط»، والملفات الكبيرة مبتنزلش مباشر.)' : ''}`); }
   const t = blob.type || '';
   if (/html|json|xml|text\//.test(t)) throw new Error('الرابط ده صفحة مش ملف صورة. افتح الصفحة، وكليك يمين على الصورة ← «نسخ عنوان الصورة» (Copy image address)، والصق الرابط ده.');
   return { blob, kind: t.startsWith('video') ? 'video' : t.startsWith('image') ? 'image' : guess };
