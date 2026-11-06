@@ -1,5 +1,11 @@
 // قاموس الواجهة عربي → إنجليزي. أي نص جديد في الواجهة العربي ضيفه هنا (المفتاح = النص العربي بالظبط، {} = جزء متغير).
 export default {
+ "↗ دوّر في موقع Pexels": "↗ Search the Pexels site",
+ "يفتح موقع Pexels بنفس كلمات البحث: نزّل الفيديو وارجع اسحبه هنا أو «📁 من جهازي»": "Opens the Pexels site with the same search words: download the video and drag it here or use «📁 From my device»",
+ "علّم على السطور الأول، وبعدين نزّل الفيديو من Pexels («Free download») واسحبه على الصفحة دي أو «📁 من جهازي».": "Mark the lines first, then download the video from Pexels («Free download») and drag it onto this page or use «📁 From my device».",
+ "دوّر هناك، نزّل («Free download»)، وارجع اسحب الملف على الصفحة دي أو «📁 من جهازي».": "Search there, download («Free download»), and drag the file onto this page or use «📁 From my device».",
+ "المشهد ده {}.": "This scene is {}.",
+ "✅ اتحط للسطور دي. (الفيديو {} — شوف تحت هيتشاف منه قد إيه، واختار «يبدأ من ثانية»)": "✅ Set for these lines. (Video {} — see below how much will be shown, and pick «Starts at second»)",
  "📥 هات المفاتيح من برنامج القرآن": "📥 Get the keys from the Quran app",
  "برنامج القرآن على نفس الموقع، فالمتصفح ده ممكن يكون فيه مفاتيحه (Pexels، Pixabay، Freesound، ElevenLabs، رابط الوسيط).": "The Quran app is on the same site, so this browser may already hold its keys (Pexels, Pixabay, Freesound, ElevenLabs, proxy link).",
  "✅ جبت من برنامج القرآن: {}": "✅ Taken from the Quran app: {}",

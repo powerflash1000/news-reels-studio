@@ -348,3 +348,5 @@ dialog.bmdlg[open] { display: flex; }
 .bmgen { margin: 6px 0; padding: 6px 8px; border: 1px solid var(--line); border-radius: 8px; }
 .bmgen summary { cursor: pointer; font-weight: 700; }
 .bmgen textarea { width: 100%; font-size: 13px; }
+
+dialog.bmdlg.drop { outline: 3px dashed #ffb224; outline-offset: -6px; }
