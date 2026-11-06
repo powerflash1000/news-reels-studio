@@ -1,29 +1,29 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw5hft60';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw5hft60';
-import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw5hft60';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw5hft60';
-import { transcribeWords, alignWords } from './align.js?v=mw5hft60';
-import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw5hft60';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw5hft60';
-import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mw5hft60';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw5hft60';
-import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw5hft60';
-import { exportSupport, exportReel } from './export.js?v=mw5hft60';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw5hft60';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw5hft60';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw5hft60';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw5hft60';
-import { detailTarget, loadTileMap } from './tiles.js?v=mw5hft60';
-import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw5hft60';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw5hft60';
-import { loadBg, playBg, seekBg } from './bg.js?v=mw5hft60';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw5hft60';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw5hft60';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw5hft60';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw5hft60';
-import { readUrl, cleanPasted } from './reader.js?v=mw5hft60';
-import { initI18n, ui } from './i18n.js?v=mw5hft60';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw5hft60';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw5j63fx';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw5j63fx';
+import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw5j63fx';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw5j63fx';
+import { transcribeWords, alignWords } from './align.js?v=mw5j63fx';
+import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw5j63fx';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw5j63fx';
+import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mw5j63fx';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw5j63fx';
+import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw5j63fx';
+import { exportSupport, exportReel } from './export.js?v=mw5j63fx';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw5j63fx';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw5j63fx';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw5j63fx';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw5j63fx';
+import { detailTarget, loadTileMap } from './tiles.js?v=mw5j63fx';
+import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw5j63fx';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw5j63fx';
+import { loadBg, playBg, seekBg } from './bg.js?v=mw5j63fx';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw5j63fx';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw5j63fx';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw5j63fx';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw5j63fx';
+import { readUrl, cleanPasted } from './reader.js?v=mw5j63fx';
+import { initI18n, ui } from './i18n.js?v=mw5j63fx';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw5j63fx';
 
 initI18n();
 
@@ -2815,7 +2815,7 @@ $('scList').addEventListener('change', async e => {
 
 // ===== 🖥 صفحة الميديا: السطور بالترتيب، تعلّم على سطر أو أكتر، تدوّر لهم على صورة/فيديو وتشوف إيه اللي هيتشاف وإيه اللي هيتقص =====
 // المشهد بيبدأ عند أول سطر متعلّم، وبنحط حد عند السطر اللي بعد آخر سطر عشان الباقي يفضل زي ما هو. media.in = الفيديو يبدأ من الثانية دي
-var bm = { a: -1, b: -1, anchor: -1, items: [], q: '' };
+var bm = { a: -1, b: -1, anchor: -1, items: [], q: '', edit: -1, prov: null };
 const BM_COLORS = ['#4ea8de', '#e07a5f', '#81b29a', '#f2cc8f', '#b388eb', '#ef476f', '#06d6a0', '#ffd166'];
 const fmtS = s => (Math.round(s * 10) / 10).toFixed(1) + ' ث';
 function bmData() {
@@ -2861,9 +2861,12 @@ function bmRender() {
     const starts = sc && (sc.li === i || (i === 0 && k === 0));
     const d = segs[i] ? segs[i].end - segs[i].start : 0;
     const note = starts && !sc.media.none ? `<span class="scn">${sc.media.kind === 'video' ? '🎞' : '🖼'} مشهد ${k + 1}: ${fmtS(bmSceneSpan(list, k, segs))}${sc.media.kind === 'video' && bmDur(sc.media) ? ` من فيديو ${fmtS(bmDur(sc.media))}` : ''}</span>` : starts ? '<span class="scn">خلفية الخبر العادية</span>' : '';
-    return `<div class="bmline ${bm.a >= 0 && i >= bm.a && i <= bm.b ? 'on' : ''}" data-bml="${i}" style="--sc:${sc ? (sc.media.none ? '#666' : BM_COLORS[k % BM_COLORS.length]) : 'transparent'}"><span class="n">${i + 1}</span><span class="th">${starts ? bmThumb(sc.media) : ''}</span><span><span class="tx" dir="auto" translate="no">${l.speaker === 'B' ? 'ب: ' : ''}${esc(l.text)}</span>${note}</span><span class="d">${fmtS(d)}${audioMap.has(lineKey(l)) ? '' : ' ~'}</span></div>`;
+    const body = bm.edit === i
+      ? `<span class="bmedit"><select data-bmsp>${['A', 'B'].map(x => `<option value="${x}" ${l.speaker === x ? 'selected' : ''}>${x === 'A' ? 'أ' : 'ب'}</option>`).join('')}</select><textarea data-bmtx dir="auto" rows="2" translate="no">${esc(l.text)}</textarea><button class="btn pri" data-bmsave type="button">💾 حفظ</button><button class="btn ghost" data-bmcancel type="button">إلغاء</button></span>`
+      : `<span class="tx" dir="auto" translate="no">${l.speaker === 'B' ? 'ب: ' : ''}${esc(l.text)}</span>${note}`;
+    return `<div class="bmline ${bm.a >= 0 && i >= bm.a && i <= bm.b ? 'on' : ''}" data-bml="${i}" style="--sc:${sc ? (sc.media.none ? '#666' : BM_COLORS[k % BM_COLORS.length]) : 'transparent'}"><span class="n">${i + 1}</span><span class="th">${starts ? bmThumb(sc.media) : ''}</span><span>${body}</span><span class="d">${fmtS(d)}${audioMap.has(lineKey(l)) ? '' : ' ~'}${bm.edit === i ? '' : `<button class="btn ghost bmed" data-bmed="${i}" type="button" title="عدّل السطر">✏️ تعديل</button>`}</span></div>`;
   }).join('') : '<p class="muted">مفيش سكريبت للخبر ده لسه. اكتبه في الاستوديو الأول.</p>';
-  $('bmProv').textContent = `المصادر: ${mProv.map(k => PROVIDERS[k]?.name || k).join('، ') || '—'} (غيّرها من تبويب «الوسائط»).`;
+  bmProvUi();
   bmRenderSel();
 }
 function bmRenderSel() {
@@ -2928,19 +2931,96 @@ async function bmUse(m, btn) {
 async function bmSearch() {
   const q = $('bmQ').value.trim();
   if (!q) return ($('bmMsg').textContent = 'اكتب كلمات بحث (بالإنجليزي أحسن) أو دوس «✨ اقترح كلمات».');
-  if (!mProv.length) return ($('bmMsg').textContent = 'اختار مصادر من تبويب «الوسائط» الأول.');
+  const provs = bmProvs();
+  if (!provs.length) return ($('bmMsg').textContent = 'اختار مصدر واحد على الأقل من المصادر اللي فوق.');
   bm.q = q; $('bmMsg').textContent = '⏳ بدوّر…'; bm.items = []; bmRenderRes();
   try {
     const type = $('bmType').value;
-    const { items, errors } = await searchAll(q, { providers: mProv, type, tier: 'all' });
+    const { items, errors } = await searchAll(q, { providers: provs, type, tier: 'all' });
     // الأنسب الأول: فيديو أطول من الكلام وقريب من مدته
     const span = bm.a >= 0 ? bmSpan(bmData().segs, bm.a, bm.b) : 0;
     const rank = m => m.type !== 'video' ? 2 : !m.duration ? 1.5 : m.duration >= span ? 0 + Math.min(1, (m.duration - span) / 120) : 1 + Math.min(0.4, (span - m.duration) / 30);
     bm.items = items.sort((x, y) => rank(x) - rank(y)).slice(0, 60);
-    $('bmMsg').textContent = bm.items.length ? `${bm.items.length} نتيجة${errors.length ? ` (${errors.length} مصدر مردّش)` : ''}.` : 'مفيش نتايج. جرّب كلمات تانية أو نوع تاني.';
+    $('bmMsg').textContent = (bm.items.length ? `${bm.items.length} نتيجة.` : 'مفيش نتايج. جرّب كلمات تانية أو نوع تاني أو مصدر تاني.') + errors.map(x => ` ⚠️ ${PROVIDERS[x.provider]?.name || x.provider}: ${x.error}`).join('');
   } catch (err) { $('bmMsg').textContent = '❌ ' + (err.message || err); }
   bmRenderRes();
 }
+// مصادر البحث في الصفحة دي (منفصلة عن تبويب الوسائط): 🔑 = محتاج مفتاح في الإعدادات
+function bmProvs() { if (!bm.prov) bm.prov = load('bmprov', null) || mProv.slice(); return bm.prov.filter(k => PROVIDERS[k]); }
+function bmProvUi() {
+  const on = bmProvs(), type = $('bmType').value, st = getSettings();
+  $('bmProv').innerHTML = '<span class="muted">دوّر في:</span> ' + Object.entries(PROVIDERS).map(([k, p]) => {
+    const nokey = p.key && !st[p.key], off = type !== 'any' && !p.types.includes(type);
+    return `<button class="chip ${on.includes(k) ? 'on' : ''}" data-bmp="${k}" type="button" title="${esc(p.area)}${nokey ? ' — محتاج مفتاح في الإعدادات' : ''}${off ? ' — مفيهوش ' + (type === 'video' ? 'فيديو' : 'صور') : ''}" ${off ? 'style="opacity:.45"' : ''}>${p.name}${nokey ? ' 🔑' : ''}${p.cors === false ? ' 🔌' : ''}</button>`;
+  }).join('') + ' <span class="muted">🔑 = محتاج مفتاح في الإعدادات • 🔌 = التحميل محتاج الوسيط</span>';
+}
+$('bmProv').addEventListener('click', e => {
+  const k = e.target.closest('[data-bmp]')?.dataset.bmp; if (!k) return;
+  const p = PROVIDERS[k];
+  if (p.key && !getSettings()[p.key] && !bmProvs().includes(k)) $('bmMsg').textContent = `⚠️ ${p.name} محتاج مفتاح: حطه في الإعدادات (المفتاح مجاني من موقعهم).`;
+  bm.prov = bmProvs().includes(k) ? bmProvs().filter(x => x !== k) : [...bmProvs(), k];
+  save('bmprov', bm.prov); bmProvUi();
+});
+$('bmType').addEventListener('change', bmProvUi);
+// ✏️ تعديل سطر: بنغيّر السطر ده بس في السكريبت (نفس الترتيب، فالمشاهد بتفضل في مكانها)
+function setScriptLine(script, idx, speaker, text) {
+  const raws = String(script || '').split('\n');
+  let n = -1;
+  for (let r = 0; r < raws.length; r++) {
+    if (!parseScript(raws[r]).length) continue;
+    if (++n !== idx) continue;
+    const had = /^\s*(أ|ا|a|ب|b)\s*[:：]/i.test(raws[r]) || speaker === 'B';
+    raws[r] = had ? `${speaker === 'B' ? 'ب' : 'أ'}: ${text}` : text;
+    return raws.join('\n');
+  }
+  return script;
+}
+function bmSaveLine(i, row) {
+  const st = story(), text = row.querySelector('[data-bmtx]').value.replace(/\s*\n+\s*/g, ' ').trim(), sp = row.querySelector('[data-bmsp]').value;
+  if (!text) return ($('bmMsg').textContent = 'السطر فاضي. لو عايز تشيله امسحه من السكريبت في الاستوديو.');
+  const old = parseScript(st.script)[i];
+  bm.edit = -1;
+  if (old && old.text === text && old.speaker === sp) return bmRender();
+  st.script = setScriptLine(st.script, i, sp, text);
+  fillForm(); persist(); updateInfo(); redraw();
+  bmRender();
+  $('bmMsg').textContent = `✅ السطر ${i + 1} اتعدّل. صوته محتاج يتولّد تاني (أو سجّله)، والمدة هنا تقريبية لحد كده.`;
+}
+// 🎨 توليد بالذكاء الاصطناعي للسطور المتعلّمة: برومبت ← الأداة ← تنزّل الملف ← حطه
+$('bmTool').innerHTML = $('genTool').innerHTML; $('bmStyle').innerHTML = $('genStyle').innerHTML;
+$('bmTool').value = $('genTool').value; $('bmStyle').value = $('genStyle').value;
+$('bmGpGo').addEventListener('click', async () => {
+  if (bm.a < 0) return ($('bmMsg').textContent = 'علّم على السطور الأول.');
+  const st = story(), text = parseScript(st.script).slice(bm.a, bm.b + 1).map(l => l.text).join(' ');
+  const b = $('bmGpGo'); b.disabled = true; $('bmMsg').textContent = '⏳ بيكتب البرومبت…';
+  try {
+    const [pr] = await genPrompts(st, [{ li: bm.a, text }], $('bmTool').value, $('bmStyle').value);
+    if (!pr) throw new Error('مفيش رد. جرّب تاني.');
+    $('bmGp').value = pr;
+    $('bmMsg').textContent = `✅ البرومبت جاهز (${GEN_TOOLS[$('bmTool').value]?.name || ''}). المشهد ده ${fmtS(bmSpan(bmData().segs, bm.a, bm.b))}، فولّد فيديو بالطول ده أو أطول.`;
+  } catch (err) { $('bmMsg').textContent = '❌ ' + (err.message || err); }
+  b.disabled = false;
+});
+for (const id of ['bmGpCopy', 'bmGpOpen']) $(id).addEventListener('click', async () => {
+  const ok = await copyText($('bmGp').value || '');
+  if (id === 'bmGpOpen') window.open(GEN_TOOLS[$('bmTool').value]?.url || GEN_TOOLS.flow.url, '_blank', 'noopener');
+  $('bmMsg').textContent = ok ? '✅ البرومبت اتنسخ. الصقه في الأداة.' : '❌ المتصفح مسمحش بالنسخ.';
+});
+$('bmAiFile').addEventListener('change', async e => {
+  const f = e.target.files?.[0]; e.target.value = '';
+  if (!f) return;
+  if (bm.a < 0) return ($('bmMsg').textContent = 'علّم على السطور الأول.');
+  const id = 'm' + Date.now().toString(36);
+  await putBlob(id, f);
+  const tool = $('bmTool').value, media = { ...aiMediaMeta(f, id, tool), in: 0 };
+  const b = await loadBg(media).catch(() => null);
+  if (!b) return ($('bmMsg').textContent = '❌ الملف ده مش صورة أو فيديو مفهوم');
+  bgs.set(id, b); if (b.duration) media.dur = b.duration;
+  bmAssign(media);
+  const sc = (story().scenes || []).find(x => x.li === bm.a);
+  if (sc && $('bmGp').value.trim()) { sc.gen = { prompt: $('bmGp').value.trim(), tool, style: $('bmStyle').value }; persist(); renderScenes(); }
+  $('bmMsg').textContent = '✅ الملف المولّد اتحط للسطور دي (مكتوب عليه إنه مولّد بالذكاء الاصطناعي).';
+});
 const BMQ_SCHEMA = { type: 'object', properties: { query: { type: 'string' } }, required: ['query'], additionalProperties: false };
 $('bmOpen').addEventListener('click', () => { readForm(); bm.a = bm.b = bm.anchor = -1; bm.items = []; bmRender(); bmRenderRes(); $('bmMsg').textContent = ''; $('bmDlg').showModal(); });
 $('bmClose').addEventListener('click', () => $('bmDlg').close());
@@ -2949,6 +3029,10 @@ $('bmStory').addEventListener('change', () => { readForm(); cur = Number($('bmSt
 $('bmLines').addEventListener('click', e => {
   const r = e.target.closest('[data-bml]'); if (!r) return;
   const i = Number(r.dataset.bml);
+  if (e.target.closest('[data-bmed]')) { bm.edit = i; bmRender(); $('bmLines').querySelector('[data-bmtx]')?.focus(); return; }
+  if (e.target.closest('[data-bmcancel]')) { bm.edit = -1; return bmRender(); }
+  if (e.target.closest('[data-bmsave]')) return bmSaveLine(i, r);
+  if (e.target.closest('.bmedit')) return;
   if (e.shiftKey && bm.anchor >= 0) { bm.a = Math.min(bm.anchor, i); bm.b = Math.max(bm.anchor, i); }
   else if (bm.a === i && bm.b === i) { bm.a = bm.b = bm.anchor = -1; }
   else if ((e.ctrlKey || e.metaKey) && bm.a >= 0 && (i === bm.b + 1 || i === bm.a - 1)) { bm.a = Math.min(bm.a, i); bm.b = Math.max(bm.b, i); }
@@ -3948,7 +4032,7 @@ $('bkImport').addEventListener('change', async e => {
 });
 
 /* ---------- الإعدادات ---------- */
-const TEXT_FIELDS = { sChannel: 'channelName', sHandle: 'handle', sReelLang: 'reelLang', sTts: 'ttsProvider', sGemModel: 'geminiTtsModel', sGemStyle: 'geminiStyle', sGemA: 'gemVoiceA', sGemB: 'gemVoiceB', sAzKey: 'azureKey', sAzRegion: 'azureRegion', sAzA: 'azVoiceA', sAzB: 'azVoiceB', sAzRate: 'azRate', sOaA: 'oaVoiceA', sOaB: 'oaVoiceB', sOaModel: 'oaTtsModel', sOaStyle: 'oaStyle', sKey: 'elevenKey', sModel: 'elevenModel', sProxy: 'proxyUrl', sPixabay: 'pixabayKey', sGhToken: 'ghToken', sSi: 'siKey', sFreesound: 'freesoundKey', sClaude: 'claudeKey', sClaudeModel: 'claudeModel', sAiProv: 'aiProvider', sGemini: 'geminiKey', sGroq: 'groqKey', sOr: 'orKey', sOpenai: 'openaiKey', sAiModel: 'aiModel' };
+const TEXT_FIELDS = { sChannel: 'channelName', sHandle: 'handle', sReelLang: 'reelLang', sTts: 'ttsProvider', sGemModel: 'geminiTtsModel', sGemStyle: 'geminiStyle', sGemA: 'gemVoiceA', sGemB: 'gemVoiceB', sAzKey: 'azureKey', sAzRegion: 'azureRegion', sAzA: 'azVoiceA', sAzB: 'azVoiceB', sAzRate: 'azRate', sOaA: 'oaVoiceA', sOaB: 'oaVoiceB', sOaModel: 'oaTtsModel', sOaStyle: 'oaStyle', sKey: 'elevenKey', sModel: 'elevenModel', sProxy: 'proxyUrl', sPixabay: 'pixabayKey', sPexels: 'pexelsKey', sGhToken: 'ghToken', sSi: 'siKey', sFreesound: 'freesoundKey', sClaude: 'claudeKey', sClaudeModel: 'claudeModel', sAiProv: 'aiProvider', sGemini: 'geminiKey', sGroq: 'groqKey', sOr: 'orKey', sOpenai: 'openaiKey', sAiModel: 'aiModel' };
 const FX_SLIDERS = [['bass', 'جهارة الطبقات (Bass)', -6, 6, 0.5], ['presence', 'وضوح الكلام (Presence)', -6, 6, 0.5], ['air', 'لمعة (Air)', -6, 6, 0.5], ['comp', 'ضغط ديناميكي', 0, 1, 0.05], ['deess', 'تخفيف السين والشين', 0, 1, 0.05], ['room', 'صدى / مساحة', 0, 0.4, 0.02], ['echo', 'صدى متكرر (Echo)', 0, 0.6, 0.02]];
 const STYLE_PRESETS = {
   '': { name: '— اختار —' },

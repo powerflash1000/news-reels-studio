@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mw5hft60">
+<html lang="ar" dir="rtl" data-v="mw5j63fx">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mw5hft60">
+<link rel="stylesheet" href="assets/css/style.css?v=mw5j63fx">
 </head>
 <body>
 <header class="top">
@@ -944,6 +944,7 @@
     <label>مفتاح Freesound للموسيقى (مجاني من freesound.org/apiv2/apply)<input id="sFreesound" type="password" dir="ltr" autocomplete="off"></label>
     <label>مفتاح Smithsonian / api.data.gov (اختياري، مجاني من api.data.gov/signup — من غيره بيستخدم DEMO_KEY بحد 30 طلب في الساعة)<input id="sSi" type="password" dir="ltr" autocomplete="off"></label>
     <label>مفتاح Pixabay (مجاني من pixabay.com/api/docs)<input id="sPixabay" type="password" dir="ltr" autocomplete="off"></label>
+    <label>مفتاح Pexels (لو عندك مفتاح، من pexels.com/api)<input id="sPexels" type="password" dir="ltr" autocomplete="off"></label>
     <label>توكن GitHub لتحديث الأخبار فورًا (اختياري)<input id="sGhToken" type="password" dir="ltr" autocomplete="off" placeholder="github_pat_…"></label>
     <p class="muted">الأخبار بتتحدّث لوحدها كل ساعة، بس GitHub ساعات بيأخّرها لحد كام ساعة. بالتوكن ده زرار «🔄 هات أحدث أخبار» بيشغّل التحديث دلوقتي (حوالي دقيقة). إزاي تعمله: github.com/settings/personal-access-tokens ← Generate new token (Fine-grained) ← Repository access: Only select repositories ← news-reels-studio ← Permissions ← Actions: Read and write ← Generate. التوكن بيفضل على جهازك بس ومش بيدخل في النسخة الاحتياطية.</p>
     <label>رابط الوسيط (Cloudflare Worker) — لازم لتحميل ملفات NASA و Internet Archive و Pixabay، واختياري لباقي المصادر<input id="sProxy" dir="ltr" placeholder="https://….workers.dev"></label>
@@ -974,7 +975,13 @@
         <button id="bmAiQ" class="btn" type="button" title="الذكاء الاصطناعي يقترح كلمات بحث للسطور دي">✨ اقترح كلمات</button>
         <label class="btn file">📁 من جهازي<input id="bmFile" type="file" accept="image/*,video/*" hidden></label>
       </div>
-      <div id="bmProv" class="muted"></div>
+      <div id="bmProv" class="bmprov"></div>
+      <details id="bmGen" class="bmgen"><summary>🎨 أو ولّدها بالذكاء الاصطناعي</summary>
+        <div class="row"><label class="inl">الأداة <select id="bmTool"></select></label><label class="inl">الأسلوب <select id="bmStyle"></select></label><button id="bmGpGo" class="btn" type="button">✍️ اكتب برومبت للسطور دي</button></div>
+        <textarea id="bmGp" dir="ltr" rows="4" translate="no" placeholder="English prompt…"></textarea>
+        <div class="row"><button id="bmGpCopy" class="btn" type="button">📋 انسخ</button><button id="bmGpOpen" class="btn" type="button">↗ انسخ وافتح الأداة</button><label class="btn file pri">📥 حط الملف المولّد<input id="bmAiFile" type="file" accept="image/*,video/*" hidden></label></div>
+        <p class="muted">ولّد في الأداة بالبرومبت، نزّل الملف، وبعدين «📥 حط الملف المولّد». هيتكتب عليه إنه مولّد بالذكاء الاصطناعي، وعلّم «AI-generated» وأنت بتنشر.</p>
+      </details>
       <div id="bmMsg" class="muted"></div>
       <div id="bmRes" class="bmres"></div>
     </div>
@@ -1039,6 +1046,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mw5hft60"></script>
+<script type="module" src="js/main.js?v=mw5j63fx"></script>
 </body>
 </html>

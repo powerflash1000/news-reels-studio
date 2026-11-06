@@ -9,6 +9,9 @@ const ALLOWED_HOSTS = [
   'images-assets.nasa.gov', // صور وفيديو NASA
   'archive.org',            // Internet Archive (وكل النطاقات الفرعية)
   'cdn.pixabay.com',
+  'images.pexels.com',
+  'videos.pexels.com',
+  'player.vimeo.com',
   'youtube.com',
   'si.edu',                 // صور Smithsonian Open Access (ids.si.edu)            // صفحة القناة وRSS آخر الفيديوهات (لتبويب «تحليل»)
   'speech.microsoft.com',   // أصوات Azure Speech (المنطقة.tts.speech.microsoft.com)

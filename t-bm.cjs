@@ -1,0 +1,32 @@
+const { chromium } = require('playwright'); const fs = require('fs');
+(async () => {
+  const b = await chromium.launch(); const p = await b.newPage({ viewport: { width: 1400, height: 900 } });
+  const errs = []; p.on('pageerror', e => errs.push(e.message));
+  await p.route('https://api.pexels.com/**', r => r.fulfill({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: JSON.stringify({ videos: [{ id: 1, url: 'https://www.pexels.com/video/city-night-1/', image: 'http://localhost:8137/assets/x.png', duration: 12, user: { name: 'Ann' }, video_files: [{ file_type: 'video/mp4', width: 1280, height: 720, link: 'https://videos.pexels.com/v1.webm' }] }, { id: 2, url: 'https://www.pexels.com/video/sea-2/', image: '', duration: 2, user: { name: 'Bo' }, video_files: [{ file_type: 'video/mp4', width: 1280, height: 720, link: 'https://videos.pexels.com/v2.webm' }] }] }) }));
+  await p.route('https://videos.pexels.com/**', r => r.fulfill({ status: 200, contentType: 'video/webm', headers: { 'access-control-allow-origin': '*' }, body: fs.readFileSync('/tmp/claude-0/-home-user/c17bcd01-36f2-5677-a1bd-f91149101326/scratchpad/v10.webm') }));
+  await p.addInitScript(() => { window.__nrsTestCodecs = true; localStorage.setItem('nrs:settings', JSON.stringify({ pexelsKey: 'k' })); });
+  await p.goto('http://localhost:8137/'); await p.waitForTimeout(1500);
+  await p.click('[data-tab="studio"]');
+  await p.fill('#fScript', 'أ: السطر الأول\nأ: السطر التاني\n\nب: السطر التالت\nأ: الرابع');
+  await p.dispatchEvent('#fScript', 'input');
+  await p.evaluate(() => { document.querySelector('#scBox').open = true; });
+  await p.click('#bmOpen'); await p.waitForTimeout(300);
+  console.log('chips', (await p.textContent('#bmProv')).slice(0, 200));
+  await p.click('[data-bmp="pexels"]');
+  // edit line 3
+  await p.click('[data-bmed="2"]'); await p.fill('[data-bmtx]', 'السطر التالت بعد التعديل'); await p.click('[data-bmsave]');
+  console.log('script', JSON.stringify(await p.inputValue('#fScript')), await p.textContent('#bmMsg'));
+  await p.click('.bmline[data-bml="0"]'); await p.click('.bmline[data-bml="1"]', { modifiers: ['Shift'] });
+  await p.fill('#bmQ', 'city'); await p.click('#bmGo'); await p.waitForTimeout(800);
+  console.log('res', await p.locator('.bmitem').count(), (await p.textContent('#bmMsg')).slice(0,300));
+  console.log('fit', await p.locator('.bmitem .bd span:not(.muted)').allTextContents());
+  await p.click('[data-bmuse="0"]'); await p.waitForTimeout(1500);
+  console.log('msg', await p.textContent('#bmMsg'));
+  console.log('scenes', JSON.stringify(await p.evaluate(() => window.__nrs.reel.stories[0].scenes.map(x => [x.li, x.media.none ? 'none' : x.media.provider, x.media.credit]))));
+  await p.evaluate(() => document.querySelector('#bmGen').open = true);
+  await p.click('.bmline[data-bml="3"]');
+  await p.setInputFiles('#bmAiFile', '/tmp/claude-0/-home-user/c17bcd01-36f2-5677-a1bd-f91149101326/scratchpad/v10.webm'); await p.waitForTimeout(1200);
+  console.log('ai', JSON.stringify(await p.evaluate(() => window.__nrs.reel.stories[0].scenes.map(x => [x.li, x.media.none ? 'none' : x.media.provider]))));
+  await p.screenshot({ path: '/tmp/claude-0/-home-user/c17bcd01-36f2-5677-a1bd-f91149101326/scratchpad/bm2.png' });
+  console.log('errs', errs); await b.close();
+})();
