@@ -1,5 +1,11 @@
 // قاموس الواجهة عربي → إنجليزي. أي نص جديد في الواجهة العربي ضيفه هنا (المفتاح = النص العربي بالظبط، {} = جزء متغير).
 export default {
+ "🔑 = محتاج مفتاح في الإعدادات • 🔌 = تحميل الملف محتاج الوسيط (الإعدادات)": "🔑 = needs a key in Settings • 🔌 = file download needs the proxy (Settings)",
+ "✅ ده رابط الوسيط، وهو محفوظ في الإعدادات أصلًا. الخانة دي لرابط صورة أو فيديو بس، فامسحه منها.": "✅ This is the proxy link and it's already saved in Settings. This field is only for an image or video link, so clear it.",
+ "✅ اتحفظ رابط الوسيط في الإعدادات. الخانة دي لرابط صورة أو فيديو مباشر بس.": "✅ The proxy link was saved in Settings. This field is only for a direct image or video link.",
+ "ده رابط الوسيط: مكانه الإعدادات ← «رابط الوسيط (Cloudflare Worker)».": "This is the proxy link: it belongs in Settings → «Proxy URL (Cloudflare Worker)».",
+ "ده رابط «الوسيط» (Cloudflare Worker)، ومكانه في الإعدادات مش هنا.": "This is the «proxy» link (Cloudflare Worker); it belongs in Settings, not here.",
+ "أحفظه في الإعدادات دلوقتي؟": "Save it in Settings now?",
  "🖥 صفحة الميديا (سطر سطر)": "🖥 Media page (line by line)",
  "صفحة كبيرة: السطور بالترتيب، تعلّم على سطر أو أكتر وتدوّر لهم على صورة أو فيديو": "Big page: lines in order, mark one or more lines and find an image or video for them",
  "🖥 صفحة الميديا: ظبّط الخلفيات على طول الصوت": "🖥 Media page: fit backgrounds to the voice length",
