@@ -1,5 +1,6 @@
 // قاموس الواجهة عربي → إنجليزي. أي نص جديد في الواجهة العربي ضيفه هنا (المفتاح = النص العربي بالظبط، {} = جزء متغير).
 export default {
+ "Coverr رجّع {} فيديو من غير روابط ملفات. ابعت الرسالة دي لـ Claude.": "Coverr returned {} videos without file links. Send this message to Claude.",
  "مفتاح Pexels (لو عندك مفتاح، من pexels.com/api)": "Pexels key (if you have one, from pexels.com/api)",
  "محتاج مفتاح Pexels في الإعدادات.": "A Pexels key is needed in Settings.",
  "صور وفيديو عامة (مفتاح)": "General photos and video (key)",

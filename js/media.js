@@ -2,7 +2,7 @@
 // شكل النتيجة: { id, provider, type:'image'|'video', title, thumb, url, page, author, license, licenseUrl, tier, credit, width, height, duration, size }
 //   tier: 'free' = ملك عام / CC0 / سياسة NASA (من غير شرط)، 'attr' = لازم نسب (CC BY / BY-SA / Pixabay)
 // أي ترخيص فيه NC أو ND أو مش واضح بيتستبعد.
-import { getSettings } from './storage.js?v=mw5l428a';
+import { getSettings } from './storage.js?v=mw5lhygw';
 
 const strip = html => String(html || '').replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#0?39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/\s+/g, ' ').trim();
 const https = u => String(u || '').replace(/^http:\/\//i, 'https://');
@@ -240,10 +240,21 @@ async function coverr(q, type) {
   const key = getSettings().coverrKey;
   if (!key) throw new Error('محتاج مفتاح Coverr في الإعدادات.');
   if (type === 'image') return [];
-  const api = `https://api.coverr.co/videos?query=${encodeURIComponent(q)}&page_size=24&urls=true&api_key=${encodeURIComponent(key)}`;
-  const res = await apiFetch(api, { Authorization: 'Bearer ' + key });
+  // الدوكيومنتيشن: المفتاح يا إما api_key في الرابط يا إما Authorization: Bearer — بنجرب أكتر من شكل لو رجع 400، ونعرض رسالة السيرفر
+  const base = `https://api.coverr.co/videos?query=${encodeURIComponent(q)}`;
+  const tries = [
+    [base + '&urls=true', { Authorization: 'Bearer ' + key }],
+    [base, { Authorization: 'Bearer ' + key }],
+    [base + '&api_key=' + encodeURIComponent(key), {}],
+  ];
+  let res, msg = '';
+  for (const [api, headers] of tries) {
+    res = await apiFetch(api, headers);
+    if (res.ok || res.status === 429 || res.status === 401 || res.status === 403) break;
+    msg = (await res.text().catch(() => '')).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 160);
+  }
   if (res.status === 429) throw new Error('خلص حد الطلبات (حوالي 50 في الساعة). استنى شوية.');
-  if (!res.ok) throw new Error('HTTP ' + res.status + (res.status === 401 || res.status === 403 ? ' (المفتاح غلط أو لسه مش متفعّل)' : ''));
+  if (!res.ok) throw new Error('HTTP ' + res.status + (res.status === 401 || res.status === 403 ? ' (المفتاح غلط أو لسه مش متفعّل)' : '') + (msg ? ' — ' + msg : ''));
   const j = await res.json();
   const list = j.hits || j.videos || j.data || j.results || (Array.isArray(j) ? j : []);
   return list.map(v => {
@@ -255,7 +266,7 @@ async function coverr(q, type) {
       duration: Number(v.duration) || 0, license: 'Coverr License', licenseUrl: 'https://coverr.co/license', tier: 'free' });
     o.credit = 'Coverr';
     return o;
-  }).filter(Boolean);
+  }).filter(Boolean).concat(list.length && !list.some(v => v.urls || v.url || v.mp4 || v.video_url) ? (() => { throw new Error(`Coverr رجّع ${list.length} فيديو من غير روابط ملفات. ابعت الرسالة دي لـ Claude.`); })() : []);
 }
 
 // 🔗 لينك صفحة فيديو من موقع ستوك (Mixkit / Coverr / Pexels / Pixabay): بنجيب الصفحة دي بس (مش نتايج بحث) ونطلّع منها ملف mp4
