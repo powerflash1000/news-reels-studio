@@ -1773,4 +1773,6 @@ export default {
   "🎙 سطر {}": "🎙 Line {}",
   "افتحه في كارت الصوت": "Open in the audio card",
   "📰 خبر {}": "📰 Story {}",
+  "أدب وثقافة": "Literature & Culture",
+  "الاقتباسات من الكتب أو القصايد قصيرة ومنسوبة لصاحبها، ومفيش صور أغلفة أو لوحات محمية من غير إذن (غير الملكية العامة).": "Quotes from books or poems are short and attributed, and no protected covers or paintings are used without permission (except public domain).",
 };

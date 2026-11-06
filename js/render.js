@@ -1,10 +1,10 @@
 // رسم إطار الريل على canvas (عمودي 1080×1920 أو 4:5 أو مربع أو أفقي). نفس الدالة للمعاينة والتصدير.
-import { detailTarget, tileKey, getTileMap } from './tiles.js?v=mw5cov80';
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mw5cov80';
-import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mw5cov80';
-import { hostOf } from './feeds.js?v=mw5cov80';
-import QR from '../vendor/qrcode/qrcode.mjs?v=mw5cov80';
-import { drawBg } from './bg.js?v=mw5cov80';
+import { detailTarget, tileKey, getTileMap } from './tiles.js?v=mw5df48n';
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mw5df48n';
+import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mw5df48n';
+import { hostOf } from './feeds.js?v=mw5df48n';
+import QR from '../vendor/qrcode/qrcode.mjs?v=mw5df48n';
+import { drawBg } from './bg.js?v=mw5df48n';
 
 // مقاسات الإخراج. W/H متغيّرين (live binding) والتصدير بيقراهم وقت التصدير
 export const FORMATS = {
