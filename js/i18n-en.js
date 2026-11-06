@@ -1,5 +1,13 @@
 // قاموس الواجهة عربي → إنجليزي. أي نص جديد في الواجهة العربي ضيفه هنا (المفتاح = النص العربي بالظبط، {} = جزء متغير).
 export default {
+ "📥 هات المفاتيح من برنامج القرآن": "📥 Get the keys from the Quran app",
+ "برنامج القرآن على نفس الموقع، فالمتصفح ده ممكن يكون فيه مفاتيحه (Pexels، Pixabay، Freesound، ElevenLabs، رابط الوسيط).": "The Quran app is on the same site, so this browser may already hold its keys (Pexels, Pixabay, Freesound, ElevenLabs, proxy link).",
+ "✅ جبت من برنامج القرآن: {}": "✅ Taken from the Quran app: {}",
+ "✅ اتنقل: {}.": "✅ Copied: {}.",
+ "مفيش مفاتيح جديدة: يا إما موجودة هنا أصلًا، يا إما برنامج القرآن مش محفوظ فيه مفاتيح على المتصفح ده.": "No new keys: either they're already here, or the Quran app has no keys saved in this browser.",
+ "Pexels: المتصفح منع الاتصال. حط «رابط الوسيط» في الإعدادات.": "Pexels: the browser blocked the connection. Set the «proxy link» in Settings.",
+ "Pexels: مقدرتش أوصل حتى عن طريق الوسيط.": "Pexels: couldn't connect even through the proxy.",
+ "Pexels: الوسيط محتاج النسخة الجديدة من الكود (فيها api.pexels.com). الصقها في Cloudflare ودوس Deploy.": "Pexels: the proxy needs the new code (with api.pexels.com). Paste it in Cloudflare and press Deploy.",
  "🔑 = محتاج مفتاح في الإعدادات • 🔌 = تحميل الملف محتاج الوسيط (الإعدادات)": "🔑 = needs a key in Settings • 🔌 = file download needs the proxy (Settings)",
  "✅ ده رابط الوسيط، وهو محفوظ في الإعدادات أصلًا. الخانة دي لرابط صورة أو فيديو بس، فامسحه منها.": "✅ This is the proxy link and it's already saved in Settings. This field is only for an image or video link, so clear it.",
  "✅ اتحفظ رابط الوسيط في الإعدادات. الخانة دي لرابط صورة أو فيديو مباشر بس.": "✅ The proxy link was saved in Settings. This field is only for a direct image or video link.",

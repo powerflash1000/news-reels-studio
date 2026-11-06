@@ -9,16 +9,17 @@ const ALLOWED_HOSTS = [
   'images-assets.nasa.gov', // صور وفيديو NASA
   'archive.org',            // Internet Archive (وكل النطاقات الفرعية)
   'cdn.pixabay.com',
+  'api.pexels.com',         // بحث Pexels (المفتاح بيعدّي في Authorization ومبيتخزنش)
   'images.pexels.com',
   'videos.pexels.com',
   'player.vimeo.com',
-  'youtube.com',
-  'si.edu',                 // صور Smithsonian Open Access (ids.si.edu)            // صفحة القناة وRSS آخر الفيديوهات (لتبويب «تحليل»)
+  'youtube.com',            // صفحة القناة وRSS آخر الفيديوهات (لتبويب «تحليل»)
+  'si.edu',                 // صور Smithsonian Open Access (ids.si.edu)
   'speech.microsoft.com',   // أصوات Azure Speech (المنطقة.tts.speech.microsoft.com)
 ];
 const hostAllowed = h => ALLOWED_HOSTS.some(a => h === a || h.endsWith('.' + a));
 // الهيدرز اللي بتتبعت للخدمة الأصلية (مفتاح ElevenLabs ونوع المحتوى)
-const FORWARD_HEADERS = ['xi-api-key', 'content-type', 'accept', 'ocp-apim-subscription-key', 'x-microsoft-outputformat'];
+const FORWARD_HEADERS = ['xi-api-key', 'content-type', 'accept', 'ocp-apim-subscription-key', 'x-microsoft-outputformat', 'authorization'];
 
 export default {
   async fetch(request) {
@@ -41,7 +42,7 @@ export default {
       const fwd = new Headers();
       for (const h of FORWARD_HEADERS) if (request.headers.get(h)) fwd.set(h, request.headers.get(h));
       upstream = await fetch(url.toString(), { method: 'POST', headers: fwd, body: request.body });
-    } else if (url.hostname === 'api.elevenlabs.io' || url.hostname.endsWith('.speech.microsoft.com')) {
+    } else if (url.hostname === 'api.elevenlabs.io' || url.hostname === 'api.pexels.com' || url.hostname.endsWith('.speech.microsoft.com')) {
       const fwd = new Headers();
       for (const h of FORWARD_HEADERS) if (request.headers.get(h)) fwd.set(h, request.headers.get(h));
       upstream = await fetch(url.toString(), { headers: fwd });

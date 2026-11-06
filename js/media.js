@@ -2,7 +2,7 @@
 // شكل النتيجة: { id, provider, type:'image'|'video', title, thumb, url, page, author, license, licenseUrl, tier, credit, width, height, duration, size }
 //   tier: 'free' = ملك عام / CC0 / سياسة NASA (من غير شرط)، 'attr' = لازم نسب (CC BY / BY-SA / Pixabay)
 // أي ترخيص فيه NC أو ND أو مش واضح بيتستبعد.
-import { getSettings } from './storage.js?v=mw5kfhop';
+import { getSettings } from './storage.js?v=mw5kls7z';
 
 const strip = html => String(html || '').replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#0?39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/\s+/g, ' ').trim();
 const https = u => String(u || '').replace(/^http:\/\//i, 'https://');
@@ -203,7 +203,17 @@ async function pexels(q, type) {
   const key = getSettings().pexelsKey;
   if (!key) throw new Error('محتاج مفتاح Pexels في الإعدادات.');
   const vid = type === 'video';
-  const res = await fetch(`${vid ? 'https://api.pexels.com/videos/search' : 'https://api.pexels.com/v1/search'}?query=${encodeURIComponent(q)}&per_page=24`, { headers: { Authorization: key } });
+  const api = `${vid ? 'https://api.pexels.com/videos/search' : 'https://api.pexels.com/v1/search'}?query=${encodeURIComponent(q)}&per_page=24`;
+  // مباشرة الأول، ولو المتصفح منع الاتصال (CORS/شبكة) نعدّي على الوسيط بنفس المفتاح
+  let res;
+  try { res = await fetch(api, { headers: { Authorization: key } }); }
+  catch (e) {
+    const { proxyUrl } = getSettings();
+    if (!proxyUrl) throw new Error('Pexels: المتصفح منع الاتصال. حط «رابط الوسيط» في الإعدادات.');
+    res = await fetch(`${proxyUrl.replace(/\/+$/, '')}/?url=${encodeURIComponent(api)}`, { headers: { Authorization: key } }).catch(() => null);
+    if (!res) throw new Error('Pexels: مقدرتش أوصل حتى عن طريق الوسيط.');
+    if (res.status === 403 && /host not allowed/.test(await res.clone().text().catch(() => ''))) throw new Error('Pexels: الوسيط محتاج النسخة الجديدة من الكود (فيها api.pexels.com). الصقها في Cloudflare ودوس Deploy.');
+  }
   if (!res.ok) throw new Error('Pexels: HTTP ' + res.status + (res.status === 401 || res.status === 403 ? ' (المفتاح غلط)' : ''));
   const j = await res.json();
   const lic = { license: 'Pexels License', licenseUrl: 'https://www.pexels.com/license/', tier: 'free' };
