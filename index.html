@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mw5eqofj">
+<html lang="ar" dir="rtl" data-v="mw5hft60">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mw5eqofj">
+<link rel="stylesheet" href="assets/css/style.css?v=mw5hft60">
 </head>
 <body>
 <header class="top">
@@ -432,6 +432,7 @@
           <label class="inl">كل مشهد <select id="scPer"><option value="1">جملة واحدة</option><option value="2" selected>جملتين</option><option value="3">3 جمل</option></select></label>
           <label class="chk"><input id="scVid" type="checkbox"> فيديو لما يكون متاح (أبطأ)</label>
           <button id="scGo" class="btn pri" type="button">🎬 اعمل المشاهد أوتوماتيك</button>
+          <button id="bmOpen" class="btn" type="button" title="صفحة كبيرة: السطور بالترتيب، تعلّم على سطر أو أكتر وتدوّر لهم على صورة أو فيديو">🖥 صفحة الميديا (سطر سطر)</button>
           <label class="btn file" title="اختار كذا صورة/فيديو مرة واحدة: بيتوزّعوا على المشاهد بالترتيب (حسب اسم الملف 1، 2، 3…)">📁 ارفع صور كتير للمشاهد<input id="scBulk" type="file" accept="image/*,video/*" multiple hidden></label>
           <button id="scClear" class="btn ghost" type="button">🗑 امسح المشاهد</button>
         </div>
@@ -955,6 +956,30 @@
 </main>
 <footer id="ver" class="muted" style="text-align:center;padding:12px"></footer>
 
+<dialog id="bmDlg" class="bmdlg">
+  <div class="row bmhead"><b>🖥 صفحة الميديا: ظبّط الخلفيات على طول الصوت</b>
+    <label class="inl">الخبر <select id="bmStory"></select></label>
+    <span id="bmTot" class="muted"></span>
+    <button id="bmClose" class="btn ghost" type="button" style="margin-inline-start:auto">✕ قفل</button></div>
+  <p class="muted" style="margin:2px 0 8px">علّم على سطر أو أكتر ورا بعض (دوس على سطر، وShift + دوس على سطر تاني عشان تاخد اللي بينهم)، وبعدين دوّر في مصادر «الوسائط» أو ارفع من جهازك. هتشوف مدة الكلام قصاد مدة الفيديو: إيه اللي هيتشاف وإيه اللي هيتقص.</p>
+  <div class="bmgrid">
+    <div class="bmleft"><div id="bmLines" class="bmlines"></div></div>
+    <div class="bmright">
+      <div id="bmSel" class="bmsel muted">اختار سطر من الشمال.</div>
+      <div id="bmCur" class="bmcur" hidden></div>
+      <div class="row">
+        <input id="bmQ" dir="ltr" placeholder="search words (English)…" style="flex:1;min-width:160px">
+        <select id="bmType"><option value="video">فيديو</option><option value="image">صور</option><option value="any">الاتنين</option></select>
+        <button id="bmGo" class="btn pri" type="button">🔎 دوّر</button>
+        <button id="bmAiQ" class="btn" type="button" title="الذكاء الاصطناعي يقترح كلمات بحث للسطور دي">✨ اقترح كلمات</button>
+        <label class="btn file">📁 من جهازي<input id="bmFile" type="file" accept="image/*,video/*" hidden></label>
+      </div>
+      <div id="bmProv" class="muted"></div>
+      <div id="bmMsg" class="muted"></div>
+      <div id="bmRes" class="bmres"></div>
+    </div>
+  </div>
+</dialog>
 <dialog id="crDlg" class="crdlg">
   <div class="row"><b>✂️ حدّد الجزء اللي عايز تسجّله</b><span class="muted">اسحب بالماوس مربع على الصورة. شكل المربع:</span>
     <select id="crAsp"><option value="free">حر</option><option value="16:9">16:9 عريض</option><option value="9:16">9:16 طولي</option><option value="1:1">مربع</option></select>
@@ -1014,6 +1039,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mw5eqofj"></script>
+<script type="module" src="js/main.js?v=mw5hft60"></script>
 </body>
 </html>

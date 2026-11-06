@@ -1,8 +1,8 @@
 // تصدير MP4 سريع بالـ WebCodecs (H.264 + AAC) — بيشتغل في Chrome و Edge
-import { Muxer, ArrayBufferTarget } from '../vendor/mp4-muxer/mp4-muxer.mjs?v=mw5eqofj';
-import { SAMPLE_RATE, mixTimeline } from './audio.js?v=mw5eqofj';
-import { W, H, drawFrame, setFormat, sceneAt, clipSegAt } from './render.js?v=mw5eqofj';
-import { seekBg } from './bg.js?v=mw5eqofj';
+import { Muxer, ArrayBufferTarget } from '../vendor/mp4-muxer/mp4-muxer.mjs?v=mw5hft60';
+import { SAMPLE_RATE, mixTimeline } from './audio.js?v=mw5hft60';
+import { W, H, drawFrame, setFormat, sceneAt, clipSegAt } from './render.js?v=mw5hft60';
+import { seekBg } from './bg.js?v=mw5hft60';
 
 export const FPS = 30;
 const AVC = ['avc1.640028', 'avc1.4d0028', 'avc1.640032', 'avc1.42e028'];
@@ -79,7 +79,7 @@ export async function exportReel(st, cfg, onProgress) {
     if (cur && st.bgs?.get(cur.id)?.kind === 'video') await seekBg(st.bgs.get(cur.id), t - sr.start);
     // فيديو المشهد الحالي (المونتاج)
     const sc = sr && sr.idx >= 0 ? sceneAt(st, t, sr.idx) : null;
-    if (sc && !sc.cur.media.none && st.bgs.get(sc.cur.media.id)?.kind === 'video') await seekBg(st.bgs.get(sc.cur.media.id), t - sc.start);
+    if (sc && !sc.cur.media.none && st.bgs.get(sc.cur.media.id)?.kind === 'video') await seekBg(st.bgs.get(sc.cur.media.id), (sc.cur.media.presenter ? 0 : sc.cur.media.in || 0) + t - sc.start);
     // مقطع القناة (لو شغال دلوقتي): من نقطة البداية اللي اخترتها
     const cs = clipSegAt(st, t);
     if (cs && st.bgs.get(cs.clip.id)?.kind === 'video') await seekBg(st.bgs.get(cs.clip.id), (cs.clip.in || 0) + t - cs.start);

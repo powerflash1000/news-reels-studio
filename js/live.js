@@ -1,11 +1,11 @@
 // وضع اللايف: شاشة بث مستمرة (طابور + دورة خلفية + شاشة انتظار) وبث لعدة منصات عن طريق وسيط محلي (tools/live-relay.mjs)
-import { normalizeReel, buildReelTimeline, allLines, lineKey } from './reel.js?v=mw5eqofj';
-import { peekLine, pvOf, TTS_PROVIDERS } from './tts.js?v=mw5eqofj';
-import { audioCtx, mixTimeline, decode, SAMPLE_RATE } from './audio.js?v=mw5eqofj';
-import { drawFrame, drawSlate, sceneAt, clipSegAt } from './render.js?v=mw5eqofj';
-import { loadBg, playBg } from './bg.js?v=mw5eqofj';
-import { getBlob } from './mediastore.js?v=mw5eqofj';
-import { getSettings } from './storage.js?v=mw5eqofj';
+import { normalizeReel, buildReelTimeline, allLines, lineKey } from './reel.js?v=mw5hft60';
+import { peekLine, pvOf, TTS_PROVIDERS } from './tts.js?v=mw5hft60';
+import { audioCtx, mixTimeline, decode, SAMPLE_RATE } from './audio.js?v=mw5hft60';
+import { drawFrame, drawSlate, sceneAt, clipSegAt } from './render.js?v=mw5hft60';
+import { loadBg, playBg } from './bg.js?v=mw5hft60';
+import { getBlob } from './mediastore.js?v=mw5hft60';
+import { getSettings } from './storage.js?v=mw5hft60';
 
 // بيجهّز ريل للتشغيل. من غير opts: الصوت من الكاش (من غير رصيد). مع opts.audioMap/manual: من الاستوديو مباشرة (من غير حفظ)
 export async function prepare(raw, opts = {}) {
@@ -147,6 +147,7 @@ export function createEngine(canvas, env) {
       const sync = (b, pos) => { if (b?.el && Math.abs(b.el.currentTime - pos) > 0.25) try { b.el.currentTime = Math.max(0, pos); } catch { /* لسه بيحمّل */ } };
       if (clipId) sync(cur.p.bgs.get(clipId), (cs.clip.in || 0) + t - cs.start);
       else if (scId && sc.cur.media.presenter) sync(cur.p.bgs.get(scId), t - sc.start);
+      else if (scId) { const sb = cur.p.bgs.get(scId); if (sb?.duration) sync(sb, ((sc.cur.media.in || 0) + t - sc.start) % sb.duration); }
       drawFrame(ctx, cur.st, t);
     } else {
       const reel = { format: env.getFmt(), lang: getSettings().reelLang || 'ar', stories: [], ticker: { on: !!env.getTicker(), text: env.getTicker(), label: '' }, bumpers: {} };

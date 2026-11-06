@@ -304,3 +304,38 @@ dialog.crdlg { max-width: min(1100px, 96vw); width: 96vw; }
 .tlsel { font-size: 12.5px; margin-top: 4px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
 .tlsel:empty { display: none; }
 .tlsel .btn { padding: 2px 8px; font-size: 12px; }
+
+/* 🖥 صفحة الميديا: السطور بالترتيب + البحث */
+dialog.bmdlg { width: 98vw; max-width: 1500px; height: 94vh; max-height: 94vh; display: none; flex-direction: column; }
+dialog.bmdlg[open] { display: flex; }
+.bmhead { margin: 0; }
+.bmgrid { display: grid; grid-template-columns: minmax(300px, 44%) 1fr; gap: 12px; flex: 1; min-height: 0; }
+.bmleft, .bmright { overflow-y: auto; min-height: 0; }
+.bmlines { display: flex; flex-direction: column; gap: 4px; }
+.bmline { display: grid; grid-template-columns: 26px 48px 1fr auto; gap: 8px; align-items: center; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--panel); cursor: pointer; border-inline-start: 6px solid var(--sc, transparent); user-select: none; }
+.bmline:hover { border-color: #888; }
+.bmline.on { outline: 2px solid #ffb224; background: color-mix(in srgb, #ffb224 14%, var(--panel)); }
+.bmline .n { font-weight: 700; opacity: .7; text-align: center; }
+.bmline .th { width: 48px; height: 48px; border-radius: 6px; overflow: hidden; background: #000; display: grid; place-items: center; font-size: 11px; }
+.bmline .th img { width: 100%; height: 100%; object-fit: cover; }
+.bmline .tx { font-size: 15px; line-height: 1.5; }
+.bmline .d { font-variant-numeric: tabular-nums; white-space: nowrap; font-size: 13px; opacity: .85; }
+.bmline .scn { display: block; font-size: 12px; opacity: .8; margin-top: 2px; }
+.bmsel { padding: 8px 10px; border-radius: 8px; background: var(--panel); border: 1px solid var(--line); margin-bottom: 8px; }
+.bmsel b { color: #ffb224; }
+.bmcur { padding: 8px; border-radius: 8px; border: 1px dashed var(--line); margin-bottom: 8px; }
+.bmcur video, .bmcur img { max-width: 100%; max-height: 220px; border-radius: 6px; background: #000; display: block; }
+.bmres { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px; margin-top: 8px; }
+.bmitem { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--panel); display: flex; flex-direction: column; }
+.bmitem .im { position: relative; aspect-ratio: 16/10; background: #000; }
+.bmitem .im img, .bmitem .im video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.bmitem .im .dur { position: absolute; bottom: 4px; inset-inline-end: 4px; background: #000c; color: #fff; padding: 1px 6px; border-radius: 4px; font-size: 12px; }
+.bmitem .bd { padding: 6px; display: flex; flex-direction: column; gap: 4px; font-size: 12px; }
+.bmfit { height: 8px; border-radius: 4px; background: #ff636955; overflow: hidden; direction: ltr; }
+.bmfit i { display: block; height: 100%; background: #3ecf8e; }
+.bmfit.loop { background: repeating-linear-gradient(90deg, #3ecf8e 0 10px, #2a9a6a 10px 20px); }
+.bmitem .bd .row { margin: 0; }
+@media (max-width: 760px) { .bmgrid { grid-template-columns: 1fr; } dialog.bmdlg { height: auto; } }
+.bmright .row input:not([type=range]), .bmright .row select { width: auto; }
+.bmright .row #bmQ { flex: 1; }
+.bmcur input[type=range] { width: 200px; }

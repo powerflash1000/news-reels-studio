@@ -1,29 +1,29 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw5eqofj';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw5eqofj';
-import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw5eqofj';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw5eqofj';
-import { transcribeWords, alignWords } from './align.js?v=mw5eqofj';
-import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw5eqofj';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw5eqofj';
-import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mw5eqofj';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw5eqofj';
-import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw5eqofj';
-import { exportSupport, exportReel } from './export.js?v=mw5eqofj';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw5eqofj';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw5eqofj';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw5eqofj';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw5eqofj';
-import { detailTarget, loadTileMap } from './tiles.js?v=mw5eqofj';
-import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw5eqofj';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw5eqofj';
-import { loadBg, playBg } from './bg.js?v=mw5eqofj';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw5eqofj';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw5eqofj';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw5eqofj';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw5eqofj';
-import { readUrl, cleanPasted } from './reader.js?v=mw5eqofj';
-import { initI18n, ui } from './i18n.js?v=mw5eqofj';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw5eqofj';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw5hft60';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw5hft60';
+import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw5hft60';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw5hft60';
+import { transcribeWords, alignWords } from './align.js?v=mw5hft60';
+import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw5hft60';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw5hft60';
+import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mw5hft60';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw5hft60';
+import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw5hft60';
+import { exportSupport, exportReel } from './export.js?v=mw5hft60';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw5hft60';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw5hft60';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw5hft60';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw5hft60';
+import { detailTarget, loadTileMap } from './tiles.js?v=mw5hft60';
+import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw5hft60';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw5hft60';
+import { loadBg, playBg, seekBg } from './bg.js?v=mw5hft60';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw5hft60';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw5hft60';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw5hft60';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw5hft60';
+import { readUrl, cleanPasted } from './reader.js?v=mw5hft60';
+import { initI18n, ui } from './i18n.js?v=mw5hft60';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw5hft60';
 
 initI18n();
 
@@ -2229,7 +2229,7 @@ $('exPack').addEventListener('click', async () => {
       for (let i = 0; i < scs.length; i++) {
         const s0 = lineSegs[Math.min(scs[i].li, lineSegs.length - 1)]?.start ?? ent.start;
         const nx = scs[i + 1] ? lineSegs[Math.min(scs[i + 1].li, lineSegs.length - 1)]?.start : ent.end;
-        await addMedia(scs[i].media.id, s0, nx ?? ent.end, scs[i].media.presenter ? 'presenter' : 'scene', `${scs[i].media.credit || scs[i].media.title || ''}`.replace(/[\n,]/g, ' '));
+        await addMedia(scs[i].media.id, s0, nx ?? ent.end, scs[i].media.presenter ? 'presenter' : 'scene', (`${scs[i].media.credit || scs[i].media.title || ''}` + (scs[i].media.in ? ` (ابدأ الفيديو من ${scs[i].media.in.toFixed(1)}s)` : '')).replace(/[\n,]/g, ' '));
       }
       for (const cs of segs.filter(s => s.clip)) await addMedia(cs.clip.id, cs.start, cs.end, 'clip', `${cs.clip.channel || ''} ${cs.clip.date || ''} (من ${cs.clip.in}s لـ ${cs.clip.out}s في الملف)`.trim());
       rows.push([tcShort(ent.start), tcShort(ent.end), 'story', '—', `خبر ${ent.idx + 1}: ${title} — المصدر: ${st.sourceName || ''}`]);
@@ -2291,6 +2291,9 @@ function syncPlayback(st, t) {
   // فيديو الظهور لازم يبقى على نفس توقيت الصوت بالظبط
   const pb = scId && sc.cur.media.presenter && bgs.get(scId);
   if (pb?.el && Math.abs(pb.el.currentTime - (t - sc.start)) > 0.25) try { pb.el.currentTime = Math.max(0, t - sc.start); } catch { /* لسه بيحمّل */ }
+  // فيديو المشهد بيبدأ من media.in (صفحة الميديا) ويتعاد لو أقصر من الكلام
+  const sb = scId && !sc.cur.media.presenter && bgs.get(scId);
+  if (sb?.el && sb.duration && !clipId) { const w = ((sc.cur.media.in || 0) + t - sc.start) % sb.duration; if (Math.abs(sb.el.currentTime - w) > 0.4) try { sb.el.currentTime = Math.max(0, w); } catch { /* لسه بيحمّل */ } }
 }
 
 // ===== 📺 مقاطع القنوات للتعليق: story.clips = [{id, title, channel, date, in, out, at, say}] =====
@@ -2808,6 +2811,201 @@ $('scList').addEventListener('change', async e => {
   else sc.media = { id, kind: f.type.startsWith('video') ? 'video' : 'image', provider: 'upload', title: f.name, thumb: f.type.startsWith('image') ? URL.createObjectURL(f) : '', credit: '', license: 'ملكي / من جهازي', tier: 'free', fit: 'cover' };
   const b = await loadBg(sc.media); if (b) bgs.set(id, b);
   persist(); renderScenes(); redraw();
+});
+
+// ===== 🖥 صفحة الميديا: السطور بالترتيب، تعلّم على سطر أو أكتر، تدوّر لهم على صورة/فيديو وتشوف إيه اللي هيتشاف وإيه اللي هيتقص =====
+// المشهد بيبدأ عند أول سطر متعلّم، وبنحط حد عند السطر اللي بعد آخر سطر عشان الباقي يفضل زي ما هو. media.in = الفيديو يبدأ من الثانية دي
+var bm = { a: -1, b: -1, anchor: -1, items: [], q: '' };
+const BM_COLORS = ['#4ea8de', '#e07a5f', '#81b29a', '#f2cc8f', '#b388eb', '#ef476f', '#06d6a0', '#ffd166'];
+const fmtS = s => (Math.round(s * 10) / 10).toFixed(1) + ' ث';
+function bmData() {
+  const st = story(), lines = parseScript(st.script);
+  const segs = currentTimeline().tl.segs.filter(s => s.storyIdx === cur && !s.clip);
+  return { st, lines, segs, list: (st.scenes || []).filter(x => x.media).slice().sort((x, y) => x.li - y.li) };
+}
+// مدة السطور من a لـ b (لحد بداية السطر اللي بعدها، زي ما المشهد بيتحسب في render.js sceneAt)
+function bmSpan(segs, a, b) {
+  if (!segs.length || a < 0) return 0;
+  a = Math.min(a, segs.length - 1); b = Math.min(Math.max(a, b), segs.length - 1);
+  const end = b + 1 < segs.length ? segs[b + 1].start : segs[segs.length - 1].end + 0.8;
+  return Math.max(0, end - (a === 0 ? segs[0].start : segs[a].start));
+}
+// رقم المشهد اللي مغطّي السطر i (لو مفيش مشهد قبله، أول مشهد هو اللي بيغطيه — نفس sceneAt)
+function bmCover(list, i) { let k = 0; list.forEach((x, j) => { if (x.li <= i) k = j; }); return list.length ? k : -1; }
+function bmSceneSpan(list, k, segs) {
+  const sc = list[k], nx = list[k + 1];
+  return bmSpan(segs, k === 0 ? 0 : sc.li, (nx ? nx.li : segs.length) - 1);
+}
+const bmDur = m => (m && !m.none && m.kind === 'video' ? (bgs.get(m.id)?.duration || m.dur || 0) : 0);
+// شريط: طول الفيديو كله، والأخضر = الجزء اللي هيتشاف
+function bmFit(kind, dur, span, inn = 0) {
+  if (kind !== 'video') return `<span>🖼 صورة ثابتة بحركة بطيئة طول ${fmtS(span)}</span>`;
+  if (!dur) return '<span class="muted">مدة الفيديو هتبان بعد ما يتحمّل</span>';
+  const avail = Math.max(0.01, dur - inn);
+  if (avail >= span) {
+    const cut = dur - span;
+    return `<div class="bmfit" title="${fmtS(inn)} → ${fmtS(inn + span)}"><i style="margin-left:${(inn / dur * 100).toFixed(1)}%;width:${(span / dur * 100).toFixed(1)}%"></i></div><span>✅ هيتشاف ${fmtS(span)} من ${fmtS(dur)}${cut > 0.05 ? ` • ✂️ ${fmtS(cut)} مش هتتشاف` : ''}</span>`;
+  }
+  return `<div class="bmfit loop"></div><span>🔁 الفيديو (${fmtS(avail)}) أقصر من الكلام (${fmtS(span)}): هيتعاد من الأول ${(span / avail).toFixed(1)} مرة. علّم سطور أقل أو اختار فيديو أطول.</span>`;
+}
+const bmThumb = m => !m ? '' : m.none ? '<span class="muted">خلفية</span>' : m.thumb ? `<img src="${esc(m.thumb)}" loading="lazy" referrerpolicy="no-referrer" alt="">` : `<span>${m.kind === 'video' ? '🎞' : '🖼'}</span>`;
+
+function bmRender() {
+  const { st, lines, segs, list } = bmData();
+  $('bmStory').innerHTML = reel.stories.map((s, i) => `<option value="${i}" ${i === cur ? 'selected' : ''} translate="no">${i + 1}. ${esc((s.headline || s.kind || '').slice(0, 60))}</option>`).join('');
+  const est = lines.some(l => !audioMap.has(lineKey(l)));
+  $('bmTot').textContent = lines.length ? `${lines.length} سطر • ${fmtS(bmSpan(segs, 0, lines.length - 1))}${est ? ' • ~ = مدة تقريبية لحد ما تولّد الصوت' : ''}` : '';
+  if (bm.a >= lines.length) bm.a = bm.b = -1;
+  $('bmLines').innerHTML = lines.length ? lines.map((l, i) => {
+    const k = bmCover(list, i), sc = list[k];
+    const starts = sc && (sc.li === i || (i === 0 && k === 0));
+    const d = segs[i] ? segs[i].end - segs[i].start : 0;
+    const note = starts && !sc.media.none ? `<span class="scn">${sc.media.kind === 'video' ? '🎞' : '🖼'} مشهد ${k + 1}: ${fmtS(bmSceneSpan(list, k, segs))}${sc.media.kind === 'video' && bmDur(sc.media) ? ` من فيديو ${fmtS(bmDur(sc.media))}` : ''}</span>` : starts ? '<span class="scn">خلفية الخبر العادية</span>' : '';
+    return `<div class="bmline ${bm.a >= 0 && i >= bm.a && i <= bm.b ? 'on' : ''}" data-bml="${i}" style="--sc:${sc ? (sc.media.none ? '#666' : BM_COLORS[k % BM_COLORS.length]) : 'transparent'}"><span class="n">${i + 1}</span><span class="th">${starts ? bmThumb(sc.media) : ''}</span><span><span class="tx" dir="auto" translate="no">${l.speaker === 'B' ? 'ب: ' : ''}${esc(l.text)}</span>${note}</span><span class="d">${fmtS(d)}${audioMap.has(lineKey(l)) ? '' : ' ~'}</span></div>`;
+  }).join('') : '<p class="muted">مفيش سكريبت للخبر ده لسه. اكتبه في الاستوديو الأول.</p>';
+  $('bmProv').textContent = `المصادر: ${mProv.map(k => PROVIDERS[k]?.name || k).join('، ') || '—'} (غيّرها من تبويب «الوسائط»).`;
+  bmRenderSel();
+}
+function bmRenderSel() {
+  const { st, segs, list } = bmData();
+  const box = $('bmCur');
+  if (bm.a < 0) { $('bmSel').textContent = 'اختار سطر أو أكتر من الشمال.'; box.hidden = true; return bmRenderRes(); }
+  const span = bmSpan(segs, bm.a, bm.b), n = bm.b - bm.a + 1;
+  $('bmSel').innerHTML = `${n === 1 ? `السطر <b>${bm.a + 1}</b>` : `السطور <b>${bm.a + 1}–${bm.b + 1}</b> (${n} سطور)`} • الكلام هياخد <b>${fmtS(span)}</b>`;
+  // لو فيه مشهد بادئ عند أول سطر متعلّم: نعرضه ونخليك تختار الفيديو يبدأ منين
+  const sc = list.find(x => x.li === bm.a && !x.media.none);
+  if (!sc) { box.hidden = true; return bmRenderRes(); }
+  const k = list.indexOf(sc), sspan = bmSceneSpan(list, k, segs), dur = bmDur(sc.media), b = bgs.get(sc.media.id);
+  const src = b?.el?.src || b?.img?.src || '';
+  const maxIn = Math.max(0, dur - sspan);
+  box.hidden = false;
+  box.innerHTML = `<b>المشهد الحالي (${fmtS(sspan)})</b> <span class="muted" translate="no">${esc((sc.media.title || '').slice(0, 70))}</span>
+    ${src ? (sc.media.kind === 'video' ? `<video id="bmCurV" src="${esc(src)}" muted playsinline controls></video>` : `<img src="${esc(src)}" alt="">`) : ''}
+    ${bmFit(sc.media.kind, dur, sspan, sc.media.in || 0)}
+    ${sc.media.kind === 'video' && maxIn > 0.1 ? `<label class="inl">يبدأ من ثانية <input id="bmIn" type="range" min="0" max="${maxIn.toFixed(1)}" step="0.1" value="${Math.min(sc.media.in || 0, maxIn)}"> <b id="bmInV">${fmtS(sc.media.in || 0)}</b></label>` : ''}
+    <div class="row" style="margin:4px 0 0"><button id="bmUnset" class="btn ghost" type="button">✕ رجّع خلفية الخبر للسطور دي</button></div>`;
+  const v = $('bmCurV'); if (v) v.addEventListener('loadedmetadata', () => { try { v.currentTime = sc.media.in || 0; } catch { /* */ } }, { once: true });
+  bmRenderRes();
+}
+function bmRenderRes() {
+  const { segs } = bmData();
+  const span = bm.a >= 0 ? bmSpan(segs, bm.a, bm.b) : 0;
+  $('bmRes').innerHTML = bm.items.map((m, i) => `<div class="bmitem"><div class="im" data-bmim="${i}">${m.thumb ? `<img src="${esc(m.thumb)}" loading="lazy" referrerpolicy="no-referrer" alt="">` : ''}${m.type === 'video' ? `<span class="dur">🎞 ${m.duration ? fmtS(m.duration) : '؟'}</span>` : ''}</div>
+    <div class="bd"><span translate="no" class="muted">${esc((m.title || '').slice(0, 60))} • ${esc(PROVIDERS[m.provider]?.name || m.provider)}</span>
+    ${span ? bmFit(m.type, m.duration, span) : ''}
+    <div class="row">${m.type === 'video' ? `<button class="btn" data-bmpv="${i}" type="button">▶ معاينة</button>` : ''}<button class="btn pri" data-bmuse="${i}" type="button" ${bm.a < 0 ? 'disabled' : ''}>✅ حطها للسطور دي</button></div></div></div>`).join('');
+}
+// بنحط الميديا كمشهد عند أول سطر، وبنشيل المشاهد اللي جوه التحديد، وبنقفل التحديد عند السطر اللي بعده
+function bmAssign(media) {
+  const st = story(), n = parseScript(st.script).length, a = bm.a, b = bm.b;
+  const old = (st.scenes || []).filter(x => x.media).slice().sort((x, y) => x.li - y.li);
+  const after = old.length ? old[bmCover(old, b + 1)] : null; // اللي كان مغطّي السطر اللي بعد التحديد
+  st.scenes = (st.scenes || []).filter(x => !(x.li >= a && x.li <= b));
+  if (b + 1 < n && !st.scenes.some(x => x.li === b + 1)) st.scenes.push({ li: b + 1, q: after?.q || '', media: after ? { ...after.media } : { id: '__bg', none: true } });
+  if (a > 0 && !st.scenes.some(x => x.li < a)) st.scenes.push({ li: 0, media: { id: '__bg', none: true } });
+  st.scenes.push({ li: a, q: bm.q || '', media });
+  // مشهدين ورا بعض بنفس الخلفية العادية = واحد
+  st.scenes.sort((x, y) => x.li - y.li);
+  st.scenes = st.scenes.filter((x, i, arr) => !(i > 0 && x.media?.none && arr[i - 1].media?.none));
+  persist(); renderScenes(); redraw(); bmRender();
+}
+async function bmUse(m, btn) {
+  if (bm.a < 0) return;
+  if (btn) { btn.disabled = true; btn.textContent = '⏳'; }
+  $('bmMsg').textContent = '⏳ بنزّل الملف…';
+  try {
+    const blob = await fetchBlob(m);
+    const id = 'm' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+    await putBlob(id, blob);
+    const media = { id, kind: m.type, provider: m.provider, title: m.title, thumb: m.thumb, credit: m.tier === 'free' && m.provider !== 'nasa' ? '' : m.credit, license: m.license, licenseUrl: m.licenseUrl, page: m.page, tier: m.tier, fit: 'cover', dur: m.duration || 0, in: 0 };
+    const b = await loadBg(media);
+    if (!b) throw new Error('الملف ده مش صورة أو فيديو مفهوم');
+    bgs.set(id, b); if (b.duration) media.dur = b.duration;
+    bmAssign(media);
+    $('bmMsg').textContent = '✅ اتحطت للسطور دي. لو الفيديو أطول من الكلام، اختار يبدأ منين من «يبدأ من ثانية».';
+  } catch (err) { $('bmMsg').textContent = '❌ ' + (err.message || err); if (btn) { btn.disabled = false; btn.textContent = '✅ حطها للسطور دي'; } }
+}
+async function bmSearch() {
+  const q = $('bmQ').value.trim();
+  if (!q) return ($('bmMsg').textContent = 'اكتب كلمات بحث (بالإنجليزي أحسن) أو دوس «✨ اقترح كلمات».');
+  if (!mProv.length) return ($('bmMsg').textContent = 'اختار مصادر من تبويب «الوسائط» الأول.');
+  bm.q = q; $('bmMsg').textContent = '⏳ بدوّر…'; bm.items = []; bmRenderRes();
+  try {
+    const type = $('bmType').value;
+    const { items, errors } = await searchAll(q, { providers: mProv, type, tier: 'all' });
+    // الأنسب الأول: فيديو أطول من الكلام وقريب من مدته
+    const span = bm.a >= 0 ? bmSpan(bmData().segs, bm.a, bm.b) : 0;
+    const rank = m => m.type !== 'video' ? 2 : !m.duration ? 1.5 : m.duration >= span ? 0 + Math.min(1, (m.duration - span) / 120) : 1 + Math.min(0.4, (span - m.duration) / 30);
+    bm.items = items.sort((x, y) => rank(x) - rank(y)).slice(0, 60);
+    $('bmMsg').textContent = bm.items.length ? `${bm.items.length} نتيجة${errors.length ? ` (${errors.length} مصدر مردّش)` : ''}.` : 'مفيش نتايج. جرّب كلمات تانية أو نوع تاني.';
+  } catch (err) { $('bmMsg').textContent = '❌ ' + (err.message || err); }
+  bmRenderRes();
+}
+const BMQ_SCHEMA = { type: 'object', properties: { query: { type: 'string' } }, required: ['query'], additionalProperties: false };
+$('bmOpen').addEventListener('click', () => { readForm(); bm.a = bm.b = bm.anchor = -1; bm.items = []; bmRender(); bmRenderRes(); $('bmMsg').textContent = ''; $('bmDlg').showModal(); });
+$('bmClose').addEventListener('click', () => $('bmDlg').close());
+$('bmDlg').addEventListener('close', () => { for (const v of $('bmDlg').querySelectorAll('video')) v.pause(); });
+$('bmStory').addEventListener('change', () => { readForm(); cur = Number($('bmStory').value); fillForm(); bm.a = bm.b = bm.anchor = -1; bmRender(); bmRenderRes(); });
+$('bmLines').addEventListener('click', e => {
+  const r = e.target.closest('[data-bml]'); if (!r) return;
+  const i = Number(r.dataset.bml);
+  if (e.shiftKey && bm.anchor >= 0) { bm.a = Math.min(bm.anchor, i); bm.b = Math.max(bm.anchor, i); }
+  else if (bm.a === i && bm.b === i) { bm.a = bm.b = bm.anchor = -1; }
+  else if ((e.ctrlKey || e.metaKey) && bm.a >= 0 && (i === bm.b + 1 || i === bm.a - 1)) { bm.a = Math.min(bm.a, i); bm.b = Math.max(bm.b, i); }
+  else { bm.a = bm.b = bm.anchor = i; }
+  // كلمات البحث: لو السطر عليه مشهد ليه كلمات، نحطها
+  const sc = (story().scenes || []).find(x => x.li === bm.a);
+  if (sc?.q && !$('bmQ').value.trim()) $('bmQ').value = sc.q;
+  bmRender();
+});
+$('bmGo').addEventListener('click', bmSearch);
+$('bmQ').addEventListener('keydown', e => { if (e.key === 'Enter') bmSearch(); });
+$('bmAiQ').addEventListener('click', async () => {
+  if (bm.a < 0) return ($('bmMsg').textContent = 'علّم على السطور الأول.');
+  const st = story(), text = parseScript(st.script).slice(bm.a, bm.b + 1).map(l => l.text).join(' ').replace(/[<>]/g, '');
+  $('bmMsg').textContent = '⏳ بيقترح كلمات بحث…';
+  try {
+    const out = await aiJSON({ schema: BMQ_SCHEMA, maxTokens: 300,
+      system: 'You write ONE short English stock-footage search query (2-4 words) that visually matches the given narration lines of a news reel. Generic visuals only: no real people, politicians, brands, logos or readable text. Return JSON {"query": "..."}.',
+      user: `<headline>${(st.headline || '').replace(/[<>]/g, '')}</headline>\n<lines>${text}</lines>` });
+    if (!out?.query) throw new Error('مفيش رد. جرّب تاني.');
+    $('bmQ').value = out.query; bmSearch();
+  } catch (err) { $('bmMsg').textContent = '❌ ' + (err.message || err); }
+});
+$('bmRes').addEventListener('click', e => {
+  const u = e.target.closest('[data-bmuse]'); if (u) return bmUse(bm.items[Number(u.dataset.bmuse)], u);
+  const p = e.target.closest('[data-bmpv]');
+  if (p) { const m = bm.items[Number(p.dataset.bmpv)], im = $('bmRes').querySelector(`[data-bmim="${p.dataset.bmpv}"]`); im.querySelector('img')?.remove(); if (!im.querySelector('video')) im.insertAdjacentHTML('afterbegin', `<video src="${esc(m.url)}" muted playsinline controls autoplay></video>`); }
+});
+$('bmFile').addEventListener('change', async e => {
+  const f = e.target.files?.[0]; e.target.value = '';
+  if (!f) return;
+  if (bm.a < 0) return ($('bmMsg').textContent = 'علّم على السطور الأول.');
+  const id = 'm' + Date.now().toString(36);
+  await putBlob(id, f);
+  const media = { id, kind: f.type.startsWith('video') ? 'video' : 'image', provider: 'upload', title: f.name, thumb: f.type.startsWith('image') ? URL.createObjectURL(f) : '', credit: '', license: 'ملكي / من جهازي', tier: 'free', fit: 'cover', in: 0 };
+  const b = await loadBg(media).catch(() => null);
+  if (!b) return ($('bmMsg').textContent = '❌ الملف ده مش صورة أو فيديو مفهوم');
+  bgs.set(id, b); if (b.duration) media.dur = b.duration;
+  bmAssign(media);
+  $('bmMsg').textContent = '✅ اتحط للسطور دي.';
+});
+$('bmCur').addEventListener('input', e => {
+  if (e.target.id !== 'bmIn') return;
+  const sc = (story().scenes || []).find(x => x.li === bm.a && x.media && !x.media.none); if (!sc) return;
+  sc.media.in = Number(e.target.value);
+  $('bmInV').textContent = fmtS(sc.media.in);
+  const v = $('bmCurV'); if (v) try { v.currentTime = sc.media.in; } catch { /* */ }
+  const { segs, list } = bmData(), span = bmSceneSpan(list, list.indexOf(sc), segs), fit = $('bmCur').querySelector('.bmfit i'), dur = bmDur(sc.media);
+  if (fit && dur) fit.style.marginLeft = (sc.media.in / dur * 100).toFixed(1) + '%';
+  const sp = fit?.parentElement?.nextElementSibling; if (sp && dur) sp.textContent = `✅ هيتشاف ${fmtS(span)} من ${fmtS(dur)} (من ${fmtS(sc.media.in)} لـ ${fmtS(sc.media.in + span)})`;
+  persist();
+  const bgv = bgs.get(sc.media.id); if (bgv?.el) seekBg(bgv, sc.media.in).then(() => redraw());
+});
+$('bmCur').addEventListener('click', e => {
+  if (e.target.id !== 'bmUnset') return;
+  bmAssign({ id: '__bg', none: true });
+  $('bmMsg').textContent = 'السطور دي رجعت لخلفية الخبر العادية.';
 });
 
 function renderBgInfo() {
