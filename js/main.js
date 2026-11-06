@@ -1,29 +1,29 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw5lhygw';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw5lhygw';
-import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw5lhygw';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw5lhygw';
-import { transcribeWords, alignWords } from './align.js?v=mw5lhygw';
-import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw5lhygw';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw5lhygw';
-import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mw5lhygw';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw5lhygw';
-import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw5lhygw';
-import { exportSupport, exportReel } from './export.js?v=mw5lhygw';
-import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf } from './media.js?v=mw5lhygw';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw5lhygw';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw5lhygw';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw5lhygw';
-import { detailTarget, loadTileMap } from './tiles.js?v=mw5lhygw';
-import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw5lhygw';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw5lhygw';
-import { loadBg, playBg, seekBg } from './bg.js?v=mw5lhygw';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw5lhygw';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw5lhygw';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw5lhygw';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw5lhygw';
-import { readUrl, cleanPasted } from './reader.js?v=mw5lhygw';
-import { initI18n, ui } from './i18n.js?v=mw5lhygw';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw5lhygw';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw5lz4mo';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw5lz4mo';
+import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw5lz4mo';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw5lz4mo';
+import { transcribeWords, alignWords } from './align.js?v=mw5lz4mo';
+import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw5lz4mo';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw5lz4mo';
+import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mw5lz4mo';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw5lz4mo';
+import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw5lz4mo';
+import { exportSupport, exportReel } from './export.js?v=mw5lz4mo';
+import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf } from './media.js?v=mw5lz4mo';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw5lz4mo';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw5lz4mo';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw5lz4mo';
+import { detailTarget, loadTileMap } from './tiles.js?v=mw5lz4mo';
+import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw5lz4mo';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw5lz4mo';
+import { loadBg, playBg, seekBg } from './bg.js?v=mw5lz4mo';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw5lz4mo';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw5lz4mo';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw5lz4mo';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw5lz4mo';
+import { readUrl, cleanPasted } from './reader.js?v=mw5lz4mo';
+import { initI18n, ui } from './i18n.js?v=mw5lz4mo';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw5lz4mo';
 
 initI18n();
 
@@ -2931,8 +2931,11 @@ async function bmUse(m, btn) {
 async function bmSearch() {
   const q = $('bmQ').value.trim();
   if (!q) return ($('bmMsg').textContent = 'اكتب كلمات بحث (بالإنجليزي أحسن) أو دوس «✨ اقترح كلمات».');
-  const provs = bmProvs();
-  if (!provs.length) return ($('bmMsg').textContent = 'اختار مصدر واحد على الأقل من المصادر اللي فوق.');
+  const provs = bmProvs(), ext = bmExt();
+  if (!provs.length && !ext.length) return ($('bmMsg').textContent = 'اختار مصدر واحد على الأقل من المصادر اللي فوق.');
+  // لازم window.open يحصل قبل أي await (المتصفح بيمنع النوافذ اللي مش جاية من ضغطة مباشرة)
+  for (const k of ext) window.open(BM_SITES[k](q, $('bmType').value !== 'image'), '_blank', 'noopener');
+  if (!provs.length) return ($('bmMsg').textContent = `فتحت نتايج ${ext.map(k => BM_EXT[k]).join(' و')} في تاب. افتح الفيديو اللي عاجبك، انسخ لينك صفحته، والصقه في «🔗» تحت ودوس «⬇ هاته للسطور دي».`);
   bm.q = q; $('bmMsg').textContent = '⏳ بدوّر…'; bm.items = []; bmRenderRes();
   try {
     const type = $('bmType').value;
@@ -2941,24 +2944,27 @@ async function bmSearch() {
     const span = bm.a >= 0 ? bmSpan(bmData().segs, bm.a, bm.b) : 0;
     const rank = m => m.type !== 'video' ? 2 : !m.duration ? 1.5 : m.duration >= span ? 0 + Math.min(1, (m.duration - span) / 120) : 1 + Math.min(0.4, (span - m.duration) / 30);
     bm.items = items.sort((x, y) => rank(x) - rank(y)).slice(0, 60);
-    $('bmMsg').textContent = (bm.items.length ? `${bm.items.length} نتيجة.` : 'مفيش نتايج. جرّب كلمات تانية أو نوع تاني أو مصدر تاني.') + errors.map(x => ` ⚠️ ${PROVIDERS[x.provider]?.name || x.provider}: ${x.error}`).join('');
+    $('bmMsg').textContent = (ext.length ? `↗ فتحت ${ext.map(k => BM_EXT[k]).join(' و')} في تاب (الفيديو منه بلينكه في «🔗»). ` : '') + (bm.items.length ? `${bm.items.length} نتيجة.` : 'مفيش نتايج. جرّب كلمات تانية أو نوع تاني أو مصدر تاني.') + errors.map(x => ` ⚠️ ${PROVIDERS[x.provider]?.name || x.provider}: ${x.error}`).join('');
   } catch (err) { $('bmMsg').textContent = '❌ ' + (err.message || err); }
   bmRenderRes();
 }
 // مصادر البحث في الصفحة دي (منفصلة عن تبويب الوسائط): 🔑 = محتاج مفتاح في الإعدادات
 function bmProvs() { if (!bm.prov) bm.prov = load('bmprov', null) || mProv.slice(); return bm.prov.filter(k => PROVIDERS[k]); }
+const bmExt = () => { bmProvs(); return bm.prov.filter(k => k.startsWith('x:')).map(k => k.slice(2)).filter(k => BM_EXT[k]); };
+// مواقع من غير API (Mixkit، موقع Pexels): بتظهر مع المصادر، والبحث بيفتح نتايجها في تاب بنفس الكلمات
+var BM_EXT = { mixkit: 'Mixkit', pexels: 'Pexels (الموقع)' };
 function bmProvUi() {
   const on = bmProvs(), type = $('bmType').value, st = getSettings();
   $('bmProv').innerHTML = '<span class="muted">دوّر في:</span> ' + Object.entries(PROVIDERS).map(([k, p]) => {
     const nokey = p.key && !st[p.key], off = type !== 'any' && !p.types.includes(type);
     return `<button class="chip ${on.includes(k) ? 'on' : ''}" data-bmp="${k}" type="button" title="${esc(p.area)}${nokey ? ' — محتاج مفتاح في الإعدادات' : ''}${off ? ' — مفيهوش ' + (type === 'video' ? 'فيديو' : 'صور') : ''}" ${off ? 'style="opacity:.45"' : ''}>${p.name}${nokey ? ' 🔑' : ''}${p.cors === false ? ' 🔌' : ''}</button>`;
-  }).join('') + ' <span class="muted">🔑 = محتاج مفتاح في الإعدادات • 🔌 = التحميل محتاج الوسيط</span>';
+  }).join('') + Object.entries(BM_EXT).map(([k, n]) => `<button class="chip ${(bm.prov || []).includes('x:' + k) ? 'on' : ''}" data-bmp="x:${k}" type="button" title="مالوش بحث مفتوح للبرامج: بيفتح نتايجه في تاب جنب نتايج البرنامج، وتجيب الفيديو بلينك صفحته في «🔗»">${n} ↗</button>`).join('') + ' <span class="muted">🔑 = محتاج مفتاح في الإعدادات • 🔌 = التحميل محتاج الوسيط • ↗ = نتايجه بتفتح في تاب، والفيديو بيتجاب بلينكه</span>';
 }
 $('bmProv').addEventListener('click', e => {
   const k = e.target.closest('[data-bmp]')?.dataset.bmp; if (!k) return;
-  const p = PROVIDERS[k];
+  const p = PROVIDERS[k] || {};
   if (p.key && !getSettings()[p.key] && !bmProvs().includes(k)) $('bmMsg').textContent = `⚠️ ${p.name} محتاج مفتاح: حطه في الإعدادات (المفتاح مجاني من موقعهم).`;
-  bm.prov = bmProvs().includes(k) ? bmProvs().filter(x => x !== k) : [...bmProvs(), k];
+  bmProvs(); bm.prov = bm.prov.includes(k) ? bm.prov.filter(x => x !== k) : [...bm.prov, k];
   save('bmprov', bm.prov); bmProvUi();
 });
 $('bmType').addEventListener('change', bmProvUi);

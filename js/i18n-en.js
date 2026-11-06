@@ -1,5 +1,10 @@
 // قاموس الواجهة عربي → إنجليزي. أي نص جديد في الواجهة العربي ضيفه هنا (المفتاح = النص العربي بالظبط، {} = جزء متغير).
 export default {
+ "مالوش بحث مفتوح للبرامج: بيفتح نتايجه في تاب جنب نتايج البرنامج، وتجيب الفيديو بلينك صفحته في «🔗»": "No open search for apps: its results open in a tab next to the app's results, and you get the video by its page link in «🔗»",
+ "🔑 = محتاج مفتاح في الإعدادات • 🔌 = التحميل محتاج الوسيط • ↗ = نتايجه بتفتح في تاب، والفيديو بيتجاب بلينكه": "🔑 = needs a key in Settings • 🔌 = download needs the proxy • ↗ = results open in a tab, the video comes by its link",
+ "Pexels (الموقع)": "Pexels (site)",
+ "فتحت نتايج {} في تاب. افتح الفيديو اللي عاجبك، انسخ لينك صفحته، والصقه في «🔗» تحت ودوس «⬇ هاته للسطور دي».": "Opened {} results in a tab. Open the video you like, copy its page link, paste it in «🔗» below and press «⬇ Get it for these lines».",
+ "↗ فتحت {} في تاب (الفيديو منه بلينكه في «🔗»).": "↗ Opened {} in a tab (get its video by link in «🔗»).",
  "Coverr رجّع {} فيديو من غير روابط ملفات. ابعت الرسالة دي لـ Claude.": "Coverr returned {} videos without file links. Send this message to Claude.",
  "مفتاح Pexels (لو عندك مفتاح، من pexels.com/api)": "Pexels key (if you have one, from pexels.com/api)",
  "محتاج مفتاح Pexels في الإعدادات.": "A Pexels key is needed in Settings.",
