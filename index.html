@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mw5ktsd9">
+<html lang="ar" dir="rtl" data-v="mw5l428a">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mw5ktsd9">
+<link rel="stylesheet" href="assets/css/style.css?v=mw5l428a">
 </head>
 <body>
 <header class="top">
@@ -945,6 +945,7 @@
     <label>مفتاح Smithsonian / api.data.gov (اختياري، مجاني من api.data.gov/signup — من غيره بيستخدم DEMO_KEY بحد 30 طلب في الساعة)<input id="sSi" type="password" dir="ltr" autocomplete="off"></label>
     <label>مفتاح Pixabay (مجاني من pixabay.com/api/docs)<input id="sPixabay" type="password" dir="ltr" autocomplete="off"></label>
     <label>مفتاح Pexels (لو عندك مفتاح، من pexels.com/api)<input id="sPexels" type="password" dir="ltr" autocomplete="off"></label>
+    <label>مفتاح Coverr (مجاني من coverr.co/developers — حوالي 50 بحث في الساعة)<input id="sCoverr" type="password" dir="ltr" autocomplete="off"></label>
     <div class="row"><button id="sFromQcs" class="btn" type="button">📥 هات المفاتيح من برنامج القرآن</button><span id="sFromQcsMsg" class="muted">برنامج القرآن على نفس الموقع، فالمتصفح ده ممكن يكون فيه مفاتيحه (Pexels، Pixabay، Freesound، ElevenLabs، رابط الوسيط).</span></div>
     <label>توكن GitHub لتحديث الأخبار فورًا (اختياري)<input id="sGhToken" type="password" dir="ltr" autocomplete="off" placeholder="github_pat_…"></label>
     <p class="muted">الأخبار بتتحدّث لوحدها كل ساعة، بس GitHub ساعات بيأخّرها لحد كام ساعة. بالتوكن ده زرار «🔄 هات أحدث أخبار» بيشغّل التحديث دلوقتي (حوالي دقيقة). إزاي تعمله: github.com/settings/personal-access-tokens ← Generate new token (Fine-grained) ← Repository access: Only select repositories ← news-reels-studio ← Permissions ← Actions: Read and write ← Generate. التوكن بيفضل على جهازك بس ومش بيدخل في النسخة الاحتياطية.</p>
@@ -975,7 +976,13 @@
         <button id="bmGo" class="btn pri" type="button">🔎 دوّر</button>
         <button id="bmAiQ" class="btn" type="button" title="الذكاء الاصطناعي يقترح كلمات بحث للسطور دي">✨ اقترح كلمات</button>
         <label class="btn file">📁 من جهازي<input id="bmFile" type="file" accept="image/*,video/*" hidden></label>
-        <button id="bmPexels" class="btn" type="button" title="يفتح موقع Pexels بنفس كلمات البحث: نزّل الفيديو وارجع اسحبه هنا أو «📁 من جهازي»">↗ دوّر في موقع Pexels</button>
+      </div>
+      <div class="row bmsites"><span class="muted">مواقع من غير بحث جوه البرنامج:</span>
+        <button class="btn" data-bmsite="pexels" type="button" title="يفتح الموقع بنفس كلمات البحث">↗ Pexels</button>
+        <button class="btn" data-bmsite="mixkit" type="button" title="يفتح الموقع بنفس كلمات البحث">↗ Mixkit</button>
+        <button class="btn" data-bmsite="coverr" type="button" title="يفتح الموقع بنفس كلمات البحث">↗ Coverr</button>
+      </div>
+      <div class="row"><input id="bmLink" dir="ltr" placeholder="🔗 الصق لينك صفحة الفيديو من Mixkit / Coverr / Pexels / Pixabay (أو رابط الملف نفسه)" style="flex:1;min-width:200px"><button id="bmLinkGo" class="btn pri" type="button">⬇ هاته للسطور دي</button>
       </div>
       <div id="bmProv" class="bmprov"></div>
       <details id="bmGen" class="bmgen"><summary>🎨 أو ولّدها بالذكاء الاصطناعي</summary>
@@ -1048,6 +1055,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mw5ktsd9"></script>
+<script type="module" src="js/main.js?v=mw5l428a"></script>
 </body>
 </html>

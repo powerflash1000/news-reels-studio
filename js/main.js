@@ -1,29 +1,29 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw5ktsd9';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw5ktsd9';
-import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw5ktsd9';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw5ktsd9';
-import { transcribeWords, alignWords } from './align.js?v=mw5ktsd9';
-import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw5ktsd9';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw5ktsd9';
-import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mw5ktsd9';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw5ktsd9';
-import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw5ktsd9';
-import { exportSupport, exportReel } from './export.js?v=mw5ktsd9';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw5ktsd9';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw5ktsd9';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw5ktsd9';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw5ktsd9';
-import { detailTarget, loadTileMap } from './tiles.js?v=mw5ktsd9';
-import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw5ktsd9';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw5ktsd9';
-import { loadBg, playBg, seekBg } from './bg.js?v=mw5ktsd9';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw5ktsd9';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw5ktsd9';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw5ktsd9';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw5ktsd9';
-import { readUrl, cleanPasted } from './reader.js?v=mw5ktsd9';
-import { initI18n, ui } from './i18n.js?v=mw5ktsd9';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw5ktsd9';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw5l428a';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw5l428a';
+import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw5l428a';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw5l428a';
+import { transcribeWords, alignWords } from './align.js?v=mw5l428a';
+import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw5l428a';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw5l428a';
+import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mw5l428a';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw5l428a';
+import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw5l428a';
+import { exportSupport, exportReel } from './export.js?v=mw5l428a';
+import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf } from './media.js?v=mw5l428a';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw5l428a';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw5l428a';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw5l428a';
+import { detailTarget, loadTileMap } from './tiles.js?v=mw5l428a';
+import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw5l428a';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw5l428a';
+import { loadBg, playBg, seekBg } from './bg.js?v=mw5l428a';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw5l428a';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw5l428a';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw5l428a';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw5l428a';
+import { readUrl, cleanPasted } from './reader.js?v=mw5l428a';
+import { initI18n, ui } from './i18n.js?v=mw5l428a';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw5l428a';
 
 initI18n();
 
@@ -3065,12 +3065,13 @@ $('bmFile').addEventListener('change', async e => {
   const f = e.target.files?.[0]; e.target.value = '';
   if (f) await bmFromFile(f);
 });
-async function bmFromFile(f) {
+async function bmFromFile(f, over = {}) {
   if (bm.a < 0) return ($('bmMsg').textContent = 'علّم على السطور الأول.');
   const id = 'm' + Date.now().toString(36);
   await putBlob(id, f);
-  const px = /pexels/i.test(f.name);
-  const media = { id, kind: f.type.startsWith('video') ? 'video' : 'image', provider: px ? 'pexels' : 'upload', title: f.name, thumb: f.type.startsWith('image') ? URL.createObjectURL(f) : '', credit: px ? 'Pexels' : '', license: px ? 'Pexels License' : 'ملكي / من جهازي', tier: 'free', fit: 'cover', in: 0 };
+  // اسم الملف بيقول جه منين (الملفات اللي بتنزل من المواقع دي أساميها فيها اسم الموقع)
+  const site = over.site || (/pexels/i.test(f.name) ? 'Pexels' : /mixkit/i.test(f.name) ? 'Mixkit' : /coverr/i.test(f.name) ? 'Coverr' : '');
+  const media = { id, kind: f.type.startsWith('video') ? 'video' : 'image', provider: site ? site.toLowerCase() : 'upload', title: f.name, thumb: f.type.startsWith('image') ? URL.createObjectURL(f) : '', credit: site, license: site ? `${site} License` : 'ملكي / من جهازي', page: over.page || '', tier: 'free', fit: 'cover', in: 0, ...(over.media || {}) };
   const b = await loadBg(media).catch(() => null);
   if (!b) return ($('bmMsg').textContent = '❌ الملف ده مش صورة أو فيديو مفهوم');
   bgs.set(id, b); if (b.duration) media.dur = b.duration;
@@ -3078,12 +3079,37 @@ async function bmFromFile(f) {
   $('bmMsg').textContent = '✅ اتحط للسطور دي.' + (b.duration ? ` (الفيديو ${fmtS(b.duration)} — شوف تحت هيتشاف منه قد إيه، واختار «يبدأ من ثانية»)` : '');
 }
 // ↗ Pexels من غير مفتاح (API مقفول للمفاتيح الجديدة): نفتح الموقع بكلمات البحث، والمستخدم ينزّل ويرفع/يسحب الملف هنا
-$('bmPexels').addEventListener('click', () => {
-  const q = $('bmQ').value.trim(), vid = $('bmType').value !== 'image';
-  const slug = encodeURIComponent(q.replace(/\s+/g, ' ') || 'city');
-  window.open(`https://www.pexels.com/search/${vid ? 'videos/' : ''}${slug}/`, '_blank', 'noopener');
-  $('bmMsg').textContent = bm.a < 0 ? 'علّم على السطور الأول، وبعدين نزّل الفيديو من Pexels («Free download») واسحبه على الصفحة دي أو «📁 من جهازي».' : `دوّر هناك، نزّل («Free download»)، وارجع اسحب الملف على الصفحة دي أو «📁 من جهازي». المشهد ده ${fmtS(bmSpan(bmData().segs, bm.a, bm.b))}.`;
+const BM_SITES = {
+  pexels: (q, vid) => `https://www.pexels.com/search/${vid ? 'videos/' : ''}${encodeURIComponent(q)}/`,
+  mixkit: q => `https://mixkit.co/free-stock-video/${q.toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-') || 'nature'}/`,
+  coverr: q => `https://coverr.co/search?q=${encodeURIComponent(q)}`,
+};
+$('bmDlg').querySelector('.bmsites').addEventListener('click', e => {
+  const k = e.target.closest('[data-bmsite]')?.dataset.bmsite; if (!k) return;
+  const q = $('bmQ').value.trim() || 'city';
+  window.open(BM_SITES[k](q, $('bmType').value !== 'image'), '_blank', 'noopener');
+  $('bmMsg').textContent = (bm.a < 0 ? 'علّم على السطور الأول. ' : `المشهد ده ${fmtS(bmSpan(bmData().segs, bm.a, bm.b))}. `) + 'افتح الفيديو اللي عاجبك هناك، وانسخ لينك الصفحة من فوق والصقه في «🔗» تحت ودوس «⬇ هاته»، أو نزّله واسحبه على الصفحة دي.';
 });
+async function bmLinkGo() {
+  const url = $('bmLink').value.trim();
+  if (!/^https?:\/\//i.test(url)) return ($('bmMsg').textContent = 'الصق لينك يبدأ بـ https://');
+  if (bm.a < 0) return ($('bmMsg').textContent = 'علّم على السطور الأول.');
+  const b = $('bmLinkGo'); b.disabled = true; $('bmMsg').textContent = '⏳ بجيب الفيديو من الصفحة…';
+  try {
+    if (stockSiteOf(url)) {
+      const { file, site, page } = await fileFromStockPage(url);
+      await bmFromFile(file, { site, page });
+    } else {
+      const { blob, kind } = await mediaFromLink(url);
+      const f = new File([blob], url.split(/[?#]/)[0].split('/').pop() || 'file', { type: blob.type || (kind === 'video' ? 'video/mp4' : 'image/jpeg') });
+      await bmFromFile(f, { media: { provider: 'manual', credit: hostOf(url), license: 'من رابط (مسؤوليتك)', page: url, tier: 'attr' } });
+    }
+    $('bmLink').value = '';
+  } catch (err) { $('bmMsg').textContent = '❌ ' + (err.message || err); }
+  b.disabled = false;
+}
+$('bmLinkGo').addEventListener('click', bmLinkGo);
+$('bmLink').addEventListener('keydown', e => { if (e.key === 'Enter') bmLinkGo(); });
 // سحب ملف على الصفحة = نفس «📁 من جهازي» (رخصة Pexels بتسمح، والكريديت بيتكتب Pexels لو اسم الملف من عندهم)
 $('bmDlg').addEventListener('dragover', e => { if (e.dataTransfer?.types?.includes('Files')) { e.preventDefault(); $('bmDlg').classList.add('drop'); } });
 $('bmDlg').addEventListener('dragleave', e => { if (e.target === $('bmDlg')) $('bmDlg').classList.remove('drop'); });
@@ -4068,7 +4094,7 @@ $('bkImport').addEventListener('change', async e => {
 });
 
 /* ---------- الإعدادات ---------- */
-const TEXT_FIELDS = { sChannel: 'channelName', sHandle: 'handle', sReelLang: 'reelLang', sTts: 'ttsProvider', sGemModel: 'geminiTtsModel', sGemStyle: 'geminiStyle', sGemA: 'gemVoiceA', sGemB: 'gemVoiceB', sAzKey: 'azureKey', sAzRegion: 'azureRegion', sAzA: 'azVoiceA', sAzB: 'azVoiceB', sAzRate: 'azRate', sOaA: 'oaVoiceA', sOaB: 'oaVoiceB', sOaModel: 'oaTtsModel', sOaStyle: 'oaStyle', sKey: 'elevenKey', sModel: 'elevenModel', sProxy: 'proxyUrl', sPixabay: 'pixabayKey', sPexels: 'pexelsKey', sGhToken: 'ghToken', sSi: 'siKey', sFreesound: 'freesoundKey', sClaude: 'claudeKey', sClaudeModel: 'claudeModel', sAiProv: 'aiProvider', sGemini: 'geminiKey', sGroq: 'groqKey', sOr: 'orKey', sOpenai: 'openaiKey', sAiModel: 'aiModel' };
+const TEXT_FIELDS = { sChannel: 'channelName', sHandle: 'handle', sReelLang: 'reelLang', sTts: 'ttsProvider', sGemModel: 'geminiTtsModel', sGemStyle: 'geminiStyle', sGemA: 'gemVoiceA', sGemB: 'gemVoiceB', sAzKey: 'azureKey', sAzRegion: 'azureRegion', sAzA: 'azVoiceA', sAzB: 'azVoiceB', sAzRate: 'azRate', sOaA: 'oaVoiceA', sOaB: 'oaVoiceB', sOaModel: 'oaTtsModel', sOaStyle: 'oaStyle', sKey: 'elevenKey', sModel: 'elevenModel', sProxy: 'proxyUrl', sPixabay: 'pixabayKey', sPexels: 'pexelsKey', sCoverr: 'coverrKey', sGhToken: 'ghToken', sSi: 'siKey', sFreesound: 'freesoundKey', sClaude: 'claudeKey', sClaudeModel: 'claudeModel', sAiProv: 'aiProvider', sGemini: 'geminiKey', sGroq: 'groqKey', sOr: 'orKey', sOpenai: 'openaiKey', sAiModel: 'aiModel' };
 const FX_SLIDERS = [['bass', 'جهارة الطبقات (Bass)', -6, 6, 0.5], ['presence', 'وضوح الكلام (Presence)', -6, 6, 0.5], ['air', 'لمعة (Air)', -6, 6, 0.5], ['comp', 'ضغط ديناميكي', 0, 1, 0.05], ['deess', 'تخفيف السين والشين', 0, 1, 0.05], ['room', 'صدى / مساحة', 0, 0.4, 0.02], ['echo', 'صدى متكرر (Echo)', 0, 0.6, 0.02]];
 const STYLE_PRESETS = {
   '': { name: '— اختار —' },
