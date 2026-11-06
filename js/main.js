@@ -1,29 +1,29 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw5j63fx';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw5j63fx';
-import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw5j63fx';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw5j63fx';
-import { transcribeWords, alignWords } from './align.js?v=mw5j63fx';
-import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw5j63fx';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw5j63fx';
-import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mw5j63fx';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw5j63fx';
-import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw5j63fx';
-import { exportSupport, exportReel } from './export.js?v=mw5j63fx';
-import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw5j63fx';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw5j63fx';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw5j63fx';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw5j63fx';
-import { detailTarget, loadTileMap } from './tiles.js?v=mw5j63fx';
-import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw5j63fx';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw5j63fx';
-import { loadBg, playBg, seekBg } from './bg.js?v=mw5j63fx';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw5j63fx';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw5j63fx';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw5j63fx';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw5j63fx';
-import { readUrl, cleanPasted } from './reader.js?v=mw5j63fx';
-import { initI18n, ui } from './i18n.js?v=mw5j63fx';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw5j63fx';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw5kfhop';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw5kfhop';
+import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw5kfhop';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw5kfhop';
+import { transcribeWords, alignWords } from './align.js?v=mw5kfhop';
+import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw5kfhop';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw5kfhop';
+import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mw5kfhop';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw5kfhop';
+import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw5kfhop';
+import { exportSupport, exportReel } from './export.js?v=mw5kfhop';
+import { PROVIDERS, searchAll, fetchBlob } from './media.js?v=mw5kfhop';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw5kfhop';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw5kfhop';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw5kfhop';
+import { detailTarget, loadTileMap } from './tiles.js?v=mw5kfhop';
+import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw5kfhop';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw5kfhop';
+import { loadBg, playBg, seekBg } from './bg.js?v=mw5kfhop';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw5kfhop';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw5kfhop';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw5kfhop';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw5kfhop';
+import { readUrl, cleanPasted } from './reader.js?v=mw5kfhop';
+import { initI18n, ui } from './i18n.js?v=mw5kfhop';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw5kfhop';
 
 initI18n();
 
@@ -3603,7 +3603,7 @@ let mItems = [];
 function renderMediaTarget() {
   const st = story();
   $('mTarget').innerHTML = `الوسيط هيتحط خلفية للخبر <b>${cur + 1}</b>${st.headline ? ` «${esc(st.headline.slice(0, 40))}»` : ''}. غيّر الخبر من الاستوديو.`;
-  $('mProv').innerHTML = Object.entries(PROVIDERS).map(([k, p]) => `<button class="chip ${mProv.includes(k) ? 'on' : ''}" data-p="${k}" title="${esc(p.area)}">${p.name}${p.cors === false ? ' 🔌' : ''}</button>`).join('') + '<span class="muted"> 🔌 = تحميل الملف محتاج الوسيط (الإعدادات)</span>';
+  $('mProv').innerHTML = Object.entries(PROVIDERS).map(([k, p]) => `<button class="chip ${mProv.includes(k) ? 'on' : ''}" data-p="${k}" title="${esc(p.area)}${p.key && !getSettings()[p.key] ? ' — محتاج مفتاح في الإعدادات' : ''}">${p.name}${p.key && !getSettings()[p.key] ? ' 🔑' : ''}${p.cors === false ? ' 🔌' : ''}</button>`).join('') + '<span class="muted"> 🔑 = محتاج مفتاح في الإعدادات • 🔌 = تحميل الملف محتاج الوسيط (الإعدادات)</span>';
 }
 $('mProv').addEventListener('click', e => {
   const k = e.target.dataset.p;
@@ -3656,9 +3656,25 @@ $('mGrid').addEventListener('click', async e => {
   btn.textContent = 'استخدم';
 });
 
+// رابط الوسيط (workers.dev) اتلزق في خانة رابط الملف بالغلط: نعرض نحفظه في الإعدادات
+function proxyPasted(url) {
+  let h = ''; try { h = new URL(url).hostname; } catch { return false; }
+  if (!h.endsWith('.workers.dev')) return false;
+  const base = 'https://' + h;
+  if (getSettings().proxyUrl === base) { $('uMsg').textContent = '✅ ده رابط الوسيط، وهو محفوظ في الإعدادات أصلًا. الخانة دي لرابط صورة أو فيديو بس، فامسحه منها.'; return true; }
+  if (confirm(`ده رابط «الوسيط» (Cloudflare Worker)، ومكانه في الإعدادات مش هنا.\nأحفظه في الإعدادات دلوقتي؟\n${base}`)) {
+    setSettings({ proxyUrl: base }); if ($('sProxy')) $('sProxy').value = base;
+    $('uUrl').value = '';
+    $('uMsg').textContent = '✅ اتحفظ رابط الوسيط في الإعدادات. الخانة دي لرابط صورة أو فيديو مباشر بس.';
+  } else $('uMsg').textContent = 'ده رابط الوسيط: مكانه الإعدادات ← «رابط الوسيط (Cloudflare Worker)».';
+  return true;
+}
+$('uUrl').addEventListener('change', () => proxyPasted($('uUrl').value.trim()));
+
 $('uGo').addEventListener('click', async () => {
   const url = $('uUrl').value.trim();
   if (!/^https?:\/\//.test(url)) return ($('uMsg').textContent = 'اكتب رابط صحيح.');
+  if (proxyPasted(url)) return;
   if (!$('uOk').checked) return ($('uMsg').textContent = 'أكّد الترخيص الأول.');
   if (!$('uCredit').value.trim() || !$('uLicense').value.trim()) return ($('uMsg').textContent = 'الحقوق والترخيص إجباريين.');
   $('uMsg').textContent = 'بحمّل…';
