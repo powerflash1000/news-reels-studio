@@ -1775,4 +1775,9 @@ export default {
   "📰 خبر {}": "📰 Story {}",
   "أدب وثقافة": "Literature & Culture",
   "الاقتباسات من الكتب أو القصايد قصيرة ومنسوبة لصاحبها، ومفيش صور أغلفة أو لوحات محمية من غير إذن (غير الملكية العامة).": "Quotes from books or poems are short and attributed, and no protected covers or paintings are used without permission (except public domain).",
+  "ده رابط مشاركة من {}: صفحة محمية بحسابك، مش ملف، فالموقع بيرفض يدّيه لأي برنامج تاني.": "This is a share link from {}: a page protected by your account, not a file, so the site refuses to hand it to another app.",
+  "الحل: افتح الرابط ← دوس زرار التنزيل (⬇ Download) ← وبعدين هنا دوس «📥 حط الملف المولّد» واختار الملف اللي نزل.": "Fix: open the link → press Download (⬇) → then here press «📥 حط الملف المولّد» and pick the downloaded file.",
+  "الموقع ({}) رفض يدّي الملف للتطبيق (حماية من التحميل من مواقع تانية).": "The site ({}) refused to hand the file to the app (cross-site download protection).",
+  "نزّل الملف على جهازك من الموقع نفسه، وبعدين ارفعه من «📥 حط الملف المولّد» أو «📁 من جهازي».{}": "Download the file from the site itself, then upload it with «📥 حط الملف المولّد» or «📁 من جهازي».{}",
+  " (Google Drive: خلّي الملف «أي حد معاه الرابط»، والملفات الكبيرة مبتنزلش مباشر.)": " (Google Drive: set the file to «Anyone with the link»; large files can't be downloaded directly.)",
 };
