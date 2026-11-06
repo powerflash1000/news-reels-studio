@@ -2,7 +2,7 @@
 // شكل النتيجة: { id, provider, type:'image'|'video', title, thumb, url, page, author, license, licenseUrl, tier, credit, width, height, duration, size }
 //   tier: 'free' = ملك عام / CC0 / سياسة NASA (من غير شرط)، 'attr' = لازم نسب (CC BY / BY-SA / Pixabay)
 // أي ترخيص فيه NC أو ND أو مش واضح بيتستبعد.
-import { getSettings } from './storage.js?v=mw5hft60';
+import { getSettings } from './storage.js?v=mw5j63fx';
 
 const strip = html => String(html || '').replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#0?39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/\s+/g, ' ').trim();
 const https = u => String(u || '').replace(/^http:\/\//i, 'https://');
@@ -193,6 +193,26 @@ async function pixabay(q, type) {
   }).filter(Boolean);
 }
 
+/* ---------------- Pexels (مفتاح مجاني لو عندك مفتاح) ---------------- */
+// أصغر ملف mp4 ضلعه الصغير >= 720 (التحميل والتصدير يفضلوا سريعين)
+function pexelsFile(files) {
+  const mp4 = (files || []).filter(f => f.file_type === 'video/mp4' && f.width && f.height).sort((a, b) => Math.min(a.width, a.height) - Math.min(b.width, b.height));
+  return mp4.find(f => Math.min(f.width, f.height) >= 720) || mp4[mp4.length - 1];
+}
+async function pexels(q, type) {
+  const key = getSettings().pexelsKey;
+  if (!key) throw new Error('محتاج مفتاح Pexels في الإعدادات.');
+  const vid = type === 'video';
+  const res = await fetch(`${vid ? 'https://api.pexels.com/videos/search' : 'https://api.pexels.com/v1/search'}?query=${encodeURIComponent(q)}&per_page=24`, { headers: { Authorization: key } });
+  if (!res.ok) throw new Error('Pexels: HTTP ' + res.status + (res.status === 401 || res.status === 403 ? ' (المفتاح غلط)' : ''));
+  const j = await res.json();
+  const lic = { license: 'Pexels License', licenseUrl: 'https://www.pexels.com/license/', tier: 'free' };
+  const out = vid
+    ? (j.videos || []).map(v => { const f = pexelsFile(v.video_files); return f && mk({ id: 'pexels:v' + v.id, provider: 'pexels', type: 'video', title: (v.url || '').split('/').filter(Boolean).pop()?.replace(/-\d+$/, '').replace(/-/g, ' ') || 'Pexels video', thumb: v.image, url: f.link, page: v.url, author: v.user?.name || '', width: f.width, height: f.height, duration: v.duration || 0, ...lic }); })
+    : (j.photos || []).map(ph => mk({ id: 'pexels:i' + ph.id, provider: 'pexels', type: 'image', title: ph.alt || 'Pexels photo', thumb: ph.src?.medium, url: ph.src?.large2x || ph.src?.original, page: ph.url, author: ph.photographer || '', width: ph.width, height: ph.height, ...lic }));
+  return out.filter(Boolean).map(o => (o.credit = `${o.author ? o.author + ' — ' : ''}Pexels`, o));
+}
+
 // cors:false = البحث شغّال من المتصفح، لكن ملفات المصدر مبتسمحش بتحميلها من المتصفح (اتفحصت من GitHub Actions)،
 // فتحميلها محتاج «الوسيط» (Cloudflare Worker) — المعاينة والبحث والرابط الأصلي شغّالين من غيره.
 export const PROVIDERS = {
@@ -201,7 +221,8 @@ export const PROVIDERS = {
   openverse: { name: 'Openverse', types: ['image'], search: openverse, area: 'صور عامة (CC)', cors: true },
   archive: { name: 'Internet Archive', types: ['video'], search: archive, resolve: archiveResolve, area: 'فيديو أرشيفي: أفلام Prelinger وجرايد Universal Newsreels القديمة', cors: false },
   smithsonian: { name: 'Smithsonian', types: ['image'], search: smithsonian, area: 'متاحف وتاريخ وغرائب (CC0)', cors: false },
-  pixabay: { name: 'Pixabay', types: ['image', 'video'], search: pixabay, area: 'خلفيات عامة (مفتاح مجاني)', cors: true },
+  pexels: { name: 'Pexels', types: ['image', 'video'], search: pexels, area: 'صور وفيديو عامة (مفتاح)', cors: true, key: 'pexelsKey' },
+  pixabay: { name: 'Pixabay', types: ['image', 'video'], search: pixabay, area: 'خلفيات عامة (مفتاح مجاني)', cors: true, key: 'pixabayKey' },
 };
 
 // بيدور في المصادر المختارة بالتوازي، وأي مصدر يفشل بيتسجل خطؤه من غير ما يوقف الباقي

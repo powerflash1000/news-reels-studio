@@ -339,3 +339,12 @@ dialog.bmdlg[open] { display: flex; }
 .bmright .row input:not([type=range]), .bmright .row select { width: auto; }
 .bmright .row #bmQ { flex: 1; }
 .bmcur input[type=range] { width: 200px; }
+.bmline .d { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.bmline .bmed { padding: 2px 8px; font-size: 12px; }
+.bmedit { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.bmedit textarea { flex: 1 1 100%; font-size: 15px; min-height: 56px; }
+.bmedit select { width: auto; }
+.bmprov { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; margin: 4px 0; }
+.bmgen { margin: 6px 0; padding: 6px 8px; border: 1px solid var(--line); border-radius: 8px; }
+.bmgen summary { cursor: pointer; font-weight: 700; }
+.bmgen textarea { width: 100%; font-size: 13px; }
