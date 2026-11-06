@@ -291,3 +291,16 @@ dialog.crdlg { max-width: min(1100px, 96vw); width: 96vw; }
 .crstage canvas { position: absolute; inset: 0; width: 100%; height: 100%; cursor: crosshair; touch-action: none; }
 #crT[hidden], #crStop[hidden], #crGo[hidden], #crAll[hidden] { display: none; }
 #crAsp { width: auto; }
+
+/* ⏱ التايم لاين تحت المعاينة */
+.tlbox { margin: 8px 0; }
+.tlbar { position: relative; background: #0b1020; border: 1px solid var(--line); border-radius: 10px; padding: 4px 0; cursor: pointer; user-select: none; }
+.tlrow { position: relative; height: 22px; margin: 3px 0; }
+.tlrow .tlb { position: absolute; top: 0; height: 100%; border-radius: 5px; overflow: hidden; white-space: nowrap; font-size: 10px; line-height: 22px; padding: 0 3px; color: #fff; box-sizing: border-box; border: 1px solid rgba(0,0,0,.35); text-overflow: ellipsis; }
+.tlrow .tlb.sel { outline: 2px solid #fff; z-index: 2; }
+.tlrow .tlb img { height: 100%; width: auto; vertical-align: top; margin-inline-end: 3px; border-radius: 3px; }
+.tlrow.tlst { height: 16px; } .tlrow.tlst .tlb { line-height: 16px; }
+#tlHead { position: absolute; top: 0; bottom: 0; width: 2px; background: #ff6369; pointer-events: none; z-index: 3; }
+.tlsel { font-size: 12.5px; margin-top: 4px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.tlsel:empty { display: none; }
+.tlsel .btn { padding: 2px 8px; font-size: 12px; }
