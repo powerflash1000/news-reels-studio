@@ -2,7 +2,7 @@
 // شكل النتيجة: { id, provider, type:'image'|'video', title, thumb, url, page, author, license, licenseUrl, tier, credit, width, height, duration, size }
 //   tier: 'free' = ملك عام / CC0 / سياسة NASA (من غير شرط)، 'attr' = لازم نسب (CC BY / BY-SA / Pixabay)
 // أي ترخيص فيه NC أو ND أو مش واضح بيتستبعد.
-import { getSettings } from './storage.js?v=mw5ktsd9';
+import { getSettings } from './storage.js?v=mw5l428a';
 
 const strip = html => String(html || '').replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#0?39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/\s+/g, ' ').trim();
 const https = u => String(u || '').replace(/^http:\/\//i, 'https://');
@@ -223,6 +223,72 @@ async function pexels(q, type) {
   return out.filter(Boolean).map(o => (o.credit = `${o.author ? o.author + ' — ' : ''}Pexels`, o));
 }
 
+/* ---------------- Coverr (مفتاح مجاني، حوالي 50 طلب في الساعة) ---------------- */
+// شكل الرد اتكتب من الذاكرة (api.coverr.co مكانش متاح من بيئة التطوير): المحلّل متسامح مع أكتر من شكل
+async function apiFetch(api, headers) {
+  try { return await fetch(api, { headers }); }
+  catch {
+    const { proxyUrl } = getSettings();
+    if (!proxyUrl) throw new Error('المتصفح منع الاتصال. حط «رابط الوسيط» في الإعدادات.');
+    const res = await fetch(`${proxyUrl.replace(/\/+$/, '')}/?url=${encodeURIComponent(api)}`, { headers }).catch(() => null);
+    if (!res) throw new Error('مقدرتش أوصل حتى عن طريق الوسيط.');
+    if (res.status === 403 && /host not allowed/.test(await res.clone().text().catch(() => ''))) throw new Error('الوسيط محتاج النسخة الجديدة من الكود. الصقها في Cloudflare ودوس Deploy.');
+    return res;
+  }
+}
+async function coverr(q, type) {
+  const key = getSettings().coverrKey;
+  if (!key) throw new Error('محتاج مفتاح Coverr في الإعدادات.');
+  if (type === 'image') return [];
+  const api = `https://api.coverr.co/videos?query=${encodeURIComponent(q)}&page_size=24&urls=true&api_key=${encodeURIComponent(key)}`;
+  const res = await apiFetch(api, { Authorization: 'Bearer ' + key });
+  if (res.status === 429) throw new Error('خلص حد الطلبات (حوالي 50 في الساعة). استنى شوية.');
+  if (!res.ok) throw new Error('HTTP ' + res.status + (res.status === 401 || res.status === 403 ? ' (المفتاح غلط أو لسه مش متفعّل)' : ''));
+  const j = await res.json();
+  const list = j.hits || j.videos || j.data || j.results || (Array.isArray(j) ? j : []);
+  return list.map(v => {
+    const u = v.urls || v.url || {};
+    const file = (typeof u === 'string' ? u : u.mp4_download || u.mp4 || u.mp4_preview) || v.mp4 || v.video_url || '';
+    if (!file) return null;
+    const o = mk({ id: 'coverr:' + (v.id || v.slug || file), provider: 'coverr', type: 'video', title: v.title || v.name || 'Coverr video', thumb: v.thumbnail || v.poster || v.thumbnail_url || v.image || '', url: file,
+      page: v.url_page || (v.slug ? `https://coverr.co/videos/${v.slug}` : 'https://coverr.co'), author: v.author?.name || v.user?.name || '', width: v.max_width || v.width || 0, height: v.max_height || v.height || 0,
+      duration: Number(v.duration) || 0, license: 'Coverr License', licenseUrl: 'https://coverr.co/license', tier: 'free' });
+    o.credit = 'Coverr';
+    return o;
+  }).filter(Boolean);
+}
+
+// 🔗 لينك صفحة فيديو من موقع ستوك (Mixkit / Coverr / Pexels / Pixabay): بنجيب الصفحة دي بس (مش نتايج بحث) ونطلّع منها ملف mp4
+export const STOCK_PAGE_HOSTS = { 'mixkit.co': 'Mixkit', 'coverr.co': 'Coverr', 'pexels.com': 'Pexels', 'pixabay.com': 'Pixabay' };
+export const stockSiteOf = url => { let h = ''; try { h = new URL(url).hostname; } catch { return null; } const k = Object.keys(STOCK_PAGE_HOSTS).find(d => h === d || h.endsWith('.' + d)); return k ? STOCK_PAGE_HOSTS[k] : null; };
+async function getVia(url) {
+  try { const r = await fetch(url, { signal: AbortSignal.timeout(60000) }); if (r.ok) return r; } catch { /* نجرب الوسيط */ }
+  const r = await viaProxy(url).catch(() => null);
+  if (r?.ok) return r;
+  if (r?.status === 403 && /host not allowed/.test(await r.clone().text().catch(() => ''))) throw new Error('الوسيط محتاج النسخة الجديدة من الكود (فيها Mixkit و Coverr). الصقها في Cloudflare ودوس Deploy.');
+  throw new Error(getSettings().proxyUrl ? `الموقع رفض (HTTP ${r?.status || '؟'}).` : 'الموقع منع التحميل من المتصفح. حط «رابط الوسيط» في الإعدادات.');
+}
+export async function fileFromStockPage(url) {
+  const site = stockSiteOf(url) || '';
+  const name = u => (u.split(/[?#]/)[0].split('/').filter(Boolean).pop() || 'stock').replace(/[^\w.-]+/g, '_');
+  const r = await getVia(url);
+  const type = r.headers.get('content-type') || '';
+  if (/^(video|image)\//.test(type)) { const b = await r.blob(); return { file: new File([b], name(url), { type: b.type }), site, page: url }; }
+  const html = await r.text();
+  const found = [...new Set((html.match(/https?:\/\/[^"'\s<>\\]+?\.mp4(?:\?[^"'\s<>\\]*)?/gi) || []).map(u => u.replace(/&amp;/g, '&')))];
+  const og = /<meta[^>]+property=["']og:video(?::url|:secure_url)?["'][^>]+content=["']([^"']+)/i.exec(html)?.[1];
+  if (og && /\.mp4/i.test(og)) found.unshift(og.replace(/&amp;/g, '&'));
+  if (!found.length) throw new Error('مالقيتش ملف فيديو في الصفحة دي. افتح الفيديو نفسه، وكليك يمين عليه ← «Copy video address»، والصق الرابط ده.');
+  const rank = u => (/2160|4k/i.test(u) ? 1 : /1080/.test(u) ? 4 : /720|large|hd/i.test(u) ? 3 : /360|small|preview|tiny/i.test(u) ? 1 : 2);
+  found.sort((a, b) => rank(b) - rank(a));
+  let last;
+  for (const u of found.slice(0, 4)) {
+    try { const b = await (await getVia(u)).blob(); if (b.size > 50000) return { file: new File([b], name(u), { type: b.type.startsWith('video/') ? b.type : 'video/mp4' }), site, page: url }; }
+    catch (e) { last = e; }
+  }
+  throw last || new Error('الملف ما اتحمّلش.');
+}
+
 // cors:false = البحث شغّال من المتصفح، لكن ملفات المصدر مبتسمحش بتحميلها من المتصفح (اتفحصت من GitHub Actions)،
 // فتحميلها محتاج «الوسيط» (Cloudflare Worker) — المعاينة والبحث والرابط الأصلي شغّالين من غيره.
 export const PROVIDERS = {
@@ -231,6 +297,7 @@ export const PROVIDERS = {
   openverse: { name: 'Openverse', types: ['image'], search: openverse, area: 'صور عامة (CC)', cors: true },
   archive: { name: 'Internet Archive', types: ['video'], search: archive, resolve: archiveResolve, area: 'فيديو أرشيفي: أفلام Prelinger وجرايد Universal Newsreels القديمة', cors: false },
   smithsonian: { name: 'Smithsonian', types: ['image'], search: smithsonian, area: 'متاحف وتاريخ وغرائب (CC0)', cors: false },
+  coverr: { name: 'Coverr', types: ['video'], search: coverr, area: 'فيديو ستوك (مفتاح مجاني، ~50 بحث في الساعة)', cors: true, key: 'coverrKey' },
   pexels: { name: 'Pexels', types: ['image', 'video'], search: pexels, area: 'صور وفيديو عامة (مفتاح)', cors: true, key: 'pexelsKey' },
   pixabay: { name: 'Pixabay', types: ['image', 'video'], search: pixabay, area: 'خلفيات عامة (مفتاح مجاني)', cors: true, key: 'pixabayKey' },
 };
