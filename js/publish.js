@@ -1,5 +1,5 @@
 // M4: حزمة النشر (عناوين/وصف/هاشتاجات/مصادر/حقوق وسائط) + سجل التجارب. دوال خالصة من غير DOM.
-import { MED_DISCLAIMER } from './reel.js?v=mw5cov80';
+import { MED_DISCLAIMER } from './reel.js?v=mw5df48n';
 
 export const PLATFORMS = { tiktok: 'تيك توك', instagram: 'إنستجرام', facebook: 'فيسبوك', shorts: 'يوتيوب شورتس', youtube: 'يوتيوب (فيديو عريض)' };
 export const ENGAGE = ['likes', 'comments', 'shares', 'saves'];
@@ -8,13 +8,13 @@ const TAGS = {
   politics: ['#سياسة', '#أخبار_العالم'], economy: ['#اقتصاد', '#أسواق'], sports: ['#رياضة', '#كرة_القدم'],
   science: ['#علوم', '#فضاء'], health: ['#صحة', '#طب'], healthtech: ['#تقنية_طبية', '#صحة_رقمية'],
   ai: ['#ذكاء_اصطناعي', '#AI'], defense: ['#دفاع', '#عسكري'], stories: ['#قصص', '#وثائقي'],
-  entertainment: ['#فن', '#ترفيه'], lifestyle: ['#موضة', '#لايف_ستايل', '#جمال'], tech: ['#تقنية', '#تكنولوجيا'], trending: ['#ترند', '#تريند'],
+  entertainment: ['#فن', '#ترفيه'], lifestyle: ['#موضة', '#لايف_ستايل', '#جمال'], culture: ['#أدب', '#ثقافة', '#كتب'], tech: ['#تقنية', '#تكنولوجيا'], trending: ['#ترند', '#تريند'],
 };
 const TAGS_EN = {
   politics: ['#politics', '#worldnews'], economy: ['#economy', '#markets'], sports: ['#sports', '#football'],
   science: ['#science', '#space'], health: ['#health', '#medicine'], healthtech: ['#healthtech', '#digitalhealth'],
   ai: ['#AI', '#artificialintelligence'], defense: ['#defense', '#military'], stories: ['#stories', '#documentary'],
-  entertainment: ['#entertainment', '#celebrity'], lifestyle: ['#fashion', '#lifestyle', '#beauty'], tech: ['#tech', '#technology'], trending: ['#trending', '#viral'],
+  entertainment: ['#entertainment', '#celebrity'], lifestyle: ['#fashion', '#lifestyle', '#beauty'], culture: ['#books', '#literature', '#culture'], tech: ['#tech', '#technology'], trending: ['#trending', '#viral'],
 };
 const GENERAL = ['#أخبار', '#ريلز', '#news'];
 const GENERAL_EN = ['#news', '#reels', '#breakingnews'];

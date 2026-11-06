@@ -1,11 +1,11 @@
 // وضع اللايف: شاشة بث مستمرة (طابور + دورة خلفية + شاشة انتظار) وبث لعدة منصات عن طريق وسيط محلي (tools/live-relay.mjs)
-import { normalizeReel, buildReelTimeline, allLines, lineKey } from './reel.js?v=mw5cov80';
-import { peekLine, pvOf, TTS_PROVIDERS } from './tts.js?v=mw5cov80';
-import { audioCtx, mixTimeline, decode, SAMPLE_RATE } from './audio.js?v=mw5cov80';
-import { drawFrame, drawSlate } from './render.js?v=mw5cov80';
-import { loadBg, playBg } from './bg.js?v=mw5cov80';
-import { getBlob } from './mediastore.js?v=mw5cov80';
-import { getSettings } from './storage.js?v=mw5cov80';
+import { normalizeReel, buildReelTimeline, allLines, lineKey } from './reel.js?v=mw5df48n';
+import { peekLine, pvOf, TTS_PROVIDERS } from './tts.js?v=mw5df48n';
+import { audioCtx, mixTimeline, decode, SAMPLE_RATE } from './audio.js?v=mw5df48n';
+import { drawFrame, drawSlate, sceneAt, clipSegAt } from './render.js?v=mw5df48n';
+import { loadBg, playBg } from './bg.js?v=mw5df48n';
+import { getBlob } from './mediastore.js?v=mw5df48n';
+import { getSettings } from './storage.js?v=mw5df48n';
 
 // بيجهّز ريل للتشغيل. من غير opts: الصوت من الكاش (من غير رصيد). مع opts.audioMap/manual: من الاستوديو مباشرة (من غير حفظ)
 export async function prepare(raw, opts = {}) {
@@ -136,8 +136,17 @@ export function createEngine(canvas, env) {
       cur.st.reel.ticker = tk ? { on: true, text: tk, label: cur.p.reel.ticker?.label || '' } : cur.p.reel.ticker;
       cur.st.reel.format = env.getFmt();
       const k = cur.st.tl.stories.findIndex(x => t >= x.start && t < x.end);
-      const active = k >= 0 ? cur.st.reel.stories[cur.st.tl.stories[k].idx]?.id : null;
-      for (const [id, b] of cur.p.bgs) playBg(b, id === active);
+      const ent = k >= 0 ? cur.st.tl.stories[k] : null;
+      const active = ent ? cur.st.reel.stories[ent.idx]?.id : null;
+      // نفس منطق معاينة الاستوديو: مقطع القناة > مشهد المونتاج > خلفية الخبر، والمقطع وفيديو الظهور على توقيت الصوت بالظبط
+      const sc = ent && ent.idx >= 0 ? sceneAt(cur.st, t, ent.idx) : null;
+      const scId = sc && !sc.cur.media.none ? sc.cur.media.id : null;
+      const cs = clipSegAt(cur.st, t), clipId = cs?.clip.id;
+      const want = clipId || scId || active;
+      for (const [id, b] of cur.p.bgs) playBg(b, id === want);
+      const sync = (b, pos) => { if (b?.el && Math.abs(b.el.currentTime - pos) > 0.25) try { b.el.currentTime = Math.max(0, pos); } catch { /* لسه بيحمّل */ } };
+      if (clipId) sync(cur.p.bgs.get(clipId), (cs.clip.in || 0) + t - cs.start);
+      else if (scId && sc.cur.media.presenter) sync(cur.p.bgs.get(scId), t - sc.start);
       drawFrame(ctx, cur.st, t);
     } else {
       const reel = { format: env.getFmt(), lang: getSettings().reelLang || 'ar', stories: [], ticker: { on: !!env.getTicker(), text: env.getTicker(), label: '' }, bumpers: {} };

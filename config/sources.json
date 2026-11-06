@@ -78,6 +78,12 @@
    "label": "موضة ولايف ستايل",
    "color": "#c9a227",
    "en": "Fashion & Lifestyle"
+  },
+  {
+   "id": "culture",
+   "label": "أدب وثقافة",
+   "color": "#8e4ec6",
+   "en": "Literature & Culture"
   }
  ],
  "feeds": [
@@ -2976,6 +2982,134 @@
    "fmt": "gnews",
    "keepDays": 4,
    "limit": 15
+  },
+  {
+   "id": "guardian-books",
+   "category": "culture",
+   "name": "The Guardian — Books",
+   "url": "https://www.theguardian.com/books/rss",
+   "lang": "en",
+   "type": "specialist",
+   "region": "eu",
+   "weight": 1.1
+  },
+  {
+   "id": "nyt-books",
+   "category": "culture",
+   "name": "New York Times — Books",
+   "url": "https://rss.nytimes.com/services/xml/rss/nyt/Books.xml",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1.1
+  },
+  {
+   "id": "lithub",
+   "category": "culture",
+   "name": "Literary Hub",
+   "url": "https://lithub.com/feed/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1.0
+  },
+  {
+   "id": "paris-review",
+   "category": "culture",
+   "name": "The Paris Review",
+   "url": "https://www.theparisreview.org/blog/feed/",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 0.9
+  },
+  {
+   "id": "newyorker-books",
+   "category": "culture",
+   "name": "The New Yorker — Books & Culture",
+   "url": "https://www.newyorker.com/feed/culture",
+   "lang": "en",
+   "type": "specialist",
+   "region": "us",
+   "weight": 1.0
+  },
+  {
+   "id": "guardian-art",
+   "category": "culture",
+   "name": "The Guardian — Art & Design",
+   "url": "https://www.theguardian.com/artanddesign/rss",
+   "lang": "en",
+   "type": "specialist",
+   "region": "eu",
+   "weight": 0.9
+  },
+  {
+   "id": "aeon",
+   "category": "culture",
+   "name": "Aeon (مقالات فكر وفلسفة)",
+   "url": "https://aeon.co/feed.rss",
+   "lang": "en",
+   "type": "specialist",
+   "region": "world",
+   "weight": 0.9
+  },
+  {
+   "id": "nobel-news",
+   "category": "culture",
+   "name": "Nobel Prize — News",
+   "url": "https://www.nobelprize.org/feed/",
+   "lang": "en",
+   "type": "official",
+   "region": "world",
+   "weight": 0.8
+  },
+  {
+   "id": "gn-books-en",
+   "category": "culture",
+   "name": "Books & literature (عبر Google News)",
+   "url": "https://news.google.com/rss/search?q=books+OR+novel+OR+%22literary+prize%22+OR+author+when:3d&hl=en-US&gl=US&ceid=US:en",
+   "lang": "en",
+   "type": "radar",
+   "region": "world",
+   "weight": 0.9,
+   "keepDays": 3,
+   "fmt": "gnews"
+  },
+  {
+   "id": "gn-adab-ar",
+   "category": "culture",
+   "name": "أدب وروايات (عبر Google News)",
+   "url": "https://news.google.com/rss/search?q=%D8%B1%D9%88%D8%A7%D9%8A%D8%A9+OR+%D8%A3%D8%AF%D8%A8+OR+%D8%B4%D8%A7%D8%B9%D8%B1+OR+%D9%83%D8%A7%D8%AA%D8%A8+when:3d&hl=ar&gl=EG&ceid=EG:ar",
+   "lang": "ar",
+   "type": "radar",
+   "region": "arab",
+   "weight": 1.0,
+   "keepDays": 3,
+   "fmt": "gnews"
+  },
+  {
+   "id": "gn-thaqafa-ar",
+   "category": "culture",
+   "name": "ثقافة ومعارض ومتاحف (عبر Google News)",
+   "url": "https://news.google.com/rss/search?q=%22%D9%85%D8%B9%D8%B1%D8%B6+%D8%A7%D9%84%D9%83%D8%AA%D8%A7%D8%A8%22+OR+%D9%85%D8%AA%D8%AD%D9%81+OR+%D9%88%D8%B2%D8%A7%D8%B1%D8%A9+%D8%A7%D9%84%D8%AB%D9%82%D8%A7%D9%81%D8%A9+OR+%D8%AC%D8%A7%D8%A6%D8%B2%D8%A9+%D8%A3%D8%AF%D8%A8%D9%8A%D8%A9+when:3d&hl=ar&gl=EG&ceid=EG:ar",
+   "lang": "ar",
+   "type": "radar",
+   "region": "arab",
+   "weight": 1.0,
+   "keepDays": 3,
+   "fmt": "gnews"
+  },
+  {
+   "id": "gn-booker-ar",
+   "category": "culture",
+   "name": "البوكر العربية وجوائز الرواية (عبر Google News)",
+   "url": "https://news.google.com/rss/search?q=%22%D8%A7%D9%84%D8%AC%D8%A7%D8%A6%D8%B2%D8%A9+%D8%A7%D9%84%D8%B9%D8%A7%D9%84%D9%85%D9%8A%D8%A9+%D9%84%D9%84%D8%B1%D9%88%D8%A7%D9%8A%D8%A9+%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9%22+OR+%22%D8%AC%D8%A7%D8%A6%D8%B2%D8%A9+%D9%86%D8%AC%D9%8A%D8%A8+%D9%85%D8%AD%D9%81%D9%88%D8%B8%22+OR+%22%D8%AC%D8%A7%D8%A6%D8%B2%D8%A9+%D8%A7%D9%84%D8%B4%D9%8A%D8%AE+%D8%B2%D8%A7%D9%8A%D8%AF+%D9%84%D9%84%D9%83%D8%AA%D8%A7%D8%A8%22+when:14d&hl=ar&gl=EG&ceid=EG:ar",
+   "lang": "ar",
+   "type": "radar",
+   "region": "arab",
+   "weight": 0.9,
+   "keepDays": 14,
+   "fmt": "gnews"
   }
  ],
  "youtube": [
