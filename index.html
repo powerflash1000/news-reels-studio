@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mw5lz4mo">
+<html lang="ar" dir="rtl" data-v="mw5nlyw7">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mw5lz4mo">
+<link rel="stylesheet" href="assets/css/style.css?v=mw5nlyw7">
 </head>
 <body>
 <header class="top">
@@ -467,6 +467,13 @@
         </div>
         <div id="scList" class="sclist"></div>
       </details>
+      <div class="card gfxbox">
+        <b>📊 جرافيكس على الشاشة (عدّاد وأرقام)</b>
+        <p class="muted">لما سطر فيه رقم (زي «26 مليون دولار» أو «سنة 1983» أو «40%»)، بيظهر عدّاد بيعدّ لحد الرقم وقت قول السطر ده. البرنامج بيطلّع الأرقام من السكريبت، وأنت تختار وتعدّل.</p>
+        <div class="row"><button id="gfxScan" class="btn pri" type="button">🔎 طلّع الأرقام من السكريبت</button><button id="gfxAi" class="btn" type="button" title="بيفهم الأرقام المكتوبة بالحروف كمان">✨ بالذكاء الاصطناعي</button><button id="gfxAdd" class="btn" type="button">＋ جرافيك يدوي</button></div>
+        <div id="gfxList" class="gfxlist"></div>
+        <div id="gfxMsg" class="muted"></div>
+      </div>
       <div class="card ltbox">
         <label class="chk"><input id="ltOn" type="checkbox"> شريط اسم (Lower third): اسم المتحدث أو الجهة بيظهر أول 6 ثواني (للقالب العادي والعاجل)</label>
         <div id="ltFields" hidden>
@@ -970,6 +977,7 @@
     <div class="bmright">
       <div id="bmSel" class="bmsel muted">اختار سطر من الشمال.</div>
       <div id="bmCur" class="bmcur" hidden></div>
+      <div class="row"><button id="bmGfx" class="btn" type="button" title="عدّاد/رقم/سنة يظهر وقت السطر ده">📊 حط جرافيك (عدّاد) على السطر ده</button></div>
       <div class="row">
         <input id="bmQ" dir="ltr" placeholder="search words (English)…" style="flex:1;min-width:160px">
         <select id="bmType"><option value="video">فيديو</option><option value="image">صور</option><option value="any">الاتنين</option></select>
@@ -1055,6 +1063,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mw5lz4mo"></script>
+<script type="module" src="js/main.js?v=mw5nlyw7"></script>
 </body>
 </html>

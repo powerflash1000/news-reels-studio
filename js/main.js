@@ -1,29 +1,29 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw5lz4mo';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw5lz4mo';
-import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw5lz4mo';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw5lz4mo';
-import { transcribeWords, alignWords } from './align.js?v=mw5lz4mo';
-import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw5lz4mo';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw5lz4mo';
-import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mw5lz4mo';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw5lz4mo';
-import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw5lz4mo';
-import { exportSupport, exportReel } from './export.js?v=mw5lz4mo';
-import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf } from './media.js?v=mw5lz4mo';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw5lz4mo';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw5lz4mo';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw5lz4mo';
-import { detailTarget, loadTileMap } from './tiles.js?v=mw5lz4mo';
-import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw5lz4mo';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw5lz4mo';
-import { loadBg, playBg, seekBg } from './bg.js?v=mw5lz4mo';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw5lz4mo';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw5lz4mo';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw5lz4mo';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw5lz4mo';
-import { readUrl, cleanPasted } from './reader.js?v=mw5lz4mo';
-import { initI18n, ui } from './i18n.js?v=mw5lz4mo';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw5lz4mo';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw5nlyw7';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw5nlyw7';
+import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw5nlyw7';
+import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw5nlyw7';
+import { transcribeWords, alignWords } from './align.js?v=mw5nlyw7';
+import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw5nlyw7';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw5nlyw7';
+import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mw5nlyw7';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw5nlyw7';
+import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw5nlyw7';
+import { exportSupport, exportReel } from './export.js?v=mw5nlyw7';
+import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf } from './media.js?v=mw5nlyw7';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw5nlyw7';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw5nlyw7';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw5nlyw7';
+import { detailTarget, loadTileMap } from './tiles.js?v=mw5nlyw7';
+import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw5nlyw7';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw5nlyw7';
+import { loadBg, playBg, seekBg } from './bg.js?v=mw5nlyw7';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw5nlyw7';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw5nlyw7';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw5nlyw7';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw5nlyw7';
+import { readUrl, cleanPasted } from './reader.js?v=mw5nlyw7';
+import { initI18n, ui } from './i18n.js?v=mw5nlyw7';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw5nlyw7';
 
 initI18n();
 
@@ -401,6 +401,7 @@ function fillForm() {
   renderBgInfo();
   $('bgGp').value = story().bgGen?.prompt || ''; $('bgAiBox').hidden = !$('bgGp').value; $('bgLinkBox').hidden = true; $('bgMsg').textContent = '';
   renderScenes();
+  renderGfx();
   renderClips();
   updateInfo();
   redraw();
@@ -3142,6 +3143,109 @@ $('bmCur').addEventListener('click', e => {
   if (e.target.id !== 'bmUnset') return;
   bmAssign({ id: '__bg', none: true });
   $('bmMsg').textContent = 'السطور دي رجعت لخلفية الخبر العادية.';
+});
+
+// ===== 📊 جرافيكس على الشاشة: story.gfx = [{li, type, value, unit, label, off}] =====
+var GFX_TYPES = { count: '🔢 عدّاد', year: '📅 سنة', pct: '⭕ نسبة', text: '💬 كلمة مهمة' };
+const AR2L = v => String(v).replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[٫]/g, '.').replace(/[٬,](?=\d{3})/g, '');
+const SCALE_RX = '(ألف|آلاف|الف|مليون|ملايين|مليار|مليارات|تريليون|thousand|million|billion|trillion|k|m|bn)';
+const UNIT_RX = '(دولار|جنيه|يورو|ريال|درهم|دينار|إسترليني|استرليني|شخص|أشخاص|قتيل|مصاب|طن|كيلو(?:متر|جرام)?|متر|سنة|سنين|سنوات|عام|يوم|أيام|ساعة|ساعات|دقيقة|نسمة|موظف|سيارة|dollars?|pounds?|euros?|people|tons?|km|years?|days?)';
+// بيطلّع أول رقم مهم من السطر (رقم بالأرقام) مع الوحدة وكلمتين قبله كعنوان
+function detectGfx(text, li) {
+  const t = AR2L(text);
+  const pct = new RegExp('(\\d+(?:\\.\\d+)?)\\s*(%|٪|في المي[هة]|بالمي[هة]|بالمئة|في المائة|percent)', 'i').exec(t);
+  const before = (i) => t.slice(0, i).replace(/[\[\]«»"،,.:؛!?]/g, ' ').trim().split(/\s+/).filter(w => w.length > 1).slice(-3).join(' ');
+  if (pct) return { li, type: 'pct', value: pct[1], unit: '', label: before(pct.index) };
+  const yr = /(?:^|\D)((?:1[5-9]|20)\d{2})(?!\d)/.exec(t);
+  const num = new RegExp(`(\\d+(?:\\.\\d+)?)\\s*${SCALE_RX}?\\s*${UNIT_RX}?`, 'i');
+  let m, best = null;
+  const rx = new RegExp(num.source, 'gi');
+  while ((m = rx.exec(t))) {
+    if (!m[1] || (yr && m.index + m[0].indexOf(m[1]) === yr.index + yr[0].indexOf(yr[1]) && !m[2] && !m[3])) continue;
+    if (!m[2] && !m[3] && parseFloat(m[1]) < 10) continue; // رقم صغير لوحده مش مستاهل
+    best = m; break;
+  }
+  if (best) return { li, type: 'count', value: best[1], unit: [best[2], best[3]].filter(Boolean).join(' '), label: before(best.index) };
+  if (yr) return { li, type: 'year', value: yr[1], unit: '', label: before(yr.index + yr[0].indexOf(yr[1])) };
+  return null;
+}
+function renderGfx() {
+  const st = story(), lines = parseScript(st.script), list = (st.gfx || []).slice().sort((a, b) => a.li - b.li);
+  $('gfxList').innerHTML = list.length ? list.map(g => { const i = st.gfx.indexOf(g); return `<div class="gfxrow${g.off ? ' off' : ''}">
+    <div class="row" style="margin:0"><label class="chk"><input type="checkbox" data-gfxon="${i}" ${g.off ? '' : 'checked'}></label>
+      <select data-gfx="${i}" data-k="li" title="السطر">${lines.map((l, j) => `<option value="${j}" ${j === g.li ? 'selected' : ''}>سطر ${j + 1}</option>`).join('')}</select>
+      <select data-gfx="${i}" data-k="type">${Object.entries(GFX_TYPES).map(([k, v]) => `<option value="${k}" ${k === g.type ? 'selected' : ''}>${v}</option>`).join('')}</select>
+      <button class="btn ghost" data-gfxdel="${i}" type="button">✕</button></div>
+    <div class="tx muted" dir="auto" translate="no">${esc((lines[g.li]?.text || '').slice(0, 90))}</div>
+    <div class="row" style="margin:0"><input data-gfx="${i}" data-k="value" value="${esc(g.value || '')}" placeholder="${g.type === 'text' ? 'الكلمة' : 'الرقم'}" style="max-width:110px" dir="auto"><input data-gfx="${i}" data-k="unit" value="${esc(g.unit || '')}" placeholder="الوحدة (مليون دولار)" style="max-width:150px" dir="auto"><input data-gfx="${i}" data-k="label" value="${esc(g.label || '')}" placeholder="العنوان فوقه" dir="auto"></div></div>`; }).join('') : '<p class="muted">مفيش جرافيكس لسه.</p>';
+}
+function gfxAddFor(li, quiet) {
+  const st = story(), l = parseScript(st.script)[li];
+  if (!l) return null;
+  st.gfx = st.gfx || [];
+  if (st.gfx.some(g => g.li === li)) return 'exists';
+  const g = detectGfx(l.text, li) || { li, type: 'count', value: '', unit: '', label: '' };
+  st.gfx.push(g); persist(); renderGfx(); redraw();
+  return g;
+}
+$('gfxScan').addEventListener('click', () => {
+  readForm();
+  const st = story(), lines = parseScript(st.script);
+  st.gfx = st.gfx || [];
+  let n = 0;
+  lines.forEach((l, li) => { if (st.gfx.some(g => g.li === li)) return; const g = detectGfx(l.text, li); if (g) { st.gfx.push(g); n++; } });
+  persist(); renderGfx(); redraw();
+  $('gfxMsg').textContent = n ? `✅ لقيت ${n} رقم واتحطوا جرافيكس. راجع الرقم والوحدة والعنوان، وشيل اللي مش عايزه.` : 'مالقيتش أرقام مكتوبة بالأرقام في السكريبت. جرّب «✨ بالذكاء الاصطناعي» (بيفهم الأرقام المكتوبة بالحروف) أو «＋ جرافيك يدوي».';
+});
+const GFX_SCHEMA = { type: 'object', properties: { items: { type: 'array', items: { type: 'object', properties: { line: { type: 'integer' }, type: { type: 'string', enum: ['count', 'year', 'pct', 'text'] }, value: { type: 'string' }, unit: { type: 'string' }, label: { type: 'string' } }, required: ['line', 'type', 'value', 'unit', 'label'], additionalProperties: false } } }, required: ['items'], additionalProperties: false };
+$('gfxAi').addEventListener('click', async () => {
+  readForm();
+  const st = story(), lines = parseScript(st.script);
+  if (!lines.length) return ($('gfxMsg').textContent = 'اكتب السكريبت الأول.');
+  const b = $('gfxAi'); b.disabled = true; $('gfxMsg').textContent = '⏳ بيدوّر على الأرقام والكلمات المهمة…';
+  try {
+    const out = await aiJSON({ schema: GFX_SCHEMA, maxTokens: 1500,
+      system: 'You pick on-screen motion graphics for a narrated short video. From the numbered lines, choose at most one graphic per line and at most 6 overall: type "count" for an amount/quantity (value = the number in digits only, unit = scale+unit words in the line language e.g. «مليون دولار»), "year" for a year (value = 4 digits), "pct" for a percentage (value = digits), "text" for one short striking keyword/name (value ≤ 3 words). Convert numbers written in words to digits. Use ONLY numbers and words that literally appear in that line; never invent or round. label = 1-4 words from the line describing what it is. Return JSON {"items":[{"line","type","value","unit","label"}]} with 0-based line numbers.',
+      user: `<lines>\n${lines.map((l, i) => `${i}: ${l.text.replace(/[<>]/g, '')}`).join('\n')}\n</lines>` });
+    st.gfx = st.gfx || [];
+    let n = 0;
+    for (const it of out?.items || []) {
+      if (!(it.line >= 0 && it.line < lines.length) || st.gfx.some(g => g.li === it.line) || !GFX_TYPES[it.type]) continue;
+      st.gfx.push({ li: it.line, type: it.type, value: String(it.value || '').slice(0, 24), unit: String(it.unit || '').slice(0, 30), label: String(it.label || '').slice(0, 40) }); n++;
+    }
+    persist(); renderGfx(); redraw();
+    $('gfxMsg').textContent = n ? `✅ اقترح ${n} جرافيك. راجع إن الأرقام زي الكلام بالظبط.` : 'ما اقترحش حاجة جديدة.';
+  } catch (err) { $('gfxMsg').textContent = '❌ ' + (err.message || err); }
+  b.disabled = false;
+});
+$('gfxAdd').addEventListener('click', () => {
+  readForm();
+  const st = story(), lines = parseScript(st.script);
+  if (!lines.length) return ($('gfxMsg').textContent = 'اكتب السكريبت الأول.');
+  const used = new Set((st.gfx || []).map(g => g.li));
+  const li = lines.findIndex((l, i) => !used.has(i));
+  if (li < 0) return ($('gfxMsg').textContent = 'كل سطر عليه جرافيك. غيّر السطر من القايمة.');
+  gfxAddFor(li);
+  $('gfxMsg').textContent = `اتضاف على السطر ${li + 1}. غيّر السطر والرقم من القايمة.`;
+});
+$('gfxList').addEventListener('input', e => {
+  const i = e.target.dataset.gfx; if (i == null) return;
+  const g = story().gfx[i]; const k = e.target.dataset.k;
+  g[k] = k === 'li' ? Number(e.target.value) : e.target.value;
+  persist(); redraw();
+});
+$('gfxList').addEventListener('change', e => {
+  if (e.target.dataset.gfxon != null) { story().gfx[e.target.dataset.gfxon].off = !e.target.checked; persist(); renderGfx(); return redraw(); }
+  if (e.target.matches('select[data-gfx]')) renderGfx();
+});
+$('gfxList').addEventListener('click', e => {
+  const d = e.target.closest('[data-gfxdel]'); if (!d) return;
+  story().gfx.splice(Number(d.dataset.gfxdel), 1); persist(); renderGfx(); redraw();
+});
+$('bmGfx').addEventListener('click', () => {
+  if (bm.a < 0) return ($('bmMsg').textContent = 'علّم على السطر الأول.');
+  const g = gfxAddFor(bm.a);
+  $('bmMsg').textContent = g === 'exists' ? 'السطر ده عليه جرافيك بالفعل. عدّله من كارت «📊 جرافيكس على الشاشة».' : g?.value ? `✅ اتحط ${GFX_TYPES[g.type]} «${g.value}${g.unit ? ' ' + g.unit : ''}» على السطر ${bm.a + 1}. تعدّله من كارت «📊 جرافيكس على الشاشة».` : `اتحط جرافيك فاضي على السطر ${bm.a + 1} (مالقيتش رقم فيه). اكتب الرقم في كارت «📊 جرافيكس على الشاشة».`;
 });
 
 function renderBgInfo() {
