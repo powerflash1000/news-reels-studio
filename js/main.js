@@ -1,29 +1,29 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw6bvig7';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw6bvig7';
-import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw6bvig7';
-import { GFX_SFX, gfxSfxOf, newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw6bvig7';
-import { transcribeWords, alignWords } from './align.js?v=mw6bvig7';
-import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw6bvig7';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw6bvig7';
-import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mw6bvig7';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw6bvig7';
-import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw6bvig7';
-import { exportSupport, exportReel } from './export.js?v=mw6bvig7';
-import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf } from './media.js?v=mw6bvig7';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw6bvig7';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw6bvig7';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw6bvig7';
-import { detailTarget, loadTileMap } from './tiles.js?v=mw6bvig7';
-import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw6bvig7';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw6bvig7';
-import { loadBg, playBg, seekBg } from './bg.js?v=mw6bvig7';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw6bvig7';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw6bvig7';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw6bvig7';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures, ideaYouTube, ideaFile, ideaText, ideaAngle } from './external.js?v=mw6bvig7';
-import { readUrl, cleanPasted } from './reader.js?v=mw6bvig7';
-import { initI18n, ui } from './i18n.js?v=mw6bvig7';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw6bvig7';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw6c4mqx';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw6c4mqx';
+import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw6c4mqx';
+import { GFX_SFX, gfxSfxOf, newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw6c4mqx';
+import { transcribeWords, alignWords } from './align.js?v=mw6c4mqx';
+import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw6c4mqx';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw6c4mqx';
+import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mw6c4mqx';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw6c4mqx';
+import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw6c4mqx';
+import { exportSupport, exportReel } from './export.js?v=mw6c4mqx';
+import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf } from './media.js?v=mw6c4mqx';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw6c4mqx';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw6c4mqx';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw6c4mqx';
+import { detailTarget, loadTileMap } from './tiles.js?v=mw6c4mqx';
+import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw6c4mqx';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw6c4mqx';
+import { loadBg, playBg, seekBg } from './bg.js?v=mw6c4mqx';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw6c4mqx';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw6c4mqx';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw6c4mqx';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures, ideaYouTube, ideaFile, ideaText, ideaAngle } from './external.js?v=mw6c4mqx';
+import { readUrl, cleanPasted } from './reader.js?v=mw6c4mqx';
+import { initI18n, ui } from './i18n.js?v=mw6c4mqx';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw6c4mqx';
 
 initI18n();
 
@@ -55,7 +55,16 @@ function setStatus(msg, bad = false) {
 
 /* ---------- التبويبات ---------- */
 function showTab(name) {
+  // «💡 أفكار» = نفس صفحة التحليل بوضع «خد الفكرة واعملها بطريقتك»
+  const ideas = name === 'ideas';
+  if (ideas || name === 'analyze') {
+    if (ideas) $('xMode').value = 'idea'; else if ($('xMode').value === 'idea') $('xMode').value = 'content';
+    $('xHead').textContent = ideas ? '💡 أفكار: خد الفكرة من أي فيديو واعملها بطريقتك' : '🎬 تحليل مصادر خارجية (يوتيوب / فيسبوك / بودكاست / أي نص)';
+    $('xIdeaIntro').hidden = !ideas;
+    $('xMode').closest('label').hidden = ideas;
+  }
   for (const b of document.querySelectorAll('#tabs button')) b.classList.toggle('on', b.dataset.tab === name);
+  if (ideas) name = 'analyze';
   for (const id of ['feed', 'archive', 'analyze', 'studio', 'media', 'library', 'publish', 'live', 'settings']) $('tab-' + id).hidden = id !== name;
   if (name === 'studio') { redraw(); showAiNow(); }
   if (name === 'library') renderLibrary();

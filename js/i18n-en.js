@@ -1,5 +1,9 @@
 // قاموس الواجهة عربي → إنجليزي. أي نص جديد في الواجهة العربي ضيفه هنا (المفتاح = النص العربي بالظبط، {} = جزء متغير).
 export default {
+ "💡 أفكار": "💡 Ideas",
+ "💡 أفكار: خد الفكرة من أي فيديو واعملها بطريقتك": "💡 Ideas: take the idea from any video and remake it your way",
+ "حط لينك فيديو يوتيوب، أو سجّل فيديو فيسبوك/إنستجرام/تيك توك من الشاشة، أو ارفع فيديو، أو الصق وصفة.": "Paste a YouTube link, record a Facebook/Instagram/TikTok video from the screen, upload a video, or paste a recipe.",
+ "فريق خبراء (تسويق، موردين، شراكات، مالية، إنتاج) هيطلّعلك الفكرة والخامات والتكلفة والتغليف وسكريبت بلهجتك، وبعدها «🎬 اعملها حلقة».": "An expert panel (marketing, sourcing, partnerships, finance, production) extracts the idea, materials, cost, packaging and a script in your dialect, then «🎬 Make it an episode».",
  "🎯 الزبون والتميّز": "🎯 Customer and positioning",
  "📊 الحسابات (تقدير)": "📊 The numbers (estimate)",
  "🧠 رأي الخبراء": "🧠 Expert panel",
