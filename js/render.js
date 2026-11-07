@@ -1,10 +1,10 @@
 // رسم إطار الريل على canvas (عمودي 1080×1920 أو 4:5 أو مربع أو أفقي). نفس الدالة للمعاينة والتصدير.
-import { detailTarget, tileKey, getTileMap } from './tiles.js?v=mw6c4mqx';
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mw6c4mqx';
-import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mw6c4mqx';
-import { hostOf } from './feeds.js?v=mw6c4mqx';
-import QR from '../vendor/qrcode/qrcode.mjs?v=mw6c4mqx';
-import { drawBg } from './bg.js?v=mw6c4mqx';
+import { detailTarget, tileKey, getTileMap } from './tiles.js?v=mw6gua5v';
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mw6gua5v';
+import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mw6gua5v';
+import { hostOf } from './feeds.js?v=mw6gua5v';
+import QR from '../vendor/qrcode/qrcode.mjs?v=mw6gua5v';
+import { drawBg } from './bg.js?v=mw6gua5v';
 
 // مقاسات الإخراج. W/H متغيّرين (live binding) والتصدير بيقراهم وقت التصدير
 export const FORMATS = {
@@ -232,7 +232,9 @@ function captions(ctx, st, t, hb = 0) {
   const tpl = st.story.template;
   const tall = tpl === 'stat' || tpl === 'map' || tpl === 'proof' || tpl === 'quote' || tpl === 'timeline';
   const cs = st.settings?.caps || {};
-  const base = Math.min(110, Math.max(44, Number(cs.size) || 64));
+  const cstyle = cs.style || 'classic';
+  if (cstyle === 'single') return singleWord(ctx, st, t, seg, cs, tall, hb);
+  const base = Math.min(110, Math.max(44, Number(cs.size) || 64)) * (cstyle === 'bold' ? 1.15 : 1);
   const size = Math.round((tall ? base * 0.88 : base) * L.capScale);
   ctx.font = font(size, 800);
   ctx.direction = 'rtl';
@@ -266,7 +268,7 @@ function captions(ctx, st, t, hb = 0) {
     ctx.fillText(seg.speaker === 'B' ? S.hostB : S.hostA, CX, y0 - 60);
     ctx.font = font(size, 800);
   }
-  if (cs.plate !== false) {
+  if (cs.plate !== false && cstyle === 'classic') {
     const pw = Math.max(...rows.map(r => r.reduce((n, w, i) => n + w.ww + (i ? space : 0), 0))) + 80;
     ctx.fillStyle = 'rgba(5,8,18,.42)';
     rrect(ctx, CX - pw / 2, y0 - 8, pw, rows.length * lh + 16, 28);
@@ -283,23 +285,100 @@ function captions(ctx, st, t, hb = 0) {
       // الكلمة اللي بتتقال «بتنط»: بتكبر شوية أول ما تبدأ وترجع (حول نصها، ومعكوس في الإنجليزي)
       const pop = active ? 1.04 + 0.12 * Math.max(0, 1 - (t - w.s) / 0.16) : 1;
       if (pop !== 1) { const cxw = ctx.__mirror ? W - (x - w.ww / 2) : x - w.ww / 2; ctx.save(); ctx.translate(cxw, yy); ctx.scale(pop, pop); ctx.translate(-cxw, -yy); }
-      if (active) {
+      if (active && cstyle === 'classic') {
         ctx.fillStyle = hexA(st.cat.color, 0.9);
         rrect(ctx, x - w.ww - 14, yy - size * 0.62, w.ww + 28, size * 1.24, 18);
         ctx.fill();
       }
-      // الأرقام بلون القسم عشان تبان
+      // الأرقام بلون القسم عشان تبان، والكلمات المهمة (لو مفعّلة) بالأصفر
       const num = /[0-9٠-٩]/.test(w.w);
-      ctx.fillStyle = active ? '#fff' : num ? hexA(st.cat.color, past ? 1 : 0.75) : past ? '#fff' : 'rgba(255,255,255,.5)';
+      const key = cs.hi && isKeyWord(w.w, st);
+      if (cstyle === 'karaoke') ctx.fillStyle = active ? st.cat.color : past ? '#fff' : 'rgba(255,255,255,.45)';
+      else if (cstyle === 'bold') ctx.fillStyle = active ? '#ffd60a' : num || key ? '#ffd60a' : '#fff';
+      else ctx.fillStyle = active ? '#fff' : num ? hexA(st.cat.color, past ? 1 : 0.75) : key ? '#ffd60a' : past ? '#fff' : 'rgba(255,255,255,.5)';
       // الكلمة الإنجليزية/الأرقام بتترسم LTR عشان حروفها متتعكسش
       ctx.direction = isLtr(w.w) ? 'ltr' : 'rtl';
-      if (cs.stroke !== false && !active) { ctx.lineJoin = 'round'; ctx.lineWidth = size * 0.1; ctx.strokeStyle = 'rgba(0,0,0,.8)'; ctx.strokeText(w.w, x, yy); }
+      const strokeOn = cstyle === 'bold' || cstyle === 'karaoke' || (cs.stroke !== false && !active);
+      if (strokeOn) { ctx.lineJoin = 'round'; ctx.lineWidth = size * (cstyle === 'bold' ? 0.18 : 0.1); ctx.strokeStyle = 'rgba(0,0,0,.85)'; ctx.strokeText(w.w, x, yy); }
       ctx.fillText(w.w, x, yy);
+      // إيموجي فوق الكلمة اللي بتتقال (لو ليها إيموجي)
+      if (active && cs.emoji) { const em = emojiFor(w.w); if (em) { const ex = x - w.ww / 2, ey = yy - size * 1.05, k2 = 1 + 0.35 * Math.max(0, 1 - (t - w.s) / 0.2); ctx.save(); ctx.direction = 'ltr'; ctx.textAlign = 'center'; ctx.font = font(size * 0.9 * k2, 400); if (ctx.__mirror) { /* مرآة: الإيموجي بيتعكس مكانه بس */ } ctx.fillText(em, ex, ey); ctx.restore(); ctx.font = font(size, 800); } }
       if (pop !== 1) ctx.restore();
       ctx.direction = 'rtl';
       x -= w.ww + space;
     }
   });
+}
+
+// 🎬 أشكال الكابشن (زي CapCut): classic (صندوق على الكلمة) / karaoke (الكلمة بتتلوّن) / bold (أبيض تقيل وأصفر) / single (كلمة واحدة كبيرة)
+const EMOJI = [
+  [/فلوس|دولار|جنيه|يورو|ريال|مليون|مليار|سعر|مكسب|ربح|money|dollar|price|profit/i, '💰'], [/حريق|نار|ولع|fire/i, '🔥'], [/سرق|حرامي|سطو|robbery|thief|steal/i, '🕵️'],
+  [/شرط|بوليس|police/i, '🚓'], [/قتل|مات|وفا|ضحي|dead|killed/i, '💔'], [/عربي|سيار|car/i, '🚗'], [/طيار|طائر|plane|flight/i, '✈️'], [/كور|ماتش|مباراة|هدف|football|goal/i, '⚽'],
+  [/صح[ةه]|مرض|دكتور|علاج|health|doctor/i, '🩺'], [/ذكاء|روبوت|AI|robot/i, '🤖'], [/موبايل|تليفون|phone/i, '📱'], [/أكل|اكل|وصف|طبخ|food|recipe/i, '🍽️'], [/صابون|soap/i, '🧼'],
+  [/مفاج|صدم|غريب|عجيب|shock|wow/i, '😱'], [/حب|قلب|love/i, '❤️'], [/وقت|ساع[ةه]|دقيق|time|minute/i, '⏰'], [/مي[هة]|ماء|water/i, '💧'], [/بيت|منزل|home|house/i, '🏠'],
+  [/خطر|تحذير|خلّي بالك|خلي بالك|danger|warning/i, '⚠️'], [/فوز|نجاح|كسب|بطول|win|success/i, '🏆'], [/شغل|مشروع|بزنس|business|job/i, '💼'], [/مدرس|تعليم|كتاب|school|book/i, '📚'],
+  [/فكر[ةه]|idea/i, '💡'], [/سؤال|ليه|إزاي|ازاي|why|how/i, '🤔'], [/حرب|صاروخ|جيش|war|missile|army/i, '🚀'], [/مصر|egypt/i, '🇪🇬'],
+];
+function emojiFor(w) { for (const [rx, e] of EMOJI) if (rx.test(w)) return e; return ''; }
+// كلمة مهمة = موجودة في العنوان وطويلة (مش «في/من/على»)
+function isKeyWord(w, st) {
+  const clean = String(w).replace(/[^\p{L}\p{N}]/gu, '');
+  if (clean.length < 4) return false;
+  const head = String(st.story?.headline || '').replace(/[^\p{L}\p{N}\s]/gu, ' ');
+  return head.split(/\s+/).some(h => h.length >= 4 && (h === clean || h.replace(/^ال/, '') === clean.replace(/^ال/, '')));
+}
+function singleWord(ctx, st, t, seg, cs, tall, hb) {
+  const words = seg.words || [];
+  let w = words.find(x => t >= x.s && t < x.e + 0.05) || [...words].reverse().find(x => t >= x.s);
+  if (!w) return;
+  const base = Math.min(150, Math.max(70, (Number(cs.size) || 64) * 1.9)) * L.capScale;
+  let cy = tall ? 1300 : 1080;
+  if (!L.vert) cy = (hb + (st.reel.ticker?.on ? L.tickY : L.srcY)) / 2;
+  if (L.safe) cy = Math.min(cy, (st.reel.ticker?.on ? L.tickY : L.srcY) - base);
+  const pop = 1 + 0.18 * Math.max(0, 1 - (t - w.s) / 0.14);
+  const num = /[0-9٠-٩]/.test(w.w), key = cs.hi && isKeyWord(w.w, st);
+  ctx.save();
+  ctx.translate(L.capCX, cy); ctx.scale(pop, pop);
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.direction = isLtr(w.w) ? 'ltr' : 'rtl';
+  let size = base; ctx.font = font(size, 900);
+  while (size > 50 && ctx.measureText(w.w).width > L.capMaxW) { size -= 6; ctx.font = font(size, 900); }
+  ctx.lineJoin = 'round'; ctx.lineWidth = size * 0.16; ctx.strokeStyle = 'rgba(0,0,0,.9)'; ctx.strokeText(w.w, 0, 0);
+  ctx.fillStyle = num || key ? '#ffd60a' : '#fff'; ctx.fillText(w.w, 0, 0);
+  if (cs.emoji) { const em = emojiFor(w.w); if (em) { ctx.font = font(size * 0.85, 400); ctx.direction = 'ltr'; ctx.fillText(em, 0, -size * 1.05); } }
+  ctx.restore();
+}
+
+// 🎨 فلاتر الألوان للخلفيات والمشاهد (reel.look) + 💥 زووم مفاجئ على الكلمات القوية (reel.punch)
+const LOOKS = { cinematic: 'contrast(1.12) saturate(0.85) brightness(0.95)', warm: 'sepia(0.22) saturate(1.2) brightness(1.02)', cool: 'hue-rotate(-14deg) saturate(0.9) brightness(0.98)', bw: 'grayscale(1) contrast(1.12)', vintage: 'sepia(0.55) contrast(0.92) brightness(0.95) saturate(0.85)', vivid: 'saturate(1.4) contrast(1.06)' };
+function lookVignette(ctx, look) {
+  if (look !== 'cinematic' && look !== 'vintage') return;
+  const g = ctx.createRadialGradient(W / 2, H / 2, Math.min(W, H) * 0.35, W / 2, H / 2, Math.max(W, H) * 0.75);
+  g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, look === 'vintage' ? 'rgba(40,25,5,.55)' : 'rgba(0,0,0,.5)');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+}
+// لحظات «الضربة»: أول كلمة فيها رقم في كل سطر + بداية كل جرافيك
+function punchAt(st, t, idx) {
+  if (st.reel.punch === false) return 0;
+  const story = st.reel.stories[idx];
+  const segs = st.tl.segs.filter(s => s.storyIdx === idx && !s.clip);
+  const ev = [];
+  for (const s of segs) { const w = (s.words || []).find(x => /[0-9٠-٩]/.test(x.w)); if (w) ev.push(w.s); }
+  for (const g of story?.gfx || []) if (!g.off && segs[g.li]) ev.push(segs[g.li].start);
+  let a = 0;
+  for (const e of ev) { const d = t - e; if (d >= 0 && d < 0.55) a = Math.max(a, d < 0.07 ? d / 0.07 : 1 - (d - 0.07) / 0.48); }
+  return a;
+}
+// انتقالات المشاهد: fade / zoom / slide / flash / whip / glitch
+function drawTrans(ctx, type, fin, drawPrev, drawCur) {
+  const e = fin * fin * (3 - 2 * fin);
+  if (type === 'zoom') { drawPrev(); ctx.save(); ctx.globalAlpha = Math.min(1, fin * 1.6); ctx.translate(W / 2, H / 2); const z = 1.35 - 0.35 * e; ctx.scale(z, z); ctx.translate(-W / 2, -H / 2); drawCur(); ctx.restore(); }
+  else if (type === 'slide') { drawPrev(); ctx.save(); ctx.translate((RTL ? -1 : 1) * W * (1 - e), 0); drawCur(); ctx.restore(); }
+  else if (type === 'whip') { ctx.save(); ctx.filter = `blur(${Math.round(18 * Math.sin(Math.PI * fin))}px)`; ctx.save(); ctx.translate((RTL ? 1 : -1) * W * e, 0); drawPrev(); ctx.restore(); ctx.translate((RTL ? -1 : 1) * W * (1 - e), 0); drawCur(); ctx.restore(); ctx.filter = 'none'; }
+  else if (type === 'flash') { if (fin < 0.5) drawPrev(); else drawCur(); ctx.save(); ctx.globalAlpha = 1 - Math.abs(fin * 2 - 1); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H); ctx.restore(); }
+  else if (type === 'glitch') {
+    drawCur();
+    if (fin < 1) { ctx.save(); const n = 7; for (let i = 0; i < n; i++) { const y = ((i * 997 + Math.floor(fin * 10) * 131) % 100) / 100 * H, h = H * 0.03 + (i % 3) * H * 0.02, dx = (i % 2 ? 1 : -1) * W * 0.06 * (1 - fin); ctx.globalAlpha = 0.7 * (1 - fin); ctx.drawImage(ctx.canvas, 0, y, W, h, dx, y, W, h); } ctx.globalAlpha = 0.18 * (1 - fin); ctx.fillStyle = '#ff0050'; ctx.fillRect(0, 0, W, H); ctx.restore(); }
+  } else { drawPrev(); ctx.save(); ctx.globalAlpha = fin; drawCur(); ctx.restore(); }
 }
 
 function sourceBar(ctx, st) {
@@ -1265,14 +1344,23 @@ export function drawFrame(ctx, st, t, opts = {}) {
   const bg = st.bgs?.get(story.id);
   const sc = sceneAt(st, t, idx);
   const dimS = story.media?.dim ?? 0.5;
+  const look = st.reel.look && LOOKS[st.reel.look] ? st.reel.look : '';
+  const pz = opts.settled ? 0 : punchAt(st, t, idx);
+  ctx.save();
+  if (pz > 0) { const z = 1 + 0.08 * pz, sh = pz * 6; ctx.translate(W / 2 + Math.sin(t * 90) * sh, H / 2 + Math.cos(t * 70) * sh); ctx.scale(z, z); ctx.translate(-W / 2, -H / 2); }
+  if (look) ctx.filter = LOOKS[look];
   if (sc) {
     const p = Math.min(1, Math.max(0, (t - sc.start) / Math.max(1, sc.end - sc.start)));
     const fin = opts.settled ? 1 : Math.min(1, Math.max(0, (t - sc.start) / 0.45));
-    if (sc.prev && fin < 1) drawScene(ctx, st.bgs.get(sc.prev.media.id), sc.prev.media, 1, sc.k - 1, dimS, bg, story.media);
-    ctx.globalAlpha = sc.prev ? fin : 1;
-    drawScene(ctx, st.bgs.get(sc.cur.media.id), sc.cur.media, p, sc.k, dimS, bg, story.media);
+    const dPrev = () => drawScene(ctx, st.bgs.get(sc.prev.media.id), sc.prev.media, 1, sc.k - 1, dimS, bg, story.media);
+    const dCur = () => drawScene(ctx, st.bgs.get(sc.cur.media.id), sc.cur.media, p, sc.k, dimS, bg, story.media);
+    if (sc.prev && fin < 1) drawTrans(ctx, sc.cur.tr && sc.cur.tr !== 'auto' ? sc.cur.tr : st.reel.tr || 'fade', fin, dPrev, dCur);
+    else dCur();
     ctx.globalAlpha = 1;
   } else if (bg) drawBg(ctx, bg, W, H, dimS, story.media);
+  ctx.filter = 'none';
+  ctx.restore();
+  if (look) lookVignette(ctx, look);
   ctx.globalAlpha = fade;
   if (story.template === 'breaking') {
     const g = ctx.createRadialGradient(W / 2, H / 2, H * 0.35, W / 2, H / 2, H * 0.75);
