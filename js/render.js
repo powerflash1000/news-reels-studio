@@ -1,10 +1,10 @@
 // رسم إطار الريل على canvas (عمودي 1080×1920 أو 4:5 أو مربع أو أفقي). نفس الدالة للمعاينة والتصدير.
-import { detailTarget, tileKey, getTileMap } from './tiles.js?v=mw5nlyw7';
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mw5nlyw7';
-import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mw5nlyw7';
-import { hostOf } from './feeds.js?v=mw5nlyw7';
-import QR from '../vendor/qrcode/qrcode.mjs?v=mw5nlyw7';
-import { drawBg } from './bg.js?v=mw5nlyw7';
+import { detailTarget, tileKey, getTileMap } from './tiles.js?v=mw5nt0ga';
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mw5nt0ga';
+import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mw5nt0ga';
+import { hostOf } from './feeds.js?v=mw5nt0ga';
+import QR from '../vendor/qrcode/qrcode.mjs?v=mw5nt0ga';
+import { drawBg } from './bg.js?v=mw5nt0ga';
 
 // مقاسات الإخراج. W/H متغيّرين (live binding) والتصدير بيقراهم وقت التصدير
 export const FORMATS = {
@@ -1162,19 +1162,25 @@ function gfxLayer(ctx, c, t, hb) {
   const age = t - start, left = end - t;
   const fin = easeOut(clamp01(age / 0.35)), fout = clamp01(left / 0.3), a = Math.min(fin, fout);
   if (a <= 0) return;
-  const k = L.vert ? 1 : Math.max(0.55, H / 1700);
+  const style = g.style || 'card', big = style === 'big';
+  const k = (L.vert ? 1 : Math.max(0.55, H / 1700)) * (big ? 1.35 : 1);
   const cw = Math.min(W - 2 * Math.max(L.mL, L.mR) - 20, 900 * k), ch = (g.type === 'text' ? 210 : g.type === 'pct' ? 330 : 300) * k;
   const cx = L.vert ? L.capCX : W / 2;
-  const top = L.vert ? Math.min(hb + 50, 1130 - 190 - ch) : Math.max(hb + 20 * k, H * 0.2);
+  const top = big ? H * 0.42 - ch / 2 : L.vert ? Math.min(hb + 50, 1130 - 190 - ch) : Math.max(hb + 20 * k, H * 0.2);
+  // «كبير»: الشاشة بتغمق وراه عشان الرقم يبقى هو البطل
+  if (big) { ctx.save(); ctx.globalAlpha = 0.6 * a; ctx.fillStyle = '#04060c'; ctx.fillRect(0, 0, W, H); ctx.restore(); }
+  const label = [g.icon, g.label].filter(Boolean).join(' ');
   const x = cx - cw / 2, y = top + (1 - fin) * 40 * k;
   const col = c.cat?.color || '#ffb224';
   ctx.save();
   ctx.globalAlpha = a;
   ctx.translate(cx, y + ch / 2); const sc = 0.9 + 0.1 * fin; ctx.scale(sc, sc); ctx.translate(-cx, -(y + ch / 2));
   // الكارت
-  ctx.fillStyle = 'rgba(8,10,20,.78)'; rrect(ctx, x, y, cw, ch, 34 * k); ctx.fill();
-  ctx.strokeStyle = col; ctx.lineWidth = 4 * k; rrect(ctx, x, y, cw, ch, 34 * k); ctx.stroke();
-  ctx.fillStyle = col; rrect(ctx, x + 40 * k, y - 6 * k, 120 * k, 12 * k, 6 * k); ctx.fill();
+  if (style === 'card') {
+    ctx.fillStyle = 'rgba(8,10,20,.78)'; rrect(ctx, x, y, cw, ch, 34 * k); ctx.fill();
+    ctx.strokeStyle = col; ctx.lineWidth = 4 * k; rrect(ctx, x, y, cw, ch, 34 * k); ctx.stroke();
+    ctx.fillStyle = col; rrect(ctx, x + 40 * k, y - 6 * k, 120 * k, 12 * k, 6 * k); ctx.fill();
+  } else { ctx.shadowColor = 'rgba(0,0,0,.85)'; ctx.shadowBlur = 24 * k; }
   ctx.direction = RTL ? 'rtl' : 'ltr'; ctx.textBaseline = 'middle'; ctx.textAlign = 'center';
   const raw = toLatinDigits(g.value);
   const numeric = /^-?\d+(\.\d+)?$/.test(raw);
@@ -1190,13 +1196,13 @@ function gfxLayer(ctx, c, t, hb) {
     const tx0 = RTL ? x + 50 * k : rx + r + 50 * k, tw = cw - 2 * r - 170 * k;
     ctx.textAlign = RTL ? 'right' : 'left';
     const tx = RTL ? rx - r - 50 * k : tx0;
-    ctx.fillStyle = 'rgba(255,255,255,.92)'; fitFont(g.label || '', 50 * k, tw, 700); ctx.fillText(g.label || '', tx, ry - (g.unit ? 30 * k : 0));
+    ctx.fillStyle = 'rgba(255,255,255,.92)'; fitFont(label, 50 * k, tw, 700); ctx.fillText(label, tx, ry - (g.unit ? 30 * k : 0));
     if (g.unit) { ctx.fillStyle = col; fitFont(g.unit, 40 * k, tw, 700); ctx.fillText(g.unit, tx, ry + 40 * k); }
   } else if (g.type === 'text') {
     ctx.fillStyle = col; const z = fitFont(g.value || '', 96 * k, cw - 80 * k);
     const pop = 1 + 0.12 * Math.max(0, 1 - Math.abs(age - 0.45) / 0.25);
-    ctx.save(); ctx.translate(cx, y + ch * (g.label ? 0.42 : 0.5)); ctx.scale(pop, pop); ctx.fillText(g.value || '', 0, 0); ctx.restore();
-    if (g.label) { ctx.fillStyle = 'rgba(255,255,255,.85)'; fitFont(g.label, 42 * k, cw - 80 * k, 700); ctx.fillText(g.label, cx, y + ch * 0.8); }
+    ctx.save(); ctx.translate(cx, y + ch * (label ? 0.42 : 0.5)); ctx.scale(pop, pop); ctx.fillText(g.value || '', 0, 0); ctx.restore();
+    if (label) { ctx.fillStyle = 'rgba(255,255,255,.85)'; fitFont(label, 42 * k, cw - 80 * k, 700); ctx.fillText(label, cx, y + ch * 0.8); }
   } else {
     // count / year: الرقم كبير بيعدّ، والوحدة جنبه، والعنوان فوقه
     const isYear = g.type === 'year';
@@ -1205,8 +1211,8 @@ function gfxLayer(ctx, c, t, hb) {
     const cur = numeric ? from + (target - from) * p : 0;
     const txt = numeric ? (isYear ? (RTL ? Math.round(cur).toLocaleString('ar-EG', { useGrouping: false }) : String(Math.round(cur))) : fmtNum(cur, dec)) : (g.value || '');
     const full = numeric ? (isYear ? (RTL ? Math.round(target).toLocaleString('ar-EG', { useGrouping: false }) : String(Math.round(target))) : fmtNum(target, dec)) : txt;
-    if (g.label) { ctx.fillStyle = 'rgba(255,255,255,.85)'; fitFont(g.label, 46 * k, cw - 80 * k, 700); ctx.fillText(g.label, cx, y + 62 * k); }
-    const ny = y + (g.label ? 175 : 150) * k;
+    if (label) { ctx.fillStyle = 'rgba(255,255,255,.85)'; fitFont(label, 46 * k, cw - 80 * k, 700); ctx.fillText(label, cx, y + 62 * k); }
+    const ny = y + (label ? 175 : 150) * k;
     ctx.font = font(60 * k, 800); const uw = g.unit ? ctx.measureText(g.unit).width + 24 * k : 0;
     const nz = fitFont(full, 150 * k, cw - 80 * k - uw);
     ctx.font = font(nz, 800); const nw = ctx.measureText(full).width, tot = nw + uw;
