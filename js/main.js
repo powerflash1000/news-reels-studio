@@ -1,29 +1,29 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw6c4mqx';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw6c4mqx';
-import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw6c4mqx';
-import { GFX_SFX, gfxSfxOf, newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw6c4mqx';
-import { transcribeWords, alignWords } from './align.js?v=mw6c4mqx';
-import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw6c4mqx';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw6c4mqx';
-import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mw6c4mqx';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw6c4mqx';
-import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw6c4mqx';
-import { exportSupport, exportReel } from './export.js?v=mw6c4mqx';
-import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf } from './media.js?v=mw6c4mqx';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw6c4mqx';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw6c4mqx';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw6c4mqx';
-import { detailTarget, loadTileMap } from './tiles.js?v=mw6c4mqx';
-import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw6c4mqx';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw6c4mqx';
-import { loadBg, playBg, seekBg } from './bg.js?v=mw6c4mqx';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw6c4mqx';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw6c4mqx';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw6c4mqx';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures, ideaYouTube, ideaFile, ideaText, ideaAngle } from './external.js?v=mw6c4mqx';
-import { readUrl, cleanPasted } from './reader.js?v=mw6c4mqx';
-import { initI18n, ui } from './i18n.js?v=mw6c4mqx';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw6c4mqx';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw6gua5v';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw6gua5v';
+import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw6gua5v';
+import { GFX_SFX, gfxSfxOf, newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw6gua5v';
+import { transcribeWords, alignWords } from './align.js?v=mw6gua5v';
+import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw6gua5v';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw6gua5v';
+import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mw6gua5v';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw6gua5v';
+import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw6gua5v';
+import { exportSupport, exportReel } from './export.js?v=mw6gua5v';
+import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf } from './media.js?v=mw6gua5v';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw6gua5v';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw6gua5v';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw6gua5v';
+import { detailTarget, loadTileMap } from './tiles.js?v=mw6gua5v';
+import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw6gua5v';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw6gua5v';
+import { loadBg, playBg, seekBg } from './bg.js?v=mw6gua5v';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw6gua5v';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw6gua5v';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw6gua5v';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures, ideaYouTube, ideaFile, ideaText, ideaAngle } from './external.js?v=mw6gua5v';
+import { readUrl, cleanPasted } from './reader.js?v=mw6gua5v';
+import { initI18n, ui } from './i18n.js?v=mw6gua5v';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw6gua5v';
 
 initI18n();
 
@@ -411,6 +411,7 @@ function fillForm() {
   $('bgGp').value = story().bgGen?.prompt || ''; $('bgAiBox').hidden = !$('bgGp').value; $('bgLinkBox').hidden = true; $('bgMsg').textContent = '';
   renderScenes();
   renderGfx();
+  fillLook();
   renderClips();
   updateInfo();
   redraw();
@@ -2570,7 +2571,7 @@ function renderScenes() {
     const text = lines.slice(sc.li, (list.find(x => x.li > sc.li)?.li) ?? lines.length).map(l => l.text).join(' ');
     return `<div class="scrow"><div class="th">${sc.media?.thumb ? `<img src="${esc(sc.media.thumb)}" loading="lazy" referrerpolicy="no-referrer" alt="">` : '<span class="muted">—</span>'}${sc.media?.kind === 'video' ? '<span class="vb">🎞</span>' : ''}</div>
       <div class="bd"><div class="tx" dir="auto" translate="no">${esc(text.slice(0, 140) || '…')}</div>
-      <div class="row" style="margin:0"><input data-scq="${sc.li}" value="${esc(sc.q || '')}" dir="ltr" placeholder="search words"><button class="btn" data-scnext="${sc.li}" type="button">🔄 غيّرها</button><label class="btn file">📁<input data-scfile="${sc.li}" type="file" accept="image/*,video/*" hidden></label><button class="btn" data-sclink="${sc.li}" type="button" title="صورة أو فيديو من رابط">🔗 رابط</button><button class="btn" data-scai="${sc.li}" type="button" title="برومبت توليد للمشهد ده">🎨 ذكاء اصطناعي</button><button class="btn ghost" data-scdel="${sc.li}" type="button">✕</button></div>
+      <div class="row" style="margin:0"><input data-scq="${sc.li}" value="${esc(sc.q || '')}" dir="ltr" placeholder="search words"><button class="btn" data-scnext="${sc.li}" type="button">🔄 غيّرها</button><label class="btn file">📁<input data-scfile="${sc.li}" type="file" accept="image/*,video/*" hidden></label><button class="btn" data-sclink="${sc.li}" type="button" title="صورة أو فيديو من رابط">🔗 رابط</button><button class="btn" data-scai="${sc.li}" type="button" title="برومبت توليد للمشهد ده">🎨 ذكاء اصطناعي</button><select data-sctr="${sc.li}" title="الانتقال للمشهد ده">${[['auto', 'انتقال: زي الحلقة'], ['fade', 'تلاشي'], ['zoom', 'زووم'], ['slide', 'سلايد'], ['whip', 'Whip'], ['flash', 'فلاش'], ['glitch', 'جليتش']].map(([k, v]) => `<option value="${k}" ${(sc.tr || 'auto') === k ? 'selected' : ''}>${v}</option>`).join('')}</select><button class="btn ghost" data-scdel="${sc.li}" type="button">✕</button></div>
       <div class="row sclinkbox" data-sclbox="${sc.li}" style="margin:2px 0" hidden><input data-sclurl="${sc.li}" dir="ltr" placeholder="https://… رابط الصورة أو الفيديو المباشر (jpg / png / webp / mp4)"><input data-sclcredit="${sc.li}" dir="auto" placeholder="الحقوق: اسم الموقع أو الشركة" style="max-width:190px"><button class="btn pri" data-sclgo="${sc.li}" type="button">حمّل</button></div>
       ${sc.media?.credit ? `<span class="muted" translate="no">${esc(sc.media.credit.slice(0, 80))}</span>` : ''}
       ${sc.gen?.prompt ? `<textarea class="gp" data-scgp="${sc.li}" dir="ltr" translate="no">${esc(sc.gen.prompt)}</textarea><div class="row" style="margin:2px 0"><button class="btn" data-scgcopy="${sc.li}" type="button">📋 انسخ</button><button class="btn" data-scgopen="${sc.li}" type="button">↗ انسخ وافتح ${esc(GEN_TOOLS[sc.gen.tool]?.name || '')}</button><label class="btn file">📥 حط الملف المولّد<input data-scaifile="${sc.li}" type="file" accept="image/*,video/*" hidden></label></div>` : ''}</div></div>`;
@@ -2818,6 +2819,7 @@ $('scList').addEventListener('click', async e => {
 $('scList').addEventListener('input', e => { const li = e.target.dataset?.scgp; if (li == null) return; const sc = (story().scenes || []).find(x => x.li === Number(li)); if (sc?.gen) { sc.gen.prompt = e.target.value; persist(); } });
 $('scList').addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.matches('[data-scq]')) e.target.closest('.scrow').querySelector('[data-scnext]').click(); if (e.key === 'Enter' && e.target.matches('[data-sclurl],[data-sclcredit]')) e.target.closest('.sclinkbox').querySelector('[data-sclgo]').click(); });
 $('scList').addEventListener('change', async e => {
+  if (e.target.matches?.('[data-sctr]')) { const sc = (story().scenes || []).find(x => x.li === Number(e.target.dataset.sctr)); if (sc) { sc.tr = e.target.value; persist(); } return; }
   const ai = e.target.matches?.('[data-scaifile]');
   const f = (e.target.matches?.('[data-scfile]') || ai) && e.target.files[0];
   if (!f) return;
@@ -3292,6 +3294,19 @@ $('bmGfx').addEventListener('click', () => {
   const g = gfxAddFor(bm.a);
   $('bmMsg').textContent = g === 'exists' ? 'السطر ده عليه جرافيك بالفعل. عدّله من كارت «📊 جرافيكس على الشاشة».' : g?.value ? `✅ اتحط ${GFX_TYPES[g.type]} «${g.value}${g.unit ? ' ' + g.unit : ''}» على السطر ${bm.a + 1}. تعدّله من كارت «📊 جرافيكس على الشاشة».` : `اتحط جرافيك فاضي على السطر ${bm.a + 1} (مالقيتش رقم فيه). اكتب الرقم في كارت «📊 جرافيكس على الشاشة».`;
 });
+
+// ===== 🎬 شكل الفيديو (زي CapCut): كابشن/إيموجي/كلمات مهمة (إعدادات عامة) + فلتر/انتقال/زووم (للحلقة) =====
+function fillLook() {
+  const c = getSettings().caps || {};
+  $('lkCap').value = c.style || 'classic'; $('lkEmoji').checked = !!c.emoji; $('lkHi').checked = !!c.hi;
+  $('lkLook').value = reel.look || ''; $('lkTr').value = reel.tr || 'fade'; $('lkPunch').checked = reel.punch !== false;
+}
+for (const [id, k] of [['lkCap', 'style'], ['lkEmoji', 'emoji'], ['lkHi', 'hi']]) $(id).addEventListener('change', () => {
+  const s = getSettings(); setSettings({ caps: { ...s.caps, [k]: $(id).type === 'checkbox' ? $(id).checked : $(id).value } }); redraw();
+});
+$('lkLook').addEventListener('change', () => { reel.look = $('lkLook').value; persist(); redraw(); });
+$('lkTr').addEventListener('change', () => { reel.tr = $('lkTr').value; persist(); renderScenes(); });
+$('lkPunch').addEventListener('change', () => { reel.punch = $('lkPunch').checked; persist(); });
 
 function renderBgInfo() {
   const m = story().media;
