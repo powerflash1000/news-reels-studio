@@ -1,29 +1,29 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw6bhrts';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw6bhrts';
-import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw6bhrts';
-import { GFX_SFX, gfxSfxOf, newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw6bhrts';
-import { transcribeWords, alignWords } from './align.js?v=mw6bhrts';
-import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw6bhrts';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw6bhrts';
-import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mw6bhrts';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw6bhrts';
-import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw6bhrts';
-import { exportSupport, exportReel } from './export.js?v=mw6bhrts';
-import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf } from './media.js?v=mw6bhrts';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw6bhrts';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw6bhrts';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw6bhrts';
-import { detailTarget, loadTileMap } from './tiles.js?v=mw6bhrts';
-import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw6bhrts';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw6bhrts';
-import { loadBg, playBg, seekBg } from './bg.js?v=mw6bhrts';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw6bhrts';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw6bhrts';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw6bhrts';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures, ideaYouTube, ideaFile, ideaText, ideaAngle } from './external.js?v=mw6bhrts';
-import { readUrl, cleanPasted } from './reader.js?v=mw6bhrts';
-import { initI18n, ui } from './i18n.js?v=mw6bhrts';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw6bhrts';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw6bpna8';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw6bpna8';
+import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw6bpna8';
+import { GFX_SFX, gfxSfxOf, newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw6bpna8';
+import { transcribeWords, alignWords } from './align.js?v=mw6bpna8';
+import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw6bpna8';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw6bpna8';
+import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mw6bpna8';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw6bpna8';
+import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw6bpna8';
+import { exportSupport, exportReel } from './export.js?v=mw6bpna8';
+import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf } from './media.js?v=mw6bpna8';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw6bpna8';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw6bpna8';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw6bpna8';
+import { detailTarget, loadTileMap } from './tiles.js?v=mw6bpna8';
+import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw6bpna8';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw6bpna8';
+import { loadBg, playBg, seekBg } from './bg.js?v=mw6bpna8';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw6bpna8';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw6bpna8';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw6bpna8';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures, ideaYouTube, ideaFile, ideaText, ideaAngle } from './external.js?v=mw6bpna8';
+import { readUrl, cleanPasted } from './reader.js?v=mw6bpna8';
+import { initI18n, ui } from './i18n.js?v=mw6bpna8';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw6bpna8';
 
 initI18n();
 
@@ -3470,6 +3470,11 @@ function renderIdea(r) {
     ${r.materials.length ? `<h4>🧺 الخامات</h4><ul>${r.materials.map(m => `<li dir="auto" translate="no">${esc(m.name)}${m.qty ? ` — ${esc(m.qty)}` : ''}${m.cost ? ` <span class="muted">(${esc(m.cost)})</span>` : ''}</li>`).join('')}</ul>` : ''}
     ${r.steps.length ? `<h4>🪜 الخطوات</h4><ol>${r.steps.map(x => `<li dir="auto" translate="no">${esc(x.action)}${x.tip ? `<div class="muted">${esc(x.tip)}</div>` : ''}</li>`).join('')}</ol>` : ''}
     ${r.cost.total || r.price.low ? `<h4>💰 التكلفة والبيع (تقدير)</h4><div class="xitem" dir="auto" translate="no">${r.cost.total ? `التكلفة: <b>${esc(money(r.cost.total, r.cost.currency))}</b> ` : ''}${r.price.low ? `• سعر البيع: <b>${esc(money([r.price.low, r.price.high].filter(Boolean).join(' – '), r.price.currency))}</b>` : ''}<div class="muted">${esc([r.cost.note, r.price.note].filter(Boolean).join(' • '))}</div></div>` : ''}
+    ${r.equipment?.length ? `<h4>🛠 الأدوات والمكن</h4><ul>${r.equipment.map(x => `<li dir="auto" translate="no">${esc(x.name)} <span class="tag">${x.need === 'optional' ? 'ترقية بعدين' : 'لازم للبداية'}</span>${x.cost ? ` <span class="muted">(${esc(x.cost)})</span>` : ''}</li>`).join('')}</ul>` : ''}
+    ${r.packaging?.length ? `<h4>🎁 التغليف</h4>${r.packaging.map(x => `<div class="xitem"><span class="tag">${{ cheap: 'اقتصادي', mid: 'متوسط', premium: 'فاخر' }[x.level]}</span> <span dir="auto" translate="no">${esc(x.how)}</span>${x.cost ? ` <span class="muted">(${esc(x.cost)})</span>` : ''}${x.machine ? `<div class="muted" dir="auto" translate="no">🔧 ${esc(x.machine)}</div>` : ''}</div>`).join('')}` : ''}
+    ${r.production?.time || r.production?.batch || r.production?.kit ? `<h4>⏱ الإنتاج</h4><div class="xitem" dir="auto" translate="no">${[r.production.time && 'وقت القطعة: ' + esc(r.production.time), r.production.batch && 'الدفعة: ' + esc(r.production.batch), r.production.kit && 'تكلفة البداية: <b>' + esc(r.production.kit) + '</b>'].filter(Boolean).join(' • ')}</div>` : ''}
+    ${r.variations?.length ? `<h4>🎨 أشكال تانية</h4><div dir="auto" translate="no">${esc(r.variations.join(' • '))}</div>` : ''}
+    ${r.tips?.length ? `<h4>📌 نصايح عملية</h4><ul>${r.tips.map(x => `<li dir="auto" translate="no">${esc(x)}</li>`).join('')}</ul>` : ''}
     ${r.where.length ? `<h4>🛒 تبيعها فين</h4><div dir="auto" translate="no">${esc(r.where.join(' • '))}</div>` : ''}
     ${r.safety.length ? `<h4>⚠️ تحذيرات أمان</h4><ul>${r.safety.map(x => `<li dir="auto" translate="no">${esc(x)}</li>`).join('')}</ul>` : ''}
     ${r.angles.length ? `<h4>🎯 زوايا تعرضها بيها (بطريقتك)</h4>${r.angles.map((a, i) => `<div class="xitem"><b dir="auto" translate="no">${esc(a.name)}</b><div class="muted" dir="auto" translate="no">${esc(a.why)}</div><button class="btn" data-idang="${i}" type="button">✍️ اكتب السكريبت بالزاوية دي</button></div>`).join('')}` : ''}
@@ -3505,7 +3510,7 @@ $('xOut').addEventListener('click', async e => {
     if (!lines.length) return ($('xMsg').textContent = 'السكريبت فاضي.');
     const safety = r.safety.length ? '⚠️ ' + r.safety.join(' • ') : '';
     const money = (a, cur) => [a, cur].filter(Boolean).join(' ');
-    const ref = [r.idea, r.materials.length ? 'الخامات: ' + r.materials.map(m => [m.name, m.qty, m.cost && `(${m.cost})`].filter(Boolean).join(' ')).join('، ') : '', r.steps.length ? 'الخطوات:\n' + r.steps.map((x, i) => `${i + 1}. ${x.action}${x.tip ? ' — ' + x.tip : ''}`).join('\n') : '', r.cost.total ? `التكلفة (تقدير): ${money(r.cost.total, r.cost.currency)}` : '', r.price.low ? `سعر البيع (تقدير): ${money([r.price.low, r.price.high].filter(Boolean).join(' – '), r.price.currency)}` : '', r.where.length ? 'تبيعها فين: ' + r.where.join('، ') : '', safety].filter(Boolean).join('\n\n');
+    const ref = [r.idea, r.materials.length ? 'الخامات: ' + r.materials.map(m => [m.name, m.qty, m.cost && `(${m.cost})`].filter(Boolean).join(' ')).join('، ') : '', r.steps.length ? 'الخطوات:\n' + r.steps.map((x, i) => `${i + 1}. ${x.action}${x.tip ? ' — ' + x.tip : ''}`).join('\n') : '', r.cost.total ? `التكلفة (تقدير): ${money(r.cost.total, r.cost.currency)}` : '', r.price.low ? `سعر البيع (تقدير): ${money([r.price.low, r.price.high].filter(Boolean).join(' – '), r.price.currency)}` : '', r.where.length ? 'تبيعها فين: ' + r.where.join('، ') : '', r.equipment?.length ? 'الأدوات والمكن: ' + r.equipment.map(x => `${x.name}${x.need === 'optional' ? ' (بعدين)' : ''}${x.cost ? ' ' + x.cost : ''}`).join('، ') : '', r.packaging?.length ? 'التغليف:\n' + r.packaging.map(x => `- ${x.level}: ${x.how}${x.cost ? ' (' + x.cost + ')' : ''}${x.machine ? ' — ' + x.machine : ''}`).join('\n') : '', r.production?.kit ? 'تكلفة البداية: ' + r.production.kit : '', r.tips?.length ? 'نصايح: ' + r.tips.join('، ') : '', safety].filter(Boolean).join('\n\n');
     const desc = [r.idea, r.materials.length ? '🧺 ' + r.materials.map(m => m.name).join('، ') : '', r.cost.total || r.price.low ? `💰 التكلفة والسعر تقديريين: ${[r.cost.total && money(r.cost.total, r.cost.currency), r.price.low && money([r.price.low, r.price.high].filter(Boolean).join('–'), r.price.currency)].filter(Boolean).join(' ← ')}` : '', safety].filter(Boolean).join('\n');
     const tool = $('genTool').value, style = $('genStyle').value;
     const scenes = [];
@@ -3576,6 +3581,35 @@ $('xGo').addEventListener('click', async () => {
   }
   $('xMsg').textContent = 'الرابط ده مش يوتيوب. لفيسبوك أو أي منصة: نزّل الفيديو أو الصوت وارفعه من «فيديو أو صوت من جهازك»، أو الصق النص.';
 });
+// ⏺ تسجيل فيديو من الشاشة للتحليل (فيسبوك/إنستجرام/تيك توك): المستخدم بيختار التاب، وبنسجّل بجودة خفيفة عشان يفضل تحت حد 18 MB
+var xRecState = null;
+$('xRec').addEventListener('click', async () => {
+  if (xRecState) return;
+  let stream;
+  try { stream = await navigator.mediaDevices.getDisplayMedia({ video: { frameRate: 24, height: { ideal: 720 } }, audio: true, systemAudio: 'include', selfBrowserSurface: 'exclude', preferCurrentTab: false }); }
+  catch { return ($('xMsg').textContent = 'اتلغى التسجيل.'); }
+  const mime = ['video/webm;codecs=vp9,opus', 'video/webm;codecs=vp8,opus', 'video/webm'].find(m => MediaRecorder.isTypeSupported(m)) || '';
+  const rec = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 1100000, audioBitsPerSecond: 64000 });
+  const chunks = [], max = Number($('xRecMax').value) || 60, t0 = Date.now();
+  rec.ondataavailable = e => e.data.size && chunks.push(e.data);
+  const stop = () => { if (rec.state !== 'inactive') rec.stop(); };
+  rec.onstop = () => {
+    clearInterval(xRecState?.tick); stream.getTracks().forEach(t => t.stop()); xRecState = null;
+    $('xRecStop').hidden = true; $('xRec').disabled = false;
+    const blob = new Blob(chunks, { type: 'video/webm' });
+    if (blob.size < 20000) return ($('xMsg').textContent = '❌ التسجيل فاضي. جرّب تاني وشغّل الفيديو.');
+    const f = new File([blob], `screen-${Date.now()}.webm`, { type: 'video/webm' });
+    $('xMsg').textContent = `✅ اتسجّل ${Math.round((Date.now() - t0) / 1000)} ث (${(blob.size / 1048576).toFixed(1)} MB). بحلله…`;
+    runX('file', f);
+  };
+  stream.getVideoTracks()[0].addEventListener('ended', stop);
+  if (!stream.getAudioTracks().length) $('xMsg').textContent = '⚠️ التسجيل من غير صوت (معلّمتش «Share tab audio»). التحليل هيعتمد على الصورة بس.';
+  rec.start(1000);
+  $('xRec').disabled = true; $('xRecStop').hidden = false;
+  xRecState = { rec, tick: setInterval(() => { const sec = Math.round((Date.now() - t0) / 1000); if (sec >= max) stop(); else if (!/^⚠️/.test($('xMsg').textContent)) $('xMsg').textContent = `⏺ بيسجّل… ${sec}/${max} ث — شغّل الفيديو في التاب التاني.`; }, 500) };
+});
+$('xRecStop').addEventListener('click', () => { if (xRecState?.rec.state !== 'inactive') xRecState?.rec.stop(); });
+
 $('xFile').addEventListener('change', e => { const f = e.target.files[0]; e.target.value = ''; if (f) runX('file', f); });
 $('xGoText').addEventListener('click', () => { const t = $('xText').value.trim(); if (t.length < 40) return void ($('xMsg').textContent = 'النص قصير جدًا.'); runX('text', t); });
 for (const box of ['xRadar', 'xChannel']) {

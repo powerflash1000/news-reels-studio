@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mw6bhrts">
+<html lang="ar" dir="rtl" data-v="mw6bpna8">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mw6bhrts">
+<link rel="stylesheet" href="assets/css/style.css?v=mw6bpna8">
 </head>
 <body>
 <header class="top">
@@ -125,7 +125,11 @@
     <div class="row">
       <button id="xGo" class="btn pri" type="button">🔍 حلّل الرابط</button>
       <label class="btn file">⬆ فيديو أو صوت من جهازك (لحد 18 MB)<input id="xFile" type="file" accept="video/*,audio/*" hidden></label>
+      <button id="xRec" class="btn" type="button" title="فيسبوك / إنستجرام / تيك توك: شغّل الفيديو في تاب وسجّله من هنا">⏺ سجّل فيديو من الشاشة</button>
+      <select id="xRecMax" title="أقصى مدة"><option value="30">30 ث</option><option value="60" selected>60 ث</option><option value="90">90 ث</option></select>
+      <button id="xRecStop" class="btn" type="button" hidden>⏹ وقّف وحلّل</button>
     </div>
+    <p class="muted">من فيسبوك أو إنستجرام أو تيك توك: البرنامج مش بينزّل من المواقع دي. افتح الفيديو في تاب، ودوس «⏺ سجّل فيديو من الشاشة»، واختار التاب ده وعلّم «Share tab audio»، وشغّل الفيديو. هيتسجّل لحد المدة اللي اخترتها (أو لحد ما تدوس «وقّف»)، وبعدين يتحلل على طول. أو نزّل الفيديو بنفسك وارفعه.</p>
     <details>
       <summary>📝 أو الصق نص (تفريغ فيديو، بوست فيسبوك، مقال…)</summary>
       <textarea id="xText" rows="6" dir="auto" placeholder="الصق النص هنا"></textarea>
@@ -1063,6 +1067,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mw6bhrts"></script>
+<script type="module" src="js/main.js?v=mw6bpna8"></script>
 </body>
 </html>
