@@ -1,7 +1,7 @@
 // تحليل مصادر خارجية (فيديو يوتيوب / ملف فيديو أو صوت / نص): بيطلع ملخص وأجزاء بتوقيتها وأهم الأخبار والاقتباسات.
 // ده مرجع للمحرر بس: أي خبر طالع منه لازم يتربط بمصدر أصلي قبل التصدير (اليوتيوبر والبوستات مش مصدر).
-import { getSettings } from './storage.js?v=mw6bhrts';
-import { AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw6bhrts';
+import { getSettings } from './storage.js?v=mw6bpna8';
+import { AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw6bpna8';
 
 const GEM = 'https://generativelanguage.googleapis.com/v1beta/models/';
 export const MAX_INLINE = 18 * 1024 * 1024;
@@ -222,11 +222,12 @@ Rules:
 - Describe what is made and how, step by step, as you understood it. If a step or quantity is not shown, say "not shown" instead of inventing it.
 - Never copy the reference's footage, exact shots, music, voice, wording, branding or creator persona. The remake must use a DIFFERENT angle (e.g. business/profit angle, mistakes-to-avoid, cheap version, kids version, Egyptian-market version, quick test/verdict) and NEW visuals.
 - Costs and selling prices are rough estimates for {MARKET}; give ranges and mark them as estimates. If you cannot estimate, leave empty.
-- Safety: list any real hazard (lye/caustic soda, heat/oil, sharp tools, glue fumes, electricity, food safety, allergens, children). Never omit lye warnings for soap.
+- Safety: list only real hazards of the method actually shown (heat/hot liquids, sharp tools, glue fumes, electricity, food safety, allergens, children). Lye/caustic soda only if the method really uses it (melt-and-pour glycerin soap base has no lye); if lye is used, the warning is mandatory.
+- Treat it as a small home project: list the tools/equipment and machines (needed to start vs optional upgrade, rough price), 2-3 packaging options from cheapest to premium (materials, cost per unit, any machine like a heat sealer or shrink-wrap gun, and how it looks/sells), production time per unit, batch size, the total starter-kit cost, variations (scents, colours, shapes, sizes) and practical tips (dimensions like slice thickness, temperatures, curing/setting time) when they are shown or standard.
 - Script: 8-14 short spoken lines (≈45-60 s) in {LANG}, a strong hook in line 1, the idea and steps in plain words, one line with cost→price (as an estimate) when relevant, a call-to-action at the end. Original wording only. Lines are plain text (no speaker labels, no hashtags, no emojis).
 - scenes: one English image/video generation prompt per 1-2 script lines for brand-new visuals (close-up hands-only or product shots, clean kitchen/workbench, natural light, vertical 9:16). No real or identifiable people, no faces, no logos, no readable text, nothing copied from the reference framing.
 Return ONLY one JSON object, no markdown:
-{"title":"","idea":"","kind":"recipe|craft|business|homemade|recycling|other","ai_generated":"none|partly|mostly|unclear","materials":[{"name":"","qty":"","cost":""}],"steps":[{"action":"","tip":""}],"cost":{"total":"","currency":"","note":""},"price":{"low":"","high":"","currency":"","note":""},"where_to_sell":[""],"safety":[""],"angles":[{"name":"","why":""}],"script":[""],"scenes":[{"line":0,"prompt":""}],"hashtags":[""]}`;
+{"title":"","idea":"","kind":"recipe|craft|business|homemade|recycling|other","ai_generated":"none|partly|mostly|unclear","materials":[{"name":"","qty":"","cost":""}],"steps":[{"action":"","tip":""}],"cost":{"total":"","currency":"","note":""},"price":{"low":"","high":"","currency":"","note":""},"equipment":[{"name":"","need":"start|optional","cost":""}],"packaging":[{"level":"cheap|mid|premium","how":"","cost":"","machine":""}],"production":{"time_per_unit":"","batch":"","starter_kit":""},"variations":[""],"tips":[""],"where_to_sell":[""],"safety":[""],"angles":[{"name":"","why":""}],"script":[""],"scenes":[{"line":0,"prompt":""}],"hashtags":[""]}`;
 function ideaSys(lang) {
   return IDEA_SYSTEM.replace('{LANG}', lang === 'en' ? 'simple spoken English' : 'Egyptian colloquial Arabic (عامية مصرية)').replace('{MARKET}', lang === 'en' ? 'a typical small online seller (USD)' : 'Egypt (EGP)') + (voiceNote(lang) ? '\n' + voiceNote(lang) : '');
 }
@@ -240,6 +241,11 @@ function normIdea(o) {
     cost: { total: s(o.cost?.total), currency: s(o.cost?.currency), note: s(o.cost?.note) },
     price: { low: s(o.price?.low), high: s(o.price?.high), currency: s(o.price?.currency), note: s(o.price?.note) },
     where: arr(o.where_to_sell).map(s).filter(Boolean).slice(0, 8),
+    equipment: arr(o.equipment).map(x => ({ name: s(x.name), need: x.need === 'optional' ? 'optional' : 'start', cost: s(x.cost) })).filter(x => x.name).slice(0, 15),
+    packaging: arr(o.packaging).map(x => ({ level: ['cheap', 'mid', 'premium'].includes(x.level) ? x.level : 'mid', how: s(x.how), cost: s(x.cost), machine: s(x.machine) })).filter(x => x.how).slice(0, 4),
+    production: { time: s(o.production?.time_per_unit), batch: s(o.production?.batch), kit: s(o.production?.starter_kit) },
+    variations: arr(o.variations).map(s).filter(Boolean).slice(0, 10),
+    tips: arr(o.tips).map(s).filter(Boolean).slice(0, 10),
     safety: arr(o.safety).map(s).filter(Boolean).slice(0, 8),
     angles: arr(o.angles).map(a => ({ name: s(a.name), why: s(a.why) })).filter(a => a.name).slice(0, 5),
     script: arr(o.script).map(x => s(typeof x === 'string' ? x : x?.text)).filter(Boolean).slice(0, 20),
@@ -283,7 +289,7 @@ export async function ideaText(text, { lang = 'ar', focus = '' } = {}) {
 // سكريبت جديد لنفس الفكرة بزاوية تانية (طلب نصي خفيف)
 const RE_SCHEMA = { type: 'object', properties: { title: { type: 'string' }, script: { type: 'array', items: { type: 'string' } }, scenes: { type: 'array', items: { type: 'object', properties: { line: { type: 'integer' }, prompt: { type: 'string' } }, required: ['line', 'prompt'], additionalProperties: false } } }, required: ['title', 'script', 'scenes'], additionalProperties: false };
 export async function ideaAngle(r, angle, lang = 'ar') {
-  const facts = JSON.stringify({ idea: r.idea, materials: r.materials, steps: r.steps, cost: r.cost, price: r.price, safety: r.safety }).replace(/[<>]/g, '');
+  const facts = JSON.stringify({ idea: r.idea, materials: r.materials, steps: r.steps, cost: r.cost, price: r.price, equipment: r.equipment, packaging: r.packaging, production: r.production, tips: r.tips, safety: r.safety }).replace(/[<>]/g, '');
   const out = await aiJSON({ schema: RE_SCHEMA, maxTokens: 3000, system: ideaSys(lang) + '\nNow write ONLY title, script and scenes for the requested angle, using only the facts given.', user: `<facts>${facts}</facts>\n<angle>${String(angle).replace(/[<>]/g, '')}</angle>` });
   return { title: String(out?.title || r.title), script: (out?.script || []).map(String).filter(Boolean).slice(0, 20), scenes: (out?.scenes || []).filter(x => x.prompt).slice(0, 14) };
 }
