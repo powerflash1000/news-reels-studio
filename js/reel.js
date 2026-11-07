@@ -97,6 +97,16 @@ export function parseScript(text) {
 // وسوم ElevenLabs v3 زي [sad] مبتتقراش ومبتظهرش على الشاشة
 export const stripTags = t => String(t || '').replace(/\[[^\]]*\]/g, ' ').replace(/\s+/g, ' ').trim();
 
+// صوت الجرافيك: auto = حسب النوع (عدّاد = تكتكة + جرس، سنة = ووش، نسبة = جرس، كلمة = ضربة)
+export const GFX_SFX = { auto: 'أوتوماتيك', none: 'من غير صوت', tickding: 'تكتكة + جرس', ding: 'جرس', whoosh: 'ووش', boom: 'ضربة (بووم)', pop: 'بوب' };
+export function gfxSfxOf(g) {
+  const k = g.sfx || 'auto';
+  if (k === 'none') return [];
+  if (k === 'auto') return { count: ['whoosh', 'tick', 'ding'], year: ['whoosh', 'tick'], pct: ['whoosh', 'ding'], text: ['boom'] }[g.type] || [];
+  if (k === 'tickding') return ['tick', 'ding'];
+  return [k];
+}
+
 export const lineKey = l => l.speaker + '|' + l.text;
 
 // كل سطور الريل (من كل الأخبار) مع رقم الخبر
@@ -204,5 +214,14 @@ export function buildReelTimeline(reel, audioMap, manual = null, clipAudio = nul
     if (ls.length && tail.length) { tail.forEach(c => clipSeg(c, si)); t += STORY_GAP - GAP; }
   });
   const duration = Math.max(1, t - STORY_GAP + 0.6);
+  // 🔊 أصوات الجرافيكس: بنعلّق على سطر الجرافيك نوع الصوت، و audio.js بيولّده في الميكس
+  reel.stories.forEach((st, si) => {
+    const mine = segs.filter(x => x.storyIdx === si && !x.clip);
+    for (const g of st.gfx || []) {
+      const sfx = gfxSfxOf(g);
+      if (g.off || !sfx.length || !mine[g.li]) continue;
+      mine[g.li].sfx = [...(mine[g.li].sfx || []), ...sfx.map(kind => ({ kind, type: g.type }))];
+    }
+  });
   return { tl: withBumpers(reel, segs, duration), real, lines, hasB };
 }

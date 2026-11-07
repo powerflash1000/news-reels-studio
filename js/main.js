@@ -1,29 +1,29 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw5nlyw7';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw5nlyw7';
-import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw5nlyw7';
-import { newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw5nlyw7';
-import { transcribeWords, alignWords } from './align.js?v=mw5nlyw7';
-import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw5nlyw7';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw5nlyw7';
-import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mw5nlyw7';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw5nlyw7';
-import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw5nlyw7';
-import { exportSupport, exportReel } from './export.js?v=mw5nlyw7';
-import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf } from './media.js?v=mw5nlyw7';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw5nlyw7';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw5nlyw7';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw5nlyw7';
-import { detailTarget, loadTileMap } from './tiles.js?v=mw5nlyw7';
-import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw5nlyw7';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw5nlyw7';
-import { loadBg, playBg, seekBg } from './bg.js?v=mw5nlyw7';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw5nlyw7';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw5nlyw7';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw5nlyw7';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw5nlyw7';
-import { readUrl, cleanPasted } from './reader.js?v=mw5nlyw7';
-import { initI18n, ui } from './i18n.js?v=mw5nlyw7';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw5nlyw7';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw5nt0ga';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw5nt0ga';
+import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw5nt0ga';
+import { GFX_SFX, gfxSfxOf, newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw5nt0ga';
+import { transcribeWords, alignWords } from './align.js?v=mw5nt0ga';
+import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw5nt0ga';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw5nt0ga';
+import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mw5nt0ga';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw5nt0ga';
+import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw5nt0ga';
+import { exportSupport, exportReel } from './export.js?v=mw5nt0ga';
+import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf } from './media.js?v=mw5nt0ga';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw5nt0ga';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw5nt0ga';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw5nt0ga';
+import { detailTarget, loadTileMap } from './tiles.js?v=mw5nt0ga';
+import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw5nt0ga';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw5nt0ga';
+import { loadBg, playBg, seekBg } from './bg.js?v=mw5nt0ga';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw5nt0ga';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw5nt0ga';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw5nt0ga';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw5nt0ga';
+import { readUrl, cleanPasted } from './reader.js?v=mw5nt0ga';
+import { initI18n, ui } from './i18n.js?v=mw5nt0ga';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw5nt0ga';
 
 initI18n();
 
@@ -1345,7 +1345,7 @@ $('exSrt').addEventListener('click', () => {
 function exportWav(voiceOnly) {
   const info = exportInfo(); if (!info) return;
   const t = info.tl;
-  const { left, right } = mixTimeline(t.segs, t.duration, voiceOnly ? null : t.music, t.fx);
+  const { left, right } = mixTimeline(t.segs, t.duration, voiceOnly ? null : t.music, t.fx, { sfx: !voiceOnly });
   download(wavBlob(left, right, SAMPLE_RATE), fileBase() + (voiceOnly ? '-voice' : '') + '.wav');
   setStatus('نزل ملف الصوت WAV ✅');
 }
@@ -1956,7 +1956,7 @@ $('play').addEventListener('click', () => {
   const ac = audioCtx();
   ac.resume();
   let src = null;
-  if (info.real || info.tl.music) {
+  if (info.real || info.tl.music || info.tl.segs.some(x => x.sfx)) {
     const mix = mixTimeline(info.tl.segs, info.tl.duration, info.tl.music, info.tl.fx);
     const buf = ac.createBuffer(2, mix.left.length, SAMPLE_RATE);
     buf.copyToChannel(mix.left, 0); buf.copyToChannel(mix.right, 1);
@@ -2201,7 +2201,7 @@ $('exPack').addEventListener('click', async () => {
     }
     setStatus('📦 بجهّز الصوت والترجمة والوسائط…');
     // 2) الصوت والترجمة
-    const full = mixTimeline(tl.segs, tl.duration, tl.music, tl.fx), voice = mixTimeline(tl.segs, tl.duration, null, tl.fx);
+    const full = mixTimeline(tl.segs, tl.duration, tl.music, tl.fx), voice = mixTimeline(tl.segs, tl.duration, null, tl.fx, { sfx: false });
     files.push({ name: '02-audio-full.wav', data: wavBlob(full.left, full.right, SAMPLE_RATE) });
     files.push({ name: '03-voice-only.wav', data: wavBlob(voice.left, voice.right, SAMPLE_RATE) });
     if (reel.music?.id) { const mb = await getBlob(reel.music.id).catch(() => null); if (mb) files.push({ name: `04-music.${extOf(mb, 'mp3')}`, data: mb }); }
@@ -3147,6 +3147,19 @@ $('bmCur').addEventListener('click', e => {
 
 // ===== 📊 جرافيكس على الشاشة: story.gfx = [{li, type, value, unit, label, off}] =====
 var GFX_TYPES = { count: '🔢 عدّاد', year: '📅 سنة', pct: '⭕ نسبة', text: '💬 كلمة مهمة' };
+var GFX_STYLES = { card: 'كارت', big: 'كبير على الشاشة كلها', minimal: 'من غير كارت' };
+// أيقونة أوتوماتيك من الوحدة/الكلام (تقدر تغيّرها أو تمسحها)
+function gfxIcon(g, text = '') {
+  const t = `${g.unit || ''} ${g.label || ''} ${text}`;
+  if (g.type === 'year') return '📅';
+  if (g.type === 'pct') return '📈';
+  if (/دولار|جنيه|يورو|ريال|درهم|دينار|استرليني|إسترليني|فلوس|سرق|ثرو|dollar|pound|euro|money/i.test(t)) return '💰';
+  if (/قتيل|مصاب|ضحي|وفا|killed|dead|injur/i.test(t)) return '⚠️';
+  if (/شخص|أشخاص|نسمة|سكان|موظف|people|person/i.test(t)) return '👥';
+  if (/طن|كيلو|متر|km|ton/i.test(t)) return '📏';
+  if (/يوم|أيام|ساعة|ساعات|سنة|سنين|سنوات|عام|day|hour|year/i.test(t)) return '⏳';
+  return g.type === 'text' ? '⭐' : '🔢';
+}
 const AR2L = v => String(v).replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[٫]/g, '.').replace(/[٬,](?=\d{3})/g, '');
 const SCALE_RX = '(ألف|آلاف|الف|مليون|ملايين|مليار|مليارات|تريليون|thousand|million|billion|trillion|k|m|bn)';
 const UNIT_RX = '(دولار|جنيه|يورو|ريال|درهم|دينار|إسترليني|استرليني|شخص|أشخاص|قتيل|مصاب|طن|كيلو(?:متر|جرام)?|متر|سنة|سنين|سنوات|عام|يوم|أيام|ساعة|ساعات|دقيقة|نسمة|موظف|سيارة|dollars?|pounds?|euros?|people|tons?|km|years?|days?)';
@@ -3155,7 +3168,7 @@ function detectGfx(text, li) {
   const t = AR2L(text);
   const pct = new RegExp('(\\d+(?:\\.\\d+)?)\\s*(%|٪|في المي[هة]|بالمي[هة]|بالمئة|في المائة|percent)', 'i').exec(t);
   const before = (i) => t.slice(0, i).replace(/[\[\]«»"،,.:؛!?]/g, ' ').trim().split(/\s+/).filter(w => w.length > 1).slice(-3).join(' ');
-  if (pct) return { li, type: 'pct', value: pct[1], unit: '', label: before(pct.index) };
+  if (pct) return { li, type: 'pct', value: pct[1], unit: '', label: before(pct.index), icon: '📈' };
   const yr = /(?:^|\D)((?:1[5-9]|20)\d{2})(?!\d)/.exec(t);
   const num = new RegExp(`(\\d+(?:\\.\\d+)?)\\s*${SCALE_RX}?\\s*${UNIT_RX}?`, 'i');
   let m, best = null;
@@ -3165,8 +3178,8 @@ function detectGfx(text, li) {
     if (!m[2] && !m[3] && parseFloat(m[1]) < 10) continue; // رقم صغير لوحده مش مستاهل
     best = m; break;
   }
-  if (best) return { li, type: 'count', value: best[1], unit: [best[2], best[3]].filter(Boolean).join(' '), label: before(best.index) };
-  if (yr) return { li, type: 'year', value: yr[1], unit: '', label: before(yr.index + yr[0].indexOf(yr[1])) };
+  if (best) { const g = { li, type: 'count', value: best[1], unit: [best[2], best[3]].filter(Boolean).join(' '), label: before(best.index) }; g.icon = gfxIcon(g, text); return g; }
+  if (yr) return { li, type: 'year', value: yr[1], unit: '', label: before(yr.index + yr[0].indexOf(yr[1])), icon: '📅' };
   return null;
 }
 function renderGfx() {
@@ -3177,7 +3190,11 @@ function renderGfx() {
       <select data-gfx="${i}" data-k="type">${Object.entries(GFX_TYPES).map(([k, v]) => `<option value="${k}" ${k === g.type ? 'selected' : ''}>${v}</option>`).join('')}</select>
       <button class="btn ghost" data-gfxdel="${i}" type="button">✕</button></div>
     <div class="tx muted" dir="auto" translate="no">${esc((lines[g.li]?.text || '').slice(0, 90))}</div>
-    <div class="row" style="margin:0"><input data-gfx="${i}" data-k="value" value="${esc(g.value || '')}" placeholder="${g.type === 'text' ? 'الكلمة' : 'الرقم'}" style="max-width:110px" dir="auto"><input data-gfx="${i}" data-k="unit" value="${esc(g.unit || '')}" placeholder="الوحدة (مليون دولار)" style="max-width:150px" dir="auto"><input data-gfx="${i}" data-k="label" value="${esc(g.label || '')}" placeholder="العنوان فوقه" dir="auto"></div></div>`; }).join('') : '<p class="muted">مفيش جرافيكس لسه.</p>';
+    <div class="row" style="margin:0"><input data-gfx="${i}" data-k="value" value="${esc(g.value || '')}" placeholder="${g.type === 'text' ? 'الكلمة' : 'الرقم'}" style="max-width:110px" dir="auto"><input data-gfx="${i}" data-k="unit" value="${esc(g.unit || '')}" placeholder="الوحدة (مليون دولار)" style="max-width:150px" dir="auto"><input data-gfx="${i}" data-k="label" value="${esc(g.label || '')}" placeholder="العنوان فوقه" dir="auto"></div>
+    <div class="row" style="margin:0"><input data-gfx="${i}" data-k="icon" value="${esc(g.icon || '')}" placeholder="أيقونة" title="أيقونة جنب العنوان (إيموجي) — امسحها لو مش عايزها" style="max-width:56px;text-align:center">
+      <label class="inl">الشكل <select data-gfx="${i}" data-k="style">${Object.entries(GFX_STYLES).map(([k, v]) => `<option value="${k}" ${(g.style || 'card') === k ? 'selected' : ''}>${v}</option>`).join('')}</select></label>
+      <label class="inl">🔊 <select data-gfx="${i}" data-k="sfx">${Object.entries(GFX_SFX).map(([k, v]) => `<option value="${k}" ${(g.sfx || 'auto') === k ? 'selected' : ''}>${v}</option>`).join('')}</select></label>
+      <button class="btn ghost" data-gfxplay="${i}" type="button" title="اسمع الصوت">▶</button></div></div>`; }).join('') : '<p class="muted">مفيش جرافيكس لسه.</p>';
 }
 function gfxAddFor(li, quiet) {
   const st = story(), l = parseScript(st.script)[li];
@@ -3211,7 +3228,8 @@ $('gfxAi').addEventListener('click', async () => {
     let n = 0;
     for (const it of out?.items || []) {
       if (!(it.line >= 0 && it.line < lines.length) || st.gfx.some(g => g.li === it.line) || !GFX_TYPES[it.type]) continue;
-      st.gfx.push({ li: it.line, type: it.type, value: String(it.value || '').slice(0, 24), unit: String(it.unit || '').slice(0, 30), label: String(it.label || '').slice(0, 40) }); n++;
+      const g = { li: it.line, type: it.type, value: String(it.value || '').slice(0, 24), unit: String(it.unit || '').slice(0, 30), label: String(it.label || '').slice(0, 40) };
+      g.icon = gfxIcon(g, lines[it.line].text); st.gfx.push(g); n++;
     }
     persist(); renderGfx(); redraw();
     $('gfxMsg').textContent = n ? `✅ اقترح ${n} جرافيك. راجع إن الأرقام زي الكلام بالظبط.` : 'ما اقترحش حاجة جديدة.';
@@ -3239,6 +3257,17 @@ $('gfxList').addEventListener('change', e => {
   if (e.target.matches('select[data-gfx]')) renderGfx();
 });
 $('gfxList').addEventListener('click', e => {
+  const pl = e.target.closest('[data-gfxplay]');
+  if (pl) {
+    // نسمع أصوات الجرافيك ده لوحده (نفس الميكس اللي في الفيديو)
+    const g = story().gfx[pl.dataset.gfxplay];
+    const seg = { start: 0.3, at: 0.3, sfx: gfxSfxOf(g).map(kind => ({ kind, type: g.type })) };
+    if (!seg.sfx.length) return ($('gfxMsg').textContent = 'الجرافيك ده من غير صوت.');
+    const mix = mixTimeline([seg], 3), ac = audioCtx(); ac.resume();
+    const buf = ac.createBuffer(2, mix.left.length, SAMPLE_RATE); buf.copyToChannel(mix.left, 0); buf.copyToChannel(mix.right, 1);
+    const src = ac.createBufferSource(); src.buffer = buf; src.connect(ac.destination); src.start();
+    return;
+  }
   const d = e.target.closest('[data-gfxdel]'); if (!d) return;
   story().gfx.splice(Number(d.dataset.gfxdel), 1); persist(); renderGfx(); redraw();
 });

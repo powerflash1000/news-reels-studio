@@ -12,7 +12,7 @@ export async function decode(arrayBuffer) {
   return audioCtx().decodeAudioData(arrayBuffer.slice(0));
 }
 
-export function mixTimeline(segs, duration, music = null, fx = null) {
+export function mixTimeline(segs, duration, music = null, fx = null, opts = {}) {
   const n = Math.ceil(duration * SAMPLE_RATE);
   const left = new Float32Array(n), right = new Float32Array(n);
   for (const s of segs) {
@@ -23,6 +23,7 @@ export function mixTimeline(segs, duration, music = null, fx = null) {
   }
   if (music?.buffer?.getChannelData) addMusic(left, right, segs, duration, music);
   if (!(fx && fx.whoosh === false)) addWhooshes(left, right, segs);
+  if (opts.sfx !== false) addGfxSfx(left, right, segs);
   return { left, right, duration };
 }
 
@@ -52,6 +53,43 @@ function addWhooshes(left, right, segs) {
   for (const t of starts) {
     const off = Math.max(0, Math.round((t - 0.45) * SAMPLE_RATE));
     for (let i = 0; i < w.length && off + i < n; i++) { left[off + i] += w[i] * (0.8 + 0.2 * (i / w.length)); right[off + i] += w[i] * (1 - 0.2 * (i / w.length)); }
+  }
+}
+
+// 🔊 أصوات الجرافيكس (متولّدة بالكود، من غير ملفات): تكتكة مع العدّاد، جرس في الآخر، ووش وقت الدخول، ضربة، بوب
+const SFX = {};
+function synth(name) {
+  if (SFX[name]) return SFX[name];
+  const R = SAMPLE_RATE, mk = sec => new Float32Array(Math.round(sec * R));
+  let out;
+  if (name === 'tick') {
+    out = mk(0.03);
+    for (let i = 0; i < out.length; i++) { const t = i / R; out[i] = Math.sin(2 * Math.PI * 3200 * t) * Math.exp(-t * 220) * 0.5 + (Math.random() * 2 - 1) * Math.exp(-t * 900) * 0.25; }
+  } else if (name === 'ding') {
+    out = mk(1.1);
+    for (let i = 0; i < out.length; i++) { const t = i / R; out[i] = (Math.sin(2 * Math.PI * 1318 * t) + 0.5 * Math.sin(2 * Math.PI * 2637 * t) + 0.25 * Math.sin(2 * Math.PI * 3951 * t)) * Math.exp(-t * 4.5) * Math.min(1, t * 400) * 0.22; }
+  } else if (name === 'boom') {
+    out = mk(0.7); let ph = 0, lp = 0;
+    for (let i = 0; i < out.length; i++) { const t = i / R, f = 40 + 90 * Math.exp(-t * 18); ph += 2 * Math.PI * f / R; lp += 0.08 * ((Math.random() * 2 - 1) - lp); out[i] = (Math.sin(ph) * 0.9 + lp * Math.exp(-t * 25) * 0.8) * Math.exp(-t * 5) * Math.min(1, t * 600) * 0.45; }
+  } else if (name === 'pop') {
+    out = mk(0.12); let ph = 0;
+    for (let i = 0; i < out.length; i++) { const t = i / R, f = 380 + 900 * (t / 0.12); ph += 2 * Math.PI * f / R; out[i] = Math.sin(ph) * Math.sin(Math.PI * t / 0.12) * 0.3; }
+  } else out = whoosh();
+  return (SFX[name] = out);
+}
+function addGfxSfx(left, right, segs) {
+  const n = left.length;
+  const put = (buf, t, g = 1) => { const off = Math.round(t * SAMPLE_RATE); if (off < 0) return; for (let i = 0; i < buf.length && off + i < n; i++) { left[off + i] += buf[i] * g; right[off + i] += buf[i] * g; } };
+  for (const s of segs) for (const x of s.sfx || []) {
+    const t0 = s.start ?? s.at;
+    if (x.kind === 'tick') {
+      // تكتكة على إيقاع العدّ (بيبطّأ في الآخر زي العدّاد على الشاشة: ease-out من 0.2 لـ 1.5 ث)
+      const N = x.type === 'year' ? 14 : 12;
+      for (let j = 1; j <= N; j++) { const p = j / N, tt = 0.2 + 1.3 * (1 - Math.cbrt(1 - p)); put(synth('tick'), t0 + tt, 0.8); }
+    } else if (x.kind === 'ding') put(synth('ding'), t0 + 1.5);
+    else if (x.kind === 'whoosh') put(synth('whoosh'), Math.max(0, t0 - 0.25), 0.7);
+    else if (x.kind === 'boom') put(synth('boom'), t0 + 0.3);
+    else if (x.kind === 'pop') put(synth('pop'), t0 + 0.3);
   }
 }
 
