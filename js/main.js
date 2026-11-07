@@ -1,29 +1,29 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw6bpna8';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw6bpna8';
-import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw6bpna8';
-import { GFX_SFX, gfxSfxOf, newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw6bpna8';
-import { transcribeWords, alignWords } from './align.js?v=mw6bpna8';
-import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw6bpna8';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw6bpna8';
-import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mw6bpna8';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw6bpna8';
-import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw6bpna8';
-import { exportSupport, exportReel } from './export.js?v=mw6bpna8';
-import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf } from './media.js?v=mw6bpna8';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw6bpna8';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw6bpna8';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw6bpna8';
-import { detailTarget, loadTileMap } from './tiles.js?v=mw6bpna8';
-import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw6bpna8';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw6bpna8';
-import { loadBg, playBg, seekBg } from './bg.js?v=mw6bpna8';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw6bpna8';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw6bpna8';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw6bpna8';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures, ideaYouTube, ideaFile, ideaText, ideaAngle } from './external.js?v=mw6bpna8';
-import { readUrl, cleanPasted } from './reader.js?v=mw6bpna8';
-import { initI18n, ui } from './i18n.js?v=mw6bpna8';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw6bpna8';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw6bvig7';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw6bvig7';
+import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw6bvig7';
+import { GFX_SFX, gfxSfxOf, newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw6bvig7';
+import { transcribeWords, alignWords } from './align.js?v=mw6bvig7';
+import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw6bvig7';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw6bvig7';
+import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mw6bvig7';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw6bvig7';
+import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw6bvig7';
+import { exportSupport, exportReel } from './export.js?v=mw6bvig7';
+import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf } from './media.js?v=mw6bvig7';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw6bvig7';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw6bvig7';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw6bvig7';
+import { detailTarget, loadTileMap } from './tiles.js?v=mw6bvig7';
+import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw6bvig7';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw6bvig7';
+import { loadBg, playBg, seekBg } from './bg.js?v=mw6bvig7';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw6bvig7';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw6bvig7';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw6bvig7';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures, ideaYouTube, ideaFile, ideaText, ideaAngle } from './external.js?v=mw6bvig7';
+import { readUrl, cleanPasted } from './reader.js?v=mw6bvig7';
+import { initI18n, ui } from './i18n.js?v=mw6bvig7';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw6bvig7';
 
 initI18n();
 
@@ -3459,6 +3459,7 @@ $('xOut').addEventListener('click', e => {
 
 // ===== 💡 خد الفكرة واعملها بطريقتك =====
 var ideaLast = null;
+var EXPERT_TXT = { marketing: '📣 خبير التسويق', sourcing: '📦 خبير الخامات والموردين', networking: '🤝 خبير العلاقات والشراكات', finance: '💵 الخبير المالي', production: '🛠 خبير الإنتاج والصنعة' };
 const IDEA_KIND = { recipe: '🍳 وصفة', craft: '✂️ كرافت', business: '💼 مشروع صغير', homemade: '🏠 هوم ميد', recycling: '♻️ إعادة تدوير', other: '💡 فكرة' };
 function renderIdea(r) {
   ideaLast = r;
@@ -3475,6 +3476,9 @@ function renderIdea(r) {
     ${r.production?.time || r.production?.batch || r.production?.kit ? `<h4>⏱ الإنتاج</h4><div class="xitem" dir="auto" translate="no">${[r.production.time && 'وقت القطعة: ' + esc(r.production.time), r.production.batch && 'الدفعة: ' + esc(r.production.batch), r.production.kit && 'تكلفة البداية: <b>' + esc(r.production.kit) + '</b>'].filter(Boolean).join(' • ')}</div>` : ''}
     ${r.variations?.length ? `<h4>🎨 أشكال تانية</h4><div dir="auto" translate="no">${esc(r.variations.join(' • '))}</div>` : ''}
     ${r.tips?.length ? `<h4>📌 نصايح عملية</h4><ul>${r.tips.map(x => `<li dir="auto" translate="no">${esc(x)}</li>`).join('')}</ul>` : ''}
+    ${r.audience || r.positioning ? `<h4>🎯 الزبون والتميّز</h4><div class="xitem" dir="auto" translate="no">${r.audience ? 'مين يشتري: ' + esc(r.audience) : ''}${r.positioning ? `<div>تميّز إزاي: ${esc(r.positioning)}</div>` : ''}</div>` : ''}
+    ${r.finance?.unit || r.finance?.be ? `<h4>📊 الحسابات (تقدير)</h4><div class="xitem" dir="auto" translate="no">${[r.finance.unit && 'تكلفة القطعة: <b>' + esc(r.finance.unit) + '</b>', r.finance.price && 'السعر: <b>' + esc(r.finance.price) + '</b>', r.finance.margin && 'المكسب: <b>' + esc(r.finance.margin) + '</b>', r.finance.be && 'تغطي رأس المال بعد: <b>' + esc(r.finance.be) + '</b>'].filter(Boolean).join(' • ')}${r.finance.asm ? `<div class="muted">على أساس: ${esc(r.finance.asm)}</div>` : ''}</div>` : ''}
+    ${r.experts?.length ? `<h4>🧠 رأي الخبراء</h4>${r.experts.map(x => `<div class="xitem"><b>${EXPERT_TXT[x.role]}</b><ul>${x.points.map(p => `<li dir="auto" translate="no">${esc(p)}</li>`).join('')}</ul></div>`).join('')}` : ''}
     ${r.where.length ? `<h4>🛒 تبيعها فين</h4><div dir="auto" translate="no">${esc(r.where.join(' • '))}</div>` : ''}
     ${r.safety.length ? `<h4>⚠️ تحذيرات أمان</h4><ul>${r.safety.map(x => `<li dir="auto" translate="no">${esc(x)}</li>`).join('')}</ul>` : ''}
     ${r.angles.length ? `<h4>🎯 زوايا تعرضها بيها (بطريقتك)</h4>${r.angles.map((a, i) => `<div class="xitem"><b dir="auto" translate="no">${esc(a.name)}</b><div class="muted" dir="auto" translate="no">${esc(a.why)}</div><button class="btn" data-idang="${i}" type="button">✍️ اكتب السكريبت بالزاوية دي</button></div>`).join('')}` : ''}
@@ -3510,7 +3514,7 @@ $('xOut').addEventListener('click', async e => {
     if (!lines.length) return ($('xMsg').textContent = 'السكريبت فاضي.');
     const safety = r.safety.length ? '⚠️ ' + r.safety.join(' • ') : '';
     const money = (a, cur) => [a, cur].filter(Boolean).join(' ');
-    const ref = [r.idea, r.materials.length ? 'الخامات: ' + r.materials.map(m => [m.name, m.qty, m.cost && `(${m.cost})`].filter(Boolean).join(' ')).join('، ') : '', r.steps.length ? 'الخطوات:\n' + r.steps.map((x, i) => `${i + 1}. ${x.action}${x.tip ? ' — ' + x.tip : ''}`).join('\n') : '', r.cost.total ? `التكلفة (تقدير): ${money(r.cost.total, r.cost.currency)}` : '', r.price.low ? `سعر البيع (تقدير): ${money([r.price.low, r.price.high].filter(Boolean).join(' – '), r.price.currency)}` : '', r.where.length ? 'تبيعها فين: ' + r.where.join('، ') : '', r.equipment?.length ? 'الأدوات والمكن: ' + r.equipment.map(x => `${x.name}${x.need === 'optional' ? ' (بعدين)' : ''}${x.cost ? ' ' + x.cost : ''}`).join('، ') : '', r.packaging?.length ? 'التغليف:\n' + r.packaging.map(x => `- ${x.level}: ${x.how}${x.cost ? ' (' + x.cost + ')' : ''}${x.machine ? ' — ' + x.machine : ''}`).join('\n') : '', r.production?.kit ? 'تكلفة البداية: ' + r.production.kit : '', r.tips?.length ? 'نصايح: ' + r.tips.join('، ') : '', safety].filter(Boolean).join('\n\n');
+    const ref = [r.idea, r.materials.length ? 'الخامات: ' + r.materials.map(m => [m.name, m.qty, m.cost && `(${m.cost})`].filter(Boolean).join(' ')).join('، ') : '', r.steps.length ? 'الخطوات:\n' + r.steps.map((x, i) => `${i + 1}. ${x.action}${x.tip ? ' — ' + x.tip : ''}`).join('\n') : '', r.cost.total ? `التكلفة (تقدير): ${money(r.cost.total, r.cost.currency)}` : '', r.price.low ? `سعر البيع (تقدير): ${money([r.price.low, r.price.high].filter(Boolean).join(' – '), r.price.currency)}` : '', r.where.length ? 'تبيعها فين: ' + r.where.join('، ') : '', r.equipment?.length ? 'الأدوات والمكن: ' + r.equipment.map(x => `${x.name}${x.need === 'optional' ? ' (بعدين)' : ''}${x.cost ? ' ' + x.cost : ''}`).join('، ') : '', r.packaging?.length ? 'التغليف:\n' + r.packaging.map(x => `- ${x.level}: ${x.how}${x.cost ? ' (' + x.cost + ')' : ''}${x.machine ? ' — ' + x.machine : ''}`).join('\n') : '', r.production?.kit ? 'تكلفة البداية: ' + r.production.kit : '', r.tips?.length ? 'نصايح: ' + r.tips.join('، ') : '', r.audience ? 'الزبون: ' + r.audience : '', r.positioning ? 'التميّز: ' + r.positioning : '', r.finance?.unit ? `الحسابات (تقدير): تكلفة القطعة ${r.finance.unit}، السعر ${r.finance.price}، المكسب ${r.finance.margin}، تغطية رأس المال ${r.finance.be}${r.finance.asm ? ' — ' + r.finance.asm : ''}` : '', ...(r.experts || []).map(x => `${EXPERT_TXT[x.role]}:\n- ${x.points.join('\n- ')}`), safety].filter(Boolean).join('\n\n');
     const desc = [r.idea, r.materials.length ? '🧺 ' + r.materials.map(m => m.name).join('، ') : '', r.cost.total || r.price.low ? `💰 التكلفة والسعر تقديريين: ${[r.cost.total && money(r.cost.total, r.cost.currency), r.price.low && money([r.price.low, r.price.high].filter(Boolean).join('–'), r.price.currency)].filter(Boolean).join(' ← ')}` : '', safety].filter(Boolean).join('\n');
     const tool = $('genTool').value, style = $('genStyle').value;
     const scenes = [];

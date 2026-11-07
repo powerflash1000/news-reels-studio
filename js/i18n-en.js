@@ -1,5 +1,13 @@
 // قاموس الواجهة عربي → إنجليزي. أي نص جديد في الواجهة العربي ضيفه هنا (المفتاح = النص العربي بالظبط، {} = جزء متغير).
 export default {
+ "🎯 الزبون والتميّز": "🎯 Customer and positioning",
+ "📊 الحسابات (تقدير)": "📊 The numbers (estimate)",
+ "🧠 رأي الخبراء": "🧠 Expert panel",
+ "📣 خبير التسويق": "📣 Marketing expert",
+ "📦 خبير الخامات والموردين": "📦 Sourcing & suppliers expert",
+ "🤝 خبير العلاقات والشراكات": "🤝 Networking & partnerships expert",
+ "💵 الخبير المالي": "💵 Finance expert",
+ "🛠 خبير الإنتاج والصنعة": "🛠 Production & craft expert",
  "⏺ سجّل فيديو من الشاشة": "⏺ Record a video from the screen",
  "فيسبوك / إنستجرام / تيك توك: شغّل الفيديو في تاب وسجّله من هنا": "Facebook / Instagram / TikTok: play the video in a tab and record it from here",
  "30 ث": "30 s",
