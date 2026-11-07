@@ -1,10 +1,10 @@
 // رسم إطار الريل على canvas (عمودي 1080×1920 أو 4:5 أو مربع أو أفقي). نفس الدالة للمعاينة والتصدير.
-import { detailTarget, tileKey, getTileMap } from './tiles.js?v=mw5lz4mo';
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mw5lz4mo';
-import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mw5lz4mo';
-import { hostOf } from './feeds.js?v=mw5lz4mo';
-import QR from '../vendor/qrcode/qrcode.mjs?v=mw5lz4mo';
-import { drawBg } from './bg.js?v=mw5lz4mo';
+import { detailTarget, tileKey, getTileMap } from './tiles.js?v=mw5nlyw7';
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mw5nlyw7';
+import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mw5nlyw7';
+import { hostOf } from './feeds.js?v=mw5nlyw7';
+import QR from '../vendor/qrcode/qrcode.mjs?v=mw5nlyw7';
+import { drawBg } from './bg.js?v=mw5nlyw7';
 
 // مقاسات الإخراج. W/H متغيّرين (live binding) والتصدير بيقراهم وقت التصدير
 export const FORMATS = {
@@ -1137,6 +1137,90 @@ function drawScene(ctx, bg, m, p, k, dim, storyBg, storyMedia) {
   drawBg(ctx, bg, W, H, dim, { ...m, fit: m.fit || 'cover', zoom: (m.zoom || 1) * (1.04 + 0.1 * p), fx: (m.fx ?? 0.5) + dir * 0.12 * (p - 0.5), fy: (m.fy ?? 0.5) - 0.06 * (p - 0.5) });
 }
 
+// 📊 جرافيكس على الكلام: story.gfx = [{li, type: count|year|pct|text, value, unit, label}]
+// بيظهر وقت السطر رقم li (من بداية الكلام لحد بعد آخره بشوية): عدّاد بيعدّ لحد الرقم، سنة، نسبة في دايرة، أو كلمة مهمة
+export function gfxAt(st, t, idx) {
+  const story = st.reel.stories[idx];
+  const list = (story?.gfx || []).filter(g => g && !g.off && g.li >= 0);
+  if (!list.length) return null;
+  const segs = st.tl.segs.filter(s => s.storyIdx === idx && !s.clip);
+  for (const g of list) {
+    const s = segs[g.li];
+    if (!s) continue;
+    const end = Math.max(s.end + 0.6, s.start + 2.6);
+    if (t >= s.start && t < end) return { g, start: s.start, end };
+  }
+  return null;
+}
+function gfxLayer(ctx, c, t, hb) {
+  const k0 = c.tl.stories.find(x => t >= x.start && t < x.end);
+  const idx = k0 && k0.idx >= 0 ? k0.idx : null;
+  if (idx == null) return;
+  const hit = gfxAt(c, t, idx);
+  if (!hit) return;
+  const { g, start, end } = hit;
+  const age = t - start, left = end - t;
+  const fin = easeOut(clamp01(age / 0.35)), fout = clamp01(left / 0.3), a = Math.min(fin, fout);
+  if (a <= 0) return;
+  const k = L.vert ? 1 : Math.max(0.55, H / 1700);
+  const cw = Math.min(W - 2 * Math.max(L.mL, L.mR) - 20, 900 * k), ch = (g.type === 'text' ? 210 : g.type === 'pct' ? 330 : 300) * k;
+  const cx = L.vert ? L.capCX : W / 2;
+  const top = L.vert ? Math.min(hb + 50, 1130 - 190 - ch) : Math.max(hb + 20 * k, H * 0.2);
+  const x = cx - cw / 2, y = top + (1 - fin) * 40 * k;
+  const col = c.cat?.color || '#ffb224';
+  ctx.save();
+  ctx.globalAlpha = a;
+  ctx.translate(cx, y + ch / 2); const sc = 0.9 + 0.1 * fin; ctx.scale(sc, sc); ctx.translate(-cx, -(y + ch / 2));
+  // الكارت
+  ctx.fillStyle = 'rgba(8,10,20,.78)'; rrect(ctx, x, y, cw, ch, 34 * k); ctx.fill();
+  ctx.strokeStyle = col; ctx.lineWidth = 4 * k; rrect(ctx, x, y, cw, ch, 34 * k); ctx.stroke();
+  ctx.fillStyle = col; rrect(ctx, x + 40 * k, y - 6 * k, 120 * k, 12 * k, 6 * k); ctx.fill();
+  ctx.direction = RTL ? 'rtl' : 'ltr'; ctx.textBaseline = 'middle'; ctx.textAlign = 'center';
+  const raw = toLatinDigits(g.value);
+  const numeric = /^-?\d+(\.\d+)?$/.test(raw);
+  const dec = numeric ? (raw.split('.')[1] || '').length : 0;
+  const p = easeOut(clamp01((age - 0.2) / 1.3));
+  const fitFont = (txt, size, wmax, weight = 800) => { let z = size; ctx.font = font(z, weight); while (z > 30 && ctx.measureText(txt).width > wmax) { z -= 6; ctx.font = font(z, weight); } return z; };
+  if (g.type === 'pct') {
+    const v = numeric ? Math.max(0, Math.min(100, parseFloat(raw))) : 0;
+    const r = 105 * k, rx = RTL ? x + cw - 70 * k - r : x + 70 * k + r, ry = y + ch / 2;
+    ctx.lineWidth = 26 * k; ctx.strokeStyle = 'rgba(255,255,255,.14)'; ctx.beginPath(); ctx.arc(rx, ry, r, 0, Math.PI * 2); ctx.stroke();
+    ctx.strokeStyle = col; ctx.lineCap = 'round'; ctx.beginPath(); ctx.arc(rx, ry, r, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * (v / 100) * p); ctx.stroke(); ctx.lineCap = 'butt';
+    ctx.fillStyle = '#fff'; fitFont(fmtNum(v * p, dec) + '٪', 70 * k, r * 1.6); ctx.fillText(fmtNum(v * p, dec) + (RTL ? '٪' : '%'), rx, ry);
+    const tx0 = RTL ? x + 50 * k : rx + r + 50 * k, tw = cw - 2 * r - 170 * k;
+    ctx.textAlign = RTL ? 'right' : 'left';
+    const tx = RTL ? rx - r - 50 * k : tx0;
+    ctx.fillStyle = 'rgba(255,255,255,.92)'; fitFont(g.label || '', 50 * k, tw, 700); ctx.fillText(g.label || '', tx, ry - (g.unit ? 30 * k : 0));
+    if (g.unit) { ctx.fillStyle = col; fitFont(g.unit, 40 * k, tw, 700); ctx.fillText(g.unit, tx, ry + 40 * k); }
+  } else if (g.type === 'text') {
+    ctx.fillStyle = col; const z = fitFont(g.value || '', 96 * k, cw - 80 * k);
+    const pop = 1 + 0.12 * Math.max(0, 1 - Math.abs(age - 0.45) / 0.25);
+    ctx.save(); ctx.translate(cx, y + ch * (g.label ? 0.42 : 0.5)); ctx.scale(pop, pop); ctx.fillText(g.value || '', 0, 0); ctx.restore();
+    if (g.label) { ctx.fillStyle = 'rgba(255,255,255,.85)'; fitFont(g.label, 42 * k, cw - 80 * k, 700); ctx.fillText(g.label, cx, y + ch * 0.8); }
+  } else {
+    // count / year: الرقم كبير بيعدّ، والوحدة جنبه، والعنوان فوقه
+    const isYear = g.type === 'year';
+    const target = numeric ? parseFloat(raw) : 0;
+    const from = isYear && numeric ? Math.max(0, target - 40) : 0;
+    const cur = numeric ? from + (target - from) * p : 0;
+    const txt = numeric ? (isYear ? (RTL ? Math.round(cur).toLocaleString('ar-EG', { useGrouping: false }) : String(Math.round(cur))) : fmtNum(cur, dec)) : (g.value || '');
+    const full = numeric ? (isYear ? (RTL ? Math.round(target).toLocaleString('ar-EG', { useGrouping: false }) : String(Math.round(target))) : fmtNum(target, dec)) : txt;
+    if (g.label) { ctx.fillStyle = 'rgba(255,255,255,.85)'; fitFont(g.label, 46 * k, cw - 80 * k, 700); ctx.fillText(g.label, cx, y + 62 * k); }
+    const ny = y + (g.label ? 175 : 150) * k;
+    ctx.font = font(60 * k, 800); const uw = g.unit ? ctx.measureText(g.unit).width + 24 * k : 0;
+    const nz = fitFont(full, 150 * k, cw - 80 * k - uw);
+    ctx.font = font(nz, 800); const nw = ctx.measureText(full).width, tot = nw + uw;
+    // الرقم ناحية بداية القراءة والوحدة بعده
+    ctx.textAlign = RTL ? 'right' : 'left'; ctx.fillStyle = '#fff';
+    ctx.fillText(txt, RTL ? cx + tot / 2 : cx - tot / 2, ny);
+    if (g.unit) { ctx.font = font(60 * k, 800); ctx.fillStyle = col; ctx.textAlign = RTL ? 'left' : 'right'; ctx.fillText(g.unit, RTL ? cx - tot / 2 : cx + tot / 2, ny + 10 * k); }
+    // شريط بيتملي مع العدّ
+    ctx.fillStyle = 'rgba(255,255,255,.12)'; rrect(ctx, x + 60 * k, y + ch - 46 * k, cw - 120 * k, 10 * k, 5 * k); ctx.fill();
+    ctx.fillStyle = col; const bw = (cw - 120 * k) * p; rrect(ctx, RTL ? x + cw - 60 * k - bw : x + 60 * k, y + ch - 46 * k, bw, 10 * k, 5 * k); ctx.fill();
+  }
+  ctx.restore();
+}
+
 const PANEL_TPLS = new Set(['stat', 'map', 'proof', 'quote', 'timeline']);
 
 // opts.settled: المعاينة الثابتة بترسم القالب بعد انتهاء حركته (الخريطة متقرّبة، الرقم نهائي)
@@ -1216,6 +1300,7 @@ export function drawFrame(ctx, st, t, opts = {}) {
   else if (story.template === 'timeline') timelinePanel(U, c, hb + 30);
   lowerThird(U, c, hb);
   if (!avatarsLayer(D, c, t, hb, kr)) captions(U, c, t, hb);
+  if (!PANEL_TPLS.has(story.template)) gfxLayer(D, c, t, hb);
   ticker(D, c, t);
   sourceBar(U, c);
   // حقوق الصور على الشاشة اختيارية (مقفولة افتراضيًا): بتتكتب في وصف البوست من حزمة النشر
