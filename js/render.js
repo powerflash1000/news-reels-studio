@@ -1,10 +1,10 @@
 // رسم إطار الريل على canvas (عمودي 1080×1920 أو 4:5 أو مربع أو أفقي). نفس الدالة للمعاينة والتصدير.
-import { detailTarget, tileKey, getTileMap } from './tiles.js?v=mw5nt0ga';
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mw5nt0ga';
-import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mw5nt0ga';
-import { hostOf } from './feeds.js?v=mw5nt0ga';
-import QR from '../vendor/qrcode/qrcode.mjs?v=mw5nt0ga';
-import { drawBg } from './bg.js?v=mw5nt0ga';
+import { detailTarget, tileKey, getTileMap } from './tiles.js?v=mw6bhrts';
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mw6bhrts';
+import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mw6bhrts';
+import { hostOf } from './feeds.js?v=mw6bhrts';
+import QR from '../vendor/qrcode/qrcode.mjs?v=mw6bhrts';
+import { drawBg } from './bg.js?v=mw6bhrts';
 
 // مقاسات الإخراج. W/H متغيّرين (live binding) والتصدير بيقراهم وقت التصدير
 export const FORMATS = {
@@ -893,6 +893,7 @@ function lerpHex(a, b, p) {
 
 // الافتتاحية والخاتمة ليها لون ثابت واسم القناة بدل القسم
 function catFor(st, story) {
+  if (story.kind === 'idea') return { id: 'idea', label: RTL ? 'فكرة' : 'Idea', color: '#f59e0b' };
   if (story.kind !== 'news') return { id: story.kind, label: st.settings.channelName || S.channel, color: '#6b7cff' };
   const c = st.cats.find(x => x.id === story.category) || st.cats[0];
   return RTL ? c : { ...c, label: c.en || c.label };

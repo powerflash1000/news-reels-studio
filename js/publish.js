@@ -1,5 +1,5 @@
 // M4: حزمة النشر (عناوين/وصف/هاشتاجات/مصادر/حقوق وسائط) + سجل التجارب. دوال خالصة من غير DOM.
-import { MED_DISCLAIMER } from './reel.js?v=mw5nt0ga';
+import { MED_DISCLAIMER } from './reel.js?v=mw6bhrts';
 
 export const PLATFORMS = { tiktok: 'تيك توك', instagram: 'إنستجرام', facebook: 'فيسبوك', shorts: 'يوتيوب شورتس', youtube: 'يوتيوب (فيديو عريض)' };
 export const ENGAGE = ['likes', 'comments', 'shares', 'saves'];
@@ -8,13 +8,13 @@ const TAGS = {
   politics: ['#سياسة', '#أخبار_العالم'], economy: ['#اقتصاد', '#أسواق'], sports: ['#رياضة', '#كرة_القدم'],
   science: ['#علوم', '#فضاء'], health: ['#صحة', '#طب'], healthtech: ['#تقنية_طبية', '#صحة_رقمية'],
   ai: ['#ذكاء_اصطناعي', '#AI'], defense: ['#دفاع', '#عسكري'], stories: ['#قصص', '#وثائقي'],
-  entertainment: ['#فن', '#ترفيه'], lifestyle: ['#موضة', '#لايف_ستايل', '#جمال'], culture: ['#أدب', '#ثقافة', '#كتب'], tech: ['#تقنية', '#تكنولوجيا'], trending: ['#ترند', '#تريند'],
+  ideas: ['#أفكار_مشاريع', '#مشروع_صغير', '#هاند_ميد', '#اعملها_بنفسك'], entertainment: ['#فن', '#ترفيه'], lifestyle: ['#موضة', '#لايف_ستايل', '#جمال'], culture: ['#أدب', '#ثقافة', '#كتب'], tech: ['#تقنية', '#تكنولوجيا'], trending: ['#ترند', '#تريند'],
 };
 const TAGS_EN = {
   politics: ['#politics', '#worldnews'], economy: ['#economy', '#markets'], sports: ['#sports', '#football'],
   science: ['#science', '#space'], health: ['#health', '#medicine'], healthtech: ['#healthtech', '#digitalhealth'],
   ai: ['#AI', '#artificialintelligence'], defense: ['#defense', '#military'], stories: ['#stories', '#documentary'],
-  entertainment: ['#entertainment', '#celebrity'], lifestyle: ['#fashion', '#lifestyle', '#beauty'], culture: ['#books', '#literature', '#culture'], tech: ['#tech', '#technology'], trending: ['#trending', '#viral'],
+  ideas: ['#DIY', '#smallbusiness', '#handmade', '#sidehustle'], entertainment: ['#entertainment', '#celebrity'], lifestyle: ['#fashion', '#lifestyle', '#beauty'], culture: ['#books', '#literature', '#culture'], tech: ['#tech', '#technology'], trending: ['#trending', '#viral'],
 };
 const GENERAL = ['#أخبار', '#ريلز', '#news'];
 const GENERAL_EN = ['#news', '#reels', '#breakingnews'];
@@ -22,7 +22,7 @@ const EN_DISC = 'General information, not medical advice — consult your doctor
 const LIMIT = { tiktok: 5, instagram: 12, facebook: 4, shorts: 3, youtube: 3 };
 
 const clip = (s, n) => (s.length > n ? s.slice(0, n - 1).trimEnd() + '…' : s);
-const news = reel => reel.stories.filter(s => s.kind === 'news' && (s.headline || s.script));
+const news = reel => reel.stories.filter(s => (s.kind === 'news' || s.kind === 'idea') && (s.headline || s.script));
 
 export function buildPack(reel, { handle = '' } = {}) {
   const en = reel.lang === 'en';
@@ -31,13 +31,18 @@ export function buildPack(reel, { handle = '' } = {}) {
   const src = items[0]?.sourceName || '';
   const titles = [...new Set([
     h,
-    items[0]?.template === 'breaking' ? (en ? `🔴 BREAKING: ${h}` : `🔴 عاجل: ${h}`) : (en ? `${h} — what happened?` : `${h} — إيه اللي حصل؟`),
+    items[0]?.kind === 'idea' ? (en ? `${h} — try it yourself` : `${h} — جرّبها بنفسك`) : items[0]?.template === 'breaking' ? (en ? `🔴 BREAKING: ${h}` : `🔴 عاجل: ${h}`) : (en ? `${h} — what happened?` : `${h} — إيه اللي حصل؟`),
     src ? `${h} | ${src}` : '',
   ].filter(Boolean).map(t => clip(t, 100)))];
   const lines = [];
   if (items.length > 1) lines.push(...items.map((s, i) => `${i + 1}. ${s.headline}`), '');
-  lines.push(en ? 'Sources:' : 'المصادر:');
-  for (const s of items) lines.push(`• ${s.sourceName || '—'}${s.sourceUrl ? ': ' + s.sourceUrl : ''}${s.claimKind === 'opinion' ? (en ? ' (opinion)' : ' (رأي وتحليل)') : ''}`);
+  const nws = items.filter(s => s.kind === 'news');
+  for (const s of items.filter(x => x.kind === 'idea')) {
+    if (s.ideaDesc) lines.push(s.ideaDesc, '');
+    if (s.inspo) lines.push((en ? 'Idea inspired by: ' : 'الفكرة مستوحاة من: ') + s.inspo);
+  }
+  if (nws.length) lines.push(en ? 'Sources:' : 'المصادر:');
+  for (const s of nws) lines.push(`• ${s.sourceName || '—'}${s.sourceUrl ? ': ' + s.sourceUrl : ''}${s.claimKind === 'opinion' ? (en ? ' (opinion)' : ' (رأي وتحليل)') : ''}`);
   const credits = [...new Set([...reel.stories.map(s => s.media?.credit), ...reel.stories.flatMap(s => (s.scenes || []).map(x => x.media?.credit)), reel.music?.credit, reel.thumb?.bg === 'own' ? reel.thumb?.own?.credit : ''].filter(Boolean))];
   if (credits.length) lines.push('', (en ? 'Media: ' : 'الوسائط: ') + credits.join(' • '));
   const clips = reel.stories.flatMap(s => (s.clips || []).filter(c => c.channel)).map(c => [c.channel, c.date].filter(Boolean).join(' — '));
@@ -45,8 +50,9 @@ export function buildPack(reel, { handle = '' } = {}) {
   if (items.some(s => s.category === 'health' || s.category === 'healthtech')) lines.push('', en ? EN_DISC : MED_DISCLAIMER);
   if (items.some(s => s.category === 'stories')) lines.push('', en ? 'Based on public records and documents; unproven claims are marked as unconfirmed.' : 'القصة مبنية على وثائق وقضايا معلنة، وأي ادعاء غير مثبت مذكور إنه غير مؤكد.');
   if (handle) lines.push('', (en ? 'Follow: ' : 'تابعنا: ') + (handle.startsWith('@') ? handle : '@' + handle));
-  const cats = [...new Set(items.map(s => s.category))];
-  const tags = [...new Set([...cats.flatMap(c => (en ? TAGS_EN : TAGS)[c] || []), ...(en ? GENERAL_EN : GENERAL)])];
+  const cats = [...new Set(items.map(s => (s.kind === 'idea' ? 'ideas' : s.category)))];
+  const onlyIdeas = items.length && items.every(s => s.kind === 'idea');
+  const tags = [...new Set([...items.flatMap(s => s.kind === 'idea' ? (s.ideaTags || []) : []), ...cats.flatMap(c => (en ? TAGS_EN : TAGS)[c] || []), ...(onlyIdeas ? (en ? ['#reels', '#ideas'] : ['#ريلز', '#أفكار']) : (en ? GENERAL_EN : GENERAL))])];
   return { title: titles[0] || '', titles, desc: lines.join('\n'), tags: tags.join(' ') };
 }
 

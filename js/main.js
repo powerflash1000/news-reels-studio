@@ -1,29 +1,29 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw5nt0ga';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw5nt0ga';
-import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw5nt0ga';
-import { GFX_SFX, gfxSfxOf, newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw5nt0ga';
-import { transcribeWords, alignWords } from './align.js?v=mw5nt0ga';
-import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw5nt0ga';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw5nt0ga';
-import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mw5nt0ga';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw5nt0ga';
-import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw5nt0ga';
-import { exportSupport, exportReel } from './export.js?v=mw5nt0ga';
-import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf } from './media.js?v=mw5nt0ga';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw5nt0ga';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw5nt0ga';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw5nt0ga';
-import { detailTarget, loadTileMap } from './tiles.js?v=mw5nt0ga';
-import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw5nt0ga';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw5nt0ga';
-import { loadBg, playBg, seekBg } from './bg.js?v=mw5nt0ga';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw5nt0ga';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw5nt0ga';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw5nt0ga';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures } from './external.js?v=mw5nt0ga';
-import { readUrl, cleanPasted } from './reader.js?v=mw5nt0ga';
-import { initI18n, ui } from './i18n.js?v=mw5nt0ga';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw5nt0ga';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw6bhrts';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw6bhrts';
+import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw6bhrts';
+import { GFX_SFX, gfxSfxOf, newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw6bhrts';
+import { transcribeWords, alignWords } from './align.js?v=mw6bhrts';
+import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw6bhrts';
+import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw6bhrts';
+import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mw6bhrts';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw6bhrts';
+import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw6bhrts';
+import { exportSupport, exportReel } from './export.js?v=mw6bhrts';
+import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf } from './media.js?v=mw6bhrts';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw6bhrts';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw6bhrts';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw6bhrts';
+import { detailTarget, loadTileMap } from './tiles.js?v=mw6bhrts';
+import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw6bhrts';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw6bhrts';
+import { loadBg, playBg, seekBg } from './bg.js?v=mw6bhrts';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw6bhrts';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw6bhrts';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw6bhrts';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures, ideaYouTube, ideaFile, ideaText, ideaAngle } from './external.js?v=mw6bhrts';
+import { readUrl, cleanPasted } from './reader.js?v=mw6bhrts';
+import { initI18n, ui } from './i18n.js?v=mw6bhrts';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw6bhrts';
 
 initI18n();
 
@@ -2108,6 +2108,13 @@ function validateReel() {
 }
 
 function checklistFor() {
+  const ideas = reel.stories.filter(st => st.kind === 'idea' && hasContent(st));
+  if (ideas.length && !reel.stories.some(st => st.kind === 'news' && hasContent(st))) {
+    const b = ['الفكرة بس مأخوذة من الفيديو المرجعي: الصور والفيديو والصوت كلها بتاعتي أو مولّدة أو ستوك بترخيص، ومفيش لقطة أو موسيقى من الفيديو الأصلي.', 'السكريبت بأسلوبي ولهجتي، مش ترجمة أو نسخ لكلام صاحب الفيديو.', 'أرقام التكلفة والمكسب مقدّمة على إنها تقديرية.'];
+    if (ideas.some(s => (s.ideaSafety || []).length)) b.push('تحذيرات الأمان (مواد خطرة، حرارة، أدوات حادة، أطفال…) ظاهرة على الشاشة أو مقولة في الكلام.');
+    if (reel.stories.some(s => (s.scenes || []).some(x => x.media?.provider === 'ai'))) b.push('هعلّم على المحتوى إنه مولّد بالذكاء الاصطناعي في المنصة.');
+    return b;
+  }
   const news = reel.stories.filter(st => st.kind === 'news' && hasContent(st));
   const base = ['المعلومات في السكريبت مطابقة للمصدر الأصلي المذكور.', 'السكريبت بأسلوبي، مش منقول من قناة أو موقع.'];
   if (news.length > 1) base.push('كل خبر ليه مصدره الخاص على الشاشة، والترتيب والعناوين مظبوطة.');
@@ -3450,7 +3457,85 @@ $('xOut').addEventListener('click', e => {
   navigator.clipboard?.writeText(xStyleLast.prompts[Number(i)].prompt).then(() => { e.target.textContent = '✅ اتنسخ'; }).catch(() => {});
 });
 
+// ===== 💡 خد الفكرة واعملها بطريقتك =====
+var ideaLast = null;
+const IDEA_KIND = { recipe: '🍳 وصفة', craft: '✂️ كرافت', business: '💼 مشروع صغير', homemade: '🏠 هوم ميد', recycling: '♻️ إعادة تدوير', other: '💡 فكرة' };
+function renderIdea(r) {
+  ideaLast = r;
+  const money = (a, cur) => [a, cur].filter(Boolean).join(' ');
+  $('xOut').innerHTML = `<div class="card xstyle xidea">
+    <h3 dir="auto" translate="no">💡 ${esc(r.title || 'الفكرة')}</h3>
+    <div class="meta"><span class="tag">${IDEA_KIND[r.kind] || IDEA_KIND.other}</span><span class="tag">${AI_TXT[r.ai] || ''}</span></div>
+    <p dir="auto" translate="no">${esc(r.idea)}</p>
+    ${r.materials.length ? `<h4>🧺 الخامات</h4><ul>${r.materials.map(m => `<li dir="auto" translate="no">${esc(m.name)}${m.qty ? ` — ${esc(m.qty)}` : ''}${m.cost ? ` <span class="muted">(${esc(m.cost)})</span>` : ''}</li>`).join('')}</ul>` : ''}
+    ${r.steps.length ? `<h4>🪜 الخطوات</h4><ol>${r.steps.map(x => `<li dir="auto" translate="no">${esc(x.action)}${x.tip ? `<div class="muted">${esc(x.tip)}</div>` : ''}</li>`).join('')}</ol>` : ''}
+    ${r.cost.total || r.price.low ? `<h4>💰 التكلفة والبيع (تقدير)</h4><div class="xitem" dir="auto" translate="no">${r.cost.total ? `التكلفة: <b>${esc(money(r.cost.total, r.cost.currency))}</b> ` : ''}${r.price.low ? `• سعر البيع: <b>${esc(money([r.price.low, r.price.high].filter(Boolean).join(' – '), r.price.currency))}</b>` : ''}<div class="muted">${esc([r.cost.note, r.price.note].filter(Boolean).join(' • '))}</div></div>` : ''}
+    ${r.where.length ? `<h4>🛒 تبيعها فين</h4><div dir="auto" translate="no">${esc(r.where.join(' • '))}</div>` : ''}
+    ${r.safety.length ? `<h4>⚠️ تحذيرات أمان</h4><ul>${r.safety.map(x => `<li dir="auto" translate="no">${esc(x)}</li>`).join('')}</ul>` : ''}
+    ${r.angles.length ? `<h4>🎯 زوايا تعرضها بيها (بطريقتك)</h4>${r.angles.map((a, i) => `<div class="xitem"><b dir="auto" translate="no">${esc(a.name)}</b><div class="muted" dir="auto" translate="no">${esc(a.why)}</div><button class="btn" data-idang="${i}" type="button">✍️ اكتب السكريبت بالزاوية دي</button></div>`).join('')}` : ''}
+    <h4>🎙 السكريبت (بلهجتك)</h4>
+    <textarea id="ideaScript" rows="${Math.min(14, Math.max(6, r.script.length + 1))}" dir="auto" translate="no">${esc(r.script.join('\n'))}</textarea>
+    <div class="row"><button id="ideaMake" class="btn pri" type="button">🎬 اعملها حلقة</button><button id="ideaPrompts" class="btn" type="button">📋 انسخ برومبتات المشاهد (${r.scenes.length})</button></div>
+    <p class="muted">بناخد الفكرة بس: الصور والفيديو من عندك أو مولّدة بالذكاء الاصطناعي أو ستوك، والكلام بأسلوبك. متنزّلش لقطات من الفيديو الأصلي. أرقام التكلفة والمكسب تقديرية، وأي خطر لازم تحذيره يبان على الشاشة.</p>
+  </div>`;
+}
+function ideaScriptLines() { return $('ideaScript').value.split('\n').map(x => x.replace(/^\s*(أ|ب|a|b)\s*[:：]\s*/i, '').trim()).filter(Boolean); }
+$('xOut').addEventListener('click', async e => {
+  if (!ideaLast) return;
+  const ang = e.target.closest('[data-idang]');
+  if (ang) {
+    const a = ideaLast.angles[Number(ang.dataset.idang)];
+    ang.disabled = true; $('xMsg').textContent = `⏳ بيكتب السكريبت بزاوية «${a.name}»…`;
+    try {
+      const out = await ideaAngle(ideaLast, `${a.name}: ${a.why}`, ideaLast.lang);
+      if (!out.script.length) throw new Error('مفيش رد. جرّب تاني.');
+      ideaLast.title = out.title || ideaLast.title; ideaLast.script = out.script; ideaLast.scenes = out.scenes.length ? out.scenes : ideaLast.scenes; ideaLast.angle = a.name;
+      renderIdea(ideaLast);
+      $('xMsg').textContent = `✅ السكريبت اتكتب بزاوية «${a.name}». عدّل فيه براحتك، وبعدين «🎬 اعملها حلقة».`;
+    } catch (err) { $('xMsg').textContent = '❌ ' + (err.message || err); ang.disabled = false; }
+    return;
+  }
+  if (e.target.id === 'ideaPrompts') {
+    const ok = await copyText(ideaLast.scenes.map((x, i) => `${i + 1}. ${x.prompt}`).join('\n\n'));
+    $('xMsg').textContent = ok ? '✅ البرومبتات اتنسخت (متترقمة). ولّد بيها وبعدين حط الملفات من «🎬 مونتاج أوتوماتيك» ← «📥 حط الملفات المولّدة».' : '❌ المتصفح مسمحش بالنسخ.';
+    return;
+  }
+  if (e.target.id === 'ideaMake') {
+    const r = ideaLast, lines = ideaScriptLines();
+    if (!lines.length) return ($('xMsg').textContent = 'السكريبت فاضي.');
+    const safety = r.safety.length ? '⚠️ ' + r.safety.join(' • ') : '';
+    const money = (a, cur) => [a, cur].filter(Boolean).join(' ');
+    const ref = [r.idea, r.materials.length ? 'الخامات: ' + r.materials.map(m => [m.name, m.qty, m.cost && `(${m.cost})`].filter(Boolean).join(' ')).join('، ') : '', r.steps.length ? 'الخطوات:\n' + r.steps.map((x, i) => `${i + 1}. ${x.action}${x.tip ? ' — ' + x.tip : ''}`).join('\n') : '', r.cost.total ? `التكلفة (تقدير): ${money(r.cost.total, r.cost.currency)}` : '', r.price.low ? `سعر البيع (تقدير): ${money([r.price.low, r.price.high].filter(Boolean).join(' – '), r.price.currency)}` : '', r.where.length ? 'تبيعها فين: ' + r.where.join('، ') : '', safety].filter(Boolean).join('\n\n');
+    const desc = [r.idea, r.materials.length ? '🧺 ' + r.materials.map(m => m.name).join('، ') : '', r.cost.total || r.price.low ? `💰 التكلفة والسعر تقديريين: ${[r.cost.total && money(r.cost.total, r.cost.currency), r.price.low && money([r.price.low, r.price.high].filter(Boolean).join('–'), r.price.currency)].filter(Boolean).join(' ← ')}` : '', safety].filter(Boolean).join('\n');
+    const tool = $('genTool').value, style = $('genStyle').value;
+    const scenes = [];
+    for (const x of r.scenes) { const li = Math.min(lines.length - 1, x.line); if (!scenes.some(y => y.li === li)) scenes.push({ li, q: '', media: null, gen: { prompt: x.prompt, tool, style } }); }
+    if (scenes.length && !scenes.some(y => y.li === 0)) scenes[0].li = 0;
+    startReel([{ kind: 'idea', category: 'ideas', headline: r.title || 'فكرة', script: lines.join('\n'), ref: ref.slice(0, 40000), inspo: r.ref?.startsWith('http') ? r.ref : '', ideaDesc: desc.slice(0, 1500), ideaTags: r.hashtags.map(h => '#' + h.replace(/^#/, '').replace(/\s+/g, '_')).slice(0, 6), ideaSafety: r.safety, scenes }]);
+    // عدّادات أوتوماتيك للأرقام اللي في السكريبت (التكلفة/السعر) + تحذير الأمان ككلمة مهمة
+    const st = story(); st.gfx = [];
+    parseScript(st.script).forEach((l, li) => { const g = detectGfx(l.text, li); if (g) st.gfx.push(g); });
+    if (r.safety.length) { const li = Math.min(1, lines.length - 1); if (!st.gfx.some(g => g.li === li)) st.gfx.push({ li, type: 'text', value: '⚠️ ' + (r.lang === 'en' ? 'Safety first' : 'خلّي بالك'), unit: '', label: r.safety[0].slice(0, 40), icon: '', sfx: 'pop' }); }
+    persist(); fillForm();
+    setStatus(`✅ اتعملت الحلقة: ${lines.length} سطر و${scenes.length} مشهد ببرومبتات و${st.gfx.length} جرافيك. ولّد الصوت، وولّد المشاهد بأداتك وحطها، وراجع الجرافيكس.`);
+  }
+});
+
 async function runX(kind, input) {
+  if ($('xMode').value === 'idea') {
+    $('xMsg').textContent = kind === 'text' ? '⏳ بيطلّع الفكرة من النص…' : '⏳ Gemini بيتفرج على الفيديو ويطلّع الفكرة… (ممكن ياخد دقيقة)';
+    $('xGo').disabled = $('xGoText').disabled = true;
+    try {
+      const opts = { lang: $('xLang').value, focus: $('xNote').value.trim() };
+      const r = kind === 'yt' ? await ideaYouTube(input, opts) : kind === 'file' ? await ideaFile(input, opts) : await ideaText(input, opts);
+      r.ref = kind === 'yt' ? input : kind === 'file' ? input.name : 'نص ملصوق';
+      r.lang = opts.lang;
+      renderIdea(r);
+      $('xMsg').textContent = '✅ الفكرة جاهزة. اختار الزاوية، وبعدين «🎬 اعملها حلقة».';
+    } catch (err) { $('xMsg').textContent = '❌ ' + (err.message || err); }
+    $('xGo').disabled = $('xGoText').disabled = false;
+    return;
+  }
   if ($('xMode').value === 'style' && kind !== 'text') {
     $('xMsg').textContent = 'Gemini بيحلل أسلوب الفيديو… (ممكن ياخد دقيقة)';
     $('xGo').disabled = true;
