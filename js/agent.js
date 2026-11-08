@@ -1,6 +1,6 @@
 // المحرر الذكي (اختياري): بياخد خبر واحد ويجهّز منه سكريبت بأسلوب القناة، قصة وخلفية تاريخية، اقتراحات إنفوجرافيك ومؤثرات.
 // كل حاجة اقتراحات بتراجعها وبتطبّقها بإيدك. الخبر نفسه من الملخص والعنوان بس، والخلفية التاريخية بتتعلّم "لازم تتراجع".
-import { aiJSON, voiceNote } from './draft.js?v=mw83b593';
+import { aiJSON, voiceNote } from './draft.js?v=mw892yhp';
 
 export const STYLES = {
   neutral: { label: 'إخباري محايد', note: 'Straight, neutral news: hook that states the news, 2-4 fact lines, short closing line.' },

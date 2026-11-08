@@ -48,7 +48,9 @@ export function newStory(over = {}) {
 
 export const BUMPER = 2.2; // مدة المقدمة/الخاتمة التلقائية بالثواني
 const avatarsOf = a => ({ on: false, mode: 'cartoon', scene: 'studio', who: 'both', seconds: 6, skin: 'm', hijab: false, beard: false, ...(a || {}) });
-const bumpersOf = b => ({ intro: { on: false, text: '', ...(b?.intro || {}) }, outro: { on: false, text: '', ...(b?.outro || {}) } });
+const bumpersOf = b => ({ intro: { on: false, text: '', ...(b?.intro || {}) }, outro: { on: false, text: '', style: 'simple', secs: 5, next: '', ...(b?.outro || {}) } });
+// مدة الخاتمة: البسيطة ثانيتين، وشاشة النهاية المتحركة 3-8 ث (افتراضي 5)
+export const outroDur = r => { const o = r?.bumpers?.outro; return !o?.style || o.style === 'simple' ? BUMPER : Math.max(3, Math.min(8, Number(o.secs) || 5)); };
 
 export function newReel(over = {}) {
   const r = { status: 'draft', updatedAt: Date.now(), title: '', stories: [newStory()], ticker: { on: false, text: '', label: '' }, ...over };
@@ -158,7 +160,13 @@ function withBumpers(reel, segs, duration0) {
   const bp = reel.bumpers || {};
   let duration = duration0;
   if (bp.intro?.on) { if (stories.length) stories[0].start = BUMPER; stories.unshift({ idx: -1, bumper: 'intro', start: 0, end: BUMPER }); }
-  if (bp.outro?.on) { stories.push({ idx: -1, bumper: 'outro', start: duration0, end: duration0 + BUMPER }); duration = duration0 + BUMPER; }
+  if (bp.outro?.on) {
+    const od = outroDur(reel);
+    stories.push({ idx: -1, bumper: 'outro', start: duration0, end: duration0 + od }); duration = duration0 + od;
+    // صوت «بوب» لحظة الضغط على زرار المتابعة (و«دينج» للجرس)، متعلّق بآخر سطر بوقت مطلق
+    const st = bp.outro.style, last = segs[segs.length - 1];
+    if (last && st && st !== 'simple') last.sfx = [...(last.sfx || []), { kind: 'pop', at: duration0 + 1.3 - 0.3 }, ...(st === 'subscribe' ? [{ kind: 'ding', at: duration0 + 1.7 - 1.5 }] : [])];
+  }
   return { segs, stories, duration };
 }
 

@@ -1,10 +1,11 @@
 // رسم إطار الريل على canvas (عمودي 1080×1920 أو 4:5 أو مربع أو أفقي). نفس الدالة للمعاينة والتصدير.
-import { detailTarget, tileKey, getTileMap } from './tiles.js?v=mw83b593';
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mw83b593';
-import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mw83b593';
-import { hostOf } from './feeds.js?v=mw83b593';
-import QR from '../vendor/qrcode/qrcode.mjs?v=mw83b593';
-import { drawBg } from './bg.js?v=mw83b593';
+import { detailTarget, tileKey, getTileMap } from './tiles.js?v=mw892yhp';
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mw892yhp';
+import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mw892yhp';
+import { hostOf } from './feeds.js?v=mw892yhp';
+import QR from '../vendor/qrcode/qrcode.mjs?v=mw892yhp';
+import { drawBg } from './bg.js?v=mw892yhp';
+import { cutFrame } from './cutout.js?v=mw892yhp';
 
 // مقاسات الإخراج. W/H متغيّرين (live binding) والتصدير بيقراهم وقت التصدير
 export const FORMATS = {
@@ -21,8 +22,8 @@ let L = layoutFor(1080, 1920);
 
 // لغة الريل: نصوص الواجهة على الشاشة + اتجاه الكتابة (الإنجليزي = تخطيط معكوس أفقيًا بنفس العناصر)
 const STR = {
-  ar: { source: 'المصدر', opinion: 'رأي وتحليل', breaking: 'عاجل', hostA: 'المذيع أ', hostB: 'المذيع ب', follow: 'تابعنا للمزيد', ticker: 'آخر الأخبار', head: 'اكتب العنوان', src: '— اكتب اسم المصدر —', channel: 'النشرة', med: MED_DISCLAIMER, proof: { official: 'مؤكد رسميًا', reported: 'تقارير غير مؤكدة', pending: 'بانتظار التأكيد' }, zero: '٠' },
-  en: { source: 'Source', opinion: 'Opinion & analysis', breaking: 'BREAKING', hostA: 'Host A', hostB: 'Host B', follow: 'Follow for more', ticker: 'Latest news', head: 'Write the headline', src: '— Add the source name —', channel: 'Newsroom', med: 'General information, not medical advice — consult your doctor', proof: { official: 'Officially confirmed', reported: 'Unconfirmed reports', pending: 'Awaiting confirmation' }, zero: '0' },
+  ar: { source: 'المصدر', opinion: 'رأي وتحليل', breaking: 'عاجل', hostA: 'المذيع أ', hostB: 'المذيع ب', follow: 'تابعنا للمزيد', ticker: 'آخر الأخبار', head: 'اكتب العنوان', src: '— اكتب اسم المصدر —', channel: 'النشرة', endFollow: '＋ تابعني', endFollowing: '✓ بتتابعنا', endSub: 'اشترك', endSubbed: '✓ مشترك', endNext: 'الحلقة الجاية', endBell: 'فعّل الجرس 🔔 عشان ماتفوتكش', med: MED_DISCLAIMER, proof: { official: 'مؤكد رسميًا', reported: 'تقارير غير مؤكدة', pending: 'بانتظار التأكيد' }, zero: '٠' },
+  en: { source: 'Source', opinion: 'Opinion & analysis', breaking: 'BREAKING', hostA: 'Host A', hostB: 'Host B', follow: 'Follow for more', ticker: 'Latest news', head: 'Write the headline', src: '— Add the source name —', channel: 'Newsroom', endFollow: '+ Follow', endFollowing: '✓ Following', endSub: 'Subscribe', endSubbed: '✓ Subscribed', endNext: 'Up next', endBell: 'Turn on 🔔 so you never miss one', med: 'General information, not medical advice — consult your doctor', proof: { official: 'Officially confirmed', reported: 'Unconfirmed reports', pending: 'Awaiting confirmation' }, zero: '0' },
 };
 let S = STR.ar, RTL = true;
 export function setLang(lang) { RTL = lang !== 'en'; S = STR[RTL ? 'ar' : 'en']; }
@@ -1006,6 +1007,7 @@ function drawLogo(ctx, st) {
 function drawBumper(ctx, st, ent, t) {
   const kind = ent.bumper, local = t - ent.start, dur = ent.end - ent.start;
   const bp = st.reel.bumpers?.[kind] || {};
+  if (kind === 'outro' && bp.style && bp.style !== 'simple') return drawEndScreen(ctx, st, bp, local, dur);
   const a = easeOut(clamp01(local / 0.55)), out = clamp01((dur - local) / 0.35);
   const col = st.cat.color;
   const box = logoBox({ ...st, settings: { ...st.settings, logo: { ...(st.settings?.logo || {}), on: !!st.logo, size: 300 } } }, 1.2);
@@ -1038,6 +1040,107 @@ function drawBumper(ctx, st, ent, t) {
     ctx.fillStyle = 'rgba(255,255,255,.85)';
     ctx.direction = 'ltr';
     ctx.fillText(handle, cx, y + size * 0.75 + 70);
+  }
+  ctx.restore();
+}
+
+// 🎬 شاشة النهاية المتحركة: follow (زرار تابعني وإيد بتدوس عليه وقلوب طايرة) | subscribe (اشترك + جرس) | next (الحلقة الجاية)
+export const END_TAP = 1.3; // لحظة الضغط على الزرار (عليها صوت «بوب» في الميكس)
+function drawEndScreen(ctx, st, bp, local, dur) {
+  const col = st.cat.color, style = bp.style;
+  const a = easeOut(clamp01(local / 0.5)), out = clamp01((dur - local) / 0.4);
+  const tap = clamp01((local - END_TAP) / 0.25), done = local >= END_TAP;
+  const m = Math.min(W, H), cx = W / 2;
+  ctx.save();
+  ctx.globalAlpha = a * out;
+  const g = ctx.createRadialGradient(cx, H * 0.35, 0, cx, H * 0.35, Math.max(W, H) * 0.7);
+  g.addColorStop(0, hexA(col, 0.45)); g.addColorStop(1, hexA(col, 0));
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.direction = 'rtl';
+  // صورة القناة في دايرة بحلقة بتنبض
+  const R = m * (L.vert ? 0.15 : 0.12), cy = H * (L.vert ? 0.27 : 0.25);
+  const pulse = (local * 1.2) % 1;
+  ctx.strokeStyle = hexA(col, 0.9 * (1 - pulse)); ctx.lineWidth = 8;
+  ctx.beginPath(); ctx.arc(cx, cy, R * (1.05 + 0.35 * pulse), 0, Math.PI * 2); ctx.stroke();
+  ctx.save();
+  ctx.beginPath(); ctx.arc(cx, cy, R * (0.8 + 0.2 * a), 0, Math.PI * 2); ctx.closePath();
+  ctx.fillStyle = '#121a33'; ctx.fill(); ctx.clip();
+  const img = st.logo, iw = img?.naturalWidth || img?.width, ih = img?.naturalHeight || img?.height;
+  const name = st.settings?.channelName || S.channel;
+  if (iw && ih) { const s2 = Math.max((2 * R) / iw, (2 * R) / ih); ctx.drawImage(img, cx - (iw * s2) / 2, cy - (ih * s2) / 2, iw * s2, ih * s2); }
+  else { ctx.fillStyle = col; ctx.fillRect(cx - R, cy - R, 2 * R, 2 * R); ctx.fillStyle = '#fff'; ctx.font = font(R, 800); ctx.fillText([...name.trim()][0] || '•', cx, cy + R * 0.06); }
+  ctx.restore();
+  ctx.lineWidth = 6; ctx.strokeStyle = '#fff'; ctx.beginPath(); ctx.arc(cx, cy, R * (0.8 + 0.2 * a), 0, Math.PI * 2); ctx.stroke();
+  let y = cy + R + (L.vert ? 80 : 60);
+  let size = L.vert ? 76 : 60;
+  ctx.font = font(size, 800);
+  while (ctx.measureText(name).width > W - 160 && size > 36) { size -= 4; ctx.font = font(size, 800); }
+  ctx.fillStyle = '#fff'; ctx.fillText(name, cx, y);
+  const handle = st.settings?.handle || '';
+  if (handle) { y += size * 0.5 + 40; ctx.font = font(L.vert ? 46 : 38, 700); ctx.fillStyle = 'rgba(255,255,255,.8)'; ctx.direction = 'ltr'; ctx.fillText(handle, cx, y); ctx.direction = 'rtl'; }
+  y += L.vert ? 110 : 80;
+  // سطر فوق الزرار (النص المكتوب أو «تابعنا للمزيد») أو كارت الحلقة الجاية
+  if (style === 'next') {
+    const cw = Math.min(W - 160, 860), txt = (bp.next || '').trim() || (bp.text || '').trim() || S.follow;
+    ctx.font = font(L.vert ? 50 : 40, 700);
+    const lines = wrap(ctx, txt, cw - 80).slice(0, 3), lh = L.vert ? 64 : 52, ch = 90 + lines.length * lh + 30;
+    const sx = (1 - easeOut(clamp01((local - 0.3) / 0.5))) * W * 0.4;
+    ctx.save(); ctx.translate(sx, 0);
+    ctx.fillStyle = 'rgba(255,255,255,.08)'; rrect(ctx, cx - cw / 2, y, cw, ch, 28); ctx.fill();
+    ctx.strokeStyle = hexA(col, 0.9); ctx.lineWidth = 4; ctx.stroke();
+    ctx.fillStyle = col; rrect(ctx, cx - 170, y - 30, 340, 64, 32); ctx.fill();
+    ctx.fillStyle = '#fff'; ctx.font = font(L.vert ? 38 : 32, 800); ctx.fillText(S.endNext + ' ⏭', cx, y + 2);
+    ctx.font = font(L.vert ? 50 : 40, 700);
+    lines.forEach((l, i) => ctx.fillText(l, cx, y + 80 + i * lh + lh / 2));
+    ctx.restore();
+    y += ch + (L.vert ? 90 : 60);
+  } else {
+    const txt = (bp.text || '').trim() || (style === 'subscribe' ? S.endBell : S.follow);
+    ctx.font = font(L.vert ? 52 : 42, 700); ctx.fillStyle = 'rgba(255,255,255,.92)';
+    wrap(ctx, txt, W - 200).slice(0, 2).forEach((l, i) => ctx.fillText(l, cx, y + i * (L.vert ? 66 : 54)));
+    y += L.vert ? 150 : 110;
+  }
+  // الزرار + الإيد اللي بتدوس عليه
+  const sub = style === 'subscribe';
+  const bw = Math.min(W * 0.62, 640), bh = L.vert ? 130 : 104;
+  const press = done ? 1 - 0.08 * Math.sin(Math.PI * tap) : 1;
+  const pop = easeOut(clamp01((local - 0.45) / 0.4));
+  ctx.save();
+  ctx.translate(cx, y); ctx.scale(press * (0.6 + 0.4 * pop), press * (0.6 + 0.4 * pop));
+  ctx.globalAlpha = a * out * pop;
+  ctx.fillStyle = done ? 'rgba(255,255,255,.18)' : sub ? '#e62117' : col;
+  rrect(ctx, -bw / 2, -bh / 2, bw, bh, bh / 2); ctx.fill();
+  if (!done) { ctx.shadowColor = hexA(sub ? '#e62117' : col, 0.8); ctx.shadowBlur = 40 + 20 * Math.sin(local * 6); ctx.fill(); ctx.shadowBlur = 0; }
+  ctx.fillStyle = '#fff'; ctx.font = font(L.vert ? 60 : 48, 800);
+  ctx.fillText(done ? (sub ? S.endSubbed : S.endFollowing) : (sub ? S.endSub : S.endFollow), sub ? -bh * 0.35 : 0, 4);
+  if (sub) {
+    // جرس بيهتز بعد الضغط
+    const sh = done ? Math.sin((local - END_TAP) * 28) * 0.45 * Math.exp(-(local - END_TAP) * 2.2) : 0;
+    ctx.save(); ctx.translate(bw / 2 - bh * 0.7, 0); ctx.rotate(sh);
+    ctx.font = font(L.vert ? 64 : 52, 700); ctx.fillText('🔔', 0, 4); ctx.restore();
+  }
+  ctx.restore();
+  ctx.globalAlpha = a * out;
+  // الإيد: جاية من تحت لحد الزرار وقت الضغط وبعدين بتنزل
+  const hp = easeOut(clamp01((local - 0.55) / (END_TAP - 0.55))), leave = clamp01((local - END_TAP - 0.35) / 0.5);
+  if (hp > 0 && leave < 1) {
+    const hx = cx + bw * 0.18 + (1 - hp) * W * 0.25, hy = y + bh * 0.25 + (1 - hp) * H * 0.25 + leave * H * 0.3;
+    ctx.font = font((L.vert ? 120 : 96) * (done && tap < 1 ? 0.88 : 1), 400);
+    ctx.globalAlpha = a * out * (1 - leave);
+    ctx.fillText('👆', hx, hy + 60);
+    if (done && tap < 1) { ctx.strokeStyle = 'rgba(255,255,255,' + (1 - tap) + ')'; ctx.lineWidth = 6; ctx.beginPath(); ctx.arc(hx - 8, hy - 10, 30 + 70 * tap, 0, Math.PI * 2); ctx.stroke(); }
+  }
+  // قلوب وإيموجي طايرة بعد الضغط
+  if (done) {
+    const em = sub ? ['👍', '🔔', '❤️', '👍', '🔥', '❤️'] : ['❤️', '💬', '🔁', '❤️', '🔖', '🔥'];
+    ctx.font = font(L.vert ? 70 : 56, 400);
+    em.forEach((e, i) => {
+      const p = (local - END_TAP - i * 0.12) / 1.6;
+      if (p <= 0 || p >= 1) return;
+      const ex = cx + (i % 2 ? 1 : -1) * (bw * 0.3 + (i * 37) % 120) + Math.sin(p * 6 + i) * 30;
+      ctx.globalAlpha = a * out * (1 - p);
+      ctx.fillText(e, ex, y - p * H * 0.28);
+    });
   }
   ctx.restore();
 }
@@ -1230,7 +1333,21 @@ export function sceneAt(st, t, idx) {
 // media.presenter = فيديو ظهورك (lip-sync): من غير تعتيم ولا حركة. media.none = رجوع لخلفية الخبر العادية
 function drawScene(ctx, bg, m, p, k, dim, storyBg, storyMedia) {
   if (m.none) { if (storyBg) drawBg(ctx, storyBg, W, H, dim, storyMedia); return; }
-  if (m.presenter) return drawBg(ctx, bg, W, H, 0, { ...m, fit: 'cover' });
+  if (m.presenter) {
+    // ✂️ الخلفية متشالة: خلفية الخبر وراك، وإنت واقف تحت (يمين/نص/شمال) بالحجم المختار
+    const cut = m.cut?.mode && m.cut.mode !== 'off' ? cutFrame(bg, m.cut) : null;
+    if (!cut) return drawBg(ctx, bg, W, H, 0, { ...m, fit: 'cover' });
+    if (storyBg) drawBg(ctx, storyBg, W, H, dim, storyMedia);
+    const sz = Math.max(0.3, Math.min(1, m.cut.size ?? 0.7));
+    const h = H * sz, w = Math.min(W * (L.vert ? 1 : 0.6), (h * cut.width) / cut.height), hh = (w * cut.height) / cut.width;
+    const pos = m.cut.pos || 'center', mx = W * 0.04;
+    const x = pos === 'center' ? (W - w) / 2 : pos === 'right' ? W - w - mx : mx;
+    ctx.save();
+    ctx.shadowColor = 'rgba(0,0,0,.55)'; ctx.shadowBlur = 40;
+    ctx.drawImage(cut, x, H - hh, w, hh);
+    ctx.restore();
+    return;
+  }
   const dir = k % 2 ? -1 : 1;
   drawBg(ctx, bg, W, H, dim, { ...m, fit: m.fit || 'cover', zoom: (m.zoom || 1) * (1.04 + 0.1 * p), fx: (m.fx ?? 0.5) + dir * 0.12 * (p - 0.5), fy: (m.fy ?? 0.5) - 0.06 * (p - 0.5) });
 }
