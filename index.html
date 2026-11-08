@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mw6gua5v">
+<html lang="ar" dir="rtl" data-v="mw83b593">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mw6gua5v">
+<link rel="stylesheet" href="assets/css/style.css?v=mw83b593">
 </head>
 <body>
 <header class="top">
@@ -170,7 +170,7 @@
       </div>
       </div>
       <div class="tlbox">
-        <div class="row"><b>⏱ التايم لاين</b><span id="tlDur" class="muted"></span></div>
+        <div class="row"><b>⏱ التايم لاين</b><span id="tlDur" class="muted"></span><button id="tlBigBtn" class="btn" type="button" title="افتح التايم لاين في شاشة كبيرة">⛶ كبّر التايم لاين</button></div>
         <div id="tlBar" class="tlbar" dir="ltr"></div>
         <div id="tlSel" class="tlsel"></div>
       </div>
@@ -194,6 +194,7 @@
       <label>اسم الحلقة (للمكتبة بس)<input id="rTitle" placeholder="مثال: نشرة الخميس"></label>
       <div class="grid">
         <label>مقاس الفيديو<select id="rFormat"></select></label>
+        <label>البراند (شكل القناة)<select id="rBrand"></select></label>
         <label>حجم الكابشن<select id="capQ"><option value="52">صغير</option><option value="64">متوسط</option><option value="78">كبير</option><option value="custom" hidden>مخصص</option></select></label>
         <label>لغة الريل (النصوص على الشاشة واتجاه الكتابة)<select id="rLang"><option value="ar">العربية (RTL)</option><option value="en">English (LTR)</option></select></label>
       </div>
@@ -254,6 +255,13 @@
         </div>
         <p id="refMsg" class="muted">أعد صياغته بأسلوبك قبل التصدير. الأداة بتسحب الملخص بس، مش نص الخبر الكامل (حقوق النشر).</p>
       </details>
+      <div class="card magicbox">
+        <b>🪄 الصندوق السحري</b>
+        <p class="muted">اكتب اللي عايزه بالعربي، والبرنامج ينفّذه على الحلقة. مثال: «خلّي الكابشن كاريوكي بإيموجي، وفلتر سينمائي، وحط عداد على السطر اللي فيه المليون، وهات فيديو مدينة بالليل للسطر الأول».</p>
+        <textarea id="mbText" rows="3" dir="auto" placeholder="اكتب أمرك هنا…"></textarea>
+        <div class="row"><button id="mbGo" class="btn pri" type="button">🪄 نفّذ</button><span id="mbMsg" class="muted"></span></div>
+        <div id="mbLog" class="muted"></div>
+      </div>
       <details id="agentBox" class="card agentbox">
         <summary>🧠 المحرر الذكي (اختياري): يجهّز الخبر كقصة وإنفوجرافيك ومؤثرات</summary>
         <p class="muted aiNow"></p>
@@ -484,6 +492,7 @@
           <label class="chk"><input id="lkEmoji" type="checkbox"> 😀 إيموجي فوق الكلمات</label>
           <label class="chk"><input id="lkHi" type="checkbox"> 🟨 الكلمات المهمة بالأصفر</label>
           <label class="chk"><input id="lkPunch" type="checkbox" checked> 💥 زووم مفاجئ على الأرقام والجرافيكس</label>
+          <label class="chk"><input id="lkBeat" type="checkbox"> 🥁 على إيقاع المزيكا (زووم والمشاهد تتقطع على الـ Beat)</label>
         </div>
         <p class="muted">شكل الكابشن والإيموجي بيتحفظوا لكل الحلقات. الفلتر والانتقال والزووم للحلقة دي، وتقدر تغيّر الانتقال لكل مشهد من «🎬 مونتاج أوتوماتيك».</p>
       </div>
@@ -841,6 +850,13 @@
   </div>
 
   <div class="card">
+    <h3>🎨 البراندات (كل قناة ليها شكلها)</h3>
+    <p class="muted">اعمل براند لكل قناة (مثلًا «أفكار وبزنس»): اسم على الشاشة، يوزر، لوجو، ولون. في الاستوديو بتختار البراند لكل حلقة. «الأساسي» = اسم القناة واللوجو اللي فوق.</p>
+    <div id="brList"></div>
+    <div class="row"><button id="brAdd" class="btn" type="button">＋ براند جديد</button><span id="brMsg" class="muted"></span></div>
+  </div>
+
+  <div class="card">
     <h3>مزوّد الصوت (قراءة الأخبار)</h3>
     <label>المزوّد<select id="sTts"><option value="elevenlabs">ElevenLabs (صوتك المستنسخ)</option><option value="gemini">Google Gemini (أصوات جاهزة، له حصة مجانية)</option><option value="azure">Microsoft Azure (أصوات مصري، 500 ألف حرف ببلاش في الشهر)</option><option value="openai">OpenAI (رخيص، بيتحاسب بالاستخدام)</option></select></label>
     <div id="azBox" hidden>
@@ -1024,6 +1040,18 @@
     </div>
   </div>
 </dialog>
+<dialog id="tlDlg" class="tldlg">
+  <div class="row"><b>⏱ التايم لاين الكبير</b>
+    <button id="tlBigPlay" class="btn pri" type="button">▶ تشغيل / إيقاف</button>
+    <label class="inl">🔍 تكبير <input id="tlZoom" type="range" min="1" max="10" step="0.5" value="2"></label>
+    <span id="tlBigTime" class="muted"></span>
+    <button id="tlBigClose" class="btn ghost" type="button" style="margin-inline-start:auto">✕ قفل</button></div>
+  <div class="tlbig">
+    <canvas id="tlMirror" width="360" height="640"></canvas>
+    <div class="tlbigside"><div id="tlBigHost" class="tlbighost" dir="ltr"></div><div id="tlBigSel"></div>
+    <p class="muted">دوس على أي حتة تروح لها، أو على مشهد/مقطع/سطر عشان تحرّكه أو تفتحه. التكبير بيخليك تشوف السطور الصغيرة، واسحب الشريط اللي تحت يمين وشمال.</p></div>
+  </div>
+</dialog>
 <dialog id="crDlg" class="crdlg">
   <div class="row"><b>✂️ حدّد الجزء اللي عايز تسجّله</b><span class="muted">اسحب بالماوس مربع على الصورة. شكل المربع:</span>
     <select id="crAsp"><option value="free">حر</option><option value="16:9">16:9 عريض</option><option value="9:16">9:16 طولي</option><option value="1:1">مربع</option></select>
@@ -1062,6 +1090,7 @@
     <p id="tpInfo"></p>
     <label class="chk"><input id="tpTrim" type="checkbox" checked> ✂️ قص السكتات الطويلة (أي سكتة أطول من ثلث ثانية بتتقصّر)</label>
     <label class="chk"><input id="tpClean" type="checkbox" checked> 🧽 نضّف الدوشة (مروحة، تكييف، زنّة الأوضة) — محلي وببلاش</label>
+    <div class="row"><button id="tpFill" class="btn" type="button">🧹 شيل «ممم» و«آآ» والكلام الزيادة</button><label class="chk"><input id="tpFillYani" type="checkbox"> و«يعني» كمان</label><span class="muted">بيستخدم Whisper على جهازك (مجاني، أول مرة بينزّل حوالي 80 ميجا).</span></div>
     <div class="row"><button id="tpIso" class="btn" type="button">✨ نضّف بـ ElevenLabs</button><span class="muted">أنضف بكتير (بيشيل الدوشة وصدى الأوضة)، وبيخصم من رصيد ElevenLabs.</span></div>
     <div class="row">
       <button id="tpPlay" class="btn big" type="button">▶ اسمع الكل</button>
@@ -1083,6 +1112,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mw6gua5v"></script>
+<script type="module" src="js/main.js?v=mw83b593"></script>
 </body>
 </html>

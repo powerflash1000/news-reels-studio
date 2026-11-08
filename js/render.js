@@ -1,10 +1,10 @@
 // رسم إطار الريل على canvas (عمودي 1080×1920 أو 4:5 أو مربع أو أفقي). نفس الدالة للمعاينة والتصدير.
-import { detailTarget, tileKey, getTileMap } from './tiles.js?v=mw6gua5v';
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mw6gua5v';
-import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mw6gua5v';
-import { hostOf } from './feeds.js?v=mw6gua5v';
-import QR from '../vendor/qrcode/qrcode.mjs?v=mw6gua5v';
-import { drawBg } from './bg.js?v=mw6gua5v';
+import { detailTarget, tileKey, getTileMap } from './tiles.js?v=mw83b593';
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mw83b593';
+import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mw83b593';
+import { hostOf } from './feeds.js?v=mw83b593';
+import QR from '../vendor/qrcode/qrcode.mjs?v=mw83b593';
+import { drawBg } from './bg.js?v=mw83b593';
 
 // مقاسات الإخراج. W/H متغيّرين (live binding) والتصدير بيقراهم وقت التصدير
 export const FORMATS = {
@@ -358,14 +358,18 @@ function lookVignette(ctx, look) {
 }
 // لحظات «الضربة»: أول كلمة فيها رقم في كل سطر + بداية كل جرافيك
 function punchAt(st, t, idx) {
-  if (st.reel.punch === false) return 0;
+  if (st.reel.punch === false && !st.reel.beat) return 0;
   const story = st.reel.stories[idx];
   const segs = st.tl.segs.filter(s => s.storyIdx === idx && !s.clip);
   const ev = [];
-  for (const s of segs) { const w = (s.words || []).find(x => /[0-9٠-٩]/.test(x.w)); if (w) ev.push(w.s); }
-  for (const g of story?.gfx || []) if (!g.off && segs[g.li]) ev.push(segs[g.li].start);
+  if (st.reel.punch !== false) {
+    for (const s of segs) { const w = (s.words || []).find(x => /[0-9٠-٩]/.test(x.w)); if (w) ev.push(w.s); }
+    for (const g of story?.gfx || []) if (!g.off && segs[g.li]) ev.push(segs[g.li].start);
+  }
   let a = 0;
   for (const e of ev) { const d = t - e; if (d >= 0 && d < 0.55) a = Math.max(a, d < 0.07 ? d / 0.07 : 1 - (d - 0.07) / 0.48); }
+  // 🥁 نبضة خفيفة على كل Beat في المزيكا
+  if (st.reel.beat && st.tl.beats) for (const b of st.tl.beats) { const d = t - b; if (d < 0) break; if (d < 0.3) a = Math.max(a, 0.5 * (d < 0.04 ? d / 0.04 : 1 - (d - 0.04) / 0.26)); }
   return a;
 }
 // انتقالات المشاهد: fade / zoom / slide / flash / whip / glitch
@@ -972,9 +976,11 @@ function lerpHex(a, b, p) {
 
 // الافتتاحية والخاتمة ليها لون ثابت واسم القناة بدل القسم
 function catFor(st, story) {
-  if (story.kind === 'idea') return { id: 'idea', label: RTL ? 'فكرة' : 'Idea', color: '#f59e0b' };
+  const bc = st.settings?.brandColor;
+  if (story.kind === 'idea') return { id: 'idea', label: RTL ? 'فكرة' : 'Idea', color: bc || '#f59e0b' };
   if (story.kind !== 'news') return { id: story.kind, label: st.settings.channelName || S.channel, color: '#6b7cff' };
-  const c = st.cats.find(x => x.id === story.category) || st.cats[0];
+  const c0 = st.cats.find(x => x.id === story.category) || st.cats[0];
+  const c = bc ? { ...c0, color: bc } : c0;
   return RTL ? c : { ...c, label: c.en || c.label };
 }
 
@@ -1205,8 +1211,20 @@ export function sceneAt(st, t, idx) {
   list.forEach((x, i) => { if (x.li <= li) k = i; });
   const at = n => segs[Math.min(Math.max(0, n), segs.length - 1)].start;
   const cur = list[k], next = list[k + 1];
-  const start = k === 0 ? Math.min(at(cur.li), segs[0].start) : at(cur.li);
-  return { cur, prev: k > 0 ? list[k - 1] : null, start, end: next ? at(next.li) : segs[segs.length - 1].end + 0.8, k };
+  let start = k === 0 ? Math.min(at(cur.li), segs[0].start) : at(cur.li);
+  let end = next ? at(next.li) : segs[segs.length - 1].end + 0.8;
+  // 🥁 القطع على الـ Beat: المشهد بيستنى لحد أقرب Beat بعد بداية السطر (لحد 0.35 ث)
+  const beats = st.reel.beat && st.tl.beats;
+  const snap = v => (beats ? beats.find(b => b >= v - 0.01 && b <= v + 0.35) ?? v : v);
+  if (beats) {
+    if (next) end = snap(end);
+    if (k > 0) {
+      const sb = snap(start);
+      if (t < sb) { const pk = k - 1, pc = list[pk]; return { cur: pc, prev: pk > 0 ? list[pk - 1] : null, start: pk === 0 ? Math.min(at(pc.li), segs[0].start) : snap(at(pc.li)), end: sb, k: pk }; }
+      start = sb;
+    }
+  }
+  return { cur, prev: k > 0 ? list[k - 1] : null, start, end, k };
 }
 // حركة «كن بيرنز»: تكبير بطيء وإزاحة، واتجاهها بيتبدّل من مشهد للتاني
 // media.presenter = فيديو ظهورك (lip-sync): من غير تعتيم ولا حركة. media.none = رجوع لخلفية الخبر العادية

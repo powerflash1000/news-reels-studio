@@ -429,3 +429,25 @@ export function denoise(buffer, { strength = 1 } = {}) {
   for (let c = 0; c < buffer.numberOfChannels; c++) res.copyToChannel(out, c);
   return res;
 }
+
+// 🥁 مواضع الـ Beat في المزيكا: طاقة الصوت في شبابيك 1024 عينة، والزيادة المفاجئة (onset) فوق متوسط متحرك = Beat (أقل فرق 0.28 ث)
+const BEATS = new WeakMap();
+export function detectBeats(buffer) {
+  if (!buffer?.getChannelData) return [];
+  if (BEATS.has(buffer)) return BEATS.get(buffer);
+  const x = buffer.getChannelData(0), sr = buffer.sampleRate, hop = 1024;
+  const n = Math.floor(x.length / hop), en = new Float32Array(n);
+  for (let i = 0; i < n; i++) { let e = 0; for (let j = i * hop, k = j + hop; j < k; j++) e += x[j] * x[j]; en[i] = Math.sqrt(e / hop); }
+  const flux = new Float32Array(n);
+  for (let i = 1; i < n; i++) flux[i] = Math.max(0, en[i] - en[i - 1]);
+  const out = [], W = 43; // حوالي ثانية
+  let last = -1e9;
+  for (let i = 1; i < n - 1; i++) {
+    let m = 0, c = 0; for (let j = Math.max(0, i - W); j < Math.min(n, i + W); j++) { m += flux[j]; c++; }
+    m /= c;
+    const t = (i * hop) / sr;
+    if (flux[i] > m * 1.8 && flux[i] >= flux[i - 1] && flux[i] >= flux[i + 1] && flux[i] > 0.002 && t - last >= 0.28) { out.push(t); last = t; }
+  }
+  BEATS.set(buffer, out);
+  return out;
+}

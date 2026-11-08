@@ -1,29 +1,29 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw6gua5v';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw6gua5v';
-import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw6gua5v';
-import { GFX_SFX, gfxSfxOf, newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw6gua5v';
-import { transcribeWords, alignWords } from './align.js?v=mw6gua5v';
-import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw6gua5v';
-import { audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw6gua5v';
-import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mw6gua5v';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw6gua5v';
-import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw6gua5v';
-import { exportSupport, exportReel } from './export.js?v=mw6gua5v';
-import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf } from './media.js?v=mw6gua5v';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw6gua5v';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw6gua5v';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw6gua5v';
-import { detailTarget, loadTileMap } from './tiles.js?v=mw6gua5v';
-import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw6gua5v';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw6gua5v';
-import { loadBg, playBg, seekBg } from './bg.js?v=mw6gua5v';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw6gua5v';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw6gua5v';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw6gua5v';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures, ideaYouTube, ideaFile, ideaText, ideaAngle } from './external.js?v=mw6gua5v';
-import { readUrl, cleanPasted } from './reader.js?v=mw6gua5v';
-import { initI18n, ui } from './i18n.js?v=mw6gua5v';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw6gua5v';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mw83b593';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mw83b593';
+import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mw83b593';
+import { GFX_SFX, gfxSfxOf, newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mw83b593';
+import { transcribeWords, alignWords, normWord, similarity } from './align.js?v=mw83b593';
+import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mw83b593';
+import { detectBeats, audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mw83b593';
+import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mw83b593';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mw83b593';
+import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mw83b593';
+import { exportSupport, exportReel } from './export.js?v=mw83b593';
+import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf } from './media.js?v=mw83b593';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mw83b593';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mw83b593';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mw83b593';
+import { detailTarget, loadTileMap } from './tiles.js?v=mw83b593';
+import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mw83b593';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mw83b593';
+import { loadBg, playBg, seekBg } from './bg.js?v=mw83b593';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mw83b593';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mw83b593';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mw83b593';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures, ideaYouTube, ideaFile, ideaText, ideaAngle } from './external.js?v=mw83b593';
+import { readUrl, cleanPasted } from './reader.js?v=mw83b593';
+import { initI18n, ui } from './i18n.js?v=mw83b593';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mw83b593';
 
 initI18n();
 
@@ -412,6 +412,7 @@ function fillForm() {
   renderScenes();
   renderGfx();
   fillLook();
+  fillBrandSel();
   renderClips();
   updateInfo();
   redraw();
@@ -1514,6 +1515,8 @@ function currentTimeline() {
   const info = buildReelTimeline(reel, audioMap, manualAudio, clipAudio);
   info.tl.fx = getSettings().fx;
   info.tl.music = musicBuf && reel.music ? { buffer: musicBuf, gain: reel.music.vol ?? 0.15 } : null;
+  // 🥁 مواضع الـ Beat على طول الحلقة (المزيكا بتتكرر من أولها)
+  if (reel.beat && info.tl.music) { const bs = detectBeats(musicBuf), L0 = musicBuf.duration, out = []; if (bs.length && L0 > 1) for (let off = 0; off < info.tl.duration; off += L0) for (const b of bs) { if (off + b > info.tl.duration) break; out.push(off + b); } info.tl.beats = out; }
   return info;
 }
 
@@ -1587,8 +1590,62 @@ $('musicVol').addEventListener('input', () => { if (reel.music) { reel.music.vol
 $('musicDel').addEventListener('click', async () => { if (reel.music?.id) delBlob(reel.music.id); reel.music = null; await syncMusic(); persist(); });
 
 function stateFor(info) {
-  return { reel, cats: cfg.categories, settings: getSettings(), tl: info.tl, hasB: info.hasB, focusIdx: cur, bgs, shots, logo: logoImg, avImgs };
+  const gs = getSettings(), b = curBrand();
+  if (b) brandLogo(b);
+  const settings = b ? { ...gs, channelName: b.channelName || gs.channelName, handle: b.handle || gs.handle, brandColor: b.useColor && b.color ? b.color : '', logo: { ...gs.logo, on: brandImgs.get(b.id) ? true : gs.logo.on } } : gs;
+  return { reel, cats: cfg.categories, settings, tl: info.tl, hasB: info.hasB, focusIdx: cur, bgs, shots, logo: b ? (brandImgs.get(b.id) || null) : logoImg, avImgs };
 }
+// ===== 🎨 البراندات: settings.brands = [{id, name, channelName, handle, color, useColor, ideas}] + لوجو في nrs-media «__logo_<id>»، والحلقة بتختار reel.brand =====
+var brandImgs = new Map();
+function brands() { return getSettings().brands || []; }
+function curBrand() { return reel?.brand ? brands().find(b => b.id === reel.brand) || null : null; }
+function brandHandle(r) { const b = r?.brand && brands().find(x => x.id === r.brand); return (b && b.handle) || getSettings().handle; }
+async function brandLogo(b) {
+  if (!b || brandImgs.has(b.id)) return brandImgs.get(b?.id);
+  brandImgs.set(b.id, null);
+  try { const bl = await getBlob('__logo_' + b.id); if (bl) { const img = new Image(); img.src = URL.createObjectURL(bl); await img.decode(); brandImgs.set(b.id, img); redraw(); } } catch { /* مفيش لوجو */ }
+  return brandImgs.get(b.id);
+}
+function fillBrandSel() {
+  $('rBrand').innerHTML = `<option value="">الأساسي (${esc(getSettings().channelName || 'الإعدادات')})</option>` + brands().map(b => `<option value="${b.id}" ${reel?.brand === b.id ? 'selected' : ''}>${esc(b.name || b.channelName || 'براند')}</option>`).join('');
+  $('rBrand').value = curBrand() ? reel.brand : '';
+}
+function renderBrands() {
+  $('brList').innerHTML = brands().map(b => `<div class="brrow" data-brid="${b.id}">
+    <label>اسم البراند<input data-bk="name" value="${esc(b.name || '')}" placeholder="مثلًا: أفكار وبزنس"></label>
+    <label>اسم القناة على الشاشة<input data-bk="channelName" value="${esc(b.channelName || '')}"></label>
+    <label>اليوزر (@…)<input data-bk="handle" dir="ltr" value="${esc(b.handle || '')}"></label>
+    <label>اللون<input data-bk="color" type="color" value="${esc(b.color || '#f59e0b')}"></label>
+    <label class="chk"><input data-bk="useColor" type="checkbox" ${b.useColor ? 'checked' : ''}> استخدم اللون ده بدل ألوان الأقسام</label>
+    <label class="chk"><input data-bk="ideas" type="checkbox" ${b.ideas ? 'checked' : ''}> افتراضي لحلقات «💡 الأفكار»</label>
+    <label class="btn file">🖼 لوجو<input data-bklogo type="file" accept="image/*" hidden></label>
+    <span>${brandImgs.get(b.id) ? `<img src="${brandImgs.get(b.id).src}" alt="">` : '<span class="muted">من غير لوجو</span>'}</span>
+    <button class="btn ghost" data-brdel type="button">✕ احذف</button></div>`).join('') || '<p class="muted">مفيش براندات لسه.</p>';
+  for (const b of brands()) if (!brandImgs.has(b.id)) brandLogo(b).then(() => { if (brandImgs.get(b.id)) renderBrands(); });
+}
+function saveBrands(list) { setSettings({ brands: list }); fillBrandSel(); redraw(); }
+$('brAdd').addEventListener('click', () => { saveBrands([...brands(), { id: 'b' + Date.now().toString(36), name: 'براند جديد', channelName: '', handle: '', color: '#f59e0b', useColor: false, ideas: false }]); renderBrands(); });
+$('brList').addEventListener('change', async e => {
+  const row = e.target.closest('[data-brid]'); if (!row) return;
+  const id = row.dataset.brid, list = brands().map(b => ({ ...b }));
+  const b = list.find(x => x.id === id); if (!b) return;
+  if (e.target.matches('[data-bklogo]')) {
+    const f = e.target.files?.[0]; e.target.value = ''; if (!f) return;
+    await putBlob('__logo_' + id, f); brandImgs.delete(id); await brandLogo(b); renderBrands(); redraw();
+    return ($('brMsg').textContent = '✅ اللوجو اتحفظ للبراند ده.');
+  }
+  const k = e.target.dataset.bk; if (!k) return;
+  b[k] = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+  if (k === 'ideas' && b.ideas) list.forEach(x => { if (x.id !== id) x.ideas = false; });
+  saveBrands(list); if (k === 'ideas') renderBrands();
+});
+$('brList').addEventListener('click', e => {
+  const d = e.target.closest('[data-brdel]'); if (!d) return;
+  const id = d.closest('[data-brid]').dataset.brid;
+  if (!confirm('تحذف البراند ده؟ الحلقات اللي عليه هترجع للأساسي.')) return;
+  delBlob('__logo_' + id); brandImgs.delete(id); saveBrands(brands().filter(b => b.id !== id)); renderBrands();
+});
+$('rBrand').addEventListener('change', () => { reel.brand = $('rBrand').value || ''; persist(); redraw(); });
 
 const ctx = $('cv').getContext('2d');
 function redraw(t) {
@@ -3299,7 +3356,7 @@ $('bmGfx').addEventListener('click', () => {
 function fillLook() {
   const c = getSettings().caps || {};
   $('lkCap').value = c.style || 'classic'; $('lkEmoji').checked = !!c.emoji; $('lkHi').checked = !!c.hi;
-  $('lkLook').value = reel.look || ''; $('lkTr').value = reel.tr || 'fade'; $('lkPunch').checked = reel.punch !== false;
+  $('lkLook').value = reel.look || ''; $('lkTr').value = reel.tr || 'fade'; $('lkPunch').checked = reel.punch !== false; $('lkBeat').checked = !!reel.beat;
 }
 for (const [id, k] of [['lkCap', 'style'], ['lkEmoji', 'emoji'], ['lkHi', 'hi']]) $(id).addEventListener('change', () => {
   const s = getSettings(); setSettings({ caps: { ...s.caps, [k]: $(id).type === 'checkbox' ? $(id).checked : $(id).value } }); redraw();
@@ -3307,6 +3364,127 @@ for (const [id, k] of [['lkCap', 'style'], ['lkEmoji', 'emoji'], ['lkHi', 'hi']]
 $('lkLook').addEventListener('change', () => { reel.look = $('lkLook').value; persist(); redraw(); });
 $('lkTr').addEventListener('change', () => { reel.tr = $('lkTr').value; persist(); renderScenes(); });
 $('lkPunch').addEventListener('change', () => { reel.punch = $('lkPunch').checked; persist(); });
+$('lkBeat').addEventListener('change', () => { reel.beat = $('lkBeat').checked; persist(); if (reel.beat && !reel.music) setStatus('🥁 الإيقاع محتاج موسيقى خلفية: اختار مزيكا من كارت الموسيقى.'); redraw(); });
+
+// ===== ⛶ التايم لاين الكبير: بننقل نفس الشريط (بنفس أوامره) لنافذة كبيرة فيها معاينة وتكبير =====
+var tlBigRaf = 0;
+function tlBigZoom() { $('tlBar').style.width = (Number($('tlZoom').value) || 1) * 100 + '%'; }
+function tlMirror() {
+  const src = $('cv'), dst = $('tlMirror');
+  if (dst.width !== Math.round(src.width / 3) || dst.height !== Math.round(src.height / 3)) { dst.width = Math.round(src.width / 3); dst.height = Math.round(src.height / 3); dst.style.aspectRatio = `${src.width} / ${src.height}`; }
+  dst.getContext('2d').drawImage(src, 0, 0, dst.width, dst.height);
+  $('tlBigTime').textContent = $('time')?.textContent || '';
+  tlBigRaf = requestAnimationFrame(tlMirror);
+}
+$('tlBigBtn').addEventListener('click', () => {
+  $('tlBigHost').appendChild($('tlBar')); $('tlBigSel').appendChild($('tlSel'));
+  tlBigZoom(); $('tlDlg').showModal(); cancelAnimationFrame(tlBigRaf); tlMirror();
+});
+$('tlZoom').addEventListener('input', tlBigZoom);
+$('tlBigPlay').addEventListener('click', () => $('play').click());
+$('tlBigClose').addEventListener('click', () => $('tlDlg').close());
+$('tlDlg').addEventListener('close', () => {
+  cancelAnimationFrame(tlBigRaf);
+  const box = document.querySelector('.tlbox'); $('tlBar').style.width = '';
+  box.insertBefore($('tlBar'), box.children[1] || null); box.appendChild($('tlSel'));
+});
+// عجلة الماوس + Ctrl = تكبير/تصغير جوه النافذة الكبيرة
+$('tlBigHost').addEventListener('wheel', e => { if (!e.ctrlKey) return; e.preventDefault(); const z = $('tlZoom'); z.value = Math.max(1, Math.min(10, Number(z.value) + (e.deltaY < 0 ? 0.5 : -0.5))); tlBigZoom(); }, { passive: false });
+
+// ===== 🧹 شيل «ممم/آآ» والكلام الزيادة من التسجيل (Whisper على الجهاز) =====
+const FILL_RX = /^(ا+م+|أ+م+|ام+|م{2,}|ه+م+|آ+|ا{2,}ه*|اه+|أه+|إ+|ee+|e+r+m*|u+h+|u+m+|h+m+|m{2,})$/i;
+async function cutRanges(buf, ranges) {
+  if (!ranges.length) return buf;
+  const sr = buf.sampleRate, keep = [];
+  let pos = 0;
+  for (const [a, b] of ranges.sort((x, y) => x[0] - y[0])) { const A = Math.max(0, Math.floor(a * sr)), B = Math.min(buf.length, Math.ceil(b * sr)); if (A > pos) keep.push([pos, A]); pos = Math.max(pos, B); }
+  if (pos < buf.length) keep.push([pos, buf.length]);
+  const total = keep.reduce((n, [a, b]) => n + (b - a), 0);
+  const out = audioCtx().createBuffer(buf.numberOfChannels, Math.max(1, total), sr), F = Math.round(sr * 0.01);
+  for (let c = 0; c < buf.numberOfChannels; c++) {
+    const src = buf.getChannelData(c), dst = out.getChannelData(c); let o = 0;
+    for (const [a, b] of keep) { for (let i = a; i < b; i++) { const fade = Math.min(1, (i - a) / F, (b - 1 - i) / F); dst[o++] = src[i] * (keep.length > 1 ? Math.max(0, fade) : 1); } }
+  }
+  return out;
+}
+$('tpFill').addEventListener('click', async () => {
+  if (!tp.segs.length) return;
+  let ok = false; try { ok = localStorage.getItem('nrs:whisperOk') === '1'; } catch { /* */ }
+  if (!ok && !confirm('هينزّل موديل Whisper (حوالي 80 ميجا، مرة واحدة) ويشتغل على جهازك مجانًا. تكمل؟')) return;
+  try { localStorage.setItem('nrs:whisperOk', '1'); } catch { /* */ }
+  const b = $('tpFill'); b.disabled = true;
+  const yani = $('tpFillYani').checked, lines = allLines(reel);
+  let cut = 0, secs = 0;
+  try {
+    for (let i = 0; i < tp.segs.length; i++) {
+      $('tpInfo').textContent = `⏳ Whisper بيسمع المقطع ${i + 1}/${tp.segs.length}…`;
+      const words = await transcribeWords(tp.segs[i], reel.lang, p => { $('tpInfo').textContent = `⏳ بينزّل Whisper ${Math.round(p * 100)}%`; });
+      const script = tpLineMode() && lines[i] ? stripTagsLocal(lines[i].text).split(/\s+/).map(normWord).filter(Boolean) : null;
+      const rng = [];
+      words.forEach((w, k) => {
+        const n = normWord(w.w), d = (w.e ?? w.s) - w.s;
+        const filler = FILL_RX.test(n) || (yani && /^(يعني|يعنى)$/.test(n));
+        const repeat = k + 1 < words.length && n.length > 1 && n === normWord(words[k + 1].w); // تهتهة: نفس الكلمة مرتين ورا بعض
+        const extra = script && n.length <= 4 && d < 0.5 && !script.some(x => similarity(x, n) >= 0.5) && !(yani === false && /^(يعني|يعنى)$/.test(n));
+        if (filler || repeat || extra) rng.push([Math.max(0, w.s - 0.03), (w.e ?? w.s + 0.25) + 0.03]);
+      });
+      if (rng.length) { const before = tp.segs[i].duration; tp.segs[i] = await cutRanges(tp.segs[i], rng); cut += rng.length; secs += before - tp.segs[i].duration; }
+    }
+    tp.out = null; tp.iso = null; tpSegList(); tpInfo();
+    $('tpInfo').textContent += cut ? ` 🧹 اتشال ${cut} حتة (${secs.toFixed(1)} ث). اسمع قبل ما تستخدم.` : ' 🧹 مالقيتش «ممم» أو كلام زيادة واضح (Whisper ساعات بيتجاهل الهمهمة).';
+  } catch (err) { $('tpInfo').textContent = '❌ ' + (err.message || err); }
+  b.disabled = false;
+});
+
+// ===== 🪄 الصندوق السحري: أمر بالعربي ← أوامر محددة بننفّذها على الحلقة =====
+const MB_OPS = ['caption_style', 'caption_size', 'emoji', 'highlight', 'look', 'transition', 'punch', 'beat', 'scene_search', 'gfx_add', 'gfx_remove', 'edit_line', 'music_search', 'headline', 'format'];
+const MB_SCHEMA = { type: 'object', properties: { actions: { type: 'array', items: { type: 'object', properties: { op: { type: 'string', enum: MB_OPS }, line: { type: 'integer' }, value: { type: 'string' }, unit: { type: 'string' }, label: { type: 'string' }, kind: { type: 'string' } }, required: ['op', 'line', 'value', 'unit', 'label', 'kind'], additionalProperties: false } }, reply: { type: 'string' } }, required: ['actions', 'reply'], additionalProperties: false };
+$('mbGo').addEventListener('click', async () => {
+  readForm();
+  const req = $('mbText').value.trim();
+  if (!req) return ($('mbMsg').textContent = 'اكتب الأمر الأول.');
+  const st = story(), lines = parseScript(st.script);
+  const b = $('mbGo'); b.disabled = true; $('mbMsg').textContent = '⏳ بيفهم الأمر…'; $('mbLog').innerHTML = '';
+  try {
+    const cl = v => String(v || '').replace(/[<>]/g, '');
+    const out = await aiJSON({ schema: MB_SCHEMA, maxTokens: 2000,
+      system: `You turn an Egyptian-Arabic editing request into actions for a short-video editor. Only use these ops:
+caption_style value=classic|karaoke|bold|single • caption_size value=small|medium|large • emoji value=on|off • highlight value=on|off (key words yellow) • look value=none|cinematic|warm|cool|vivid|vintage|bw • transition value=fade|zoom|slide|whip|flash|glitch, line=0 for all scenes or N for the scene at line N • punch value=on|off • beat value=on|off (sync to music) • scene_search line=N value=short ENGLISH stock-footage query (no real people/brands/logos) kind=video|image • gfx_add line=N kind=count|year|pct|text value=number digits (or ≤3 words for text) unit=unit words label=1-4 words, numbers must exist in that line • gfx_remove line=N • edit_line line=N value=new text (only if the user asks to change wording) • music_search value=english mood words • headline value=new headline • format value=v|p|s|h (9:16, 4:5, 1:1, 16:9).
+Lines are numbered from 1. Use line=0 when not relevant and "" for unused strings. Never invent facts. reply = one short Egyptian-Arabic sentence summarising what you did or why something is impossible.`,
+      user: `<headline>${cl(st.headline)}</headline>\n<lines>\n${lines.map((l, i) => `${i + 1}: ${cl(l.text)}`).join('\n')}\n</lines>\n<request>${cl(req)}</request>` });
+    const log = [];
+    const sc = (getSettings().caps || {});
+    for (const a of out?.actions || []) {
+      const li = a.line - 1, v = String(a.value || '');
+      try {
+        if (a.op === 'caption_style' && ['classic', 'karaoke', 'bold', 'single'].includes(v)) { setSettings({ caps: { ...getSettings().caps, style: v } }); log.push('شكل الكابشن ← ' + v); }
+        else if (a.op === 'caption_size') { const n = { small: 52, medium: 64, large: 78 }[v]; if (n) { setSettings({ caps: { ...getSettings().caps, size: n } }); log.push('حجم الكابشن ← ' + v); } }
+        else if (a.op === 'emoji' || a.op === 'highlight') { setSettings({ caps: { ...getSettings().caps, [a.op === 'emoji' ? 'emoji' : 'hi']: v === 'on' } }); log.push((a.op === 'emoji' ? 'الإيموجي' : 'الكلمات المهمة') + (v === 'on' ? ' اشتغلت' : ' اتقفلت')); }
+        else if (a.op === 'look') { reel.look = v === 'none' ? '' : v; log.push('الفلتر ← ' + (v || 'من غير')); }
+        else if (a.op === 'transition') { if (li >= 0) { const x = (st.scenes || []).find(z => z.li === li); if (x) { x.tr = v; log.push(`انتقال مشهد السطر ${li + 1} ← ${v}`); } } else { reel.tr = v; log.push('الانتقال ← ' + v); } }
+        else if (a.op === 'punch') { reel.punch = v === 'on'; log.push('الزووم المفاجئ ' + (v === 'on' ? 'اشتغل' : 'اتقفل')); }
+        else if (a.op === 'beat') { reel.beat = v === 'on'; log.push('الإيقاع ' + (v === 'on' ? 'اشتغل' : 'اتقفل')); }
+        else if (a.op === 'headline' && v) { st.headline = v.slice(0, 140); log.push('العنوان اتغيّر'); }
+        else if (a.op === 'format' && FORMATS[v]) { reel.format = v; log.push('المقاس ← ' + v); }
+        else if (a.op === 'gfx_add' && lines[li]) { st.gfx = (st.gfx || []).filter(g => g.li !== li); const g = { li, type: GFX_TYPES[a.kind] ? a.kind : 'count', value: v.slice(0, 24), unit: String(a.unit || '').slice(0, 30), label: String(a.label || '').slice(0, 40) }; g.icon = gfxIcon(g, lines[li].text); st.gfx.push(g); log.push(`جرافيك على السطر ${li + 1}: ${g.value} ${g.unit}`); }
+        else if (a.op === 'gfx_remove') { const n0 = (st.gfx || []).length; st.gfx = (st.gfx || []).filter(g => g.li !== li); if (st.gfx.length < n0) log.push(`شلت جرافيك السطر ${li + 1}`); }
+        else if (a.op === 'edit_line' && lines[li] && v) { st.script = setScriptLine(st.script, li, lines[li].speaker, v.replace(/\n+/g, ' ').trim()); log.push(`السطر ${li + 1} اتعدّل (صوته محتاج يتولّد تاني)`); }
+        else if (a.op === 'music_search' && v) { $('msQ').value = v; musicSearch(); log.push('بيدوّر على مزيكا: ' + v + ' (اختار من كارت الموسيقى)'); }
+        else if (a.op === 'scene_search' && lines[li] && v) {
+          st.scenes = st.scenes || [];
+          let x = st.scenes.find(z => z.li === li); if (!x) { x = { li, q: v, media: null }; st.scenes.push(x); st.scenes.sort((p, q) => p.li - q.li); }
+          x.q = v; $('mbMsg').textContent = `⏳ بيدوّر على «${v}» للسطر ${li + 1}…`;
+          const okk = await scenePick(st, x, { video: a.kind !== 'image' }).catch(() => false);
+          log.push(okk ? `مشهد السطر ${li + 1}: ${v}` : `مالقيتش نتيجة لـ «${v}» (جرّب من صفحة الميديا)`);
+        }
+      } catch (e2) { log.push('❌ ' + a.op + ': ' + (e2.message || e2)); }
+    }
+    fillForm(); persist(); redraw(); fillCapQ?.();
+    $('mbMsg').textContent = (log.length ? '✅ ' : '') + String(out?.reply || '').slice(0, 300);
+    $('mbLog').innerHTML = log.map(x => `• ${esc(x)}`).join('<br>') || 'مفيش أوامر اتنفذت.';
+  } catch (err) { $('mbMsg').textContent = '❌ ' + (err.message || err); }
+  b.disabled = false;
+});
 
 function renderBgInfo() {
   const m = story().media;
@@ -3545,6 +3723,7 @@ $('xOut').addEventListener('click', async e => {
     for (const x of r.scenes) { const li = Math.min(lines.length - 1, x.line); if (!scenes.some(y => y.li === li)) scenes.push({ li, q: '', media: null, gen: { prompt: x.prompt, tool, style } }); }
     if (scenes.length && !scenes.some(y => y.li === 0)) scenes[0].li = 0;
     startReel([{ kind: 'idea', category: 'ideas', headline: r.title || 'فكرة', script: lines.join('\n'), ref: ref.slice(0, 40000), inspo: r.ref?.startsWith('http') ? r.ref : '', ideaDesc: desc.slice(0, 1500), ideaTags: r.hashtags.map(h => '#' + h.replace(/^#/, '').replace(/\s+/g, '_')).slice(0, 6), ideaSafety: r.safety, scenes }]);
+    { const ib = brands().find(b => b.ideas); if (ib) reel.brand = ib.id; }
     // عدّادات أوتوماتيك للأرقام اللي في السكريبت (التكلفة/السعر) + تحذير الأمان ككلمة مهمة
     const st = story(); st.gfx = [];
     parseScript(st.script).forEach((l, li) => { const g = detectGfx(l.text, li); if (g) st.gfx.push(g); });
@@ -4759,6 +4938,7 @@ fillCapQ();
 
 function fillSettings() {
   const s = getSettings();
+  renderBrands();
   setTimeout(() => document.querySelectorAll('.keyeye').forEach(b => b.previousElementSibling?._keyUpd?.()), 0);
   for (const [id, k] of Object.entries(TEXT_FIELDS)) $(id).value = s[k] ?? '';
   renderVoiceSelect('A'); renderVoiceSelect('B');
@@ -4968,7 +5148,7 @@ function renderPublish() {
   $('lgPlat').innerHTML = Object.entries(PLATFORMS).map(([k, v]) => `<option value="${k}">${v}</option>`).join('');
   if (!$('lgDate').value) $('lgDate').value = today();
   const rec = pbId ? normalizeReel(getReel(pbId)) : null;
-  if (rec && !rec.pack) patchReel(pbId, r => { r.pack = buildPack(normalizeReel(r), { handle: getSettings().handle }); });
+  if (rec && !rec.pack) patchReel(pbId, r => { r.pack = buildPack(normalizeReel(r), { handle: brandHandle(r) }); });
   const r = rec ? normalizeReel(getReel(pbId)) : null;
   const pack = r?.pack || { title: '', titles: [], desc: '', tags: '' };
   $('pbTitle').value = pack.title || '';
@@ -5035,7 +5215,7 @@ Rules: use ONLY facts stated in <headline>, <script> or <source_text>; never add
       user: src, schema: PB_SCHEMA, maxTokens: 2000,
     });
     const tags = cleanTags(out.hashtags, 15).join(' ');
-    const base = buildPack(n, { handle: gs.handle });
+    const base = buildPack(n, { handle: brandHandle(n) });
     const ch = plat === 'youtube' ? chaptersText(pbChapters(n)) : '';
     const title = plat === 'shorts' || plat === 'youtube' ? ytTitle(out.title, plat) : String(out.title || '').trim();
     const desc = [String(out.description || '').trim(), ch ? (n.lang === 'en' ? 'Chapters:\n' : 'الفصول:\n') + ch : '', base.desc].filter(Boolean).join('\n\n');
@@ -5155,7 +5335,7 @@ for (const id of ['pbTitle', 'pbDesc', 'pbTags']) {
 }
 $('pbRegen').addEventListener('click', () => {
   if (!pbId || !confirm('ده هيستبدل العنوان والوصف والهاشتاجات بالنسخة التلقائية. موافق؟')) return;
-  patchReel(pbId, r => { r.pack = buildPack(normalizeReel(r), { handle: getSettings().handle }); });
+  patchReel(pbId, r => { r.pack = buildPack(normalizeReel(r), { handle: brandHandle(r) }); });
   renderPublish();
 });
 document.querySelector('#tab-publish').addEventListener('click', async e => {

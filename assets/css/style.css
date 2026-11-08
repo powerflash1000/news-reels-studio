@@ -358,3 +358,20 @@ dialog.bmdlg.drop { outline: 3px dashed #ffb224; outline-offset: -6px; }
 .gfxrow select, .gfxrow input { width: auto; min-width: 0; }
 .gfxrow input[data-k="label"] { flex: 1; }
 .gfxrow .tx { font-size: 12px; }
+
+/* ⛶ التايم لاين الكبير */
+dialog.tldlg { width: 98vw; max-width: 1700px; height: 94vh; max-height: 94vh; display: none; flex-direction: column; }
+dialog.tldlg[open] { display: flex; }
+.tlbig { display: grid; grid-template-columns: auto 1fr; gap: 12px; flex: 1; min-height: 0; }
+#tlMirror { height: min(70vh, 640px); width: auto; aspect-ratio: 9 / 16; background: #000; border-radius: 10px; }
+.tlbigside { min-width: 0; overflow-y: auto; }
+.tlbighost { overflow-x: auto; padding-bottom: 6px; }
+.tlbighost .tlbar { min-width: 100%; }
+.tlbighost .tlrow { height: 44px; margin: 6px 0; }
+.tlbighost .tlrow .tlb { line-height: 44px; font-size: 13px; padding: 0 6px; }
+.tlbighost .tlrow.tlst { height: 28px; } .tlbighost .tlrow.tlst .tlb { line-height: 28px; }
+#tlBigSel .tlsel, #tlBigSel { margin-top: 6px; }
+@media (max-width: 760px) { .tlbig { grid-template-columns: 1fr; } #tlMirror { height: 40vh; } }
+/* 🎨 البراندات */
+.brrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 6px; align-items: end; border: 1px solid var(--line); border-radius: 10px; padding: 8px; margin: 6px 0; }
+.brrow img { max-height: 40px; max-width: 120px; }
