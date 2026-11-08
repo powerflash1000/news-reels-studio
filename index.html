@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mw83b593">
+<html lang="ar" dir="rtl" data-v="mw892yhp">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mw83b593">
+<link rel="stylesheet" href="assets/css/style.css?v=mw892yhp">
 </head>
 <body>
 <header class="top">
@@ -262,6 +262,13 @@
         <div class="row"><button id="mbGo" class="btn pri" type="button">🪄 نفّذ</button><span id="mbMsg" class="muted"></span></div>
         <div id="mbLog" class="muted"></div>
       </div>
+      <details class="card dubbox">
+        <summary><b>🌍 دبلجة للإنجليزي (بصوتك)</b></summary>
+        <p class="muted">بيترجم الحلقة كلها لإنجليزي طبيعي للكلام (السكريبت سطر بسطر، والعنوان، والجرافيكس، والاسم تحت الشاشة، والشريط، والغلاف) ويعمل منها حلقة جديدة في المكتبة بنفس المشاهد والخلفيات والمقاطع. الصوت بعدها بـ ElevenLabs بصوتك المستنسخ: نفس صوتك بيتكلم إنجليزي.</p>
+        <label class="chk"><input id="dubVoice" type="checkbox"> ولّد الصوت بعد الترجمة على طول (ElevenLabs بصوتك، بيصرف حروف)</label>
+        <div class="row"><button id="dubGo" class="btn pri" type="button">🌍 اعمل نسخة إنجليزي</button><span id="dubMsg" class="muted"></span></div>
+        <p class="muted">راجع الترجمة قبل التصدير، خصوصًا الأسامي والأرقام. الحلقة الأصلية بتفضل زي ما هي.</p>
+      </details>
       <details id="agentBox" class="card agentbox">
         <summary>🧠 المحرر الذكي (اختياري): يجهّز الخبر كقصة وإنفوجرافيك ومؤثرات</summary>
         <p class="muted aiNow"></p>
@@ -350,6 +357,24 @@
             <button id="psOpen" class="btn ghost" type="button">↗ افتح Higgsfield</button>
             <label class="btn pri file">📥 ارفع فيديو الظهور<input id="psVideo" type="file" accept="video/*" hidden></label>
             <button id="psDel" class="btn ghost" type="button">✕ شيله</button>
+          </div>
+          <div class="pscut">
+            <b>✂️ شيل الخلفية من فيديو ظهورك</b>
+            <div class="row">
+              <label>الطريقة<select id="psCut">
+                <option value="off">من غير (الفيديو كامل)</option>
+                <option value="green">كروما: خلفية خضرا أو لون واحد (أسرع وأنضف)</option>
+                <option value="ai">ذكاء اصطناعي: أي خلفية (على جهازك، ببلاش)</option>
+              </select></label>
+              <label id="psColorBox">لون الخلفية<input id="psColor" type="color" value="#00ff00"></label>
+              <button id="psPick" class="btn ghost" type="button">🎯 التقط لونها من الفيديو</button>
+            </div>
+            <div class="row">
+              <label>الدقة<input id="psTol" type="range" min="0" max="1" step="0.05" value="0.5"></label>
+              <label>حجمك<input id="psSize" type="range" min="0.3" max="1" step="0.05" value="0.7"></label>
+              <label>مكانك<select id="psPos"><option value="center">في النص</option><option value="right">يمين</option><option value="left">شمال</option></select></label>
+            </div>
+            <p class="muted">وراك هتظهر خلفية الخبر (اختارها من كارت الخلفية). أنضف نتيجة: اعمل صورتك اللي هترفعها لـ Higgsfield على خلفية خضرا سادة واختار «كروما». «الذكاء الاصطناعي» بيتحمّل أول مرة (حوالي 10 ميجا) وبيشتغل على جهازك، والحواف ممكن تبقى أقل نضافة.</p>
           </div>
           <p id="psMsg" class="muted"></p>
         </div>
@@ -590,6 +615,17 @@
         <label>نص المقدمة (فاضي = اسم القناة)<input id="bpIntroText" dir="auto"></label>
         <label class="chk"><input id="bpOutro" type="checkbox"> خاتمة: «تابعنا للمزيد» في آخر الحلقة</label>
         <label>نص الخاتمة (فاضي = تابعنا للمزيد)<input id="bpOutroText" dir="auto"></label>
+        <div class="row">
+          <label>شكل الخاتمة<select id="bpOutStyle">
+            <option value="simple">بسيطة (لوجو + نص، ثانيتين)</option>
+            <option value="follow">🎬 شاشة نهاية: زرار «تابعني» وإيد بتدوس عليه</option>
+            <option value="subscribe">🎬 شاشة نهاية: «اشترك» + جرس 🔔</option>
+            <option value="next">🎬 شاشة نهاية: «الحلقة الجاية»</option>
+          </select></label>
+          <label>المدة<select id="bpOutSecs"><option value="3">3 ث</option><option value="4">4 ث</option><option value="5" selected>5 ث</option><option value="6">6 ث</option><option value="8">8 ث</option></select></label>
+        </div>
+        <label id="bpNextBox" hidden>عنوان الحلقة الجاية<input id="bpNext" dir="auto" placeholder="مثلًا: سر اختفاء الطيارة الماليزية"></label>
+        <p class="muted">شاشة النهاية بتاخد صورة القناة (اللوجو) واسمها واليوزر من الإعدادات أو البراند، وعليها صوت «بوب» خفيف لحظة الضغط.</p>
       </div>
       <div class="card musicbox">
         <b>موسيقى خلفية (اختياري)</b>
@@ -1112,6 +1148,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mw83b593"></script>
+<script type="module" src="js/main.js?v=mw892yhp"></script>
 </body>
 </html>

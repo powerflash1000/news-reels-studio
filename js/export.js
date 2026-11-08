@@ -1,8 +1,9 @@
 // تصدير MP4 سريع بالـ WebCodecs (H.264 + AAC) — بيشتغل في Chrome و Edge
-import { Muxer, ArrayBufferTarget } from '../vendor/mp4-muxer/mp4-muxer.mjs?v=mw83b593';
-import { SAMPLE_RATE, mixTimeline } from './audio.js?v=mw83b593';
-import { W, H, drawFrame, setFormat, sceneAt, clipSegAt } from './render.js?v=mw83b593';
-import { seekBg } from './bg.js?v=mw83b593';
+import { Muxer, ArrayBufferTarget } from '../vendor/mp4-muxer/mp4-muxer.mjs?v=mw892yhp';
+import { SAMPLE_RATE, mixTimeline } from './audio.js?v=mw892yhp';
+import { W, H, drawFrame, setFormat, sceneAt, clipSegAt } from './render.js?v=mw892yhp';
+import { seekBg } from './bg.js?v=mw892yhp';
+import { ensureSegmenter } from './cutout.js?v=mw892yhp';
 
 export const FPS = 30;
 const AVC = ['avc1.640028', 'avc1.4d0028', 'avc1.640032', 'avc1.42e028'];
@@ -35,6 +36,10 @@ export async function exportSupport(fmt) {
 }
 
 export async function exportReel(st, cfg, onProgress) {
+  // ✂️ فيديو ظهور بخلفية متشالة بالذكاء الاصطناعي: النموذج لازم يكون جاهز قبل أول فريم
+  if (st.reel.stories.some(s => (s.scenes || []).some(sc => sc.media?.cut?.mode === 'ai'))) {
+    try { await ensureSegmenter(); } catch (e) { throw new Error('مقدرتش أحمّل أداة شيل الخلفية (' + (e.message || e) + '). جرّب «كروما» أو شيل الخاصية.'); }
+  }
   setFormat(st.reel.format);
   const tl = st.tl;
   const mix = mixTimeline(tl.segs, tl.duration, tl.music, tl.fx);

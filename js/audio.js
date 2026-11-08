@@ -81,7 +81,7 @@ function addGfxSfx(left, right, segs) {
   const n = left.length;
   const put = (buf, t, g = 1) => { const off = Math.round(t * SAMPLE_RATE); if (off < 0) return; for (let i = 0; i < buf.length && off + i < n; i++) { left[off + i] += buf[i] * g; right[off + i] += buf[i] * g; } };
   for (const s of segs) for (const x of s.sfx || []) {
-    const t0 = s.start ?? s.at;
+    const t0 = x.at ?? s.start ?? s.at;
     if (x.kind === 'tick') {
       // تكتكة على إيقاع العدّ (بيبطّأ في الآخر زي العدّاد على الشاشة: ease-out من 0.2 لـ 1.5 ث)
       const N = x.type === 'year' ? 14 : 12;
