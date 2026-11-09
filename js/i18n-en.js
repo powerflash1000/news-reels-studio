@@ -2146,4 +2146,5 @@ export default {
   "❌ محتاج مفتاح {}: الإعدادات ← مزوّد الذكاء الاصطناعي. أو دوس «⚡ من غير ذكاء اصطناعي».": "❌ Needs a {} key: Settings → AI provider. Or press «⚡ Without AI».",
   "❌ الريل فاضي.": "❌ The reel is empty.",
   "✅ جاهزين. اختار واحد وعدّل فيه براحتك.": "✅ Ready. Pick one and edit it as you like.",
+  "صفحة الميديا: خلفية لكل سطر": "Media page: a background for every line",
 };
