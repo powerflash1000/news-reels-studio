@@ -375,3 +375,7 @@ dialog.tldlg[open] { display: flex; }
 /* 🎨 البراندات */
 .brrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 6px; align-items: end; border: 1px solid var(--line); border-radius: 10px; padding: 8px; margin: 6px 0; }
 .brrow img { max-height: 40px; max-width: 120px; }
+.pinlist { display: grid; gap: 8px; margin-top: 8px; }
+.pinrow { border: 1px solid var(--line, #2a3150); border-radius: 10px; padding: 8px; display: grid; gap: 6px; }
+.pinrow.on { border-color: #f5b301; box-shadow: 0 0 0 1px #f5b301 inset; }
+.pinrow textarea { width: 100%; }
