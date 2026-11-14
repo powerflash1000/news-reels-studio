@@ -155,6 +155,12 @@ dialog label input { width: auto; margin-top: 6px; }
 /* مونتاج أوتوماتيك */
 .sclist { display: grid; gap: 8px; margin-top: 8px; max-height: 60vh; overflow: auto; }
 .scrow { display: grid; grid-template-columns: 96px 1fr; gap: 10px; align-items: start; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 6px; }
+.scoffbox { margin: 4px 0; }
+.scogrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(78px, 1fr)); gap: 6px; margin-top: 4px; }
+.scothumb { padding: 0; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); cursor: pointer; overflow: hidden; display: flex; flex-direction: column; }
+.scothumb img { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; }
+.scothumb small { font-size: 9px; padding: 2px; color: var(--muted, #888); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.scothumb:hover { border-color: var(--accent, #6b7cff); }
 .scrow .th { position: relative; width: 96px; height: 96px; background: #000; border-radius: 8px; overflow: hidden; display: grid; place-items: center; }
 .scrow .th img { width: 100%; height: 100%; object-fit: cover; }
 .scrow .th .vb { position: absolute; bottom: 2px; left: 4px; font-size: .8rem; }

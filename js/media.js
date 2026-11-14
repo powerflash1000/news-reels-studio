@@ -2,7 +2,7 @@
 // شكل النتيجة: { id, provider, type:'image'|'video', title, thumb, url, page, author, license, licenseUrl, tier, credit, width, height, duration, size }
 //   tier: 'free' = ملك عام / CC0 / سياسة NASA (من غير شرط)، 'attr' = لازم نسب (CC BY / BY-SA / Pixabay)
 // أي ترخيص فيه NC أو ND أو مش واضح بيتستبعد.
-import { getSettings } from './storage.js?v=mwgjikaa';
+import { getSettings } from './storage.js?v=mwgmipoh';
 
 const strip = html => String(html || '').replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#0?39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/\s+/g, ' ').trim();
 const https = u => String(u || '').replace(/^http:\/\//i, 'https://');
@@ -90,6 +90,23 @@ async function commons(q, type) {
     out.push(o);
   }
   return out;
+}
+
+// 🏛️ صور رسمية لشخصية (سياسي، مسؤول، مشهور) من Wikimedia Commons — رخصة ملك عام أو مفتوحة بس (classifyLicense)
+// الصور الرسمية لحكومة أمريكا (البيت الأبيض، الكونجرس، وزارة الدفاع…) ملك عام، وبتطلع الأول
+export async function officialPortraits(name) {
+  const n = String(name || '').trim().replace(/["<>]/g, '');
+  if (n.length < 3) return [];
+  const runs = await Promise.allSettled([commons(`"${n}" official portrait`, 'image'), commons(`"${n}" portrait`, 'image'), commons(`"${n}"`, 'image')]);
+  const seen = new Set(), out = [];
+  for (const r of runs) for (const o of r.status === 'fulfilled' ? r.value : []) if (!seen.has(o.id)) { seen.add(o.id); out.push(o); }
+  const words = n.toLowerCase().split(/\s+/).filter(w => w.length > 2);
+  const score = o => {
+    const t = (o.title + ' ' + o.page).toLowerCase();
+    return (o.tier === 'free' ? 4 : 0) + (/official|portrait|headshot/.test(t) ? 3 : 0) + (/white house|whitehouse|congress|senate|department|defense|army|navy|state\.gov|\.gov/.test(t + ' ' + (o.author || '').toLowerCase()) ? 2 : 0)
+      + (words.every(w => t.includes(w)) ? 3 : words.some(w => t.includes(w)) ? 1 : -3) + (o.height >= o.width ? 1 : 0);
+  };
+  return out.filter(o => score(o) > 0).sort((a, b) => score(b) - score(a)).slice(0, 18);
 }
 
 /* ---------------- Openverse (صور بس) ---------------- */

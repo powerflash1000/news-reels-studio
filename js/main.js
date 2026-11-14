@@ -1,30 +1,30 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mwgjikaa';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mwgjikaa';
-import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mwgjikaa';
-import { GFX_SFX, gfxSfxOf, newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mwgjikaa';
-import { transcribeWords, alignWords, normWord, similarity } from './align.js?v=mwgjikaa';
-import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mwgjikaa';
-import { detectBeats, audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mwgjikaa';
-import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mwgjikaa';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mwgjikaa';
-import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mwgjikaa';
-import { exportSupport, exportReel } from './export.js?v=mwgjikaa';
-import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf, imageViaProxy } from './media.js?v=mwgjikaa';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mwgjikaa';
-import { cutReady, ensureSegmenter, cornerColor } from './cutout.js?v=mwgjikaa';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mwgjikaa';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mwgjikaa';
-import { detailTarget, loadTileMap } from './tiles.js?v=mwgjikaa';
-import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mwgjikaa';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mwgjikaa';
-import { loadBg, playBg, seekBg } from './bg.js?v=mwgjikaa';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mwgjikaa';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mwgjikaa';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mwgjikaa';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures, ideaYouTube, ideaFile, ideaText, ideaAngle } from './external.js?v=mwgjikaa';
-import { readUrl, cleanPasted } from './reader.js?v=mwgjikaa';
-import { initI18n, ui } from './i18n.js?v=mwgjikaa';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mwgjikaa';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mwgmipoh';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mwgmipoh';
+import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mwgmipoh';
+import { GFX_SFX, gfxSfxOf, newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mwgmipoh';
+import { transcribeWords, alignWords, normWord, similarity } from './align.js?v=mwgmipoh';
+import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mwgmipoh';
+import { detectBeats, audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mwgmipoh';
+import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mwgmipoh';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mwgmipoh';
+import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mwgmipoh';
+import { exportSupport, exportReel } from './export.js?v=mwgmipoh';
+import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf, imageViaProxy, officialPortraits } from './media.js?v=mwgmipoh';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mwgmipoh';
+import { cutReady, ensureSegmenter, cornerColor } from './cutout.js?v=mwgmipoh';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mwgmipoh';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mwgmipoh';
+import { detailTarget, loadTileMap } from './tiles.js?v=mwgmipoh';
+import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mwgmipoh';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mwgmipoh';
+import { loadBg, playBg, seekBg } from './bg.js?v=mwgmipoh';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mwgmipoh';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mwgmipoh';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mwgmipoh';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures, ideaYouTube, ideaFile, ideaText, ideaAngle } from './external.js?v=mwgmipoh';
+import { readUrl, cleanPasted } from './reader.js?v=mwgmipoh';
+import { initI18n, ui } from './i18n.js?v=mwgmipoh';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mwgmipoh';
 
 initI18n();
 
@@ -2605,6 +2605,17 @@ $('clList').addEventListener('change', e => {
 // 🎬 مونتاج أوتوماتيك: المشاهد بتتقسم على جمل السكريبت، والذكاء الاصطناعي بيكتب كلمات بحث، والصور/الفيديو من مصادر الوسائط
 const SC_SCHEMA = { type: 'object', properties: { scenes: { type: 'array', items: { type: 'object', properties: { i: { type: 'integer' }, query: { type: 'string' } }, required: ['i', 'query'], additionalProperties: false } } }, required: ['scenes'], additionalProperties: false };
 const scResults = new Map(); // `${story.id}:${li}` → {items, pos}
+// عنصر من البحث (Commons / NASA / …) ← مشهد. keepCredit: الحقوق تتكتب حتى لو ملك عام (الصور الرسمية للشخصيات)
+async function applySceneItem(sc, m, keepCredit = false) {
+  const blob = await fetchBlob(m);
+  const id = 'm' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+  await putBlob(id, blob);
+  sc.media = { id, kind: m.type, provider: m.provider, title: m.title, thumb: m.thumb, credit: !keepCredit && m.tier === 'free' && m.provider !== 'nasa' ? '' : m.credit, license: m.license, licenseUrl: m.licenseUrl, page: m.page, tier: m.tier, fit: 'cover', ...(keepCredit ? { official: true } : {}) };
+  const b = await loadBg(sc.media);
+  if (!b) { sc.media = null; return false; }
+  bgs.set(id, b);
+  return true;
+}
 async function scenePick(st, sc, { video, used }) {
   const key = st.id + ':' + sc.li;
   let r = scResults.get(key);
@@ -2618,13 +2629,7 @@ async function scenePick(st, sc, { video, used }) {
     const m = r.items[++r.pos];
     if (used?.has(m.id)) continue;
     try {
-      const blob = await fetchBlob(m);
-      const id = 'm' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
-      await putBlob(id, blob);
-      sc.media = { id, kind: m.type, provider: m.provider, title: m.title, thumb: m.thumb, credit: m.tier === 'free' && m.provider !== 'nasa' ? '' : m.credit, license: m.license, licenseUrl: m.licenseUrl, page: m.page, tier: m.tier, fit: 'cover' };
-      const b = await loadBg(sc.media);
-      if (!b) { sc.media = null; continue; }
-      bgs.set(id, b);
+      if (!(await applySceneItem(sc, m))) continue;
       used?.add(m.id);
       return true;
     } catch { /* نجرّب اللي بعده */ }
@@ -2639,7 +2644,8 @@ function renderScenes() {
     const text = lines.slice(sc.li, (list.find(x => x.li > sc.li)?.li) ?? lines.length).map(l => l.text).join(' ');
     return `<div class="scrow"><div class="th">${sc.media?.thumb ? `<img src="${esc(sc.media.thumb)}" loading="lazy" referrerpolicy="no-referrer" alt="">` : '<span class="muted">—</span>'}${sc.media?.kind === 'video' ? '<span class="vb">🎞</span>' : ''}</div>
       <div class="bd"><div class="tx" dir="auto" translate="no">${esc(text.slice(0, 140) || '…')}</div>
-      <div class="row" style="margin:0"><input data-scq="${sc.li}" value="${esc(sc.q || '')}" dir="ltr" placeholder="search words"><button class="btn" data-scnext="${sc.li}" type="button">🔄 غيّرها</button><label class="btn file">📁<input data-scfile="${sc.li}" type="file" accept="image/*,video/*" hidden></label><button class="btn" data-sclink="${sc.li}" type="button" title="صورة أو فيديو من رابط">🔗 رابط</button><button class="btn" data-scpaste="${sc.li}" type="button" title="الصق صورة منسوخة (كليك يمين على أي صورة ← نسخ الصورة)">📋</button><button class="btn" data-scsearch="${sc.li}" type="button" title="دوّر على صورة للمشهد ده في Google وانسخها">🔎</button><button class="btn" data-scai="${sc.li}" type="button" title="برومبت توليد للمشهد ده">🎨 ذكاء اصطناعي</button><select data-sctr="${sc.li}" title="الانتقال للمشهد ده">${[['auto', 'انتقال: زي الحلقة'], ['fade', 'تلاشي'], ['zoom', 'زووم'], ['slide', 'سلايد'], ['whip', 'Whip'], ['flash', 'فلاش'], ['glitch', 'جليتش']].map(([k, v]) => `<option value="${k}" ${(sc.tr || 'auto') === k ? 'selected' : ''}>${v}</option>`).join('')}</select><button class="btn ghost" data-scdel="${sc.li}" type="button">✕</button></div>
+      <div class="row" style="margin:0"><input data-scq="${sc.li}" value="${esc(sc.q || '')}" dir="ltr" placeholder="search words"><button class="btn" data-scnext="${sc.li}" type="button">🔄 غيّرها</button><label class="btn file">📁<input data-scfile="${sc.li}" type="file" accept="image/*,video/*" hidden></label><button class="btn" data-sclink="${sc.li}" type="button" title="صورة أو فيديو من رابط">🔗 رابط</button><button class="btn" data-scpaste="${sc.li}" type="button" title="الصق صورة منسوخة (كليك يمين على أي صورة ← نسخ الصورة)">📋</button><button class="btn" data-scsearch="${sc.li}" type="button" title="دوّر على صورة للمشهد ده في Google وانسخها">🔎</button><button class="btn" data-scoff="${sc.li}" type="button" title="صورة رسمية لشخصية (سياسي، مسؤول، مشهور) — ملك عام أو رخصة مفتوحة من Wikimedia Commons">🏛️ شخصية</button><button class="btn" data-scai="${sc.li}" type="button" title="برومبت توليد للمشهد ده">🎨 ذكاء اصطناعي</button><select data-sctr="${sc.li}" title="الانتقال للمشهد ده">${[['auto', 'انتقال: زي الحلقة'], ['fade', 'تلاشي'], ['zoom', 'زووم'], ['slide', 'سلايد'], ['whip', 'Whip'], ['flash', 'فلاش'], ['glitch', 'جليتش']].map(([k, v]) => `<option value="${k}" ${(sc.tr || 'auto') === k ? 'selected' : ''}>${v}</option>`).join('')}</select><button class="btn ghost" data-scdel="${sc.li}" type="button">✕</button></div>
+      <div class="scoffbox" data-scobox="${sc.li}" hidden><div class="row" style="margin:2px 0"><input data-sconame="${sc.li}" dir="auto" placeholder="اسم الشخصية بالإنجليزي (Donald Trump، Barack Obama، Pete Hegseth…)"><button class="btn pri" data-scogo="${sc.li}" type="button">دوّر على صورة رسمية</button></div><div class="scogrid" data-scogrid="${sc.li}"></div></div>
       <div class="row sclinkbox" data-sclbox="${sc.li}" style="margin:2px 0" hidden><input data-sclurl="${sc.li}" dir="ltr" placeholder="https://… رابط صورة أو فيديو، أو لينك صفحة منتج/بوست (البرنامج يسحب صورتها)"><input data-sclcredit="${sc.li}" dir="auto" placeholder="الحقوق: اسم الموقع أو الشركة" style="max-width:190px"><button class="btn pri" data-sclgo="${sc.li}" type="button">حمّل</button></div>
       ${sc.media?.credit ? `<span class="muted" translate="no">${esc(sc.media.credit.slice(0, 80))}</span>` : ''}
       ${sc.gen?.prompt ? `<textarea class="gp" data-scgp="${sc.li}" dir="ltr" translate="no">${esc(sc.gen.prompt)}</textarea><div class="row" style="margin:2px 0"><button class="btn" data-scgcopy="${sc.li}" type="button">📋 انسخ</button><button class="btn" data-scgopen="${sc.li}" type="button">↗ انسخ وافتح ${esc(GEN_TOOLS[sc.gen.tool]?.name || '')}</button><label class="btn file">📥 حط الملف المولّد<input data-scaifile="${sc.li}" type="file" accept="image/*,video/*" hidden></label></div>` : ''}</div></div>`;
@@ -2788,6 +2794,7 @@ async function sceneFromLink(sc, url, credit) {
   if (!b) throw new Error('الملف اتحمل بس مقدرتش أفتحه (صيغة غير مدعومة).');
   bgs.set(id, b);
 }
+var scOfficial = new Map(); // نتايج «🏛️ شخصية» لكل مشهد
 // صورة منسوخة (لصق) على مشهد
 async function sceneFromBlob(sc, blob) {
   const id = 'm' + Date.now().toString(36);
@@ -2856,9 +2863,35 @@ $('scClear').addEventListener('click', () => { const st = story(); if (!st.scene
 $('scList').addEventListener('click', async e => {
   const b = e.target.closest('button');
   if (!b) return;
-  const st = story(), li = Number(b.dataset.scnext ?? b.dataset.scdel ?? b.dataset.scgcopy ?? b.dataset.scgopen ?? b.dataset.sclink ?? b.dataset.sclgo ?? b.dataset.scai ?? b.dataset.scpaste ?? b.dataset.scsearch);
+  const st = story(), li = Number(b.dataset.scnext ?? b.dataset.scdel ?? b.dataset.scgcopy ?? b.dataset.scgopen ?? b.dataset.sclink ?? b.dataset.sclgo ?? b.dataset.scai ?? b.dataset.scpaste ?? b.dataset.scsearch ?? b.dataset.scoff ?? b.dataset.scogo ?? b.dataset.scopick);
   const sc = (st.scenes || []).find(x => x.li === li);
   if (!sc) return;
+  if (b.dataset.scoff != null) { const box = $('scList').querySelector(`[data-scobox="${li}"]`); box.hidden = !box.hidden; if (!box.hidden) box.querySelector('input').focus(); return; }
+  if (b.dataset.scogo != null) {
+    const name = $('scList').querySelector(`[data-sconame="${li}"]`).value.trim();
+    const grid = $('scList').querySelector(`[data-scogrid="${li}"]`);
+    if (name.length < 3) { $('scMsg').textContent = 'اكتب اسم الشخصية (بالإنجليزي أحسن).'; return; }
+    b.disabled = true; $('scMsg').textContent = '⏳ بيدوّر على صور رسمية في Wikimedia Commons…';
+    try {
+      const items = await officialPortraits(name);
+      scOfficial.set(li, items);
+      grid.innerHTML = items.length ? items.map((m, i) => `<button class="scothumb" data-scopick="${li}" data-i="${i}" type="button" title="${esc(m.credit)}"><img src="${esc(m.thumb)}" loading="lazy" referrerpolicy="no-referrer" alt=""><small translate="no">${esc(m.license)}</small></button>`).join('') : '<span class="muted">مالقيتش صور رسمية بالرخصة المطلوبة. جرّب الاسم بالإنجليزي كامل.</span>';
+      $('scMsg').textContent = items.length ? `✅ ${items.length} صورة (ملك عام أو رخصة مفتوحة). اختار واحدة — الحقوق هتتكتب لوحدها.` : '';
+    } catch (err) { $('scMsg').textContent = '❌ ' + (err.message || err); }
+    b.disabled = false;
+    return;
+  }
+  if (b.dataset.scopick != null) {
+    const m = scOfficial.get(li)?.[Number(b.dataset.i)];
+    if (!m) return;
+    b.disabled = true; $('scMsg').textContent = '⏳ بحمّل الصورة…';
+    try {
+      if (!(await applySceneItem(sc, m, true))) throw new Error('الصورة اتحملت بس مقدرتش أفتحها.');
+      $('scMsg').textContent = '✅ اتحطت الصورة الرسمية. الحقوق مكتوبة: ' + m.credit;
+      persist(); renderScenes(); redraw();
+    } catch (err) { $('scMsg').textContent = '❌ ' + (err.message || err); b.disabled = false; }
+    return;
+  }
   if (b.dataset.scsearch != null) {
     const q = $('scList').querySelector(`[data-scq="${li}"]`)?.value.trim() || sceneGroups(st).find(x => x.li === li)?.text || st.headline || '';
     window.open(`https://www.google.com/search?tbm=isch&q=${encodeURIComponent(q.slice(0, 120))}`, '_blank', 'noopener');
@@ -2925,7 +2958,7 @@ $('scList').addEventListener('paste', async e => {
   catch (err) { $('scMsg').textContent = '❌ ' + (err.message || err); }
 });
 $('scList').addEventListener('input', e => { const li = e.target.dataset?.scgp; if (li == null) return; const sc = (story().scenes || []).find(x => x.li === Number(li)); if (sc?.gen) { sc.gen.prompt = e.target.value; persist(); } });
-$('scList').addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.matches('[data-scq]')) e.target.closest('.scrow').querySelector('[data-scnext]').click(); if (e.key === 'Enter' && e.target.matches('[data-sclurl],[data-sclcredit]')) e.target.closest('.sclinkbox').querySelector('[data-sclgo]').click(); });
+$('scList').addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.matches('[data-scq]')) e.target.closest('.scrow').querySelector('[data-scnext]').click(); if (e.key === 'Enter' && e.target.matches('[data-sclurl],[data-sclcredit]')) e.target.closest('.sclinkbox').querySelector('[data-sclgo]').click(); if (e.key === 'Enter' && e.target.matches('[data-sconame]')) e.target.closest('.scoffbox').querySelector('[data-scogo]').click(); });
 $('scList').addEventListener('change', async e => {
   if (e.target.matches?.('[data-sctr]')) { const sc = (story().scenes || []).find(x => x.li === Number(e.target.dataset.sctr)); if (sc) { sc.tr = e.target.value; persist(); } return; }
   const ai = e.target.matches?.('[data-scaifile]');
