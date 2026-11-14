@@ -2,7 +2,7 @@
 // شكل النتيجة: { id, provider, type:'image'|'video', title, thumb, url, page, author, license, licenseUrl, tier, credit, width, height, duration, size }
 //   tier: 'free' = ملك عام / CC0 / سياسة NASA (من غير شرط)، 'attr' = لازم نسب (CC BY / BY-SA / Pixabay)
 // أي ترخيص فيه NC أو ND أو مش واضح بيتستبعد.
-import { getSettings } from './storage.js?v=mw9gkhns';
+import { getSettings } from './storage.js?v=mwgmipoh';
 
 const strip = html => String(html || '').replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#0?39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/\s+/g, ' ').trim();
 const https = u => String(u || '').replace(/^http:\/\//i, 'https://');
@@ -90,6 +90,23 @@ async function commons(q, type) {
     out.push(o);
   }
   return out;
+}
+
+// 🏛️ صور رسمية لشخصية (سياسي، مسؤول، مشهور) من Wikimedia Commons — رخصة ملك عام أو مفتوحة بس (classifyLicense)
+// الصور الرسمية لحكومة أمريكا (البيت الأبيض، الكونجرس، وزارة الدفاع…) ملك عام، وبتطلع الأول
+export async function officialPortraits(name) {
+  const n = String(name || '').trim().replace(/["<>]/g, '');
+  if (n.length < 3) return [];
+  const runs = await Promise.allSettled([commons(`"${n}" official portrait`, 'image'), commons(`"${n}" portrait`, 'image'), commons(`"${n}"`, 'image')]);
+  const seen = new Set(), out = [];
+  for (const r of runs) for (const o of r.status === 'fulfilled' ? r.value : []) if (!seen.has(o.id)) { seen.add(o.id); out.push(o); }
+  const words = n.toLowerCase().split(/\s+/).filter(w => w.length > 2);
+  const score = o => {
+    const t = (o.title + ' ' + o.page).toLowerCase();
+    return (o.tier === 'free' ? 4 : 0) + (/official|portrait|headshot/.test(t) ? 3 : 0) + (/white house|whitehouse|congress|senate|department|defense|army|navy|state\.gov|\.gov/.test(t + ' ' + (o.author || '').toLowerCase()) ? 2 : 0)
+      + (words.every(w => t.includes(w)) ? 3 : words.some(w => t.includes(w)) ? 1 : -3) + (o.height >= o.width ? 1 : 0);
+  };
+  return out.filter(o => score(o) > 0).sort((a, b) => score(b) - score(a)).slice(0, 18);
 }
 
 /* ---------------- Openverse (صور بس) ---------------- */
@@ -323,6 +340,18 @@ export async function searchAll(q, { providers, type = 'any', tier = 'all' }) {
   });
   const keep = items.filter(x => (type === 'any' || x.type === type) && (tier === 'all' || x.tier === 'free'));
   return { items: keep, errors };
+}
+
+// 🖼️ صورة من أي رابط عن طريق الوسيط (وضع الصور بس ?img=1): لو الرابط صفحة (منتج، بوست…) الوسيط بيطلّع صورتها الرئيسية
+export async function imageViaProxy(url) {
+  const { proxyUrl } = getSettings();
+  if (!proxyUrl) return null;
+  const res = await fetch(`${proxyUrl.replace(/\/+$/, '')}/?img=1&url=${encodeURIComponent(url)}`, { signal: AbortSignal.timeout(90000) });
+  if (res.ok) return res.blob();
+  if (res.status === 403) throw new Error('الوسيط بتاعك قديم ومش بيدعم «صورة من رابط». حدّث كوده من tools/cors-proxy-worker.js (Edit code ← الصق ← Deploy).');
+  if (res.status === 404) throw new Error('الصفحة دي مافيهاش صورة رئيسية واضحة. افتحها، وكليك يمين على الصورة ← «نسخ الصورة»، وبعدين دوس 📋 جنب المشهد.');
+  if (res.status === 415) throw new Error('الرابط ده مش صورة. لو فيديو، نزّله وارفعه من 📁.');
+  throw new Error(`الموقع رفض حتى عن طريق الوسيط (${res.status}). انسخ الصورة نفسها ودوس 📋 جنب المشهد.`);
 }
 
 export async function viaProxy(url) {
