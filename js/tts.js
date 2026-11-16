@@ -1,7 +1,7 @@
 // توليد الصوت من ElevenLabs مع توقيت كل كلمة، وكاش لكل سطر
-import { getSettings, addChars, cacheGet, cachePut, sha1, load, save, takePut } from './storage.js?v=mwgmipoh';
-import { decode } from './audio.js?v=mwgmipoh';
-import { estimateWords, stripTags } from './reel.js?v=mwgmipoh';
+import { getSettings, addChars, cacheGet, cachePut, sha1, load, save, takePut } from './storage.js?v=mwj5m4m1';
+import { decode } from './audio.js?v=mwj5m4m1';
+import { estimateWords, stripTags } from './reel.js?v=mwj5m4m1';
 
 const API = 'https://api.elevenlabs.io';
 
@@ -413,6 +413,24 @@ export async function speakLine(text, speaker, lang = 'ar', provider, opts = {})
   await cachePut(key, { mp3, words });
   take(mp3, words);
   return { buffer: await decode(mp3), words, cached: false, provider: pv };
+}
+
+// ✏️ صلّح كلمة: يولّد حتة صغيرة (كلمة أو كلمتين) بنفس الصوت — من غير كاش ولا مكتبة النسخ. بيرجع Blob
+export async function speakSnippet(text, speaker, lang = 'ar', provider, voice) {
+  const s = getSettings(), pv = pvOf(provider);
+  const t = prepareText(text, lang, provider);
+  const voiceId = voice || voiceFor(speaker, provider);
+  if (pv === 'gemini') return new Blob([await geminiSpeak(t, voiceId)], { type: 'audio/wav' });
+  if (pv === 'azure') return new Blob([await azureSpeak(t, voiceId, lang)]);
+  if (pv === 'openai') return new Blob([await openaiSpeak(t, voiceId, lang)]);
+  if (!s.elevenKey || !voiceId) throw new Error('ضبط مفتاح ElevenLabs وصوت المذيع في الإعدادات الأول.');
+  const res = await call(`/v1/text-to-speech/${voiceId}?output_format=mp3_44100_128`, {
+    method: 'POST',
+    body: JSON.stringify({ text: t, model_id: s.elevenModel, voice_settings: voiceSettingsFor(speaker), ...(s.langCode ? { language_code: 'ar' } : {}) }),
+  });
+  if (!res.ok) throw new Error(`ElevenLabs رفض التوليد (${res.status}): ${await errDetail(res)}`);
+  addChars(t.length);
+  return new Blob([await res.arrayBuffer()], { type: 'audio/mpeg' });
 }
 
 /* ---------- بيانات الحساب ---------- */

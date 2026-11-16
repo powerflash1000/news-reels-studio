@@ -1,30 +1,31 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mwgmipoh';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mwgmipoh';
-import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mwgmipoh';
-import { GFX_SFX, gfxSfxOf, newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mwgmipoh';
-import { transcribeWords, alignWords, normWord, similarity } from './align.js?v=mwgmipoh';
-import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mwgmipoh';
-import { detectBeats, audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mwgmipoh';
-import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mwgmipoh';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mwgmipoh';
-import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mwgmipoh';
-import { exportSupport, exportReel } from './export.js?v=mwgmipoh';
-import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf, imageViaProxy, officialPortraits } from './media.js?v=mwgmipoh';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mwgmipoh';
-import { cutReady, ensureSegmenter, cornerColor } from './cutout.js?v=mwgmipoh';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mwgmipoh';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mwgmipoh';
-import { detailTarget, loadTileMap } from './tiles.js?v=mwgmipoh';
-import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mwgmipoh';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mwgmipoh';
-import { loadBg, playBg, seekBg } from './bg.js?v=mwgmipoh';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mwgmipoh';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mwgmipoh';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mwgmipoh';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures, ideaYouTube, ideaFile, ideaText, ideaAngle } from './external.js?v=mwgmipoh';
-import { readUrl, cleanPasted } from './reader.js?v=mwgmipoh';
-import { initI18n, ui } from './i18n.js?v=mwgmipoh';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mwgmipoh';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mwj5m4m1';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mwj5m4m1';
+import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mwj5m4m1';
+import { GFX_SFX, gfxSfxOf, newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mwj5m4m1';
+import { transcribeWords, alignWords, normWord, similarity } from './align.js?v=mwj5m4m1';
+import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, speakSnippet, prepareText as ttsPrepare, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mwj5m4m1';
+import { openWordFix } from './wordfix.js?v=mwj5m4m1';
+import { detectBeats, audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mwj5m4m1';
+import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mwj5m4m1';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mwj5m4m1';
+import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mwj5m4m1';
+import { exportSupport, exportReel } from './export.js?v=mwj5m4m1';
+import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf, imageViaProxy, officialPortraits } from './media.js?v=mwj5m4m1';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mwj5m4m1';
+import { cutReady, ensureSegmenter, cornerColor } from './cutout.js?v=mwj5m4m1';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mwj5m4m1';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mwj5m4m1';
+import { detailTarget, loadTileMap } from './tiles.js?v=mwj5m4m1';
+import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mwj5m4m1';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mwj5m4m1';
+import { loadBg, playBg, seekBg } from './bg.js?v=mwj5m4m1';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mwj5m4m1';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mwj5m4m1';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mwj5m4m1';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures, ideaYouTube, ideaFile, ideaText, ideaAngle } from './external.js?v=mwj5m4m1';
+import { readUrl, cleanPasted } from './reader.js?v=mwj5m4m1';
+import { initI18n, ui } from './i18n.js?v=mwj5m4m1';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mwj5m4m1';
 
 initI18n();
 
@@ -5832,6 +5833,7 @@ function renderAuLines() {
       + (a ? `<span class="muted">${a.buffer?.duration ? a.buffer.duration.toFixed(1) + ' ث • ' : ''}${who}</span><button class="btn" type="button" data-au-play="${i}" title="اسمع">▶</button>`
           + (a.ok ? `<button class="btn" type="button" data-au-ok="${i}" title="اضغط تاني لو عايز تعيده">✅ تمام</button>`
             : `<button class="btn" type="button" data-au-ok="${i}" title="عجبني: اقفله عشان ميتعادش بالغلط">👍 تمام</button>${sel}<button class="btn" type="button" data-au-new="${i}" title="نسخة جديدة من نفس السطر (النسخة الحالية بتفضل في المكتبة)">🔄 ولّد تاني</button>`)
+          + `<button class="btn" type="button" data-au-fix="${i}" title="كلمة اتنطقت غلط؟ علّم عليها وولّدها هي بس">✏️</button>`
           + `<button class="btn" type="button" data-au-dl="${i}" title="نزّل السطر WAV">⬇</button>`
         : `${sel}<button class="btn pri" type="button" data-au-gen="${i}">🎙 ولّد</button>`)
       + `<button class="btn ghost" type="button" data-au-takes="${i}" title="نسخ تانية اتولّدت قبل كده للسطر ده">📚</button></div>`;
@@ -5858,7 +5860,7 @@ $('auLines').addEventListener('click', async e => {
   if (!b) return;
   const lines = allLines(reel);
   if (b.dataset.auPlay === 'M') return playAu(manualAudio);
-  const i = Number(b.dataset.auPlay ?? b.dataset.auNew ?? b.dataset.auDl ?? b.dataset.auTakes ?? b.dataset.auGen ?? b.dataset.auOk);
+  const i = Number(b.dataset.auPlay ?? b.dataset.auNew ?? b.dataset.auDl ?? b.dataset.auTakes ?? b.dataset.auGen ?? b.dataset.auOk ?? b.dataset.auFix);
   const l = lines[i], a = l && audioMap.get(lineKey(l));
   if (!l) return;
   if (b.dataset.auPlay !== undefined && a?.buffer) return playAu(a.buffer);
@@ -5868,6 +5870,7 @@ $('auLines').addEventListener('click', async e => {
     return download(wavBlob(L, R, buf.sampleRate), `line-${i + 1}.wav`);
   }
   if (b.dataset.auOk !== undefined && a) { a.ok = !a.ok; auSig = ''; return renderAuLines(); }
+  if (b.dataset.auFix !== undefined && a?.buffer) return openLineFix(i, l, a);
   if (b.dataset.auGen !== undefined || b.dataset.auNew !== undefined) {
     const provider = $('auLines').querySelector(`[data-au-prov="${i}"]`)?.value || auProv();
     if (provider !== 'elevenlabs' && ttsKeyProblem(provider)) return ($('auMsg').textContent = '❌ ' + ttsKeyProblem(provider));
@@ -5902,6 +5905,33 @@ $('auLines').addEventListener('click', async e => {
   }
   if (b.dataset.auTakes !== undefined) return showTakes(i);
 });
+
+// ✏️ صلّح كلمة في سطر: تتولّد الكلمة الغلط بس (ElevenLabs أو Gemini أو غيرهم) وتتركّب مكانها
+function openLineFix(i, l, a) {
+  const s = getSettings(), cur = pvOf(a.provider), ov = lineVoice(l);
+  const providers = [];
+  const add = (pv, name, note) => providers.push({ id: pv, name, note, speak: t => speakSnippet(t, l.speaker, reel.lang, pv, pv === cur && ov?.p === pv ? ov.v : undefined) });
+  const elV = (l.speaker === 'B' && s.voiceB ? s.voiceNameB : s.voiceNameA) || 'صوتك';
+  if (s.elevenKey && voiceFor(l.speaker, 'elevenlabs')) add('elevenlabs', `ElevenLabs — ${elV}`, cur === 'elevenlabs' ? 'نفس الصوت والإعدادات — بيتخصم عدد حروف الحتة بس.' : '⚠️ السطر ده مش متولّد بـ ElevenLabs — الصوت هيبان مختلف.');
+  if (s.geminiKey) add('gemini', `Gemini — ${voiceFor(l.speaker, 'gemini') || ''}`, cur === 'gemini' ? 'نفس صوت Gemini.' : '⚠️ صوت Gemini مختلف عن صوت السطر ده، فالكلمة هتبان. ينفع لو السطر كله Gemini.');
+  if (cur === 'azure' && s.azureKey) add('azure', 'Azure', 'نفس صوت Azure.');
+  if (cur === 'openai' && s.openaiKey) add('openai', 'OpenAI', 'نفس صوت OpenAI.');
+  if (!providers.length) return ($('auMsg').textContent = '❌ محتاج مفتاح ElevenLabs أو Gemini في الإعدادات عشان تولّد الكلمة.');
+  const words = cur === 'elevenlabs' && a.words?.length ? a.words.map(w => ({ text: w.w, start: w.s, end: w.e })) : null;
+  openWordFix({
+    buffer: a.buffer, text: stripTagsLocal(l.text).replace(/\s+/g, ' ').trim(), words, providers, provider: cur, decode,
+    onApply: async (buf, ws) => {
+      const L = buf.getChannelData(0), R = buf.numberOfChannels > 1 ? buf.getChannelData(1) : L;
+      const mp3 = await wavBlob(L, R, buf.sampleRate).arrayBuffer();
+      const take = { provider: cur, mp3, text: ttsPrepare(l.text, reel.lang, cur), words: ws.map(w => ({ w: w.text, s: w.start, e: w.end })) };
+      manualAudio = null;
+      audioMap.set(lineKey(l), await adoptTake(take, l.text, l.speaker, reel.lang, ov?.p === cur ? ov.v : undefined));
+      auSig = '';
+      $('auMsg').textContent = `✅ السطر ${i + 1} اتصلّح واتحفظ.`;
+      updateInfo(); redraw();
+    },
+  });
+}
 
 // مكتبة الأصوات: كل نسخة اتولّدت قبل كده، اسمعها، نزّلها، أو استخدمها لأي سطر في الريل
 async function showTakes(lineIdx = null) {
