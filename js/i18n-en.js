@@ -2342,5 +2342,5 @@ export default {
  "المتابعين بيزيدوا على دفعات مفاجئة — ألف في ساعة وبعدين صفر": "Followers grow in sudden bursts — a thousand in an hour, then zero",
  "🔴 {} من {}: غالبًا تفاعل مصنوع أو شبكة صفحات.": "🔴 {} of {}: probably manufactured engagement or a page network.",
  "🟡 {} من {}: فيه علامات — كمّل الفحص قبل ما تحكم.": "🟡 {} of {}: some signs — keep checking before judging.",
- "🟢 {} من {}: غالبًا نمو طبيعي (ريل ضرب بجد).": "🟢 {} of {}: probably natural growth (a genuinely viral reel).",
+ "🟢 {} من {}: غالبًا نمو طبيعي — ريل ضرب بجد.": "🟢 {} of {}: probably natural growth — a genuinely viral reel.",
 };
