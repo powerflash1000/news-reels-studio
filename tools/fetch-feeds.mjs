@@ -1,6 +1,7 @@
 // بيسحب الـ RSS من config/sources.json ويكتب data/feeds.json (بيشتغل في GitHub Actions، Node 20+ من غير مكتبات)
 import { readFile, writeFile } from 'node:fs/promises';
 import { isGnews, gnewsId, decodeGnews } from './gnews-decode.mjs';
+import { updateHistory, ytTrending } from './radar.mjs';
 
 const MAX_PER_SOURCE = 20;
 const MAX_KEPT_PER_FEED = 20;
@@ -276,5 +277,17 @@ console.log(`gnews links: +${gOk} decoded, ${gFail} failed, ${Object.keys(gmap).
 
 await writeFile('data/feeds.json', JSON.stringify({ generatedAt: new Date().toISOString(), errors, health, items }, null, 1));
 await writeFile('data/channel-ids.json', JSON.stringify(prevIds, null, 1));
+
+// الرادار: تاريخ الترند كل ساعة + يوتيوب الأكثر مشاهدة (لو فيه مفتاح YT_API_KEY في أسرار GitHub)
+{
+  let hist = null;
+  try { hist = JSON.parse(await readFile('data/trends.json', 'utf8')); } catch { /* أول مرة */ }
+  await writeFile('data/trends.json', JSON.stringify(updateHistory(hist, items)));
+  if (process.env.YT_API_KEY) {
+    const yt = await ytTrending(process.env.YT_API_KEY, ['EG', 'SA', 'AE', 'KW', 'MA', 'DZ', 'IQ', 'JO', 'LB', 'US', 'GB', 'FR', 'DE', 'IN', 'JP', 'BR']);
+    await writeFile('data/yt-trending.json', JSON.stringify(yt));
+    console.log(`youtube trending: ${Object.keys(yt.regions).length} regions, ${Object.keys(yt.errors).length} errors`);
+  }
+}
 console.log(`items: ${items.length}, problems: ${errors.length}`);
 for (const e of errors) console.log(' !', e.feed, e.status, e.error);

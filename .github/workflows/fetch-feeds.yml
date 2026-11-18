@@ -17,9 +17,12 @@ jobs:
         with:
           node-version: 20
       - run: node tools/fetch-feeds.mjs
+        env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
       - name: commit if changed
         run: |
           git config user.name "feeds-bot"
           git config user.email "feeds-bot@users.noreply.github.com"
-          git add data/feeds.json data/channel-ids.json data/gnews-urls.json
+          git add data/feeds.json data/channel-ids.json data/gnews-urls.json data/trends.json
+          [ -f data/yt-trending.json ] && git add data/yt-trending.json || true
           git diff --cached --quiet || (git commit -m "chore: update feeds" && git push)

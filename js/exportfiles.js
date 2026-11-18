@@ -1,5 +1,5 @@
 // ملفات مساعدة للتصدير: ترجمة SRT (من توقيت الكلمات) وصوت WAV (للمونتاج في برنامج تاني زي Filmora)
-import { phrases } from './reel.js?v=mwl6re5n';
+import { phrases } from './reel.js?v=mwmdkhc5';
 
 const pad = (n, w = 2) => String(Math.floor(n)).padStart(w, '0');
 function tc(t) {
