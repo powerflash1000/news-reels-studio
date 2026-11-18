@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>الرادار — استوديو ريلز الأخبار</title>
+<link rel="stylesheet" href="assets/css/style.css?v=mwmdkhc5">
+<style>
+body{margin:0}
+.rd-links{display:flex;flex-wrap:wrap;gap:6px;font-size:13px;align-items:center}
+.rd-links a{color:var(--muted);border:1px solid var(--line);border-radius:12px;padding:0 8px;text-decoration:none}
+.rd-links a:hover{color:var(--text);border-color:var(--accent)}
+.rd-act{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.rd-act .btn{padding:3px 10px;font-size:14px}
+.rd-new{color:#3dd68c}.rd-x{color:#ffb224}
+.rd-ideabox{background:#1b2547;border-radius:10px;padding:8px 12px;font-size:14px;line-height:1.8}
+.rd-yt{grid-template-columns:160px 1fr;align-items:start}
+.rd-yt img{width:160px;border-radius:8px;display:block}
+.rd-h{font-size:18px;margin:14px 0 4px}
+@media (max-width:560px){.rd-yt{grid-template-columns:1fr}.rd-yt img{width:100%}}
+</style>
+</head>
+<body>
+<div id="rd"></div>
+<script type="module">
+import { initI18n } from './js/i18n.js?v=mwmdkhc5';
+import { mountRadar } from './js/radar.js?v=mwmdkhc5';
+initI18n();
+mountRadar(document.getElementById('rd'));
+</script>
+</body>
+</html>
