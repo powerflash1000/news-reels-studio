@@ -1,7 +1,7 @@
 // توليد الصوت من ElevenLabs مع توقيت كل كلمة، وكاش لكل سطر
-import { getSettings, addChars, cacheGet, cachePut, sha1, load, save, takePut } from './storage.js?v=mwmdkhc5';
-import { decode } from './audio.js?v=mwmdkhc5';
-import { estimateWords, stripTags } from './reel.js?v=mwmdkhc5';
+import { getSettings, addChars, cacheGet, cachePut, sha1, load, save, takePut } from './storage.js?v=mwo7m9qx';
+import { decode } from './audio.js?v=mwo7m9qx';
+import { estimateWords, stripTags } from './reel.js?v=mwo7m9qx';
 
 const API = 'https://api.elevenlabs.io';
 
