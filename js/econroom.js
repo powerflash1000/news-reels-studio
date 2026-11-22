@@ -1,9 +1,10 @@
 // 💹 غرفة الاقتصاد: صفحة لوحدها بتتوصل بسيرفر MCP بتاع EL7.AI بمفتاحك، وبتعرض كل أدواته وتشغّلها،
 // وبتعمل «ملخص الوضع» وأفكار ريلز تتبعت للاستوديو. + الأرقام الرسمية المجانية (data/econ.json).
 // EL7 مصدر تحليل مش مصدر خبر: الريل محتاج مصدر رسمي قبل التصدير، والبيانات ملكهم (راجع شروطهم للاستخدام التجاري).
-import { aiJSON, voiceNote } from './draft.js?v=mws6wjrr';
-import { getSettings, setSettings } from './storage.js?v=mws6wjrr';
-import { mcpClient, cleanKey } from './mcp.js?v=mws6wjrr';
+import { aiJSON, voiceNote } from './draft.js?v=mws7hlz0';
+import { getSettings, setSettings } from './storage.js?v=mws7hlz0';
+import { mcpClient, cleanKey } from './mcp.js?v=mws7hlz0';
+import { mountFree } from './econfree.js?v=mws7hlz0';
 
 const URL_EL7 = 'https://mcp.el7.ai/mcp';
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -27,8 +28,10 @@ const firstLink = t => (String(t).match(/https:\/\/(?:www\.)?el7\.ai\/[^\s)"'<>]
 export function mountEcon(root) {
   const S = { client: null, tools: [], q: '', ideaCtx: '' };
   const gs = getSettings();
-  root.innerHTML = `<header class="top"><h1>💹 غرفة الاقتصاد</h1><span class="muted">EL7.AI عن طريق MCP + أرقام رسمية ببلاش</span><a class="btn ghost" href="index.html">↩ الاستوديو</a></header>
+  root.innerHTML = `<header class="top"><h1>💹 غرفة الاقتصاد</h1><span class="muted">ببلاش من مصادر رسمية وعامة — من غير أي اشتراك</span><a class="btn ghost" href="index.html">↩ الاستوديو</a></header>
   <main>
+    <div id="efFree"></div>
+    <details class="card" id="ekAll" ${gs.el7Key ? 'open' : ''}><summary><b>🔌 اختياري: EL7.AI (محتاج حساب عندهم)</b> <span class="muted">— مش محتاجه، كل اللي فوق شغال من غيره</span></summary>
     <details class="card" id="ekSetup" ${gs.el7Key ? '' : 'open'}><summary><b>🔑 مفتاح EL7 والاتصال</b></summary>
       <p class="muted">١) ادخل el7.ai/en/mcp ← «Your connection» ← اعمل مفتاح شخصي (بيبدأ بـ el7_mcp_). ٢) الصقه هنا ودوس «اتصل». المفتاح بيفضل على جهازك بس (مش بيتحفظ في النسخ الاحتياطية).<br>
       ⚠️ حسب صفحتهم: الأدوات الكاملة محتاجة اشتراك EL7 مدفوع؛ الحساب المجاني بيشغّل أداة الأخبار (el7_wire_latest) و el7_whoami بس، و١٥٠٠ طلب إجمالي. وبياناتهم وتحليلاتهم ملكهم: لو هتنشر في قناة بتكسب منها راجع شروطهم (el7.ai/en/terms).</p>
@@ -42,10 +45,10 @@ export function mountEcon(root) {
     <div class="card"><b>🧰 كل أدوات EL7</b> <span id="ekCount" class="muted"></span>
       <div class="row"><input id="ekQ" type="search" placeholder="دوّر في الأدوات (gold, fed, calendar…)" style="flex:1"></div>
       <div id="ekTools" class="list"><p class="muted">اتصل الأول عشان تظهر الأدوات.</p></div></div>
-    <div class="card"><b>🏛 أرقام رسمية ببلاش</b> <span class="muted">(من مصادرها الحكومية، بتتحدّث لوحدها)</span>
-      <div id="ekOff" class="list"><p class="muted">⏳</p></div></div>
+    </details>
   </main>`;
   const $ = s => root.querySelector(s);
+  mountFree($('#efFree'), sendToStudio);
 
   async function connect() {
     const key = cleanKey($('#ekKey').value);
@@ -157,20 +160,8 @@ Rules: use ONLY facts, numbers and dates present in the data; never invent; say 
       b.textContent = ok ? '✅ اتبعتت للاستوديو' : '❌ المتصفح منع الحفظ';
       return;
     }
-    if (b.dataset.off != null) {
-      const it = S.off?.[Number(b.dataset.off)]; if (!it) return;
-      const ok = sendToStudio({ kind: 'official', title: `${it.label}: ${it.value}${it.unit === '%' ? '%' : ' ' + it.unit}`, script: [`${it.label}: ${it.value}${it.unit === '%' ? '%' : ' ' + it.unit} (${it.period}).`], summary: `${it.label}: ${it.value} ${it.unit} (${it.period}) — المرة اللي قبلها: ${it.prev ?? '—'}`, sourceName: it.source, sourceUrl: it.sourceUrl, category: 'economy' });
-      b.textContent = ok ? '✅ اتبعتت' : '❌';
-    }
   });
   $('#ekQ').addEventListener('input', e => { S.q = e.target.value; drawTools(); });
 
-  (async () => {
-    let d = null;
-    for (const u of ['data/econ.json?t=' + Date.now()]) { try { const r = await fetch(u); if (r.ok) d = await r.json(); } catch { /* */ } }
-    S.off = d?.items || [];
-    $('#ekOff').innerHTML = S.off.length ? S.off.map((it, k) => `<div class="item"><b>${esc(it.label)}</b> <span class="muted">${esc(it.value)}${it.unit === '%' ? '%' : ' ' + esc(it.unit)} • ${esc(it.period)} • <a href="${esc(it.sourceUrl)}" target="_blank" rel="noopener">${esc(it.source)}</a></span>
-      <div class="rd-act"><button class="btn ghost" data-off="${k}" type="button">🎬 خبر منه للاستوديو</button></div></div>`).join('') : '<p class="muted">مفيش أرقام لسه.</p>';
-  })();
   if (gs.el7Key) connect();
 }
