@@ -1,31 +1,31 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mwrxwe6q';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mwrxwe6q';
-import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mwrxwe6q';
-import { GFX_SFX, gfxSfxOf, newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mwrxwe6q';
-import { transcribeWords, alignWords, normWord, similarity } from './align.js?v=mwrxwe6q';
-import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, speakSnippet, prepareText as ttsPrepare, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mwrxwe6q';
-import { openWordFix } from './wordfix.js?v=mwrxwe6q';
-import { detectBeats, audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mwrxwe6q';
-import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mwrxwe6q';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mwrxwe6q';
-import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mwrxwe6q';
-import { exportSupport, exportReel } from './export.js?v=mwrxwe6q';
-import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf, imageViaProxy, officialPortraits } from './media.js?v=mwrxwe6q';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mwrxwe6q';
-import { cutReady, ensureSegmenter, cornerColor } from './cutout.js?v=mwrxwe6q';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mwrxwe6q';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mwrxwe6q';
-import { detailTarget, loadTileMap } from './tiles.js?v=mwrxwe6q';
-import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mwrxwe6q';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mwrxwe6q';
-import { loadBg, playBg, seekBg } from './bg.js?v=mwrxwe6q';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mwrxwe6q';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mwrxwe6q';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mwrxwe6q';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures, ideaYouTube, ideaFile, ideaText, ideaAngle } from './external.js?v=mwrxwe6q';
-import { readUrl, cleanPasted } from './reader.js?v=mwrxwe6q';
-import { initI18n, ui } from './i18n.js?v=mwrxwe6q';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mwrxwe6q';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mws4k2d4';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mws4k2d4';
+import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf, repoSlug } from './feeds.js?v=mws4k2d4';
+import { GFX_SFX, gfxSfxOf, newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mws4k2d4';
+import { transcribeWords, alignWords, normWord, similarity } from './align.js?v=mws4k2d4';
+import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, speakSnippet, prepareText as ttsPrepare, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mws4k2d4';
+import { openWordFix } from './wordfix.js?v=mws4k2d4';
+import { detectBeats, audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mws4k2d4';
+import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mws4k2d4';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mws4k2d4';
+import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mws4k2d4';
+import { exportSupport, exportReel } from './export.js?v=mws4k2d4';
+import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf, imageViaProxy, officialPortraits } from './media.js?v=mws4k2d4';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mws4k2d4';
+import { cutReady, ensureSegmenter, cornerColor } from './cutout.js?v=mws4k2d4';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mws4k2d4';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mws4k2d4';
+import { detailTarget, loadTileMap } from './tiles.js?v=mws4k2d4';
+import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mws4k2d4';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mws4k2d4';
+import { loadBg, playBg, seekBg } from './bg.js?v=mws4k2d4';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mws4k2d4';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mws4k2d4';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mws4k2d4';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures, ideaYouTube, ideaFile, ideaText, ideaAngle } from './external.js?v=mws4k2d4';
+import { readUrl, cleanPasted } from './reader.js?v=mws4k2d4';
+import { initI18n, ui } from './i18n.js?v=mws4k2d4';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mws4k2d4';
 
 initI18n();
 
@@ -6204,3 +6204,69 @@ function takeHandoff() {
 }
 window.addEventListener('storage', e => { if (e.key === 'nrs:handoff' && e.newValue) takeHandoff(); });
 setTimeout(takeHandoff, 400);
+
+
+/* ---------- 💹 أرقام اقتصادية رسمية (data/econ.json من tools/econ.mjs) ---------- */
+var econ = null;
+const ecFmt = (v, u) => v == null ? '—' : (Math.abs(v) >= 1000 ? Math.round(v).toLocaleString('en-US') : String(v)) + (u === '%' ? '%' : '');
+function ecSentence(it) {
+  const ch = it.change, up = ch > 0, same = !ch;
+  if (it.group === 'cot') {
+    const side = it.value >= 0 ? 'شراء' : 'بيع';
+    return `صافي مراكز المضاربين على ${it.label.replace(/^صافي مراكز المضاربين على /, '')} ${side} ${ecFmt(Math.abs(it.value))} عقد (${it.period})${ch == null ? '' : same ? '، من غير تغيير عن الأسبوع اللي قبله' : `، ${up ? 'زيادة' : 'نقص'} ${ecFmt(Math.abs(ch))} عقد عن الأسبوع اللي قبله`}.`;
+  }
+  return `${it.label}: ${ecFmt(it.value, it.unit)}${it.unit && it.unit !== '%' ? ' ' + it.unit : ''} (${it.period})${it.prev == null ? '' : same ? '، زي المرة اللي قبلها' : `، مقابل ${ecFmt(it.prev, it.unit)}${it.unit && it.unit !== '%' ? ' ' + it.unit : ''} المرة اللي قبلها`}.`;
+}
+async function ecLoad(manual) {
+  $('ecMsg').textContent = '⏳ بيحمّل…';
+  const urls = [`https://raw.githubusercontent.com/${repoSlug()}/main/data/econ.json?t=${Date.now()}`, `data/econ.json?t=${Date.now()}`];
+  econ = null;
+  for (const u of urls) { try { const r = await fetch(u); if (r.ok) { econ = await r.json(); break; } } catch { /* اللي بعده */ } }
+  if (!econ) { $('ecMsg').textContent = manual ? '❌ الأرقام لسه مش موجودة. هتتجاب أول ما التحديث الأوتوماتيك يشتغل (كل ساعة تقريبًا).' : ''; $('ecList').innerHTML = ''; return; }
+  ecRender();
+}
+function ecRender() {
+  if (!econ) return;
+  const lines = parseScript(story().script);
+  const lineOpts = lines.map((l, j) => `<option value="${j}">سطر ${j + 1}: ${esc(l.text.slice(0, 28))}</option>`).join('');
+  const G = { us: '🇺🇸 أمريكا', energy: '🛢 الطاقة', cot: '📊 مراكز المضاربين (COT)' };
+  let last = '';
+  $('ecList').innerHTML = (econ.items || []).map((it, i) => {
+    const head = it.group !== last ? `<h4 class="ech">${G[it.group] || it.group}</h4>` : ''; last = it.group;
+    const ch = it.change, arrow = ch == null || !ch ? '•' : ch > 0 ? '▲' : '▼';
+    return head + `<div class="ecrow"><div class="ectop"><b>${esc(it.label)}</b><span class="ecv">${ecFmt(it.value, it.unit)}${it.unit && it.unit !== '%' ? ` <small>${esc(it.unit)}</small>` : ''}</span>
+      <span class="muted">${arrow} ${ch == null ? '' : ecFmt(Math.abs(ch), it.unit)}</span></div>
+      <div class="muted">${esc(it.period || '')} • <a href="${esc(it.sourceUrl)}" target="_blank" rel="noopener">${esc(it.source)}</a></div>
+      <div class="row"><select data-ecli="${i}">${lineOpts || '<option value="-1">اكتب سكريبت الأول</option>'}</select><button class="btn" data-ecgfx="${i}" type="button">📊 عدّاد على السطر ده</button><button class="btn ghost" data-ecnews="${i}" type="button">📰 خبر جديد منه</button><button class="btn ghost" data-eccp="${i}" type="button">📋 انسخ الجملة</button></div></div>`;
+  }).join('') || '<p class="muted">مفيش أرقام لسه.</p>';
+  const bad = Object.entries(econ.sources || {}).filter(([, v]) => v.status !== 'ok').map(([k, v]) => v.status === 'nokey' ? `${k.toUpperCase()}: محتاج مفتاح ببلاش في GitHub` : `${k.toUpperCase()}: ${v.error || 'مشكلة'}`);
+  $('ecMsg').textContent = `آخر تحديث من ${timeAgo(econ.updated)}${bad.length ? ' • ⚠️ ' + bad.join(' • ') : ''}`;
+}
+$('ecLoad').addEventListener('click', () => ecLoad(true));
+$('ecList').addEventListener('click', async e => {
+  const b = e.target.closest('[data-ecgfx],[data-ecnews],[data-eccp]'); if (!b || !econ) return;
+  const i = Number(b.dataset.ecgfx ?? b.dataset.ecnews ?? b.dataset.eccp), it = econ.items[i]; if (!it) return;
+  if (b.dataset.eccp != null) { try { await navigator.clipboard.writeText(ecSentence(it)); b.textContent = '✅ اتنسخت'; } catch { b.textContent = 'انسخ يدوي'; } return setTimeout(() => { b.textContent = '📋 انسخ الجملة'; }, 1300); }
+  if (b.dataset.ecnews != null) {
+    const ref = `${ecSentence(it)}\nالمصدر الرسمي: ${it.source} — ${it.sourceUrl}\n(الرقم من البيانات الرسمية المنشورة؛ راجعه على صفحة المصدر قبل النشر.)`;
+    addStories([{ category: 'economy', headline: `${it.label}: ${ecFmt(it.value, it.unit)}${it.unit && it.unit !== '%' ? ' ' + it.unit : ''}`, sourceName: it.source, sourceUrl: it.sourceUrl, ref, script: ecSentence(it),
+      gfx: [{ li: 0, type: 'count', value: String(Math.abs(it.value)), unit: it.unit === '%' ? '%' : it.unit, label: it.label.slice(0, 40), icon: it.group === 'cot' ? '📊' : it.group === 'energy' ? '🛢' : '📈' }] }]);
+    return setStatus(`✅ اتعمل خبر «${it.label}» بمصدره الرسمي وعدّاد على أول سطر. اكتب باقي السكريبت بأسلوبك.`);
+  }
+  readForm();
+  const li = Number($('ecList').querySelector(`[data-ecli="${i}"]`)?.value ?? -1);
+  if (li < 0) return ($('ecMsg').textContent = 'اكتب سكريبت الأول، وبعدين اختار السطر.');
+  const st = story(); st.gfx = (st.gfx || []).filter(g => g.li !== li);
+  st.gfx.push({ li, type: 'count', value: String(Math.abs(it.value)), unit: it.unit === '%' ? '%' : it.unit, label: it.label.slice(0, 40), icon: it.group === 'cot' ? '📊' : it.group === 'energy' ? '🛢' : '📈' });
+  persist(); renderGfx(); redraw();
+  $('ecMsg').textContent = `✅ العدّاد اتحط على سطر ${li + 1}. ولو مش فاتح، المصدر «${it.source}» لازم يبقى في مصادر الخبر.`;
+});
+setTimeout(() => ecLoad(false), 1500);
+// قايمة السطور بتتحدّث لما تفتحها (السكريبت ممكن يكون اتغيّر)
+$('ecList').addEventListener('focusin', e => {
+  const sel = e.target.closest('[data-ecli]'); if (!sel) return;
+  readForm();
+  const lines = parseScript(story().script), v = sel.value;
+  sel.innerHTML = lines.map((l, j) => `<option value="${j}">سطر ${j + 1}: ${esc(l.text.slice(0, 28))}</option>`).join('') || '<option value="-1">اكتب سكريبت الأول</option>';
+  if ([...sel.options].some(o => o.value === v)) sel.value = v;
+});
