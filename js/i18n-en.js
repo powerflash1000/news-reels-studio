@@ -2464,4 +2464,6 @@ export default {
   "المتصفح ده مبيسجّلش من المايك.": "This browser can't record from the mic.",
   "مفيش صوت اتسجّل.": "Nothing was recorded.",
   "مثبّت على Eleven v4 في كل التوليد": "Locked to Eleven v4 for all generation",
+  "الاتصال المباشر اتمنع، والوسيط كمان ما ردّش (Failed to fetch). ده معناه إن كود الوسيط على Cloudflare قديم: افتح الـ Worker ← Edit code ← الصق آخر نسخة من tools/cors-proxy-worker.js ← Deploy، وبعدين جرّب تاني.": "The direct connection was blocked and the proxy didn't answer either (Failed to fetch). Your Cloudflare proxy code is old: open the Worker → Edit code → paste the latest tools/cors-proxy-worker.js → Deploy, then try again.",
+  "الوسيط شغال بس مش سامح بـ mcp.el7.ai: حط آخر نسخة من tools/cors-proxy-worker.js على Cloudflare (Deploy) وجرّب تاني.": "The proxy works but doesn't allow mcp.el7.ai: deploy the latest tools/cors-proxy-worker.js on Cloudflare and try again.",
 };

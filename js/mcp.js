@@ -32,7 +32,12 @@ export function mcpClient({ url, key, proxy = '' }) {
       try { res = await send(url); via = 'direct'; }
       catch (e) { if (!base) throw new Error('المتصفح منع الاتصال المباشر (CORS). حط «رابط الوسيط» في الإعدادات (ونزّل آخر نسخة من كود الوسيط).'); }
     }
-    if (!res) { res = await send(`${base}/?url=${encodeURIComponent(url)}`); via = 'proxy'; }
+    if (!res) {
+      // «Failed to fetch» من الوسيط = غالبًا نسخة قديمة من كود الوسيط (مش سامحة بـ mcp.el7.ai ولا بهيدرز MCP)
+      try { res = await send(`${base}/?url=${encodeURIComponent(url)}`); via = 'proxy'; }
+      catch { throw new Error('الاتصال المباشر اتمنع، والوسيط كمان ما ردّش (Failed to fetch). ده معناه إن كود الوسيط على Cloudflare قديم: افتح الـ Worker ← Edit code ← الصق آخر نسخة من tools/cors-proxy-worker.js ← Deploy، وبعدين جرّب تاني.'); }
+      if (res.status === 403 && /host not allowed/i.test(await res.clone().text().catch(() => ''))) throw new Error('الوسيط شغال بس مش سامح بـ mcp.el7.ai: حط آخر نسخة من tools/cors-proxy-worker.js على Cloudflare (Deploy) وجرّب تاني.');
+    }
     const sid = res.headers.get('mcp-session-id'); if (sid) session = sid;
     if (res.status === 401 || res.status === 403) throw Object.assign(new Error(res.status === 401 ? 'المفتاح غلط أو انتهى (401).' : 'مرفوض (403): يمكن الأداة دي محتاجة اشتراك مدفوع، أو الوسيط مش سامح بالموقع.'), { status: res.status });
     if (isNotify) return null;
