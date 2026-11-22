@@ -1,7 +1,7 @@
 // توليد الصوت من ElevenLabs مع توقيت كل كلمة، وكاش لكل سطر
-import { getSettings, addChars, cacheGet, cachePut, sha1, load, save, takePut } from './storage.js?v=mws7hlz0';
-import { decode } from './audio.js?v=mws7hlz0';
-import { estimateWords, stripTags } from './reel.js?v=mws7hlz0';
+import { getSettings, addChars, cacheGet, cachePut, sha1, load, save, takePut } from './storage.js?v=mws83xdh';
+import { decode } from './audio.js?v=mws83xdh';
+import { estimateWords, stripTags } from './reel.js?v=mws83xdh';
 
 const API = 'https://api.elevenlabs.io';
 
@@ -424,13 +424,17 @@ export async function speakSnippet(text, speaker, lang = 'ar', provider, voice) 
   if (pv === 'azure') return new Blob([await azureSpeak(t, voiceId, lang)]);
   if (pv === 'openai') return new Blob([await openaiSpeak(t, voiceId, lang)]);
   if (!s.elevenKey || !voiceId) throw new Error('ضبط مفتاح ElevenLabs وصوت المذيع في الإعدادات الأول.');
-  const res = await call(`/v1/text-to-speech/${voiceId}?output_format=mp3_44100_128`, {
+  // with-timestamps: بنرجّع مكان كل كلمة بالظبط عشان «ولّدها في جملة» تقص كلمتك بس من غير ما تاخد حتة من اللي جنبها
+  const res = await call(`/v1/text-to-speech/${voiceId}/with-timestamps?output_format=mp3_44100_128`, {
     method: 'POST',
     body: JSON.stringify({ text: t, model_id: s.elevenModel, voice_settings: voiceSettingsFor(speaker), ...(s.langCode ? { language_code: 'ar' } : {}) }),
   });
   if (!res.ok) throw new Error(`ElevenLabs رفض التوليد (${res.status}): ${await errDetail(res)}`);
   addChars(t.length);
-  return new Blob([await res.arrayBuffer()], { type: 'audio/mpeg' });
+  const j = await res.json();
+  const blob = new Blob([b64ToBuf(j.audio_base64)], { type: 'audio/mpeg' });
+  try { blob.words = wordsFromAlignment(j.alignment || j.normalized_alignment).map(w => ({ text: w.w, start: w.s, end: w.e })); } catch { /* من غير توقيت */ }
+  return blob;
 }
 
 /* ---------- بيانات الحساب ---------- */

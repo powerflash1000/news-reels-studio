@@ -2507,4 +2507,7 @@ export default {
   "لسه مفيش أسعار — هتظهر بعد التحديث الجاي.": "No prices yet — they will show after the next update.",
   "جاهز: {} بنك • {} سوق • {} رقم رسمي • {} خبر اقتصاد آخر ٣٦ ساعة": "Ready: {} banks • {} markets • {} official figures • {} economy stories in the last 36 h",
   "✅ {} ريل اقتصاد اتحطّوا في المكتبة «جاهز للمراجعة» وفتحتلك أولهم. راجع السكريبت والأرقام وولّد الصوت.": "✅ {} economy reels were added to the library as «ready for review» and the first one is open. Check the script and numbers, then generate the voice.",
+  "▶ الكلمة الجديدة لوحدها": "▶ New word alone",
+  " (اتقصت بالتوقيت الحقيقي)": " (cut at the real timing)",
+  " (اتقصت بالتقدير — اسمعها لوحدها واتأكد)": " (cut by estimate — listen to it alone and check)",
 };
