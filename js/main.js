@@ -1,31 +1,31 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mws5gf0z';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mws5gf0z';
-import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mws5gf0z';
-import { GFX_SFX, gfxSfxOf, newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mws5gf0z';
-import { transcribeWords, alignWords, normWord, similarity } from './align.js?v=mws5gf0z';
-import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, speakSnippet, prepareText as ttsPrepare, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mws5gf0z';
-import { openWordFix } from './wordfix.js?v=mws5gf0z';
-import { detectBeats, audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mws5gf0z';
-import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mws5gf0z';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mws5gf0z';
-import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mws5gf0z';
-import { exportSupport, exportReel } from './export.js?v=mws5gf0z';
-import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf, imageViaProxy, officialPortraits } from './media.js?v=mws5gf0z';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mws5gf0z';
-import { cutReady, ensureSegmenter, cornerColor } from './cutout.js?v=mws5gf0z';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mws5gf0z';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mws5gf0z';
-import { detailTarget, loadTileMap } from './tiles.js?v=mws5gf0z';
-import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mws5gf0z';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mws5gf0z';
-import { loadBg, playBg, seekBg } from './bg.js?v=mws5gf0z';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mws5gf0z';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mws5gf0z';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mws5gf0z';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures, ideaYouTube, ideaFile, ideaText, ideaAngle } from './external.js?v=mws5gf0z';
-import { readUrl, cleanPasted } from './reader.js?v=mws5gf0z';
-import { initI18n, ui } from './i18n.js?v=mws5gf0z';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mws5gf0z';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mws5pyq4';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mws5pyq4';
+import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mws5pyq4';
+import { GFX_SFX, gfxSfxOf, newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mws5pyq4';
+import { transcribeWords, alignWords, normWord, similarity } from './align.js?v=mws5pyq4';
+import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, speakSnippet, prepareText as ttsPrepare, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mws5pyq4';
+import { openWordFix } from './wordfix.js?v=mws5pyq4';
+import { detectBeats, audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mws5pyq4';
+import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mws5pyq4';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mws5pyq4';
+import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mws5pyq4';
+import { exportSupport, exportReel } from './export.js?v=mws5pyq4';
+import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf, imageViaProxy, officialPortraits } from './media.js?v=mws5pyq4';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mws5pyq4';
+import { cutReady, ensureSegmenter, cornerColor } from './cutout.js?v=mws5pyq4';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mws5pyq4';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mws5pyq4';
+import { detailTarget, loadTileMap } from './tiles.js?v=mws5pyq4';
+import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mws5pyq4';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mws5pyq4';
+import { loadBg, playBg, seekBg } from './bg.js?v=mws5pyq4';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mws5pyq4';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mws5pyq4';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mws5pyq4';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures, ideaYouTube, ideaFile, ideaText, ideaAngle } from './external.js?v=mws5pyq4';
+import { readUrl, cleanPasted } from './reader.js?v=mws5pyq4';
+import { initI18n, ui } from './i18n.js?v=mws5pyq4';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mws5pyq4';
 
 initI18n();
 
@@ -5926,6 +5926,29 @@ $('auLines').addEventListener('click', async e => {
 });
 
 // ✏️ صلّح كلمة في سطر: تتولّد الكلمة الغلط بس (ElevenLabs أو Gemini أو غيرهم) وتتركّب مكانها
+// تسجيل كلمة واحدة من المايك جوه نافذة التصليح (الـ dialog مودال، فبنحط الشريط جواه)
+async function recordWordSnippet(text, secs = 3) {
+  if (!navigator.mediaDevices?.getUserMedia) throw new Error('المتصفح ده مبيسجّلش من المايك.');
+  const stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } });
+  const host = document.querySelector('dialog.wf-dlg[open] .dlg') || document.body;
+  const bar = document.createElement('div');
+  bar.className = 'wf-rec';
+  bar.innerHTML = `<b>🔴 قول دلوقتي: «<span translate="no"></span>»</b> <span class="wf-recT"></span> <button class="btn" type="button">⏹ خلّصت</button>`;
+  bar.querySelector('span').textContent = text;
+  host.appendChild(bar);
+  const mime = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4'].find(m => MediaRecorder.isTypeSupported(m)) || '';
+  const rec = new MediaRecorder(stream, mime ? { mimeType: mime } : {}), chunks = [];
+  rec.ondataavailable = e => { if (e.data.size) chunks.push(e.data); };
+  const done = new Promise(r => { rec.onstop = r; });
+  const t0 = performance.now();
+  const tick = setInterval(() => { const left = Math.max(0, secs - (performance.now() - t0) / 1000); bar.querySelector('.wf-recT').textContent = `${left.toFixed(1)} ث`; if (left <= 0 && rec.state !== 'inactive') rec.stop(); }, 100);
+  bar.querySelector('button').onclick = () => { if (rec.state !== 'inactive') rec.stop(); };
+  rec.start();
+  await done;
+  clearInterval(tick); stream.getTracks().forEach(t => t.stop()); bar.remove();
+  if (!chunks.length) throw new Error('مفيش صوت اتسجّل.');
+  return new Blob(chunks, { type: rec.mimeType || 'audio/webm' });
+}
 function openLineFix(i, l, a) {
   const s = getSettings(), cur = pvOf(a.provider), ov = lineVoice(l);
   const providers = [];
@@ -5935,7 +5958,8 @@ function openLineFix(i, l, a) {
   if (s.geminiKey) add('gemini', `Gemini — ${voiceFor(l.speaker, 'gemini') || ''}`, cur === 'gemini' ? 'نفس صوت Gemini.' : '⚠️ صوت Gemini مختلف عن صوت السطر ده، فالكلمة هتبان. ينفع لو السطر كله Gemini.');
   if (cur === 'azure' && s.azureKey) add('azure', 'Azure', 'نفس صوت Azure.');
   if (cur === 'openai' && s.openaiKey) add('openai', 'OpenAI', 'نفس صوت OpenAI.');
-  if (!providers.length) return ($('auMsg').textContent = '❌ محتاج مفتاح ElevenLabs أو Gemini في الإعدادات عشان تولّد الكلمة.');
+  // 🎙 صوتك انت: بتقول الكلمة بنفسك (أضمن حل لما المولّد يصر على نطق غلط، وصوتك المستنسخ قريب من صوتك الحقيقي)
+  providers.push({ id: 'mic', name: '🎙 صوتي (سجّل الكلمة)', noContext: true, note: 'بيسجّل من المايك: بعد ما تدوس «ولّد» قول الكلمة بس، وبيقف لوحده بعد 3 ثواني (أو دوس «خلّصت»). الأطراف الساكتة بتتقص.', speak: recordWordSnippet });
   const words = cur === 'elevenlabs' && a.words?.length ? a.words.map(w => ({ text: w.w, start: w.s, end: w.e })) : null;
   openWordFix({
     buffer: a.buffer, text: stripTagsLocal(l.text).replace(/\s+/g, ' ').trim(), words, providers, provider: cur, decode,

@@ -136,6 +136,7 @@ function injectCss() {
   .wf-row{display:flex;flex-wrap:wrap;gap:.45rem;align-items:center;margin-top:.55rem}
   .wf-row input[type=text]{flex:1;min-width:200px;font-size:1.1rem}
   .wf-takes{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.4rem}
+  .wf-rec{position:sticky;bottom:0;background:#3a1020;color:#fff;border-radius:10px;padding:.5rem .7rem;margin-top:.5rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
   .wf-takes .btn.on{background:var(--accent,#1f6f5c);color:#fff}
   .wf-t{direction:ltr;font-variant-numeric:tabular-nums;font-weight:700}
   .wf-hint{font-size:.85rem;opacity:.8;margin:.4rem 0 0}`;
@@ -153,7 +154,7 @@ export function openWordFix(opts) {
   dlg.className = 'wf-dlg';
   dlg.innerHTML = `<div class="dlg">
     <div class="row"><h2 class="grow" style="margin:0">✏️ صلّح كلمة في الصوت</h2><button class="btn icon" data-x="close" type="button" title="اقفل">✕</button></div>
-    <p class="wf-hint">١) دوس على الكلمة اللي اتنطقت غلط (ولو أكتر من كلمة: دوس على الأولى وبعدين Shift + الأخيرة). ٢) اسمع واتأكد إن الحتة المعلّمة هي الكلمة بالظبط (اسحب الطرفين لو محتاج). ٣) اكتب النطق الصح — والتشكيل بيفرق جدًا — واختار المولّد ودوس «🔁 ولّد الحتة دي بس».</p>
+    <p class="wf-hint">١) دوس على الكلمة اللي اتنطقت غلط (ولو أكتر من كلمة: دوس على الأولى وبعدين Shift + الأخيرة). ٢) اسمع واتأكد إن الحتة المعلّمة هي الكلمة بالظبط (اسحب الطرفين لو محتاج). ٣) اكتب النطق الصح — والتشكيل بيفرق جدًا — واختار المولّد ودوس «🔁 ولّد الحتة دي بس». لو المولّد مصمّم على نطق غلط (زي عالَم/عالِم)، اختار «🎙 صوتي» وقول الكلمة بنفسك.</p>
     <div class="wf-words" data-x="words"></div>
     <canvas class="wf-cv" data-x="cv" height="110"></canvas>
     <div class="wf-row">
@@ -168,6 +169,7 @@ export function openWordFix(opts) {
       <select data-x="prov">${providers.map(p => `<option value="${p.id}">${p.name}</option>`).join('')}</select>
       <button class="btn primary" data-x="gen" type="button">🔁 ولّد الحتة دي بس</button>
     </div>
+    <label class="wf-hint" style="display:flex;gap:6px;align-items:center"><input type="checkbox" data-x="ctx" checked> 🧩 ولّدها في جملة (مع الكلمة اللي قبلها واللي بعدها) وخد كلمتك بس — النطق بيطلع أصح بكتير من كلمة لوحدها</label>
     <p class="wf-hint" data-x="provNote"></p>
     <div class="wf-takes" data-x="takes"></div>
     <div class="wf-row">
@@ -272,9 +274,17 @@ export function openWordFix(opts) {
     if (!p || !say) return;
     const btn = q('gen'); btn.disabled = true; status(`⏳ بيولّد «${say}» بـ ${p.name}…`);
     try {
-      const blob = await p.speak(say);
+      // 🧩 السياق: الكلمة لوحدها المولّد بيخمّن نطقها (عالَم/عالِم)؛ في جملة بيفهمها، وبعدين بنقص كلمتنا بس
+      const prevW = selA > 0 ? words[selA - 1].text : '', nextW = selB < words.length - 1 ? words[selB + 1].text : '';
+      const useCtx = q('ctx').checked && !p.noContext && (prevW || nextW);
+      const full = useCtx ? [prevW, say, nextW].filter(Boolean).join(' ') : say;
+      const blob = await p.speak(full);
       const raw = await decode(await blob.arrayBuffer());
-      const buf = trimEdges(await conform(raw, work));
+      let buf = trimEdges(await conform(raw, work));
+      if (useCtx) {
+        const ws = estimateWords(buf, full), n0 = prevW ? 1 : 0, n1 = ws.length - (nextW ? 2 : 1);
+        if (ws.length >= n0 + 1 && n1 >= n0) buf = trimEdges(slice(buf, Math.max(0, ws[n0].start - 0.02), Math.min(buf.duration, ws[n1].end + 0.02)), 0.02);
+      }
       takes.push({ buf, prov: p.name.split(' ')[0] }); take = takes.length - 1;
       renderTakes(); ui(); playPatched();
       status('اسمعها في الجملة. لو مش مظبوطة: عدّل التشكيل أو جرّب المولّد التاني ودوس «🔁» تاني — كل نسخة بتفضل هنا تختار منها.');

@@ -2457,4 +2457,10 @@ export default {
   "المفتاح غلط أو انتهى (401).": "Wrong or expired key (401).",
   "مرفوض (403): يمكن الأداة دي محتاجة اشتراك مدفوع، أو الوسيط مش سامح بالموقع.": "Refused (403): this tool may need a paid plan, or the proxy doesn't allow the site.",
   "السيرفر ما ردّش بحاجة.": "The server returned nothing.",
+  "🧩 ولّدها في جملة (مع الكلمة اللي قبلها واللي بعدها) وخد كلمتك بس — النطق بيطلع أصح بكتير من كلمة لوحدها": "🧩 Generate it in a phrase (with the word before and after) and keep only your word — much better pronunciation than a lone word",
+  "🎙 صوتي (سجّل الكلمة)": "🎙 My voice (record the word)",
+  "بيسجّل من المايك: بعد ما تدوس «ولّد» قول الكلمة بس، وبيقف لوحده بعد 3 ثواني (أو دوس «خلّصت»). الأطراف الساكتة بتتقص.": "Records from the mic: after pressing «Generate» say just the word; it stops after 3 seconds (or press «Done»). Silent edges are trimmed.",
+  "🔴 قول دلوقتي: «{}»": "🔴 Say now: «{}»",
+  "المتصفح ده مبيسجّلش من المايك.": "This browser can't record from the mic.",
+  "مفيش صوت اتسجّل.": "Nothing was recorded.",
 };
