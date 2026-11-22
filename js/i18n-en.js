@@ -2466,4 +2466,10 @@ export default {
   "مثبّت على Eleven v4 في كل التوليد": "Locked to Eleven v4 for all generation",
   "الاتصال المباشر اتمنع، والوسيط كمان ما ردّش (Failed to fetch). ده معناه إن كود الوسيط على Cloudflare قديم: افتح الـ Worker ← Edit code ← الصق آخر نسخة من tools/cors-proxy-worker.js ← Deploy، وبعدين جرّب تاني.": "The direct connection was blocked and the proxy didn't answer either (Failed to fetch). Your Cloudflare proxy code is old: open the Worker → Edit code → paste the latest tools/cors-proxy-worker.js → Deploy, then try again.",
   "الوسيط شغال بس مش سامح بـ mcp.el7.ai: حط آخر نسخة من tools/cors-proxy-worker.js على Cloudflare (Deploy) وجرّب تاني.": "The proxy works but doesn't allow mcp.el7.ai: deploy the latest tools/cors-proxy-worker.js on Cloudflare and try again.",
+  "EL7 رفض المفتاح (401). اتأكد إنه مفتاح MCP اللي بيبدأ بـ el7_mcp_ (مش كلمة السر ولا مفتاح تاني)، وإنك نسخته كامل، ولو مش متأكد اعمل مفتاح جديد من el7.ai/en/mcp ← «Your connection».": "EL7 rejected the key (401). Make sure it is the MCP key starting with el7_mcp_ (not your password or another key) and fully copied; if unsure, create a new key at el7.ai/en/mcp → «Your connection».",
+  " — رد السيرفر: {}": " — server said: {}",
+  "⚠️ المفتاح مش بيبدأ بـ el7_mcp_ — ده غالبًا مش مفتاح MCP. اعمل مفتاح من el7.ai/en/mcp ← «Your connection».": "⚠️ The key doesn't start with el7_mcp_ — probably not an MCP key. Create one at el7.ai/en/mcp → «Your connection».",
+  "{} • آخره …{} • {} حرف — قارنه باللي في صفحة EL7": "{} • ends …{} • {} chars — compare with the EL7 page",
+  "✅ بيبدأ بـ el7_mcp_": "✅ starts with el7_mcp_",
+  "⚠️ مش بيبدأ بـ el7_mcp_": "⚠️ doesn't start with el7_mcp_",
 };
