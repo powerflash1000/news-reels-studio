@@ -17,13 +17,14 @@ const ALLOWED_HOSTS = [
   'youtube.com',            // صفحة القناة وRSS آخر الفيديوهات (لتبويب «تحليل»)
   'si.edu',                 // صور Smithsonian Open Access (ids.si.edu)
   'speech.microsoft.com',   // أصوات Azure Speech (المنطقة.tts.speech.microsoft.com)
+  'mcp.el7.ai',             // سيرفر MCP بتاع EL7.AI (غرفة الاقتصاد)
 ];
 const hostAllowed = h => ALLOWED_HOSTS.some(a => h === a || h.endsWith('.' + a));
 // صفحات مواقع الستوك بترجع صفحة ناقصة للبرامج، فبنطلب زي المتصفح العادي
 const BROWSER_UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36';
 const STOCK = ['mixkit.co', 'coverr.co', 'pexels.com', 'pixabay.com'];
 // الهيدرز اللي بتتبعت للخدمة الأصلية (مفتاح ElevenLabs ونوع المحتوى)
-const FORWARD_HEADERS = ['xi-api-key', 'content-type', 'accept', 'ocp-apim-subscription-key', 'x-microsoft-outputformat', 'authorization'];
+const FORWARD_HEADERS = ['xi-api-key', 'content-type', 'accept', 'ocp-apim-subscription-key', 'x-microsoft-outputformat', 'authorization', 'mcp-session-id', 'mcp-protocol-version'];
 
 // ===== 🖼️ «صورة من رابط» (?img=1&url=…) =====
 // بيقبل أي موقع، بس بيرجّع صورة وبس (مش وسيط مفتوح لأي حاجة):
@@ -69,6 +70,7 @@ export default {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, HEAD, POST, OPTIONS',
       'Access-Control-Allow-Headers': FORWARD_HEADERS.join(', '),
+      'Access-Control-Expose-Headers': 'mcp-session-id, x-final-url',
     };
     if (request.method === 'OPTIONS') return new Response(null, { headers: cors });
 
