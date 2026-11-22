@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mws83xdh">
+<html lang="ar" dir="rtl" data-v="mwsf3umu">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mws83xdh">
+<link rel="stylesheet" href="assets/css/style.css?v=mwsf3umu">
 </head>
 <body>
 <header class="top">
@@ -443,6 +443,20 @@
         <div id="tplTimeline" hidden>
           <p class="muted">لحد 4 أحداث بتظهر واحد ورا التاني (سنة + جملة قصيرة). مناسب للقصة والخلفية التاريخية. راجع كل تاريخ من مصدر موثوق.</p>
           <div id="tlRows"></div>
+        </div>
+        <div id="tplEx" hidden>
+          <p class="muted">🧪 فيديو شرح علمي بموشن جرافيك: كارت غامق فيه رسم متحرك لكل مشهد (أيقونات بتنط، أسهم بتترسم، زووم، دورة، مقارنة، عدّاد)، وكابشن تحته بينوّر الكلمة لحظة نطقها. ١) اكتب السكريبت (أو خليه يكتبه) ٢) «اعمل لوحة المشاهد» ٣) ولّد الصوت وصدّر.</p>
+          <div class="row">
+            <label>اسم السلسلة (فوق)<input id="exTag" dir="auto" placeholder="عارف ليه؟"></label>
+            <label>المدة<select id="exLen"><option value="10">10 ث</option><option value="20">20 ث</option><option value="30" selected>30 ث</option><option value="45">45 ث</option><option value="60">60 ث</option></select></label>
+          </div>
+          <div class="row">
+            <button id="exScript" class="btn" type="button" title="من العنوان: هوك ← عارف ليه؟ ← تشبيه ← ملخص">✍️ اكتب سكريبت علمي</button>
+            <button id="exBoard" class="btn pri" type="button">🎬 اعمل لوحة المشاهد</button>
+            <button id="exAdd" class="btn ghost" type="button">＋ مشهد</button>
+          </div>
+          <div id="exMsg" class="muted"></div>
+          <div id="exList" class="exlist"></div>
         </div>
         <div id="tplProof" hidden>
           <p class="muted">بطاقات مصادر بتظهر على الشاشة (لحد 3) كل واحدة بـQR كود لرابط الخبر الأصلي. اللقطة اختيارية: لقطة شاشة بتاعتك للخبر (عنوان بس يفضّل).</p>
@@ -1176,6 +1190,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mws83xdh"></script>
+<script type="module" src="js/main.js?v=mwsf3umu"></script>
 </body>
 </html>

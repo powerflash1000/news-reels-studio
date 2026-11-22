@@ -1,11 +1,12 @@
 // رسم إطار الريل على canvas (عمودي 1080×1920 أو 4:5 أو مربع أو أفقي). نفس الدالة للمعاينة والتصدير.
-import { detailTarget, tileKey, getTileMap } from './tiles.js?v=mws83xdh';
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mws83xdh';
-import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mws83xdh';
-import { hostOf } from './feeds.js?v=mws83xdh';
-import QR from '../vendor/qrcode/qrcode.mjs?v=mws83xdh';
-import { drawBg } from './bg.js?v=mws83xdh';
-import { cutFrame } from './cutout.js?v=mws83xdh';
+import { detailTarget, tileKey, getTileMap } from './tiles.js?v=mwsf3umu';
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mwsf3umu';
+import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mwsf3umu';
+import { hostOf } from './feeds.js?v=mwsf3umu';
+import QR from '../vendor/qrcode/qrcode.mjs?v=mwsf3umu';
+import { drawBg } from './bg.js?v=mwsf3umu';
+import { cutFrame } from './cutout.js?v=mwsf3umu';
+import { drawExplainer } from './explainer.js?v=mwsf3umu';
 
 // مقاسات الإخراج. W/H متغيّرين (live binding) والتصدير بيقراهم وقت التصدير
 export const FORMATS = {
@@ -1503,6 +1504,14 @@ export function drawFrame(ctx, st, t, opts = {}) {
     g.addColorStop(1, `rgba(229,72,77,${0.16 + 0.1 * Math.abs(Math.sin(t * 3.2))})`);
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, W, H);
+  }
+  // 🧪 شرح علمي: الفريم كله من explainer.js (خلفية غامقة + كارت فيلم + كابشن متزامن)
+  if (story.template === 'explainer') {
+    ctx.globalAlpha = 1;
+    drawExplainer(ctx, c, t, opts);
+    clipLayer(ctx, c, t);
+    storyWipe(ctx, c, kr, opts);
+    return;
   }
   // قوالب الكروت (رقم/خريطة/توثيق/اقتباس/خط زمني) في المقاسات غير العمودية: الكارت كبير في جنب والعنوان والكلام في الجنب التاني
   if ((!L.vert || L.safe) && PANEL_TPLS.has(story.template)) {

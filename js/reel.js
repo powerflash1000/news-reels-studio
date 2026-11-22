@@ -4,7 +4,7 @@ export const MED_DISCLAIMER = 'معلومة عامة وليست استشارة �
 
 export const STATUSES = { draft: 'مسودة', review: 'جاهز للمراجعة', exported: 'متصدّر', published: 'منشور' };
 export const KINDS = { news: 'خبر', idea: 'فكرة', intro: 'افتتاحية', outro: 'خاتمة' };
-export const TEMPLATES = { standard: 'عادي', breaking: 'عاجل', stat: 'بطاقة رقم', map: 'خريطة', proof: 'توثيق (مصادر)', quote: 'اقتباس', timeline: 'خط زمني' };
+export const TEMPLATES = { standard: 'عادي', explainer: '🧪 شرح علمي (موشن جرافيك)', breaking: 'عاجل', stat: 'بطاقة رقم', map: 'خريطة', proof: 'توثيق (مصادر)', quote: 'اقتباس', timeline: 'خط زمني' };
 export const PROOF_STATUS = { none: 'من غير حالة', official: 'مؤكد رسميًا', reported: 'تقارير غير مؤكدة', pending: 'بانتظار التأكيد' };
 export const newProofSource = () => ({ outlet: '', title: '', date: '', url: '', shot: null });
 

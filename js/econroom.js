@@ -1,10 +1,10 @@
 // 💹 غرفة الاقتصاد: صفحة لوحدها بتتوصل بسيرفر MCP بتاع EL7.AI بمفتاحك، وبتعرض كل أدواته وتشغّلها،
 // وبتعمل «ملخص الوضع» وأفكار ريلز تتبعت للاستوديو. + الأرقام الرسمية المجانية (data/econ.json).
 // EL7 مصدر تحليل مش مصدر خبر: الريل محتاج مصدر رسمي قبل التصدير، والبيانات ملكهم (راجع شروطهم للاستخدام التجاري).
-import { aiJSON, voiceNote } from './draft.js?v=mws83xdh';
-import { getSettings, setSettings } from './storage.js?v=mws83xdh';
-import { mcpClient, cleanKey } from './mcp.js?v=mws83xdh';
-import { mountFree } from './econfree.js?v=mws83xdh';
+import { aiJSON, voiceNote } from './draft.js?v=mwsf3umu';
+import { getSettings, setSettings } from './storage.js?v=mwsf3umu';
+import { mcpClient, cleanKey } from './mcp.js?v=mwsf3umu';
+import { mountFree } from './econfree.js?v=mwsf3umu';
 
 const URL_EL7 = 'https://mcp.el7.ai/mcp';
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
