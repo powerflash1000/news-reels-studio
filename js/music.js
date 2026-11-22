@@ -1,6 +1,6 @@
 // بحث موسيقى/مؤثرات بترخيص آمن: Freesound (بمفتاح مجاني) + Openverse صوت (من غير مفتاح)
-import { getSettings } from './storage.js?v=mws7hlz0';
-import { classifyLicense, viaProxy } from './media.js?v=mws7hlz0';
+import { getSettings } from './storage.js?v=mws83xdh';
+import { classifyLicense, viaProxy } from './media.js?v=mws83xdh';
 
 const https = u => String(u || '').replace(/^http:\/\//i, 'https://');
 async function getJson(url) {

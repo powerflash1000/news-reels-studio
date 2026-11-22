@@ -103,6 +103,20 @@ const rms = (b, t0 = 0, t1 = b.duration) => {
   let s = 0, n = 0; for (let i = a; i < z; i += 2) { if (Math.abs(d[i]) > 0.003) { s += d[i] * d[i]; n++; } }
   return n ? Math.sqrt(s / n) : 0;
 };
+// أهدى نقطة (أقل طاقة في شباك ١٠ ملّي) حوالين وقت معيّن: القص هناك مبياخدش حتة من الكلمة اللي جنبها
+export function valley(b, t, win = 0.07, lo = 0, hi = b.duration) {
+  const d = b.getChannelData(0), sr = b.sampleRate, w = Math.round(sr * 0.01);
+  const a = Math.max(lo, t - win), z = Math.min(hi, t + win);
+  let best = t, bv = Infinity;
+  for (let x = a; x <= z; x += 0.005) {
+    const i0 = Math.max(0, Math.round(x * sr - w / 2)), i1 = Math.min(d.length, i0 + w);
+    let e = 0; for (let i = i0; i < i1; i += 2) e += d[i] * d[i];
+    // ميل خفيف للنقطة الأصلية عشان ما نروحش بعيد في الكلام المتصل
+    e = e / Math.max(1, (i1 - i0) / 2) * (1 + Math.abs(x - t) * 4);
+    if (e < bv) { bv = e; best = x; }
+  }
+  return best;
+}
 // بيحط الحتة الجديدة مكان [a,b] بفيد صغير في الطرفين وبعلو قريب من الأصل
 export function splice(orig, snip, a, b) {
   const sr = orig.sampleRate, A = Math.round(a * sr), Bz = Math.round(b * sr), F = Math.round(FADE * sr);
@@ -174,6 +188,7 @@ export function openWordFix(opts) {
     <div class="wf-takes" data-x="takes"></div>
     <div class="wf-row">
       <button class="btn" data-x="playNew" type="button" disabled>▶ اسمع بعد التصليح</button>
+      <button class="btn" data-x="playTake" type="button" disabled>▶ الكلمة الجديدة لوحدها</button>
       <button class="btn primary" data-x="accept" type="button" disabled>✅ اعتمد التصليح ده</button>
     </div>
     <p class="wf-hint" data-x="status"></p>
@@ -196,7 +211,11 @@ export function openWordFix(opts) {
     const i = Number(e.target.dataset?.i);
     if (!Number.isFinite(i)) return;
     if (e.shiftKey && selA >= 0) { selA = Math.min(selA, i); selB = Math.max(selB, i); } else { selA = selB = i; }
-    A = words[selA].start; B = words[selB].end;
+    // الحدود بتلزق على أهدى نقطة قريبة (لا نسيب ذيل الكلمة القديمة ولا ناكل من اللي جنبها)
+    const lo = selA > 0 ? words[selA - 1].start + 0.03 : 0, hi = selB < words.length - 1 ? words[selB + 1].end - 0.03 : work.duration;
+    A = valley(work, words[selA].start, 0.07, lo, words[selA].end - 0.03);
+    B = valley(work, words[selB].end, 0.07, words[selB].start + 0.03, hi);
+    if (B <= A + 0.05) { A = words[selA].start; B = words[selB].end; }
     q('say').value = words.slice(selA, selB + 1).map(w => w.text).join(' ');
     takes = []; take = -1;
     renderWords(); renderTakes(); ui();
@@ -230,7 +249,7 @@ export function openWordFix(opts) {
     q('ta').textContent = fmt(A); q('tb').textContent = fmt(B);
     const on = selA >= 0;
     for (const k of ['playCtx', 'playSel', 'gen']) q(k).disabled = !on;
-    q('playNew').disabled = q('accept').disabled = take < 0;
+    q('playNew').disabled = q('accept').disabled = q('playTake').disabled = take < 0;
     q('save').disabled = !changed;
     const p = providers.find(x => x.id === q('prov').value);
     q('gen').textContent = `🔁 ولّد الحتة دي بس${on && p ? ` (${q('say').value.length} حرف)` : ''}`;
@@ -281,16 +300,27 @@ export function openWordFix(opts) {
       const blob = await p.speak(full);
       const raw = await decode(await blob.arrayBuffer());
       let buf = trimEdges(await conform(raw, work));
+      let how = '';
       if (useCtx) {
-        const ws = estimateWords(buf, full), n0 = prevW ? 1 : 0, n1 = ws.length - (nextW ? 2 : 1);
-        if (ws.length >= n0 + 1 && n1 >= n0) buf = trimEdges(slice(buf, Math.max(0, ws[n0].start - 0.02), Math.min(buf.duration, ws[n1].end + 0.02)), 0.02);
+        // التوقيت الحقيقي من المولّد (ElevenLabs) لو موجود، وإلا تقدير؛ وبعدين القص على أهدى نقطة بين الكلمات
+        const nw = full.split(/\s+/).filter(Boolean).length, sayN = say.split(/\s+/).filter(Boolean).length;
+        const exact = blob.words?.length === nw, raw0 = await conform(raw, work);
+        const ws = exact ? blob.words : estimateWords(raw0, full);
+        const n0 = prevW ? 1 : 0, n1 = n0 + sayN - 1;
+        if (ws.length > n1) {
+          const cutA = prevW ? valley(raw0, (ws[n0 - 1].end + ws[n0].start) / 2, 0.08, ws[n0 - 1].start + 0.03, ws[n0].end - 0.03) : Math.max(0, ws[n0].start - 0.03);
+          const cutB = nextW ? valley(raw0, (ws[n1].end + ws[n1 + 1].start) / 2, 0.08, ws[n1].start + 0.03, ws[n1 + 1].end - 0.03) : Math.min(raw0.duration, ws[n1].end + 0.03);
+          if (cutB > cutA + 0.08) buf = trimEdges(slice(raw0, cutA, cutB), 0.015);
+          how = exact ? ' (اتقصت بالتوقيت الحقيقي)' : ' (اتقصت بالتقدير — اسمعها لوحدها واتأكد)';
+        }
       }
       takes.push({ buf, prov: p.name.split(' ')[0] }); take = takes.length - 1;
       renderTakes(); ui(); playPatched();
-      status('اسمعها في الجملة. لو مش مظبوطة: عدّل التشكيل أو جرّب المولّد التاني ودوس «🔁» تاني — كل نسخة بتفضل هنا تختار منها.');
+      status(`اسمعها في الجملة${how}. لو مش مظبوطة: عدّل التشكيل أو جرّب المولّد التاني ودوس «🔁» تاني — كل نسخة بتفضل هنا تختار منها.`);
     } catch (e) { status('❌ ' + (e.message || e)); } finally { btn.disabled = false; ui(); }
   };
   q('playNew').onclick = playPatched;
+  q('playTake').onclick = () => { const t = takes[take]; if (t) play(0, t.buf.duration, t.buf); };
   q('accept').onclick = () => {
     const p = patched(); if (!p) return;
     const len = takes[take].buf.duration, delta = len - (B - A);
