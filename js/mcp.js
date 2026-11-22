@@ -19,7 +19,10 @@ async function readRpc(res, id) {
   try { return JSON.parse(text); } catch { throw new Error('رد مش مفهوم من السيرفر: ' + text.slice(0, 120)); }
 }
 
+// تنضيف المفتاح الملزوق: مسافات، علامات تنصيص، كلمة Bearer، حروف مخفية
+export const cleanKey = k => String(k || '').replace(/[\u200B-\u200F\u202A-\u202E\u2066-\u2069\uFEFF]/g, '').replace(/^\s*(authorization\s*:\s*)?bearer\s+/i, '').replace(/^["'«“\s]+|["'»”\s]+$/g, '').trim();
 export function mcpClient({ url, key, proxy = '' }) {
+  key = cleanKey(key);
   let session = '', n = 0, via = '';
   const base = (proxy || '').replace(/\/+$/, '');
   async function post(body, isNotify) {
@@ -39,7 +42,15 @@ export function mcpClient({ url, key, proxy = '' }) {
       if (res.status === 403 && /host not allowed/i.test(await res.clone().text().catch(() => ''))) throw new Error('الوسيط شغال بس مش سامح بـ mcp.el7.ai: حط آخر نسخة من tools/cors-proxy-worker.js على Cloudflare (Deploy) وجرّب تاني.');
     }
     const sid = res.headers.get('mcp-session-id'); if (sid) session = sid;
-    if (res.status === 401 || res.status === 403) throw Object.assign(new Error(res.status === 401 ? 'المفتاح غلط أو انتهى (401).' : 'مرفوض (403): يمكن الأداة دي محتاجة اشتراك مدفوع، أو الوسيط مش سامح بالموقع.'), { status: res.status });
+    if (res.status === 401 || res.status === 403) {
+      // سبب الرفض من السيرفر نفسه (بيساعد نعرف: مفتاح غلط/منتهي/من غير اشتراك)
+      let why = '';
+      try { const t = await res.clone().text(); try { const j = JSON.parse(t); why = j.error_description || j.error?.message || j.message || j.error || ''; } catch { why = t; } } catch { /* */ }
+      why = String(why || res.headers.get('www-authenticate') || '').replace(/\s+/g, ' ').slice(0, 160);
+      throw Object.assign(new Error((res.status === 401
+        ? 'EL7 رفض المفتاح (401). اتأكد إنه مفتاح MCP اللي بيبدأ بـ el7_mcp_ (مش كلمة السر ولا مفتاح تاني)، وإنك نسخته كامل، ولو مش متأكد اعمل مفتاح جديد من el7.ai/en/mcp ← «Your connection».'
+        : 'مرفوض (403): يمكن الأداة دي محتاجة اشتراك مدفوع، أو الوسيط مش سامح بالموقع.') + (why ? ` — رد السيرفر: ${why}` : '')), { status: res.status });
+    }
     if (isNotify) return null;
     if (!res.ok) throw Object.assign(new Error(`السيرفر رد بخطأ ${res.status}: ${(await res.text()).slice(0, 160)}`), { status: res.status });
     const j = await readRpc(res, body.id);

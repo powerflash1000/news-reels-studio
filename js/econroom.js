@@ -1,9 +1,9 @@
 // 💹 غرفة الاقتصاد: صفحة لوحدها بتتوصل بسيرفر MCP بتاع EL7.AI بمفتاحك، وبتعرض كل أدواته وتشغّلها،
 // وبتعمل «ملخص الوضع» وأفكار ريلز تتبعت للاستوديو. + الأرقام الرسمية المجانية (data/econ.json).
 // EL7 مصدر تحليل مش مصدر خبر: الريل محتاج مصدر رسمي قبل التصدير، والبيانات ملكهم (راجع شروطهم للاستخدام التجاري).
-import { aiJSON, voiceNote } from './draft.js?v=mws6fsx0';
-import { getSettings, setSettings } from './storage.js?v=mws6fsx0';
-import { mcpClient } from './mcp.js?v=mws6fsx0';
+import { aiJSON, voiceNote } from './draft.js?v=mws6rwt8';
+import { getSettings, setSettings } from './storage.js?v=mws6rwt8';
+import { mcpClient, cleanKey } from './mcp.js?v=mws6rwt8';
 
 const URL_EL7 = 'https://mcp.el7.ai/mcp';
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -32,7 +32,8 @@ export function mountEcon(root) {
     <details class="card" id="ekSetup" ${gs.el7Key ? '' : 'open'}><summary><b>🔑 مفتاح EL7 والاتصال</b></summary>
       <p class="muted">١) ادخل el7.ai/en/mcp ← «Your connection» ← اعمل مفتاح شخصي (بيبدأ بـ el7_mcp_). ٢) الصقه هنا ودوس «اتصل». المفتاح بيفضل على جهازك بس (مش بيتحفظ في النسخ الاحتياطية).<br>
       ⚠️ حسب صفحتهم: الأدوات الكاملة محتاجة اشتراك EL7 مدفوع؛ الحساب المجاني بيشغّل أداة الأخبار (el7_wire_latest) و el7_whoami بس، و١٥٠٠ طلب إجمالي. وبياناتهم وتحليلاتهم ملكهم: لو هتنشر في قناة بتكسب منها راجع شروطهم (el7.ai/en/terms).</p>
-      <div class="row"><input id="ekKey" type="password" placeholder="el7_mcp_…" value="${esc(gs.el7Key || '')}" style="flex:1"><button id="ekGo" class="btn pri" type="button">🔌 اتصل</button></div>
+      <div class="row"><input id="ekKey" type="password" placeholder="el7_mcp_…" value="${esc(gs.el7Key || '')}" style="flex:1"><button id="ekEye" class="btn ghost" type="button">👁 اعرض</button><button id="ekGo" class="btn pri" type="button">🔌 اتصل</button></div>
+      <p id="ekTail" class="muted"></p>
       <p id="ekMsg" class="muted"></p></details>
     <div class="card"><b>📋 ملخص الوضع النهارده + أفكار ريلز</b>
       <p class="muted">بيشغّل أدوات الأخبار والأجندة والبنوك المركزية والمراكز والدهب والبترول (اللي متاح لحسابك)، والذكاء الاصطناعي بيلخّص بالمصري ويطلع ٣ أفكار ريلز. كل فكرة تتبعت للاستوديو.</p>
@@ -47,7 +48,9 @@ export function mountEcon(root) {
   const $ = s => root.querySelector(s);
 
   async function connect() {
-    const key = $('#ekKey').value.trim();
+    const key = cleanKey($('#ekKey').value);
+    $('#ekKey').value = key;
+    if (key && !/^el7_mcp_/.test(key)) { $('#ekMsg').textContent = '⚠️ المفتاح مش بيبدأ بـ el7_mcp_ — ده غالبًا مش مفتاح MCP. اعمل مفتاح من el7.ai/en/mcp ← «Your connection».'; }
     if (!key) return ($('#ekMsg').textContent = 'الصق المفتاح الأول.');
     setSettings({ el7Key: key });
     $('#ekMsg').textContent = '⏳ بيتصل…';
@@ -114,8 +117,11 @@ Rules: use ONLY facts, numbers and dates present in the data; never invent; say 
     } catch (e) { out.innerHTML = `<p class="muted">❌ ${esc(e.message || e)}</p>`; }
   }
 
+  const tail = () => { const k = cleanKey($('#ekKey').value); $('#ekTail').textContent = k ? `${/^el7_mcp_/.test(k) ? '✅ بيبدأ بـ el7_mcp_' : '⚠️ مش بيبدأ بـ el7_mcp_'} • آخره …${k.slice(-4)} • ${k.length} حرف — قارنه باللي في صفحة EL7` : ''; };
+  $('#ekKey').addEventListener('input', tail); tail();
   root.addEventListener('click', async e => {
     const b = e.target.closest('button'); if (!b) return;
+    if (b.id === 'ekEye') { const i = $('#ekKey'), show = i.type === 'password'; i.type = show ? 'text' : 'password'; b.textContent = show ? '🙈 اخفي' : '👁 اعرض'; return; }
     if (b.id === 'ekGo') return connect();
     if (b.id === 'ekBrief') {
       if (!S.client) return;
