@@ -129,7 +129,7 @@ async function fetchEia(key) {
 // ---------- 🏦 بيانات البنوك المركزية (RSS رسمي + نص البيان + اللي اتغيّر عن اللي قبله) ----------
 export const CB_FEEDS = [
   { id: 'fed', name: 'الفيدرالي الأمريكي', en: 'Federal Reserve (FOMC)', rss: 'https://www.federalreserve.gov/feeds/press_monetary.xml', match: /FOMC statement/i },
-  { id: 'ecb', name: 'البنك المركزي الأوروبي', en: 'European Central Bank', rss: 'https://www.ecb.europa.eu/rss/press.html', match: /monetary policy decisions/i },
+  { id: 'ecb', name: 'البنك المركزي الأوروبي', en: 'European Central Bank', rss: 'https://www.ecb.europa.eu/rss/press.html', match: /monetary policy decision|key ecb interest rates|policy rates? (unchanged|cut|lowered|raised)/i },
   { id: 'boe', name: 'بنك إنجلترا', en: 'Bank of England', rss: 'https://www.bankofengland.co.uk/rss/news', match: /bank rate (maintained|increased|reduced|cut|raised|held)|monetary policy summary/i },
 ];
 const ENT = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ', rsquo: '’', lsquo: '‘', rdquo: '”', ldquo: '“', mdash: '—', ndash: '–', hellip: '…' };
@@ -158,8 +158,9 @@ async function fetchBanks(prevBanks = []) {
   const out = [], errors = [];
   for (const b of CB_FEEDS) {
     try {
-      const items = parseRssItems(await getText(b.rss)).filter(i => b.match.test(i.title)).slice(0, 2);
-      if (!items.length) throw new Error('مفيش بيان في الـ RSS');
+      const all = parseRssItems(await getText(b.rss)), items = all.filter(i => b.match.test(i.title)).slice(0, 2);
+      // التشخيص: نكتب أول عناوين لقيناها عشان نظبط الفلتر من لوج الـ Action
+      if (!items.length) throw new Error(`مفيش بيان في الـ RSS (${all.length} خبر؛ أولهم: ${all.slice(0, 3).map(i => i.title.slice(0, 50)).join(' / ') || '—'})`);
       const old = prevBanks.find(x => x.id === b.id);
       const docs = [];
       for (const it of items) {
@@ -174,13 +175,21 @@ async function fetchBanks(prevBanks = []) {
   return { banks: out, errors };
 }
 
-// ---------- 📈 الأسواق (Stooq، من غير مفتاح): آخر إغلاق والتغيّر عن اليوم اللي قبله ----------
+// ---------- 📈 الأسواق (من غير مفتاح): Stooq الأول، ولو رفض (بقى بيطلب apikey أحيانًا) Yahoo Finance chart ----------
 export const MARKETS = [
-  { s: 'xauusd', label: 'الدهب (أونصة بالدولار)', unit: '$' }, { s: 'xagusd', label: 'الفضة (أونصة)', unit: '$' },
-  { s: 'cb.f', label: 'برنت', unit: '$' }, { s: 'cl.f', label: 'خام أمريكي WTI', unit: '$' },
-  { s: 'eurusd', label: 'اليورو/دولار', unit: '' }, { s: 'usdegp', label: 'الدولار/الجنيه المصري', unit: 'ج' },
-  { s: '^spx', label: 'مؤشر S&P 500', unit: '' }, { s: 'btcusd', label: 'البيتكوين', unit: '$' },
+  { s: 'xauusd', y: 'GC=F', label: 'الدهب (أونصة بالدولار)', unit: '$' }, { s: 'xagusd', y: 'SI=F', label: 'الفضة (أونصة)', unit: '$' },
+  { s: 'cb.f', y: 'BZ=F', label: 'برنت', unit: '$' }, { s: 'cl.f', y: 'CL=F', label: 'خام أمريكي WTI', unit: '$' },
+  { s: 'eurusd', y: 'EURUSD=X', label: 'اليورو/دولار', unit: '' }, { s: 'usdegp', y: 'EGP=X', label: 'الدولار/الجنيه المصري', unit: 'ج' },
+  { s: '^spx', y: '^GSPC', label: 'مؤشر S&P 500', unit: '' }, { s: 'btcusd', y: 'BTC-USD', label: 'البيتكوين', unit: '$' },
 ];
+// رد Yahoo chart ← نفس شكل parseStooq
+export function parseYahoo(j) {
+  const r = j?.chart?.result?.[0], ts = r?.timestamp || [], cl = r?.indicators?.quote?.[0]?.close || [];
+  const rows = ts.map((t, i) => [new Date(t * 1000).toISOString().slice(0, 10), cl[i]]).filter(x => Number.isFinite(x[1]));
+  if (rows.length < 2) return null;
+  const c1 = rows.at(-1)[1], c0 = rows.at(-2)[1], wk = rows.length >= 6 ? rows.at(-6)[1] : null;
+  return { date: rows.at(-1)[0], close: round(c1, 4), prev: round(c0, 4), chg: round((c1 / c0 - 1) * 100, 2), wk: wk ? round((c1 / wk - 1) * 100, 2) : null };
+}
 export function parseStooq(csv) {
   const rows = String(csv).trim().split(/\r?\n/).slice(1).map(l => l.split(',')).filter(r => r.length >= 5 && /^\d{4}-\d\d-\d\d$/.test(r[0]) && Number.isFinite(+r[4]));
   if (rows.length < 2) return null;
@@ -189,17 +198,28 @@ export function parseStooq(csv) {
   return { date: d1, close: c1, prev: c0, chg: round((c1 / c0 - 1) * 100, 2), wk: wk ? round((c1 / wk - 1) * 100, 2) : null };
 }
 async function fetchMarkets() {
-  const out = [];
+  const out = [], why = [];
   for (const m of MARKETS) {
+    let q = null, src = null;
     try {
       const r = await fetch(`https://stooq.com/q/d/l/?s=${encodeURIComponent(m.s)}&i=d`, { headers: UA });
-      if (!r.ok) continue;
-      const q = parseStooq(await r.text()); if (!q) continue;
-      out.push({ ...m, ...q, source: 'Stooq', sourceUrl: `https://stooq.com/q/?s=${encodeURIComponent(m.s)}` });
-    } catch { /* السوق ده بس */ }
+      const t = await r.text();
+      q = r.ok ? parseStooq(t) : null;
+      if (q) src = { source: 'Stooq', sourceUrl: `https://stooq.com/q/?s=${encodeURIComponent(m.s)}` };
+      else if (!why.length) why.push(`stooq ${r.status}: ${t.replace(/\s+/g, ' ').slice(0, 60)}`);
+    } catch (e) { if (!why.length) why.push('stooq: ' + e.message); }
+    if (!q && m.y) {
+      try {
+        const r = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(m.y)}?range=1mo&interval=1d`, { headers: UA });
+        q = r.ok ? parseYahoo(await r.json()) : null;
+        if (q) src = { source: 'Yahoo Finance', sourceUrl: `https://finance.yahoo.com/quote/${encodeURIComponent(m.y)}` };
+        else if (why.length < 2) why.push(`yahoo ${r.status}`);
+      } catch (e) { if (why.length < 2) why.push('yahoo: ' + e.message); }
+    }
+    if (q) { const { y, ...mm } = m; out.push({ ...mm, ...q, ...src }); }
   }
-  if (!out.length) throw new Error('مفيش أسعار');
-  return out;
+  if (!out.length) throw new Error('مفيش أسعار — ' + why.join(' | '));
+  return { markets: out, why };
 }
 
 const mask = (s, keys) => keys.filter(Boolean).reduce((t, k) => t.split(k).join('***'), String(s));
@@ -244,7 +264,7 @@ export async function updateEcon(prevData, env = {}, now = Date.now()) {
     catch (e) { data.sources.banks = { ...(data.sources.banks || {}), status: 'error', error: String(e.message || e).slice(0, 200), at: data.updated }; }
   }
   if (due('markets')) {
-    try { data.markets = await fetchMarkets(); data.sources.markets = { status: 'ok', ok: data.updated, n: data.markets.length }; }
+    try { const r = await fetchMarkets(); data.markets = r.markets; data.sources.markets = { status: r.markets.length < MARKETS.length ? 'partial' : 'ok', ok: data.updated, n: r.markets.length, ...(r.why.length ? { error: r.why.join(' | ').slice(0, 200) } : {}) }; }
     catch (e) { data.sources.markets = { ...(data.sources.markets || {}), status: 'error', error: String(e.message || e).slice(0, 200), at: data.updated }; }
   }
   return data;
