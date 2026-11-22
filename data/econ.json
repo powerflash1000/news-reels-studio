@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-22T19:05:59.467Z",
+ "updated": "2026-11-22T19:11:39.269Z",
  "sources": {
   "bls": {
    "status": "ok",
@@ -24,9 +24,10 @@
    "error": "ecb: مفيش بيان في الـ RSS"
   },
   "markets": {
-   "status": "error",
-   "error": "مفيش أسعار",
-   "at": "2026-11-22T19:05:59.467Z"
+   "status": "ok",
+   "ok": "2026-11-22T19:11:39.269Z",
+   "n": 8,
+   "error": "stooq: fetch failed"
   }
  },
  "items": [
@@ -289,5 +290,102 @@
    }
   }
  ],
- "markets": []
+ "markets": [
+  {
+   "s": "xauusd",
+   "label": "الدهب (أونصة بالدولار)",
+   "unit": "$",
+   "date": "2026-11-20",
+   "close": 3515.3999,
+   "prev": 3685.5,
+   "chg": -4.62,
+   "wk": -9.54,
+   "source": "Yahoo Finance",
+   "sourceUrl": "https://finance.yahoo.com/quote/GC%3DF"
+  },
+  {
+   "s": "xagusd",
+   "label": "الفضة (أونصة)",
+   "unit": "$",
+   "date": "2026-11-20",
+   "close": 41.07,
+   "prev": 44.318,
+   "chg": -7.33,
+   "wk": -16.24,
+   "source": "Yahoo Finance",
+   "sourceUrl": "https://finance.yahoo.com/quote/SI%3DF"
+  },
+  {
+   "s": "cb.f",
+   "label": "برنت",
+   "unit": "$",
+   "date": "2026-11-20",
+   "close": 89.95,
+   "prev": 91.98,
+   "chg": -2.21,
+   "wk": -6.15,
+   "source": "Yahoo Finance",
+   "sourceUrl": "https://finance.yahoo.com/quote/BZ%3DF"
+  },
+  {
+   "s": "cl.f",
+   "label": "خام أمريكي WTI",
+   "unit": "$",
+   "date": "2026-11-20",
+   "close": 83.41,
+   "prev": 83.21,
+   "chg": 0.24,
+   "wk": -5.82,
+   "source": "Yahoo Finance",
+   "sourceUrl": "https://finance.yahoo.com/quote/CL%3DF"
+  },
+  {
+   "s": "eurusd",
+   "label": "اليورو/دولار",
+   "unit": "",
+   "date": "2026-11-20",
+   "close": 1.097,
+   "prev": 1.0972,
+   "chg": -0.02,
+   "wk": -0.73,
+   "source": "Yahoo Finance",
+   "sourceUrl": "https://finance.yahoo.com/quote/EURUSD%3DX"
+  },
+  {
+   "s": "usdegp",
+   "label": "الدولار/الجنيه المصري",
+   "unit": "ج",
+   "date": "2026-11-22",
+   "close": 54.37,
+   "prev": 53.7885,
+   "chg": 1.08,
+   "wk": 1.68,
+   "source": "Yahoo Finance",
+   "sourceUrl": "https://finance.yahoo.com/quote/EGP%3DX"
+  },
+  {
+   "s": "^spx",
+   "label": "مؤشر S&P 500",
+   "unit": "",
+   "date": "2026-11-20",
+   "close": 6910.3901,
+   "prev": 7175.8301,
+   "chg": -3.7,
+   "wk": -8.61,
+   "source": "Yahoo Finance",
+   "sourceUrl": "https://finance.yahoo.com/quote/%5EGSPC"
+  },
+  {
+   "s": "btcusd",
+   "label": "البيتكوين",
+   "unit": "$",
+   "date": "2026-11-22",
+   "close": 60649.1602,
+   "prev": 60094.0898,
+   "chg": 0.92,
+   "wk": -6.54,
+   "source": "Yahoo Finance",
+   "sourceUrl": "https://finance.yahoo.com/quote/BTC-USD"
+  }
+ ]
 }
