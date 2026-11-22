@@ -30,9 +30,13 @@ export function parseBls(json) {
     const cur = pts[0], prevM = pts[1];
     let value, prev;
     if (meta.kind === 'yoy') {
-      const ly = at(cur.y - 1, cur.m), lyp = at(prevM.y - 1, prevM.m);
-      if (!ly) continue;
-      value = round((cur.v / ly.v - 1) * 100, 1); prev = lyp ? round((prevM.v / lyp.v - 1) * 100, 1) : null;
+      // آخر شهر ليه نفس الشهر من السنة اللي فاتت (فيه شهور ما اتنشرتش، زي أكتوبر 2025 وقت إغلاق الحكومة الأمريكية)
+      const yo = pts.map(p => ({ p, ly: at(p.y - 1, p.m) })).filter(x => x.ly);
+      if (!yo.length) continue;
+      const [a, b] = yo;
+      value = round((a.p.v / a.ly.v - 1) * 100, 1); prev = b ? round((b.p.v / b.ly.v - 1) * 100, 1) : null;
+      out.push({ id: meta.id, group: 'us', label: meta.label, en: meta.en, value, prev, change: prev == null ? null : round(value - prev, 1), unit: meta.unit, period: a.p.name, source: 'U.S. Bureau of Labor Statistics', sourceUrl: BLS_URL + s.seriesID });
+      continue;
     } else if (meta.kind === 'diff') {
       const p2 = pts[2]; value = round(cur.v - prevM.v, 0); prev = p2 ? round(prevM.v - p2.v, 0) : null;
     } else { value = cur.v; prev = prevM.v; }
