@@ -1,9 +1,9 @@
 // 💹 غرفة الاقتصاد: صفحة لوحدها بتتوصل بسيرفر MCP بتاع EL7.AI بمفتاحك، وبتعرض كل أدواته وتشغّلها،
 // وبتعمل «ملخص الوضع» وأفكار ريلز تتبعت للاستوديو. + الأرقام الرسمية المجانية (data/econ.json).
 // EL7 مصدر تحليل مش مصدر خبر: الريل محتاج مصدر رسمي قبل التصدير، والبيانات ملكهم (راجع شروطهم للاستخدام التجاري).
-import { aiJSON, voiceNote } from './draft.js?v=mws6rwt8';
-import { getSettings, setSettings } from './storage.js?v=mws6rwt8';
-import { mcpClient, cleanKey } from './mcp.js?v=mws6rwt8';
+import { aiJSON, voiceNote } from './draft.js?v=mws6wjrr';
+import { getSettings, setSettings } from './storage.js?v=mws6wjrr';
+import { mcpClient, cleanKey } from './mcp.js?v=mws6wjrr';
 
 const URL_EL7 = 'https://mcp.el7.ai/mcp';
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -50,6 +50,7 @@ export function mountEcon(root) {
   async function connect() {
     const key = cleanKey($('#ekKey').value);
     $('#ekKey').value = key;
+    if (/^https?:\/\//i.test(key)) { $('#ekKey').value = ''; return ($('#ekMsg').textContent = '⚠️ ده رابط السيرفر، والبرنامج حاطه جواه أصلًا. الخانة دي محتاجة المفتاح الشخصي اللي بيبدأ بـ el7_mcp_: ادخل el7.ai/en/mcp ← «Your connection» ← اعمل مفتاح (API key) وانسخه هنا.'); }
     if (key && !/^el7_mcp_/.test(key)) { $('#ekMsg').textContent = '⚠️ المفتاح مش بيبدأ بـ el7_mcp_ — ده غالبًا مش مفتاح MCP. اعمل مفتاح من el7.ai/en/mcp ← «Your connection».'; }
     if (!key) return ($('#ekMsg').textContent = 'الصق المفتاح الأول.');
     setSettings({ el7Key: key });

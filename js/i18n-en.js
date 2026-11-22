@@ -2472,4 +2472,5 @@ export default {
   "{} • آخره …{} • {} حرف — قارنه باللي في صفحة EL7": "{} • ends …{} • {} chars — compare with the EL7 page",
   "✅ بيبدأ بـ el7_mcp_": "✅ starts with el7_mcp_",
   "⚠️ مش بيبدأ بـ el7_mcp_": "⚠️ doesn't start with el7_mcp_",
+  "⚠️ ده رابط السيرفر، والبرنامج حاطه جواه أصلًا. الخانة دي محتاجة المفتاح الشخصي اللي بيبدأ بـ el7_mcp_: ادخل el7.ai/en/mcp ← «Your connection» ← اعمل مفتاح (API key) وانسخه هنا.": "⚠️ That's the server URL — the app already has it. This field needs your personal key starting with el7_mcp_: go to el7.ai/en/mcp → «Your connection» → create an API key and paste it here.",
 };
