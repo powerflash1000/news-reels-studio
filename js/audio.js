@@ -24,7 +24,47 @@ export function mixTimeline(segs, duration, music = null, fx = null, opts = {}) 
   if (music?.buffer?.getChannelData) addMusic(left, right, segs, duration, music);
   if (!(fx && fx.whoosh === false)) addWhooshes(left, right, segs);
   if (opts.sfx !== false) addGfxSfx(left, right, segs);
+  const lufs = opts.lufs ?? segs.lufs;
+  if (lufs) loudnorm(left, right, lufs);
   return { left, right, duration };
+}
+
+// 🔊 علو موحّد بمقياس LUFS (ITU-R BS.1770: فلتر K + بوابات −70 و−10 على بلوكات 400 ملّي) + ليميتر على −1 dBFS
+export function measureLufs(left, right, sr = SAMPLE_RATE) {
+  const kf = x => {
+    // high-shelf +4 dB @ 1681 Hz ثم high-pass 38 Hz (معاملات BS.1770 لـ 48 كيلو)
+    const f1 = [1.53512485958697, -2.69169618940638, 1.19839281085285, -1.69065929318241, 0.73248077421585];
+    const f2 = [1, -2, 1, -1.99004745483398, 0.99007225036621];
+    const out = new Float32Array(x.length);
+    let a1 = 0, a2 = 0, b1 = 0, b2 = 0, c1 = 0, c2 = 0, d1 = 0, d2 = 0;
+    for (let i = 0; i < x.length; i++) {
+      const v = x[i], y = f1[0] * v + f1[1] * a1 + f1[2] * a2 - f1[3] * b1 - f1[4] * b2; a2 = a1; a1 = v; b2 = b1; b1 = y;
+      const z = f2[0] * y + f2[1] * c1 + f2[2] * c2 - f2[3] * d1 - f2[4] * d2; c2 = c1; c1 = y; d2 = d1; d1 = z; out[i] = z;
+    }
+    return out;
+  };
+  const L = kf(left), R = kf(right), blk = Math.round(0.4 * sr), hop = Math.round(0.1 * sr), ms = [];
+  for (let s = 0; s + blk <= L.length; s += hop) { let e = 0; for (let i = s; i < s + blk; i++) e += L[i] * L[i] + R[i] * R[i]; ms.push(e / blk); }
+  const lk = m => -0.691 + 10 * Math.log10(m || 1e-12);
+  const g1 = ms.filter(m => lk(m) > -70); if (!g1.length) return -70;
+  const rel = lk(g1.reduce((a, b) => a + b, 0) / g1.length) - 10;
+  const g2 = g1.filter(m => lk(m) > rel);
+  return lk(g2.reduce((a, b) => a + b, 0) / g2.length);
+}
+export function loudnorm(left, right, target = -14) {
+  const I = measureLufs(left, right);
+  if (I <= -69) return;
+  const gain = Math.pow(10, (target - I) / 20), ceil = 0.891, n = left.length;
+  // ليميتر: الكسب بينزل فورًا عند الذروة ويرجع ببطء (50 ملّي)، مع نظرة لقدام 3 ملّي
+  const look = Math.round(0.003 * SAMPLE_RATE), rel = Math.exp(-1 / (0.05 * SAMPLE_RATE));
+  const need = new Float32Array(n);
+  for (let i = 0; i < n; i++) { const pk = Math.max(Math.abs(left[i]), Math.abs(right[i])) * gain; need[i] = pk > ceil ? ceil / pk : 1; }
+  let g = 1;
+  for (let i = 0; i < n; i++) {
+    let m = 1; for (let j = i; j < Math.min(n, i + look); j += 8) if (need[j] < m) m = need[j];
+    g = m < g ? m : m + (g - m) * rel;
+    left[i] *= gain * g; right[i] *= gain * g;
+  }
 }
 
 // «ووش» خفيف عند بداية كل خبر جديد (مع مسحة الانتقال اللي على الشاشة). ضوضاء مفلترة بتعلى وتهدى في نص ثانية
