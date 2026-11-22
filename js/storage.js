@@ -18,11 +18,12 @@ export function save(key, value) {
   }
 }
 
+export const ELEVEN_LOCK = 'eleven_v4';
 const DEFAULT_SETTINGS = {
   channelName: '',
   handle: '',
   elevenKey: '',
-  elevenModel: 'eleven_multilingual_v2',
+  elevenModel: 'eleven_v4',
   ttsProvider: 'elevenlabs',
   gemVoiceA: 'Kore',
   gemVoiceB: 'Puck',
@@ -65,7 +66,8 @@ const DEFAULT_SETTINGS = {
 
 export function getSettings() {
   const s = load('settings', {});
-  return { ...DEFAULT_SETTINGS, ...s, fx: { ...DEFAULT_SETTINGS.fx, ...(s.fx || {}) }, caps: { ...DEFAULT_SETTINGS.caps, ...(s.caps || {}) }, logo: { ...DEFAULT_SETTINGS.logo, ...(s.logo || {}) }, avPhotos: { A: { ...DEFAULT_SETTINGS.avPhotos.A, ...(s.avPhotos?.A || {}) }, B: { ...DEFAULT_SETTINGS.avPhotos.B, ...(s.avPhotos?.B || {}) } } };
+  // 🔒 ElevenLabs مثبّت على Eleven v4 في كل حاجة (طلب المستخدم 2026-11-22): أي قيمة قديمة متخزنة بتتجاهل
+  return { ...DEFAULT_SETTINGS, ...s, elevenModel: ELEVEN_LOCK, fx: { ...DEFAULT_SETTINGS.fx, ...(s.fx || {}) }, caps: { ...DEFAULT_SETTINGS.caps, ...(s.caps || {}) }, logo: { ...DEFAULT_SETTINGS.logo, ...(s.logo || {}) }, avPhotos: { A: { ...DEFAULT_SETTINGS.avPhotos.A, ...(s.avPhotos?.A || {}) }, B: { ...DEFAULT_SETTINGS.avPhotos.B, ...(s.avPhotos?.B || {}) } } };
 }
 
 export function setSettings(s) {

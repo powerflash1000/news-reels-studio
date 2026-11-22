@@ -2463,4 +2463,5 @@ export default {
   "🔴 قول دلوقتي: «{}»": "🔴 Say now: «{}»",
   "المتصفح ده مبيسجّلش من المايك.": "This browser can't record from the mic.",
   "مفيش صوت اتسجّل.": "Nothing was recorded.",
+  "مثبّت على Eleven v4 في كل التوليد": "Locked to Eleven v4 for all generation",
 };
