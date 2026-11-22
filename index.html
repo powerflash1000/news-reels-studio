@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-v="mwo7m9qx">
+<html lang="ar" dir="rtl" data-v="mwrxwe6q">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>استوديو ريلز الأخبار</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="assets/css/style.css?v=mwo7m9qx">
+<link rel="stylesheet" href="assets/css/style.css?v=mwrxwe6q">
 </head>
 <body>
 <header class="top">
@@ -1116,8 +1116,11 @@
   <div class="row"><b>✂️ حدّد الجزء اللي عايز تسجّله</b><span class="muted">اسحب بالماوس مربع على الصورة. شكل المربع:</span>
     <select id="crAsp"><option value="free">حر</option><option value="16:9">16:9 عريض</option><option value="9:16">9:16 طولي</option><option value="1:1">مربع</option></select>
     <span id="crInfo" class="muted"></span></div>
-  <div class="crstage"><video id="crVid" muted playsinline autoplay></video><canvas id="crSel"></canvas></div>
+  <div class="crstage"><video id="crVid" muted playsinline autoplay></video><canvas id="crSel"></canvas><div id="crBig" class="crbig" hidden></div></div>
+  <div id="crBar" class="prog crbar" hidden><i></i></div>
   <div class="row">
+    <label>⏱ المدة<select id="crMax"><option value="5">5 ث</option><option value="10">10 ث</option><option value="15" selected>15 ث</option><option value="20">20 ث</option><option value="30">30 ث</option><option value="60">دقيقة</option></select></label>
+    <label class="chk"><input id="crCount" type="checkbox" checked> عدّ 3-2-1 قبل ما يبدأ</label>
     <button id="crGo" class="btn pri" type="button">⏺ ابدأ التسجيل</button>
     <button id="crAll" class="btn" type="button">الصورة كلها</button>
     <b id="crT" class="rec" hidden></b>
@@ -1172,6 +1175,6 @@
   </form>
 </dialog>
 
-<script type="module" src="js/main.js?v=mwo7m9qx"></script>
+<script type="module" src="js/main.js?v=mwrxwe6q"></script>
 </body>
 </html>

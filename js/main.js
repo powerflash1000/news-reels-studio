@@ -1,31 +1,31 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mwo7m9qx';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mwo7m9qx';
-import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mwo7m9qx';
-import { GFX_SFX, gfxSfxOf, newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mwo7m9qx';
-import { transcribeWords, alignWords, normWord, similarity } from './align.js?v=mwo7m9qx';
-import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, speakSnippet, prepareText as ttsPrepare, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mwo7m9qx';
-import { openWordFix } from './wordfix.js?v=mwo7m9qx';
-import { detectBeats, audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mwo7m9qx';
-import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mwo7m9qx';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mwo7m9qx';
-import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mwo7m9qx';
-import { exportSupport, exportReel } from './export.js?v=mwo7m9qx';
-import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf, imageViaProxy, officialPortraits } from './media.js?v=mwo7m9qx';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mwo7m9qx';
-import { cutReady, ensureSegmenter, cornerColor } from './cutout.js?v=mwo7m9qx';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mwo7m9qx';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mwo7m9qx';
-import { detailTarget, loadTileMap } from './tiles.js?v=mwo7m9qx';
-import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mwo7m9qx';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mwo7m9qx';
-import { loadBg, playBg, seekBg } from './bg.js?v=mwo7m9qx';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mwo7m9qx';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mwo7m9qx';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mwo7m9qx';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures, ideaYouTube, ideaFile, ideaText, ideaAngle } from './external.js?v=mwo7m9qx';
-import { readUrl, cleanPasted } from './reader.js?v=mwo7m9qx';
-import { initI18n, ui } from './i18n.js?v=mwo7m9qx';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mwo7m9qx';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mwrxwe6q';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mwrxwe6q';
+import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mwrxwe6q';
+import { GFX_SFX, gfxSfxOf, newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mwrxwe6q';
+import { transcribeWords, alignWords, normWord, similarity } from './align.js?v=mwrxwe6q';
+import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, speakSnippet, prepareText as ttsPrepare, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mwrxwe6q';
+import { openWordFix } from './wordfix.js?v=mwrxwe6q';
+import { detectBeats, audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mwrxwe6q';
+import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mwrxwe6q';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mwrxwe6q';
+import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mwrxwe6q';
+import { exportSupport, exportReel } from './export.js?v=mwrxwe6q';
+import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf, imageViaProxy, officialPortraits } from './media.js?v=mwrxwe6q';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mwrxwe6q';
+import { cutReady, ensureSegmenter, cornerColor } from './cutout.js?v=mwrxwe6q';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mwrxwe6q';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mwrxwe6q';
+import { detailTarget, loadTileMap } from './tiles.js?v=mwrxwe6q';
+import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mwrxwe6q';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mwrxwe6q';
+import { loadBg, playBg, seekBg } from './bg.js?v=mwrxwe6q';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mwrxwe6q';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mwrxwe6q';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mwrxwe6q';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures, ideaYouTube, ideaFile, ideaText, ideaAngle } from './external.js?v=mwrxwe6q';
+import { readUrl, cleanPasted } from './reader.js?v=mwrxwe6q';
+import { initI18n, ui } from './i18n.js?v=mwrxwe6q';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mwrxwe6q';
 
 initI18n();
 
@@ -2519,6 +2519,7 @@ $('clArea').addEventListener('click', async () => {
   $('crGo').hidden = $('crAll').hidden = false; $('crStop').hidden = $('crT').hidden = true;
   $('crInfo').textContent = `${v.videoWidth}×${v.videoHeight} — اسحب مربع`;
   stream.getVideoTracks()[0].addEventListener('ended', () => { if (cr?.rec) cr.rec.state !== 'inactive' && cr.rec.stop(); else crClose(); });
+  $('crMax').value = $('clMax').value || '15'; $('crBig').hidden = $('crBar').hidden = true;
   $('crDlg').showModal(); setTimeout(crDraw, 50);
 });
 function crPoint(e) { const c = $('crSel').getBoundingClientRect(), r = crVideoRect(); return { x: (e.clientX - c.left - r.x) / r.s, y: (e.clientY - c.top - r.y) / r.s }; }
@@ -2537,13 +2538,23 @@ function crClose() {
   if (!cr) return;
   cr.stream.getTracks().forEach(t => t.stop()); cr.out?.getTracks().forEach(t => t.stop());
   clearInterval(cr.timer); if (cr.raf) clearInterval(cr.raf);
-  cr = null; $('crVid').srcObject = null;
+  cr = null; $('crVid').srcObject = null; $('crBig').hidden = $('crBar').hidden = true; $('crBig').classList.remove('small'); $('crGo').disabled = false;
   if ($('crDlg').open) $('crDlg').close();
 }
 $('crCancel').addEventListener('click', () => { if (cr?.rec && cr.rec.state !== 'inactive') { cr.cancel = true; cr.rec.stop(); } else crClose(); });
 $('crDlg').addEventListener('cancel', e => { e.preventDefault(); $('crCancel').click(); });
 $('crStop').addEventListener('click', () => { if (cr?.rec && cr.rec.state !== 'inactive') cr.rec.stop(); });
-$('crGo').addEventListener('click', () => {
+$('crGo').addEventListener('click', async () => {
+  if (!cr || cr.counting) return;
+  // عدّ تنازلي 3-2-1 والمربع ظاهر، عشان تلحق تشغّل الفيديو من النقطة اللي عايزها
+  if ($('crCount').checked) {
+    cr.counting = true; $('crGo').disabled = true;
+    for (const n of [3, 2, 1]) { $('crBig').hidden = false; $('crBig').textContent = n; await new Promise(r => setTimeout(r, 1000)); if (!cr) return; }
+    $('crBig').hidden = true; $('crGo').disabled = false; cr.counting = false;
+  }
+  crStart();
+});
+function crStart() {
   if (!cr) return;
   const v = $('crVid');
   const s = cr.sel || crFix({ x: 0, y: 0, w: v.videoWidth, h: v.videoHeight });
@@ -2571,7 +2582,7 @@ $('crGo').addEventListener('click', () => {
   cr.out = new MediaStream([outTrack, ...audio]);
   const mime = ['video/webm;codecs=vp9,opus', 'video/webm;codecs=vp8,opus', 'video/webm'].find(m => MediaRecorder.isTypeSupported(m)) || '';
   const rec = cr.rec = new MediaRecorder(cr.out, mime ? { mimeType: mime, videoBitsPerSecond: 6e6 } : {});
-  const chunks = [], max = Number($('clMax').value) || 15, t0 = performance.now(), label = cr.label;
+  const chunks = [], max = Number($('crMax').value) || 15, t0 = performance.now(), label = cr.label;
   rec.ondataavailable = e => { if (e.data.size) chunks.push(e.data); };
   rec.onstop = async () => {
     const cancel = cr?.cancel, secs = (performance.now() - t0) / 1000;
@@ -2581,10 +2592,18 @@ $('crGo').addEventListener('click', () => {
     await addClipBlob(new Blob(chunks, { type: rec.mimeType || 'video/webm' }), label, secs);
     if (!hasAudio) $('clMsg').textContent += ' ⚠️ الصوت متسجّلش: لو برنامج اختار «الشاشة كلها» وعلّم «شارك صوت النظام» (وبعدين حدّد المربع)، ولو تاب علّم «شارك صوت التاب».';
   };
-  cr.timer = setInterval(() => { const t = (performance.now() - t0) / 1000; $('crT').textContent = `⏺ ${Math.floor(t)} / ${max} ث`; if (t >= max && rec.state !== 'inactive') rec.stop(); }, 250);
+  // تايمر: الباقي بالثواني + شريط، وآخر 3 ثواني بالأحمر، وبيقف لوحده عند المدة
+  cr.timer = setInterval(() => {
+    const t = (performance.now() - t0) / 1000, left = Math.max(0, Math.ceil(max - t));
+    $('crT').textContent = `⏺ باقي ${left} ث من ${max}`;
+    $('crT').classList.toggle('last', left <= 3);
+    $('crBar').querySelector('i').style.width = Math.min(100, (t / max) * 100) + '%';
+    if (left <= 3 && left > 0) { $('crBig').hidden = false; $('crBig').textContent = left; $('crBig').classList.add('small'); } else $('crBig').hidden = true;
+    if (t >= max && rec.state !== 'inactive') rec.stop();
+  }, 200);
   rec.start(500);
-  $('crGo').hidden = $('crAll').hidden = true; $('crStop').hidden = $('crT').hidden = false;
-});
+  $('crGo').hidden = $('crAll').hidden = true; $('crStop').hidden = $('crT').hidden = $('crBar').hidden = false;
+}
 window.addEventListener('resize', () => { if (cr) crDraw(); });
 $('clList').addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
@@ -6159,3 +6178,29 @@ for (const inp of document.querySelectorAll('input[type="password"]')) {
   upd(); setTimeout(upd, 800); // بعد ما الإعدادات تتملا
 }
 
+
+/* ---------- 🎬 فكرة من الرادار ← حلقة جديدة في الاستوديو (radar.html بيكتب nrs:handoff) ---------- */
+function takeHandoff() {
+  let h;
+  try { h = JSON.parse(localStorage.getItem('nrs:handoff') || 'null'); localStorage.removeItem('nrs:handoff'); } catch { return; }
+  if (!h || !h.title || Date.now() - (h.at || 0) > 30 * 60e3) return;
+  const yt = h.kind === 'yt', wiki = h.kind === 'wiki';
+  const ref = [
+    `💡 فكرة من الرادار (${yt ? 'يوتيوب الأكثر مشاهدة' : wiki ? 'الأكثر قراءة على ويكيبيديا' : 'ترند'}): ${h.title}`,
+    h.angle && `🎯 الزاوية: ${h.angle}`, h.format && `🎬 الشكل: ${h.format}`, h.check && `✅ اتأكد من: ${h.check}`,
+    h.clip && !/^مفيش/.test(h.clip) && `✂️ مقطع تسجّله: ${h.clip}`,
+    h.summary && `--- من الترند ---\n${h.summary}`, h.url && !wiki && `رابط للتأكد: ${h.url}`,
+  ].filter(Boolean).join('\n');
+  const st = {
+    category: h.category || 'trending', headline: h.title,
+    script: (h.script?.length ? h.script : [h.hook]).filter(Boolean).join('\n'), ref,
+    ...(yt ? { fromYoutube: h.channel || 'YouTube', ytLink: h.vid ? `https://www.youtube.com/watch?v=${h.vid}` : '' } : {}),
+    ...(wiki && h.url ? { sourceName: h.source || 'ويكيبيديا', sourceUrl: h.url } : {}),
+  };
+  startReel([st]);
+  const box = document.querySelector('.clipbox');
+  box?.classList.remove('shut');
+  setStatus(`✅ فكرة «${h.title.slice(0, 50)}» اتفتحت في الاستوديو بالهوك والسكريبت. ${yt || !wiki ? 'ضيف مصدر أساسي للخبر قبل التصدير (اليوتيوب والترند للرادار بس). ' : ''}عايز مقطع قصير؟ «✂️ سجّل جزء من الشاشة» في كارت «📺 تعليق على مقطع».`);
+}
+window.addEventListener('storage', e => { if (e.key === 'nrs:handoff' && e.newValue) takeHandoff(); });
+setTimeout(takeHandoff, 400);
