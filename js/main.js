@@ -1,31 +1,31 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mws6wjrr';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mws6wjrr';
-import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mws6wjrr';
-import { GFX_SFX, gfxSfxOf, newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mws6wjrr';
-import { transcribeWords, alignWords, normWord, similarity } from './align.js?v=mws6wjrr';
-import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, speakSnippet, prepareText as ttsPrepare, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mws6wjrr';
-import { openWordFix } from './wordfix.js?v=mws6wjrr';
-import { detectBeats, audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mws6wjrr';
-import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mws6wjrr';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mws6wjrr';
-import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mws6wjrr';
-import { exportSupport, exportReel } from './export.js?v=mws6wjrr';
-import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf, imageViaProxy, officialPortraits } from './media.js?v=mws6wjrr';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mws6wjrr';
-import { cutReady, ensureSegmenter, cornerColor } from './cutout.js?v=mws6wjrr';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mws6wjrr';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mws6wjrr';
-import { detailTarget, loadTileMap } from './tiles.js?v=mws6wjrr';
-import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mws6wjrr';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mws6wjrr';
-import { loadBg, playBg, seekBg } from './bg.js?v=mws6wjrr';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mws6wjrr';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mws6wjrr';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mws6wjrr';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures, ideaYouTube, ideaFile, ideaText, ideaAngle } from './external.js?v=mws6wjrr';
-import { readUrl, cleanPasted } from './reader.js?v=mws6wjrr';
-import { initI18n, ui } from './i18n.js?v=mws6wjrr';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mws6wjrr';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mws7hlz0';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mws7hlz0';
+import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mws7hlz0';
+import { GFX_SFX, gfxSfxOf, newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mws7hlz0';
+import { transcribeWords, alignWords, normWord, similarity } from './align.js?v=mws7hlz0';
+import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, speakSnippet, prepareText as ttsPrepare, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mws7hlz0';
+import { openWordFix } from './wordfix.js?v=mws7hlz0';
+import { detectBeats, audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mws7hlz0';
+import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mws7hlz0';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mws7hlz0';
+import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mws7hlz0';
+import { exportSupport, exportReel } from './export.js?v=mws7hlz0';
+import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf, imageViaProxy, officialPortraits } from './media.js?v=mws7hlz0';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mws7hlz0';
+import { cutReady, ensureSegmenter, cornerColor } from './cutout.js?v=mws7hlz0';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mws7hlz0';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mws7hlz0';
+import { detailTarget, loadTileMap } from './tiles.js?v=mws7hlz0';
+import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mws7hlz0';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mws7hlz0';
+import { loadBg, playBg, seekBg } from './bg.js?v=mws7hlz0';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mws7hlz0';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mws7hlz0';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mws7hlz0';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures, ideaYouTube, ideaFile, ideaText, ideaAngle } from './external.js?v=mws7hlz0';
+import { readUrl, cleanPasted } from './reader.js?v=mws7hlz0';
+import { initI18n, ui } from './i18n.js?v=mws7hlz0';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mws7hlz0';
 
 initI18n();
 
@@ -6210,6 +6210,8 @@ function takeHandoff() {
   let h;
   try { h = JSON.parse(localStorage.getItem('nrs:handoff') || 'null'); localStorage.removeItem('nrs:handoff'); } catch { return; }
   if (!h || !h.title || Date.now() - (h.at || 0) > 30 * 60e3) return;
+  // 💹 غرفة الاقتصاد ببلاش: ريل أو كذا ريل جاهزين (مصدر رسمي/عام + جرافيك)
+  if (h.kind === 'econfree') return takeEconFree(h);
   const yt = h.kind === 'yt', wiki = h.kind === 'wiki', econ = h.kind === 'econ', official = h.kind === 'official';
   const ref = [
     econ || official ? `💹 من غرفة الاقتصاد${econ ? ' (تحليل EL7.AI — مش مصدر أساسي، اتأكد من المصدر الرسمي)' : ' (رقم رسمي)'}: ${h.title}` : `💡 فكرة من الرادار (${yt ? 'يوتيوب الأكثر مشاهدة' : wiki ? 'الأكثر قراءة على ويكيبيديا' : 'ترند'}): ${h.title}`,
@@ -6228,6 +6230,37 @@ function takeHandoff() {
   const box = document.querySelector('.clipbox');
   box?.classList.remove('shut');
   setStatus(`✅ فكرة «${h.title.slice(0, 50)}» اتفتحت في الاستوديو بالهوك والسكريبت. ${!wiki && !official ? 'ضيف مصدر أساسي للخبر قبل التصدير (اليوتيوب والترند وEL7 للأفكار بس). ' : ''}عايز مقطع قصير؟ «✂️ سجّل جزء من الشاشة» في كارت «📺 تعليق على مقطع».`);
+}
+function econStory(h) {
+  const script = (h.script?.length ? h.script : [h.hook]).filter(Boolean).map(String);
+  const st = {
+    category: 'economy', headline: String(h.title || '').slice(0, 140), script: script.join('\n'),
+    sourceName: h.sourceName || '', sourceUrl: h.sourceUrl || '',
+    template: h.template === 'breaking' ? 'breaking' : 'standard',
+    ref: [`💹 من غرفة الاقتصاد (بيانات رسمية/عامة): ${h.title}`, h.angle && `🇪🇬 ليه يهمّنا: ${h.angle}`,
+      h.extraSources?.length && `مصادر تانية: ${h.extraSources.map(s => `${s.name} — ${s.url}`).join(' • ')}`,
+      h.summary && `--- البيانات اللي اتكتب منها ---\n${h.summary}`].filter(Boolean).join('\n'),
+  };
+  const g = h.gfx, v = String(g?.value || '').replace(/[^\d.,-]/g, '');
+  if (v) {
+    let li = script.findIndex(l => l.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).includes(v.replace(/,/g, '')));
+    if (li < 0) li = Math.min(1, script.length - 1);
+    const pct = /%|٪|المية/.test(g.unit || '');
+    st.gfx = [{ li, type: pct ? 'pct' : 'count', value: v.replace(/,/g, ''), unit: pct ? '%' : String(g.unit || '').slice(0, 30), label: String(g.label || '').slice(0, 40), style: h.template === 'stat' ? 'big' : 'card' }];
+  }
+  return st;
+}
+function takeEconFree(h) {
+  const list = h.items?.length ? h.items : [h];
+  if (list.length > 1) {
+    // كل واحد ريل لوحده في المكتبة «جاهز للمراجعة»، ونفتح أولهم
+    const made = list.map(x => { const r = newReel({ lang: 'ar', title: String(x.title || '').slice(0, 80), stories: [newStory(econStory(x))] }); r.status = 'review'; upsertReel(r); return r; });
+    openReel(made[0].id);
+    setStatus(`✅ ${made.length} ريل اقتصاد اتحطّوا في المكتبة «جاهز للمراجعة» وفتحتلك أولهم. راجع السكريبت والأرقام وولّد الصوت.`);
+    return;
+  }
+  startReel([econStory(list[0])]);
+  setStatus(`✅ ريل «${String(list[0].title).slice(0, 50)}» اتفتح بالسكريبت${list[0].sourceUrl ? ' والمصدر' : ''}${list[0].gfx?.value ? ' والعدّاد' : ''}. ${list[0].sourceUrl ? '' : 'ضيف مصدر أساسي قبل التصدير. '}راجع الأرقام قبل النشر.`);
 }
 window.addEventListener('storage', e => { if (e.key === 'nrs:handoff' && e.newValue) takeHandoff(); });
 setTimeout(takeHandoff, 400);

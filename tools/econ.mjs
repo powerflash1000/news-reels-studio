@@ -126,6 +126,82 @@ async function fetchEia(key) {
   return parseEia(await r.json());
 }
 
+// ---------- 🏦 بيانات البنوك المركزية (RSS رسمي + نص البيان + اللي اتغيّر عن اللي قبله) ----------
+export const CB_FEEDS = [
+  { id: 'fed', name: 'الفيدرالي الأمريكي', en: 'Federal Reserve (FOMC)', rss: 'https://www.federalreserve.gov/feeds/press_monetary.xml', match: /FOMC statement/i },
+  { id: 'ecb', name: 'البنك المركزي الأوروبي', en: 'European Central Bank', rss: 'https://www.ecb.europa.eu/rss/press.html', match: /monetary policy decisions/i },
+  { id: 'boe', name: 'بنك إنجلترا', en: 'Bank of England', rss: 'https://www.bankofengland.co.uk/rss/news', match: /bank rate (maintained|increased|reduced|cut|raised|held)|monetary policy summary/i },
+];
+const ENT = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ', rsquo: '’', lsquo: '‘', rdquo: '”', ldquo: '“', mdash: '—', ndash: '–', hellip: '…' };
+const decode = t => String(t).replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1').replace(/&(#x?[0-9a-f]+|\w+);/gi, (m, e) => e[0] === '#' ? String.fromCodePoint(e[1].toLowerCase() === 'x' ? parseInt(e.slice(2), 16) : +e.slice(1)) : ENT[e.toLowerCase()] ?? m);
+export function parseRssItems(xml) {
+  return [...String(xml).matchAll(/<item[\s>][\s\S]*?<\/item>/gi)].map(m => {
+    const g = tag => decode((m[0].match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`, 'i')) || [])[1] || '').trim();
+    return { title: g('title'), link: g('link') || g('guid'), date: g('pubDate') || g('dc:date') };
+  }).filter(i => i.title && /^https?:/.test(i.link));
+}
+// نص البيان من صفحة HTML: الفقرات الطويلة بس (من غير قوايم ولا فوتر)
+export function htmlParagraphs(html) {
+  const body = String(html).replace(/<(script|style|nav|header|footer|aside|form)[\s\S]*?<\/\1>/gi, ' ');
+  const ps = [...body.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/gi)].map(m => decode(m[1].replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').trim())
+    .filter(p => p.length >= 60 && !/cookie|javascript|subscribe|last update|board of governors of the federal reserve system\s*$/i.test(p));
+  return [...new Set(ps)].join('\n').slice(0, 9000);
+}
+const sentences = t => String(t).replace(/\n/g, ' ').split(/(?<=[.;])\s+(?=[A-Z])/).map(x => x.trim()).filter(x => x.length > 25);
+const normS = x => x.toLowerCase().replace(/[^a-z0-9% ]+/g, ' ').replace(/\s+/g, ' ').trim();
+export function diffStatements(cur, prev) {
+  const a = sentences(cur), b = sentences(prev), bn = new Set(b.map(normS)), an = new Set(a.map(normS));
+  return { added: a.filter(x => !bn.has(normS(x))).slice(0, 10), removed: b.filter(x => !an.has(normS(x))).slice(0, 10) };
+}
+async function getText(url) { const r = await fetch(url, { headers: UA }); if (!r.ok) throw new Error(`HTTP ${r.status} ${new URL(url).host}`); return r.text(); }
+async function fetchBanks(prevBanks = []) {
+  const out = [], errors = [];
+  for (const b of CB_FEEDS) {
+    try {
+      const items = parseRssItems(await getText(b.rss)).filter(i => b.match.test(i.title)).slice(0, 2);
+      if (!items.length) throw new Error('مفيش بيان في الـ RSS');
+      const old = prevBanks.find(x => x.id === b.id);
+      const docs = [];
+      for (const it of items) {
+        const cached = [old?.latest, old?.prev].find(d => d?.url === it.link && d.text);
+        docs.push(cached || { title: it.title, url: it.link, date: it.date ? new Date(it.date).toISOString().slice(0, 10) : '', text: htmlParagraphs(await getText(it.link)) });
+      }
+      const [latest, prev] = docs;
+      out.push({ id: b.id, name: b.name, en: b.en, latest, prev: prev || null, diff: prev ? diffStatements(latest.text, prev.text) : null });
+    } catch (e) { errors.push(`${b.id}: ${e.message}`); const old = prevBanks.find(x => x.id === b.id); if (old) out.push(old); }
+  }
+  if (!out.length) throw new Error(errors.join(' | ') || 'مفيش بنوك');
+  return { banks: out, errors };
+}
+
+// ---------- 📈 الأسواق (Stooq، من غير مفتاح): آخر إغلاق والتغيّر عن اليوم اللي قبله ----------
+export const MARKETS = [
+  { s: 'xauusd', label: 'الدهب (أونصة بالدولار)', unit: '$' }, { s: 'xagusd', label: 'الفضة (أونصة)', unit: '$' },
+  { s: 'cb.f', label: 'برنت', unit: '$' }, { s: 'cl.f', label: 'خام أمريكي WTI', unit: '$' },
+  { s: 'eurusd', label: 'اليورو/دولار', unit: '' }, { s: 'usdegp', label: 'الدولار/الجنيه المصري', unit: 'ج' },
+  { s: '^spx', label: 'مؤشر S&P 500', unit: '' }, { s: 'btcusd', label: 'البيتكوين', unit: '$' },
+];
+export function parseStooq(csv) {
+  const rows = String(csv).trim().split(/\r?\n/).slice(1).map(l => l.split(',')).filter(r => r.length >= 5 && /^\d{4}-\d\d-\d\d$/.test(r[0]) && Number.isFinite(+r[4]));
+  if (rows.length < 2) return null;
+  const [d1, c1] = [rows.at(-1)[0], +rows.at(-1)[4]], c0 = +rows.at(-2)[4];
+  const wk = rows.length >= 6 ? +rows.at(-6)[4] : null;
+  return { date: d1, close: c1, prev: c0, chg: round((c1 / c0 - 1) * 100, 2), wk: wk ? round((c1 / wk - 1) * 100, 2) : null };
+}
+async function fetchMarkets() {
+  const out = [];
+  for (const m of MARKETS) {
+    try {
+      const r = await fetch(`https://stooq.com/q/d/l/?s=${encodeURIComponent(m.s)}&i=d`, { headers: UA });
+      if (!r.ok) continue;
+      const q = parseStooq(await r.text()); if (!q) continue;
+      out.push({ ...m, ...q, source: 'Stooq', sourceUrl: `https://stooq.com/q/?s=${encodeURIComponent(m.s)}` });
+    } catch { /* السوق ده بس */ }
+  }
+  if (!out.length) throw new Error('مفيش أسعار');
+  return out;
+}
+
 const mask = (s, keys) => keys.filter(Boolean).reduce((t, k) => t.split(k).join('***'), String(s));
 
 export async function updateEcon(prevData, env = {}, now = Date.now()) {
@@ -160,6 +236,17 @@ export async function updateEcon(prevData, env = {}, now = Date.now()) {
   }
   const ORDER = { us: 0, energy: 1, cot: 2 };
   data.items.sort((a, b) => (ORDER[a.group] ?? 9) - (ORDER[b.group] ?? 9));
+  // البنوك المركزية والأسواق (كل واحد كل 3 ساعات بالكتير)
+  data.banks = prevData?.banks || []; data.markets = prevData?.markets || [];
+  const due = k => { const s = data.sources[k]; return !(s?.ok && now - Date.parse(s.ok) < EVERY / 2); };
+  if (due('banks')) {
+    try { const r = await fetchBanks(data.banks); data.banks = r.banks; data.sources.banks = { status: r.errors.length ? 'partial' : 'ok', ok: data.updated, n: r.banks.length, ...(r.errors.length ? { error: r.errors.join(' | ').slice(0, 200) } : {}) }; }
+    catch (e) { data.sources.banks = { ...(data.sources.banks || {}), status: 'error', error: String(e.message || e).slice(0, 200), at: data.updated }; }
+  }
+  if (due('markets')) {
+    try { data.markets = await fetchMarkets(); data.sources.markets = { status: 'ok', ok: data.updated, n: data.markets.length }; }
+    catch (e) { data.sources.markets = { ...(data.sources.markets || {}), status: 'error', error: String(e.message || e).slice(0, 200), at: data.updated }; }
+  }
   return data;
 }
 
