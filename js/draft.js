@@ -1,6 +1,6 @@
 // مسودة سكريبت بالذكاء الاصطناعي (اختيارية): Claude API من المتصفح بمفتاحك. بتستخدم الملخص والعنوان بس ومبتخترعش معلومات.
 // الموقع من غير build فمفيش SDK؛ بنكلّم الـAPI بـfetch مباشرة (الهيدر anthropic-dangerous-direct-browser-access ضروري لطلبات المتصفح).
-import { getSettings } from './storage.js?v=mwsf3umu';
+import { getSettings } from './storage.js?v=mwt5evz2';
 
 export const CLAUDE_MODELS = [
   { id: 'claude-opus-5-5', name: 'Claude Opus 5.5 (الأفضل، الافتراضي)' },
@@ -14,8 +14,26 @@ export const AI_PROVIDERS = {
   gemini: { name: 'Google Gemini (فيه خطة مجانية)', keyField: 'geminiKey', ph: 'AIza…', url: 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions', model: 'gemini-3.8-flash', models: ['gemini-3.8-flash'], keyUrl: 'aistudio.google.com/apikey' },
   groq: { name: 'Groq (مجاني، سريع)', keyField: 'groqKey', ph: 'gsk_…', url: 'https://api.groq.com/openai/v1/chat/completions', model: 'llama-3.3-70b-versatile', models: ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant'], keyUrl: 'console.groq.com/keys' },
   openai: { name: 'ChatGPT / OpenAI (مدفوع بالاستخدام)', keyField: 'openaiKey', ph: 'sk-…', url: 'https://api.openai.com/v1/chat/completions', model: 'gpt-5-mini', models: ['gpt-5-mini', 'gpt-5'], keyUrl: 'platform.openai.com/api-keys' },
+  // 🔌 أي سيرفر OpenAI-compatible (FreeLLMAPI على جهازك، LM Studio، Ollama…): الرابط هو «المفتاح» المطلوب، والمفتاح الحقيقي اختياري
+  custom: { name: 'مزوّد خاص OpenAI-compatible (FreeLLMAPI / على جهازك)', keyField: 'customBase', ph: 'http://127.0.0.1:31415/v1', get url() { const b = String(getSettings().customBase || '').trim().replace(/\/+$/, ''); return b ? (/\/chat\/completions$/.test(b) ? b : b + '/chat/completions') : ''; }, model: 'auto', models: ['auto'], keyUrl: 'github.com/tashfeenahmed/freellmapi' },
   openrouter: { name: 'OpenRouter (موديلات :free)', keyField: 'orKey', ph: 'sk-or-…', url: 'https://openrouter.ai/api/v1/chat/completions', model: 'meta-llama/llama-3.3-70b-instruct:free', models: ['meta-llama/llama-3.3-70b-instruct:free', 'deepseek/deepseek-chat-v3-0324:free', 'google/gemini-2.0-flash-exp:free'], keyUrl: 'openrouter.ai/keys' },
 };
+
+// مفتاح الـ Authorization: المزوّد الخاص مفتاحه في customKey (ولو فاضي مبنبعتش هيدر)
+const bearerOf = (P, st) => P.keyField === 'customBase' ? String(st.customKey || '').trim() : st[P.keyField];
+const authH = key => key ? { authorization: 'Bearer ' + key } : {};
+// الرد: JSON عادي أو SSE (لو السيرفر بيبعت stream)، ومن غير كتل <think> بتاعة موديلات التفكير
+export const stripThink = t => String(t || '').replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/^[\s\S]*?<\/think>/i, '').trim();
+async function chatText(res) {
+  const type = res.headers.get('content-type') || '';
+  if (type.includes('text/event-stream')) {
+    const raw = await res.text(); let out = '';
+    for (const line of raw.split(/\r?\n/)) { const m = line.match(/^data:\s*(.*)$/); if (!m || m[1] === '[DONE]') continue; try { const j = JSON.parse(m[1]); out += j.choices?.[0]?.delta?.content || j.choices?.[0]?.message?.content || ''; } catch { /* سطر ناقص */ } }
+    return stripThink(out);
+  }
+  const j = await res.json();
+  return stripThink(j.choices?.[0]?.message?.content || '');
+}
 
 const SYSTEM = `You write short-form vertical-video news scripts (TikTok / Instagram Reels) in simple Egyptian Arabic: easy, spoken, natural, not heavy slang, and not formal Modern Standard Arabic.
 
@@ -118,7 +136,7 @@ async function draftOpenAI(P, key, model, user, lang = 'ar') {
     res = await fetch(P.url, {
       method: 'POST',
       signal: AbortSignal.timeout(120000),
-      headers: { 'content-type': 'application/json', authorization: 'Bearer ' + key },
+      headers: { 'content-type': 'application/json', ...authH(key) },
       body: JSON.stringify({ model, ...(P.keyField === 'openaiKey' ? { response_format: { type: 'json_object' } } : { temperature: 0.4 }), messages: [{ role: 'system', content: sys }, { role: 'user', content: user }] }),
     });
   } catch (e) {
@@ -130,8 +148,7 @@ async function draftOpenAI(P, key, model, user, lang = 'ar') {
     const hint = res.status === 401 || res.status === 403 ? ' (المفتاح غلط)' : res.status === 429 ? ' (خلصت الحصة المجانية أو سرعة عالية، جرّب بعد شوية)' : res.status === 404 ? ' (اسم الموديل غلط أو اتشال، غيّره)' : '';
     throw new Error(`${P.name.split(' (')[0]} رد بخطأ ${res.status}${hint}: ${detail}`);
   }
-  const j = await res.json();
-  const text = String(j.choices?.[0]?.message?.content || '');
+  const text = await chatText(res);
   const a = text.indexOf('{'), b = text.lastIndexOf('}');
   let out;
   try { out = JSON.parse(text.slice(a, b + 1)); } catch { throw new Error('الرد مش بالشكل المتوقع (الموديل المجاني ممكن يغلط). جرّب تاني أو غيّر الموديل.'); }
@@ -143,10 +160,10 @@ async function draftOpenAI(P, key, model, user, lang = 'ar') {
 // قايمة الموديلات المتاحة فعلًا لمفتاحك (أسماء الموديلات بتتغير فمنخمنهاش). بيرجّع [id]
 export async function listModels(prov) {
   const P = AI_PROVIDERS[prov];
-  const key = P && getSettings()[P.keyField];
-  if (!P?.url) throw new Error('القايمة دي لمزوّدين المجانيين بس.');
-  if (!key) throw new Error('الصق المفتاح الأول واحفظ الإعدادات.');
-  const res = await fetch(P.url.replace(/\/chat\/completions$/, '/models'), { headers: { authorization: 'Bearer ' + key }, signal: AbortSignal.timeout(30000) });
+  const st = getSettings(), key = P && bearerOf(P, st);
+  if (!P?.url) throw new Error(prov === 'custom' ? 'اكتب رابط السيرفر الأول (زي http://127.0.0.1:31415/v1) واحفظ.' : 'القايمة دي لمزوّدين المجانيين بس.');
+  if (!key && prov !== 'custom') throw new Error('الصق المفتاح الأول واحفظ الإعدادات.');
+  const res = await fetch(P.url.replace(/\/chat\/completions$/, '/models'), { headers: authH(key), signal: AbortSignal.timeout(30000) });
   if (!res.ok) throw new Error(`رد بخطأ ${res.status} (تأكد من المفتاح).`);
   const j = await res.json();
   let ids = (j.data || j.models || []).map(m => String(m.id || m.name || '').replace(/^models\//, '')).filter(Boolean);
@@ -164,7 +181,7 @@ const ORDER = ['gemini', 'groq', 'openrouter', 'openai', 'claude'];
 export async function aiJSON({ system, user, schema, maxTokens = 8000 }) {
   const st = getSettings();
   const main = AI_PROVIDERS[st.aiProvider] ? st.aiProvider : 'claude';
-  if (!st[AI_PROVIDERS[main].keyField]) throw new Error(`محتاج مفتاح ${AI_PROVIDERS[main].name.split(' (')[0]} في الإعدادات.`);
+  if (!st[AI_PROVIDERS[main].keyField]) throw new Error(main === 'custom' ? 'اكتب رابط السيرفر الخاص (زي http://127.0.0.1:31415/v1) في الإعدادات.' : `محتاج مفتاح ${AI_PROVIDERS[main].name.split(' (')[0]} في الإعدادات.`);
   const provs = [main, ...ORDER.filter(p => p !== main && st[AI_PROVIDERS[p].keyField])];
   let lastErr;
   for (const prov of provs) {
@@ -186,7 +203,7 @@ export async function aiJSON({ system, user, schema, maxTokens = 8000 }) {
 async function aiOnce(prov, { system, user, schema, maxTokens }, isMain) {
   const st = getSettings();
   const P = AI_PROVIDERS[prov];
-  const key = st[P.keyField];
+  const key = bearerOf(P, st);
   const name = P.name.split(' (')[0];
   // الموديل المختار في الإعدادات بيتبعت للمزوّد الأساسي بس؛ الاحتياطي بياخد الافتراضي بتاعه
   const model = isMain ? st.aiModel || P.model : P.model;
@@ -216,13 +233,13 @@ async function aiOnce(prov, { system, user, schema, maxTokens }, isMain) {
       const effort = prov === 'gemini' || prov === 'openai';
       const call = withEffort => fetch(P.url, {
         method: 'POST', signal: AbortSignal.timeout(180000),
-        headers: { 'content-type': 'application/json', authorization: 'Bearer ' + key },
+        headers: { 'content-type': 'application/json', ...authH(key) },
         body: JSON.stringify({ model, ...(prov === 'openai' ? { response_format: { type: 'json_object' } } : { temperature: 0.4 }), ...(withEffort ? { reasoning_effort: 'low' } : {}), messages: [{ role: 'system', content: sys }, { role: 'user', content: user }] }),
       });
       let res = await call(effort);
       if (effort && res.status === 400) res = await call(false); // موديل مش بيقبل reasoning_effort
       if (!res.ok) await fail(res);
-      text = String((await res.json()).choices?.[0]?.message?.content || '');
+      text = await chatText(res);
     }
   } catch (e) {
     if (e.status || /^(محتاج|الموديل|.* رد بخطأ)/.test(e.message)) throw e;

@@ -410,3 +410,6 @@ dialog.tldlg[open] { display: flex; }
 .exrow { border: 1px solid var(--line); border-radius: 10px; padding: 8px; display: grid; gap: 6px; background: #0f1528; }
 .exrow .row { flex-wrap: wrap; gap: 6px; align-items: center; }
 .exrow select, .exrow input, .exrow textarea { max-width: 100%; }
+.expipe { margin-top: 8px; border: 1px solid var(--line); border-radius: 10px; padding: 6px 8px; }
+.exstage { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; padding: 6px 0; border-bottom: 1px dashed var(--line); }
+.exstage > div { flex-basis: 100%; }
