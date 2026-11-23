@@ -1,5 +1,5 @@
 // M4: حزمة النشر (عناوين/وصف/هاشتاجات/مصادر/حقوق وسائط) + سجل التجارب. دوال خالصة من غير DOM.
-import { MED_DISCLAIMER } from './reel.js?v=mwt5evz2';
+import { MED_DISCLAIMER } from './reel.js?v=mwtdsttr';
 
 export const PLATFORMS = { tiktok: 'تيك توك', instagram: 'إنستجرام', facebook: 'فيسبوك', shorts: 'يوتيوب شورتس', youtube: 'يوتيوب (فيديو عريض)' };
 export const ENGAGE = ['likes', 'comments', 'shares', 'saves'];
@@ -24,6 +24,13 @@ const LIMIT = { tiktok: 5, instagram: 12, facebook: 4, shorts: 3, youtube: 3 };
 const clip = (s, n) => (s.length > n ? s.slice(0, n - 1).trimEnd() + '…' : s);
 const news = reel => reel.stories.filter(s => (s.kind === 'news' || s.kind === 'idea') && (s.headline || s.script));
 
+const TOOLS_RX = /\s*(?:[—–-]\s*)?(?:via\s+)?\b(openverse|freesound|pixabay|pexels|coverr|mixkit|wikimedia commons|wikimedia|commons|flickr|smithsonian open access|internet archive|archive\.org)\b\s*/gi;
+export const needsCredit = m => !!m && /CC[\s-]*BY/i.test(String(m.license || '') + ' ' + String(m.credit || '')) && !/CC0|public domain|ملك عام/i.test(String(m.license || ''));
+export function cleanCredit(credit, license = '') {
+  let c = String(credit || '').replace(TOOLS_RX, ' ').replace(/\s*[—–-]\s*[—–-]\s*/g, ' — ').replace(/^[\s—–-]+|[\s—–-]+$/g, '').replace(/\s{2,}/g, ' ').trim();
+  if (license && !c.includes(license) && /CC/i.test(license)) c = `${c}${c ? ' — ' : ''}${license}`;
+  return c;
+}
 export function buildPack(reel, { handle = '' } = {}) {
   const en = reel.lang === 'en';
   const items = news(reel);
@@ -41,10 +48,13 @@ export function buildPack(reel, { handle = '' } = {}) {
     if (s.ideaDesc) lines.push(s.ideaDesc, '');
     if (s.inspo) lines.push((en ? 'Idea inspired by: ' : 'الفكرة مستوحاة من: ') + s.inspo);
   }
-  if (nws.length) lines.push(en ? 'Sources:' : 'المصادر:');
-  for (const s of nws) lines.push(`• ${s.sourceName || '—'}${s.sourceUrl ? ': ' + s.sourceUrl : ''}${s.claimKind === 'opinion' ? (en ? ' (opinion)' : ' (رأي وتحليل)') : ''}`);
-  const credits = [...new Set([...reel.stories.map(s => s.media?.credit), ...reel.stories.flatMap(s => (s.scenes || []).map(x => x.media?.credit)), reel.music?.credit, reel.thumb?.bg === 'own' ? reel.thumb?.own?.credit : ''].filter(Boolean))];
-  if (credits.length) lines.push('', (en ? 'Media: ' : 'الوسائط: ') + credits.join(' • '));
+  const withSrc = nws.filter(s => s.sourceName || s.sourceUrl);
+  if (withSrc.length) lines.push(en ? (withSrc.length > 1 ? 'Sources:' : 'Source:') : (withSrc.length > 1 ? 'المصادر:' : 'المصدر:'));
+  for (const s of withSrc) lines.push(`• ${s.sourceName || '—'}${s.sourceUrl ? ': ' + s.sourceUrl : ''}${s.claimKind === 'opinion' ? (en ? ' (opinion)' : ' (رأي وتحليل)') : ''}`);
+  // حقوق الصور/المزيكا: بس اللي رخصته بتشترط ذكر صاحبه (CC BY / BY-SA)، ومن غير أسماء المواقع والأدوات اللي اشتغلت بيها
+  const media = [...reel.stories.map(s => s.media), ...reel.stories.flatMap(s => (s.scenes || []).map(x => x.media)), reel.thumb?.bg === 'own' ? reel.thumb?.own : null].filter(Boolean);
+  const credits = [...new Set([...media.filter(needsCredit).map(m => cleanCredit(m.credit, m.license)), /CC[\s-]*BY/i.test(reel.music?.credit || '') ? cleanCredit(reel.music.credit) : ''].filter(Boolean))];
+  if (credits.length) lines.push('', (en ? 'Credits: ' : 'حقوق: ') + credits.join(' • '));
   const clips = reel.stories.flatMap(s => (s.clips || []).filter(c => c.channel)).map(c => [c.channel, c.date].filter(Boolean).join(' — '));
   if (clips.length) lines.push('', (en ? 'Clips shown for commentary: ' : 'مقاطع معروضة للتعليق: ') + [...new Set(clips)].join(' • '));
   if (items.some(s => s.category === 'health' || s.category === 'healthtech')) lines.push('', en ? EN_DISC : MED_DISCLAIMER);
