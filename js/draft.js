@@ -1,6 +1,6 @@
 // مسودة سكريبت بالذكاء الاصطناعي (اختيارية): Claude API من المتصفح بمفتاحك. بتستخدم الملخص والعنوان بس ومبتخترعش معلومات.
 // الموقع من غير build فمفيش SDK؛ بنكلّم الـAPI بـfetch مباشرة (الهيدر anthropic-dangerous-direct-browser-access ضروري لطلبات المتصفح).
-import { getSettings } from './storage.js?v=mwtdsttr';
+import { getSettings } from './storage.js?v=mwtdypyq';
 
 export const CLAUDE_MODELS = [
   { id: 'claude-opus-5-5', name: 'Claude Opus 5.5 (الأفضل، الافتراضي)' },
@@ -140,7 +140,7 @@ async function draftOpenAI(P, key, model, user, lang = 'ar') {
       body: JSON.stringify({ model, ...(P.keyField === 'openaiKey' ? { response_format: { type: 'json_object' } } : { temperature: 0.4 }), messages: [{ role: 'system', content: sys }, { role: 'user', content: user }] }),
     });
   } catch (e) {
-    throw new Error(`مقدرتش أوصل لـ ${P.name.split(' (')[0]} (إنترنت أو مانع من المتصفح): ` + (e.message || e));
+    throw new Error(P.keyField === 'customBase' ? `مقدرتش أوصل للسيرفر الخاص (${P.url || 'من غير رابط'}): FreeLLMAPI مش شغال على جهازك أو مش سامح بطلبات الموقع. لو مش منزّله رجّع Gemini أو Claude من الإعدادات.` : `مقدرتش أوصل لـ ${P.name.split(' (')[0]} (إنترنت أو مانع من المتصفح): ` + (e.message || e));
   }
   if (!res.ok) {
     let detail = '';
@@ -243,7 +243,9 @@ async function aiOnce(prov, { system, user, schema, maxTokens }, isMain) {
     }
   } catch (e) {
     if (e.status || /^(محتاج|الموديل|.* رد بخطأ)/.test(e.message)) throw e;
-    const err = new Error(`مقدرتش أوصل لـ ${name} (إنترنت أو مانع من المتصفح): ` + (e.message || e));
+    const err = new Error(prov === 'custom'
+      ? `مقدرتش أوصل للسيرفر الخاص (${P.url || 'من غير رابط'}). ده معناه إن FreeLLMAPI (أو السيرفر اللي كاتب رابطه) مش شغال على جهازك دلوقتي، أو إنه مش سامح بطلبات من الموقع (CORS). لو مش منزّله: الإعدادات ← «مزوّد الذكاء الاصطناعي» ← رجّع Gemini (المجاني) أو Claude.`
+      : `مقدرتش أوصل لـ ${name} (إنترنت أو مانع من المتصفح): ` + (e.message || e));
     err.status = 0;
     throw err;
   }

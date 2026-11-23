@@ -2596,4 +2596,6 @@ export default {
   "مفيش مصدر مكتوب للخبر: الفيديو والوصف هيطلعوا من غير مصدر، وأنا متأكد من المعلومات.": "No source is entered: the video and description will have no source, and I'm sure of the facts.",
   "المصدر:": "Source:",
   "حقوق: {}": "Credits: {}",
+  "مقدرتش أوصل للسيرفر الخاص ({}). ده معناه إن FreeLLMAPI (أو السيرفر اللي كاتب رابطه) مش شغال على جهازك دلوقتي، أو إنه مش سامح بطلبات من الموقع (CORS). لو مش منزّله: الإعدادات ← «مزوّد الذكاء الاصطناعي» ← رجّع Gemini (المجاني) أو Claude.": "Couldn't reach the custom server ({}). FreeLLMAPI (or the server whose URL you entered) isn't running on your computer right now, or it doesn't allow requests from this site (CORS). If you haven't installed it: Settings → «AI provider» → switch back to Gemini (free) or Claude.",
+  "مقدرتش أوصل للسيرفر الخاص ({}): FreeLLMAPI مش شغال على جهازك أو مش سامح بطلبات الموقع. لو مش منزّله رجّع Gemini أو Claude من الإعدادات.": "Couldn't reach the custom server ({}): FreeLLMAPI isn't running on your computer or doesn't allow requests from this site. If you haven't installed it, switch back to Gemini or Claude in Settings.",
 };
