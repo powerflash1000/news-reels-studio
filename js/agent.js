@@ -1,15 +1,17 @@
 // المحرر الذكي (اختياري): بياخد خبر واحد ويجهّز منه سكريبت بأسلوب القناة، قصة وخلفية تاريخية، اقتراحات إنفوجرافيك ومؤثرات.
 // كل حاجة اقتراحات بتراجعها وبتطبّقها بإيدك. الخبر نفسه من الملخص والعنوان بس، والخلفية التاريخية بتتعلّم "لازم تتراجع".
-import { aiJSON, voiceNote } from './draft.js?v=mwtdypyq';
+import { aiJSON, voiceNote } from './draft.js?v=mwthwo3a';
 
 export const STYLES = {
   neutral: { label: 'إخباري محايد', note: 'Straight, neutral news: hook that states the news, 2-4 fact lines, short closing line.' },
   storyteller: { label: 'حكّاء: قصة وتاريخ تنتهي بالخبر', note: 'Storytelling: open with a curiosity hook (a question or a striking, well-documented detail), then 1-3 short background beats ("In year X, Y happened…") that build toward today, then a bridge line ("which brings us to today"), then the news itself from the source text with attribution, and end with a short closing line.' },
   economy: { label: 'اقتصادي مبسّط', note: 'Plain-language economics: what happened, a one-line explanation of any technical term, why it matters (only what the source text supports), short closing line.' },
+  // 🧪 ستايل سلسلة «عارف ليه؟» (نفس دليل كارت الشرح العلمي): يشتغل على خبر علمي أو على موضوع عام
+  science: { label: '🧪 علمي — عارف ليه؟ (شرح علمي)', note: 'Science explainer series «عارف ليه؟»: line 1 = a hook (a surprising everyday fact or situation, max 12 words, kind "hook"); line 2 = exactly «عارف ليه؟» (kind "hook"); then explain with ONE simple everyday analogy (kitchen, traffic, football, phone…) in short spoken lines of 4-12 words (kind "explain"); end with a one-line recap that repeats the core idea in new words (kind "outro"). Keep English science loanwords in English letters (DNA, cells, dopamine, neurons, protein), never transliterate them. If <source_text> has content, the news facts come only from it (kind "news"). If <source_text> is empty, <headline> is a general science topic or question, not a news item: then every line is hook/explain/why/outro and may use well-established textbook science only (rule 2 applies: list EVERY concrete scientific fact, number or name in "claims"; if unsure say «العلماء بيرجّحوا» or leave it out). No medical advice. About 2.6 spoken words per second.' },
   analysis: { label: 'تحليلي حذر', note: 'Careful explainer: what happened, what is known vs not known (say so), who said what, short closing line. No predictions and no opinions.' },
 };
 
-const WORDS = { 30: 75, 45: 115, 60: 155, 90: 230, 180: 450, 300: 750, 480: 1200, 600: 1500 };
+const WORDS = { 10: 26, 20: 52, 30: 75, 45: 115, 60: 155, 90: 230, 180: 450, 300: 750, 480: 1200, 600: 1500 };
 // حلقة طويلة (3 دقايق أو أكتر): فصول بدل ريل قصير
 const LONG = 'Long-form episode (several minutes, for an online show): reach the target word count. Structure: a cold-open hook, then chapters in chronological order (setting the scene, the people involved, what happened step by step, turning points, investigations or theories as the source reports them, the aftermath, what is still unknown), each chapter opening with a short transition line, then a closing reflection. Keep it gripping like a documentary narrator, but every fact must come from <source_text>.';
 // 🧩 شكل الحكاية: المستخدم بيختار الأجزاء وترتيبها
