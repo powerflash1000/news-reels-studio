@@ -1,6 +1,6 @@
 // 📡 الرادار: الترند في كل الدول في شاشة واحدة، تاريخه، العابر للدول، يوتيوب الأكثر مشاهدة، بحث في كل المنصات، وفكرة ريل.
 // البيانات بتتجمع كل ساعة من GitHub Actions (data/feeds.json + data/trends.json + data/yt-trending.json اختياري).
-import { aiJSON } from './draft.js?v=mwtdypyq';
+import { aiJSON } from './draft.js?v=mwthw362';
 
 const GEO = {
   eg: ['🇪🇬', 'مصر', 'EG'], sa: ['🇸🇦', 'السعودية', 'SA'], ae: ['🇦🇪', 'الإمارات', 'AE'], kw: ['🇰🇼', 'الكويت', 'KW'],
