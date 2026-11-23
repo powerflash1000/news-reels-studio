@@ -4,7 +4,7 @@
 // - 📈 الأسواق: الدهب والبترول والدولار/الجنيه والبورصة والبيتكوين (إغلاق + تغيّر يومي وأسبوعي)
 // - 🏛 أرقام رسمية (BLS / CFTC / FRED / EIA)
 // - 🧠 اشرحلي بالبلدي: أي مصطلح اقتصادي ← ريل شرح (المعلومات العامة بتتعلّم «راجعها»)
-import { aiJSON, voiceNote } from './draft.js?v=mwthw362';
+import { aiJSON, voiceNote } from './draft.js?v=mwthwo3a';
 
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const fmtN = v => v == null || !Number.isFinite(+v) ? '—' : Math.abs(v) >= 1000 ? Math.round(v).toLocaleString('en-US') : String(Math.round(v * 100) / 100);
