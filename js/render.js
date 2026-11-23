@@ -1,12 +1,12 @@
 // رسم إطار الريل على canvas (عمودي 1080×1920 أو 4:5 أو مربع أو أفقي). نفس الدالة للمعاينة والتصدير.
-import { detailTarget, tileKey, getTileMap } from './tiles.js?v=mwt5evz2';
-import { MED_DISCLAIMER, phrases } from './reel.js?v=mwt5evz2';
-import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mwt5evz2';
-import { hostOf } from './feeds.js?v=mwt5evz2';
-import QR from '../vendor/qrcode/qrcode.mjs?v=mwt5evz2';
-import { drawBg } from './bg.js?v=mwt5evz2';
-import { cutFrame } from './cutout.js?v=mwt5evz2';
-import { drawExplainer } from './explainer.js?v=mwt5evz2';
+import { detailTarget, tileKey, getTileMap } from './tiles.js?v=mwtdsttr';
+import { MED_DISCLAIMER, phrases } from './reel.js?v=mwtdsttr';
+import { drawAvatars, drawStudio, mouthAt, avatarWindow } from './avatar.js?v=mwtdsttr';
+import { hostOf } from './feeds.js?v=mwtdsttr';
+import QR from '../vendor/qrcode/qrcode.mjs?v=mwtdsttr';
+import { drawBg } from './bg.js?v=mwtdsttr';
+import { cutFrame } from './cutout.js?v=mwtdsttr';
+import { drawExplainer } from './explainer.js?v=mwtdsttr';
 
 // مقاسات الإخراج. W/H متغيّرين (live binding) والتصدير بيقراهم وقت التصدير
 export const FORMATS = {
@@ -405,6 +405,7 @@ function sourceBar(ctx, st) {
     ctx.fillText(S.med, L.capCX, y - 55);
   }
   if (r.template === 'proof' && proofSources(r).length) return; // بطاقات التوثيق بتحل محل شريط المصدر
+  if (st.settings?.srcOnScreen === false || !r.sourceName) return; // اختيار التصدير «من غير مصدر على الشاشة»
   ctx.fillStyle = 'rgba(255,255,255,.10)';
   rrect(ctx, bx, y, bw, h, 36);
   ctx.fill();

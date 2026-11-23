@@ -1,7 +1,7 @@
 // 🧪 قالب «شرح علمي» (موشن جرافيك): خلفية غامقة بشبكة خفيفة، كارت «فيلم» فيه رسم متحرك لكل مشهد،
 // وكابشن تحته بينوّر الكلمة لحظة نطقها. المشاهد (storyboard) بتبدأ عند كلمة معيّنة من السكريبت.
 // كل حاجة محسوبة من الوقت t بس (نفس الفريم في المعاينة والتصدير والبث).
-import { parseScript, stripTags } from './reel.js?v=mwt5evz2';
+import { parseScript, stripTags } from './reel.js?v=mwtdsttr';
 
 export const EX = { bg: '#0C1014', card: '#161C22', elev: '#202830', text: '#F4F3EE', sec: '#9AA5AE', acc: '#27B8C7', acc2: '#5978FF', ok: '#36C98F', warn: '#F28A30' };
 export const TONES = { accent: EX.acc, accent2: EX.acc2, success: EX.ok, warning: EX.warn };
@@ -526,7 +526,7 @@ export function drawExplainer(ctx, c, t, opts = {}) {
   g.strokeStyle = 'rgba(39,184,199,.18)'; g.lineWidth = 2; rr(g, cx0, cy0, KW, KH, 28); g.stroke();
   // الكابشن + المصدر + شريط التقدّم
   if (!c.noCaps) captionsEx(g, words, acc, tt);
-  if (st.sourceName) { g.font = f(20, 400); g.fillStyle = EX.sec; g.textAlign = 'center'; g.direction = 'rtl'; g.fillText(`المصدر: ${st.sourceName}`, CAP.x, 962); }
+  if (st.sourceName && c.settings?.srcOnScreen !== false) { g.font = f(20, 400); g.fillStyle = EX.sec; g.textAlign = 'center'; g.direction = 'rtl'; g.fillText(`المصدر: ${st.sourceName}`, CAP.x, 962); }
   const pr = cl((tt - ent.start) / Math.max(0.1, ent.end - ent.start)), pw = CARD.w;
   g.fillStyle = EX.elev; rr(g, CARD.x, 984, pw, 6, 3); g.fill(); g.fillStyle = EX.acc; rr(g, CARD.x + pw - pw * pr, 984, Math.max(6, pw * pr), 6, 3); g.fill();
   ctx.restore();

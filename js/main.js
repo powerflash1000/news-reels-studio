@@ -1,32 +1,32 @@
-import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mwt5evz2';
-import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mwt5evz2';
-import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mwt5evz2';
-import { ensureExFonts, loadIcons, attachIcons, repairBoard, boardTimes, storyWords, scriptTokens, boardPrompt, reviewPrompt, useCustomFont, BOARD_SCHEMA, SCRIPT_STYLE, SCRIPT_SCHEMA, SCENE_TYPES, EX_TPLS } from './explainer.js?v=mwt5evz2';
-import { GFX_SFX, gfxSfxOf, newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mwt5evz2';
-import { transcribeWords, alignWords, normWord, similarity } from './align.js?v=mwt5evz2';
-import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, speakSnippet, prepareText as ttsPrepare, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mwt5evz2';
-import { openWordFix } from './wordfix.js?v=mwt5evz2';
-import { detectBeats, audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mwt5evz2';
-import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mwt5evz2';
-import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mwt5evz2';
-import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mwt5evz2';
-import { exportSupport, exportReel } from './export.js?v=mwt5evz2';
-import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf, imageViaProxy, officialPortraits } from './media.js?v=mwt5evz2';
-import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mwt5evz2';
-import { cutReady, ensureSegmenter, cornerColor } from './cutout.js?v=mwt5evz2';
-import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mwt5evz2';
-import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mwt5evz2';
-import { detailTarget, loadTileMap } from './tiles.js?v=mwt5evz2';
-import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mwt5evz2';
-import { putBlob, getBlob, delBlob } from './mediastore.js?v=mwt5evz2';
-import { loadBg, playBg, seekBg } from './bg.js?v=mwt5evz2';
-import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mwt5evz2';
-import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mwt5evz2';
-import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mwt5evz2';
-import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures, ideaYouTube, ideaFile, ideaText, ideaAngle } from './external.js?v=mwt5evz2';
-import { readUrl, cleanPasted } from './reader.js?v=mwt5evz2';
-import { initI18n, ui } from './i18n.js?v=mwt5evz2';
-import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mwt5evz2';
+import { load, save, getSettings, setSettings, charsUsed, resetElevenSettings, cacheClear, takeList, takeGet, takeDel } from './storage.js?v=mwtdsttr';
+import { listReels, getReel, upsertReel, deleteReel, setStatus as setReelStatus, currentId, setCurrentId, buildBackup, applyBackup } from './library.js?v=mwtdsttr';
+import { reloadFeeds, runFeedsNow, loadConfig, loadFeeds, timeAgo, hostOf } from './feeds.js?v=mwtdsttr';
+import { ensureExFonts, loadIcons, attachIcons, repairBoard, boardTimes, storyWords, scriptTokens, boardPrompt, reviewPrompt, useCustomFont, BOARD_SCHEMA, SCRIPT_STYLE, SCRIPT_SCHEMA, SCENE_TYPES, EX_TPLS } from './explainer.js?v=mwtdsttr';
+import { GFX_SFX, gfxSfxOf, newReel, newStory, normalizeReel, isEmptyStory, parseScript, buildReelTimeline, allLines, lineKey, STATUSES, KINDS, TEMPLATES, PROOF_STATUS, newProofSource } from './reel.js?v=mwtdsttr';
+import { transcribeWords, alignWords, normWord, similarity } from './align.js?v=mwtdsttr';
+import { tagModel, isV4, gemUsage, GEM_FREE_RPD, azRegion, pvOf, TTS_PROVIDERS, TTS_NAMES, AZURE_VOICES, OPENAI_VOICES, OPENAI_TTS_MODELS, OPENAI_STYLE, azureVoicesList, estimatedTiming, speakGroupGemini, isolateVoice, adoptTake, saveWords, speakLine, speakSnippet, prepareText as ttsPrepare, peekLine, voiceFor, usingGemini, GEMINI_VOICES, GEMINI_FEMALE, GEMINI_TTS_MODELS, MODELS, fetchSubscription, lastSubscription, fetchVoices } from './tts.js?v=mwtdsttr';
+import { openWordFix } from './wordfix.js?v=mwtdsttr';
+import { detectBeats, audioCtx, mixTimeline, Recorder, decode, SAMPLE_RATE, FX_PRESETS, applyFxToBuffer, trimSilence, SegRecorder, concatBuffers, denoise } from './audio.js?v=mwtdsttr';
+import { buildSrt, wavBlob, download, zipBlob, tcShort } from './exportfiles.js?v=mwtdsttr';
+import { mouthAt, drawPhotoPreview, previewToImage } from './avatar.js?v=mwtdsttr';
+import { drawGuide, sceneAt, clipSegAt, drawCover, THUMB_STYLES, drawFrame, FORMATS, setWorld, worldLoaded, toLatinDigits, proofSources } from './render.js?v=mwtdsttr';
+import { exportSupport, exportReel } from './export.js?v=mwtdsttr';
+import { PROVIDERS, searchAll, fetchBlob, fileFromStockPage, stockSiteOf, imageViaProxy, officialPortraits } from './media.js?v=mwtdsttr';
+import { SECTIONS, runAgent, STYLES, inSource, numberInSource } from './agent.js?v=mwtdsttr';
+import { cutReady, ensureSegmenter, cornerColor } from './cutout.js?v=mwtdsttr';
+import { draftScript, listModels, CLAUDE_MODELS, AI_PROVIDERS, aiJSON, voiceNote } from './draft.js?v=mwtdsttr';
+import { localMatches, searchPlaces, searchWide, postalOf } from './geo.js?v=mwtdsttr';
+import { detailTarget, loadTileMap } from './tiles.js?v=mwtdsttr';
+import { buildPack, compose, summarize, engagement, PLATFORMS, ytTitle, chaptersText, cleanTags, TAG_COUNT } from './publish.js?v=mwtdsttr';
+import { putBlob, getBlob, delBlob } from './mediastore.js?v=mwtdsttr';
+import { loadBg, playBg, seekBg } from './bg.js?v=mwtdsttr';
+import { searchMusic, fetchTrack, musicCredit, MUSIC_SOURCES } from './music.js?v=mwtdsttr';
+import { prepare as livePrepare, createEngine, createBroadcaster } from './live.js?v=mwtdsttr';
+import { buildIndex, verifyClaim, VERDICT_TXT } from './verify.js?v=mwtdsttr';
+import { parseLink, analyzeYouTube, analyzeFile, analyzeText, channelVideos, ytAt, styleYouTube, styleFile, fileSignatures, ideaYouTube, ideaFile, ideaText, ideaAngle } from './external.js?v=mwtdsttr';
+import { readUrl, cleanPasted } from './reader.js?v=mwtdsttr';
+import { initI18n, ui } from './i18n.js?v=mwtdsttr';
+import { loadArchive, storyInfo, films as arFilmsOf, filmsFor, wordCount, onThisDay } from './archive.js?v=mwtdsttr';
 
 initI18n();
 
@@ -2193,11 +2193,12 @@ function validateReel() {
     }
     if (st.template === 'map' && !(st.map?.countries || []).length && !(st.map?.pins || []).length) probs.push(pre + 'قالب الخريطة محتاج دولة أو دبوس مدينة.');
     for (const cl of st.clips || []) if (cl.id && !String(cl.channel || '').trim()) probs.push(pre + 'مقطع القناة محتاج اسم القناة (بيظهر على الشاشة).');
-    if (!st.sourceName) probs.push(pre + 'اسم المصدر الأصلي إجباري.');
+    // المصدر اختياري (قرار المستخدم 2026-11-23): لو مكتوب لازم يكون صحيح، ولو مش مكتوب بيتسأل في قائمة التصدير
+    if (!st.sourceName && !st.sourceUrl) continue;
     let u = null;
     try { u = new URL(st.sourceUrl); } catch { /* ناقص */ }
-    if (!u || (u.protocol !== 'https:' && u.protocol !== 'http:')) probs.push(pre + 'رابط المصدر لازم يكون صحيح (https://…).');
-    else if (/(^|\.)(youtube\.com|youtu\.be)$/.test(u.hostname)) probs.push(pre + 'رابط يوتيوب مش مصدر أصلي. حط المصدر الرسمي للخبر.');
+    if (st.sourceUrl && (!u || (u.protocol !== 'https:' && u.protocol !== 'http:'))) probs.push(pre + 'رابط المصدر لازم يكون صحيح (https://…).');
+    else if (u && /(^|\.)(youtube\.com|youtu\.be)$/.test(u.hostname)) probs.push(pre + 'رابط يوتيوب مش مصدر أصلي. حط المصدر الرسمي للخبر.');
   }
   return probs;
 }
@@ -2229,13 +2230,17 @@ function checklistFor() {
 
 function askChecklist() {
   const dlg = $('checkDlg');
-  $('checkList').innerHTML = checklistFor().map((t, i) => `<label><input type="checkbox" data-i="${i}"> ${esc(t)}</label>`).join('');
+  const noSrc = reel.stories.filter(st => st.kind === 'news' && hasContent(st) && !st.sourceName).length;
+  const items = [...checklistFor(), ...(noSrc ? ['مفيش مصدر مكتوب للخبر: الفيديو والوصف هيطلعوا من غير مصدر، وأنا متأكد من المعلومات.'] : [])];
+  $('checkList').innerHTML = items.map((t, i) => `<label><input type="checkbox" data-i="${i}"> ${esc(t)}</label>`).join('');
+  $('chkSrc').checked = getSettings().srcOnScreen !== false;
+  $('chkSrc').disabled = !!noSrc && noSrc === reel.stories.filter(st => st.kind === 'news' && hasContent(st)).length;
   const ok = $('checkOk');
-  const boxes = [...dlg.querySelectorAll('input[type=checkbox]')];
+  const boxes = [...$('checkList').querySelectorAll('input[type=checkbox]')];
   ok.disabled = true;
   boxes.forEach(b => b.addEventListener('change', () => { ok.disabled = !boxes.every(x => x.checked); }));
   return new Promise(res => {
-    dlg.addEventListener('close', () => res(dlg.returnValue === 'ok'), { once: true });
+    dlg.addEventListener('close', () => { if (dlg.returnValue === 'ok' && !$('chkSrc').disabled) setSettings({ srcOnScreen: $('chkSrc').checked }); res(dlg.returnValue === 'ok'); }, { once: true });
     dlg.returnValue = '';
     dlg.showModal();
   });

@@ -2592,4 +2592,8 @@ export default {
   "اكتب رابط السيرفر الأول (زي http://127.0.0.1:31415/v1) واحفظ.": "Enter the server URL first (e.g. http://127.0.0.1:31415/v1) and save.",
   "FreeLLMAPI بيتشغّل على جهازك وبيوزّع الطلبات على موديلات مجانية (الموديل «auto»). السيرفر لازم يسمح بالطلبات من الموقع (CORS)، وكروم ممكن يسألك مرة «السماح بالوصول للشبكة المحلية». البرنامج بيشيل كتل <think> من الرد لوحده.": "FreeLLMAPI runs on your computer and routes requests to free models (model «auto»). The server must allow requests from this site (CORS), and Chrome may ask once to allow local-network access. The app strips <think> blocks from replies automatically.",
   "التصدير اتلغى من قائمة ما قبل التصدير.": "Export was cancelled from the pre-export checklist.",
+  "🏷 اظهر مصدر الخبر على الشاشة (لو شلت العلامة، الفيديو بيطلع من غير شريط المصدر، والمصدر بيفضل في الوصف)": "🏷 Show the news source on screen (untick to export without the source bar; the source stays in the description)",
+  "مفيش مصدر مكتوب للخبر: الفيديو والوصف هيطلعوا من غير مصدر، وأنا متأكد من المعلومات.": "No source is entered: the video and description will have no source, and I'm sure of the facts.",
+  "المصدر:": "Source:",
+  "حقوق: {}": "Credits: {}",
 };
