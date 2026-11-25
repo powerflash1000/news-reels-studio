@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ريل الترند — استوديو ريلز الأخبار</title>
+<link rel="stylesheet" href="assets/css/style.css?v=mwwjnfs0">
+<style>
+body{margin:0}
+.dr{max-width:980px;margin:0 auto;padding:16px}
+.dr h1{font-size:22px;margin:4px 0 6px}
+.dr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-top:12px}
+.dr-card{background:var(--card,#141c36);border:1px solid var(--line);border-radius:14px;padding:12px}
+.dr-card video{width:100%;aspect-ratio:9/16;background:#000;border-radius:10px;display:block}
+.dr-card h2{font-size:17px;margin:10px 0 2px}
+.dr-card ol{margin:6px 0 10px;padding-inline-start:22px;line-height:1.9;font-size:14px}
+.dr-card ol small{color:var(--muted)}
+.dr-act{display:flex;flex-wrap:wrap;gap:6px}
+.dr-note{color:var(--muted);font-size:14px;line-height:1.8}
+.dr-runs{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="dr">
+  <h1>🎞️ ريل الترند اليومي</h1>
+  <p class="dr-note">بيتعمل لوحده كل يوم الساعة ٦:٤١ مساءً بتوقيت القاهرة: أكتر ٥ حاجات اتبحث عنها على جوجل — أرقام حقيقية من الرادار. راجعه قبل ما تنشره (ساعات بتطلع كلمات عامة).</p>
+  <div class="dr-runs">
+    <a class="btn" id="drRun" target="_blank" rel="noopener">⚡ اعمل واحد جديد دلوقتي</a>
+    <span class="dr-note">← دوس «Run workflow» واكتب البلد (eg مصر، sa السعودية، ae الإمارات، ma المغرب…)، وارجع هنا بعد دقيقتين.</span>
+  </div>
+  <div class="dr-grid" id="drList"><p class="dr-note">⏳ بيحمّل…</p></div>
+</div>
+<script type="module">
+import { initI18n, tr } from './js/i18n.js?v=mwwjnfs0';
+initI18n();
+const REPO = 'powerflash1000/news-reels-studio';
+const NAMES = { eg: 'مصر', sa: 'السعودية', ae: 'الإمارات', ma: 'المغرب', dz: 'الجزائر', iq: 'العراق', jo: 'الأردن', lb: 'لبنان', kw: 'الكويت' };
+document.getElementById('drRun').href = `https://github.com/${REPO}/actions/workflows/hf-trends-reel.yml`;
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const box = document.getElementById('drList');
+try {
+  const d = await (await fetch('data/daily-reels.json?t=' + Date.now(), { cache: 'no-store' })).json();
+  const regions = Object.keys(d).sort((a, b) => (a === 'eg' ? -1 : b === 'eg' ? 1 : d[b].at.localeCompare(d[a].at)));
+  if (!regions.length) throw new Error('empty');
+  box.innerHTML = regions.map(r => {
+    const x = d[r], when = new Date(x.at).toLocaleString('ar-EG', { weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit', timeZone: 'Africa/Cairo' });
+    const v = x.url + '?t=' + encodeURIComponent(x.at);
+    return `<div class="dr-card">
+      <video controls playsinline preload="metadata" src="${esc(v)}"></video>
+      <h2>${tr('ترند')} ${esc(tr(NAMES[r] || r))}</h2>
+      <div class="dr-note">${tr('اتعمل')}: ${esc(when)}</div>
+      <ol>${x.items.map(it => `<li>${esc(it.t)} <small>${esc(it.n)} ${tr('بحث')}</small></li>`).join('')}</ol>
+      <div class="dr-act"><a class="btn primary" href="${esc(x.url)}" download>${tr('⬇ نزّل الفيديو')}</a></div>
+    </div>`;
+  }).join('');
+} catch {
+  box.innerHTML = `<p class="dr-note">${tr('لسه مفيش ريل — دوس «⚡ اعمل واحد جديد دلوقتي»، أو استنى تشغيلة النهارده.')}</p>`;
+}
+</script>
+</body>
+</html>

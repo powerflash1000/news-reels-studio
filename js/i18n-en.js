@@ -1,5 +1,15 @@
 // قاموس الواجهة عربي → إنجليزي. أي نص جديد في الواجهة العربي ضيفه هنا (المفتاح = النص العربي بالظبط، {} = جزء متغير).
 export default {
+ "🎞️ ريل الترند": "🎞️ Trend reel",
+ "ريل «ترند مصر النهارده» اللي بيتعمل لوحده كل يوم: شغّله أو نزّله": "The «Egypt trends today» reel that is made automatically every day: play or download it",
+ "ريل الترند — استوديو ريلز الأخبار": "Trend reel — News Reels Studio",
+ "🎞️ ريل الترند اليومي": "🎞️ Daily trend reel",
+ "بيتعمل لوحده كل يوم الساعة ٦:٤١ مساءً بتوقيت القاهرة: أكتر ٥ حاجات اتبحث عنها على جوجل — أرقام حقيقية من الرادار. راجعه قبل ما تنشره (ساعات بتطلع كلمات عامة).": "Made automatically every day at 6:41 PM Cairo time: the top 5 Google searches — real numbers from the radar. Review it before posting (sometimes generic words show up).",
+ "⚡ اعمل واحد جديد دلوقتي": "⚡ Make a new one now",
+ "← دوس «Run workflow» واكتب البلد (eg مصر، sa السعودية، ae الإمارات، ma المغرب…)، وارجع هنا بعد دقيقتين.": "← Click «Run workflow», type the country (eg Egypt, sa Saudi Arabia, ae UAE, ma Morocco…), and come back here in two minutes.",
+ "اتعمل": "Made",
+ "⬇ نزّل الفيديو": "⬇ Download the video",
+ "لسه مفيش ريل — دوس «⚡ اعمل واحد جديد دلوقتي»، أو استنى تشغيلة النهارده.": "No reel yet — click «⚡ Make a new one now», or wait for today's run.",
  "⛶ كبّر التايم لاين": "⛶ Enlarge the timeline",
  "افتح التايم لاين في شاشة كبيرة": "Open the timeline in a big window",
  "⏱ التايم لاين الكبير": "⏱ Big timeline",

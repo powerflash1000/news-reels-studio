@@ -9,7 +9,7 @@ on:
         description: 'البلد (eg, sa, ae, ma, dz, iq, jo, lb, kw)'
         default: 'eg'
 permissions:
-  contents: read
+  contents: write
 concurrency:
   group: hf-trends-reel
   cancel-in-progress: true
@@ -33,3 +33,19 @@ jobs:
           name: trends-reel-${{ inputs.region || 'eg' }}-${{ github.run_number }}
           path: out/
           retention-days: 14
+      # 🎞️ للاستوديو: الفيديو على رابط ثابت (release «daily-reels») + data/daily-reels.json فيه التاريخ والمواضيع
+      - name: publish for the studio
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REGION: ${{ inputs.region || 'eg' }}
+        run: |
+          gh release view daily-reels >/dev/null 2>&1 || gh release create daily-reels --title "🎞️ ريلز الترند اليومية" --notes "بيتحدث لوحده كل يوم من hf-trends-reel — الاستوديو بيعرضه في «🎞️ ريل الترند»." --latest=false
+          gh release upload daily-reels "out/trends-$REGION.mp4" --clobber
+          node tools/hf-trends-publish.mjs "$REGION" "${{ github.repository }}"
+          git config user.name "feeds-bot"
+          git config user.email "feeds-bot@users.noreply.github.com"
+          git add data/daily-reels.json
+          git diff --cached --quiet && exit 0
+          git commit -m "chore: daily reel ($REGION)"
+          for i in 1 2 3 4; do git pull --rebase -q origin main && git push -q origin HEAD:main && exit 0; sleep $((i*5)); done
+          exit 1
