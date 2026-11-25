@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "historyId": "062b72da-980b-4ebf-8e19-81a2e717505d",
+  "currentRevision": null,
+  "pendingChanges": false,
+  "files": {
+    "assets/fonts/cairo-arabic-600-normal.woff2": {
+      "hash": "621909d2e4c8720d3af3a74028556956d343baaa5be48c47a0ad406607fc6515",
+      "content": "/root/.cache/hyperframes/history/062b72da-980b-4ebf-8e19-81a2e717505d/blobs/62/621909d2e4c8720d3af3a74028556956d343baaa5be48c47a0ad406607fc6515"
+    },
+    "assets/fonts/cairo-arabic-800-normal.woff2": {
+      "hash": "ba5febcd1f64ca49060a110276ea847e43a1d1e9c1ef554edaf65b2c0429194a",
+      "content": "/root/.cache/hyperframes/history/062b72da-980b-4ebf-8e19-81a2e717505d/blobs/ba/ba5febcd1f64ca49060a110276ea847e43a1d1e9c1ef554edaf65b2c0429194a"
+    },
+    "assets/fonts/cairo-latin-800-normal.woff2": {
+      "hash": "6ed8549a606ad21113e05f26a7996f19a4b462a48012f39e5c95e40c458a3b0a",
+      "content": "/root/.cache/hyperframes/history/062b72da-980b-4ebf-8e19-81a2e717505d/blobs/6e/6ed8549a606ad21113e05f26a7996f19a4b462a48012f39e5c95e40c458a3b0a"
+    },
+    "assets/gsap.min.js": {
+      "hash": "92bb9a96476f983d212a2bc4f54c889039c1696dd4461d40a736860938570fbb",
+      "content": "/root/.cache/hyperframes/history/062b72da-980b-4ebf-8e19-81a2e717505d/blobs/92/92bb9a96476f983d212a2bc4f54c889039c1696dd4461d40a736860938570fbb"
+    },
+    "hyperframes.json": {
+      "hash": "53dbce1e19aa713cbb12ee0bc4d206143b45ab15e6ffbfcaa8f69572d4d24d50",
+      "content": "/root/.cache/hyperframes/history/062b72da-980b-4ebf-8e19-81a2e717505d/blobs/53/53dbce1e19aa713cbb12ee0bc4d206143b45ab15e6ffbfcaa8f69572d4d24d50"
+    },
+    "index.html": {
+      "hash": "16f40cd648134a00954c83317c0be05cb3fa4bfcf35eb7a914d2227800a86ca0",
+      "content": "/root/.cache/hyperframes/history/062b72da-980b-4ebf-8e19-81a2e717505d/blobs/16/16f40cd648134a00954c83317c0be05cb3fa4bfcf35eb7a914d2227800a86ca0"
+    }
+  },
+  "revisions": {},
+  "checks": {
+    "latest": null,
+    "revisions": {},
+    "unversioned": []
+  },
+  "snapshots": {
+    "latest": null,
+    "revisions": {},
+    "unversioned": []
+  },
+  "renders": {
+    "latest": {
+      "id": "baaf8139-6be0-4e4c-be59-f65af449a854",
+      "completedAt": 1795618459706,
+      "output": "/tmp/claude-0/-home-user-egyptian-medicine-database/1fb6f648-1a88-5cca-9e7e-ea0703c33072/scratchpad/hfout/trends-eg.mp4",
+      "status": "completed",
+      "revision": null
+    },
+    "retainedRevisions": []
+  },
+  "pendingArtifactCleanup": []
+}
