@@ -1,14 +1,14 @@
 {
- "updated": "2026-11-24T17:38:55.599Z",
+ "updated": "2026-11-25T02:23:24.038Z",
  "sources": {
   "bls": {
    "status": "ok",
-   "ok": "2026-11-24T17:38:55.599Z",
+   "ok": "2026-11-25T02:23:24.038Z",
    "n": 3
   },
   "cftc": {
    "status": "ok",
-   "ok": "2026-11-24T17:38:55.599Z",
+   "ok": "2026-11-25T02:23:24.038Z",
    "n": 8
   },
   "fred": {
@@ -19,15 +19,15 @@
   },
   "banks": {
    "status": "partial",
-   "ok": "2026-11-24T17:38:55.599Z",
+   "ok": "2026-11-25T02:23:24.038Z",
    "n": 2,
    "error": "ecb: مفيش بيان في الـ RSS (15 خبر؛ أولهم: Boris Vujčić: Resilience in an age of shocks: less / Philip R. Lane: Climate change and monetary policy / ECB expands acceptance of DLT-based assets as elig)"
   },
   "markets": {
    "status": "ok",
-   "ok": "2026-11-24T17:38:55.599Z",
+   "ok": "2026-11-25T02:23:24.038Z",
    "n": 8,
-   "error": "stooq: fetch failed"
+   "error": "stooq 403: <meta charset=utf-8><title>Stooq</title><center style=font-f"
   }
  },
  "items": [
@@ -44,7 +44,7 @@
    "source": "U.S. Bureau of Labor Statistics",
    "sourceUrl": "https://data.bls.gov/timeseries/LNS14000000",
    "src": "bls",
-   "fetched": "2026-11-24T17:38:55.599Z"
+   "fetched": "2026-11-25T02:23:24.038Z"
   },
   {
    "id": "us-nfp",
@@ -59,7 +59,7 @@
    "source": "U.S. Bureau of Labor Statistics",
    "sourceUrl": "https://data.bls.gov/timeseries/CES0000000001",
    "src": "bls",
-   "fetched": "2026-11-24T17:38:55.599Z"
+   "fetched": "2026-11-25T02:23:24.038Z"
   },
   {
    "id": "us-cpi",
@@ -74,7 +74,7 @@
    "source": "U.S. Bureau of Labor Statistics",
    "sourceUrl": "https://data.bls.gov/timeseries/CUUR0000SA0",
    "src": "bls",
-   "fetched": "2026-11-24T17:38:55.599Z"
+   "fetched": "2026-11-25T02:23:24.038Z"
   },
   {
    "id": "cot-spx",
@@ -93,7 +93,7 @@
    "source": "CFTC — Commitments of Traders",
    "sourceUrl": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm",
    "src": "cftc",
-   "fetched": "2026-11-24T17:38:55.599Z"
+   "fetched": "2026-11-25T02:23:24.038Z"
   },
   {
    "id": "cot-btc",
@@ -112,7 +112,7 @@
    "source": "CFTC — Commitments of Traders",
    "sourceUrl": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm",
    "src": "cftc",
-   "fetched": "2026-11-24T17:38:55.599Z"
+   "fetched": "2026-11-25T02:23:24.038Z"
   },
   {
    "id": "cot-eur",
@@ -131,7 +131,7 @@
    "source": "CFTC — Commitments of Traders",
    "sourceUrl": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm",
    "src": "cftc",
-   "fetched": "2026-11-24T17:38:55.599Z"
+   "fetched": "2026-11-25T02:23:24.038Z"
   },
   {
    "id": "cot-jpy",
@@ -150,7 +150,7 @@
    "source": "CFTC — Commitments of Traders",
    "sourceUrl": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm",
    "src": "cftc",
-   "fetched": "2026-11-24T17:38:55.599Z"
+   "fetched": "2026-11-25T02:23:24.038Z"
   },
   {
    "id": "cot-gbp",
@@ -169,7 +169,7 @@
    "source": "CFTC — Commitments of Traders",
    "sourceUrl": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm",
    "src": "cftc",
-   "fetched": "2026-11-24T17:38:55.599Z"
+   "fetched": "2026-11-25T02:23:24.038Z"
   },
   {
    "id": "cot-oil",
@@ -188,7 +188,7 @@
    "source": "CFTC — Commitments of Traders",
    "sourceUrl": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm",
    "src": "cftc",
-   "fetched": "2026-11-24T17:38:55.599Z"
+   "fetched": "2026-11-25T02:23:24.038Z"
   },
   {
    "id": "cot-silver",
@@ -207,7 +207,7 @@
    "source": "CFTC — Commitments of Traders",
    "sourceUrl": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm",
    "src": "cftc",
-   "fetched": "2026-11-24T17:38:55.599Z"
+   "fetched": "2026-11-25T02:23:24.038Z"
   },
   {
    "id": "cot-gold",
@@ -226,7 +226,7 @@
    "source": "CFTC — Commitments of Traders",
    "sourceUrl": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm",
    "src": "cftc",
-   "fetched": "2026-11-24T17:38:55.599Z"
+   "fetched": "2026-11-25T02:23:24.038Z"
   }
  ],
  "banks": [
@@ -310,11 +310,11 @@
    "s": "xauusd",
    "label": "الدهب (أونصة بالدولار)",
    "unit": "$",
-   "date": "2026-11-24",
-   "close": 3563,
-   "prev": 3651.3999,
-   "chg": -2.42,
-   "wk": -7.79,
+   "date": "2026-11-25",
+   "close": 3556.1001,
+   "prev": 3561.8999,
+   "chg": -0.16,
+   "wk": -4.97,
    "source": "Yahoo Finance",
    "sourceUrl": "https://finance.yahoo.com/quote/GC%3DF"
   },
@@ -322,11 +322,11 @@
    "s": "xagusd",
    "label": "الفضة (أونصة)",
    "unit": "$",
-   "date": "2026-11-24",
-   "close": 40.73,
-   "prev": 43.147,
-   "chg": -5.6,
-   "wk": -13.87,
+   "date": "2026-11-25",
+   "close": 41.09,
+   "prev": 40.76,
+   "chg": 0.81,
+   "wk": -8.69,
    "source": "Yahoo Finance",
    "sourceUrl": "https://finance.yahoo.com/quote/SI%3DF"
   },
@@ -334,11 +334,11 @@
    "s": "cb.f",
    "label": "برنت",
    "unit": "$",
-   "date": "2026-11-24",
-   "close": 88.11,
-   "prev": 89.37,
-   "chg": -1.41,
-   "wk": -5.4,
+   "date": "2026-11-25",
+   "close": 87.71,
+   "prev": 91.4,
+   "chg": -4.04,
+   "wk": -4.61,
    "source": "Yahoo Finance",
    "sourceUrl": "https://finance.yahoo.com/quote/BZ%3DF"
   },
@@ -346,11 +346,11 @@
    "s": "cl.f",
    "label": "خام أمريكي WTI",
    "unit": "$",
-   "date": "2026-11-24",
-   "close": 81.58,
-   "prev": 80.17,
-   "chg": 1.76,
-   "wk": -5.15,
+   "date": "2026-11-25",
+   "close": 80.97,
+   "prev": 82.05,
+   "chg": -1.32,
+   "wk": -2.75,
    "source": "Yahoo Finance",
    "sourceUrl": "https://finance.yahoo.com/quote/CL%3DF"
   },
@@ -358,10 +358,10 @@
    "s": "eurusd",
    "label": "اليورو/دولار",
    "unit": "",
-   "date": "2026-11-24",
-   "close": 1.0975,
-   "prev": 1.0972,
-   "chg": 0.03,
+   "date": "2026-11-25",
+   "close": 1.0969,
+   "prev": 1.0908,
+   "chg": 0.55,
    "wk": -0.22,
    "source": "Yahoo Finance",
    "sourceUrl": "https://finance.yahoo.com/quote/EURUSD%3DX"
@@ -370,11 +370,11 @@
    "s": "usdegp",
    "label": "الدولار/الجنيه المصري",
    "unit": "ج",
-   "date": "2026-11-24",
+   "date": "2026-11-25",
    "close": 54.17,
-   "prev": 53.4161,
-   "chg": 1.41,
-   "wk": 0.97,
+   "prev": 54.2096,
+   "chg": -0.07,
+   "wk": 0.89,
    "source": "Yahoo Finance",
    "sourceUrl": "https://finance.yahoo.com/quote/EGP%3DX"
   },
@@ -383,10 +383,10 @@
    "label": "مؤشر S&P 500",
    "unit": "",
    "date": "2026-11-24",
-   "close": 7213.3501,
+   "close": 7201.0898,
    "prev": 7237.1699,
-   "chg": -0.33,
-   "wk": -1.73,
+   "chg": -0.5,
+   "wk": -1.9,
    "source": "Yahoo Finance",
    "sourceUrl": "https://finance.yahoo.com/quote/%5EGSPC"
   },
@@ -394,11 +394,11 @@
    "s": "btcusd",
    "label": "البيتكوين",
    "unit": "$",
-   "date": "2026-11-24",
-   "close": 60015.6289,
+   "date": "2026-11-25",
+   "close": 58886.4688,
    "prev": 61210.9844,
-   "chg": -1.95,
-   "wk": -3.05,
+   "chg": -3.8,
+   "wk": -4.87,
    "source": "Yahoo Finance",
    "sourceUrl": "https://finance.yahoo.com/quote/BTC-USD"
   }
