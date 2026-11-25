@@ -1,0 +1,113 @@
+<!doctype html>
+<!-- ريل «ترند مصر النهارده»: أكتر ٥ حاجات اتبحث عنها على جوجل في مصر (من data/trends.json).
+     بيترندر بـ HyperFrames: tools/hf-trends.mjs بيحسب البيانات ويبعتها كـ --variables. -->
+<html lang="ar" dir="rtl" data-resolution="portrait" data-composition-variables='[
+  {"id":"items","type":"string","label":"Items JSON","default":"[{\"t\":\"موضوع ١\",\"n\":\"+٢٠٠٠\"},{\"t\":\"موضوع ٢\",\"n\":\"+١٠٠٠\"},{\"t\":\"موضوع ٣\",\"n\":\"+٥٠٠\"},{\"t\":\"موضوع ٤\",\"n\":\"+٢٠٠\"},{\"t\":\"موضوع ٥\",\"n\":\"+١٠٠\"}]"},
+  {"id":"date","type":"string","label":"Date","default":"النهارده"},
+  {"id":"channel","type":"string","label":"Channel","default":"ترند كل يوم"},
+  {"id":"source","type":"string","label":"Source","default":"Google Trends — مصر"}
+]'>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <script src="assets/gsap.min.js"></script>
+  <style>
+    @font-face { font-family: Cairo; font-weight: 600; src: url(assets/fonts/cairo-arabic-600-normal.woff2) format('woff2'); }
+    @font-face { font-family: Cairo; font-weight: 800; src: url(assets/fonts/cairo-arabic-800-normal.woff2) format('woff2'); }
+    @font-face { font-family: Cairo; font-weight: 800; src: url(assets/fonts/cairo-latin-800-normal.woff2) format('woff2'); unicode-range: U+0000-00FF; }
+    :root { --bg1: #0b1020; --bg2: #1b0f3a; --hot: #ff3b5c; --gold: #ffd166; --ink: #fff; --mute: #b9c0d8; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg1); }
+    #root { position: relative; width: 1080px; height: 1920px; font-family: Cairo, sans-serif; color: var(--ink);
+      background: radial-gradient(1200px 900px at 80% 10%, #3b1d7a 0%, transparent 60%), radial-gradient(900px 900px at 10% 90%, #5a0f2e 0%, transparent 60%), linear-gradient(160deg, var(--bg1), var(--bg2)); }
+    .clip { position: absolute; inset: 0; }
+    .grid { position: absolute; inset: 0; opacity: .12;
+      background-image: linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px); background-size: 90px 90px; }
+    /* المقدمة */
+    #intro { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 28px; }
+    #intro .fire { font-size: 170px; line-height: 1; }
+    #intro h1 { font-size: 128px; font-weight: 800; line-height: 1.1; }
+    #intro h1 span { color: var(--hot); }
+    #intro .sub { font-size: 50px; font-weight: 600; color: var(--mute); padding: 0 80px; }
+    #intro .date { font-size: 44px; font-weight: 800; color: var(--gold); border: 4px solid var(--gold); border-radius: 60px; padding: 8px 42px; }
+    /* كروت الترتيب */
+    .card { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 70px; }
+    .card .rank { font-size: 420px; font-weight: 800; line-height: .9; color: transparent; -webkit-text-stroke: 10px var(--hot); }
+    .card .lbl { font-size: 46px; font-weight: 800; color: var(--gold); margin-top: 10px; }
+    .card .title { font-size: 104px; font-weight: 800; line-height: 1.2; margin-top: 40px; max-width: 940px; overflow-wrap: anywhere; }
+    .card .bar { width: 800px; height: 34px; border-radius: 20px; background: rgba(255,255,255,.12); margin-top: 64px; overflow: hidden; }
+    .card .fill { height: 100%; width: 100%; border-radius: 20px; background: linear-gradient(90deg, var(--gold), var(--hot)); transform-origin: right center; }
+    .card .num { font-size: 58px; font-weight: 800; margin-top: 26px; }
+    .card .num small { font-size: 40px; color: var(--mute); font-weight: 600; }
+    /* الختام */
+    #outro { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 34px; }
+    #outro .big { font-size: 110px; font-weight: 800; line-height: 1.15; }
+    #outro .big span { color: var(--gold); }
+    #outro .ch { font-size: 56px; font-weight: 800; background: var(--hot); border-radius: 26px; padding: 14px 48px; }
+    #src { position: absolute; bottom: 70px; left: 0; right: 0; text-align: center; font-size: 34px; font-weight: 600; color: var(--mute); }
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="main" data-start="0" data-duration="15" data-width="1080" data-height="1920">
+    <div class="grid"></div>
+    <section id="intro" class="clip" data-start="0" data-duration="2.4">
+      <div class="fire">🔥</div>
+      <h1>ترند <span>مصر</span><br>النهارده</h1>
+      <div class="sub">أكتر ٥ حاجات اتبحث عنها على جوجل</div>
+      <div class="date" id="date"></div>
+    </section>
+    <section id="c0" class="clip card" data-start="2.4" data-duration="2"><div class="rank"></div><div class="lbl"></div><div class="title"></div><div class="bar"><div class="fill"></div></div><div class="num"></div></section>
+    <section id="c1" class="clip card" data-start="4.4" data-duration="2"><div class="rank"></div><div class="lbl"></div><div class="title"></div><div class="bar"><div class="fill"></div></div><div class="num"></div></section>
+    <section id="c2" class="clip card" data-start="6.4" data-duration="2"><div class="rank"></div><div class="lbl"></div><div class="title"></div><div class="bar"><div class="fill"></div></div><div class="num"></div></section>
+    <section id="c3" class="clip card" data-start="8.4" data-duration="2"><div class="rank"></div><div class="lbl"></div><div class="title"></div><div class="bar"><div class="fill"></div></div><div class="num"></div></section>
+    <section id="c4" class="clip card" data-start="10.4" data-duration="2.2"><div class="rank"></div><div class="lbl"></div><div class="title"></div><div class="bar"><div class="fill"></div></div><div class="num"></div></section>
+    <section id="outro" class="clip" data-start="12.6" data-duration="2.4">
+      <div class="big">إنت كنت بتدوّر<br>على <span>إيه</span> النهارده؟</div>
+      <div class="ch" id="ch"></div>
+    </section>
+    <div id="src"></div>
+  </div>
+  <script>
+    const V = window.__hyperframes.getVariables();
+    let items = [];
+    try { items = JSON.parse(V.items); } catch (e) { items = []; }
+    // العد التنازلي: من المركز الخامس للأول
+    const order = items.slice(0, 5).reverse();
+    const AR = n => String(n).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
+    const maxW = Math.max(1, ...items.map(it => it.w || 1));
+    order.forEach((it, k) => {
+      const el = document.getElementById('c' + k);
+      const rank = order.length - k;
+      el.querySelector('.rank').textContent = AR(rank);
+      el.querySelector('.lbl').textContent = rank === 1 ? '🥇 المركز الأول' : 'المركز ' + AR(rank);
+      el.querySelector('.title').textContent = it.t;
+      el.querySelector('.num').innerHTML = (it.n || '') + ' <small>بحث</small>';
+      el.dataset.w = Math.max(.08, (it.w || 1) / maxW);
+    });
+    document.getElementById('date').textContent = V.date;
+    document.getElementById('ch').textContent = V.channel;
+    document.getElementById('src').textContent = 'المصدر: ' + V.source;
+
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo('#intro .fire', { scale: 0, rotation: -30 }, { scale: 1, rotation: 0, duration: .5, ease: 'back.out(2)' }, 0);
+    tl.fromTo('#intro h1', { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: .5, ease: 'power3.out' }, .15);
+    tl.fromTo('#intro .sub', { opacity: 0 }, { opacity: 1, duration: .4 }, .5);
+    tl.fromTo('#intro .date', { scale: .6, opacity: 0 }, { scale: 1, opacity: 1, duration: .35, ease: 'back.out(2)' }, .75);
+    tl.to('#intro', { opacity: 0, y: -60, duration: .3 }, 2.1);
+    order.forEach((it, k) => {
+      const s = 2.4 + k * 2, id = '#c' + k, w = +document.getElementById('c' + k).dataset.w;
+      tl.fromTo(id + ' .rank', { scale: 1.8, opacity: 0 }, { scale: 1, opacity: 1, duration: .35, ease: 'power4.out' }, s);
+      tl.fromTo(id + ' .lbl', { opacity: 0 }, { opacity: 1, duration: .25 }, s + .2);
+      tl.fromTo(id + ' .title', { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: .4, ease: 'power3.out' }, s + .25);
+      tl.fromTo(id + ' .fill', { scaleX: 0 }, { scaleX: w, duration: .7, ease: 'power2.out' }, s + .45);
+      tl.fromTo(id + ' .num', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .3 }, s + .7);
+      tl.to(id, { opacity: 0, x: 120, duration: .25 }, s + (k === order.length - 1 ? 1.95 : 1.75));
+    });
+    tl.fromTo('#outro .big', { scale: .8, opacity: 0 }, { scale: 1, opacity: 1, duration: .45, ease: 'back.out(1.6)' }, 12.6);
+    tl.fromTo('#outro .ch', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: .35 }, 13.0);
+    window.__timelines = window.__timelines || {};
+    window.__timelines['main'] = tl;
+    tl.seek(0);
+  </script>
+</body>
+</html>

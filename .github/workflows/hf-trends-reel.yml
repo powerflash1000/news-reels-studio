@@ -1,0 +1,35 @@
+name: hf-trends-reel
+# ريل «ترند مصر النهارده» كل يوم بـ HyperFrames — الفيديو بيطلع في صفحة الـ run تحت «Artifacts»
+on:
+  schedule:
+    - cron: '41 16 * * *'   # 6:41 م بتوقيت القاهرة (بعد ما الرادار يتحدث)
+  workflow_dispatch:
+    inputs:
+      region:
+        description: 'البلد (eg, sa, ae, ma, dz, iq, jo, lb, kw)'
+        default: 'eg'
+permissions:
+  contents: read
+concurrency:
+  group: hf-trends-reel
+  cancel-in-progress: true
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: ffmpeg + emoji font
+        run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg fonts-noto-color-emoji
+      - name: render
+        env:
+          HYPERFRAMES_TELEMETRY: '0'
+        run: node tools/hf-trends.mjs --region "${{ inputs.region || 'eg' }}" --out "out/trends-${{ inputs.region || 'eg' }}.mp4"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trends-reel-${{ inputs.region || 'eg' }}-${{ github.run_number }}
+          path: out/
+          retention-days: 14
