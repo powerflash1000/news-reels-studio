@@ -1,6 +1,6 @@
 // ريل «ترند مصر النهارده» بـ HyperFrames: أكتر ٥ حاجات اتبحث عنها على جوجل في مصر (آخر تحديث للرادار)
 // الاستخدام: node tools/hf-trends.mjs [--out out/trends-eg.mp4] [--region eg] [--dry]
-// محتاج: npx hyperframes (Node 20+) و FFmpeg. الأرقام حقيقية من data/trends.json — مفيش أي كلام متألّف.
+// محتاج: npx hyperframes (Node 22+) و FFmpeg. الأرقام حقيقية من data/trends.json — مفيش أي كلام متألّف.
 import { readFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { dirname, resolve } from 'node:path';
