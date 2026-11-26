@@ -11,7 +11,7 @@ on:
 permissions:
   contents: write
 concurrency:
-  group: hf-trends-reel
+  group: hf-trends-reel-${{ inputs.region || 'eg' }}
   cancel-in-progress: true
 jobs:
   render:
