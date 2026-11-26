@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- ريل «ترند مصر النهارده»: أكتر ٥ حاجات اتبحث عنها على جوجل في مصر (من data/trends.json).
+<!-- ريل «ترند <البلد> النهارده»: أهم ٥ مواضيع = بحث جوجل + القصص اللي مصادر كتير بتغطيها (tools/hf-trends.mjs)، وتحت كل موضوع عنوان خبر حقيقي.
      بيترندر بـ HyperFrames: tools/hf-trends.mjs بيحسب البيانات ويبعتها كـ --variables. -->
 <html lang="ar" dir="rtl" data-resolution="portrait" data-composition-variables='[
   {"id":"items","type":"string","label":"Items JSON","default":"[{\"t\":\"موضوع ١\",\"n\":\"+٢٠٠٠\"},{\"t\":\"موضوع ٢\",\"n\":\"+١٠٠٠\"},{\"t\":\"موضوع ٣\",\"n\":\"+٥٠٠\"},{\"t\":\"موضوع ٤\",\"n\":\"+٢٠٠\"},{\"t\":\"موضوع ٥\",\"n\":\"+١٠٠\"}]"},
@@ -32,10 +32,13 @@
     #intro .date { font-size: 44px; font-weight: 800; color: var(--gold); border: 4px solid var(--gold); border-radius: 60px; padding: 8px 42px; }
     /* كروت الترتيب */
     .card { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 70px; }
-    .card .rank { font-size: 420px; font-weight: 800; line-height: .9; color: transparent; -webkit-text-stroke: 10px var(--hot); }
+    .card .rank { font-size: 300px; font-weight: 800; line-height: .9; color: transparent; -webkit-text-stroke: 10px var(--hot); }
     .card .lbl { font-size: 46px; font-weight: 800; color: var(--gold); margin-top: 10px; }
-    .card .title { font-size: 104px; font-weight: 800; line-height: 1.2; margin-top: 40px; max-width: 940px; overflow-wrap: anywhere; }
-    .card .bar { width: 800px; height: 34px; border-radius: 20px; background: rgba(255,255,255,.12); margin-top: 64px; overflow: hidden; }
+    .card .kind { font-size: 40px; font-weight: 800; margin-top: 26px; padding: 8px 34px; border-radius: 40px; background: rgba(255,255,255,.1); }
+    .card .kind.news { color: #7fd4ff; } .card .kind.search { color: var(--gold); }
+    .card .desc { font-size: 46px; font-weight: 600; line-height: 1.45; color: #e6e6e6; margin-top: 30px; max-width: 920px; padding: 22px 34px; border-right: 8px solid var(--hot); background: rgba(0,0,0,.28); border-radius: 18px; text-align: right; }
+    .card .title { font-size: 104px; font-weight: 800; line-height: 1.2; margin-top: 30px; max-width: 940px; overflow-wrap: anywhere; }
+    .card .bar { width: 800px; height: 34px; border-radius: 20px; background: rgba(255,255,255,.12); margin-top: 44px; overflow: hidden; }
     .card .fill { height: 100%; width: 100%; border-radius: 20px; background: linear-gradient(90deg, var(--gold), var(--hot)); transform-origin: right center; }
     .card .num { font-size: 58px; font-weight: 800; margin-top: 26px; }
     .card .num small { font-size: 40px; color: var(--mute); font-weight: 600; }
@@ -48,20 +51,20 @@
   </style>
 </head>
 <body>
-  <div id="root" data-composition-id="main" data-start="0" data-duration="15" data-width="1080" data-height="1920">
+  <div id="root" data-composition-id="main" data-start="0" data-duration="20" data-width="1080" data-height="1920">
     <div class="grid"></div>
     <section id="intro" class="clip" data-start="0" data-duration="2.4">
       <div class="fire">🔥</div>
-      <h1>ترند <span>مصر</span><br>النهارده</h1>
-      <div class="sub">أكتر ٥ حاجات اتبحث عنها على جوجل</div>
+      <h1>ترند <span id="country">مصر</span><br>النهارده</h1>
+      <div class="sub">أهم ٥ مواضيع: اللي الناس بتدوّر عليه واللي الكل بيتكلم عنه</div>
       <div class="date" id="date"></div>
     </section>
-    <section id="c0" class="clip card" data-start="2.4" data-duration="2"><div class="rank"></div><div class="lbl"></div><div class="title"></div><div class="bar"><div class="fill"></div></div><div class="num"></div></section>
-    <section id="c1" class="clip card" data-start="4.4" data-duration="2"><div class="rank"></div><div class="lbl"></div><div class="title"></div><div class="bar"><div class="fill"></div></div><div class="num"></div></section>
-    <section id="c2" class="clip card" data-start="6.4" data-duration="2"><div class="rank"></div><div class="lbl"></div><div class="title"></div><div class="bar"><div class="fill"></div></div><div class="num"></div></section>
-    <section id="c3" class="clip card" data-start="8.4" data-duration="2"><div class="rank"></div><div class="lbl"></div><div class="title"></div><div class="bar"><div class="fill"></div></div><div class="num"></div></section>
-    <section id="c4" class="clip card" data-start="10.4" data-duration="2.2"><div class="rank"></div><div class="lbl"></div><div class="title"></div><div class="bar"><div class="fill"></div></div><div class="num"></div></section>
-    <section id="outro" class="clip" data-start="12.6" data-duration="2.4">
+    <section id="c0" class="clip card" data-start="2.4" data-duration="3"><div class="rank"></div><div class="lbl"></div><div class="kind"></div><div class="title"></div><div class="desc"></div><div class="bar"><div class="fill"></div></div><div class="num"></div></section>
+    <section id="c1" class="clip card" data-start="5.4" data-duration="3"><div class="rank"></div><div class="lbl"></div><div class="kind"></div><div class="title"></div><div class="desc"></div><div class="bar"><div class="fill"></div></div><div class="num"></div></section>
+    <section id="c2" class="clip card" data-start="8.4" data-duration="3"><div class="rank"></div><div class="lbl"></div><div class="kind"></div><div class="title"></div><div class="desc"></div><div class="bar"><div class="fill"></div></div><div class="num"></div></section>
+    <section id="c3" class="clip card" data-start="11.4" data-duration="3"><div class="rank"></div><div class="lbl"></div><div class="kind"></div><div class="title"></div><div class="desc"></div><div class="bar"><div class="fill"></div></div><div class="num"></div></section>
+    <section id="c4" class="clip card" data-start="14.4" data-duration="3.2"><div class="rank"></div><div class="lbl"></div><div class="kind"></div><div class="title"></div><div class="desc"></div><div class="bar"><div class="fill"></div></div><div class="num"></div></section>
+    <section id="outro" class="clip" data-start="17.6" data-duration="2.4">
       <div class="big">إنت كنت بتدوّر<br>على <span>إيه</span> النهارده؟</div>
       <div class="ch" id="ch"></div>
     </section>
@@ -80,11 +83,16 @@
       const rank = order.length - k;
       el.querySelector('.rank').textContent = AR(rank);
       el.querySelector('.lbl').textContent = rank === 1 ? '🥇 المركز الأول' : 'المركز ' + AR(rank);
-      el.querySelector('.title').textContent = it.t;
-      el.querySelector('.num').innerHTML = (it.n || '') + ' <small>بحث</small>';
+      const t = el.querySelector('.title'); t.textContent = it.t;
+      t.style.fontSize = (it.t.length > 34 ? 66 : it.t.length > 22 ? 82 : 104) + 'px';
+      const kd = el.querySelector('.kind'); kd.className = 'kind ' + (it.k || 'search');
+      kd.textContent = it.k === 'news' ? '📰 الكل بيتكلم عنه' : '🔍 اتبحث عنه على جوجل';
+      const d = el.querySelector('.desc'); d.textContent = it.d || ''; d.style.display = it.d ? '' : 'none';
+      el.querySelector('.num').innerHTML = (it.n || '') + ' <small>' + (it.unit || 'بحث') + '</small>' + (it.extra ? ' <small>• ' + it.extra + '</small>' : '');
       el.dataset.w = Math.max(.08, (it.w || 1) / maxW);
     });
     document.getElementById('date').textContent = V.date;
+    document.getElementById('country').textContent = V.country || 'مصر';
     document.getElementById('ch').textContent = V.channel;
     document.getElementById('src').textContent = 'المصدر: ' + V.source;
 
@@ -95,16 +103,18 @@
     tl.fromTo('#intro .date', { scale: .6, opacity: 0 }, { scale: 1, opacity: 1, duration: .35, ease: 'back.out(2)' }, .75);
     tl.to('#intro', { opacity: 0, y: -60, duration: .3 }, 2.1);
     order.forEach((it, k) => {
-      const s = 2.4 + k * 2, id = '#c' + k, w = +document.getElementById('c' + k).dataset.w;
+      const s = 2.4 + k * 3, id = '#c' + k, w = +document.getElementById('c' + k).dataset.w;
       tl.fromTo(id + ' .rank', { scale: 1.8, opacity: 0 }, { scale: 1, opacity: 1, duration: .35, ease: 'power4.out' }, s);
       tl.fromTo(id + ' .lbl', { opacity: 0 }, { opacity: 1, duration: .25 }, s + .2);
+      tl.fromTo(id + ' .kind', { opacity: 0, scale: .7 }, { opacity: 1, scale: 1, duration: .25, ease: 'back.out(2)' }, s + .2);
       tl.fromTo(id + ' .title', { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: .4, ease: 'power3.out' }, s + .25);
+      tl.fromTo(id + ' .desc', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: .35, ease: 'power2.out' }, s + .55);
       tl.fromTo(id + ' .fill', { scaleX: 0 }, { scaleX: w, duration: .7, ease: 'power2.out' }, s + .45);
       tl.fromTo(id + ' .num', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .3 }, s + .7);
-      tl.to(id, { opacity: 0, x: 120, duration: .25 }, s + (k === order.length - 1 ? 1.95 : 1.75));
+      tl.to(id, { opacity: 0, x: 120, duration: .25 }, s + (k === order.length - 1 ? 2.95 : 2.75));
     });
-    tl.fromTo('#outro .big', { scale: .8, opacity: 0 }, { scale: 1, opacity: 1, duration: .45, ease: 'back.out(1.6)' }, 12.6);
-    tl.fromTo('#outro .ch', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: .35 }, 13.0);
+    tl.fromTo('#outro .big', { scale: .8, opacity: 0 }, { scale: 1, opacity: 1, duration: .45, ease: 'back.out(1.6)' }, 17.6);
+    tl.fromTo('#outro .ch', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: .35 }, 18.0);
     window.__timelines = window.__timelines || {};
     window.__timelines['main'] = tl;
     tl.seek(0);

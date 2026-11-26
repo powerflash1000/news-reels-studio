@@ -423,6 +423,7 @@ export default {
  "اليوزر (@…)": "Handle (@…)",
  "بتنزل تلقائيًا وقت الكلام وبتتكرر لآخر الحلقة وبتخفت في الأول والآخر. الملف بيفضل على جهازك.": "Ducks automatically while speaking, loops until the end of the reel, and fades in and out. The file stays on your device.",
  "بحث": "Search",
+ "مصدر": "sources",
  "بدون": "None",
  "بس (على v2 بتتشال تلقائيًا ومبتتقراش). ✅ = من القايمة الرسمية، ٭ = تجريبي (v3 بيفهم أوصاف حرة، جرّب وسمّع).": "only (on v2 they are removed automatically and not read aloud). ✅ = from the official list, ٭ = experimental (v3 understands free-form descriptions, try and listen).",
  "بطاقات مصادر بتظهر على الشاشة (لحد 3) كل واحدة بـQR كود لرابط الخبر الأصلي. اللقطة اختيارية: لقطة شاشة بتاعتك للخبر (عنوان بس يفضّل).": "Source cards shown on screen (up to 3), each with a QR code to the original story link. The screenshot is optional: your own screenshot of the story (headline only is preferred).",

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ريل الترند — استوديو ريلز الأخبار</title>
-<link rel="stylesheet" href="assets/css/style.css?v=mwwjnfs0">
+<link rel="stylesheet" href="assets/css/style.css?v=mwy33wgl">
 <style>
 body{margin:0}
 .dr{max-width:980px;margin:0 auto;padding:16px}
@@ -31,7 +31,7 @@ body{margin:0}
   <div class="dr-grid" id="drList"><p class="dr-note">⏳ بيحمّل…</p></div>
 </div>
 <script type="module">
-import { initI18n, tr } from './js/i18n.js?v=mwwjnfs0';
+import { initI18n, tr } from './js/i18n.js?v=mwy33wgl';
 initI18n();
 const REPO = 'powerflash1000/news-reels-studio';
 const NAMES = { eg: 'مصر', sa: 'السعودية', ae: 'الإمارات', ma: 'المغرب', dz: 'الجزائر', iq: 'العراق', jo: 'الأردن', lb: 'لبنان', kw: 'الكويت' };
@@ -49,7 +49,7 @@ try {
       <video controls playsinline preload="metadata" src="${esc(v)}"></video>
       <h2>${tr('ترند')} ${esc(tr(NAMES[r] || r))}</h2>
       <div class="dr-note">${tr('اتعمل')}: ${esc(when)}</div>
-      <ol>${x.items.map(it => `<li>${esc(it.t)} <small>${esc(it.n)} ${tr('بحث')}</small></li>`).join('')}</ol>
+      <ol>${x.items.map(it => `<li>${it.k === 'news' ? '📰' : '🔍'} <span translate="no">${esc(it.t)}</span> <small>${esc(it.n)} ${tr(it.unit || 'بحث')}</small>${it.d ? `<br><small class="dsc" translate="no">${esc(it.d)}</small>` : ''}</li>`).join('')}</ol>
       <div class="dr-act"><a class="btn primary" href="${esc(x.url)}" download>${tr('⬇ نزّل الفيديو')}</a></div>
     </div>`;
   }).join('');
