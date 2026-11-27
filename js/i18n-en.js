@@ -1,5 +1,6 @@
 // قاموس الواجهة عربي → إنجليزي. أي نص جديد في الواجهة العربي ضيفه هنا (المفتاح = النص العربي بالظبط، {} = جزء متغير).
 export default {
+ "افتحه بنفسك ↗": "open it yourself ↗",
  "🔀 بين المنصات": "🔀 Across platforms",
  "لسه مفيش بيانات — بتتجمع كل ساعة لوحدها (أول مرة بعد تشغيل fetch-feeds).": "No data yet — it is collected every hour automatically (first time after fetch-feeds runs).",
  "مش متاح دلوقتي": "not available now",

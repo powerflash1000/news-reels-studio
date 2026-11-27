@@ -1,6 +1,7 @@
 // 🔀 الترند المشترك بين المنصات (مصر والسعودية): جوجل + يوتيوب + X + تيك توك → data/cross.json
 // بيشتغل في GitHub Actions بعد fetch-feeds.mjs (بيقرا data/feeds.json و data/yt-trending.json اللي اتكتبوا قبله)،
-// ويسحب X (من trends24.in) وتيك توك (TikTok Creative Center — الهاشتاجات الرايجة). من غير مكتبات.
+// ويسحب X من getdaytrends.com (trends24 وغيره مقفولين بحماية Cloudflare من GitHub — اتجرّبوا 2026-11-27).
+// تيك توك: Creative Center بيرجّع «no permission» من غير تسجيل دخول، فمفيش سحب تلقائي (الصفحة بتفتح الرابط بس). من غير مكتبات.
 // الماتشنج: تطبيع عربي/إنجليزي + تطابق الكلمات أو الهاشتاج الملزوق (#الاهلي_الزمالك) — المواضيع اللي طالعة في منصتين أو أكتر فوق.
 import { readFile, writeFile } from 'node:fs/promises';
 
@@ -55,6 +56,19 @@ export function parseTrends24(html) {
     if (!name) continue;
     const cnt = li.match(/data-count="(\d+)"/i)?.[1] || li.match(/class="[^"]*tweet-count[^"]*"[^>]*>([^<]*)</i)?.[1] || '';
     out.push({ label: name, n: cnt ? Number(String(cnt).replace(/[^\d]/g, '')) || 0 : 0, url: `https://x.com/search?q=${encodeURIComponent(name)}` });
+  }
+  return out;
+}
+// X من getdaytrends: أول جدول = «دلوقتي»؛ كل ترند لينك /<البلد>/trend/<الاسم>/
+export function parseGetDayTrends(html, slug) {
+  const first = html.match(/<table[\s\S]*?<\/table>/i)?.[0] || html;
+  const re = new RegExp(`<a[^>]+href="/${slug}/trend/[^"]*"[^>]*>([\\s\\S]*?)</a>`, 'gi');
+  const out = [], seen = new Set();
+  for (const m of first.matchAll(re)) {
+    const name = strip(m[1]);
+    if (!name || seen.has(name)) continue;
+    seen.add(name);
+    out.push({ label: name, n: 0, url: `https://x.com/search?q=${encodeURIComponent(name)}` });
   }
   return out;
 }
@@ -138,15 +152,14 @@ async function main() {
     } catch (e) { src.youtube = { ok: false, error: String(e.message || e) }; }
     // X
     try {
-      const list = parseTrends24(await get(`https://trends24.in/${R.x}/`)).slice(0, 30);
+      const html = await get(`https://getdaytrends.com/${R.x}/`);
+      let list = parseGetDayTrends(html, R.x).slice(0, 30);
+      if (!list.length) list = parseTrends24(html).slice(0, 30);
       if (!list.length) throw new Error('الصفحة اتقرت بس مفيش ترند (الشكل اتغيّر؟)');
       add('x', list); src.x = { ok: true, n: list.length };
     } catch (e) { src.x = { ok: false, error: String(e.message || e) }; }
-    // تيك توك
-    try {
-      const list = (await tiktok(R.tt)).slice(0, 30);
-      add('tiktok', list); src.tiktok = { ok: true, n: list.length };
-    } catch (e) { src.tiktok = { ok: false, error: String(e.message || e) }; }
+    // تيك توك: مفيش مصدر مفتوح (Creative Center محتاج تسجيل دخول) ← رابط بس
+    src.tiktok = { ok: false, error: 'تيك توك بيقفل الترند ورا تسجيل الدخول — افتح Creative Center', url: `https://ads.tiktok.com/business/creativecenter/inspiration/popular/hashtag/pc/en?countryCode=${R.tt}&period=7` };
 
     const topics = crossMatch(entries);
     out.regions[rk] = {

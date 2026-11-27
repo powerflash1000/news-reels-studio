@@ -1,6 +1,6 @@
 // 📡 الرادار: الترند في كل الدول في شاشة واحدة، تاريخه، العابر للدول، يوتيوب الأكثر مشاهدة، بحث في كل المنصات، وفكرة ريل.
 // البيانات بتتجمع كل ساعة من GitHub Actions (data/feeds.json + data/trends.json + data/yt-trending.json اختياري).
-import { aiJSON } from './draft.js?v=mwz810qz';
+import { aiJSON } from './draft.js?v=mwz88usq';
 
 const GEO = {
   eg: ['🇪🇬', 'مصر', 'EG'], sa: ['🇸🇦', 'السعودية', 'SA'], ae: ['🇦🇪', 'الإمارات', 'AE'], kw: ['🇰🇼', 'الكويت', 'KW'],
@@ -123,7 +123,7 @@ export async function mountRadar(root) {
       if (!cross) return '<p class="muted">لسه مفيش بيانات — بتتجمع كل ساعة لوحدها (أول مرة بعد تشغيل fetch-feeds).</p>';
       const xr = cross.regions?.[S.xr] ? S.xr : 'eg', R = cross.regions[xr];
       const chips = Object.entries(cross.regions).map(([k, r]) => `<button class="chip${k === xr ? ' on' : ''}" data-xr="${k}">${k === 'eg' ? '🇪🇬' : '🇸🇦'} ${esc(r.name)}</button>`).join('');
-      const srcLine = Object.entries(PL).map(([k, [ic, nm]]) => { const v = R.sources?.[k]; return v?.ok ? `${ic} ${nm} ✅ ${v.n}` : `${ic} ${nm} ⚠️ <span title="${esc(v?.error || '')}">مش متاح دلوقتي</span>`; }).join(' · ');
+      const srcLine = Object.entries(PL).map(([k, [ic, nm]]) => { const v = R.sources?.[k]; return v?.ok ? `${ic} ${nm} ✅ ${v.n}` : v?.url ? `${ic} ${nm}: <a href="${esc(v.url)}" target="_blank" rel="noopener" title="${esc(v.error || '')}">افتحه بنفسك ↗</a>` : `${ic} ${nm} ⚠️ <span title="${esc(v?.error || '')}">مش متاح دلوقتي</span>`; }).join(' · ');
       const topic = t => {
         const ps = Object.entries(t.platforms).sort((a, b) => a[1].rank - b[1].rank);
         const badges = ps.map(([k, v]) => `<a class="tag" href="${esc(v.url)}" target="_blank" rel="noopener" title="${esc(v.label)}">${PL[k][0]} ${PL[k][1]} #${v.rank}</a>`).join(' ');
