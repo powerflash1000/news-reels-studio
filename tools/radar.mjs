@@ -53,6 +53,7 @@ export async function ytTrending(key, regions, fetchFn = fetch) {
         published: v.snippet?.publishedAt, views: +(v.statistics?.viewCount || 0),
         likes: +(v.statistics?.likeCount || 0), comments: +(v.statistics?.commentCount || 0),
         thumb: v.snippet?.thumbnails?.medium?.url || '',
+        tags: (v.snippet?.tags || []).slice(0, 12), // للماتشنج في الترند المشترك (cross-trends.mjs)
       }));
     } catch (e) { out.errors[r] = String(e.message || e).replace(key, '***'); }
   }

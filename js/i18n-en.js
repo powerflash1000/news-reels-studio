@@ -1,5 +1,15 @@
 // قاموس الواجهة عربي → إنجليزي. أي نص جديد في الواجهة العربي ضيفه هنا (المفتاح = النص العربي بالظبط، {} = جزء متغير).
 export default {
+ "🔀 بين المنصات": "🔀 Across platforms",
+ "لسه مفيش بيانات — بتتجمع كل ساعة لوحدها (أول مرة بعد تشغيل fetch-feeds).": "No data yet — it is collected every hour automatically (first time after fetch-feeds runs).",
+ "مش متاح دلوقتي": "not available now",
+ "الموضوع اللي طالع في أكتر من منصة في نفس الوقت = ترند حقيقي واسع. الأحمر = ٣ منصات أو أكتر. الهاشتاجات من X وتيك توك جاهزة للنسخ.": "A topic trending on several platforms at once = a real, wide trend. Red = 3 platforms or more. Hashtags from X and TikTok are ready to copy.",
+ "مفيش موضوع مشترك بين المنصات دلوقتي — بص على الأعلى في كل منصة تحت.": "No shared topic across platforms right now — check the top of each platform below.",
+ "كل منصة لوحدها": "Each platform alone",
+ "📋 انسخهم كلهم": "📋 Copy them all",
+ "🔀 في {} منصات": "🔀 On {} platforms",
+ "الأعلى على {} لوحده ({})": "Top on {} alone ({})",
+ "جوجل": "Google",
  "🎞️ ريل الترند": "🎞️ Trend reel",
  "ريل «ترند مصر النهارده» اللي بيتعمل لوحده كل يوم: شغّله أو نزّله": "The «Egypt trends today» reel that is made automatically every day: play or download it",
  "ريل الترند — استوديو ريلز الأخبار": "Trend reel — News Reels Studio",
