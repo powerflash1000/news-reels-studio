@@ -22,6 +22,10 @@ jobs:
       - name: cross-platform trends (Google, YouTube, X, TikTok — EG/SA)
         run: node tools/cross-trends.mjs
         continue-on-error: true
+      - name: probe trend sources (temporary)
+        if: github.event_name == 'workflow_dispatch'
+        run: node tools/probe-trends.mjs
+        continue-on-error: true
       - name: economic data (BLS, CFTC, FRED, EIA)
         run: node tools/econ.mjs
         continue-on-error: true
