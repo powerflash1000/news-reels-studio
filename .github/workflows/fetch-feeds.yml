@@ -19,6 +19,9 @@ jobs:
       - run: node tools/fetch-feeds.mjs
         env:
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
+      - name: cross-platform trends (Google, YouTube, X, TikTok — EG/SA)
+        run: node tools/cross-trends.mjs
+        continue-on-error: true
       - name: economic data (BLS, CFTC, FRED, EIA)
         run: node tools/econ.mjs
         continue-on-error: true
@@ -32,4 +35,5 @@ jobs:
           git add data/feeds.json data/channel-ids.json data/gnews-urls.json data/trends.json
           [ -f data/yt-trending.json ] && git add data/yt-trending.json || true
           [ -f data/econ.json ] && git add data/econ.json || true
+          [ -f data/cross.json ] && git add data/cross.json || true
           git diff --cached --quiet || (git commit -m "chore: update feeds" && git push)
